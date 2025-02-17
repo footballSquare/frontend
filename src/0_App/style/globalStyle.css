@@ -1,0 +1,25 @@
+@import "tailwindcss";
+@theme {
+  --color-grass: #EFF0EC;
+  --color-thick-grass: #489433;
+  --color-blue: #0048FF;
+  --color-red: #FF0000;
+  --color-yellow: #FFFC00;
+  --color-white: #FFFFFF;
+  --color-black: #000000;
+}
+html {
+  height: 100%;
+}
+body {
+  height: 100%;
+}
+#root {
+  height: 100%;
+}
+button {
+  cursor: pointer;
+}
+::-webkit-scrollbar {
+  display: none;
+}
