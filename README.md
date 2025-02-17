@@ -1,51 +1,24 @@
-# React + TypeScript + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 📝 커밋 컨벤션
 
-Currently, two official plugins are available:
+DMAP 프로젝트에서는 일관된 커밋 메시지를 작성하기 위해 다음 컨벤션을 따릅니다:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+| **타입**     | **설명**                                                               | **예시**                     |
+|--------------|------------------------------------------------------------------------|------------------------------|
+| `feat`       | 새로운 기능 추가                                                      | `feat: 사용자 경로 트래킹 기능 추가` |
+| `fix`        | 버그 수정                                                             | `fix: GPS 데이터 누락 문제 수정`    |
+| `docs`       | 문서 추가/수정 (예: README.md)                                        | `docs: README에 설치 방법 추가`    |
+| `style`      | 코드 스타일 변경 (포매팅, 세미콜론 수정 등, 코드 변경 없음)            | `style: 변수 선언 방식 통일`       |
+| `refactor`   | 코드 리팩토링 (기능 변화 없음)                                        | `refactor: 트래킹 로직 개선`       |
+| `test`       | 테스트 코드 추가/수정                                                 | `test: 유닛 테스트 추가`          |
+| `chore`      | 기타 변경사항 (빌드 수정, 패키지 매니저 설정 등)                      | `chore: 패키지 업데이트`          |
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
-
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
-
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
-# KFPL-homepage
+### **커밋 메시지 작성 예시**
+```plaintext
+feat: 사용자 경로 트래킹 기능 추가
+fix: GPS 데이터 누락 문제 수정
+docs: README에 설치 방법 추가
+style: 변수 선언 방식 통일
+refactor: 트래킹 로직 개선
+test: 유닛 테스트 추가
+chore: 패키지 업데이트
