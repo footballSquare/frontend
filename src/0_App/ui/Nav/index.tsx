@@ -1,4 +1,3 @@
-import logo from "../../../4_Shared/assets/svg/logo.svg";
 import PAGE_URI from "../../../4_Shared/constant/pageUri";
 import HomeBtn from "./ui/HomeBtn";
 import NavigationBtn from "./ui/NavigationBtn";
@@ -7,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 const Nav = () => {
   const navigate = useNavigate();
   return (
-    <nav className="flex h-[80px] w-full justify-center items-center">
+    <nav className="flex h-[80px] w-full justify-center items-center sticky top-0 bg-white shadow-md">
       <div className="sm:justify-between flex justify-center max-w-[1280px] w-full items-center">
         {/* HomeBtn(Logo) */}
         <HomeBtn />
