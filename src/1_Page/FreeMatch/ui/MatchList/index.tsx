@@ -6,7 +6,7 @@ import useInfiniteScrollPaging from "./model/useInfiniteScrollPaging";
 const MatchList = () => {
   const [page, setPage] = React.useState<number>(1);
   console.log(page)
-  const {openMatchList, hasMoreContent, loading} = useGetOpenMatchList(page);
+  const [openMatchList, hasMoreContent, loading] = useGetOpenMatchList(page);
   const [observeRef] = useInfiniteScrollPaging(setPage, loading, hasMoreContent);
 
   return (
