@@ -6,7 +6,7 @@ import Nav from './ui/Nav';
 const App = () => {
   return (
     <BrowserRouter>
-      <main className=" w-full m-auto h-full justify-center items-center">
+      <main className=" w-full m-auto h-full justify-center items-center bg-light-blue">
         <Nav />
         <Page />
       </main>
