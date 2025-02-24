@@ -3,6 +3,7 @@ import { matchType } from "../../../../../../4_Shared/constant/matchType";
 import { MatchCardProps } from "./type";
 import apply_icon from "../../../../../../4_Shared/assets/svg/apply.svg";
 import denied_icon from "../../../../../../4_Shared/assets/svg/denied.svg";
+import { isPastTime } from "../../../../../../4_Shared/util/timeChecker";
 
 const MatchCard = (props: MatchCardProps) => {
   const {
@@ -17,9 +18,8 @@ const MatchCard = (props: MatchCardProps) => {
     common_status_idx,
     observeRef,
   } = props;
-
   return (
-    <div ref={observeRef} className="flex items-center justify-between cursor-pointer gap-6 bg-white duration-500 shadow-lg px-4 py-2 p text-xs hover:bg-blue hover:text-white">
+    <div ref={observeRef} className={`flex ${!isPastTime(match_match_start_time) ? "bg-white hover:bg-blue hover:text-white cursor-pointer" : "bg-gray"} items-center justify-between gap-6 duration-500 shadow-lg px-4 py-2 p text-xs`}>
       <h3>{`> ${team_list_idx === null ? "공방게임" : "팀게임"}`}</h3>
       <h3>{`# ${matchParticipation[match_match_participation_type]}`}</h3>
 
