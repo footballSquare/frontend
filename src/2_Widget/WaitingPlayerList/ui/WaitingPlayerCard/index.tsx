@@ -1,9 +1,9 @@
 import { WaitingPlayerCardProps } from "./type";
-import profileImg from "../../../../assets/svg/tempProfile.svg";
-import { platform } from "../../../../../../4_Shared/constant/platform";
-import pc_icon from "../../../../../../4_Shared/assets/svg/pc-desktop.svg";
-import ps_icon from "../../../../../../4_Shared/assets/svg/platform-playstation.svg";
-import xbox_icon from "../../../../../../4_Shared/assets/svg/platform-xbox.svg";
+import profileImg from "../../../../4_Shared/assets/svg/tempProfile.svg";
+import { platform } from "../../../../4_Shared/constant/platform";
+import pc_icon from "../../../../4_Shared/assets/svg/pc-desktop.svg";
+import ps_icon from "../../../../4_Shared/assets/svg/platform-playstation.svg";
+import xbox_icon from "../../../../4_Shared/assets/svg/platform-xbox.svg";
 const WaitingPlayerCard = (props: WaitingPlayerCardProps) => {
   const {
     player_list_idx,
