@@ -1,0 +1,1 @@
+export const matchType = ["11:11", "4:4"];
