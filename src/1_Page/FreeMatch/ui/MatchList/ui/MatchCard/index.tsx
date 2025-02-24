@@ -1,6 +1,8 @@
 import { matchParticipation } from "../../../../../../4_Shared/constant/matchParticipation";
 import { matchType } from "../../../../../../4_Shared/constant/matchType";
 import { MatchCardProps } from "./type";
+import apply_icon from "../../../../../../4_Shared/assets/svg/apply.svg";
+import denied_icon from "../../../../../../4_Shared/assets/svg/denied.svg";
 
 const MatchCard = (props: MatchCardProps) => {
   const {
@@ -17,7 +19,7 @@ const MatchCard = (props: MatchCardProps) => {
   } = props;
 
   return (
-    <div ref={observeRef} className="flex items-center justify-between cursor-pointer gap-6 bg-white duration-500 shadow-lg p-4 text-xs hover:bg-blue hover:text-white">
+    <div ref={observeRef} className="flex items-center justify-between cursor-pointer gap-6 bg-white duration-500 shadow-lg px-4 py-2 p text-xs hover:bg-blue hover:text-white">
       <h3>{`> ${team_list_idx === null ? "공방게임" : "팀게임"}`}</h3>
       <h3>{`# ${matchParticipation[match_match_participation_type]}`}</h3>
 
@@ -28,7 +30,7 @@ const MatchCard = (props: MatchCardProps) => {
       </div>
 
       <h4>{`주최자: ${player_list_nickname}`}</h4>
-      <h4>{`상태: ${common_status_idx === 0 ? "대기중" : "진행중"}`}</h4>
+      <img src={`${common_status_idx === 0 ? apply_icon : denied_icon}`} alt="상태 아이콘" />
     </div>
   );
 };

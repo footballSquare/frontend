@@ -1,8 +1,21 @@
 import React from "react";
 import Button from "../../../../4_Shared/components/Button";
+import useGetWaitingPlayerList from "../../../../3_Entity/Match/useGetWaitingPlayerList";
+import WaitingPlayerCard from "./ui/WaitingPlayerCard";
+import useInfiniteScrollPaging from "../../../../4_Shared/model/useInfiniteScrollPaging";
+import ronaldoBanner from "../../assets/svg/ronaldoBanner.svg";
 const WaitingPlayerList = () => {
+  const [page, setPage] = React.useState<number>(1);
   const [isWatingPlayerListOpen, setIsWaitingPlayerListOpen] =
     React.useState(false);
+  const [waitingPlayerList, hasMoreContent, loading] =
+    useGetWaitingPlayerList(page);
+  const [observeRef] = useInfiniteScrollPaging(
+    setPage,
+    loading,
+    hasMoreContent
+  );
+
   return (
     <div className=" flex flex-col gap-4 w-[50%] h-[80vh] overflow-y-auto">
       {/* Button Wrapper */}
@@ -29,7 +42,23 @@ const WaitingPlayerList = () => {
           />
         )}
       </div>
-      {isWatingPlayerListOpen && <div>대기 인원 현황</div>}
+      
+      {isWatingPlayerListOpen ? (
+        <div className="flex flex-col overflow-y-auto h-[70vh]">
+          {waitingPlayerList.map((elem, index) => {
+            return (
+              <WaitingPlayerCard
+                {...elem}
+                observeRef={
+                  (waitingPlayerList.length === index + 1 && observeRef) ||
+                  undefined
+                }
+                key={index}
+              />
+            );
+          })}
+        </div>
+      ) :<img src={ronaldoBanner} alt="ronaldoBanner" className="w-full h-[70vh]"/>}
     </div>
   );
 };
