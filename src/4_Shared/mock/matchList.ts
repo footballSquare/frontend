@@ -1,0 +1,114 @@
+export const matchList = {
+  "match": [
+    {
+      "match_match_idx": 120,
+      "match_type_idx": 0,
+      "team_list_idx": null,
+      "match_match_attribute": 1,
+      "match_match_participation_type": 0,
+      "player_list_nickname": "호날두",
+      "match_match_start_time": "2025-02-18 10:00:00",
+      "match_match_duration": "2 hours",
+      "common_status_idx": 0
+    },
+    {
+      "match_match_idx": 121,
+      "match_type_idx": 0,
+      "team_list_idx": 14,
+      "match_match_attribute": 1,
+      "match_match_participation_type": 0,
+      "player_list_nickname": "바르샤주장",
+      "match_match_start_time": "2025-02-18 10:00:00",
+      "match_match_duration": "2 hours",
+      "common_status_idx": 1
+    },
+    {
+      "match_match_idx": 122,
+      "match_type_idx": 0,
+      "team_list_idx": 15,
+      "match_match_attribute": 1,
+      "match_match_participation_type": 0,
+      "player_list_nickname": "메시",
+      "match_match_start_time": "2025-02-18 12:00:00",
+      "match_match_duration": "1.5 hours",
+      "common_status_idx": 0
+    },
+    {
+      "match_match_idx": 123,
+      "match_type_idx": 0,
+      "team_list_idx": 16,
+      "match_match_attribute": 1,
+      "match_match_participation_type": 0,
+      "player_list_nickname": "네이마르",
+      "match_match_start_time": "2025-02-18 14:00:00",
+      "match_match_duration": "2 hours",
+      "common_status_idx": 1
+    },
+    {
+      "match_match_idx": 124,
+      "match_type_idx": 1,
+      "team_list_idx": 17,
+      "match_match_attribute": 1,
+      "match_match_participation_type": 0,
+      "player_list_nickname": "음바페",
+      "match_match_start_time": "2025-02-18 16:00:00",
+      "match_match_duration": "1 hour",
+      "common_status_idx": 0
+    },
+    {
+      "match_match_idx": 125,
+      "match_type_idx": 1,
+      "team_list_idx": 18,
+      "match_match_attribute": 1,
+      "match_match_participation_type": 0,
+      "player_list_nickname": "레반도프스키",
+      "match_match_start_time": "2025-02-18 18:00:00",
+      "match_match_duration": "2 hours",
+      "common_status_idx": 1
+    },
+    {
+      "match_match_idx": 126,
+      "match_type_idx": 1,
+      "team_list_idx": 19,
+      "match_match_attribute": 1,
+      "match_match_participation_type": 0,
+      "player_list_nickname": "케인",
+      "match_match_start_time": "2025-02-18 20:00:00",
+      "match_match_duration": "1.5 hours",
+      "common_status_idx": 0
+    },
+    {
+      "match_match_idx": 127,
+      "match_type_idx": 0,
+      "team_list_idx": 20,
+      "match_match_attribute": 1,
+      "match_match_participation_type": 0,
+      "player_list_nickname": "살라",
+      "match_match_start_time": "2025-02-18 22:00:00",
+      "match_match_duration": "2 hours",
+      "common_status_idx": 1
+    },
+    {
+      "match_match_idx": 128,
+      "match_type_idx": 0,
+      "team_list_idx": 21,
+      "match_match_attribute": 1,
+      "match_match_participation_type": 0,
+      "player_list_nickname": "아자르",
+      "match_match_start_time": "2025-02-19 10:00:00",
+      "match_match_duration": "1 hour",
+      "common_status_idx": 0
+    },
+    {
+      "match_match_idx": 129,
+      "match_type_idx": 0,
+      "team_list_idx": 22,
+      "match_match_attribute": 1,
+      "match_match_participation_type": 0,
+      "player_list_nickname": "모드리치",
+      "match_match_start_time": "2025-02-19 12:00:00",
+      "match_match_duration": "2 hours",
+      "common_status_idx": 1
+    }
+  ]
+}
