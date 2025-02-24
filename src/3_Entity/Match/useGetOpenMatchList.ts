@@ -5,26 +5,26 @@ import { MatchInfo } from "./type";
 
 const ITEMS_PER_PAGE = 10;
 
-const isMatchResponse = (data: unknown): data is { match: MatchInfo[] } => {
-  return typeof data === "object" && data !== null && "match" in data;
-};
-
 const useGetOpenMatchList = (page: number): [MatchInfo[], boolean, boolean] => {
   const [serverState, request, loading] = useFetch();
   const [openMatchList, setOpenMatchList] = React.useState<MatchInfo[]>([]);
   const [hasMoreContent, setHasMoreContent] = React.useState<boolean>(true);
 
   React.useEffect(() => {
-    console.log(page, "request");
     console.log(matchList);
     request(matchList);
   }, [page]);
 
   React.useEffect(() => {
-    if (!loading && isMatchResponse(serverState)) {
+    if (!loading && serverState && "match" in serverState) {
       console.log("추가 로딩");
-      setOpenMatchList((prev) => [...prev, ...serverState.match]);
-      setHasMoreContent(serverState.match.length >= ITEMS_PER_PAGE);
+      setOpenMatchList((prev) => [
+        ...prev,
+        ...(serverState as { match: MatchInfo[] }).match,
+      ]);
+      setHasMoreContent(
+        (serverState as { match: MatchInfo[] }).match.length >= ITEMS_PER_PAGE
+      );
     }
   }, [loading, serverState]);
 
