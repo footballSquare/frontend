@@ -11,7 +11,7 @@ const MatchCard = ({
     <div
       key={"mathcard-" + index}
       className={`flex flex-row items-center rounded-lg shadow min-h-[100px] 
-      ${match.match_match_attribute === 1 ? "bg-grey" : "bg-gray-300"}`}>
+        ${match.match_match_attribute === 1 ? "bg-gray-100" : "bg-gray-300"}`}>
       <div className="grid grid-cols-4 w-full gap-2 p-4">
         {/* Header Section */}
         <div className="col-span-3 sm:col-span-1 flex flex-col justify-between items-center">

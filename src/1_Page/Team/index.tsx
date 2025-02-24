@@ -27,6 +27,48 @@ const TEAMPAGE_INFO = {
       player_list_nickname: "최라모스",
       team_role_idx: 1,
     },
+    {
+      player_list_idx: 44,
+      player_list_platform: "URL",
+      player_list_profile_img: "URL",
+      player_list_nickname: "최라모스",
+      team_role_idx: 1,
+    },
+    {
+      player_list_idx: 44,
+      player_list_platform: "URL",
+      player_list_profile_img: "URL",
+      player_list_nickname: "최라모스",
+      team_role_idx: 1,
+    },
+    {
+      player_list_idx: 44,
+      player_list_platform: "URL",
+      player_list_profile_img: "URL",
+      player_list_nickname: "최라모스",
+      team_role_idx: 1,
+    },
+    {
+      player_list_idx: 44,
+      player_list_platform: "URL",
+      player_list_profile_img: "URL",
+      player_list_nickname: "최라모스",
+      team_role_idx: 1,
+    },
+    {
+      player_list_idx: 44,
+      player_list_platform: "URL",
+      player_list_profile_img: "URL",
+      player_list_nickname: "최라모스",
+      team_role_idx: 1,
+    },
+    {
+      player_list_idx: 44,
+      player_list_platform: "URL",
+      player_list_profile_img: "URL",
+      player_list_nickname: "최라모스",
+      team_role_idx: 1,
+    },
   ],
   team_award: [
     {
@@ -276,6 +318,7 @@ const TEAM_MATCH = {
 
 import HoverTrophy from "./ui/HoverTrophy";
 import MatchCard from "./ui/MatchCrad";
+import Button from "../../4_Shared/components/Button";
 
 const Team = () => {
   const role = "팀장";
@@ -313,9 +356,8 @@ const Team = () => {
                 <h1 className="text-xl font-bold">
                   {TEAMPAGE_INFO.team.team_list_name}
                 </h1>
-                <button
-                  className="bg-blue-500 text-white text-xs px-2 py-1 rounded-full cursor-pointer "
-                  onClick={() => {
+                <Button
+                  onClickHandler={() => {
                     alert(
                       role === "팀장"
                         ? "팀 관리페이지 이동"
@@ -323,44 +365,55 @@ const Team = () => {
                         ? "팀 탈퇴 되었습니다"
                         : "팀 가입 신청 되었습니다"
                     );
-                  }}>
-                  {role === "팀장"
-                    ? "팀 관리"
-                    : role === "팀원"
-                    ? "팀 탈퇴"
-                    : "팀 가입"}
-                </button>
+                  }}
+                  text={
+                    role === "팀장"
+                      ? "팀 관리"
+                      : role === "팀원"
+                      ? "팀 탈퇴"
+                      : "팀 가입"
+                  }
+                />
               </div>
             </div>
-            <div>
+            <div className="flex flex-col items-start w-full">
               <h2 className="text-base font-semibold">팀 연혁</h2>
-              <ul className="text-gray-600 space-y-1 text-xs">
-                {TEAMPAGE_INFO.team_history.map((history, index) => (
-                  <li key={index}>{history.championship_list_name}</li>
-                ))}
+              <ul className="text-gray-600 text-xs">
+                {TEAMPAGE_INFO.team_history
+                  .slice(0, 5)
+                  .map((history, index) => (
+                    <li key={"history-" + index}>
+                      {history.championship_list_name}
+                    </li>
+                  ))}
+                {TEAMPAGE_INFO.team_history.length > 5 && (
+                  <li className="text-gray-500">...</li>
+                )}
               </ul>
             </div>
           </div>
 
-          <div className="max-w-[200px]">
-            <h2 className="text-base font-semibold">팀 설명</h2>
-            <p className="text-gray-600 text-xs whitespace-pre-line">
-              {TEAMPAGE_INFO.team.team_list_announcement}
-            </p>
-          </div>
-
           <div className="col-span-1 space-y-3">
-            <h2 className="text-base font-semibold">팀 현황</h2>
-            {TEAMPAGE_INFO.team_member.map((member, index) => (
-              <div key={index} className="flex items-center space-x-2">
-                <img
-                  src={member.player_list_profile_img}
-                  alt={member.player_list_nickname}
-                  className="w-8 h-8 rounded-full"
-                />
-                <span className="text-xs">{member.player_list_nickname}</span>
-              </div>
-            ))}
+            <div className="max-w-[200px]">
+              <h2 className="text-base font-semibold">팀 설명</h2>
+              <p className="text-gray-600 text-xs whitespace-pre-line">
+                {TEAMPAGE_INFO.team.team_list_announcement}
+              </p>
+            </div>
+
+            <h2 className="text-base font-semibold ">팀 현황</h2>
+            <div className=" h-[200px] overflow-scroll">
+              {TEAMPAGE_INFO.team_member.map((member, index) => (
+                <div key={index} className="flex items-center space-x-2">
+                  <img
+                    src={member.player_list_profile_img}
+                    alt={member.player_list_nickname}
+                    className="w-8 h-8 rounded-full"
+                  />
+                  <span className="text-xs">{member.player_list_nickname}</span>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 
