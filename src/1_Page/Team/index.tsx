@@ -1,6 +1,4 @@
-import { useState } from "react";
-
-const TEAMPAGE_INFO: object = {
+const TEAMPAGE_INFO = {
   team: {
     community_list_idx: 0,
     team_list_idx: 10,
@@ -11,7 +9,7 @@ const TEAMPAGE_INFO: object = {
     team_list_banner: "URL",
     team_list_announcement:
       "레알 팀원 모집 중 입니다. 멀티포지션 환영, 접률 좋은분 환영",
-    team_list_created_at: 2024 - 10 - 20,
+    team_list_created_at: "2024-10-20",
     whole_member: 15,
   },
   team_member: [
@@ -39,6 +37,142 @@ const TEAMPAGE_INFO: object = {
       championship_list_end_date: "2025-05-10",
       championship_list_color: "#9B11E",
     },
+    {
+      championship_list_throphy_img: "URL",
+      championship_list_idx: 0,
+      championship_list_name: "2025 KFPL 끝물 토너먼트",
+      championship_list_start_date: "2025-04-25",
+      championship_list_end_date: "2025-05-10",
+      championship_list_color: "#9B11E",
+    },
+    {
+      championship_list_throphy_img: "URL",
+      championship_list_idx: 0,
+      championship_list_name: "2025 KFPL 끝물 토너먼트",
+      championship_list_start_date: "2025-04-25",
+      championship_list_end_date: "2025-05-10",
+      championship_list_color: "#9B11E",
+    },
+    {
+      championship_list_throphy_img: "URL",
+      championship_list_idx: 0,
+      championship_list_name: "2025 KFPL 끝물 토너먼트",
+      championship_list_start_date: "2025-04-25",
+      championship_list_end_date: "2025-05-10",
+      championship_list_color: "#9B11E",
+    },
+    {
+      championship_list_throphy_img: "URL",
+      championship_list_idx: 0,
+      championship_list_name: "2025 KFPL 끝물 토너먼트",
+      championship_list_start_date: "2025-04-25",
+      championship_list_end_date: "2025-05-10",
+      championship_list_color: "#9B11E",
+    },
+    {
+      championship_list_throphy_img: "URL",
+      championship_list_idx: 0,
+      championship_list_name: "2025 KFPL 끝물 토너먼트",
+      championship_list_start_date: "2025-04-25",
+      championship_list_end_date: "2025-05-10",
+      championship_list_color: "#9B11E",
+    },
+    {
+      championship_list_throphy_img: "URL",
+      championship_list_idx: 0,
+      championship_list_name: "2025 KFPL 끝물 토너먼트",
+      championship_list_start_date: "2025-04-25",
+      championship_list_end_date: "2025-05-10",
+      championship_list_color: "#9B11E",
+    },
+    {
+      championship_list_throphy_img: "URL",
+      championship_list_idx: 0,
+      championship_list_name: "2025 KFPL 끝물 토너먼트",
+      championship_list_start_date: "2025-04-25",
+      championship_list_end_date: "2025-05-10",
+      championship_list_color: "#9B11E",
+    },
+    {
+      championship_list_throphy_img: "URL",
+      championship_list_idx: 0,
+      championship_list_name: "2025 KFPL 끝물 토너먼트",
+      championship_list_start_date: "2025-04-25",
+      championship_list_end_date: "2025-05-10",
+      championship_list_color: "#9B11E",
+    },
+    {
+      championship_list_throphy_img: "URL",
+      championship_list_idx: 0,
+      championship_list_name: "2025 KFPL 끝물 토너먼트",
+      championship_list_start_date: "2025-04-25",
+      championship_list_end_date: "2025-05-10",
+      championship_list_color: "#9B11E",
+    },
+    {
+      championship_list_throphy_img: "URL",
+      championship_list_idx: 0,
+      championship_list_name: "2025 KFPL 끝물 토너먼트",
+      championship_list_start_date: "2025-04-25",
+      championship_list_end_date: "2025-05-10",
+      championship_list_color: "#9B11E",
+    },
+    {
+      championship_list_throphy_img: "URL",
+      championship_list_idx: 0,
+      championship_list_name: "2025 KFPL 끝물 토너먼트",
+      championship_list_start_date: "2025-04-25",
+      championship_list_end_date: "2025-05-10",
+      championship_list_color: "#9B11E",
+    },
+    {
+      championship_list_throphy_img: "URL",
+      championship_list_idx: 0,
+      championship_list_name: "2025 KFPL 끝물 토너먼트",
+      championship_list_start_date: "2025-04-25",
+      championship_list_end_date: "2025-05-10",
+      championship_list_color: "#9B11E",
+    },
+    {
+      championship_list_throphy_img: "URL",
+      championship_list_idx: 0,
+      championship_list_name: "2025 KFPL 끝물 토너먼트",
+      championship_list_start_date: "2025-04-25",
+      championship_list_end_date: "2025-05-10",
+      championship_list_color: "#9B11E",
+    },
+    {
+      championship_list_throphy_img: "URL",
+      championship_list_idx: 0,
+      championship_list_name: "2025 KFPL 끝물 토너먼트",
+      championship_list_start_date: "2025-04-25",
+      championship_list_end_date: "2025-05-10",
+      championship_list_color: "#9B11E",
+    },
+    {
+      championship_list_throphy_img: "URL",
+      championship_list_idx: 0,
+      championship_list_name: "2025 KFPL 끝물 토너먼트",
+      championship_list_start_date: "2025-04-25",
+      championship_list_end_date: "2025-05-10",
+      championship_list_color: "#9B11E",
+    },
+    {
+      championship_list_throphy_img: "URL",
+      championship_list_idx: 0,
+      championship_list_name: "2025 KFPL 끝물 토너먼트",
+      championship_list_start_date: "2025-04-25",
+      championship_list_end_date: "2025-05-10",
+      championship_list_color: "#9B11E",
+    },
+    {
+      championship_list_throphy_img: "URL",
+      championship_list_idx: 0,
+      championship_list_name: "2025 KFPL 끝물 토너먼트",
+      championship_list_start_date: "2025-04-25",
+      championship_list_end_date: "2025-05-10",
+      championship_list_color: "#9B11E",
+    },
   ],
   team_history: [
     {
@@ -58,20 +192,187 @@ const TEAMPAGE_INFO: object = {
   ],
 };
 
-import Trophy from "./ui/Trophy";
+const TEAM_MATCH = {
+  match: [
+    {
+      match_match_idx: 123,
+      match_type_idx: 0,
+      team_list_idx: 14,
+      match_match_attribute: 1,
+      match_match_participation_type: 0,
+      player_list_nickname: "바르샤부주장",
+      match_match_start_time: " 2025-02-19 10:00:00",
+      match_match_duration: "2 hours",
+      common_status_idx: 0,
+    },
+    {
+      match_match_idx: 124,
+      match_type_idx: 0,
+      team_list_idx: 14,
+      match_match_attribute: 0,
+      match_match_participation_type: 1,
+      player_list_nickname: "바르샤주장",
+      match_match_start_time: "2025-02-18 10:00:00",
+      match_match_duration: "2 hours",
+      common_status_idx: 1,
+    },
+    {
+      match_match_idx: 124,
+      match_type_idx: 0,
+      team_list_idx: 14,
+      match_match_attribute: 0,
+      match_match_participation_type: 1,
+      player_list_nickname: "바르샤주장",
+      match_match_start_time: "2025-02-18 10:00:00",
+      match_match_duration: "2 hours",
+      common_status_idx: 1,
+    },
+    {
+      match_match_idx: 124,
+      match_type_idx: 0,
+      team_list_idx: 14,
+      match_match_attribute: 0,
+      match_match_participation_type: 1,
+      player_list_nickname: "바르샤주장",
+      match_match_start_time: "2025-02-18 10:00:00",
+      match_match_duration: "2 hours",
+      common_status_idx: 1,
+    },
+    {
+      match_match_idx: 124,
+      match_type_idx: 0,
+      team_list_idx: 14,
+      match_match_attribute: 0,
+      match_match_participation_type: 1,
+      player_list_nickname: "바르샤주장",
+      match_match_start_time: "2025-02-18 10:00:00",
+      match_match_duration: "2 hours",
+      common_status_idx: 1,
+    },
+    {
+      match_match_idx: 124,
+      match_type_idx: 0,
+      team_list_idx: 14,
+      match_match_attribute: 0,
+      match_match_participation_type: 1,
+      player_list_nickname: "바르샤주장",
+      match_match_start_time: "2025-02-18 10:00:00",
+      match_match_duration: "2 hours",
+      common_status_idx: 1,
+    },
+    {
+      match_match_idx: 124,
+      match_type_idx: 0,
+      team_list_idx: 14,
+      match_match_attribute: 0,
+      match_match_participation_type: 1,
+      player_list_nickname: "바르샤주장",
+      match_match_start_time: "2025-02-18 10:00:00",
+      match_match_duration: "2 hours",
+      common_status_idx: 1,
+    },
+  ],
+};
+
+import HoverTrophy from "./ui/HoverTrophy";
+import MatchCard from "./ui/MatchCrad";
 
 const Team = () => {
+  const role = "팀장";
   return (
-    <main className="flex flex-col w-[80%]">
+    <main className="flex flex-col w-[90%] text-sm">
+      {" "}
+      {/* 배너 */}
       <div className="flex justify-center">
-        <img className="w-[100%] h-[200px] bg-blue " />
+        <img
+          className="w-[100%] h-[200px]"
+          src={TEAMPAGE_INFO.team.team_list_banner}
+        />
       </div>
-      <div className="flex w-[100%] py-4">
-        {TEAMPAGE_INFO.team_award.map((item) => (
-          <Trophy item={item} />
+      {/* 트로피 */}
+      <div className="hidden flex-wrap gap-4 lg:flex ">
+        {TEAMPAGE_INFO.team_award.map((trophyData, index) => (
+          <HoverTrophy
+            trophyData={trophyData}
+            index={index}
+            length={TEAMPAGE_INFO.team_award.length}
+          />
         ))}
       </div>
-      <div></div>
+      {/* 내용  */}
+      <div className="grid grid-cols-5 w-full">
+        <div className="col-span-2 flex flex-row flex-wrap gap-1">
+          <div className="flex flex-col items-center ">
+            <div className="flex flex-row">
+              <img
+                src="URL"
+                alt="Team Logo"
+                className="w-16 h-16 rounded-full"
+              />
+              <div>
+                <h1 className="text-xl font-bold">
+                  {TEAMPAGE_INFO.team.team_list_name}
+                </h1>
+                <button
+                  className="bg-blue-500 text-white text-xs px-2 py-1 rounded-full cursor-pointer "
+                  onClick={() => {
+                    alert(
+                      role === "팀장"
+                        ? "팀 관리페이지 이동"
+                        : role === "팀원"
+                        ? "팀 탈퇴 되었습니다"
+                        : "팀 가입 신청 되었습니다"
+                    );
+                  }}>
+                  {role === "팀장"
+                    ? "팀 관리"
+                    : role === "팀원"
+                    ? "팀 탈퇴"
+                    : "팀 가입"}
+                </button>
+              </div>
+            </div>
+            <div>
+              <h2 className="text-base font-semibold">팀 연혁</h2>
+              <ul className="text-gray-600 space-y-1 text-xs">
+                {TEAMPAGE_INFO.team_history.map((history, index) => (
+                  <li key={index}>{history.championship_list_name}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+
+          <div className="max-w-[200px]">
+            <h2 className="text-base font-semibold">팀 설명</h2>
+            <p className="text-gray-600 text-xs whitespace-pre-line">
+              {TEAMPAGE_INFO.team.team_list_announcement}
+            </p>
+          </div>
+
+          <div className="col-span-1 space-y-3">
+            <h2 className="text-base font-semibold">팀 현황</h2>
+            {TEAMPAGE_INFO.team_member.map((member, index) => (
+              <div key={index} className="flex items-center space-x-2">
+                <img
+                  src={member.player_list_profile_img}
+                  alt={member.player_list_nickname}
+                  className="w-8 h-8 rounded-full"
+                />
+                <span className="text-xs">{member.player_list_nickname}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="col-span-3 space-y-3">
+          <h2 className="text-base font-semibold">현재 경기</h2>
+          <div className="flex flex-col space-y-2 h-[300px] overflow-scroll">
+            {TEAM_MATCH.match.map((match, index) => (
+              <MatchCard match={match} index={index} />
+            ))}
+          </div>
+        </div>
+      </div>
     </main>
   );
 };
