@@ -1,6 +1,6 @@
 import welcomeBanner from "./assets/svg/welcomeBanner.svg";
 import { useNavigate } from "react-router-dom";
-const WelcomePage = () => {
+const Welcome = () => {
   const navigate = useNavigate();
   return (
     <div className="flex">
@@ -37,4 +37,4 @@ const WelcomePage = () => {
   );
 };
 
-export default WelcomePage;
+export default Welcome;
