@@ -1,4 +1,4 @@
-import WaitingPlayerList from "./ui/WaitingPlayerList";
+import WaitingPlayerList from "../../2_Widget/WaitingPlayerList";
 import MatchList from "./ui/MatchList";
 import Button from "../../4_Shared/components/Button";
 
