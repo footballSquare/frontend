@@ -5,6 +5,7 @@ export type ButtonProps = {
   border?: boolean;
   text: string;
   height?: string;
-  bold?: boolean
+  bold?: boolean;
+  widthValue?: string;
   onClickHandler?: () => void;
 };
