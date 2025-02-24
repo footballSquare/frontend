@@ -5,28 +5,28 @@ import { MatchInfo } from "./type";
 
 const ITEMS_PER_PAGE = 10;
 
-const useGetOpenMatchList = (page: number) => {
+const useGetOpenMatchList = (page: number): [MatchInfo[], boolean, boolean] => {
   const [serverState, request, loading] = useFetch();
   const [openMatchList, setOpenMatchList] = React.useState<MatchInfo[]>([]);
   const [hasMoreContent, setHasMoreContent] = React.useState<boolean>(true);
 
   React.useEffect(() => {
-    console.log(page, "request")
-    console.log(matchList)
     request(matchList);
   }, [page]);
 
   React.useEffect(() => {
-    if (!loading && serverState) {
-      console.log("추가 로딩")
-      setOpenMatchList((prev)=>[...prev, ...serverState.match]);
+    if (!loading && serverState && "match" in serverState) {
+      setOpenMatchList((prev) => [
+        ...prev,
+        ...(serverState as { match: MatchInfo[] }).match,
+      ]);
       setHasMoreContent(
-        (serverState.match || []).length >= ITEMS_PER_PAGE
+        (serverState as { match: MatchInfo[] }).match.length >= ITEMS_PER_PAGE
       );
     }
   }, [loading, serverState]);
 
-  return {openMatchList, hasMoreContent, loading};
-}
+  return [openMatchList, hasMoreContent, loading];
+};
 
 export default useGetOpenMatchList;

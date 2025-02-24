@@ -9,3 +9,11 @@ export type MatchInfo = {
   match_match_duration: string;
   common_status_idx: number;
 };
+
+export type WaitingPlayerInfo = {
+  player_list_idx: number;
+  player_list_platform: number;
+  player_list_profile_img: string;
+  player_list_nickname: string;
+  player_prefer_position: string;
+};
