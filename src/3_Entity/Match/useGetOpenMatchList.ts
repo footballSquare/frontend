@@ -11,13 +11,11 @@ const useGetOpenMatchList = (page: number): [MatchInfo[], boolean, boolean] => {
   const [hasMoreContent, setHasMoreContent] = React.useState<boolean>(true);
 
   React.useEffect(() => {
-    console.log(matchList);
     request(matchList);
   }, [page]);
 
   React.useEffect(() => {
     if (!loading && serverState && "match" in serverState) {
-      console.log("추가 로딩");
       setOpenMatchList((prev) => [
         ...prev,
         ...(serverState as { match: MatchInfo[] }).match,
