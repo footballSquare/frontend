@@ -18,7 +18,7 @@ const WelcomePage = () => {
           </p>
         </p>
         <button
-          className="border-1 w-[180px] h-[56px] rounded-2xl bg-black text-white"
+          className="border-1 w-[180px] h-[56px] rounded-2xl bg-black text-white font-bold"
           onClick={() => {
             navigate("/login");
           }}
