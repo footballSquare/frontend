@@ -1,6 +1,8 @@
 import { matchParticipation } from "../../../../../../4_Shared/constant/matchParticipation";
 import { matchType } from "../../../../../../4_Shared/constant/matchType";
 import { MatchCardProps } from "./type";
+import apply_icon from "../../../../../../4_Shared/assets/svg/apply.svg";
+import denied_icon from "../../../../../../4_Shared/assets/svg/denied.svg";
 
 const MatchCard = (props: MatchCardProps) => {
   const {
@@ -28,7 +30,7 @@ const MatchCard = (props: MatchCardProps) => {
       </div>
 
       <h4>{`주최자: ${player_list_nickname}`}</h4>
-      <h4>{`상태: ${common_status_idx === 0 ? "대기중" : "진행중"}`}</h4>
+      <img src={`${common_status_idx === 0 ? apply_icon : denied_icon}`} alt="상태 아이콘" />
     </div>
   );
 };
