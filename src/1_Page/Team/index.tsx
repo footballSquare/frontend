@@ -234,94 +234,12 @@ const TEAMPAGE_INFO = {
   ],
 };
 
-const TEAM_MATCH = {
-  match: [
-    {
-      match_match_idx: 123,
-      match_type_idx: 0,
-      team_list_idx: 14,
-      match_match_attribute: 1,
-      match_match_participation_type: 0,
-      player_list_nickname: "바르샤부주장",
-      match_match_start_time: " 2025-02-19 10:00:00",
-      match_match_duration: "2 hours",
-      common_status_idx: 0,
-    },
-    {
-      match_match_idx: 124,
-      match_type_idx: 0,
-      team_list_idx: 14,
-      match_match_attribute: 0,
-      match_match_participation_type: 1,
-      player_list_nickname: "바르샤주장",
-      match_match_start_time: "2025-02-18 10:00:00",
-      match_match_duration: "2 hours",
-      common_status_idx: 1,
-    },
-    {
-      match_match_idx: 124,
-      match_type_idx: 0,
-      team_list_idx: 14,
-      match_match_attribute: 0,
-      match_match_participation_type: 1,
-      player_list_nickname: "바르샤주장",
-      match_match_start_time: "2025-02-18 10:00:00",
-      match_match_duration: "2 hours",
-      common_status_idx: 1,
-    },
-    {
-      match_match_idx: 124,
-      match_type_idx: 0,
-      team_list_idx: 14,
-      match_match_attribute: 0,
-      match_match_participation_type: 1,
-      player_list_nickname: "바르샤주장",
-      match_match_start_time: "2025-02-18 10:00:00",
-      match_match_duration: "2 hours",
-      common_status_idx: 1,
-    },
-    {
-      match_match_idx: 124,
-      match_type_idx: 0,
-      team_list_idx: 14,
-      match_match_attribute: 0,
-      match_match_participation_type: 1,
-      player_list_nickname: "바르샤주장",
-      match_match_start_time: "2025-02-18 10:00:00",
-      match_match_duration: "2 hours",
-      common_status_idx: 1,
-    },
-    {
-      match_match_idx: 124,
-      match_type_idx: 0,
-      team_list_idx: 14,
-      match_match_attribute: 0,
-      match_match_participation_type: 1,
-      player_list_nickname: "바르샤주장",
-      match_match_start_time: "2025-02-18 10:00:00",
-      match_match_duration: "2 hours",
-      common_status_idx: 1,
-    },
-    {
-      match_match_idx: 124,
-      match_type_idx: 0,
-      team_list_idx: 14,
-      match_match_attribute: 0,
-      match_match_participation_type: 1,
-      player_list_nickname: "바르샤주장",
-      match_match_start_time: "2025-02-18 10:00:00",
-      match_match_duration: "2 hours",
-      common_status_idx: 1,
-    },
-  ],
-};
-
 import HoverTrophy from "./ui/HoverTrophy";
-import MatchCard from "./ui/MatchCrad";
 import Button from "../../4_Shared/components/Button";
 
 const Team = () => {
   const role = "팀장";
+
   return (
     <main className="flex flex-col w-[90%] text-sm">
       {" "}
@@ -414,15 +332,6 @@ const Team = () => {
                 </div>
               ))}
             </div>
-          </div>
-        </div>
-
-        <div className="col-span-3 space-y-3">
-          <h2 className="text-base font-semibold">현재 경기</h2>
-          <div className="flex flex-col space-y-2 h-[300px] overflow-scroll">
-            {TEAM_MATCH.match.map((match, index) => (
-              <MatchCard match={match} index={index} />
-            ))}
           </div>
         </div>
       </div>
