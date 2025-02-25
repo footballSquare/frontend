@@ -1,22 +1,14 @@
 import useGetTeamInfo from "../../3_Entity/Team/useGetTeamInfo";
-import Button from "../../4_Shared/components/Button";
 import HistoryListBox from "./ui/HistoryListBox";
 import PresentMatchBox from "./ui/PresentMatchBox";
 import TeamMemberListBox from "./ui/TeamMemberListBox";
 import AwardList from "./ui/AwardList";
-import { useCallback } from "react";
+
+const ADMIN = ["팀원", "팀장"];
+const PERMIT = ["팀장"];
 
 const Team = () => {
-  const role = "팀장";
-  const handleButtonClick = useCallback(() => {
-    alert(
-      role === "팀장"
-        ? "팀 관리페이지 이동"
-        : role === "팀원"
-        ? "팀 탈퇴 되었습니다"
-        : "팀 가입 신청 되었습니다"
-    );
-  }, [role]);
+  const role = "팀원";
   const [teamInfo] = useGetTeamInfo();
   return (
     <main className="flex flex-col w-[90%] text-sm pt-5">
@@ -36,20 +28,20 @@ const Team = () => {
                 alt="Team Logo"
                 className="w-16 h-16 rounded-full"
               />
-              <div>
+              <div className="flex flex-col items-start">
                 <h1 className="text-xl font-bold">
                   {teamInfo?.team_list_name}
                 </h1>
-                <Button
-                  onClickHandler={handleButtonClick}
-                  text={
-                    role === "팀장"
-                      ? "팀 관리"
-                      : role === "팀원"
-                      ? "팀 탈퇴"
-                      : "팀 가입"
-                  }
-                />
+                <div className="flex flex-col items-start">
+                  <button className="bg-blue-500 text-white text-sm font-medium py-1 px-3 rounded-full">
+                    {ADMIN.includes(role) ? "팀 탈퇴" : "팀 가입"}
+                  </button>
+                  {PERMIT.includes(role) && (
+                    <button className="bg-blue-500 text-white text-sm font-medium py-1 px-3 rounded-full ">
+                      팀관리
+                    </button>
+                  )}
+                </div>
               </div>
             </div>
             <div className="flex flex-col items-start w-full">
