@@ -3,7 +3,6 @@ import MemberCard from "./ui/MemberCard";
 
 const TeamMemberListBox = () => {
   const [teamMember] = useGetTeamMembers();
-
   return (
     <div className=" h-[200px] overflow-scroll">
       {teamMember.map((elem, index) => (
