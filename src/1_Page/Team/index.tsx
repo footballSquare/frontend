@@ -3,13 +3,15 @@ import HistoryListBox from "./ui/HistoryListBox";
 import PresentMatchBox from "./ui/PresentMatchBox";
 import TeamMemberListBox from "./ui/TeamMemberListBox";
 import AwardList from "./ui/AwardList";
+import useMatchModalStore from "../../4_Shared/zustand/useMatchModal";
 
-const ADMIN = ["팀원", "팀장"];
-const PERMIT = ["팀장"];
+const TEST_ROLE = 0;
 
 const Team = () => {
-  const role = "팀원";
+  const isAdmin = TEST_ROLE === 0 || TEST_ROLE === 1;
+  const isBestAdmin = TEST_ROLE === 0;
   const [teamInfo] = useGetTeamInfo();
+  const { toggleMatchModal } = useMatchModalStore();
   return (
     <main className="flex flex-col w-[90%] text-sm pt-5">
       {/* 배너 */}
@@ -23,23 +25,29 @@ const Team = () => {
         <div className="col-span-2 flex flex-row flex-wrap gap-1">
           <div className="flex flex-col items-center ">
             <div className="flex flex-row">
-              <img
-                src="URL"
-                alt="Team Logo"
-                className="w-16 h-16 rounded-full"
-              />
-              <div className="flex flex-col items-start">
+              <img src="URL" className="w-16 h-16 rounded-full" />
+              <div className="flex flex-col items-start min-w-[100px]">
                 <h1 className="text-xl font-bold">
                   {teamInfo?.team_list_name}
                 </h1>
-                <div className="flex flex-col items-start">
-                  <button className="bg-blue-500 text-white text-sm font-medium py-1 px-3 rounded-full">
-                    {ADMIN.includes(role) ? "팀 탈퇴" : "팀 가입"}
+                <div className="flex flex-col items-start gap-2">
+                  <button
+                    className={`${
+                      isAdmin ? "bg-red-500" : "bg-blue-500"
+                    } text-white text-sm font-medium py-1 px-3 rounded-full`}>
+                    {isAdmin ? "팀 탈퇴" : "팀 가입"}
                   </button>
-                  {PERMIT.includes(role) && (
-                    <button className="bg-blue-500 text-white text-sm font-medium py-1 px-3 rounded-full ">
-                      팀관리
-                    </button>
+                  {isBestAdmin && (
+                    <div className="flex gap-2">
+                      <button className="bg-blue-500 text-white text-sm font-medium py-1 px-3 rounded-full ">
+                        팀관리
+                      </button>
+                      <button
+                        className="bg-blue-500 text-white text-sm font-medium py-1 px-3 rounded-full  cursor-auto"
+                        onClick={toggleMatchModal}>
+                        매치 생성
+                      </button>
+                    </div>
                   )}
                 </div>
               </div>

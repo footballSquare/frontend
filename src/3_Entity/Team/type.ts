@@ -30,7 +30,7 @@ export type TeamHistory = {
 
 export type TeamMembers = {
   player_list_idx: number;
-  player_list_platform: string;
+  player_list_platform: number;
   player_list_profile_img: string;
   player_list_nickname: string;
   team_role_idx: number;
