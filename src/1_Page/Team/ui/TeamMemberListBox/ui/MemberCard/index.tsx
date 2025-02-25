@@ -102,7 +102,7 @@ const MemberCard = (props: MemberProps) => {
               <option value="팀원">팀원</option>
             </select>
             {/* 버튼 영역 */}
-            <button className="w-full bg-red-300 text-white py-2 rounded-md mb-2">
+            <button className="w-full bg-red-200 text-white py-2 rounded-md mb-2">
               방출
             </button>
             <button className="w-full bg-blue-500 text-white py-2 rounded-md mb-2">

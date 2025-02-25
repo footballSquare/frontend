@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { MatchCardProps } from "./type";
 
 const MatchCard = (props: MatchCardProps) => {
@@ -14,12 +15,15 @@ const MatchCard = (props: MatchCardProps) => {
     index,
   } = props;
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   return (
     <div
       ref={observeRef}
       key={"mathcard-" + index}
       className={`flex flex-row items-center rounded-lg shadow min-h-[100px] 
-        ${match_match_attribute === 1 ? "bg-gray-100" : "bg-gray-300"}`}>
+        ${match_match_attribute === 1 ? "bg-gray-100" : "bg-gray-300"}`}
+      onClick={() => setIsModalOpen(true)}>
       <div className="grid grid-cols-4 w-full gap-2 p-4">
         {/* Header Section */}
         <div className="col-span-3 sm:col-span-1 flex flex-col justify-between items-center">
@@ -67,6 +71,7 @@ const MatchCard = (props: MatchCardProps) => {
           </span>
         </div>
       </div>
+      {isModalOpen && <div>매치 매치모달</div>}
     </div>
   );
 };
