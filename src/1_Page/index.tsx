@@ -10,7 +10,7 @@ const Page = () => {
   const [cookies] = useCookies(["accessToken"]);
   const hasAccessToken = !!cookies.accessToken; // accessToken 존재 여부 확인
   return (
-    <div className="w-full h-full flex justify-center bg-light-blue">
+    <div className="w-full flex justify-center bg-light-blue">
       <Routes>
         <Route
           path="/"
