@@ -14,6 +14,7 @@ const MatchCard = (props: MatchCardProps) => {
     index,
   } = props;
 
+  console.log(props);
   return (
     <div
       ref={observeRef}
