@@ -4,6 +4,7 @@ import { MatchCardProps } from "./type";
 import apply_icon from "../../../../../../4_Shared/assets/svg/apply.svg";
 import denied_icon from "../../../../../../4_Shared/assets/svg/denied.svg";
 import { isPastTime } from "../../../../../../4_Shared/util/timeChecker";
+import useMatchModalStore from "../../../../../../4_Shared/zustand/useMatchModal";
 
 const MatchCard = (props: MatchCardProps) => {
   const {
@@ -18,8 +19,22 @@ const MatchCard = (props: MatchCardProps) => {
     common_status_idx,
     observeRef,
   } = props;
+  const { toggleMatchModal, setMatchIdx } = useMatchModalStore();
   return (
-    <div ref={observeRef} className={`flex ${!isPastTime(match_match_start_time) ? "bg-white hover:bg-blue hover:text-white cursor-pointer" : "bg-gray"} items-center justify-between gap-6 duration-500 shadow-lg px-4 py-2 p text-xs`}>
+    <div
+      ref={observeRef}
+      className={`flex ${
+        !isPastTime(match_match_start_time)
+          ? "bg-white hover:bg-blue hover:text-white cursor-pointer"
+          : "bg-gray"
+      } items-center justify-between gap-6 duration-500 shadow-lg px-4 py-2 p text-xs`}
+      onClick={() => {
+        if (!isPastTime(match_match_start_time)) {
+          toggleMatchModal();
+          setMatchIdx(match_match_idx);
+        }
+      }}
+    >
       <h3>{`> ${team_list_idx === null ? "공방게임" : "팀게임"}`}</h3>
       <h3>{`# ${matchParticipation[match_match_participation_type]}`}</h3>
 
@@ -30,7 +45,10 @@ const MatchCard = (props: MatchCardProps) => {
       </div>
 
       <h4>{`주최자: ${player_list_nickname}`}</h4>
-      <img src={`${common_status_idx === 0 ? apply_icon : denied_icon}`} alt="상태 아이콘" />
+      <img
+        src={`${common_status_idx === 0 ? apply_icon : denied_icon}`}
+        alt="상태 아이콘"
+      />
     </div>
   );
 };
