@@ -3,7 +3,7 @@ import Button from "../../4_Shared/components/Button";
 import useGetWaitingPlayerList from "../../3_Entity/Match/useGetWaitingPlayerList";
 import WaitingPlayerCard from "./ui/WaitingPlayerCard";
 import useInfiniteScrollPaging from "../../4_Shared/model/useInfiniteScrollPaging";
-import ronaldoBanner from "../../4_Shared/assets/svg/ronaldoBanner.svg";
+import footballPlayer from "../../4_Shared/assets/svg/footballPlayer.svg";
 const WaitingPlayerList = () => {
   const [page, setPage] = React.useState<number>(1);
   const [isWatingPlayerListOpen, setIsWaitingPlayerListOpen] =
@@ -58,7 +58,7 @@ const WaitingPlayerList = () => {
             );
           })}
         </div>
-      ) :<img src={ronaldoBanner} alt="ronaldoBanner" className="w-full h-[70vh]"/>}
+      ) :<img src={footballPlayer} alt="footballPlayer" className="w-full h-[70vh]"/>}
     </div>
   );
 };
