@@ -1,17 +1,18 @@
+import React from "react";
+
 import useGetTeamInfo from "../../3_Entity/Team/useGetTeamInfo";
 import HistoryListBox from "./ui/HistoryListBox";
 import PresentMatchBox from "./ui/PresentMatchBox";
 import TeamMemberListBox from "./ui/TeamMemberListBox";
 import AwardList from "./ui/AwardList";
-import useMatchModalStore from "../../4_Shared/zustand/useMatchModal";
-
+import MakeTeamMatchModal from "./ui/MakeTeamMatchModal";
 const TEST_ROLE = 0;
 
 const Team = () => {
   const isAdmin = TEST_ROLE === 0 || TEST_ROLE === 1;
   const isBestAdmin = TEST_ROLE === 0;
   const [teamInfo] = useGetTeamInfo();
-  const { toggleMatchModal, setMatchIdx } = useMatchModalStore();
+  const [isMakeTeamMatchModal, setIsMakeTeamMatchModal] = React.useState(false);
 
   return (
     <main className="flex flex-col w-[90%] text-sm pt-5">
@@ -46,7 +47,7 @@ const Team = () => {
                       <button
                         className="bg-blue-500 text-white text-sm font-medium py-1 px-3 rounded-full  cursor-auto"
                         onClick={() => {
-                          toggleMatchModal();
+                          setIsMakeTeamMatchModal(true);
                         }}>
                         매치 생성
                       </button>
@@ -78,6 +79,9 @@ const Team = () => {
           <PresentMatchBox />
         </div>
       </div>
+      {isMakeTeamMatchModal && (
+        <MakeTeamMatchModal team_list_idx={teamInfo?.team_list_idx ?? 0} />
+      )}
     </main>
   );
 };
