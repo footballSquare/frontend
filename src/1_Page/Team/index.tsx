@@ -236,6 +236,7 @@ const TEAMPAGE_INFO = {
 
 import HoverTrophy from "./ui/HoverTrophy";
 import Button from "../../4_Shared/components/Button";
+import PresentMatch from "./ui/PresnetMatch";
 
 const Team = () => {
   const role = "팀장";
@@ -334,6 +335,7 @@ const Team = () => {
             </div>
           </div>
         </div>
+        <PresentMatch />
       </div>
     </main>
   );
