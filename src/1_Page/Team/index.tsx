@@ -11,7 +11,8 @@ const Team = () => {
   const isAdmin = TEST_ROLE === 0 || TEST_ROLE === 1;
   const isBestAdmin = TEST_ROLE === 0;
   const [teamInfo] = useGetTeamInfo();
-  const { toggleMatchModal } = useMatchModalStore();
+  const { toggleMatchModal, setMatchIdx } = useMatchModalStore();
+
   return (
     <main className="flex flex-col w-[90%] text-sm pt-5">
       {/* 배너 */}
@@ -21,8 +22,8 @@ const Team = () => {
       {/* 트로피 */}
       <AwardList />
       {/* 내용  */}
-      <div className="grid grid-cols-5 w-full">
-        <div className="col-span-2 flex flex-row flex-wrap gap-1">
+      <div className=" flex flex-col gap-5 sm:grid grid-cols-5 w-full ">
+        <div className="w-full flex flex-wrap gap-1 sm : col-span-2">
           <div className="flex flex-col items-center ">
             <div className="flex flex-row">
               <img src="URL" className="w-16 h-16 rounded-full" />
@@ -44,7 +45,9 @@ const Team = () => {
                       </button>
                       <button
                         className="bg-blue-500 text-white text-sm font-medium py-1 px-3 rounded-full  cursor-auto"
-                        onClick={toggleMatchModal}>
+                        onClick={() => {
+                          toggleMatchModal();
+                        }}>
                         매치 생성
                       </button>
                     </div>
@@ -57,7 +60,7 @@ const Team = () => {
               <HistoryListBox />
             </div>
           </div>
-          <div className="col-span-1 space-y-3">
+          <div className="space-y-3">
             <div className="max-w-[200px]">
               <h2 className="text-base font-semibold">팀 설명</h2>
               <p className="text-gray-600 text-xs whitespace-pre-line">
@@ -70,7 +73,7 @@ const Team = () => {
             </div>
           </div>
         </div>
-        <div className="col-span-3 space-y-3">
+        <div className="space-y-3 sm : col-span-3 ">
           <h2 className="text-base font-semibold">현재 경기</h2>
           <PresentMatchBox />
         </div>

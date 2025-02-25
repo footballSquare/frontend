@@ -16,7 +16,6 @@ const MemberCard = (props: MemberProps) => {
     team_role_idx,
     player_list_platform,
   } = props;
-
   const isBestAdmin = TEST_ROLE === 0;
 
   const [clickMemberRole, setClickMemberRole] = React.useState<number>(3);
@@ -116,7 +115,6 @@ const MemberCard = (props: MemberProps) => {
               <option value={1}>{teamRole[1]}</option>
               <option value={2}>{teamRole[2]}</option>
             </select>
-
             <button className="w-full bg-red-200 text-white py-2 rounded-md mb-2">
               방출
             </button>

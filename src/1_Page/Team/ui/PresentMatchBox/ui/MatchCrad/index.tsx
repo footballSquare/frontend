@@ -1,5 +1,5 @@
-import { useState } from "react";
 import { MatchCardProps } from "./type";
+import useMatchModalStore from "../../../../../../4_Shared/zustand/useMatchModal";
 
 const MatchCard = (props: MatchCardProps) => {
   const {
@@ -15,7 +15,7 @@ const MatchCard = (props: MatchCardProps) => {
     index,
   } = props;
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { toggleMatchModal, setMatchIdx } = useMatchModalStore();
 
   return (
     <div
@@ -23,10 +23,13 @@ const MatchCard = (props: MatchCardProps) => {
       key={"mathcard-" + index}
       className={`flex flex-row items-center rounded-lg shadow min-h-[100px] 
         ${match_match_attribute === 1 ? "bg-gray-100" : "bg-gray-300"}`}
-      onClick={() => setIsModalOpen(true)}>
+      onClick={() => {
+        setMatchIdx(match_match_idx);
+        toggleMatchModal();
+      }}>
       <div className="grid grid-cols-4 w-full gap-2 p-4">
         {/* Header Section */}
-        <div className="col-span-3 sm:col-span-1 flex flex-col justify-between items-center">
+        <div className="col-span-1 flex flex-col justify-between items-center">
           <p className="text-gray-800 text-sm font-semibold">
             {player_list_nickname} #{team_list_idx}
           </p>
@@ -44,7 +47,7 @@ const MatchCard = (props: MatchCardProps) => {
         </div>
 
         {/* Info Section */}
-        <div className="hidden sm:flex flex-col col-span-2">
+        <div className="flex flex-col col-span-2">
           <p className="text-gray-500 text-xs">
             게임 모드:{" "}
             <span className="font-medium">
@@ -71,7 +74,6 @@ const MatchCard = (props: MatchCardProps) => {
           </span>
         </div>
       </div>
-      {isModalOpen && <div>매치 매치모달</div>}
     </div>
   );
 };
