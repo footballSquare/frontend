@@ -14,7 +14,7 @@ const WaitingPlayerList = () => {
   );
 
   return (
-    <div className="flex flex-col overflow-y-auto h-[70vh] w-full">
+    <div className="flex flex-col overflow-y-auto h-full w-full">
       {waitingPlayerList.map((elem, index) => {
         return (
           <WaitingPlayerCard
