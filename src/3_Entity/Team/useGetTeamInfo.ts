@@ -3,9 +3,9 @@ import { useFetch } from "../../4_Shared/util/apiUtil";
 import { teamInfoData } from "../../4_Shared/mock/teamInfo";
 import { TeamInfo } from "./type";
 
-const useGetTeamInfo = (): [TeamInfo | null, boolean] => {
+const useGetTeamInfo = (): [TeamInfo, boolean] => {
   const [serverState, request, loading] = useFetch();
-  const [teamInfo, setTeamInfo] = React.useState<TeamInfo | null>(null);
+  const [teamInfo, setTeamInfo] = React.useState<TeamInfo>({} as TeamInfo);
 
   React.useEffect(() => {
     request(teamInfoData);
