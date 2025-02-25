@@ -1,4 +1,4 @@
-import WaitingPlayerList from "../../2_Widget/WaitingPlayerList";
+import WaitingPlayerListPanel from "./ui/WaitingPlayerListPanel";
 import MatchList from "./ui/MatchList";
 import Button from "../../4_Shared/components/Button";
 
@@ -34,7 +34,7 @@ const FreeMatch = () => {
         <MatchList />
       </div>
       {/* 대기 인원 목록 */}
-      <WaitingPlayerList />
+      <WaitingPlayerListPanel />
     </div>
   );
 };
