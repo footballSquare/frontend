@@ -1,11 +1,13 @@
-import React from "react";
+import useMatchModalStore from "../../4_Shared/zustand/useMatchModal";
 import WaitingPlayerListPanel from "./ui/WaitingPlayerListPanel";
 const MatchModal = () => {
+  const { matchIdx, toggleMatchModal } = useMatchModalStore();
+  // const [matchInfo, loading] =  useGetMatchInfo(matchIdx);
   return (
     // 모달 커버
     <div className=" absolute top-0 left-0 w-full h-full flex justify-center items-center">
       {/* 레이어 */}
-      <div className=" absolute top-0 left-0 w-[100vw] h-[100vh] opacity-50 bg-gray"></div>
+      <div className=" absolute top-0 left-0 w-[100vw] h-[100vh] opacity-50 bg-gray" onClick={toggleMatchModal}></div>
       {/* 모달 */}
       <div className=" flex flex-col justify-center relative items-center w-[80%] h-[80%] bg-white gap-4">
 
