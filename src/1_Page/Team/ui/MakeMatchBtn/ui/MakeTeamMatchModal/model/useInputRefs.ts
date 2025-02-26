@@ -1,5 +1,5 @@
 import React from "react";
-import { MatchFormData } from "../../../../../3_Entity/Match/type";
+import { MatchFormData } from "../../../../../../../3_Entity/Match/type";
 
 type FormRefs = {
   matchFormationRef: React.RefObject<HTMLSelectElement>;
