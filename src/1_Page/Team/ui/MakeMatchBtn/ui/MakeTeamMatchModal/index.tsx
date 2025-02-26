@@ -1,21 +1,22 @@
-import { makeTeamMatchModalProps } from "./type";
-
+import { useForm, SubmitHandler } from "react-hook-form";
 import {
   toFormattedDate,
   toFormattedTime,
 } from "../../../../../../4_Shared/lib/dateFormatter";
-
 import usePostTeamMatch from "../../../../../../3_Entity/Match/usePostTeamMatch";
+
+// 타입
+import { makeTeamMatchModalProps } from "./type";
+import { ExtendedMatchFormData } from "./type";
+
+// 상수
 import { teamMatchAttribute } from "../../../../../../4_Shared/constant/teamMatchAttribute";
 import { matchType } from "../../../../../../4_Shared/constant/matchType";
 import { matchParticipation } from "../../../../../../4_Shared/constant/matchParticipation";
 import { matchDuration } from "../../../../../../4_Shared/constant/matchDuration";
 import { formation } from "../../../../../../4_Shared/constant/formation";
-import { ExtendedMatchFormData } from "./type";
-import { useForm, SubmitHandler } from "react-hook-form";
-
-import { MatchFormData } from "../../../../../../3_Entity/Match/type";
-import { validateTime } from "./util/validate";
+import transformMatchData from "./model/transformMatchData";
+import inputErrorHandler from "./model/inputErrorHandler";
 
 const MakeTeamMatchModal = (props: makeTeamMatchModalProps) => {
   const { team_list_idx, onClose } = props;
@@ -28,7 +29,6 @@ const MakeTeamMatchModal = (props: makeTeamMatchModalProps) => {
     handleSubmit,
     setError,
     formState: { errors },
-    clearErrors,
   } = useForm<ExtendedMatchFormData>({
     defaultValues: {
       match_match_start_date: toFormattedDate(today),
@@ -41,47 +41,25 @@ const MakeTeamMatchModal = (props: makeTeamMatchModalProps) => {
     } as ExtendedMatchFormData,
   });
 
-  const isCanFormationChange = watch("match_type_idx_radio") === "0";
-
   const onSubmit: SubmitHandler<ExtendedMatchFormData> = (data) => {
-    const {
-      match_match_start_date,
-      match_match_start_time,
-      match_type_idx_radio,
-      match_match_participation_type_radio,
-      ...rest
-    } = data; // 입력 폼과 실제 데이터가 다르기 때문에 분리
-    const validationError = validateTime(
-      match_match_start_date,
-      match_match_start_time
+    const hasError = inputErrorHandler(
+      setError,
+      data.match_match_start_date,
+      data.match_match_start_time
     );
-    if (validationError) {
-      setError(validationError.field as keyof ExtendedMatchFormData, {
-        message: validationError.message,
-      });
-      return;
-    } else {
-      clearErrors("match_match_start_date");
-      clearErrors("match_match_start_time");
+    if (!hasError) {
+      postEvent(transformMatchData(data));
     }
-    const submitData: MatchFormData = {
-      ...rest,
-      match_formation_idx: Number(data.match_formation_idx),
-      match_match_participation_type: Number(
-        match_match_participation_type_radio
-      ),
-      match_type_idx: Number(match_type_idx_radio),
-      match_match_attribute: Number(data.match_match_attribute),
-      match_match_start_time: `${match_match_start_date} ${match_match_start_time}`,
-    };
-    postEvent(submitData);
   };
+
+  // 포메이션 변경 조건
+  const isCanFormationChange = watch("match_type_idx_radio") === "0";
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center">
       <div className="bg-white rounded-2xl shadow-xl w-[500px] p-6">
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-xl font-semibold">팀 매치 모달 생성</h2>
+          <h2 className="text-xl font-semibold">팀 매치 생성</h2>
           <button
             className="text-gray-400 hover:text-gray-600"
             onClick={onClose}>

@@ -4,7 +4,8 @@ import { makeTeamMatchBtnProps } from "./type";
 
 const MakeMatchBtn = (props: makeTeamMatchBtnProps) => {
   const { team_list_idx } = props;
-  const [isMakeTeamMatchModal, setIsMakeTeamMatchModal] = React.useState(false);
+  const [isMakeTeamMatchModal, setIsMakeTeamMatchModal] =
+    React.useState<boolean>(false);
   const toggleMakeTeamMatchModal = () =>
     setIsMakeTeamMatchModal(!isMakeTeamMatchModal);
 
