@@ -1,18 +1,15 @@
-import React from "react";
-
 import useGetTeamInfo from "../../3_Entity/Team/useGetTeamInfo";
 import HistoryListBox from "./ui/HistoryListBox";
 import PresentMatchBox from "./ui/PresentMatchBox";
 import TeamMemberListBox from "./ui/TeamMemberListBox";
 import AwardList from "./ui/AwardList";
-import MakeTeamMatchModal from "./ui/MakeTeamMatchModal";
+import MakeMatchBtn from "./ui/MakeMatchBtn";
 const TEST_ROLE = 0;
 
 const Team = () => {
   const isAdmin = TEST_ROLE === 0 || TEST_ROLE === 1;
   const isBestAdmin = TEST_ROLE === 0;
   const [teamInfo, loading] = useGetTeamInfo();
-  const [isMakeTeamMatchModal, setIsMakeTeamMatchModal] = React.useState(false);
 
   return (
     <main className="flex flex-col w-[90%] text-sm pt-5">
@@ -54,18 +51,7 @@ const Team = () => {
                         {isAdmin ? "팀 탈퇴" : "팀 가입"}
                       </button>
                       {isBestAdmin && (
-                        <div className="flex gap-2">
-                          <button className="bg-blue-500 text-white text-sm font-medium py-1 px-3 rounded-full">
-                            팀관리
-                          </button>
-                          <button
-                            className="bg-blue-500 text-white text-sm font-medium py-1 px-3 rounded-full cursor-auto"
-                            onClick={() => {
-                              setIsMakeTeamMatchModal(true);
-                            }}>
-                            매치 생성
-                          </button>
-                        </div>
+                        <MakeMatchBtn team_list_idx={teamInfo.team_list_idx} />
                       )}
                     </div>
                   </div>
@@ -96,11 +82,6 @@ const Team = () => {
               <PresentMatchBox />
             </div>
           </div>
-
-          {/* 매치 생성 모달 */}
-          {isMakeTeamMatchModal && (
-            <MakeTeamMatchModal team_list_idx={teamInfo.team_list_idx} />
-          )}
         </>
       )}
     </main>
