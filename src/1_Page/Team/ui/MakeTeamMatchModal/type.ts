@@ -5,4 +5,6 @@ export type TeamListIdxProps = Pick<TeamInfo, "team_list_idx">;
 
 export type ExtendedMatchFormData = MatchFormData & {
   match_match_start_date: string;
+  match_type_idx_radio: string;
+  match_match_participation_type_radio: string;
 };

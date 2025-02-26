@@ -1,1 +1,1 @@
-export const matchDuration = ["2 hours", "2 hours", "30 min"];
+export const matchDuration = ["2 hours", "1 hours", "30 min"];

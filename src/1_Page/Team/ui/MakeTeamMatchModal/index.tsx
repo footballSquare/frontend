@@ -10,19 +10,14 @@ import { ExtendedMatchFormData } from "./type";
 import { useForm, SubmitHandler } from "react-hook-form";
 
 import { MatchFormData } from "../../../../3_Entity/Match/type";
-import React from "react";
+import { validateTime } from "./util/validate";
 
 const MakeTeamMatchModal = ({ team_list_idx }: TeamListIdxProps) => {
   const today = new Date();
   const formattedDate = today.toISOString().split("T")[0];
   const formattedTime = today.toTimeString().slice(0, 5);
 
-  // 라디오는 defaultChecked로 처리
-  const defalutRadioMatchAttribute = 0;
-  const defaultRadioMatchParticipationType = 1;
-
   const [postEvent] = usePostTeamMatch(team_list_idx);
-
   const {
     register,
     watch,
@@ -32,66 +27,53 @@ const MakeTeamMatchModal = ({ team_list_idx }: TeamListIdxProps) => {
     clearErrors,
   } = useForm<ExtendedMatchFormData>({
     defaultValues: {
-      match_match_attribute: defalutRadioMatchAttribute,
-      match_type_idx: 0,
-      match_match_participation_type: defaultRadioMatchParticipationType,
       match_match_start_date: formattedDate,
       match_match_start_time: formattedTime,
-      match_match_duration: matchDuration[0],
+      match_match_attribute: 0,
+      match_type_idx_radio: "0",
+      match_match_participation_type_radio: "1",
+      match_match_duration: matchDuration[1],
       match_formation_idx: 0,
-    },
+    } as ExtendedMatchFormData,
   });
 
-  const selectedMatchType = watch("match_type_idx");
+  const selectedMatchType = watch("match_type_idx_radio");
+  console.log(selectedMatchType);
+
+  const isCanFormationChange = selectedMatchType === "0";
 
   const onSubmit: SubmitHandler<ExtendedMatchFormData> = (data) => {
-    const { match_match_start_date, match_match_start_time, ...rest } = data;
-
-    // 현재 시간 가져오기
-    const presentTime = new Date();
-    const presentDate = presentTime.toISOString().split("T")[0]; // YYYY-MM-DD
-
-    // 사용자가 선택한 날짜 및 시간
-    const selectedDateTime = new Date(
-      `${match_match_start_date}T${match_match_start_time}`
+    const {
+      match_match_start_date,
+      match_match_start_time,
+      match_type_idx_radio,
+      match_match_participation_type_radio,
+      ...rest
+    } = data;
+    const validationError = validateTime(
+      match_match_start_date,
+      match_match_start_time
     );
-
-    if (new Date(match_match_start_date) < new Date(presentDate)) {
-      setError("match_match_start_date", {
-        type: "manual",
-        message: "과거 날짜는 선택할 수 없습니다.",
+    if (validationError) {
+      setError(validationError.field as keyof ExtendedMatchFormData, {
+        message: validationError.message,
       });
       return;
     } else {
       clearErrors("match_match_start_date");
-    }
-
-    if (
-      match_match_start_date === presentDate &&
-      selectedDateTime < presentTime
-    ) {
-      setError("match_match_start_time", {
-        type: "manual",
-        message: "과거 시간은 선택할 수 없습니다.",
-      });
-      return;
-    } else {
       clearErrors("match_match_start_time");
     }
-
     const submitData: MatchFormData = {
       ...rest,
       match_formation_idx: Number(data.match_formation_idx),
       match_match_participation_type: Number(
-        data.match_match_participation_type
+        match_match_participation_type_radio
       ),
-      match_type_idx: Number(data.match_type_idx),
+      match_type_idx: Number(match_type_idx_radio),
       match_match_attribute: Number(data.match_match_attribute),
       match_match_start_time: `${match_match_start_date} ${match_match_start_time}`,
       match_match_duration: data.match_match_duration,
     };
-
-    console.log("최종 전송 데이터:", submitData);
     postEvent(submitData);
   };
 
@@ -125,10 +107,9 @@ const MakeTeamMatchModal = ({ team_list_idx }: TeamListIdxProps) => {
               {matchType.map((item, index) => (
                 <label key={index} className="flex items-center gap-2">
                   <input
-                    defaultChecked={index === defalutRadioMatchAttribute}
                     type="radio"
                     value={index}
-                    {...register("match_type_idx", { required: true })}
+                    {...register("match_type_idx_radio", { required: true })}
                     className="accent-blue-500"
                   />
                   {item}
@@ -144,12 +125,9 @@ const MakeTeamMatchModal = ({ team_list_idx }: TeamListIdxProps) => {
               {matchParticipation.map((item, index) => (
                 <label key={index} className="flex items-center gap-2">
                   <input
-                    defaultChecked={
-                      index === defaultRadioMatchParticipationType
-                    }
                     type="radio"
                     value={index}
-                    {...register("match_match_participation_type", {
+                    {...register("match_match_participation_type_radio", {
                       required: true,
                     })}
                     className="accent-blue-500"
@@ -213,11 +191,11 @@ const MakeTeamMatchModal = ({ team_list_idx }: TeamListIdxProps) => {
             <label className="block text-gray-700">포메이션 선택</label>
             <select
               {...register("match_formation_idx", {
-                required: Number(selectedMatchType) === 0,
+                required: isCanFormationChange,
               })}
-              disabled={Number(selectedMatchType) !== 0}
+              disabled={!isCanFormationChange}
               className={`w-full border border-gray-300 rounded-lg p-2 mt-1 transition-all ${
-                Number(selectedMatchType) !== 0
+                !isCanFormationChange
                   ? "bg-gray-200 cursor-not-allowed opacity-50"
                   : "bg-white"
               }`}>
