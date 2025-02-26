@@ -238,5 +238,26 @@ export const teamMemberData = {
       player_list_nickname: "최라모스",
       team_role_idx: 1,
     },
+    {
+      player_list_idx: 44,
+      player_list_platform: 1,
+      player_list_profile_img: "URL",
+      player_list_nickname: "최라모스",
+      team_role_idx: 1,
+    },
+    {
+      player_list_idx: 44,
+      player_list_platform: 1,
+      player_list_profile_img: "URL",
+      player_list_nickname: "최라모스",
+      team_role_idx: 1,
+    },
+    {
+      player_list_idx: 44,
+      player_list_platform: 1,
+      player_list_profile_img: "URL",
+      player_list_nickname: "최라모스",
+      team_role_idx: 1,
+    },
   ],
 };

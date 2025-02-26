@@ -1,5 +1,10 @@
 import { makeTeamMatchModalProps } from "./type";
 
+import {
+  toFormattedDate,
+  toFomattedTime,
+} from "../../../../../../4_Shared/lib/dateFormatter";
+
 import usePostTeamMatch from "../../../../../../3_Entity/Match/usePostTeamMatch";
 import { teamMatchAttribute } from "../../../../../../4_Shared/constant/teamMatchAttribute";
 import { matchType } from "../../../../../../4_Shared/constant/matchType";
@@ -15,8 +20,6 @@ import { validateTime } from "./util/validate";
 const MakeTeamMatchModal = (props: makeTeamMatchModalProps) => {
   const { team_list_idx, onClose } = props;
   const today = new Date();
-  const formattedDate = today.toISOString().split("T")[0];
-  const formattedTime = today.toTimeString().slice(0, 5);
 
   const [postEvent] = usePostTeamMatch(team_list_idx);
   const {
@@ -28,8 +31,8 @@ const MakeTeamMatchModal = (props: makeTeamMatchModalProps) => {
     clearErrors,
   } = useForm<ExtendedMatchFormData>({
     defaultValues: {
-      match_match_start_date: formattedDate,
-      match_match_start_time: formattedTime,
+      match_match_start_date: toFormattedDate(today),
+      match_match_start_time: toFomattedTime(today),
       match_match_attribute: 0,
       match_type_idx_radio: "0",
       match_match_participation_type_radio: "1",

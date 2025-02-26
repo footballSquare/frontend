@@ -15,6 +15,7 @@ const MemberCard = (props: MemberProps) => {
     player_list_nickname,
     team_role_idx,
     player_list_platform,
+    observeRef,
   } = props;
   const isBestAdmin = TEST_ROLE === 0;
 
@@ -26,9 +27,10 @@ const MemberCard = (props: MemberProps) => {
 
   return (
     <div>
-      {/* 멤버 정보 (클릭 시 디테일 모달 열림) */}
+      {/* 멤버 정보 카드*/}
       <div
         className="flex items-center space-x-2 border-b border-gray-200 pb-2 mb-2 cursor-pointer"
+        ref={observeRef}
         onClick={() => setIsDetailModalOpen(true)}>
         <img src={player_list_profile_img} className="w-8 h-8 rounded-full" />
         <span className="text-xs">
