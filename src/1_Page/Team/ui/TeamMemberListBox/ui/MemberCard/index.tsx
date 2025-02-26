@@ -20,6 +20,7 @@ const MemberCard = (props: MemberProps) => {
   const isBestAdmin = TEST_ROLE === 0;
 
   const [clickMemberRole, setClickMemberRole] = React.useState<number>(3);
+  const initialRoleRef = React.useRef<number>(3);
   const [isDetailModalOpen, setIsDetailModalOpen] =
     React.useState<boolean>(false);
   const [isManageModalOpen, setIsManageModalOpen] =
@@ -72,6 +73,7 @@ const MemberCard = (props: MemberProps) => {
                   setIsManageModalOpen(true);
                   setIsDetailModalOpen(false);
                   setClickMemberRole(team_role_idx);
+                  initialRoleRef.current = team_role_idx;
                 }}>
                 팀원 관리
               </button>
@@ -117,10 +119,16 @@ const MemberCard = (props: MemberProps) => {
               <option value={1}>{teamRole[1]}</option>
               <option value={2}>{teamRole[2]}</option>
             </select>
-            <button className="w-full bg-red-200 text-white py-2 rounded-md mb-2">
+            <button className="w-full bg-red-500 text-white py-2 rounded-md mb-2">
               방출
             </button>
-            <button className="w-full bg-blue-500 text-white py-2 rounded-md mb-2">
+            <button
+              disabled={clickMemberRole === initialRoleRef.current}
+              className={`w-full text-white py-2 rounded-md mb-2 transition-all ${
+                clickMemberRole === initialRoleRef.current
+                  ? "bg-gray-300 text-gray-400 cursor-not-allowed opacity-50"
+                  : "bg-blue-500 hover:bg-blue-600"
+              }`}>
               저장
             </button>
             <button

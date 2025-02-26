@@ -2,7 +2,7 @@ import { makeTeamMatchModalProps } from "./type";
 
 import {
   toFormattedDate,
-  toFomattedTime,
+  toFormattedTime,
 } from "../../../../../../4_Shared/lib/dateFormatter";
 
 import usePostTeamMatch from "../../../../../../3_Entity/Match/usePostTeamMatch";
@@ -32,7 +32,7 @@ const MakeTeamMatchModal = (props: makeTeamMatchModalProps) => {
   } = useForm<ExtendedMatchFormData>({
     defaultValues: {
       match_match_start_date: toFormattedDate(today),
-      match_match_start_time: toFomattedTime(today),
+      match_match_start_time: toFormattedTime(today),
       match_match_attribute: 0,
       match_type_idx_radio: "0",
       match_match_participation_type_radio: "1",
