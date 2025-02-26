@@ -1,7 +1,7 @@
 export type MatchInfo = {
   match_match_idx: number;
   match_type_idx: number;
-  team_list_idx: number | null;
+  team_list_idx: number;
   match_match_attribute: number;
   match_match_participation_type: number;
   player_list_nickname: string;
