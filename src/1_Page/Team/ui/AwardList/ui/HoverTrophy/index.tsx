@@ -1,48 +1,77 @@
+import { useState } from "react";
+import { createPortal } from "react-dom";
 import { TeamAwardProps } from "./type";
 
 const Trophy = ({
   trophyData,
-  length,
   index,
 }: {
   trophyData: TeamAwardProps;
-  length: number;
   index: number;
 }) => {
+  const [isHovered, setIsHovered] = useState(false);
+  const [hoverPosition, setHoverPosition] = useState({ x: 0, y: 0 });
+
+  const handleMouseEnter = (event: React.MouseEvent) => {
+    setIsHovered(true);
+    const rect = event.currentTarget.getBoundingClientRect();
+    setHoverPosition({
+      x: rect.left + window.scrollX + rect.width / 2,
+      y: rect.top + window.scrollY + rect.height / 2 + 10, // 약간 아래로 조정
+    });
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
+
   return (
-    <div
-      key={"trophy-" + index}
-      className="relative group w-[50px] h-[50px] border border-gray-400 rounded-lg shadow mr-1 overflow-visible">
-      {/* 기본 이미지 (Hover 전) */}
-      <div className="flex items-center justify-center w-full h-full">
-        <img
-          src={trophyData.championship_list_throphy_img}
-          className="w-[50px] h-[50px]"
-        />
-      </div>
-      {/* Hover 시 보여줄 정보 (200x200 고정 크기) */}
-      {/* 인덱스에 따라서 잘리는 위치 조정 */}
+    <div>
       <div
-        className={`absolute ${
-          index === 0 ? "left-0" : index === length - 1 ? "right-0" : "left-1/2"
-        } 
-              top-1/2 bg-white rounded-lg flex flex-col items-center justify-center 
-              w-[200px] h-[200px] transition-transform duration-300 transform 
-              ${index !== 0 && index !== length - 1 ? "-translate-x-1/2" : ""} 
-              -translate-y-1/2 z-50 shadow-lg p-4 border border-gray-300 
-              scale-0 group-hover:scale-100 whitespace-nowrap overflow-visible pointer-events-auto`}>
-        <img
-          src={trophyData.championship_list_throphy_img}
-          className="w-[80px] h-[80px] mb-2"
-        />
-        <h3 className="text-lg font-semibold text-center">
-          {trophyData.championship_list_name}
-        </h3>
-        <p className="text-gray-500 text-sm">
-          {trophyData.championship_list_start_date} -{" "}
-          {trophyData.championship_list_end_date}
-        </p>
+        key={"trophy-" + index}
+        className="relative w-[50px] h-[50px] border border-gray-400 rounded-lg shadow mr-1 overflow-visible"
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}>
+        {/* 기본 이미지 (Hover 전) */}
+        <div className="flex items-center justify-center w-full h-full">
+          <img
+            src={trophyData.championship_list_throphy_img}
+            alt="Trophy"
+            className="w-[50px] h-[50px]"
+          />
+        </div>
       </div>
+
+      {/* Hover 시 보여줄 정보 (Portal 적용) */}
+      {isHovered &&
+        createPortal(
+          <div
+            className="fixed bg-white rounded-lg flex flex-col items-center justify-center 
+            w-[200px] h-[200px] shadow-lg p-4 border border-gray-300 z-50
+            transition-opacity duration-300 ease-in-out"
+            style={{
+              left: `${hoverPosition.x}px`,
+              top: `${hoverPosition.y}px`,
+              transform: `translate(-50%, -50%)`,
+              opacity: isHovered ? 1 : 0,
+            }}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={handleMouseLeave}>
+            <img
+              src={trophyData.championship_list_throphy_img}
+              alt="Trophy"
+              className="w-[80px] h-[80px] mb-2"
+            />
+            <h3 className="text-lg font-semibold text-center">
+              {trophyData.championship_list_name}
+            </h3>
+            <p className="text-gray-500 text-sm">
+              {trophyData.championship_list_start_date} -{" "}
+              {trophyData.championship_list_end_date}
+            </p>
+          </div>,
+          document.body
+        )}
     </div>
   );
 };
