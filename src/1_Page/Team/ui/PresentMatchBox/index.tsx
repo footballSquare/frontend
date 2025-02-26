@@ -4,7 +4,7 @@ import useInfiniteScrollPaging from "../../../../4_Shared/model/useInfiniteScrol
 import MatchCard from "./ui/MatchCrad";
 
 const PresentMatchBox = () => {
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState<number>(1);
   const [teamMatchList, hasMoreContent, loading] = useGetTeamMatchList(page);
   const [observeRef] = useInfiniteScrollPaging(
     setPage,
