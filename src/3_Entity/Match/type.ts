@@ -1,7 +1,7 @@
 export type MatchInfo = {
   match_match_idx: number;
   match_type_idx: number;
-  team_list_idx: number | null;
+  team_list_idx: number;
   match_match_attribute: number;
   match_match_participation_type: number;
   player_list_nickname: string;
@@ -16,4 +16,13 @@ export type WaitingPlayerInfo = {
   player_list_profile_img: string;
   player_list_nickname: string;
   player_prefer_position: string;
+};
+
+export type MatchFormData = {
+  match_formation_idx: number;
+  match_match_participation_type: number;
+  match_type_idx: number;
+  match_match_attribute: number;
+  match_match_start_time: string;
+  match_match_duration: string;
 };
