@@ -1,7 +1,7 @@
 import React from "react";
 
 const useIndexAutoAnimate = (
-  teamAwardsLength: number
+  awardsLength: number
 ): [number, (value: number) => void] => {
   const [currentIndex, setCurrentIndex] = React.useState<number>(0);
 
@@ -21,7 +21,7 @@ const useIndexAutoAnimate = (
         setCurrentIndex((prev) => {
           const next = prev + 1;
 
-          if (next + 1 >= teamAwardsLength) {
+          if (next + 1 >= awardsLength) {
             return 0;
           }
 
@@ -38,7 +38,7 @@ const useIndexAutoAnimate = (
         clearInterval(animationTimerRef.current);
       }
     };
-  }, [teamAwardsLength]);
+  }, [awardsLength]);
 
   const handleClickCurrentIndex = (value: number) => {
     setCurrentIndex(value);

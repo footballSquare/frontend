@@ -2,8 +2,8 @@ import useGetTeamInfo from "../../3_Entity/Team/useGetTeamInfo";
 import HistoryListBox from "./ui/HistoryListBox";
 import PresentMatchBox from "./ui/PresentMatchBox";
 import TeamMemberListBox from "./ui/TeamMemberListBox";
-import AwardList from "./ui/AwardList";
 import LeaderMatchButton from "./ui/LeaderMatchButton";
+import TeamAwards from "./ui/TeamAwards";
 
 const TEST_ROLE = 0; // 테스트 role  0: 팀장 1: 팀원 2: 그외
 
@@ -28,7 +28,7 @@ const Team = () => {
           </div>
 
           {/* 트로피 */}
-          <AwardList />
+          <TeamAwards />
 
           {/* 내용 */}
           <div className="flex flex-col gap-5 sm:grid grid-cols-5 w-full ">
