@@ -3,24 +3,22 @@ import { useFetch } from "../../4_Shared/util/apiUtil";
 import { mockMatchDetail } from "../../4_Shared/mock//matchDetail";
 import { MatchDetail } from "./type";
 
-const useGetOpenMatchDetail = (): [MatchDetail, boolean, boolean] => {
+const useGetMatchDetail = (matchIdx: number): [MatchDetail, boolean] => {
   const [serverState, request, loading] = useFetch();
-  const [openMatchList, setOpenMatchList] = React.useState<MatchDetail>(mockMatchDetail);
+  const [matchDetail, setMatchDetail] =
+    React.useState<MatchDetail>(mockMatchDetail);
 
   React.useEffect(() => {
     request(mockMatchDetail);
-  }, []);
+  }, [matchIdx]);
 
   React.useEffect(() => {
-    if (!loading && serverState && "match" in serverState) {
-      setOpenMatchList((prev) => [
-        ...prev,
-        ...(serverState as { match: MatchInfo[] }).match,
-      ]);
+    if (!loading && serverState) {
+      setMatchDetail(serverState as MatchDetail);
     }
   }, [loading, serverState]);
 
-  return [openMatchList, hasMoreContent, loading];
+  return [matchDetail, loading];
 };
 
-export default useGetOpenMatchDetail;
+export default useGetMatchDetail;
