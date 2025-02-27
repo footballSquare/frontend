@@ -1,26 +1,17 @@
 import HoverTrophy from "./ui/HoverTrophy";
 import useGetTeamAwards from "../../../../3_Entity/Team/useGetTeamAwards";
 import React from "react";
-import useInfiniteScrollPaging from "../../../../4_Shared/model/useInfiniteScrollPaging";
 import useIndexAutoAnimate from "./model/useIndexAutoAnimate";
 import useIndicator from "./model/useIndicator";
 
-const trophiesPerGroup = 5;
-
 const AwardList = () => {
-  const [page, setPage] = React.useState<number>(1);
-  const [teamAwards, hasMoreContent, loading] = useGetTeamAwards(page);
+  const [teamAwards] = useGetTeamAwards();
   const [currentIndex, handleClickCurrentIndex] = useIndexAutoAnimate(
     teamAwards.length
   );
-  const [observeRef] = useInfiniteScrollPaging(
-    setPage,
-    loading,
-    hasMoreContent
-  );
 
   const containerRef = React.useRef<HTMLDivElement>(null);
-  const [visibleTrophyCount] = useIndicator(containerRef);
+  const [visibleTrophyCount] = useIndicator(containerRef); // 현재 컨테이너 사이즈에 따른 트로피 개수
 
   return (
     <div className="flex flex-col justify-center items-center">
@@ -32,7 +23,6 @@ const AwardList = () => {
               <div
                 key={index}
                 className={`absolute transition-all duration-700 ease-in-out `}
-                ref={teamAwards.length - 1 === index ? observeRef : null}
                 style={{
                   transform: `translateX(${(index - currentIndex) * 120}px)`,
                 }}>
@@ -44,18 +34,23 @@ const AwardList = () => {
       </div>
       {/* 현재 트로피 위치 인디케이터 */}
       <div className="flex gap-2 mt-4">
-        {Array.from({ length: visibleTrophyCount }).map((_, index) => (
-          <div
-            key={`indicator-${index}`}
-            className={`w-2 h-2 rounded-full ${
-              currentIndex >= index * trophiesPerGroup &&
-              currentIndex < (index + 1) * trophiesPerGroup
-                ? "bg-blue-500"
-                : "bg-gray-300"
-            }`}
-            onClick={() => handleClickCurrentIndex(index * trophiesPerGroup)}
-          />
-        ))}
+        {/* 전체 트로피 개수 / 현재 보이는 트로피 개수 인디케이터 개수 계산*/}
+        {Array.from({ length: teamAwards.length / visibleTrophyCount }).map(
+          (_, index) => (
+            <div
+              key={`indicator-${index}`}
+              className={`w-2 h-2 rounded-full ${
+                currentIndex >= index * visibleTrophyCount &&
+                currentIndex < (index + 1) * visibleTrophyCount
+                  ? "bg-blue-500"
+                  : "bg-gray-300"
+              }`}
+              onClick={() =>
+                handleClickCurrentIndex(index * visibleTrophyCount)
+              }
+            />
+          )
+        )}
       </div>
     </div>
   );

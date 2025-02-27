@@ -21,8 +21,7 @@ const useIndexAutoAnimate = (
         setCurrentIndex((prev) => {
           const next = prev + 1;
 
-          // 마지막 트로피에 도달하면 다음 페이지로 이동
-          if (next + 2 >= teamAwardsLength) {
+          if (next + 1 >= teamAwardsLength) {
             return 0;
           }
 
