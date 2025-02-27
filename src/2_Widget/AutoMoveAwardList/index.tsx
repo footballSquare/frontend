@@ -14,11 +14,11 @@ const AutoMoveAwardList = (props: { awards: TeamAwards[] }) => {
   const [visibleTrophyCount] = useIndicator(containerRef); // 현재 컨테이너 사이즈에 따른 트로피 개수
 
   return (
-    <div>
-      <div className="flex justify-center items-center">
-        <div className="flex gap-4 mt-4 w-[100%]" ref={containerRef}>
+    <div className="w-full h-full">
+      <div className="flex justify-center items-center w-full ">
+        <div className="flex gap-4 mt-4 w-full " ref={containerRef}>
           {/* 트로피 컨테이너 */}
-          <div className="overflow-hidden relative w-full h-[80px] p-4">
+          <div className="overflow-hidden relative h-[80px] p-4 w-full">
             {awards.map((trophyData, index) => (
               <div
                 key={index}
@@ -35,7 +35,7 @@ const AutoMoveAwardList = (props: { awards: TeamAwards[] }) => {
       {/* 현재 트로피 위치 인디케이터 */}
       <div className="flex gap-2 mt-4">
         {/* 전체 트로피 개수 / 현재 보이는 트로피 개수 인디케이터 개수 계산*/}
-        {Array.from({ length: awards.length / visibleTrophyCount }).map(
+        {Array.from({ length: awards.length / visibleTrophyCount + 1 }).map(
           (_, index) => (
             <div
               key={`indicator-${index}`}

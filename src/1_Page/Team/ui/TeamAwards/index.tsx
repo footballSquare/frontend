@@ -5,7 +5,7 @@ const TeamAwards = () => {
   const [teamAwards] = useGetTeamAwards();
 
   return (
-    <div className="flex flex-col justify-center items-center">
+    <div className="flex flex-col justify-center items-center w-full h-[130px]">
       <AutoMoveAwardList awards={teamAwards} />
     </div>
   );
