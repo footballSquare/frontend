@@ -5,9 +5,12 @@ import applyBtn from "../../../../4_Shared/assets/svg/applyBtn.svg";
 
 const WaitingList = (props: WaitingListProps) => {
   const [selectedPostion, setSelectedPosition] = React.useState<number>(0);
-  const { match_formation_position, matchParticipants, matchWaitList } = props;
-  
-
+  const {
+    match_formation_position,
+    setMatchParticipants,
+    matchParticipants,
+    matchWaitList,
+  } = props;
   return (
     <div>
       <select
@@ -30,7 +33,22 @@ const WaitingList = (props: WaitingListProps) => {
             >
               {/* <img src={player.player_list_url} alt="player" /> */}
               <p>{player.player_list_nickname}</p>
-              <button>
+              <button
+                onClick={() => {
+                  setMatchParticipants((prev) => ({
+                    ...prev, // 기존 객체 유지
+                    match_participant: [
+                      ...prev.match_participant,
+                      {
+                        match_position_idx: selectedPostion,
+                        player_list_idx: player.player_list_idx,
+                        player_list_nickname: player.player_list_nickname,
+                        player_list_url: player.player_list_url,
+                      },
+                    ],
+                  }));
+                }}
+              >
                 <img src={applyBtn} alt="" />
               </button>
             </div>

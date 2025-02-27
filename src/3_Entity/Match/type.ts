@@ -32,27 +32,9 @@ export type MatchDetail = {
     match_formation_idx: number;
     match_formation_position: number[];
   };
-  // match_waitlist: {
-  //   [key: string]: {
-  //     player_list_idx: number;
-  //     player_list_nickname: string;
-  //     player_list_url: string;
-  //   }[];
-  // } | null;
-  // match_team_stats: {
-  //   match_team_stats_our_score: number;
-  //   match_team_stats_other_score: number;
-  //   match_team_stats_possesion: number;
-  // } | null;
-  // match_player_stats: {
-  //   [key: string]: {
-  //     match_player_stats_goal: number;
-  //     match_player_stats_assist: number;
-  //   };
-  // } | null;
 };
 
-export type MatchPatricipants = {
+export type MatchParticipants = {
   match_participant: {
     match_position_idx: number;
     player_list_idx: number;

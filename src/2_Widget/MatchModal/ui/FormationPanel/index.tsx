@@ -4,6 +4,8 @@ import field_img from "../../assets/img/field.png";
 import { FormationPanelProps } from "./type";
 import { formations } from "./constant/formation";
 import { matchFormation } from "../../../../4_Shared/constant/matchFormation";
+import { matchPosition } from "../../../../4_Shared/constant/matchPosition";
+
 const FormationPanel = (props: FormationPanelProps) => {
   const { matchFormationIdx, matchWaitList, matchParticipants } = props;
   return (
@@ -33,7 +35,13 @@ const FormationPanel = (props: FormationPanelProps) => {
             style={{ top: pos.top, left: pos.left, transform: "translate(-50%, -50%)" }}
           >
             <img src={profile} alt="profile" className="w-full" />
-            <span className="text-xs">{pos.position}</span>
+            
+            {matchParticipants.map((elem)=>{
+              if(elem.match_position_idx === pos.positionIdx){
+                return <div>{elem.player_list_nickname}</div>
+              }
+            })}
+            <span className="text-xs">{matchPosition[pos.positionIdx]}</span>
           </div>
         ))}
 
