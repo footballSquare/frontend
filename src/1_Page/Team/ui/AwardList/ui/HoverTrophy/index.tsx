@@ -2,8 +2,13 @@ import { createPortal } from "react-dom";
 import { TeamAwardProps } from "./type";
 import useHover from "./model/useHover";
 
-const Trophy = (props: { trophyData: TeamAwardProps; index: number }) => {
-  const { trophyData, index } = props;
+const Trophy = ({
+  trophyData,
+  index,
+}: {
+  trophyData: TeamAwardProps;
+  index: number;
+}) => {
   const [
     isHovered,
     hoverPosition,

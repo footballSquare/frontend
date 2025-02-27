@@ -6,8 +6,11 @@ const useHover = (): [
   (event: React.MouseEvent) => void,
   () => void
 ] => {
-  const [isHovered, setIsHovered] = React.useState(false);
-  const [hoverPosition, setHoverPosition] = React.useState({ x: 0, y: 0 });
+  const [isHovered, setIsHovered] = React.useState<boolean>(false);
+  const [hoverPosition, setHoverPosition] = React.useState<{
+    x: number;
+    y: number;
+  }>({ x: 0, y: 0 });
 
   const handleHover = () => {
     setIsHovered(true);
