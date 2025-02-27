@@ -1,3 +1,4 @@
+import team_banner_img from "../assets/img/banner_soccer.jpg";
 export const teamInfoData = {
   team: {
     community_list_idx: 0,
@@ -6,17 +7,19 @@ export const teamInfoData = {
     team_list_short_name: "RMA",
     team_list_color: "#f152482",
     team_list_emblem: "URL",
-    team_list_banner: "URL",
+    team_list_banner: team_banner_img,
     team_list_announcement:
       "레알 팀원 모집 중 입니다. 멀티포지션 환영, 접률 좋은분 환영",
     team_list_created_at: "2024-10-20",
     whole_member: 15,
   },
 };
+
+import trophy_img from "../assets/img/trophy.jpg";
 export const teamAwardsData = {
   team_award: [
     {
-      championship_list_throphy_img: "URL",
+      championship_list_throphy_img: trophy_img,
       championship_list_idx: 0,
       championship_list_name: "2025 KFPL 끝물 토너먼트",
       championship_list_start_date: "2025-04-25",
@@ -24,7 +27,7 @@ export const teamAwardsData = {
       championship_list_color: "#9B11E",
     },
     {
-      championship_list_throphy_img: "URL",
+      championship_list_throphy_img: trophy_img,
       championship_list_idx: 0,
       championship_list_name: "2025 KFPL 끝물 토너먼트",
       championship_list_start_date: "2025-04-25",
@@ -32,7 +35,7 @@ export const teamAwardsData = {
       championship_list_color: "#9B11E",
     },
     {
-      championship_list_throphy_img: "URL",
+      championship_list_throphy_img: trophy_img,
       championship_list_idx: 0,
       championship_list_name: "2025 KFPL 끝물 토너먼트",
       championship_list_start_date: "2025-04-25",
@@ -40,7 +43,7 @@ export const teamAwardsData = {
       championship_list_color: "#9B11E",
     },
     {
-      championship_list_throphy_img: "URL",
+      championship_list_throphy_img: trophy_img,
       championship_list_idx: 0,
       championship_list_name: "2025 KFPL 끝물 토너먼트",
       championship_list_start_date: "2025-04-25",
@@ -48,7 +51,7 @@ export const teamAwardsData = {
       championship_list_color: "#9B11E",
     },
     {
-      championship_list_throphy_img: "URL",
+      championship_list_throphy_img: trophy_img,
       championship_list_idx: 0,
       championship_list_name: "2025 KFPL 끝물 토너먼트",
       championship_list_start_date: "2025-04-25",

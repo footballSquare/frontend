@@ -21,7 +21,7 @@ const Team = () => {
           {/* 배너 */}
           <div className="flex justify-center">
             <img
-              className="w-[100%] h-[200px]"
+              className="w-full h-[200px] object-cover rounded-lg"
               src={teamInfo?.team_list_banner}
               alt="팀 배너"
             />
