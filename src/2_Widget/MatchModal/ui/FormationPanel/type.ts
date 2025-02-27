@@ -1,6 +1,16 @@
-import { MatchDetail } from "../../../../3_Entity/Match/type";
-
-export type FormationPanelProps = Pick<
-  MatchDetail,
-  "match_formation_idx" | "match_formation_position" | "match_participant"
->;
+export type FormationPanelProps = {
+  matchFormationIdx: number;
+  matchWaitList: {
+    [key: string]: {
+      player_list_idx: number;
+      player_list_nickname: string;
+      player_list_url: string;
+    }[];
+  } | null;
+  matchParticipants: {
+    player_list_idx: number;
+    player_list_nickname: string;
+    match_position_idx: number;
+    player_list_url: string;
+  }[];
+};
