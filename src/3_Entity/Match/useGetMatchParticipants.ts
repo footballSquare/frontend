@@ -1,12 +1,18 @@
 import React from "react";
 import { useFetch } from "../../4_Shared/util/apiUtil";
-import { MatchPatricipants } from "./type";
-import { mockMatchParticipants } from "../../4_Shared/mock/matchPatricipants";
+import { MatchParticipants } from "./type";
+import { mockMatchParticipants } from "../../4_Shared/mock/matchParticipants";
 
-const useGetMatchParticipants = (matchIdx: number): [MatchPatricipants, boolean] => {
+const useGetMatchParticipants = (
+  matchIdx: number
+): [
+  MatchParticipants,
+  React.Dispatch<React.SetStateAction<MatchParticipants>>,
+  boolean
+] => {
   const [serverState, request, loading] = useFetch();
   const [matchPaticipants, setMatchPaticipants] =
-    React.useState<MatchPatricipants>(mockMatchParticipants);
+    React.useState<MatchParticipants>(mockMatchParticipants);
 
   React.useEffect(() => {
     request(mockMatchParticipants);
@@ -14,11 +20,11 @@ const useGetMatchParticipants = (matchIdx: number): [MatchPatricipants, boolean]
 
   React.useEffect(() => {
     if (!loading && serverState) {
-      setMatchPaticipants(serverState as MatchPatricipants);
+      setMatchPaticipants(serverState as MatchParticipants);
     }
   }, [loading, serverState]);
 
-  return [matchPaticipants, loading];
+  return [matchPaticipants, setMatchPaticipants, loading];
 };
 
 export default useGetMatchParticipants;

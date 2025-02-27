@@ -8,7 +8,7 @@ import { MatchDetail } from "../../3_Entity/Match/type";
 import Select from "../../4_Shared/components/Select";
 import { matchType } from "../../4_Shared/constant/matchType";
 import { matchParticipation } from "../../4_Shared/constant/matchParticipation";
-import WaitingList from "./ui/WaitingList";
+import WaitingList from "./ui/WaitList";
 import WaitingPlayerListPanel from "./ui/MatchSeekerListPanel";
 import useGetMatchParticipants from "../../3_Entity/Match/useGetMatchParticipants";
 import useGetMatchWaitlist from "../../3_Entity/Match/useGetMatchWaitList";
@@ -18,13 +18,14 @@ const MatchModal = () => {
   const { matchIdx, toggleMatchModal } = useMatchModalStore();
   //
   const [matchDetail, matchDetailLoading] = useGetMatchDetail(matchIdx);
-  const [matchParticipants, matchParticipantsLoading] =
+  const [matchParticipants, setMatchPaticipants, matchParticipantsLoading] =
     useGetMatchParticipants(matchIdx);
   const [matchWaitList, matchWaitListLoading] = useGetMatchWaitlist(matchIdx);
   const matchDetailRef = React.useRef<MatchDetail>(matchDetail);
   /*
   1. 매치 참여자 목록은 하위 컴포넌트 전부 prop으로 받아서 수정함
 */
+console.log(matchParticipants)
   return (
     // 모달 커버
     <div className=" absolute top-0 left-0 w-full h-full flex justify-center items-center">
@@ -114,9 +115,7 @@ const MatchModal = () => {
         <div className=" flex gap-6 h-full">
           {/* 필드 & 포메이션 선택기 */}
           <FormationPanel
-            matchFormationIdx={
-              matchDetail.match.match_formation_idx
-            }
+            matchFormationIdx={matchDetail.match.match_formation_idx}
             matchWaitList={matchWaitList.match_waitlist}
             matchParticipants={matchParticipants.match_participant}
           />
@@ -129,6 +128,7 @@ const MatchModal = () => {
                 matchDetail.match.match_formation_position
               }
               matchParticipants={matchParticipants.match_participant}
+              setMatchParticipants={setMatchPaticipants}
               matchWaitList={matchWaitList.match_waitlist}
             />
           )}
