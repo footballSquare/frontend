@@ -35,18 +35,20 @@ const PlayerDashBoard = (props: { userInfo: UserInfoProps }) => {
   return (
     <div className="flex items-center space-y-4 p-2 bg-white shadow-md rounded-lg justify-between">
       {/* 플레이어 카드 */}
-      <div className="hidden sm:w-[100px] md:w-[140px] lg:w-[160px] aspect-[3/4] bg-blue-900 text-white rounded-lg flex flex-col items-center justify-between p-2 shadow-md">
-        <div className="text-xs font-bold self-start">RW</div>
-        <div className="flex-1 flex items-center justify-center">
-          <img
-            src="https://example.com/player.png"
-            alt="Player"
-            className="max-w-[80%] max-h-[60%] object-contain"
-          />
-        </div>
-        <div className="text-center">
-          <p className="text-sm font-semibold">김네이마루 #KOR</p>
-          <p className="text-xs">10번</p>
+      <div className="hidden sm:flex flex-1 w-full h-full justify-center items-center p-4">
+        <div className="w-full max-w-sm min-w-[100px] aspect-[3/4] min-h-[75px] h-auto bg-blue-900 text-white rounded-lg flex flex-col items-center justify-between p-4 shadow-md">
+          <div className="text-xs font-bold self-start">RW</div>
+          <div className="flex-1 flex items-center justify-center">
+            <img
+              src="https://example.com/player.png"
+              alt="Player"
+              className="max-w-[80%] max-h-[60%] object-contain"
+            />
+          </div>
+          <div className="text-center">
+            <p className="text-sm font-semibold">김네이마루 #KOR</p>
+            <p className="text-xs">10번</p>
+          </div>
         </div>
       </div>
 
