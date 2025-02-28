@@ -227,6 +227,21 @@ const PlayerDashBoard = ({ userInfo }: { userInfo: UserInfoProps }) => {
             </button>
           )}
         </form>
+
+        <div className="grid grid-cols-2 gap-1 w-full mt-2">
+          <button
+            disabled={modifyMode}
+            className={`w-full h-6 border border-blue-600 text-blue-600 font-semibold px-2 py-0.5 text-[10px] rounded shadow-sm transition-all duration-200 
+      ${modifyMode ? "opacity-50 cursor-not-allowed" : "hover:bg-blue-100"}`}>
+            로그아웃
+          </button>
+          <button
+            disabled={modifyMode}
+            className={`w-full h-6 border border-red-600 text-red-600 font-semibold px-2 py-0.5 text-[10px] rounded shadow-sm transition-all duration-200 
+      ${modifyMode ? "opacity-50 cursor-not-allowed" : "hover:bg-red-100"}`}>
+            계정 삭제
+          </button>
+        </div>
       </div>
     </div>
   );
