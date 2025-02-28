@@ -4,7 +4,6 @@ import { schema } from "./lib/schema";
 import React, { useState } from "react";
 import { UserInfoProps, UserInfoInput } from "./type";
 import { platform } from "../../../../4_Shared/constant/platform";
-
 const PlayerDashBoard = (props: { userInfo: UserInfoProps }) => {
   const { userInfo } = props;
 
@@ -34,9 +33,10 @@ const PlayerDashBoard = (props: { userInfo: UserInfoProps }) => {
   };
 
   return (
-    <div className="grid grid-cols-2">
-      <div className="col-span-1 w-[180px] sm:w-[150px] md:w-[200px] lg:w-[250px] aspect-[3/4] bg-blue-900 text-white rounded-xl flex flex-col items-center justify-between p-4 shadow-lg">
-        <div className="text-sm font-bold self-start">RW</div>
+    <div className="flex items-center space-y-4 p-2 bg-white shadow-md rounded-lg justify-between">
+      {/* 플레이어 카드 */}
+      <div className="hidden sm:w-[100px] md:w-[140px] lg:w-[160px] aspect-[3/4] bg-blue-900 text-white rounded-lg flex flex-col items-center justify-between p-2 shadow-md">
+        <div className="text-xs font-bold self-start">RW</div>
         <div className="flex-1 flex items-center justify-center">
           <img
             src="https://example.com/player.png"
@@ -45,230 +45,192 @@ const PlayerDashBoard = (props: { userInfo: UserInfoProps }) => {
           />
         </div>
         <div className="text-center">
-          <p className="text-lg font-semibold">김네이마루 #KOR</p>
-          <p className="text-sm">10번</p>
+          <p className="text-sm font-semibold">김네이마루 #KOR</p>
+          <p className="text-xs">10번</p>
         </div>
       </div>
 
-      <div className="col-span-1 flex justify-center items-center min-h-screen bg-gray-100 px-4">
-        <div className="w-full max-w-md bg-white shadow-lg rounded-lg p-6">
-          <h2 className="text-blue-600 font-bold text-center">
-            YOUR NOT ALONE
-          </h2>
-          <h1 className="text-2xl font-bold text-center mt-2">BEST PLAYER</h1>
-          <p className="text-gray-500 text-center">state message in hear</p>
+      {/* 정보 수정 카드 */}
+      <div className="w-full max-w-sm ">
+        <h2 className="text-blue-600 font-semibold text-center text-sm">
+          YOUR NOT ALONE
+        </h2>
+        <h1 className="text-lg font-bold text-center mt-1">BEST PLAYER</h1>
+        <p className="text-gray-500 text-center text-xs">
+          state message in here
+        </p>
 
-          <form
-            onSubmit={(e) => {
-              console.log("✅ 폼 제출됨"); // 디버깅용 로그
-              handleSubmit(onSubmit)(e);
-            }}
-            className="mt-4 space-y-4">
-            <div className="grid grid-cols-2 gap-2">
-              <div>
-                <label className="text-sm font-medium text-gray-600">
-                  name
-                </label>
-                <input
-                  {...register("name")}
-                  disabled={!modifyMode}
-                  className={`w-full p-2 ${
-                    modifyMode
-                      ? "border rounded-md"
-                      : "border-b bg-transparent text-gray-500 cursor-default"
-                  }`}
-                  placeholder="name"
-                />
-                {errors.name && (
-                  <p className="text-red-500 text-sm">{errors.name.message}</p>
-                )}
-              </div>
-
-              <div>
-                <label className="text-sm font-medium text-gray-600">
-                  nickname
-                </label>
-                <input
-                  {...register("nickname")}
-                  disabled={!modifyMode}
-                  className={`w-full p-2 ${
-                    modifyMode
-                      ? "border rounded-md"
-                      : "border-b bg-transparent text-gray-500 cursor-default"
-                  }`}
-                  placeholder="nickname"
-                />
-                {errors.nickname && (
-                  <p className="text-red-500 text-sm">
-                    {errors.nickname.message}
-                  </p>
-                )}
-              </div>
-            </div>
-
-            <div className="grid grid-cols-2 gap-2">
-              <div>
-                <label className="text-sm font-medium text-gray-600">
-                  platform
-                </label>
-                <select
-                  {...register("platform")}
-                  disabled={!modifyMode}
-                  className={`w-full p-2 ${
-                    modifyMode
-                      ? "border rounded-md"
-                      : "border-b bg-transparent text-gray-500 cursor-default"
-                  }`}>
-                  {platform.map((item, index) => (
-                    <option key={index} value={item}>
-                      {item}
-                    </option>
-                  ))}
-                </select>
-                {errors.platform && (
-                  <p className="text-red-500 text-sm">
-                    {errors.platform.message}
-                  </p>
-                )}
-              </div>
-
-              <div>
-                <label className="text-sm font-medium text-gray-600">
-                  team
-                </label>
-                <input
-                  {...register("team")}
-                  disabled={!modifyMode}
-                  className={`w-full p-2 ${
-                    modifyMode
-                      ? "border rounded-md"
-                      : "border-b bg-transparent text-gray-500 cursor-default"
-                  }`}
-                  placeholder="team"
-                />
-                {errors.team && (
-                  <p className="text-red-500 text-sm">{errors.team.message}</p>
-                )}
-              </div>
-            </div>
-
+        <form onSubmit={handleSubmit(onSubmit)} className="mt-2 space-y-3">
+          {/* 이름 & 닉네임 */}
+          <div className="grid grid-cols-2 gap-2">
             <div>
-              <label className="text-sm font-medium text-gray-600">
-                position
+              <label className="text-xs font-medium text-gray-600">name</label>
+              <input
+                {...register("name")}
+                disabled={!modifyMode}
+                className={`w-full p-1 text-xs ${
+                  modifyMode
+                    ? "border rounded-md"
+                    : "border-b bg-transparent text-gray-500 cursor-default"
+                }`}
+                placeholder="name"
+              />
+            </div>
+            <div>
+              <label className="text-xs font-medium text-gray-600">
+                nickname
+              </label>
+              <input
+                {...register("nickname")}
+                disabled={!modifyMode}
+                className={`w-full p-1 text-xs ${
+                  modifyMode
+                    ? "border rounded-md"
+                    : "border-b bg-transparent text-gray-500 cursor-default"
+                }`}
+                placeholder="nickname"
+              />
+            </div>
+          </div>
+
+          {/* 플랫폼 & 팀 */}
+          <div className="grid grid-cols-2 gap-2">
+            <div>
+              <label className="text-xs font-medium text-gray-600">
+                platform
               </label>
               <select
-                {...register("position")}
+                {...register("platform")}
                 disabled={!modifyMode}
-                className={`w-full p-2 ${
+                className={`w-full p-1 text-xs ${
                   modifyMode
                     ? "border rounded-md"
                     : "border-b bg-transparent text-gray-500 cursor-default"
                 }`}>
-                <option value="none">none</option>
+                {platform.map((item, index) => (
+                  <option key={index} value={item}>
+                    {item}
+                  </option>
+                ))}
               </select>
-              {errors.position && (
-                <p className="text-red-500 text-sm">
-                  {errors.position.message}
-                </p>
-              )}
             </div>
-
             <div>
-              <label className="text-sm font-medium text-gray-600">
+              <label className="text-xs font-medium text-gray-600">team</label>
+              <input
+                {...register("team")}
+                disabled={!modifyMode}
+                className={`w-full p-1 text-xs ${
+                  modifyMode
+                    ? "border rounded-md"
+                    : "border-b bg-transparent text-gray-500 cursor-default"
+                }`}
+                placeholder="team"
+              />
+            </div>
+          </div>
+
+          {/* 포지션 */}
+          <div>
+            <label className="text-xs font-medium text-gray-600">
+              position
+            </label>
+            <select
+              {...register("position")}
+              disabled={!modifyMode}
+              className={`w-full p-1 text-xs ${
+                modifyMode
+                  ? "border rounded-md"
+                  : "border-b bg-transparent text-gray-500 cursor-default"
+              }`}>
+              <option value="none">none</option>
+            </select>
+          </div>
+
+          {/* Discord Tag & Tag */}
+          <div className="grid grid-cols-2 gap-2">
+            <div>
+              <label className="text-xs font-medium text-gray-600">
                 tag # discord
               </label>
               <input
                 {...register("tag_discord")}
                 disabled={!modifyMode}
-                className={`w-full p-2 ${
+                className={`w-full p-1 text-xs ${
                   modifyMode
                     ? "border rounded-md"
                     : "border-b bg-transparent text-gray-500 cursor-default"
                 }`}
                 placeholder="#000000"
               />
-              {errors.tag_discord && (
-                <p className="text-red-500 text-sm">
-                  {errors.tag_discord.message}
-                </p>
-              )}
             </div>
-
             <div>
-              <label className="text-sm font-medium text-gray-600">tag</label>
+              <label className="text-xs font-medium text-gray-600">tag</label>
               <input
                 {...register("tag")}
                 disabled={!modifyMode}
-                className={`w-full p-2 ${
+                className={`w-full p-1 text-xs ${
                   modifyMode
                     ? "border rounded-md"
                     : "border-b bg-transparent text-gray-500 cursor-default"
                 }`}
                 placeholder="#000000"
               />
-              {errors.tag && (
-                <p className="text-red-500 text-sm">{errors.tag.message}</p>
-              )}
             </div>
+          </div>
 
+          {/* mmr & phone_number */}
+          <div className="grid grid-cols-2 gap-2">
             <div>
-              <label className="text-sm font-medium text-gray-600">mmr</label>
+              <label className="text-xs font-medium text-gray-600">mmr</label>
               <input
                 {...register("mmr")}
                 disabled={!modifyMode}
-                className={`w-full p-2 ${
+                className={`w-full p-1 text-xs ${
                   modifyMode
                     ? "border rounded-md"
                     : "border-b bg-transparent text-gray-500 cursor-default"
                 }`}
                 placeholder="9"
               />
-              {errors.mmr && (
-                <p className="text-red-500 text-sm">{errors.mmr.message}</p>
-              )}
             </div>
-
             <div>
-              <label className="text-sm font-medium text-gray-600">
+              <label className="text-xs font-medium text-gray-600">
                 Phone number
               </label>
               <input
                 {...register("phone_number")}
                 disabled={!modifyMode}
-                className={`w-full p-2 ${
+                className={`w-full p-1 text-xs ${
                   modifyMode
                     ? "border rounded-md"
                     : "border-b bg-transparent text-gray-500 cursor-default"
                 }`}
                 placeholder="000-0000-0000"
               />
-              {errors.phone_number && (
-                <p className="text-red-500 text-sm">
-                  {errors.phone_number.message}
-                </p>
-              )}
             </div>
+          </div>
 
-            {!modifyMode ? (
-              <button
-                className="w-full bg-blue-600 text-white py-2 rounded-md font-bold mt-2"
-                onClick={(e) => {
-                  e.preventDefault();
-                  setModifyMode(true);
-                }}>
-                수정하기
-              </button>
-            ) : (
-              <button
-                type="submit"
-                className="w-full bg-blue-600 text-white py-2 rounded-md font-bold mt-2">
-                저장하기
-              </button>
-            )}
-          </form>
-        </div>
+          {/* 수정/저장 버튼 */}
+          {!modifyMode ? (
+            <button
+              className="w-full bg-blue-600 text-white py-1 text-xs rounded-md font-bold mt-1"
+              onClick={(e) => {
+                e.preventDefault();
+                setModifyMode(true);
+              }}>
+              수정하기
+            </button>
+          ) : (
+            <button
+              type="submit"
+              className="w-full bg-blue-600 text-white py-1 text-xs rounded-md font-bold mt-1">
+              저장하기
+            </button>
+          )}
+        </form>
       </div>
     </div>
   );
 };
+
 export default PlayerDashBoard;
