@@ -12,7 +12,6 @@ import WaitingList from "./ui/WaitList";
 import WaitingPlayerListPanel from "./ui/MatchSeekerListPanel";
 import useGetMatchParticipants from "../../3_Entity/Match/useGetMatchParticipants";
 import useGetMatchWaitlist from "../../3_Entity/Match/useGetMatchWaitList";
-import { isPastTime } from "../../4_Shared/lib/timeChecker";
 
 const MatchModal = () => {
   const { matchIdx, toggleMatchModal } = useMatchModalStore();
@@ -25,7 +24,7 @@ const MatchModal = () => {
   /*
   1. 매치 참여자 목록은 하위 컴포넌트 전부 prop으로 받아서 수정함
 */
-console.log(matchParticipants)
+  console.log(matchParticipants);
   return (
     // 모달 커버
     <div className=" absolute top-0 left-0 w-full h-full flex justify-center items-center">
@@ -124,7 +123,7 @@ console.log(matchParticipants)
             matchDetail.match.match_match_participation_type
           ] === "승인 참여" && (
             <WaitingList
-              match_formation_position={
+              matchFormationPosition={
                 matchDetail.match.match_formation_position
               }
               matchParticipants={matchParticipants.match_participant}

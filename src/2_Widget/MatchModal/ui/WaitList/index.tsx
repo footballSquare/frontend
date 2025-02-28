@@ -2,52 +2,57 @@ import React from "react";
 import { matchPosition } from "../../../../4_Shared/constant/matchPosition";
 import { WaitingListProps } from "./type";
 import applyBtn from "../../../../4_Shared/assets/svg/applyBtn.svg";
+import useWaitListApprove from "./model/useWaitListApprove";
 
 const WaitingList = (props: WaitingListProps) => {
-  const [selectedPostion, setSelectedPosition] = React.useState<number>(0);
+  const [selectedPosition, setSelectedPosition] = React.useState<number>(0);
   const {
-    match_formation_position,
+    matchFormationPosition,
     setMatchParticipants,
     matchParticipants,
     matchWaitList,
   } = props;
+
+  const [waitListApproveHandler] = useWaitListApprove(setMatchParticipants);
+
   return (
     <div>
+      {/* 포지션 select & option 태그, 포지션 명 & 각 지원자 수 표시 */}
       <select
-        className=" w-[164px] h-[32px] rounded-[4px] text-center border-1 border-blue"
+        className="w-[164px] h-[32px] rounded-[4px] text-center border-1 border-blue"
         onChange={(e) => setSelectedPosition(Number(e.target.value))}
       >
-        {match_formation_position.map((position) => (
-          <option key={position} value={position}>
-            {matchPosition[position]}
+        {matchFormationPosition.map((position) => (
+          <option
+            key={position}
+            value={position}
+            className="flex w-full justify-between"
+          >
+            {`${matchPosition[position]} | ${
+              matchWaitList && matchWaitList[position]?.length
+            } 명 지원`}
           </option>
         ))}
       </select>
 
+      {/* 선택된 포지션 별 대기자 명단 & 참여 승인 버튼 */}
       {matchWaitList && (
         <div className="flex flex-col gap-2">
-          {matchWaitList[selectedPostion]?.map((player) => (
+          {matchWaitList[selectedPosition]?.map((player) => (
             <div
               key={player.player_list_idx}
-              className="flex gap-2 justify-around "
+              className="flex gap-2 justify-around"
             >
               {/* <img src={player.player_list_url} alt="player" /> */}
               <p>{player.player_list_nickname}</p>
               <button
-                onClick={() => {
-                  setMatchParticipants((prev) => ({
-                    ...prev, // 기존 객체 유지
-                    match_participant: [
-                      ...prev.match_participant,
-                      {
-                        match_position_idx: selectedPostion,
-                        player_list_idx: player.player_list_idx,
-                        player_list_nickname: player.player_list_nickname,
-                        player_list_url: player.player_list_url,
-                      },
-                    ],
-                  }));
-                }}
+                onClick={() =>
+                  waitListApproveHandler(
+                    player,
+                    selectedPosition,
+                    matchParticipants
+                  )
+                }
               >
                 <img src={applyBtn} alt="" />
               </button>
