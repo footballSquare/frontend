@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 
 import { UserInfoStats } from "./type";
 import AutoMoveAwardList from "../../../../2_Widget/AutoMoveAwardList";
@@ -6,8 +6,10 @@ const AwardDashBoard = (props: { userInfo: UserInfoStats }) => {
   const {
     userInfo: { match_count = 0, winning_rate = 0, trophies = [] },
   } = props;
-  const [matchCount, setMatchCount] = useState<number>(2);
-  const [winningCount, setWinningCount] = useState<string>("50%");
+
+  useEffect(() => {
+    console.log(trophies.length);
+  }, [trophies]);
 
   return (
     <div className="max-w-lg mx-auto bg-white shadow-md rounded-lg p-6">
@@ -23,8 +25,7 @@ const AwardDashBoard = (props: { userInfo: UserInfoStats }) => {
           </label>
           <input
             type="number"
-            value={matchCount}
-            onChange={(e) => setMatchCount(Number(e.target.value))}
+            value={match_count}
             className="border rounded-md p-2 text-center"
           />
         </div>
@@ -34,25 +35,29 @@ const AwardDashBoard = (props: { userInfo: UserInfoStats }) => {
           </label>
           <input
             type="text"
-            value={winningCount}
-            onChange={(e) => setWinningCount(e.target.value)}
+            value={winning_rate}
             className="border rounded-md p-2 text-center"
           />
         </div>
       </div>
 
       {/* 트로피 리스트 */}
-      <AutoMoveAwardList awards={trophies} />
+      {trophies.length !== 0 && (
+        <div className="w-full">
+          <AutoMoveAwardList awards={trophies} />
+        </div>
+      )}
 
       {/* 어워드 리스트 */}
       <div className="mt-4">
         <h3 className="text-blue-600 font-semibold text-sm mb-2">AWARD LIST</h3>
         <div className="bg-gray-100 p-2 rounded-md space-y-2">
-          {trophies?.map((award, index) => (
-            <div
-              key={index}
-              className="bg-white p-3 rounded-md shadow-sm border"></div>
-          ))}
+          {trophies.length !== 0 &&
+            trophies.map((award, index) => (
+              <div
+                key={index}
+                className="bg-white p-3 rounded-md shadow-sm border"></div>
+            ))}
         </div>
       </div>
     </div>
