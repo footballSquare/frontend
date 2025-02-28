@@ -13,7 +13,7 @@ const AutoMoveAwardList = (props: { awards: TeamAwards[] }) => {
   const containerRef = React.useRef<HTMLDivElement>(null);
   const [visibleTrophyCount] = useIndicator(containerRef); // 현재 컨테이너 사이즈에 따른 트로피 개수
   const indicator =
-    visibleTrophyCount > 0 ? awards.length / visibleTrophyCount : 1;
+    visibleTrophyCount > 0 ? awards.length / visibleTrophyCount + 1 : 1;
 
   return (
     <div>
