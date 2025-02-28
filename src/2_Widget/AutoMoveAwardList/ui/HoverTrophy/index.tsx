@@ -2,8 +2,13 @@ import { createPortal } from "react-dom";
 import { TeamAwardProps } from "./type";
 import useHover from "./model/useHover";
 
-const Trophy = (props: { trophyData: TeamAwardProps; index: number }) => {
-  const { trophyData, index } = props;
+const Trophy = ({
+  trophyData,
+  index,
+}: {
+  trophyData: TeamAwardProps;
+  index: number;
+}) => {
   const [
     isHovered,
     hoverPosition,
@@ -16,15 +21,15 @@ const Trophy = (props: { trophyData: TeamAwardProps; index: number }) => {
     <div>
       <div
         key={"trophy-" + index}
-        className="relative w-[50px] h-[50px] border border-gray-400 rounded-lg shadow mr-1 overflow-visible"
+        className="relative w-[50px] h-[50px] shadow mr-1 overflow-visible"
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}>
         {/* 기본 이미지 (Hover 전) */}
-        <div className="flex items-center justify-center w-full h-full">
+        <div className="flex items-center justify-center w-full h-full ">
           <img
             src={trophyData.championship_list_throphy_img}
             alt="Trophy"
-            className="w-[50px] h-[50px]"
+            className="w-[50px] h-[50px] object-cover rounded-lg"
           />
         </div>
       </div>

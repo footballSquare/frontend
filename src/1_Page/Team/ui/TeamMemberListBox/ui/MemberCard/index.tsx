@@ -17,10 +17,10 @@ const MemberCard = (props: MemberProps) => {
     player_list_platform,
     observeRef,
   } = props;
-  const isBestAdmin = TEST_ROLE === 0;
+  const isTeamReader = TEST_ROLE === 0;
 
   const [clickMemberRole, setClickMemberRole] = React.useState<number>(3);
-  const initialRoleRef = React.useRef<number>(3);
+  const initialRoleRef = React.useRef<number>(TEST_ROLE);
   const [isDetailModalOpen, setIsDetailModalOpen] =
     React.useState<boolean>(false);
   const [isManageModalOpen, setIsManageModalOpen] =
@@ -66,7 +66,7 @@ const MemberCard = (props: MemberProps) => {
               {teamRole[team_role_idx]}
             </p>
 
-            {isBestAdmin && (
+            {isTeamReader && (
               <button
                 className="w-full bg-blue-500 text-white text-sm font-medium py-2 rounded-full mb-2"
                 onClick={() => {
