@@ -43,7 +43,7 @@ const Trophy = ({
             transition-opacity duration-300 ease-in-out"
             style={{
               left: `${hoverPosition.x}px`,
-              top: `${hoverPosition.y}px`,
+              top: `${hoverPosition.y - window.scrollY}px`, // 스크롤 마우스 보정
               transform: `translate(-50%, -50%)`,
               opacity: isHovered ? 1 : 0,
             }}
