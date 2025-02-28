@@ -4,10 +4,11 @@ import { schema } from "./lib/schema";
 import React, { useState } from "react";
 import { UserInfoProps, UserInfoInput } from "./type";
 import { platform } from "../../../../4_Shared/constant/platform";
-const PlayerDashBoard = (props: { userInfo: UserInfoProps }) => {
-  const { userInfo } = props;
 
-  const [modifyMode, setModifyMode] = useState<boolean>(false);
+const POSITION = ["ST", "MF", "DF", "GK"];
+
+const PlayerDashBoard = ({ userInfo }: { userInfo: UserInfoProps }) => {
+  const [modifyMode, setModifyMode] = useState(false);
 
   const {
     reset,
@@ -18,25 +19,24 @@ const PlayerDashBoard = (props: { userInfo: UserInfoProps }) => {
     resolver: yupResolver(schema),
   });
 
-  // default value 설정
   React.useEffect(() => {
     reset({
       ...userInfo,
-      position: "st",
+      position: "ST",
       platform: platform[userInfo.platform],
     });
   }, [userInfo]);
 
   const onSubmit: SubmitHandler<UserInfoInput> = (data) => {
     setModifyMode(false);
-    console.log(data);
+    console.log("폼 제출됨:", data);
   };
 
   return (
-    <div className="flex items-center space-y-4 p-2 bg-white shadow-md rounded-lg justify-between">
-      {/* 플레이어 카드 */}
-      <div className="hidden sm:flex flex-1 w-full h-full justify-center items-center p-4">
-        <div className="w-full max-w-sm min-w-[100px] aspect-[3/4] min-h-[75px] h-auto bg-blue-900 text-white rounded-lg flex flex-col items-center justify-between p-4 shadow-md">
+    <div className="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4 p-4 bg-white shadow-md rounded-lg">
+      {/* Player 카드 */}
+      <div className="hidden sm:flex justify-center items-center">
+        <div className="w-[120px] sm:w-[100px] md:w-[140px] lg:w-[160px] aspect-[3/4] bg-blue-900 text-white rounded-lg flex flex-col items-center justify-between p-4 shadow-md">
           <div className="text-xs font-bold self-start">RW</div>
           <div className="flex-1 flex items-center justify-center">
             <img
@@ -52,35 +52,38 @@ const PlayerDashBoard = (props: { userInfo: UserInfoProps }) => {
         </div>
       </div>
 
-      {/* 정보 수정 카드 */}
-      <div className="w-full max-w-sm ">
+      {/* 정보 수정 폼 */}
+      <div className="w-full max-w-sm">
         <h2 className="text-blue-600 font-semibold text-center text-sm">
           YOUR NOT ALONE
         </h2>
         <h1 className="text-lg font-bold text-center mt-1">BEST PLAYER</h1>
         <p className="text-gray-500 text-center text-xs">
-          state message in here
+          State message in here
         </p>
 
         <form onSubmit={handleSubmit(onSubmit)} className="mt-2 space-y-3">
           {/* 이름 & 닉네임 */}
           <div className="grid grid-cols-2 gap-2">
             <div>
-              <label className="text-xs font-medium text-gray-600">name</label>
+              <label className="text-xs font-medium text-gray-600">Name</label>
               <input
                 {...register("name")}
                 disabled={!modifyMode}
                 className={`w-full p-1 text-xs ${
                   modifyMode
                     ? "border rounded-md"
-                    : "border-b bg-transparent text-gray-500 cursor-default"
+                    : "border-b bg-transparent text-gray-500"
                 }`}
-                placeholder="name"
+                placeholder="Name"
               />
+              {errors.name && (
+                <p className="text-red-500 text-xs">{errors.name.message}</p>
+              )}
             </div>
             <div>
               <label className="text-xs font-medium text-gray-600">
-                nickname
+                Nickname
               </label>
               <input
                 {...register("nickname")}
@@ -88,10 +91,15 @@ const PlayerDashBoard = (props: { userInfo: UserInfoProps }) => {
                 className={`w-full p-1 text-xs ${
                   modifyMode
                     ? "border rounded-md"
-                    : "border-b bg-transparent text-gray-500 cursor-default"
+                    : "border-b bg-transparent text-gray-500"
                 }`}
-                placeholder="nickname"
+                placeholder="Nickname"
               />
+              {errors.nickname && (
+                <p className="text-red-500 text-xs">
+                  {errors.nickname.message}
+                </p>
+              )}
             </div>
           </div>
 
@@ -99,7 +107,7 @@ const PlayerDashBoard = (props: { userInfo: UserInfoProps }) => {
           <div className="grid grid-cols-2 gap-2">
             <div>
               <label className="text-xs font-medium text-gray-600">
-                platform
+                Platform
               </label>
               <select
                 {...register("platform")}
@@ -107,7 +115,7 @@ const PlayerDashBoard = (props: { userInfo: UserInfoProps }) => {
                 className={`w-full p-1 text-xs ${
                   modifyMode
                     ? "border rounded-md"
-                    : "border-b bg-transparent text-gray-500 cursor-default"
+                    : "border-b bg-transparent text-gray-500"
                 }`}>
                 {platform.map((item, index) => (
                   <option key={index} value={item}>
@@ -115,26 +123,34 @@ const PlayerDashBoard = (props: { userInfo: UserInfoProps }) => {
                   </option>
                 ))}
               </select>
+              {errors.platform && (
+                <p className="text-red-500 text-xs">
+                  {errors.platform.message}
+                </p>
+              )}
             </div>
             <div>
-              <label className="text-xs font-medium text-gray-600">team</label>
+              <label className="text-xs font-medium text-gray-600">Team</label>
               <input
                 {...register("team")}
                 disabled={!modifyMode}
                 className={`w-full p-1 text-xs ${
                   modifyMode
                     ? "border rounded-md"
-                    : "border-b bg-transparent text-gray-500 cursor-default"
+                    : "border-b bg-transparent text-gray-500"
                 }`}
-                placeholder="team"
+                placeholder="Team"
               />
+              {errors.team && (
+                <p className="text-red-500 text-xs">{errors.team.message}</p>
+              )}
             </div>
           </div>
 
           {/* 포지션 */}
           <div>
             <label className="text-xs font-medium text-gray-600">
-              position
+              Position
             </label>
             <select
               {...register("position")}
@@ -142,62 +158,38 @@ const PlayerDashBoard = (props: { userInfo: UserInfoProps }) => {
               className={`w-full p-1 text-xs ${
                 modifyMode
                   ? "border rounded-md"
-                  : "border-b bg-transparent text-gray-500 cursor-default"
+                  : "border-b bg-transparent text-gray-500"
               }`}>
-              <option value="none">none</option>
+              {POSITION.map((items) => (
+                <option>{items}</option>
+              ))}
             </select>
+            {errors.position && (
+              <p className="text-red-500 text-xs">{errors.position.message}</p>
+            )}
           </div>
 
-          {/* Discord Tag & Tag */}
+          {/* MMR & 전화번호 */}
           <div className="grid grid-cols-2 gap-2">
             <div>
-              <label className="text-xs font-medium text-gray-600">
-                tag # discord
-              </label>
-              <input
-                {...register("tag_discord")}
-                disabled={!modifyMode}
-                className={`w-full p-1 text-xs ${
-                  modifyMode
-                    ? "border rounded-md"
-                    : "border-b bg-transparent text-gray-500 cursor-default"
-                }`}
-                placeholder="#000000"
-              />
-            </div>
-            <div>
-              <label className="text-xs font-medium text-gray-600">tag</label>
-              <input
-                {...register("tag")}
-                disabled={!modifyMode}
-                className={`w-full p-1 text-xs ${
-                  modifyMode
-                    ? "border rounded-md"
-                    : "border-b bg-transparent text-gray-500 cursor-default"
-                }`}
-                placeholder="#000000"
-              />
-            </div>
-          </div>
-
-          {/* mmr & phone_number */}
-          <div className="grid grid-cols-2 gap-2">
-            <div>
-              <label className="text-xs font-medium text-gray-600">mmr</label>
+              <label className="text-xs font-medium text-gray-600">MMR</label>
               <input
                 {...register("mmr")}
                 disabled={!modifyMode}
                 className={`w-full p-1 text-xs ${
                   modifyMode
                     ? "border rounded-md"
-                    : "border-b bg-transparent text-gray-500 cursor-default"
+                    : "border-b bg-transparent text-gray-500"
                 }`}
-                placeholder="9"
+                placeholder="MMR"
               />
+              {errors.mmr && (
+                <p className="text-red-500 text-xs">{errors.mmr.message}</p>
+              )}
             </div>
             <div>
               <label className="text-xs font-medium text-gray-600">
-                Phone number
+                Phone Number
               </label>
               <input
                 {...register("phone_number")}
@@ -205,10 +197,15 @@ const PlayerDashBoard = (props: { userInfo: UserInfoProps }) => {
                 className={`w-full p-1 text-xs ${
                   modifyMode
                     ? "border rounded-md"
-                    : "border-b bg-transparent text-gray-500 cursor-default"
+                    : "border-b bg-transparent text-gray-500"
                 }`}
                 placeholder="000-0000-0000"
               />
+              {errors.phone_number && (
+                <p className="text-red-500 text-xs">
+                  {errors.phone_number.message}
+                </p>
+              )}
             </div>
           </div>
 
