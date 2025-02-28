@@ -4,7 +4,7 @@ export type UserInfo = {
   nickname: string;
   platform: number;
   team: string;
-  position: string;
+  position: number;
   tag_discord: string;
   tag: string;
   mmr: number;
