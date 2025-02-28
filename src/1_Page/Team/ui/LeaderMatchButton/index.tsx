@@ -2,7 +2,7 @@ import MakeTeamMatchModal from "./ui/MakeTeamMatchModal";
 import React from "react";
 import { makeTeamMatchBtnProps } from "./type";
 
-const MakeMatchBtn = (props: makeTeamMatchBtnProps) => {
+const LeaderMatchButton = (props: makeTeamMatchBtnProps) => {
   const { team_list_idx } = props;
   const [isMakeTeamMatchModal, setIsMakeTeamMatchModal] =
     React.useState<boolean>(false);
@@ -32,4 +32,4 @@ const MakeMatchBtn = (props: makeTeamMatchBtnProps) => {
   );
 };
 
-export default MakeMatchBtn;
+export default LeaderMatchButton;
