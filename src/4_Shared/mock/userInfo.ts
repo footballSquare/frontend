@@ -1,3 +1,4 @@
+import { teamAwardsData } from "./teamInfo";
 export const mockUserInfo = {
   user: {
     isMine: true,
@@ -12,31 +13,6 @@ export const mockUserInfo = {
     phone_number: "010-1234-5678",
     match_count: 20,
     winning_rate: 12,
-    trophies: [
-      {
-        championship_list_throphy_img: "https://example.com/trophy1.png",
-        championship_list_idx: 1,
-        championship_list_name: "특급챌 24-1회차 FC 컵",
-        championship_list_start_date: "2024-01-15",
-        championship_list_end_date: "2024-01-20",
-        championship_list_color: "#FFD700",
-      },
-      {
-        championship_list_throphy_img: "https://example.com/trophy2.png",
-        championship_list_idx: 2,
-        championship_list_name: "특급챌 24-2회차 FC 컵",
-        championship_list_start_date: "2024-02-10",
-        championship_list_end_date: "2024-02-15",
-        championship_list_color: "#C0C0C0",
-      },
-      {
-        championship_list_throphy_img: "https://example.com/trophy3.png",
-        championship_list_idx: 3,
-        championship_list_name: "특급챌 24-3회차 FC 컵",
-        championship_list_start_date: "2024-03-05",
-        championship_list_end_date: "2024-03-10",
-        championship_list_color: "#CD7F32",
-      },
-    ],
+    trophies: teamAwardsData.team_award,
   },
 };

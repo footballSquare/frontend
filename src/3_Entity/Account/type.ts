@@ -1,3 +1,5 @@
+import { TeamAwards } from "../Team/type";
+
 export type UserInfo = {
   isMine: boolean;
   name: string;
@@ -11,14 +13,5 @@ export type UserInfo = {
   phone_number: string;
   match_count: number;
   winning_rate: number;
-  trophies: PlayerAwards[];
-};
-
-type PlayerAwards = {
-  championship_list_throphy_img: string;
-  championship_list_idx: number;
-  championship_list_name: string;
-  championship_list_start_date: string;
-  championship_list_end_date: string;
-  championship_list_color: string;
+  trophies: TeamAwards[];
 };
