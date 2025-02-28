@@ -26,10 +26,10 @@ const Welcome = () => {
           Get Start
         </button>
       </div>
-      <div className="mt-[90px]">
+      <div className="pt-[90px]">
         <img
           src={welcomeBanner}
-          className=" max-w-[800px]"
+          className=" max-w-[700px]"
           alt="welcome_banner"
         />
       </div>
