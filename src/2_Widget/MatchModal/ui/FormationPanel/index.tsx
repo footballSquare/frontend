@@ -41,6 +41,7 @@ const FormationPanel = (props: FormationPanelProps) => {
                 return <div>{elem.player_list_nickname}</div>
               }
             })}
+            
             <span className="text-xs">{matchPosition[pos.positionIdx]}</span>
           </div>
         ))}
