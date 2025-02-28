@@ -1,5 +1,6 @@
 import Welcome from "./Welcome";
 import Main from "./Main";
+import Team from "./Team";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import PAGE_URI from "../4_Shared/constant/pageUri";
@@ -20,7 +21,11 @@ const Page = () => {
         />
         <Route path={PAGE_URI.MAIN} element={<Main />} />
         <Route path={PAGE_URI.TEAMLIST} element={<Main />} />
+<<<<<<< HEAD
         <Route path={`${PAGE_URI.TEAM}/:teamIdx`} element={<Main />} />
+=======
+        <Route path={`${PAGE_URI.TEAM}/:teamIdx`} element={<Team />} />
+>>>>>>> develop
         <Route
           path={`${PAGE_URI.COMMUNITY}/:communityIdx`}
           element={<Main />}
