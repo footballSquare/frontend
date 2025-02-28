@@ -1,4 +1,5 @@
 import useGetMyInfo from "../../3_Entity/Account/useGetUserInfo";
+import AwardDashBoard from "./ui/AwardDashBoard/indes";
 import PlayerDashBoard from "./ui/PlayerDashBoard";
 
 const Profile = () => {
@@ -8,7 +9,9 @@ const Profile = () => {
       <div className="col-span-2">
         <PlayerDashBoard userInfo={userInfo} />
       </div>
-      <div className="col-span-1 ">프로필 이미지</div>
+      <div className="col-span-1 ">
+        <AwardDashBoard userInfo={userInfo} />
+      </div>
     </main>
   );
 };
