@@ -1,10 +1,11 @@
-import React from "react";
 import { useFetch } from "../../4_Shared/util/apiUtil";
 import { UserInfoPost } from "./type";
 
 const usePostUserInfo = ({
-  onFail = () => {}, // 기본값 추가 (필수 입력 방지)
+  userIdx,
+  onFail = () => {},
 }: {
+  userIdx: number;
   onFail?: () => void;
 }): [
   postEvent: (userInfo: UserInfoPost) => void,
@@ -14,8 +15,7 @@ const usePostUserInfo = ({
   const [serverState, request, loading] = useFetch();
 
   const postEvent = (userInfo: UserInfoPost) => {
-    request(userInfo);
-
+    request({ userIdx, userInfo });
     console.log("전송된 데이터:", userInfo);
   };
 

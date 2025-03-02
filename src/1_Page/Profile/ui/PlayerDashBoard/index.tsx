@@ -6,6 +6,8 @@ import { UserInfoProps } from "./type";
 import { UserInfoInput } from "../../../../3_Entity/Account/type";
 import { platform } from "../../../../4_Shared/constant/platform";
 import usePostUserInfo from "../../../../3_Entity/Account/usePutUserInfo";
+import useDeleteUserInfo from "../../../../3_Entity/Account/useDeleteUserInfo";
+import useInputHandler from "./model/useInputHandler";
 
 const POSITION = ["ST", "MF", "DF", "GK"];
 
@@ -22,23 +24,18 @@ const PlayerDashBoard = ({ userInfo }: { userInfo: UserInfoProps }) => {
     resolver: yupResolver(schema),
   });
 
-  const defaultUserInfoInput: UserInfoInput = {
-    ...userInfo,
-    platform: platform[userInfo.platform],
-    position: POSITION[userInfo.position],
-  };
-
+  const [defaultUserInfoInput] = useInputHandler(reset, userInfo);
   const inputBackupDataRef = React.useRef<UserInfoInput>(defaultUserInfoInput);
-
-  React.useEffect(() => {
-    reset(defaultUserInfoInput);
-  }, [userInfo]);
 
   const handleCancle = () => {
     reset(inputBackupDataRef.current);
   };
 
-  const [postEvent] = usePostUserInfo({ onFail: handleCancle });
+  const [postEvent] = usePostUserInfo({
+    userIdx: userInfo.userIdx,
+    onFail: handleCancle,
+  });
+  const [deleteEvent] = useDeleteUserInfo(userInfo.userIdx);
 
   const onSubmit: SubmitHandler<UserInfoInput> = (data) => {
     setModifyMode(false);
@@ -259,12 +256,25 @@ const PlayerDashBoard = ({ userInfo }: { userInfo: UserInfoProps }) => {
             </div>
           )}
         </form>
-        {!modifyMode && (
+        {!modifyMode && userInfo.isMine && (
           <div className="flex w-full py-1 text-xs rounded-md font-bold mt-1 justify-end gap-2">
-            <button className="w-full h-6 border border-red-600 text-red-600 font-semibold px-2 py-0.5 text-[10px] rounded shadow-sm transition-all duration-200">
+            <button
+              className="w-full h-6 border border-red-600 text-red-600 font-semibold px-2 py-0.5 text-[10px] rounded shadow-sm transition-all duration-200"
+              onClick={() => {
+                if (confirm("정말로 삭제하시겠습니까?")) {
+                  alert("삭제되었습니다.");
+                  deleteEvent();
+                }
+              }}>
               delete
             </button>
-            <button className="w-full h-6 border border-blue-600 text-blue-600 font-semibold px-2 py-0.5 text-[10px] rounded shadow-sm transition-all duration-200">
+            <button
+              className="w-full h-6 border border-blue-600 text-blue-600 font-semibold px-2 py-0.5 text-[10px] rounded shadow-sm transition-all duration-200"
+              onClick={() => {
+                if (confirm("로그아웃 하시겠습니까?")) {
+                  alert("로그아웃되었습니다");
+                }
+              }}>
               logout
             </button>
           </div>

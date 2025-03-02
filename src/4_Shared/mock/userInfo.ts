@@ -4,6 +4,7 @@ import profile_img from "../assets/img/profile_img.jpg";
 export const mockUserInfo = {
   user: {
     isMine: true,
+    userIdx: 3,
     name: "John Doe",
     nickname: "AcePlayer",
     platform: 1,
