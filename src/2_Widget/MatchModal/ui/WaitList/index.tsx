@@ -3,7 +3,6 @@ import { matchPosition } from "../../../../4_Shared/constant/matchPosition";
 import { WaitingListProps } from "./type";
 import applyBtn from "../../../../4_Shared/assets/svg/applyBtn.svg";
 import useWaitListApprove from "./model/useWaitListApprove";
-import STYLE from "./style";
 
 const WaitingList = (props: WaitingListProps) => {
   const [selectedPosition, setSelectedPosition] = React.useState<number>(0);
@@ -20,14 +19,14 @@ const WaitingList = (props: WaitingListProps) => {
     <div>
       {/* 포지션 select & option 태그, 포지션 명 & 각 지원자 수 표시 */}
       <select
-        className={STYLE.positionSelect}
+        className="w-[164px] h-[32px] rounded-[4px] text-center border-1 border-blue"
         onChange={(e) => setSelectedPosition(Number(e.target.value))}
       >
         {matchFormationPosition.map((position) => (
           <option
             key={position}
             value={position}
-            className={STYLE.positionOption}
+            className="flex w-full justify-between"
           >
             {`${matchPosition[position]} | ${
               matchWaitList && matchWaitList[position]?.length
@@ -38,11 +37,11 @@ const WaitingList = (props: WaitingListProps) => {
 
       {/* 선택된 포지션 별 대기자 명단 & 참여 승인 버튼 */}
       {matchWaitList && (
-        <div className={STYLE.waitListContainer}>
+        <div className="flex flex-col gap-2">
           {matchWaitList[selectedPosition]?.map((player) => (
             <div
               key={player.player_list_idx}
-              className={STYLE.waitList}
+              className="flex gap-2 justify-around"
             >
               {/* <img src={player.player_list_url} alt="player" /> */}
               <p>{player.player_list_nickname}</p>
