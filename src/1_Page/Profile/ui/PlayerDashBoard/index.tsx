@@ -1,7 +1,7 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { schema } from "./lib/schema";
-import React, { useState } from "react";
+import React from "react";
 import { UserInfoProps, UserInfoInput } from "./type";
 import { platform } from "../../../../4_Shared/constant/platform";
 import STYLE from "./style";
@@ -9,7 +9,13 @@ import STYLE from "./style";
 const POSITION = ["ST", "MF", "DF", "GK"];
 
 const PlayerDashBoard = ({ userInfo }: { userInfo: UserInfoProps }) => {
-  const [modifyMode, setModifyMode] = useState(false);
+  const [modifyMode, setModifyMode] = React.useState<boolean>(false);
+
+  const defaultUserInfoInput: UserInfoInput = {
+    ...userInfo,
+    platform: String(platform[userInfo.platform]),
+    position: String(userInfo.position),
+  };
 
   const {
     reset,
@@ -20,12 +26,11 @@ const PlayerDashBoard = ({ userInfo }: { userInfo: UserInfoProps }) => {
     resolver: yupResolver(schema),
   });
 
+  const inputBackupDataRef = React.useRef<UserInfoInput>(defaultUserInfoInput);
+
   React.useEffect(() => {
-    reset({
-      ...userInfo,
-      position: "ST",
-      platform: platform[userInfo.platform],
-    });
+    reset(defaultUserInfoInput);
+    inputBackupDataRef.current = defaultUserInfoInput;
   }, [userInfo]);
 
   const onSubmit: SubmitHandler<UserInfoInput> = (data) => {
@@ -190,17 +195,22 @@ const PlayerDashBoard = ({ userInfo }: { userInfo: UserInfoProps }) => {
               수정하기
             </button>
           ) : (
-            <button
-              type="submit"
-              className={`${STYLE.button} ${STYLE.saveButton}`}>
-              저장하기
-            </button>
+            <div className={STYLE.buttonBox}>
+              <button className={STYLE.cancleButton}>취소</button>
+              <button
+                type="submit"
+                className={`${STYLE.button} ${STYLE.saveButton}`}>
+                저장하기
+              </button>
+            </div>
           )}
         </form>
-        <div className={STYLE.buttonBox}>
-          <button className={STYLE.deleteButton}>delete</button>
-          <button className={STYLE.logoutButton}>logout</button>
-        </div>
+        {!modifyMode && (
+          <div className={STYLE.buttonBox}>
+            <button className={STYLE.deleteButton}>delete</button>
+            <button className={STYLE.logoutButton}>logout</button>
+          </div>
+        )}
       </div>
     </div>
   );

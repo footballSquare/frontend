@@ -21,16 +21,19 @@ export const schema = yup.object().shape({
 
   team: yup
     .string()
+    .required("팀은 필수선택사항")
     .min(2, "팀명은 최소 2글자 이상이어야 합니다.")
     .max(50, "팀명은 최대 50글자를 초과할 수 없습니다."),
 
   position: yup
     .string()
+    .required("포지션은 필수선택사항")
     .min(2, "포지션은 최소 2글자 이상이어야 합니다.")
     .max(20, "포지션은 최대 20글자를 초과할 수 없습니다."),
 
   tag_discord: yup
     .string()
+    .required("디스코드 태그는 필수선택사항")
     .matches(/^#\d{4}$/, "디스코드 태그 형식이 올바르지 않습니다. (예: #1234)"),
 
   tag: yup
@@ -48,6 +51,7 @@ export const schema = yup.object().shape({
 
   phone_number: yup
     .string()
+    .required("전화번호는 필수사항")
     .matches(
       /^(\d{3})-(\d{4})-(\d{4})$/,
       "전화번호 형식이 올바르지 않습니다. (예: 000-0000-0000)"
