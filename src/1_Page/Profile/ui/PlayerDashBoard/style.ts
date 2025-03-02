@@ -18,8 +18,11 @@ const STYLE = {
   button: "w-full py-1 text-xs rounded-md font-bold mt-1",
   buttonBox:
     "flex w-full py-1 text-xs rounded-md font-bold mt-1 justify-end gap-2",
-  saveButton: "bg-blue-600 text-white",
+  saveButton:
+    "w-full h-6 border border-blue-600 text-blue-600 font-semibold px-2 py-0.5 text-[10px] rounded shadow-sm transition-all duration-200",
   editButton: "bg-blue-600 text-white",
+  cancleButton:
+    "w-full h-6 border border-red-600 text-red-600 font-semibold px-2 py-0.5 text-[10px] rounded shadow-sm transition-all duration-200",
   buttonContainer: "grid grid-cols-2 gap-1 w-full mt-2",
   logoutButton:
     "w-full h-6 border border-blue-600 text-blue-600 font-semibold px-2 py-0.5 text-[10px] rounded shadow-sm transition-all duration-200",
