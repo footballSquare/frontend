@@ -13,6 +13,7 @@ import { matchPosition } from "../../../../4_Shared/constant/matchPosition";
 import useInputHandler from "./model/useInputHandler";
 import usePostUserInfo from "../../../../3_Entity/Account/usePutUserInfo";
 import useDeleteUserInfo from "../../../../3_Entity/Account/useDeleteUserInfo";
+import PlayerCard from "./ui/PlayerCard";
 
 const PlayerDashBoard = ({ userInfo }: { userInfo: UserInfoProps }) => {
   const [modifyMode, setModifyMode] = React.useState<boolean>(false);
@@ -55,23 +56,7 @@ const PlayerDashBoard = ({ userInfo }: { userInfo: UserInfoProps }) => {
   return (
     <div className="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4 p-4 bg-white shadow-md rounded-lg">
       {/* Player 카드 */}
-      <div className="hidden sm:flex justify-center items-center">
-        <div className="w-[120px] sm:w-[100px] md:w-[140px] lg:w-[160px] aspect-[3/4] bg-blue-900 text-white rounded-lg flex flex-col items-center justify-between p-4 shadow-md">
-          <div className="text-xs font-bold self-start">
-            {matchPosition[userInfo.position]}
-          </div>
-          <div className="flex-1 flex items-center justify-center">
-            <img
-              className="max-w-[80%] max-h-[60%] object-contain"
-              src={userInfo.profile_img}
-            />
-          </div>
-          <div className="text-center">
-            <p className="text-sm font-semibold">{userInfo.name} #KOR</p>
-            <p className="text-xs">{userInfo.tag}번</p>
-          </div>
-        </div>
-      </div>
+      <PlayerCard userInfo={userInfo} />
 
       {/* 정보 수정 폼 */}
       <div className="w-full max-w-sm">
@@ -234,30 +219,31 @@ const PlayerDashBoard = ({ userInfo }: { userInfo: UserInfoProps }) => {
           </div>
 
           {/* 수정/저장 버튼 */}
-          {!modifyMode ? (
-            <button
-              className="w-full py-1 text-xs rounded-md font-bold mt-1 bg-blue-600 text-white"
-              onClick={(e) => {
-                e.preventDefault();
-                inputBackupDataRef.current = getValues(); // 현재 폼 데이터 백업
-                setModifyMode(true);
-              }}>
-              수정하기
-            </button>
-          ) : (
-            <div className="flex w-full py-1 text-xs rounded-md font-bold mt-1 justify-end gap-2">
+          {userInfo.isMine &&
+            (!modifyMode ? (
               <button
-                className="w-full h-6 border border-red-600 text-red-600 font-semibold px-2 py-0.5 text-[10px] rounded shadow-sm transition-all duration-200"
-                onClick={handleCancle}>
-                취소
+                className="w-full py-1 text-xs rounded-md font-bold mt-1 bg-blue-600 text-white"
+                onClick={(e) => {
+                  e.preventDefault();
+                  inputBackupDataRef.current = getValues(); // 현재 폼 데이터 백업
+                  setModifyMode(true);
+                }}>
+                수정하기
               </button>
-              <button
-                type="submit"
-                className="w-full h-6 border border-blue-600 text-blue-600 font-semibold px-2 py-0.5 text-[10px] rounded shadow-sm transition-all duration-200">
-                저장
-              </button>
-            </div>
-          )}
+            ) : (
+              <div className="flex w-full py-1 text-xs rounded-md font-bold mt-1 justify-end gap-2">
+                <button
+                  className="w-full h-6 border border-red-600 text-red-600 font-semibold px-2 py-0.5 text-[10px] rounded shadow-sm transition-all duration-200"
+                  onClick={handleCancle}>
+                  취소
+                </button>
+                <button
+                  type="submit"
+                  className="w-full h-6 border border-blue-600 text-blue-600 font-semibold px-2 py-0.5 text-[10px] rounded shadow-sm transition-all duration-200">
+                  저장
+                </button>
+              </div>
+            ))}
         </form>
         {!modifyMode && userInfo.isMine && (
           <div className="flex w-full py-1 text-xs rounded-md font-bold mt-1 justify-end gap-2">
