@@ -1,12 +1,14 @@
 import { useForm, Resolver } from "react-hook-form";
-import { matchPosition } from "../../../../../../4_Shared/constant/matchPosition";
 import { PlayerCardProps, ImageInput } from "./type";
 import { yupResolver } from "@hookform/resolvers/yup";
+
+import { convertToFile } from "./util/convertToFile";
 import { schema } from "./lib/schema";
 import useImageHandler from "./model/useImageHandler";
+
 import usePutUserImage from "../../../../../../3_Entity/Account/usePutUserImage";
+import { matchPosition } from "../../../../../../4_Shared/constant/matchPosition";
 import profile from "../../../../../../4_Shared/assets/svg/profile.svg";
-import { convertToFile } from "./util/convertToFile";
 
 const PlayerCard = ({ userInfo }: { userInfo: PlayerCardProps }) => {
   const {

@@ -1,8 +1,8 @@
 import { UserInfoStats } from "./type";
 import AutoMoveAwardList from "../../../../2_Widget/AutoMoveAwardList";
 
-const AwardDashBoard = ({ userInfo }: { userInfo: UserInfoStats }) => {
-  const { match_count = 0, winning_rate = 0, trophies = [] } = userInfo;
+const AwardDashBoard = ({ awardInfo }: { awardInfo: UserInfoStats }) => {
+  const { match_count = 0, winning_rate = 0, trophies = [] } = awardInfo;
 
   return (
     <div className="max-w-sm mx-auto bg-white shadow-md rounded-lg p-4">
