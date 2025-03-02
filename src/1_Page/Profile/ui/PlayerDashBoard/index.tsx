@@ -94,6 +94,42 @@ const PlayerDashBoard = ({ userInfo }: { userInfo: UserInfoProps }) => {
             </div>
           </div>
 
+          {/* 팀 & 플랫폼 */}
+          <div className={STYLE.inputGroup}>
+            <div>
+              <label className="text-xs font-medium text-gray-600">Team</label>
+              <input
+                {...register("team")}
+                disabled={!modifyMode}
+                className={`${STYLE.inputBox} ${
+                  modifyMode ? STYLE.inputEnabled : STYLE.inputDisabled
+                }`}
+                placeholder="Team"
+              />
+              {errors.team && (
+                <p className={STYLE.errorMessage}>{errors.team.message}</p>
+              )}
+            </div>
+            <div>
+              <label className="text-xs font-medium text-gray-600">
+                Platform
+              </label>
+              <select
+                {...register("platform")}
+                disabled={!modifyMode}
+                className={STYLE.selectBox}>
+                {platform.map((plat, index) => (
+                  <option key={index} value={plat}>
+                    {plat}
+                  </option>
+                ))}
+              </select>
+              {errors.platform && (
+                <p className={STYLE.errorMessage}>{errors.platform.message}</p>
+              )}
+            </div>
+          </div>
+
           {/* 포지션 선택 */}
           <div>
             <label className="text-xs font-medium text-gray-600">
@@ -114,6 +150,43 @@ const PlayerDashBoard = ({ userInfo }: { userInfo: UserInfoProps }) => {
             )}
           </div>
 
+          {/* MMR & 전화번호 */}
+          <div className={STYLE.inputGroup}>
+            <div>
+              <label className="text-xs font-medium text-gray-600">MMR</label>
+              <input
+                {...register("mmr")}
+                type="number"
+                disabled={!modifyMode}
+                className={`${STYLE.inputBox} ${
+                  modifyMode ? STYLE.inputEnabled : STYLE.inputDisabled
+                }`}
+                placeholder="MMR"
+              />
+              {errors.mmr && (
+                <p className={STYLE.errorMessage}>{errors.mmr.message}</p>
+              )}
+            </div>
+            <div>
+              <label className="text-xs font-medium text-gray-600">
+                Phone Number
+              </label>
+              <input
+                {...register("phone_number")}
+                disabled={!modifyMode}
+                className={`${STYLE.inputBox} ${
+                  modifyMode ? STYLE.inputEnabled : STYLE.inputDisabled
+                }`}
+                placeholder="000-0000-0000"
+              />
+              {errors.phone_number && (
+                <p className={STYLE.errorMessage}>
+                  {errors.phone_number.message}
+                </p>
+              )}
+            </div>
+          </div>
+
           {/* 수정/저장 버튼 */}
           {!modifyMode ? (
             <button
@@ -132,24 +205,6 @@ const PlayerDashBoard = ({ userInfo }: { userInfo: UserInfoProps }) => {
             </button>
           )}
         </form>
-
-        {/* 로그아웃 / 계정 삭제 버튼 */}
-        <div className={STYLE.buttonContainer}>
-          <button
-            disabled={modifyMode}
-            className={`${STYLE.logoutButton} ${
-              modifyMode ? STYLE.buttonDisabled : STYLE.buttonHoverLogout
-            }`}>
-            로그아웃
-          </button>
-          <button
-            disabled={modifyMode}
-            className={`${STYLE.deleteButton} ${
-              modifyMode ? STYLE.buttonDisabled : STYLE.buttonHoverDelete
-            }`}>
-            계정 삭제
-          </button>
-        </div>
       </div>
     </div>
   );

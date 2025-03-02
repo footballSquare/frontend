@@ -10,7 +10,7 @@ const STYLE = {
   awardListContainer: "mt-3",
   awardListTitle: "text-blue-600 font-semibold text-xs mb-1",
   awardListBox:
-    "bg-gray-100 p-1 rounded-md space-y-1 overflow-y-auto h-full max-h-[300px] flex-1",
+    "bg-gray-100 p-1 rounded-md space-y-1 overflow-y-auto h-full max-h-[200px] flex-1",
   awardItem:
     "bg-white p-1 rounded-md shadow-sm flex flex-row-reverse items-center space-x-2 space-x-reverse",
   awardImage: "w-8 h-8 object-contain",
