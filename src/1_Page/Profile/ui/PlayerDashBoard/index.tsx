@@ -5,7 +5,6 @@ import React from "react";
 import { UserInfoProps } from "./type";
 import { UserInfoInput } from "../../../../3_Entity/Account/type";
 import { platform } from "../../../../4_Shared/constant/platform";
-import STYLE from "./style";
 import usePostUserInfo from "../../../../3_Entity/Account/usePutUserInfo";
 
 const POSITION = ["ST", "MF", "DF", "GK"];
@@ -25,7 +24,7 @@ const PlayerDashBoard = ({ userInfo }: { userInfo: UserInfoProps }) => {
 
   const defaultUserInfoInput: UserInfoInput = {
     ...userInfo,
-    platform: String(platform[userInfo.platform]),
+    platform: platform[userInfo.platform],
     position: POSITION[userInfo.position],
   };
 
@@ -54,83 +53,106 @@ const PlayerDashBoard = ({ userInfo }: { userInfo: UserInfoProps }) => {
   };
 
   return (
-    <div className={STYLE.container}>
+    <div className="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4 p-4 bg-white shadow-md rounded-lg">
       {/* Player 카드 */}
-      <div className={STYLE.playerCard}>
-        <div className={STYLE.playerBox}>
-          <div className={STYLE.roleText}>{POSITION[userInfo.position]}</div>
-          <div className={STYLE.imageContainer}>
-            <img className={STYLE.image} src={userInfo.profile_img} />
+      <div className="hidden sm:flex justify-center items-center">
+        <div className="w-[120px] sm:w-[100px] md:w-[140px] lg:w-[160px] aspect-[3/4] bg-blue-900 text-white rounded-lg flex flex-col items-center justify-between p-4 shadow-md">
+          <div className="text-xs font-bold self-start">
+            {POSITION[userInfo.position]}
           </div>
-          <div className={STYLE.textContainer}>
-            <p className={STYLE.playerName}>{userInfo.name} #KOR</p>
-            <p className={STYLE.playerNumber}>{userInfo.tag}번</p>
+          <div className="flex-1 flex items-center justify-center">
+            <img
+              className="max-w-[80%] max-h-[60%] object-contain"
+              src={userInfo.profile_img}
+            />
+          </div>
+          <div className="text-center">
+            <p className="text-sm font-semibold">{userInfo.name} #KOR</p>
+            <p className="text-xs">{userInfo.tag}번</p>
           </div>
         </div>
       </div>
 
       {/* 정보 수정 폼 */}
-      <div className={STYLE.formContainer}>
-        <h2 className={STYLE.formTitle}>YOUR NOT ALONE</h2>
-        <h1 className={STYLE.formSubtitle}>BEST PLAYER</h1>
-        <p className={STYLE.formText}>State message in here</p>
+      <div className="w-full max-w-sm">
+        <h2 className="text-blue-600 font-semibold text-center text-sm">
+          YOUR NOT ALONE
+        </h2>
+        <h1 className="text-lg font-bold text-center mt-1">BEST PLAYER</h1>
+        <p className="text-gray-500 text-center text-xs">
+          State message in here
+        </p>
 
         <form onSubmit={handleSubmit(onSubmit)} className="mt-2 space-y-3">
           {/* 이름 & 닉네임 */}
-          <div className={STYLE.inputGroup}>
+          <div className="grid grid-cols-2 gap-2">
             <div>
-              <label className={STYLE.explainLabel}>Name</label>
+              <label className="text-xs font-medium text-gray-600">Name</label>
               <input
                 {...register("name")}
                 disabled={!modifyMode}
-                className={`${STYLE.inputBox} ${
-                  modifyMode ? STYLE.inputEnabled : STYLE.inputDisabled
+                className={`w-full p-1 text-xs ${
+                  modifyMode
+                    ? "border rounded-md"
+                    : "border-b bg-transparent text-gray-500"
                 }`}
                 placeholder="Name"
               />
               {errors.name && (
-                <p className={STYLE.errorMessage}>{errors.name.message}</p>
+                <p className="text-red-500 text-xs">{errors.name.message}</p>
               )}
             </div>
             <div>
-              <label className={STYLE.explainLabel}>Nickname</label>
+              <label className="text-xs font-medium text-gray-600">
+                Nickname
+              </label>
               <input
                 {...register("nickname")}
                 disabled={!modifyMode}
-                className={`${STYLE.inputBox} ${
-                  modifyMode ? STYLE.inputEnabled : STYLE.inputDisabled
+                className={`w-full p-1 text-xs ${
+                  modifyMode
+                    ? "border rounded-md"
+                    : "border-b bg-transparent text-gray-500"
                 }`}
                 placeholder="Nickname"
               />
               {errors.nickname && (
-                <p className={STYLE.errorMessage}>{errors.nickname.message}</p>
+                <p className="text-red-500 text-xs">
+                  {errors.nickname.message}
+                </p>
               )}
             </div>
           </div>
 
           {/* 팀 & 플랫폼 */}
-          <div className={STYLE.inputGroup}>
+          <div className="grid grid-cols-2 gap-2">
             <div>
-              <label className={STYLE.explainLabel}>Team</label>
+              <label className="text-xs font-medium text-gray-600">Team</label>
               <input
                 {...register("team")}
                 disabled={!modifyMode}
-                className={`${STYLE.inputBox} ${
-                  modifyMode ? STYLE.inputEnabled : STYLE.inputDisabled
+                className={`w-full p-1 text-xs ${
+                  modifyMode
+                    ? "border rounded-md"
+                    : "border-b bg-transparent text-gray-500"
                 }`}
                 placeholder="Team"
               />
               {errors.team && (
-                <p className={STYLE.errorMessage}>{errors.team.message}</p>
+                <p className="text-red-500 text-xs">{errors.team.message}</p>
               )}
             </div>
             <div>
-              <label className={STYLE.explainLabel}>Platform</label>
+              <label className="text-xs font-medium text-gray-600">
+                Platform
+              </label>
               <select
                 {...register("platform")}
                 disabled={!modifyMode}
                 className={
-                  modifyMode ? STYLE.enableSelectBox : STYLE.disableSelectBox
+                  modifyMode
+                    ? "w-full p-1 text-xs border rounded-md"
+                    : "w-full p-1 text-xs border-b bg-transparent text-gray-500"
                 }>
                 {platform.map((plat, index) => (
                   <option key={index} value={plat}>
@@ -139,19 +161,25 @@ const PlayerDashBoard = ({ userInfo }: { userInfo: UserInfoProps }) => {
                 ))}
               </select>
               {errors.platform && (
-                <p className={STYLE.errorMessage}>{errors.platform.message}</p>
+                <p className="text-red-500 text-xs">
+                  {errors.platform.message}
+                </p>
               )}
             </div>
           </div>
 
           {/* 포지션 선택 */}
           <div>
-            <label className={STYLE.explainLabel}>Position</label>
+            <label className="text-xs font-medium text-gray-600">
+              Position
+            </label>
             <select
               {...register("position")}
               disabled={!modifyMode}
               className={
-                modifyMode ? STYLE.enableSelectBox : STYLE.disableSelectBox
+                modifyMode
+                  ? "w-full p-1 text-xs border rounded-md"
+                  : "w-full p-1 text-xs border-b bg-transparent text-gray-500"
               }>
               {POSITION.map((pos) => (
                 <option key={pos} value={pos}>
@@ -160,39 +188,45 @@ const PlayerDashBoard = ({ userInfo }: { userInfo: UserInfoProps }) => {
               ))}
             </select>
             {errors.position && (
-              <p className={STYLE.errorMessage}>{errors.position.message}</p>
+              <p className="text-red-500 text-xs">{errors.position.message}</p>
             )}
           </div>
 
           {/* MMR & 전화번호 */}
-          <div className={STYLE.inputGroup}>
+          <div className="grid grid-cols-2 gap-2">
             <div>
-              <label className={STYLE.explainLabel}>MMR</label>
+              <label className="text-xs font-medium text-gray-600">MMR</label>
               <input
                 {...register("mmr")}
                 type="number"
                 disabled={!modifyMode}
-                className={`${STYLE.inputBox} ${
-                  modifyMode ? STYLE.inputEnabled : STYLE.inputDisabled
+                className={`w-full p-1 text-xs ${
+                  modifyMode
+                    ? "border rounded-md"
+                    : "border-b bg-transparent text-gray-500"
                 }`}
                 placeholder="MMR"
               />
               {errors.mmr && (
-                <p className={STYLE.errorMessage}>{errors.mmr.message}</p>
+                <p className="text-red-500 text-xs">{errors.mmr.message}</p>
               )}
             </div>
             <div>
-              <label className={STYLE.explainLabel}>Phone Number</label>
+              <label className="text-xs font-medium text-gray-600">
+                Phone Number
+              </label>
               <input
                 {...register("phone_number")}
                 disabled={!modifyMode}
-                className={`${STYLE.inputBox} ${
-                  modifyMode ? STYLE.inputEnabled : STYLE.inputDisabled
+                className={`w-full p-1 text-xs ${
+                  modifyMode
+                    ? "border rounded-md"
+                    : "border-b bg-transparent text-gray-500"
                 }`}
                 placeholder="000-0000-0000"
               />
               {errors.phone_number && (
-                <p className={STYLE.errorMessage}>
+                <p className="text-red-500 text-xs">
                   {errors.phone_number.message}
                 </p>
               )}
@@ -202,7 +236,7 @@ const PlayerDashBoard = ({ userInfo }: { userInfo: UserInfoProps }) => {
           {/* 수정/저장 버튼 */}
           {!modifyMode ? (
             <button
-              className={`${STYLE.button} ${STYLE.editButton}`}
+              className="w-full py-1 text-xs rounded-md font-bold mt-1 bg-blue-600 text-white"
               onClick={(e) => {
                 e.preventDefault();
                 inputBackupDataRef.current = getValues(); // 현재 폼 데이터 백업
@@ -211,22 +245,28 @@ const PlayerDashBoard = ({ userInfo }: { userInfo: UserInfoProps }) => {
               수정하기
             </button>
           ) : (
-            <div className={STYLE.buttonBox}>
-              <button className={STYLE.cancleButton} onClick={handleCancle}>
+            <div className="flex w-full py-1 text-xs rounded-md font-bold mt-1 justify-end gap-2">
+              <button
+                className="w-full h-6 border border-red-600 text-red-600 font-semibold px-2 py-0.5 text-[10px] rounded shadow-sm transition-all duration-200"
+                onClick={handleCancle}>
                 취소
               </button>
               <button
                 type="submit"
-                className={`${STYLE.button} ${STYLE.saveButton}`}>
+                className="w-full h-6 border border-blue-600 text-blue-600 font-semibold px-2 py-0.5 text-[10px] rounded shadow-sm transition-all duration-200">
                 저장
               </button>
             </div>
           )}
         </form>
         {!modifyMode && (
-          <div className={STYLE.buttonBox}>
-            <button className={STYLE.deleteButton}>delete</button>
-            <button className={STYLE.logoutButton}>logout</button>
+          <div className="flex w-full py-1 text-xs rounded-md font-bold mt-1 justify-end gap-2">
+            <button className="w-full h-6 border border-red-600 text-red-600 font-semibold px-2 py-0.5 text-[10px] rounded shadow-sm transition-all duration-200">
+              delete
+            </button>
+            <button className="w-full h-6 border border-blue-600 text-blue-600 font-semibold px-2 py-0.5 text-[10px] rounded shadow-sm transition-all duration-200">
+              logout
+            </button>
           </div>
         )}
       </div>
