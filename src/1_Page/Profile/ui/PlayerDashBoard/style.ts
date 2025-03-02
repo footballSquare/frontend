@@ -12,9 +12,12 @@ const STYLE = {
   inputBox: "w-full p-1 text-xs",
   inputDisabled: "border-b bg-transparent text-gray-500",
   inputEnabled: "border rounded-md",
-  selectBox: "w-full p-1 text-xs",
+  disableSelectBox: "w-full p-1 text-xs ",
+  enableSelectBox: "w-full p-1 text-xs border rounded-md",
   errorMessage: "text-red-500 text-xs",
   button: "w-full py-1 text-xs rounded-md font-bold mt-1",
+  buttonBox:
+    "flex w-full py-1 text-xs rounded-md font-bold mt-1 justify-end gap-2",
   saveButton: "bg-blue-600 text-white",
   editButton: "bg-blue-600 text-white",
   buttonContainer: "grid grid-cols-2 gap-1 w-full mt-2",
