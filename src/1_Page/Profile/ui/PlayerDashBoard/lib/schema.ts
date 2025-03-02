@@ -1,6 +1,7 @@
 import * as yup from "yup";
 
 export const schema = yup.object().shape({
+  profile_img: yup.string().required("이름은 필수 입력 항목입니다."),
   name: yup
     .string()
     .required("이름은 필수 입력 항목입니다.")

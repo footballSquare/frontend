@@ -14,4 +14,15 @@ export type UserInfo = {
   match_count: number;
   winning_rate: number;
   trophies: TeamAwards[];
+  profile_img: string;
+};
+
+export type UserInfoPost = Omit<
+  UserInfo,
+  "match_count" | "winning_rate" | "trophies" | "isMine"
+>;
+
+export type UserInfoInput = Omit<UserInfoPost, "platform" | "position"> & {
+  platform: string;
+  position: string;
 };
