@@ -16,8 +16,6 @@ import useDeleteUserInfo from "../../../../3_Entity/Account/useDeleteUserInfo";
 import PlayerCard from "./ui/PlayerCard";
 
 const PlayerDashBoard = ({ userInfo }: { userInfo: UserInfoProps }) => {
-  const [modifyMode, setModifyMode] = React.useState<boolean>(false);
-
   const {
     reset,
     register,
@@ -27,7 +25,7 @@ const PlayerDashBoard = ({ userInfo }: { userInfo: UserInfoProps }) => {
   } = useForm<UserInfoInput>({
     resolver: yupResolver(schema),
   });
-
+  const [modifyMode, setModifyMode] = React.useState<boolean>(false);
   const [defaultUserInfoInput] = useInputHandler(reset, userInfo);
   const inputBackupDataRef = React.useRef<UserInfoInput>(defaultUserInfoInput);
 

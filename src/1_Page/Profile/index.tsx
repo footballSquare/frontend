@@ -20,7 +20,7 @@ const Profile = () => {
 
       {/* Award Dashboard */}
       <div className={STYLE.awardDashboard}>
-        <AwardDashBoard userInfo={awardProps} />
+        <AwardDashBoard awardInfo={awardProps} />
       </div>
     </main>
   );
