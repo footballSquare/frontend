@@ -1,11 +1,12 @@
 import React from "react";
 import { UseFormSetValue } from "react-hook-form";
 import { PlayerCardProps } from "../type";
+import profile from "../../../../../../../4_Shared/assets/svg/profile.svg";
 
 const useImageHandler = (
   userInfo: PlayerCardProps,
   originalImageRef: React.MutableRefObject<string>,
-  setValue: UseFormSetValue<{ profile_img: File | null }>
+  setValue: UseFormSetValue<{ profile_img: File | undefined }>
 ) => {
   const [preview, setPreview] = React.useState<string>(userInfo.profile_img);
   const [isEditing, setIsEditing] = React.useState<boolean>(false); // 수정 모드 상태
@@ -36,7 +37,19 @@ const useImageHandler = (
     originalImageRef.current = preview;
     setIsEditing(false);
   };
-  return { preview, isEditing, handleImageChange, handleCancel, handleSave };
+
+  const handleSetDefaultImage = () => {
+    setPreview(profile);
+    setIsEditing(true);
+  };
+  return {
+    preview,
+    isEditing,
+    handleImageChange,
+    handleCancel,
+    handleSave,
+    handleSetDefaultImage,
+  };
 };
 
 export default useImageHandler;

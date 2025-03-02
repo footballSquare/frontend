@@ -13,8 +13,14 @@ const PlayerCard = ({ userInfo }: { userInfo: PlayerCardProps }) => {
   });
 
   const originalImageRef = React.useRef<string>(userInfo.profile_img); // 초기 이미지 저장
-  const { preview, isEditing, handleImageChange, handleCancel, handleSave } =
-    useImageHandler(userInfo, originalImageRef, setValue);
+  const {
+    preview,
+    isEditing,
+    handleImageChange,
+    handleCancel,
+    handleSave,
+    handleSetDefaultImage,
+  } = useImageHandler(userInfo, originalImageRef, setValue);
 
   return (
     <div className="hidden sm:flex justify-center items-center">
@@ -42,6 +48,14 @@ const PlayerCard = ({ userInfo }: { userInfo: PlayerCardProps }) => {
               alt="프로필 미리보기"
             />
             <span className="text-xs text-gray-300 mt-1">이미지 변경</span>
+            <button
+              className="text-xs text-gray-300 mt-1"
+              onClick={(e) => {
+                e.preventDefault();
+                handleSetDefaultImage();
+              }}>
+              기본 이미지 설정
+            </button>
           </label>
 
           {/* 이미지 변경 시 저장 & 취소 버튼 표시 */}
