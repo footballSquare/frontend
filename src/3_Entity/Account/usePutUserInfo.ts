@@ -1,7 +1,7 @@
 import { useFetch } from "../../4_Shared/util/apiUtil";
 import { UserInfoPost } from "./type";
 
-const usePostUserInfo = ({
+const usePutUserInfo = ({
   userIdx,
   onFail = () => {},
 }: {
@@ -30,4 +30,4 @@ const usePostUserInfo = ({
   return [postEvent, serverState, loading];
 };
 
-export default usePostUserInfo;
+export default usePutUserInfo;
