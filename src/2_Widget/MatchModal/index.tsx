@@ -13,12 +13,17 @@ import useGetMatchWaitlist from "../../3_Entity/Match/useGetMatchWaitList";
 import useMatchApprove from "./model/useMatchApprove";
 
 const MatchModal = () => {
+  // 로그인 구현 이전 임시 데이터
+  const [myInfo, setMyInfo] = React.useState({userIdx: 1, nickName: "master", profileUrl: "testing..."});
+  const isMatchLeader = true;
+  // 로그인 구현 이전 임시 데이터
+
   const { matchIdx, toggleMatchModal } = useMatchModalStore();
   const [matchDetail, setMatchDetail] = useGetMatchDetail(matchIdx);
   const [matchParticipants, setMatchPaticipants] =
     useGetMatchParticipants(matchIdx);
   const [matchWaitList, setMatchWaitList] = useGetMatchWaitlist(matchIdx);
-  const [matchApproveHandler] = useMatchApprove(
+  const [matchApproveHandler, matchDisApproveHandler] = useMatchApprove(
     setMatchWaitList,
     setMatchPaticipants
   );
@@ -121,8 +126,8 @@ const MatchModal = () => {
           {/* 필드 & 포메이션 선택기 */}
           <FormationPanel
             matchFormationIdx={matchDetail.match.match_formation_idx}
-            setMatchWaitList={setMatchWaitList}
             matchParticipants={matchParticipants.match_participant}
+            matchDisApproveHandler={matchDisApproveHandler}
           />
           {/* && !isPastTime(match.match_match_start_time) */}
           {matchParticipation[

@@ -7,8 +7,11 @@ import { matchFormation } from "../../../../4_Shared/constant/matchFormation";
 import { matchPosition } from "../../../../4_Shared/constant/matchPosition";
 
 const FormationPanel = React.memo((props: FormationPanelProps) => {
-  const { matchFormationIdx, setMatchWaitList, matchParticipants } = props;
-  console.log("rend")
+  const {
+    matchFormationIdx,
+    matchParticipants,
+    matchDisApproveHandler,
+  } = props;
   return (
     <div className="relative flex gap-6 h-full w-[35%]">
       {/* 필드 & 포메이션 선택기 */}
@@ -46,11 +49,15 @@ const FormationPanel = React.memo((props: FormationPanelProps) => {
                   <div className=" flex gap-4 px-2 items-center  bg-gray rounded-lg w-fit text-xs">
                     <button
                       onClick={() => {
-                        setMatchWaitList((prev) => ({
-                          match_waitlist: {
-                            ...prev.match_waitlist,
+                        matchDisApproveHandler(
+                          {
+                            player_list_idx: elem.player_list_idx,
+                            player_list_nickname: elem.player_list_nickname,
+                            player_list_url: elem.player_list_url,
                           },
-                        }));
+                          elem.match_position_idx,
+                          matchParticipants
+                        );
                       }}
                     >
                       X
