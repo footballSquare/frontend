@@ -5,14 +5,15 @@ import { FormationPanelProps } from "./type";
 import { formations } from "./constant/formation";
 import { matchFormation } from "../../../../4_Shared/constant/matchFormation";
 import { matchPosition } from "../../../../4_Shared/constant/matchPosition";
+import STYLE from "./style";
 
 const FormationPanel = (props: FormationPanelProps) => {
   const { matchFormationIdx, matchWaitList, matchParticipants } = props;
   return (
-    <div className=" relative flex gap-6 h-full w-[30%]">
+    <div className={STYLE.FormationPanelWrapper}>
       {/* 필드 & 포메이션 선택기 */}
       <div
-        className="w-full p-4 flex flex-col gap-12 items-center"
+        className={STYLE.FormationPanel}
         style={{
           backgroundImage: `url(${field_img})`,
           backgroundSize: "cover",
@@ -20,9 +21,9 @@ const FormationPanel = (props: FormationPanelProps) => {
         }}
       >
         {/* 포메이션 종류 */}
-        <label className=" flex flex-col text-xs font-semibold w-full">
+        <label className={STYLE.FormationCategoryWrapper}>
           포메이션
-          <div className=" w-[164px] h-[32px] rounded-[4px] flex justify-center items-center border-1 border-blue bg-white">
+          <div className={STYLE.FormationCategory}>
             {matchFormation[matchFormationIdx]}
           </div>
         </label>
@@ -31,24 +32,22 @@ const FormationPanel = (props: FormationPanelProps) => {
         {formations[matchFormationIdx].map((pos, index) => (
           <div
             key={index}
-            className={`absolute flex flex-col bg-white rounded-[32px] w-[36px] justify-center items-center`}
-            style={{ top: pos.top, left: pos.left, transform: "translate(-50%, -50%)" }}
+            className={STYLE.MatchParticipantsPositionContainer}
+            style={{ top: pos.top, left: pos.left }} // 동적 스타일
           >
             <img src={profile} alt="profile" className="w-full" />
-            
-            {matchParticipants.map((elem)=>{
-              if(elem.match_position_idx === pos.positionIdx){
-                return <div>{elem.player_list_nickname}</div>
+
+            {matchParticipants.map((elem) => {
+              if (elem.match_position_idx === pos.positionIdx) {
+                return <div>{elem.player_list_nickname}</div>;
               }
             })}
-            
+
             <span className="text-xs">{matchPosition[pos.positionIdx]}</span>
           </div>
         ))}
-
       </div>
     </div>
-    
   );
 };
 
