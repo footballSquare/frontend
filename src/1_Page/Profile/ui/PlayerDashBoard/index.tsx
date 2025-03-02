@@ -38,17 +38,13 @@ const PlayerDashBoard = ({ userInfo }: { userInfo: UserInfoProps }) => {
       {/* Player 카드 */}
       <div className={STYLE.playerCard}>
         <div className={STYLE.playerBox}>
-          <div className="text-xs font-bold self-start">RW</div>
-          <div className="flex-1 flex items-center justify-center">
-            <img
-              src="https://example.com/player.png"
-              alt="Player"
-              className="max-w-[80%] max-h-[60%] object-contain"
-            />
+          <div className={STYLE.roleText}>RW</div>
+          <div className={STYLE.imageContainer}>
+            <img className={STYLE.image} />
           </div>
-          <div className="text-center">
-            <p className="text-sm font-semibold">김네이마루 #KOR</p>
-            <p className="text-xs">10번</p>
+          <div className={STYLE.textContainer}>
+            <p className={STYLE.playerName}>김네이마루 #KOR</p>
+            <p className={STYLE.playerNumber}>10번</p>
           </div>
         </div>
       </div>
@@ -63,7 +59,7 @@ const PlayerDashBoard = ({ userInfo }: { userInfo: UserInfoProps }) => {
           {/* 이름 & 닉네임 */}
           <div className={STYLE.inputGroup}>
             <div>
-              <label className="text-xs font-medium text-gray-600">Name</label>
+              <label className={STYLE.explainLabel}>Name</label>
               <input
                 {...register("name")}
                 disabled={!modifyMode}
@@ -77,9 +73,7 @@ const PlayerDashBoard = ({ userInfo }: { userInfo: UserInfoProps }) => {
               )}
             </div>
             <div>
-              <label className="text-xs font-medium text-gray-600">
-                Nickname
-              </label>
+              <label className={STYLE.explainLabel}>Nickname</label>
               <input
                 {...register("nickname")}
                 disabled={!modifyMode}
@@ -97,7 +91,7 @@ const PlayerDashBoard = ({ userInfo }: { userInfo: UserInfoProps }) => {
           {/* 팀 & 플랫폼 */}
           <div className={STYLE.inputGroup}>
             <div>
-              <label className="text-xs font-medium text-gray-600">Team</label>
+              <label className={STYLE.explainLabel}>Team</label>
               <input
                 {...register("team")}
                 disabled={!modifyMode}
@@ -111,9 +105,7 @@ const PlayerDashBoard = ({ userInfo }: { userInfo: UserInfoProps }) => {
               )}
             </div>
             <div>
-              <label className="text-xs font-medium text-gray-600">
-                Platform
-              </label>
+              <label className={STYLE.explainLabel}>Platform</label>
               <select
                 {...register("platform")}
                 disabled={!modifyMode}
@@ -134,9 +126,7 @@ const PlayerDashBoard = ({ userInfo }: { userInfo: UserInfoProps }) => {
 
           {/* 포지션 선택 */}
           <div>
-            <label className="text-xs font-medium text-gray-600">
-              Position
-            </label>
+            <label className={STYLE.explainLabel}>Position</label>
             <select
               {...register("position")}
               disabled={!modifyMode}
@@ -157,7 +147,7 @@ const PlayerDashBoard = ({ userInfo }: { userInfo: UserInfoProps }) => {
           {/* MMR & 전화번호 */}
           <div className={STYLE.inputGroup}>
             <div>
-              <label className="text-xs font-medium text-gray-600">MMR</label>
+              <label className={STYLE.explainLabel}>MMR</label>
               <input
                 {...register("mmr")}
                 type="number"
@@ -172,9 +162,7 @@ const PlayerDashBoard = ({ userInfo }: { userInfo: UserInfoProps }) => {
               )}
             </div>
             <div>
-              <label className="text-xs font-medium text-gray-600">
-                Phone Number
-              </label>
+              <label className={STYLE.explainLabel}>Phone Number</label>
               <input
                 {...register("phone_number")}
                 disabled={!modifyMode}
