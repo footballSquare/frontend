@@ -1,15 +1,18 @@
+import React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+
 import { schema } from "./lib/schema";
-import React from "react";
+// 타입
 import { UserInfoProps } from "./type";
 import { UserInfoInput } from "../../../../3_Entity/Account/type";
+// 상수
 import { platform } from "../../../../4_Shared/constant/platform";
+import { matchPosition } from "../../../../4_Shared/constant/matchPosition";
+
+import useInputHandler from "./model/useInputHandler";
 import usePostUserInfo from "../../../../3_Entity/Account/usePutUserInfo";
 import useDeleteUserInfo from "../../../../3_Entity/Account/useDeleteUserInfo";
-import useInputHandler from "./model/useInputHandler";
-
-const POSITION = ["ST", "MF", "DF", "GK"];
 
 const PlayerDashBoard = ({ userInfo }: { userInfo: UserInfoProps }) => {
   const [modifyMode, setModifyMode] = React.useState<boolean>(false);
@@ -45,7 +48,7 @@ const PlayerDashBoard = ({ userInfo }: { userInfo: UserInfoProps }) => {
     postEvent({
       ...data,
       platform: platform.indexOf(data.platform),
-      position: POSITION.indexOf(data.position),
+      position: matchPosition.indexOf(data.position),
     });
   };
 
@@ -55,7 +58,7 @@ const PlayerDashBoard = ({ userInfo }: { userInfo: UserInfoProps }) => {
       <div className="hidden sm:flex justify-center items-center">
         <div className="w-[120px] sm:w-[100px] md:w-[140px] lg:w-[160px] aspect-[3/4] bg-blue-900 text-white rounded-lg flex flex-col items-center justify-between p-4 shadow-md">
           <div className="text-xs font-bold self-start">
-            {POSITION[userInfo.position]}
+            {matchPosition[userInfo.position]}
           </div>
           <div className="flex-1 flex items-center justify-center">
             <img
@@ -178,9 +181,9 @@ const PlayerDashBoard = ({ userInfo }: { userInfo: UserInfoProps }) => {
                   ? "w-full p-1 text-xs border rounded-md"
                   : "w-full p-1 text-xs border-b bg-transparent text-gray-500"
               }>
-              {POSITION.map((pos) => (
-                <option key={pos} value={pos}>
-                  {pos}
+              {matchPosition.map((position) => (
+                <option key={`match-position-${position}`} value={position}>
+                  {position}
                 </option>
               ))}
             </select>

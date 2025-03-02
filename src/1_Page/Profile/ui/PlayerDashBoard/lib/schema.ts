@@ -1,5 +1,6 @@
 import * as yup from "yup";
 
+// 입력 예외처리 yup
 export const schema = yup.object().shape({
   profile_img: yup.string().required("이름은 필수 입력 항목입니다."),
   name: yup
