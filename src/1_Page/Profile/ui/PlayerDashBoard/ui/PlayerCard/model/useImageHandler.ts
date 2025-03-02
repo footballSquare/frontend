@@ -1,20 +1,24 @@
 import React from "react";
-import { UseFormSetValue } from "react-hook-form";
-import { PlayerCardProps } from "../type";
-import profile from "../../../../../../../4_Shared/assets/svg/profile.svg";
+import { UseFormSetValue, UseFormClearErrors } from "react-hook-form";
+import { PlayerCardProps, ImageInput } from "../type";
 
 const useImageHandler = (
   userInfo: PlayerCardProps,
-  originalImageRef: React.MutableRefObject<string>,
-  setValue: UseFormSetValue<{ profile_img: File | undefined }>
+  setValue: UseFormSetValue<ImageInput>,
+  clearErrors: UseFormClearErrors<ImageInput>
 ) => {
-  const [preview, setPreview] = React.useState<string>(userInfo.profile_img);
+  const backupImageRef = React.useRef<string | null>(userInfo.profile_img); // 초기 이미지 저장
+  const [preview, setPreview] = React.useState<string | null>(
+    userInfo.profile_img
+  );
   const [isEditing, setIsEditing] = React.useState<boolean>(false); // 수정 모드 상태
+
   // userInfo 변경 시 초기화
   React.useEffect(() => {
     setPreview(userInfo.profile_img);
-    originalImageRef.current = userInfo.profile_img;
+    backupImageRef.current = userInfo.profile_img;
   }, [userInfo]);
+
   // 이미지 변경 핸들러
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -28,18 +32,19 @@ const useImageHandler = (
 
   // 취소 버튼 클릭 시 원래 이미지로 되돌리기
   const handleCancel = () => {
-    setPreview(originalImageRef.current);
+    setPreview(backupImageRef.current);
     setIsEditing(false);
+    clearErrors();
   };
 
   // 저장 버튼 클릭 시 변경된 이미지 유지
   const handleSave = () => {
-    originalImageRef.current = preview;
+    backupImageRef.current = preview;
     setIsEditing(false);
   };
 
   const handleSetDefaultImage = () => {
-    setPreview(profile);
+    setPreview(null);
     setIsEditing(true);
   };
   return {
