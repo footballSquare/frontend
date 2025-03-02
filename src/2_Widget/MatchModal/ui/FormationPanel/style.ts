@@ -1,6 +1,6 @@
 const STYLE = {
   FormationPanelWrapper: " relative flex gap-6 h-full w-[30%]",
-  FormationPanel: "w-full p-4 flex flex-col gap-12 items-center",
+  FormationPanel: "w-full p-4 flex flex-col gap-12 items-center bg-cover bg-center",
   FormationCategoryWrapper: " flex flex-col text-xs font-semibold w-full",
   FormationCategory:
     " w-[164px] h-[32px] rounded-[4px] flex justify-center items-center border-1 border-blue bg-white",
