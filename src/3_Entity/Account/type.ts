@@ -2,6 +2,7 @@ import { TeamAwards } from "../Team/type";
 
 export type UserInfo = {
   isMine: boolean;
+  userIdx: number;
   name: string;
   nickname: string;
   platform: number;
@@ -19,7 +20,7 @@ export type UserInfo = {
 
 export type UserInfoPost = Omit<
   UserInfo,
-  "match_count" | "winning_rate" | "trophies" | "isMine"
+  "match_count" | "winning_rate" | "trophies" | "isMine" | "userIdx"
 >;
 
 export type UserInfoInput = Omit<UserInfoPost, "platform" | "position"> & {
