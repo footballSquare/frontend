@@ -15,9 +15,7 @@ const FormationPanel = (props: FormationPanelProps) => {
       <div
         className={STYLE.FormationPanel}
         style={{
-          backgroundImage: `url(${field_img})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
+          backgroundImage: `url(${field_img})`, // 배경 이미지
         }}
       >
         {/* 포메이션 종류 */}
