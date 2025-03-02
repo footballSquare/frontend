@@ -9,10 +9,8 @@ import Select from "../../4_Shared/components/Select";
 import { matchType } from "../../4_Shared/constant/matchType";
 import { matchParticipation } from "../../4_Shared/constant/matchParticipation";
 import WaitingList from "./ui/WaitList";
-import WaitingPlayerListPanel from "./ui/MatchSeekerListPanel";
 import useGetMatchParticipants from "../../3_Entity/Match/useGetMatchParticipants";
 import useGetMatchWaitlist from "../../3_Entity/Match/useGetMatchWaitList";
-import STYLE from "./style";
 
 const MatchModal = () => {
   const { matchIdx, toggleMatchModal } = useMatchModalStore();
@@ -28,17 +26,20 @@ const MatchModal = () => {
   console.log(matchParticipants);
   return (
     // 모달 커버
-    <div className={STYLE.cover}>
+    <div className="absolute top-0 left-0 w-full h-full flex justify-center items-center">
       {/* 레이어 */}
-      <div className={STYLE.layer} onClick={toggleMatchModal}></div>
+      <div
+        className="absolute top-0 left-0 w-[100vw] h-[100vh] opacity-50 bg-gray"
+        onClick={toggleMatchModal}
+      ></div>
       {/* 모달 */}
-      <div className={STYLE.modal}>
+      <div className="flex flex-col relative w-[80%] h-[80%] bg-white gap-4 border-1 border-gray p-4 overflow-auto">
         {/* 타이틀 / 닫기 버튼 / 대회명(대회 매치 전용) / 게임 팀 이름(팀 없으면 공방) */}
-        <div className={STYLE.matchHeader}>
-          <div className={STYLE.matchHeaderTitle}>
-            <img className={STYLE.matchIconImg} src={flag_icon} alt="MATCH" />
+        <div className="flex justify-between">
+          <div className="flex gap-4 items-center">
+            <img className="w-[32px]" src={flag_icon} alt="MATCH" />
             <h2>매치 정보</h2>
-            <h4 className={STYLE.leagueTitle}>@대회명</h4>
+            <h4 className="text-gray">@대회명</h4>
           </div>
           <button onClick={toggleMatchModal}>
             <img src={close_icon} alt="close" />
@@ -46,8 +47,8 @@ const MatchModal = () => {
         </div>
 
         {/* 매치모드 / 참여방식 / 플레이타임 / 매치 시작 시간 / 게임모드  <- 매치 생성자는 시작시간 전에 변경 가능*/}
-        <div className={STYLE.matchInfoContainer}>
-          <label className={STYLE.matchInfoLabel}>
+        <div className="flex gap-6">
+          <label className="flex flex-col text-xs font-semibold">
             매치 모드
             {/* 아래의 select 태그를 Shared에 있는 Select 컴포넌트로 변경해서 적용 */}
             <Select
@@ -64,7 +65,7 @@ const MatchModal = () => {
             />
           </label>
 
-          <label className={STYLE.matchInfoLabel}>
+          <label className="flex flex-col text-xs font-semibold">
             예상 플레이 타임
             {/* 아래의 select 태그 Select 컴포넌트로 적용 */}
             <Select
@@ -82,9 +83,9 @@ const MatchModal = () => {
               }}
             />
           </label>
-          <label className={STYLE.matchInfoLabel}>
+          <label className="flex flex-col text-xs font-semibold">
             참가 모드
-            <p className=" flex justify-center items-center w-[164px] h-[32px] rounded-[4px] border-1 border-blue">
+            <p className="flex justify-center items-center w-[164px] h-[32px] rounded-[4px] border-1 border-blue">
               {
                 matchParticipation[
                   matchDetail.match.match_match_participation_type
@@ -93,23 +94,23 @@ const MatchModal = () => {
             </p>
           </label>
 
-          <label className={STYLE.matchInfoLabel}>
+          <label className="flex flex-col text-xs font-semibold">
             시작 시간
-            <p className=" flex justify-center items-center w-[164px] h-[32px] rounded-[4px] border-1 border-gray">
+            <p className="flex justify-center items-center w-[164px] h-[32px] rounded-[4px] border-1 border-gray">
               {matchDetail.match.match_match_start_time}
             </p>
           </label>
 
-          <label className={STYLE.matchInfoLabel}>
+          <label className="flex flex-col text-xs font-semibold">
             매치 종류
-            <p className=" flex justify-center items-center h-[32px]">
+            <p className="flex justify-center items-center h-[32px]">
               {matchType[matchDetail.match.match_type_idx]}
             </p>
           </label>
         </div>
 
         {/* 포메이션 / 포지션 / 포지션별 대기 인원(승인 참가 전용) */}
-        <div className={STYLE.matchContentsContainer}>
+        <div className="flex gap-6 h-full">
           {/* 필드 & 포메이션 선택기 */}
           <FormationPanel
             matchFormationIdx={matchDetail.match.match_formation_idx}
