@@ -1,4 +1,3 @@
-import { MatchParticipants } from "../../../../3_Entity/Match/type";
 export type WaitingListProps = {
   matchFormationPosition: number[];
   matchParticipants: {
