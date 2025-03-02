@@ -117,7 +117,9 @@ const PlayerDashBoard = ({ userInfo }: { userInfo: UserInfoProps }) => {
               <select
                 {...register("platform")}
                 disabled={!modifyMode}
-                className={STYLE.selectBox}>
+                className={
+                  modifyMode ? STYLE.enableSelectBox : STYLE.disableSelectBox
+                }>
                 {platform.map((plat, index) => (
                   <option key={index} value={plat}>
                     {plat}
@@ -138,7 +140,9 @@ const PlayerDashBoard = ({ userInfo }: { userInfo: UserInfoProps }) => {
             <select
               {...register("position")}
               disabled={!modifyMode}
-              className={STYLE.selectBox}>
+              className={
+                modifyMode ? STYLE.enableSelectBox : STYLE.disableSelectBox
+              }>
               {POSITION.map((pos) => (
                 <option key={pos} value={pos}>
                   {pos}
@@ -205,6 +209,10 @@ const PlayerDashBoard = ({ userInfo }: { userInfo: UserInfoProps }) => {
             </button>
           )}
         </form>
+        <div className={STYLE.buttonBox}>
+          <button className={STYLE.deleteButton}>delete</button>
+          <button className={STYLE.logoutButton}>logout</button>
+        </div>
       </div>
     </div>
   );
