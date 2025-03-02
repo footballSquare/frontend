@@ -1,7 +1,6 @@
 import { createPortal } from "react-dom";
 import { TeamAwardProps } from "./type";
 import useHover from "./model/useHover";
-import STYLE from "./style";
 
 const Trophy = ({
   trophyData,
@@ -22,15 +21,15 @@ const Trophy = ({
     <div>
       <div
         key={`trophy-${index}`}
-        className={STYLE.trophyContainer}
+        className="w-[50px] h-[50px] shadow mr-1 overflow-visible"
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}>
         {/* 기본 이미지 (Hover 전) */}
-        <div className={STYLE.imageWrapper}>
+        <div className="flex items-center justify-center w-full h-full">
           <img
             src={trophyData.championship_list_throphy_img}
             alt="Trophy"
-            className={STYLE.trophyImage}
+            className="w-[50px] h-[50px] object-cover rounded-lg"
           />
         </div>
       </div>
@@ -39,10 +38,10 @@ const Trophy = ({
       {isHovered &&
         createPortal(
           <div
-            className={STYLE.hoverContainer}
+            className="fixed bg-white rounded-lg flex flex-col items-center justify-center w-[200px] h-[200px] shadow-lg p-4 border border-gray-300 transition-opacity duration-300 ease-in-out"
             style={{
               left: `${hoverPosition.x}px`,
-              top: `${hoverPosition.y - window.scrollY}px`, // 스크롤 마우스 보정
+              top: `${hoverPosition.y - window.scrollY}px`,
               transform: `translate(-50%, -50%)`,
               opacity: isHovered ? 1 : 0,
             }}
@@ -51,12 +50,12 @@ const Trophy = ({
             <img
               src={trophyData.championship_list_throphy_img}
               alt="Trophy"
-              className={STYLE.hoverImage}
+              className="w-[80px] h-[80px] mb-2"
             />
-            <h3 className={STYLE.hoverTitle}>
+            <h3 className="text-lg font-semibold text-center">
               {trophyData.championship_list_name}
             </h3>
-            <p className={STYLE.hoverText}>
+            <p className="text-gray-500 text-sm">
               {trophyData.championship_list_start_date} -{" "}
               {trophyData.championship_list_end_date}
             </p>
