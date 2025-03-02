@@ -2,9 +2,11 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { schema } from "./lib/schema";
 import React from "react";
-import { UserInfoProps, UserInfoInput } from "./type";
+import { UserInfoProps } from "./type";
+import { UserInfoInput } from "../../../../3_Entity/Account/type";
 import { platform } from "../../../../4_Shared/constant/platform";
 import STYLE from "./style";
+import usePostUserInfo from "../../../../3_Entity/Account/usePutUserInfo";
 
 const POSITION = ["ST", "MF", "DF", "GK"];
 
@@ -15,6 +17,7 @@ const PlayerDashBoard = ({ userInfo }: { userInfo: UserInfoProps }) => {
     reset,
     register,
     handleSubmit,
+    getValues,
     formState: { errors },
   } = useForm<UserInfoInput>({
     resolver: yupResolver(schema),
@@ -23,19 +26,31 @@ const PlayerDashBoard = ({ userInfo }: { userInfo: UserInfoProps }) => {
   const defaultUserInfoInput: UserInfoInput = {
     ...userInfo,
     platform: String(platform[userInfo.platform]),
-    position: String(userInfo.position),
+    position: POSITION[userInfo.position],
   };
 
   const inputBackupDataRef = React.useRef<UserInfoInput>(defaultUserInfoInput);
 
   React.useEffect(() => {
     reset(defaultUserInfoInput);
-    inputBackupDataRef.current = defaultUserInfoInput;
   }, [userInfo]);
+
+  const handleCancle = () => {
+    reset(inputBackupDataRef.current);
+  };
+
+  const [postEvent] = usePostUserInfo({ onFail: handleCancle });
 
   const onSubmit: SubmitHandler<UserInfoInput> = (data) => {
     setModifyMode(false);
-    console.log("폼 제출됨:", data);
+    const isChange =
+      JSON.stringify(data) !== JSON.stringify(inputBackupDataRef.current);
+    if (!isChange) return;
+    postEvent({
+      ...data,
+      platform: platform.indexOf(data.platform),
+      position: POSITION.indexOf(data.position),
+    });
   };
 
   return (
@@ -43,13 +58,13 @@ const PlayerDashBoard = ({ userInfo }: { userInfo: UserInfoProps }) => {
       {/* Player 카드 */}
       <div className={STYLE.playerCard}>
         <div className={STYLE.playerBox}>
-          <div className={STYLE.roleText}>RW</div>
+          <div className={STYLE.roleText}>{POSITION[userInfo.position]}</div>
           <div className={STYLE.imageContainer}>
-            <img className={STYLE.image} />
+            <img className={STYLE.image} src={userInfo.profile_img} />
           </div>
           <div className={STYLE.textContainer}>
-            <p className={STYLE.playerName}>김네이마루 #KOR</p>
-            <p className={STYLE.playerNumber}>10번</p>
+            <p className={STYLE.playerName}>{userInfo.name} #KOR</p>
+            <p className={STYLE.playerNumber}>{userInfo.tag}번</p>
           </div>
         </div>
       </div>
@@ -190,17 +205,14 @@ const PlayerDashBoard = ({ userInfo }: { userInfo: UserInfoProps }) => {
               className={`${STYLE.button} ${STYLE.editButton}`}
               onClick={(e) => {
                 e.preventDefault();
+                inputBackupDataRef.current = getValues(); // 현재 폼 데이터 백업
                 setModifyMode(true);
               }}>
               수정하기
             </button>
           ) : (
             <div className={STYLE.buttonBox}>
-              <button
-                className={STYLE.cancleButton}
-                onClick={() => {
-                  reset(inputBackupDataRef.current);
-                }}>
+              <button className={STYLE.cancleButton} onClick={handleCancle}>
                 취소
               </button>
               <button

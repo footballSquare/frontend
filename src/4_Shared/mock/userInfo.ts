@@ -1,4 +1,6 @@
 import { teamAwardsData } from "./teamInfo";
+import profile_img from "../assets/img/profile_img.jpg";
+
 export const mockUserInfo = {
   user: {
     isMine: true,
@@ -6,7 +8,7 @@ export const mockUserInfo = {
     nickname: "AcePlayer",
     platform: 1,
     team: "Champion FC",
-    position: "Striker",
+    position: 1,
     tag_discord: "#1234",
     tag: "#000000",
     mmr: 2500,
@@ -14,5 +16,6 @@ export const mockUserInfo = {
     match_count: 20,
     winning_rate: 12,
     trophies: teamAwardsData.team_award,
+    profile_img: profile_img,
   },
 };
