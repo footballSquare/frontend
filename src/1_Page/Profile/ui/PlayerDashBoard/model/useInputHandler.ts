@@ -1,8 +1,10 @@
 import React from "react";
+// 타입
 import { UserInfoInput } from "../../../../../3_Entity/Account/type";
+import { UserInfoProps } from "../type";
+// 상수
 import { platform } from "../../../../../4_Shared/constant/platform";
 import { matchPosition } from "../../../../../4_Shared/constant/matchPosition";
-import { UserInfoProps } from "../type";
 
 const useInputHandler = (
   reset: (input: UserInfoInput) => void,
