@@ -11,12 +11,6 @@ const POSITION = ["ST", "MF", "DF", "GK"];
 const PlayerDashBoard = ({ userInfo }: { userInfo: UserInfoProps }) => {
   const [modifyMode, setModifyMode] = React.useState<boolean>(false);
 
-  const defaultUserInfoInput: UserInfoInput = {
-    ...userInfo,
-    platform: String(platform[userInfo.platform]),
-    position: String(userInfo.position),
-  };
-
   const {
     reset,
     register,
@@ -25,6 +19,12 @@ const PlayerDashBoard = ({ userInfo }: { userInfo: UserInfoProps }) => {
   } = useForm<UserInfoInput>({
     resolver: yupResolver(schema),
   });
+
+  const defaultUserInfoInput: UserInfoInput = {
+    ...userInfo,
+    platform: String(platform[userInfo.platform]),
+    position: String(userInfo.position),
+  };
 
   const inputBackupDataRef = React.useRef<UserInfoInput>(defaultUserInfoInput);
 
@@ -196,11 +196,17 @@ const PlayerDashBoard = ({ userInfo }: { userInfo: UserInfoProps }) => {
             </button>
           ) : (
             <div className={STYLE.buttonBox}>
-              <button className={STYLE.cancleButton}>취소</button>
+              <button
+                className={STYLE.cancleButton}
+                onClick={() => {
+                  reset(inputBackupDataRef.current);
+                }}>
+                취소
+              </button>
               <button
                 type="submit"
                 className={`${STYLE.button} ${STYLE.saveButton}`}>
-                저장하기
+                저장
               </button>
             </div>
           )}
