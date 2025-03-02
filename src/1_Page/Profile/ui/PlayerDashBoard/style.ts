@@ -12,7 +12,7 @@ const STYLE = {
   inputBox: "w-full p-1 text-xs",
   inputDisabled: "border-b bg-transparent text-gray-500",
   inputEnabled: "border rounded-md",
-  disableSelectBox: "w-full p-1 text-xs ",
+  disableSelectBox: "w-full p-1 text-xs border-b bg-transparent text-gray-500 ",
   enableSelectBox: "w-full p-1 text-xs border rounded-md",
   errorMessage: "text-red-500 text-xs",
   button: "w-full py-1 text-xs rounded-md font-bold mt-1",
@@ -28,5 +28,12 @@ const STYLE = {
   buttonDisabled: "opacity-50 cursor-not-allowed",
   buttonHoverLogout: "hover:bg-blue-100",
   buttonHoverDelete: "hover:bg-red-100",
+  roleText: "text-xs font-bold self-start",
+  imageContainer: "flex-1 flex items-center justify-center",
+  image: "max-w-[80%] max-h-[60%] object-contain",
+  textContainer: "text-center",
+  playerName: "text-sm font-semibold",
+  playerNumber: "text-xs",
+  explainLabel: "text-xs font-medium text-gray-600",
 };
 export default STYLE;
