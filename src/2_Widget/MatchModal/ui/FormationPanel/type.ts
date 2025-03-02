@@ -1,12 +1,8 @@
+import { MatchWaitList } from "../../../../3_Entity/Match/type";
+
 export type FormationPanelProps = {
   matchFormationIdx: number;
-  matchWaitList: {
-    [key: string]: {
-      player_list_idx: number;
-      player_list_nickname: string;
-      player_list_url: string;
-    }[];
-  } | null;
+  setMatchWaitList: React.Dispatch<React.SetStateAction<MatchWaitList>>;
   matchParticipants: {
     player_list_idx: number;
     player_list_nickname: string;

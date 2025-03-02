@@ -4,26 +4,25 @@ import close_icon from "../../4_Shared/assets/svg/closeBtn.svg";
 import flag_icon from "../../4_Shared/assets/svg/flag-green.svg";
 import FormationPanel from "./ui/FormationPanel";
 import useGetMatchDetail from "../../3_Entity/Match/useGetMatchDetail";
-import { MatchDetail } from "../../3_Entity/Match/type";
 import Select from "../../4_Shared/components/Select";
 import { matchType } from "../../4_Shared/constant/matchType";
 import { matchParticipation } from "../../4_Shared/constant/matchParticipation";
 import WaitingList from "./ui/WaitList";
 import useGetMatchParticipants from "../../3_Entity/Match/useGetMatchParticipants";
 import useGetMatchWaitlist from "../../3_Entity/Match/useGetMatchWaitList";
+import useMatchApprove from "./model/useMatchApprove";
 
 const MatchModal = () => {
   const { matchIdx, toggleMatchModal } = useMatchModalStore();
-  //
-  const [matchDetail, matchDetailLoading] = useGetMatchDetail(matchIdx);
-  const [matchParticipants, setMatchPaticipants, matchParticipantsLoading] =
+  const [matchDetail, setMatchDetail] = useGetMatchDetail(matchIdx);
+  const [matchParticipants, setMatchPaticipants] =
     useGetMatchParticipants(matchIdx);
-  const [matchWaitList, matchWaitListLoading] = useGetMatchWaitlist(matchIdx);
-  const matchDetailRef = React.useRef<MatchDetail>(matchDetail);
-  /*
-  1. 매치 참여자 목록은 하위 컴포넌트 전부 prop으로 받아서 수정함
-*/
-  console.log(matchParticipants);
+  const [matchWaitList, setMatchWaitList] = useGetMatchWaitlist(matchIdx);
+  const [matchApproveHandler] = useMatchApprove(
+    setMatchWaitList,
+    setMatchPaticipants
+  );
+
   return (
     // 모달 커버
     <div className="absolute top-0 left-0 w-full h-full flex justify-center items-center">
@@ -52,15 +51,19 @@ const MatchModal = () => {
             매치 모드
             {/* 아래의 select 태그를 Shared에 있는 Select 컴포넌트로 변경해서 적용 */}
             <Select
-              defaultValue={matchDetail.match.match_match_participation_type}
+              defaultValue={matchDetail.match.match_match_attribute}
               options={[
                 { value: 0, text: "팀 공개 매치" },
                 { value: 1, text: "팀 비공개 매치" },
                 { value: 2, text: "공방 매치" },
               ]}
               onChangeHandler={(e) => {
-                matchDetailRef.current.match.match_match_participation_type =
-                  Number(e.target.value);
+                setMatchDetail((prev) => ({
+                  match: {
+                    ...prev.match,
+                    match_match_attribute: Number(e.target.value),
+                  },
+                }));
               }}
             />
           </label>
@@ -78,8 +81,12 @@ const MatchModal = () => {
                 { value: "2.5 hours", text: "2시간 30분" },
               ]}
               onChangeHandler={(e) => {
-                matchDetailRef.current.match.match_match_duration =
-                  e.target.value;
+                setMatchDetail((prev) => ({
+                  match: {
+                    ...prev.match,
+                    match_match_duration: e.target.value,
+                  },
+                }));
               }}
             />
           </label>
@@ -114,7 +121,7 @@ const MatchModal = () => {
           {/* 필드 & 포메이션 선택기 */}
           <FormationPanel
             matchFormationIdx={matchDetail.match.match_formation_idx}
-            matchWaitList={matchWaitList.match_waitlist}
+            setMatchWaitList={setMatchWaitList}
             matchParticipants={matchParticipants.match_participant}
           />
           {/* && !isPastTime(match.match_match_start_time) */}
@@ -126,8 +133,8 @@ const MatchModal = () => {
                 matchDetail.match.match_formation_position
               }
               matchParticipants={matchParticipants.match_participant}
-              setMatchParticipants={setMatchPaticipants}
               matchWaitList={matchWaitList.match_waitlist}
+              matchApproveHandler={matchApproveHandler}
             />
           )}
         </div>
