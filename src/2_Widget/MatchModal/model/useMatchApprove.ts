@@ -1,9 +1,11 @@
 import React from "react";
-import { MatchParticipants } from "../../../../../3_Entity/Match/type";
-const useWaitListApprove = (
+import { MatchWaitList } from "../../../3_Entity/Match/type";
+import { MatchParticipants } from "../../../3_Entity/Match/type";
+const useMatchApprove = (
+  setMatchWaitList: React.Dispatch<React.SetStateAction<MatchWaitList>>,
   setMatchParticipants: React.Dispatch<React.SetStateAction<MatchParticipants>>
 ) => {
-  const waitListApproveHandler = React.useCallback(
+  const matchApproveHandler = React.useCallback(
     (
       player: {
         player_list_idx: number;
@@ -21,7 +23,7 @@ const useWaitListApprove = (
       const isPositionEmpty = !matchParticipants.some(
         (participant) => participant.match_position_idx === matchPosition
       );
-
+      // 참가자 리스트에 추가, 대기자 리스트에서 제거
       if (isPositionEmpty) {
         setMatchParticipants((prev) => ({
           match_participant: [
@@ -34,12 +36,26 @@ const useWaitListApprove = (
             },
           ],
         }));
+
+        setMatchWaitList((prev) => ({
+          match_waitlist: {
+            ...prev.match_waitlist,
+            [matchPosition]: (
+              prev.match_waitlist?.[matchPosition] ?? []
+            ).filter(
+              (waiter) => waiter.player_list_idx !== player.player_list_idx
+            ),
+          },
+        })); // 대기자 리스트에서 제거
       }
     },
-    [setMatchParticipants]
+    [setMatchParticipants, setMatchWaitList]
   );
 
-  return [waitListApproveHandler];
+  const matchDisApproveHandler = React.useCallback(()=>{
+
+  },[setMatchParticipants, setMatchWaitList])
+  return [matchApproveHandler, matchDisApproveHandler];
 };
 
-export default useWaitListApprove;
+export default useMatchApprove;

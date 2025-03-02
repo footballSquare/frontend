@@ -6,8 +6,9 @@ import { formations } from "./constant/formation";
 import { matchFormation } from "../../../../4_Shared/constant/matchFormation";
 import { matchPosition } from "../../../../4_Shared/constant/matchPosition";
 
-const FormationPanel = (props: FormationPanelProps) => {
-  const { matchFormationIdx, matchWaitList, matchParticipants } = props;
+const FormationPanel = React.memo((props: FormationPanelProps) => {
+  const { matchFormationIdx, setMatchWaitList, matchParticipants } = props;
+  console.log("rend")
   return (
     <div className="relative flex gap-6 h-full w-[35%]">
       {/* 필드 & 포메이션 선택기 */}
@@ -34,6 +35,7 @@ const FormationPanel = (props: FormationPanelProps) => {
             style={{ top: pos.top, left: pos.left }} // 동적 스타일
           >
             <div className=" bg-white rounded-[32px] w-[36px] flex flex-col items-center">
+              {/* 프로필 이미지 */}
               <img src={profile} alt="profile" className="w-full" />
               <span className="text-xs">{matchPosition[pos.positionIdx]}</span>
             </div>
@@ -42,9 +44,17 @@ const FormationPanel = (props: FormationPanelProps) => {
               if (elem.match_position_idx === pos.positionIdx) {
                 return (
                   <div className=" flex gap-4 px-2 items-center  bg-gray rounded-lg w-fit text-xs">
-                    <button onClick={()=>{
-                      
-                    }}>X</button>
+                    <button
+                      onClick={() => {
+                        setMatchWaitList((prev) => ({
+                          match_waitlist: {
+                            ...prev.match_waitlist,
+                          },
+                        }));
+                      }}
+                    >
+                      X
+                    </button>
                     <h4>{elem.player_list_nickname}</h4>
                   </div>
                 );
@@ -55,6 +65,5 @@ const FormationPanel = (props: FormationPanelProps) => {
       </div>
     </div>
   );
-};
-
+});
 export default FormationPanel;
