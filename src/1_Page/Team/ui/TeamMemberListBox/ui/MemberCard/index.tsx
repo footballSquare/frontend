@@ -19,12 +19,12 @@ const MemberCard = (props: MemberProps) => {
     team_role_idx,
     player_list_platform,
     observeRef,
+    forceRender,
   } = props;
   const isTeamReader = TEST_ROLE === 0;
 
-  const [deleteEvent] = useDeleteTeamPlayer();
-
-  const [postEvent] = usePostChangeTeamRole();
+  const [deleteEvent] = useDeleteTeamPlayer({ onSuccess: forceRender });
+  const [postEvent] = usePostChangeTeamRole({ onSuccess: forceRender });
 
   const [clickMemberRole, setClickMemberRole] = React.useState<number>(3);
   const initialRoleRef = React.useRef<number>(TEST_ROLE);

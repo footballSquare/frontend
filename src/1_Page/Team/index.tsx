@@ -5,6 +5,7 @@ import TeamMemberListBox from "./ui/TeamMemberListBox";
 import LeaderMatchButton from "./ui/LeaderMatchButton";
 import TeamAwards from "./ui/TeamAwards";
 import useValidParamInteger from "../../4_Shared/model/useValidParamInteger";
+import React from "react";
 
 const TEST_ROLE = 0; // 테스트 role  0: 팀장 1: 팀원 2: 그외
 
@@ -14,6 +15,10 @@ const Team = () => {
 
   const [teamIdx] = useValidParamInteger("teamIdx");
   const [teamInfo, loading] = useGetTeamInfo(teamIdx);
+
+  React.useEffect(() => {
+    console.log(teamInfo);
+  }, [teamInfo]);
 
   return (
     <main className="flex flex-col w-[90%] text-sm pt-5">
@@ -34,24 +39,34 @@ const Team = () => {
           <TeamAwards />
 
           {/* 내용 */}
-          <div className="flex flex-col gap-5 sm:grid grid-cols-5 w-full ">
+          <div
+            className="flex flex-col gap-5 sm:grid grid-cols-5 w-full "
+            style={{
+              color: teamInfo.team_list_color,
+            }}>
             <div className="w-full flex flex-wrap gap-1 sm:col-span-2">
               <div className="flex flex-col items-center">
-                <div className="flex flex-row">
+                <div className="flex items-center ">
                   <img
-                    src="URL"
-                    className="w-16 h-16 rounded-full"
-                    alt="팀 엠블럼"
+                    src={teamInfo.team_list_emblem}
+                    alt="Team Emblem"
+                    className="w-16 h-16 rounded-full object-cover border border-gray-200"
                   />
-                  <div className="flex flex-col items-start min-w-[100px]">
-                    <h1 className="text-xl font-bold">
-                      {teamInfo?.team_list_name}
+                  <div className="flex flex-col items-center min-w-[120px]">
+                    <h1
+                      style={{
+                        fontSize: "1.5rem",
+                        fontWeight: "bold",
+                        textAlign: "center",
+                      }}>
+                      {teamInfo.team_list_name} {"#"}
+                      {teamInfo.team_list_short_name}
                     </h1>
-                    <div className="flex flex-col items-start gap-2">
+                    <div className="flex flex-col items-center gap-2 mt-2">
                       <button
                         className={`${
                           isTeamPlayer ? "bg-red-500" : "bg-blue-500"
-                        } text-white text-sm font-medium py-1 px-3 rounded-full`}>
+                        } text-white text-sm font-medium py-1 px-3 rounded-full transition-all duration-300`}>
                         {isTeamPlayer ? "팀 탈퇴" : "팀 가입"}
                       </button>
                       {isTeamReader && (
@@ -62,7 +77,6 @@ const Team = () => {
                     </div>
                   </div>
                 </div>
-
                 <div className="flex flex-col items-start w-full">
                   <h2 className="text-base font-semibold">팀 연혁</h2>
                   <HistoryListBox />

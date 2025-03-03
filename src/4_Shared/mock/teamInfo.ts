@@ -5,8 +5,8 @@ export const teamInfoData = {
     team_list_idx: 10,
     team_list_name: "레알",
     team_list_short_name: "RMA",
-    team_list_color: "#f152482",
-    team_list_emblem: "URL",
+    team_list_color: "#f12482",
+    team_list_emblem: team_banner_img,
     team_list_banner: team_banner_img,
     team_list_announcement:
       "레알 팀원 모집 중 입니다. 멀티포지션 환영, 접률 좋은분 환영",

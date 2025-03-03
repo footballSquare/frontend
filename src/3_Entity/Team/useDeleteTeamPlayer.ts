@@ -1,6 +1,11 @@
+import React from "react";
 import { useFetch } from "../../4_Shared/util/apiUtil";
 
-const useDeleteTeamPlayer = (): [
+const useDeleteTeamPlayer = ({
+  onSuccess,
+}: {
+  onSuccess: () => void;
+}): [
   deleteEvent: (userIdx: number) => void,
   serverState: unknown,
   loading: boolean
@@ -12,6 +17,14 @@ const useDeleteTeamPlayer = (): [
     console.log("삭제된 데이터:", userIdx);
   };
 
+  React.useEffect(() => {
+    if (!serverState) return;
+    switch (serverState.status) {
+      case 403:
+        return;
+    }
+    onSuccess?.();
+  }, [serverState]);
   return [deleteEvent, serverState, loading];
 };
 

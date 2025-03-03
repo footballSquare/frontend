@@ -7,8 +7,6 @@ const useValidParamInteger = (idxKey: string): [number] => {
 
   const rawValue = params[idxKey]; // 동적으로 키 접근
 
-  console.log(rawValue);
-
   const parsedIdx = React.useMemo(() => {
     const num = Number(rawValue);
     if (!Number.isInteger(num)) {
