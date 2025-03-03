@@ -5,7 +5,6 @@ import TeamMemberListBox from "./ui/TeamMemberListBox";
 import LeaderMatchButton from "./ui/LeaderMatchButton";
 import TeamAwards from "./ui/TeamAwards";
 import useValidParamInteger from "../../4_Shared/model/useValidParamInteger";
-import React from "react";
 import JoinLeaveButton from "./ui/JoinLeaveButton";
 
 const TEST_ROLE = 0; // 테스트 role  0: 팀장 1: 팀원 2: 그외
@@ -16,10 +15,6 @@ const Team = () => {
 
   const [teamIdx] = useValidParamInteger("teamIdx");
   const [teamInfo, loading] = useGetTeamInfo(teamIdx);
-
-  React.useEffect(() => {
-    console.log(teamInfo);
-  }, [teamInfo]);
 
   return (
     <main className="flex flex-col w-[90%] text-sm pt-5">
