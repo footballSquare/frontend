@@ -34,7 +34,7 @@ const AutoMoveAwardList = ({ awards }: { awards: TeamAwards[] }) => {
       </div>
 
       {/* 현재 트로피 위치 인디케이터 */}
-      <div className="flex gap-2 mt-4">
+      <div className="flex justify-center gap-2 mt-4">
         {Array.from({ length: indicator }).map((_, index) => (
           <div
             key={`indicator-${index}`}
