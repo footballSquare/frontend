@@ -5,14 +5,13 @@ import useIndicator from "./model/useIndicator";
 import { TeamAwards } from "../../3_Entity/Team/type";
 
 const AutoMoveAwardList = ({ awards }: { awards: TeamAwards[] }) => {
-  const [currentIndex, handleClickCurrentIndex] = useIndexAutoAnimate(
-    awards.length
-  );
   const containerRef = React.useRef<HTMLDivElement>(null);
   const [visibleTrophyCount] = useIndicator(containerRef);
   const indicator =
     visibleTrophyCount > 0 ? awards.length / visibleTrophyCount + 1 : 1;
-
+  const [currentIndex, handleClickCurrentIndex] = useIndexAutoAnimate(
+    awards.length
+  );
   return (
     <div className="w-full">
       <div className="flex justify-center items-center">

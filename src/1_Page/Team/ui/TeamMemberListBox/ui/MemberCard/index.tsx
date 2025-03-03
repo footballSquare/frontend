@@ -6,11 +6,14 @@ import ps_icon from "../../../../../../4_Shared/assets/svg/platform-playstation.
 import xbox_icon from "../../../../../../4_Shared/assets/svg/platform-xbox.svg";
 import { platform } from "../../../../../../4_Shared/constant/platform";
 import { teamRole } from "../../../../../../4_Shared/constant/teamRole";
+import useDeleteTeamPlayer from "../../../../../../3_Entity/Team/useDeleteTeamPlayer";
+import usePostChangeTeamRole from "../../../../../../3_Entity/Team/usePostChangeTeamRole";
 
 const TEST_ROLE = 0;
 
 const MemberCard = (props: MemberProps) => {
   const {
+    player_list_idx,
     player_list_profile_img,
     player_list_nickname,
     team_role_idx,
@@ -18,6 +21,10 @@ const MemberCard = (props: MemberProps) => {
     observeRef,
   } = props;
   const isTeamReader = TEST_ROLE === 0;
+
+  const [deleteEvent] = useDeleteTeamPlayer();
+
+  const [postEvent] = usePostChangeTeamRole();
 
   const [clickMemberRole, setClickMemberRole] = React.useState<number>(3);
   const initialRoleRef = React.useRef<number>(TEST_ROLE);
@@ -119,7 +126,14 @@ const MemberCard = (props: MemberProps) => {
               <option value={1}>{teamRole[1]}</option>
               <option value={2}>{teamRole[2]}</option>
             </select>
-            <button className="w-full bg-red-500 text-white py-2 rounded-md mb-2">
+            <button
+              className="w-full bg-red-500 text-white py-2 rounded-md mb-2"
+              onClick={() => {
+                if (confirm("방출하시겠습니까?")) {
+                  alert("방출되었습니다");
+                  deleteEvent(clickMemberRole);
+                }
+              }}>
               방출
             </button>
             <button
@@ -128,7 +142,10 @@ const MemberCard = (props: MemberProps) => {
                 clickMemberRole === initialRoleRef.current
                   ? "bg-gray-300 text-gray-400 cursor-not-allowed opacity-50"
                   : "bg-blue-500 hover:bg-blue-600"
-              }`}>
+              }`}
+              onClick={() => {
+                postEvent(player_list_idx, clickMemberRole);
+              }}>
               저장
             </button>
             <button
