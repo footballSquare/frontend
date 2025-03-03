@@ -5,13 +5,17 @@ import { TeamMembers } from "./type";
 
 const ITEMS_PER_PAGE = 10;
 
-const useGetTeamMembers = (page: number): [TeamMembers[], boolean, boolean] => {
+const useGetTeamMembers = (
+  teamIdx: number,
+  page: number
+): [TeamMembers[], boolean, boolean] => {
   const [serverState, request, loading] = useFetch();
   const [teamMembers, setTeamMembers] = React.useState<TeamMembers[]>([]);
   const [hasMoreContent, setHasMoreContent] = React.useState<boolean>(true);
 
   React.useEffect(() => {
     request(teamMemberData);
+    console.log("팀 ", teamIdx);
   }, [page]);
 
   React.useEffect(() => {

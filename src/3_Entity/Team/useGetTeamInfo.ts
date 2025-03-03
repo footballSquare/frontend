@@ -3,11 +3,12 @@ import { useFetch } from "../../4_Shared/util/apiUtil";
 import { teamInfoData } from "../../4_Shared/mock/teamInfo";
 import { TeamInfo } from "./type";
 
-const useGetTeamInfo = (): [TeamInfo, boolean] => {
+const useGetTeamInfo = (teamIdx: number): [TeamInfo, boolean] => {
   const [serverState, request, loading] = useFetch();
   const [teamInfo, setTeamInfo] = React.useState<TeamInfo>({} as TeamInfo);
 
   React.useEffect(() => {
+    console.log(teamIdx);
     request(teamInfoData);
   }, []);
 

@@ -4,13 +4,16 @@ import PresentMatchBox from "./ui/PresentMatchBox";
 import TeamMemberListBox from "./ui/TeamMemberListBox";
 import LeaderMatchButton from "./ui/LeaderMatchButton";
 import TeamAwards from "./ui/TeamAwards";
+import useValidParamInteger from "../../4_Shared/model/useValidParamInteger";
 
 const TEST_ROLE = 0; // 테스트 role  0: 팀장 1: 팀원 2: 그외
 
 const Team = () => {
-  const isAdmin = TEST_ROLE === 0 || TEST_ROLE === 1;
+  const isTeamPlayer = TEST_ROLE === 0 || TEST_ROLE === 1;
   const isTeamReader = TEST_ROLE === 0;
-  const [teamInfo, loading] = useGetTeamInfo();
+
+  const [teamIdx] = useValidParamInteger("teamIdx");
+  const [teamInfo, loading] = useGetTeamInfo(teamIdx);
 
   return (
     <main className="flex flex-col w-[90%] text-sm pt-5">
@@ -47,9 +50,9 @@ const Team = () => {
                     <div className="flex flex-col items-start gap-2">
                       <button
                         className={`${
-                          isAdmin ? "bg-red-500" : "bg-blue-500"
+                          isTeamPlayer ? "bg-red-500" : "bg-blue-500"
                         } text-white text-sm font-medium py-1 px-3 rounded-full`}>
-                        {isAdmin ? "팀 탈퇴" : "팀 가입"}
+                        {isTeamPlayer ? "팀 탈퇴" : "팀 가입"}
                       </button>
                       {isTeamReader && (
                         <LeaderMatchButton
