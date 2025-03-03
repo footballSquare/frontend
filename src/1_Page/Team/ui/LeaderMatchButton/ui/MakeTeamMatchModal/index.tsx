@@ -1,8 +1,5 @@
 import { useForm, SubmitHandler } from "react-hook-form";
-import {
-  toFormattedDate,
-  toFormattedTime,
-} from "../../../../../../4_Shared/lib/dateFormatter";
+import { toFormattedDate } from "../../../../../../4_Shared/lib/dateFormatter";
 import usePostTeamMatch from "../../../../../../3_Entity/Match/usePostTeamMatch";
 
 // 타입
@@ -15,12 +12,15 @@ import { matchType } from "../../../../../../4_Shared/constant/matchType";
 import { matchParticipation } from "../../../../../../4_Shared/constant/matchParticipation";
 import { matchDuration } from "../../../../../../4_Shared/constant/matchDuration";
 import { formation } from "../../../../../../4_Shared/constant/formation";
-import transformMatchData from "./model/transformMatchData";
-import inputErrorHandler from "./model/inputErrorHandler";
+import transformMatchData from "./util/transformMatchData";
+import inputErrorHandler from "./util/inputErrorHandler";
+import { findNearDate } from "./util/nearDateHandler";
 
 const MakeTeamMatchModal = (props: makeTeamMatchModalProps) => {
   const { team_list_idx, onClose } = props;
   const today = new Date();
+  console.log(toFormattedDate(today));
+  const { hour, min } = findNearDate(today);
 
   const [postEvent] = usePostTeamMatch(team_list_idx);
   const {
@@ -32,7 +32,8 @@ const MakeTeamMatchModal = (props: makeTeamMatchModalProps) => {
   } = useForm<ExtendedMatchFormData>({
     defaultValues: {
       match_match_start_date: toFormattedDate(today),
-      match_match_start_time: toFormattedTime(today),
+      match_match_start_hour: hour,
+      match_match_start_min: min,
       match_match_attribute: 0,
       match_type_idx_radio: "0",
       match_match_participation_type_radio: "1",
@@ -40,12 +41,12 @@ const MakeTeamMatchModal = (props: makeTeamMatchModalProps) => {
       match_formation_idx: 0,
     } as ExtendedMatchFormData,
   });
-
   const onSubmit: SubmitHandler<ExtendedMatchFormData> = (data) => {
     const hasError = inputErrorHandler(
       setError,
       data.match_match_start_date,
-      data.match_match_start_time
+      data.match_match_start_hour,
+      data.match_match_start_min
     );
     if (!hasError) {
       postEvent(transformMatchData(data));
@@ -136,18 +137,46 @@ const MakeTeamMatchModal = (props: makeTeamMatchModalProps) => {
           </div>
 
           {/* 시작 시간 선택 */}
-          <div>
-            <label className="block text-gray-700">시작 시간 선택</label>
-            <input
-              type="time"
-              {...register("match_match_start_time", { required: true })}
-              className="w-full border border-gray-300 rounded-lg p-2 mt-1"
-            />
-            {errors.match_match_start_time && (
-              <span className="text-red-500">
-                {errors.match_match_start_time.message}
-              </span>
-            )}
+          <div className="mb-4">
+            <div className="grid grid-cols-2 gap-4">
+              {/* 시간 선택 */}
+              <div className="flex flex-col">
+                <label className="text-gray-600 text-sm font-medium mb-1 text-start">
+                  시작 - 시간
+                </label>
+                <select
+                  {...register("match_match_start_hour", { required: true })}
+                  className="w-full border border-gray-300 rounded-lg p-3 text-center text-gray-800 focus:ring-2 focus:ring-blue-400 focus:outline-none">
+                  {Array.from({ length: 24 }, (_, index) => {
+                    const hours = index.toString().padStart(2, "0");
+                    return (
+                      <option key={index} value={hours}>
+                        {hours}
+                      </option>
+                    );
+                  })}
+                </select>
+              </div>
+              {/* 분 선택 (30분 단위만) */}
+              <div className="flex flex-col">
+                <label className="text-gray-600 text-sm font-medium mb-1 text-start">
+                  분
+                </label>
+                <select
+                  {...register("match_match_start_min", { required: true })}
+                  className="w-full border border-gray-300 rounded-lg p-3 text-center text-gray-800 focus:ring-2 focus:ring-blue-400 focus:outline-none">
+                  <option value="00">00</option>
+                  <option value="30">30</option>
+                </select>
+              </div>
+
+              {/* 에러 메시지 표시 */}
+              {errors.match_match_start_time && (
+                <span className="text-red-500 text-sm mt-1 block">
+                  {errors.match_match_start_time.message}
+                </span>
+              )}
+            </div>
           </div>
 
           {/* 매치 지속 시간 선택 */}

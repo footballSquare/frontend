@@ -5,8 +5,11 @@ import { UseFormSetError } from "react-hook-form";
 const inputErrorHandler = (
   setError: UseFormSetError<ExtendedMatchFormData>,
   match_match_start_date: string,
-  match_match_start_time: string
+  match_match_start_hour: string,
+  match_match_start_min: string
 ): boolean => {
+  const match_match_start_time = `${match_match_start_hour}:${match_match_start_min}`;
+
   // 유효성 검사
   const validationError = isPastTimeValidation(
     match_match_start_date

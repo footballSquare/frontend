@@ -13,7 +13,6 @@ const AutoMoveAwardList = ({ awards }: { awards: TeamAwards[] }) => {
   const indicator =
     visibleTrophyCount > 0 ? awards.length / visibleTrophyCount + 1 : 1;
 
-  console.log(awards);
   return (
     <div className="w-full">
       <div className="flex justify-center items-center">
