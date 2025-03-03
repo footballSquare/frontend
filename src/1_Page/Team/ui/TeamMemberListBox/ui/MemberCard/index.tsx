@@ -130,8 +130,9 @@ const MemberCard = (props: MemberProps) => {
               className="w-full bg-red-500 text-white py-2 rounded-md mb-2"
               onClick={() => {
                 if (confirm("방출하시겠습니까?")) {
-                  alert("방출되었습니다");
+                  setIsManageModalOpen(false);
                   deleteEvent(clickMemberRole);
+                  alert("방출되었습니다");
                 }
               }}>
               방출
@@ -144,6 +145,7 @@ const MemberCard = (props: MemberProps) => {
                   : "bg-blue-500 hover:bg-blue-600"
               }`}
               onClick={() => {
+                setIsManageModalOpen(false);
                 postEvent(player_list_idx, clickMemberRole);
               }}>
               저장
