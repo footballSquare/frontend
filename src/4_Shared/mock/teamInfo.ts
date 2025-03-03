@@ -24,7 +24,7 @@ export const teamAwardsData = {
       championship_list_name: "2025 KFPL 끝물 토너먼트",
       championship_list_start_date: "2025-04-25",
       championship_list_end_date: "2025-05-10",
-      championship_list_color: "#9B11E",
+      championship_list_color: "#9B11E1",
     },
     {
       championship_list_throphy_img: trophy_img,
@@ -32,7 +32,7 @@ export const teamAwardsData = {
       championship_list_name: "2025 KFPL 끝물 토너먼트",
       championship_list_start_date: "2025-04-25",
       championship_list_end_date: "2025-05-10",
-      championship_list_color: "#9B11E",
+      championship_list_color: "#9B11E1",
     },
     {
       championship_list_throphy_img: trophy_img,
@@ -40,7 +40,7 @@ export const teamAwardsData = {
       championship_list_name: "2025 KFPL 끝물 토너먼트",
       championship_list_start_date: "2025-04-25",
       championship_list_end_date: "2025-05-10",
-      championship_list_color: "#9B11E",
+      championship_list_color: "#9B11E1",
     },
     {
       championship_list_throphy_img: trophy_img,
@@ -48,7 +48,7 @@ export const teamAwardsData = {
       championship_list_name: "2025 KFPL 끝물 토너먼트",
       championship_list_start_date: "2025-04-25",
       championship_list_end_date: "2025-05-10",
-      championship_list_color: "#9B11E",
+      championship_list_color: "#9B11E1",
     },
     {
       championship_list_throphy_img: trophy_img,
@@ -56,7 +56,7 @@ export const teamAwardsData = {
       championship_list_name: "2025 KFPL 끝물 토너먼트",
       championship_list_start_date: "2025-04-25",
       championship_list_end_date: "2025-05-10",
-      championship_list_color: "#9B11E",
+      championship_list_color: "#9B11E1",
     },
     {
       championship_list_throphy_img: trophy_img,
@@ -64,7 +64,7 @@ export const teamAwardsData = {
       championship_list_name: "2025 KFPL 끝물 토너먼트",
       championship_list_start_date: "2025-04-25",
       championship_list_end_date: "2025-05-10",
-      championship_list_color: "#9B11E",
+      championship_list_color: "#9B11E1",
     },
     {
       championship_list_throphy_img: trophy_img,
@@ -72,7 +72,7 @@ export const teamAwardsData = {
       championship_list_name: "2025 KFPL 끝물 토너먼트",
       championship_list_start_date: "2025-04-25",
       championship_list_end_date: "2025-05-10",
-      championship_list_color: "#9B11E",
+      championship_list_color: "#9B11E1",
     },
   ],
 };
@@ -84,7 +84,7 @@ export const teamHistoryData = {
       championship_list_name: "2025 KFPL 끝물 토너먼트",
       championship_list_start_date: "2025-04-25",
       championship_list_end_date: "2025-05-10",
-      championship_list_color: "#9B11E",
+      championship_list_color: "#9B11E1",
     },
     {
       championship_list_idx: 0,

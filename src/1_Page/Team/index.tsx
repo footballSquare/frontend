@@ -6,6 +6,7 @@ import LeaderMatchButton from "./ui/LeaderMatchButton";
 import TeamAwards from "./ui/TeamAwards";
 import useValidParamInteger from "../../4_Shared/model/useValidParamInteger";
 import React from "react";
+import JoinLeaveButton from "./ui/JoinLeaveButton";
 
 const TEST_ROLE = 0; // 테스트 role  0: 팀장 1: 팀원 2: 그외
 
@@ -39,11 +40,7 @@ const Team = () => {
           <TeamAwards />
 
           {/* 내용 */}
-          <div
-            className="flex flex-col gap-5 sm:grid grid-cols-5 w-full "
-            style={{
-              color: teamInfo.team_list_color,
-            }}>
+          <div className="flex flex-col gap-5 sm:grid grid-cols-5 w-full ">
             <div className="w-full flex flex-wrap gap-1 sm:col-span-2">
               <div className="flex flex-col items-center">
                 <div className="flex items-center ">
@@ -58,17 +55,16 @@ const Team = () => {
                         fontSize: "1.5rem",
                         fontWeight: "bold",
                         textAlign: "center",
+                        color: teamInfo.team_list_color,
                       }}>
                       {teamInfo.team_list_name} {"#"}
                       {teamInfo.team_list_short_name}
                     </h1>
                     <div className="flex flex-col items-center gap-2 mt-2">
-                      <button
-                        className={`${
-                          isTeamPlayer ? "bg-red-500" : "bg-blue-500"
-                        } text-white text-sm font-medium py-1 px-3 rounded-full transition-all duration-300`}>
-                        {isTeamPlayer ? "팀 탈퇴" : "팀 가입"}
-                      </button>
+                      <JoinLeaveButton
+                        isTeamPlayer={isTeamPlayer}
+                        teamListIdx={teamInfo.team_list_idx}
+                      />
                       {isTeamReader && (
                         <LeaderMatchButton
                           team_list_idx={teamInfo.team_list_idx}
