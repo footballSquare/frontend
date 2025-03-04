@@ -16,7 +16,7 @@ import useDeleteUserInfo from "../../../../3_Entity/Account/useDeleteUserInfo";
 import PlayerCard from "./ui/PlayerCard";
 
 const PlayerDashBoard = ({ userInfo }: { userInfo: UserInfoProps }) => {
-  const { is_mine } = userInfo;
+  const { is_mine, tag_discord } = userInfo;
   const {
     reset,
     register,
@@ -32,6 +32,7 @@ const PlayerDashBoard = ({ userInfo }: { userInfo: UserInfoProps }) => {
 
   const handleCancle = () => {
     reset(inputBackupDataRef.current);
+    setModifyMode(false);
   };
 
   const [postEvent] = usePostUserInfo({
@@ -53,12 +54,12 @@ const PlayerDashBoard = ({ userInfo }: { userInfo: UserInfoProps }) => {
   };
 
   return (
-    <div className="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4 p-4 bg-white shadow-md rounded-lg">
+    <div className="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4  ">
       {/* Player 카드 */}
       <PlayerCard userInfo={userInfo} />
 
       {/* 정보 수정 폼 */}
-      <div className="w-full max-w-sm">
+      <div className="w-full max-w-sm bg-white shadow-md rounded-lg p-4">
         <h2 className="text-blue-600 font-semibold text-center text-sm">
           YOUR NOT ALONE
         </h2>
@@ -161,21 +162,9 @@ const PlayerDashBoard = ({ userInfo }: { userInfo: UserInfoProps }) => {
             <label className="text-xs font-medium text-gray-600">
               Discord Tag
             </label>
-            <input
-              {...register("tag_discord")}
-              disabled={!modifyMode}
-              className={`w-full p-1 text-xs ${
-                modifyMode
-                  ? "border rounded-md"
-                  : "border-b bg-transparent text-gray-500"
-              }`}
-              placeholder="000-0000-0000"
-            />
-            {errors.tag_discord && (
-              <p className="text-red-500 text-xs">
-                {errors.tag_discord.message}
-              </p>
-            )}
+            <p className="w-full p-1 text-xs border-b bg-transparent text-gray-500">
+              {tag_discord}
+            </p>
           </div>
 
           {/* 수정/저장 버튼 */}
