@@ -8,8 +8,8 @@ const App = () => {
   return (
     <BrowserRouter>
       <main className=" w-full m-auto h-full justify-center items-center bg-light-blue">
-        <Nav />
         <Page />
+        <Nav />
         <Modals />
       </main>
     </BrowserRouter>
