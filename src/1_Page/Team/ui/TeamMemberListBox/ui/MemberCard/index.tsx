@@ -21,7 +21,7 @@ const MemberCard = (props: MemberProps) => {
     observeRef,
   } = props;
   const isTeamReader = TEST_ROLE === 0;
-  const initialRoleRef = React.useRef<number>(TEST_ROLE); // 변경되었는지 확인용
+  const initialRoleRef = React.useRef<number>(team_role_idx); // 변경되었는지 확인용
   const [isDelete, setIsDelete] = React.useState<boolean>(false); // 삭제 상태
   const [memberRole, setMemberRole] = React.useState<number>(team_role_idx); // 멤버 상태
   const [deleteEvent] = useDeleteTeamPlayer();
