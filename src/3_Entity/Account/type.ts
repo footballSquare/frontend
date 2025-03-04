@@ -5,6 +5,7 @@ export type UserInfo = {
   is_hire: boolean;
   user_idx: number;
   profile_img: string;
+  short_team_name: string;
   nickname: string;
   state_message: string;
   platform: number;

@@ -5,6 +5,7 @@ export const mockUserInfo = {
   user: {
     is_mine: true,
     is_hire: false,
+    short_team_name: "CFC",
     user_idx: 3,
     profile_img: profile_img,
     nickname: "AcePlayer",
