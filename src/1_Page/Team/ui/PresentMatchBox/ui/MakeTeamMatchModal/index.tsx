@@ -4,8 +4,8 @@ import { toFormattedDate } from "../../../../../../4_Shared/lib/dateFormatter";
 import usePostTeamMatch from "../../../../../../3_Entity/Match/usePostTeamMatch";
 
 // 타입
-import { makeTeamMatchModalProps } from "./type";
-import { MatchDatIaInput } from "./type";
+import { MakeTeamMatchModalProps } from "./type";
+import { MatchDataInput } from "./type";
 
 // 상수
 import { teamMatchAttribute } from "../../../../../../4_Shared/constant/teamMatchAttribute";
@@ -13,25 +13,25 @@ import { matchType } from "../../../../../../4_Shared/constant/matchType";
 import { matchParticipation } from "../../../../../../4_Shared/constant/matchParticipation";
 import { matchDuration } from "../../../../../../4_Shared/constant/matchDuration";
 import { formation } from "../../../../../../4_Shared/constant/formation";
-import transformMatchData from "./util/transformMatchData";
+import { transformMatchData } from "./util/transformMatchData";
 import { findNearDate } from "./util/nearDateHandler";
 import { schema } from "./lib/schema";
 
-const MakeTeamMatchModal = (props: makeTeamMatchModalProps) => {
-  const { team_list_idx, onClose } = props;
+const MakeTeamMatchModal = (props: MakeTeamMatchModalProps) => {
+  const { team_list_idx, onClose, refetch } = props;
   const today = new Date();
   const { hour, min } = findNearDate(today);
 
   const [postEvent] = usePostTeamMatch({
     teamListIdx: team_list_idx,
-    onSuccess: () => {},
+    onSuccess: refetch,
   });
   const {
     register,
     watch,
     handleSubmit,
     formState: { errors },
-  } = useForm<MatchDatIaInput>({
+  } = useForm<MatchDataInput>({
     resolver: yupResolver(schema),
     defaultValues: {
       match_match_start_date: toFormattedDate(today),
@@ -45,7 +45,7 @@ const MakeTeamMatchModal = (props: makeTeamMatchModalProps) => {
       match_formation_idx: 0,
     },
   });
-  const onSubmit: SubmitHandler<MatchDatIaInput> = (data) => {
+  const onSubmit: SubmitHandler<MatchDataInput> = (data) => {
     if (confirm("생성하시겠습니까?")) {
       postEvent(transformMatchData(data));
       onClose();

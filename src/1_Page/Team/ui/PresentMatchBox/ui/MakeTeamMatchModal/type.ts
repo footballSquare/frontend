@@ -1,10 +1,11 @@
 import { TeamInfo } from "../../../../../../3_Entity/Team/type";
 
-export type makeTeamMatchModalProps = Pick<TeamInfo, "team_list_idx"> & {
+export type MakeTeamMatchModalProps = Pick<TeamInfo, "team_list_idx"> & {
   onClose: () => void;
+  refetch: () => void;
 };
 
-export type MatchDatIaInput = {
+export type MatchDataInput = {
   match_match_start_date: string;
   match_match_start_time: string;
   match_match_start_hour: string;
