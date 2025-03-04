@@ -1,21 +1,20 @@
 import { TeamAwards } from "../Team/type";
 
 export type UserInfo = {
-  isMine: boolean;
-  userIdx: number;
-  name: string;
+  is_mine: boolean;
+  is_hire: boolean;
+  user_idx: number;
+  profile_img: string;
   nickname: string;
+  state_message: string;
   platform: number;
   team: string;
   position: number;
   tag_discord: string;
-  tag: string;
   mmr: number;
-  phone_number: string;
   match_count: number;
   winning_rate: number;
   trophies: TeamAwards[];
-  profile_img: string;
 };
 
 export type UserInfoPost = Omit<
