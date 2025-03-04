@@ -8,6 +8,7 @@ const usePutSignTeam = (
 
   const putEvent = () => {
     request({ teamListIdx });
+    console.log("팀 가입신청", teamListIdx);
   };
 
   React.useEffect(() => {
