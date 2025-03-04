@@ -16,6 +16,7 @@ import useDeleteUserInfo from "../../../../3_Entity/Account/useDeleteUserInfo";
 import PlayerCard from "./ui/PlayerCard";
 
 const PlayerDashBoard = ({ userInfo }: { userInfo: UserInfoProps }) => {
+  const { is_mine } = userInfo;
   const {
     reset,
     register,
@@ -68,43 +69,23 @@ const PlayerDashBoard = ({ userInfo }: { userInfo: UserInfoProps }) => {
 
         <form onSubmit={handleSubmit(onSubmit)} className="mt-2 space-y-3">
           {/* 이름 & 닉네임 */}
-          <div className="grid grid-cols-2 gap-2">
-            <div>
-              <label className="text-xs font-medium text-gray-600">Name</label>
-              <input
-                {...register("name")}
-                disabled={!modifyMode}
-                className={`w-full p-1 text-xs ${
-                  modifyMode
-                    ? "border rounded-md"
-                    : "border-b bg-transparent text-gray-500"
-                }`}
-                placeholder="Name"
-              />
-              {errors.name && (
-                <p className="text-red-500 text-xs">{errors.name.message}</p>
-              )}
-            </div>
-            <div>
-              <label className="text-xs font-medium text-gray-600">
-                Nickname
-              </label>
-              <input
-                {...register("nickname")}
-                disabled={!modifyMode}
-                className={`w-full p-1 text-xs ${
-                  modifyMode
-                    ? "border rounded-md"
-                    : "border-b bg-transparent text-gray-500"
-                }`}
-                placeholder="Nickname"
-              />
-              {errors.nickname && (
-                <p className="text-red-500 text-xs">
-                  {errors.nickname.message}
-                </p>
-              )}
-            </div>
+          <div>
+            <label className="text-xs font-medium text-gray-600">
+              Nickname
+            </label>
+            <input
+              {...register("nickname")}
+              disabled={!modifyMode}
+              className={`w-full p-1 text-xs ${
+                modifyMode
+                  ? "border rounded-md"
+                  : "border-b bg-transparent text-gray-500"
+              }`}
+              placeholder="Nickname"
+            />
+            {errors.nickname && (
+              <p className="text-red-500 text-xs">{errors.nickname.message}</p>
+            )}
           </div>
 
           {/* 팀 & 플랫폼 */}
@@ -176,48 +157,29 @@ const PlayerDashBoard = ({ userInfo }: { userInfo: UserInfoProps }) => {
           </div>
 
           {/* MMR & 전화번호 */}
-          <div className="grid grid-cols-2 gap-2">
-            <div>
-              <label className="text-xs font-medium text-gray-600">MMR</label>
-              <input
-                {...register("mmr")}
-                type="number"
-                disabled={!modifyMode}
-                className={`w-full p-1 text-xs ${
-                  modifyMode
-                    ? "border rounded-md"
-                    : "border-b bg-transparent text-gray-500"
-                }`}
-                placeholder="MMR"
-              />
-              {errors.mmr && (
-                <p className="text-red-500 text-xs">{errors.mmr.message}</p>
-              )}
-            </div>
-            <div>
-              <label className="text-xs font-medium text-gray-600">
-                Phone Number
-              </label>
-              <input
-                {...register("phone_number")}
-                disabled={!modifyMode}
-                className={`w-full p-1 text-xs ${
-                  modifyMode
-                    ? "border rounded-md"
-                    : "border-b bg-transparent text-gray-500"
-                }`}
-                placeholder="000-0000-0000"
-              />
-              {errors.phone_number && (
-                <p className="text-red-500 text-xs">
-                  {errors.phone_number.message}
-                </p>
-              )}
-            </div>
+          <div>
+            <label className="text-xs font-medium text-gray-600">
+              Discord Tag
+            </label>
+            <input
+              {...register("tag_discord")}
+              disabled={!modifyMode}
+              className={`w-full p-1 text-xs ${
+                modifyMode
+                  ? "border rounded-md"
+                  : "border-b bg-transparent text-gray-500"
+              }`}
+              placeholder="000-0000-0000"
+            />
+            {errors.tag_discord && (
+              <p className="text-red-500 text-xs">
+                {errors.tag_discord.message}
+              </p>
+            )}
           </div>
 
           {/* 수정/저장 버튼 */}
-          {userInfo.isMine &&
+          {is_mine &&
             (!modifyMode ? (
               <button
                 className="w-full py-1 text-xs rounded-md font-bold mt-1 bg-blue-600 text-white"
@@ -243,7 +205,7 @@ const PlayerDashBoard = ({ userInfo }: { userInfo: UserInfoProps }) => {
               </div>
             ))}
         </form>
-        {!modifyMode && userInfo.isMine && (
+        {!modifyMode && userInfo.is_mine && (
           <div className="flex w-full py-1 text-xs rounded-md font-bold mt-1 justify-end gap-2">
             <button
               className="w-full h-6 border border-red-600 text-red-600 font-semibold px-2 py-0.5 text-[10px] rounded shadow-sm transition-all duration-200"
