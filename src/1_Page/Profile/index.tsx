@@ -6,8 +6,8 @@ import { useParams } from "react-router-dom";
 const Profile = () => {
   const { userIdx } = useParams();
   const [userInfo] = useGetMyInfo(userIdx);
-  const { winning_rate, trophies, match_count, ...playerProps } = userInfo;
-  const awardProps = { winning_rate, trophies, match_count };
+  const { winning_rate, trophies, match_count, mmr, ...playerProps } = userInfo;
+  const awardProps = { winning_rate, trophies, match_count, mmr };
 
   return (
     <main className="flex flex-wrap gap-4 w-full justify-center bg-white shadow-md rounded-lg p-4">
