@@ -9,7 +9,9 @@ import useMakeTeamMatchModalStore from "../../../../4_Shared/zustand/useMakeTeam
 
 const PresentMatchBox = ({ team_list_idx }: { team_list_idx: number }) => {
   const [page, setPage] = useState<number>(1);
-  const [teamMatchList, hasMoreContent, loading] = useGetTeamMatchList(page);
+  const [teamMatchList, hasMoreContent, loading, refetch] =
+    useGetTeamMatchList(page);
+
   const [observeRef] = useInfiniteScrollPaging(
     setPage,
     loading,
@@ -38,6 +40,7 @@ const PresentMatchBox = ({ team_list_idx }: { team_list_idx: number }) => {
         <MakeTeamMatchModal
           team_list_idx={team_list_idx}
           onClose={setToggleModal}
+          refetch={refetch}
         />
       )}
     </div>
