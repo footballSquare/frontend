@@ -3,14 +3,12 @@ import HistoryListBox from "./ui/HistoryListBox";
 import PresentMatchBox from "./ui/PresentMatchBox";
 import TeamMemberListBox from "./ui/TeamMemberListBox";
 import TeamAwards from "./ui/TeamAwards";
-import JoinLeaveButton from "./ui/JoinLeaveButton";
-import LeaderMatchButton from "./ui/LeaderMatchButton";
+import TeamJoinLeaveButton from "./ui/TeamJoinLeaveButton";
 
 import useValidParamInteger from "../../4_Shared/model/useValidParamInteger";
 
-const TEST_ROLE = 0; // 테스트 role  0: 팀장 1: 팀원 2: 그외
-
 const Team = () => {
+  const TEST_ROLE = 0; // 테스트 role  0: 팀장 1: 팀원 2: 그외
   const isTeamPlayer = TEST_ROLE === 0 || TEST_ROLE === 1;
   const isTeamReader = TEST_ROLE === 0;
 
@@ -56,13 +54,11 @@ const Team = () => {
                       {teamInfo.team_list_name} {"#"}
                       {teamInfo.team_list_short_name}
                     </h1>
-                    <div className="flex flex-col items-center gap-2 mt-2">
-                      <JoinLeaveButton
-                        isTeamPlayer={isTeamPlayer}
-                        teamListIdx={teamInfo.team_list_idx}
-                      />
-                      {isTeamReader && <LeaderMatchButton />}
-                    </div>
+                    <TeamJoinLeaveButton
+                      isTeamPlayer={isTeamPlayer}
+                      isTeamReader={isTeamReader}
+                      teamListIdx={teamInfo.team_list_idx}
+                    />
                   </div>
                 </div>
                 <div className="flex flex-col items-start w-full">

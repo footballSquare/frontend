@@ -8,6 +8,7 @@ const useDeleteLeaveTeam = (
 
   const deleteEvent = () => {
     request({ teamListIdx });
+    console.log("팀 탈퇴 실행", teamListIdx);
   };
 
   React.useEffect(() => {
