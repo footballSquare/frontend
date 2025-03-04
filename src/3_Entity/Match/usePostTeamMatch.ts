@@ -1,9 +1,13 @@
 import { useFetch } from "../../4_Shared/util/apiUtil";
 import { MatchFormData } from "./type";
 
-const usePostTeamMatch = (
-  teamListIdx: number
-): [
+const usePostTeamMatch = ({
+  teamListIdx,
+  onSuccess,
+}: {
+  teamListIdx: number;
+  onSuccess: () => void;
+}): [
   postEvent: (matchFormData: MatchFormData) => void,
   serverState: unknown,
   loading: boolean
@@ -13,6 +17,7 @@ const usePostTeamMatch = (
   const postEvent = (matchFormData: MatchFormData) => {
     request(matchFormData);
     console.log(matchFormData, teamListIdx);
+    onSuccess();
   };
 
   return [postEvent, serverState, loading];

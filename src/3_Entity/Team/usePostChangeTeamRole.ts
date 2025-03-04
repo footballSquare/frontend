@@ -1,10 +1,6 @@
 import React from "react";
 import { useFetch } from "../../4_Shared/util/apiUtil";
-const usePostChangeTeamRole = ({
-  onSuccess,
-}: {
-  onSuccess: () => void;
-}): [
+const usePostChangeTeamRole = (): [
   postEvent: (userIdx: number, newRole: number) => void,
   serverState: unknown,
   loading: boolean
@@ -13,7 +9,6 @@ const usePostChangeTeamRole = ({
 
   const postEvent = (userIdx: number, newRole: number) => {
     request({ userIdx, newRole });
-    onSuccess?.();
     console.log("전송된 역할 변경 요청:", userIdx, newRole);
   };
 
@@ -23,7 +18,6 @@ const usePostChangeTeamRole = ({
       case 403:
         return;
     }
-    onSuccess?.();
   }, [serverState]);
 
   return [postEvent, serverState, loading];

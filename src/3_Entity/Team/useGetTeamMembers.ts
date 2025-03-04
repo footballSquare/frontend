@@ -14,8 +14,8 @@ const useGetTeamMembers = (
   const [hasMoreContent, setHasMoreContent] = React.useState<boolean>(true);
 
   React.useEffect(() => {
+    console.log("팀멤버 다시가져오기", page);
     request(teamMemberData);
-    console.log("팀 ", teamIdx);
   }, [page]);
 
   React.useEffect(() => {

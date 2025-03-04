@@ -11,6 +11,7 @@ const useGetTeamMatchList = (page: number): [MatchInfo[], boolean, boolean] => {
   const [hasMoreContent, setHasMoreContent] = React.useState<boolean>(true);
 
   React.useEffect(() => {
+    console.log("팀매치 호출");
     request(matchList);
   }, [page]);
 

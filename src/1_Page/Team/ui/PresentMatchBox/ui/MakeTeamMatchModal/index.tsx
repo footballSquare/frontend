@@ -1,10 +1,11 @@
 import { useForm, SubmitHandler } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { toFormattedDate } from "../../../../../../4_Shared/lib/dateFormatter";
 import usePostTeamMatch from "../../../../../../3_Entity/Match/usePostTeamMatch";
 
 // 타입
 import { makeTeamMatchModalProps } from "./type";
-import { ExtendedMatchFormData } from "./type";
+import { MatchDatIaInput } from "./type";
 
 // 상수
 import { teamMatchAttribute } from "../../../../../../4_Shared/constant/teamMatchAttribute";
@@ -13,25 +14,28 @@ import { matchParticipation } from "../../../../../../4_Shared/constant/matchPar
 import { matchDuration } from "../../../../../../4_Shared/constant/matchDuration";
 import { formation } from "../../../../../../4_Shared/constant/formation";
 import transformMatchData from "./util/transformMatchData";
-import inputErrorHandler from "./util/inputErrorHandler";
 import { findNearDate } from "./util/nearDateHandler";
+import { schema } from "./lib/schema";
 
 const MakeTeamMatchModal = (props: makeTeamMatchModalProps) => {
   const { team_list_idx, onClose } = props;
   const today = new Date();
-  console.log(toFormattedDate(today));
   const { hour, min } = findNearDate(today);
 
-  const [postEvent] = usePostTeamMatch(team_list_idx);
+  const [postEvent] = usePostTeamMatch({
+    teamListIdx: team_list_idx,
+    onSuccess: () => {},
+  });
   const {
     register,
     watch,
     handleSubmit,
-    setError,
     formState: { errors },
-  } = useForm<ExtendedMatchFormData>({
+  } = useForm<MatchDatIaInput>({
+    resolver: yupResolver(schema),
     defaultValues: {
       match_match_start_date: toFormattedDate(today),
+      match_match_start_time: `${hour}:${min}`,
       match_match_start_hour: hour,
       match_match_start_min: min,
       match_match_attribute: 0,
@@ -39,17 +43,12 @@ const MakeTeamMatchModal = (props: makeTeamMatchModalProps) => {
       match_match_participation_type_radio: "1",
       match_match_duration: matchDuration[1],
       match_formation_idx: 0,
-    } as ExtendedMatchFormData,
+    },
   });
-  const onSubmit: SubmitHandler<ExtendedMatchFormData> = (data) => {
-    const hasError = inputErrorHandler(
-      setError,
-      data.match_match_start_date,
-      data.match_match_start_hour,
-      data.match_match_start_min
-    );
-    if (!hasError) {
+  const onSubmit: SubmitHandler<MatchDatIaInput> = (data) => {
+    if (confirm("생성하시겠습니까?")) {
       postEvent(transformMatchData(data));
+      onClose();
     }
   };
 
@@ -170,7 +169,7 @@ const MakeTeamMatchModal = (props: makeTeamMatchModalProps) => {
                 </select>
               </div>
 
-              {/* 에러 메시지 표시 */}
+              {/* 에러 메시지 표시 시간과 분을 합치기 위해서*/}
               {errors.match_match_start_time && (
                 <span className="text-red-500 text-sm mt-1 block">
                   {errors.match_match_start_time.message}
