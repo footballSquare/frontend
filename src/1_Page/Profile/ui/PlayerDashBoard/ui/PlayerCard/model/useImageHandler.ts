@@ -1,23 +1,21 @@
 import React from "react";
 import { UseFormSetValue, UseFormClearErrors } from "react-hook-form";
-import { PlayerCardProps, ImageInput } from "../type";
+import { ImageInput } from "../type";
 
 const useImageHandler = (
-  userInfo: PlayerCardProps,
+  profile_img: string,
   setValue: UseFormSetValue<ImageInput>,
   clearErrors: UseFormClearErrors<ImageInput>
 ) => {
-  const backupImageRef = React.useRef<string | null>(userInfo.profile_img); // 초기 이미지 저장
-  const [preview, setPreview] = React.useState<string | null>(
-    userInfo.profile_img
-  );
+  const backupImageRef = React.useRef<string | null>(profile_img); // 초기 이미지 저장
+  const [preview, setPreview] = React.useState<string | null>(profile_img);
   const [isEditing, setIsEditing] = React.useState<boolean>(false); // 수정 모드 상태
 
   // userInfo 변경 시 초기화
   React.useEffect(() => {
-    setPreview(userInfo.profile_img);
-    backupImageRef.current = userInfo.profile_img;
-  }, [userInfo]);
+    setPreview(profile_img);
+    backupImageRef.current = profile_img;
+  }, [profile_img]);
 
   // 이미지 변경 핸들러
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
