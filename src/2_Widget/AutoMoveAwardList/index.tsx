@@ -14,7 +14,7 @@ const AutoMoveAwardList = ({ awards }: { awards: TeamAwards[] }) => {
     visibleTrophyCount > 0 ? awards.length / visibleTrophyCount + 1 : 1;
 
   return (
-    <div className="w-full">
+    <div className="w-full ">
       <div className="flex justify-center items-center">
         <div className="flex gap-4 mt-4 w-full" ref={containerRef}>
           {/* 트로피 컨테이너 */}
