@@ -19,20 +19,20 @@ const MemberCard = (props: MemberProps) => {
     team_role_idx,
     player_list_platform,
     observeRef,
-    forceRender,
   } = props;
   const isTeamReader = TEST_ROLE === 0;
+  const initialRoleRef = React.useRef<number>(TEST_ROLE); // 변경되었는지 확인용
+  const [isDelete, setIsDelete] = React.useState<boolean>(false); // 삭제 상태
+  const [memberRole, setMemberRole] = React.useState<number>(team_role_idx); // 멤버 상태
+  const [deleteEvent] = useDeleteTeamPlayer();
+  const [postEvent] = usePostChangeTeamRole();
 
-  const [deleteEvent] = useDeleteTeamPlayer({ onSuccess: forceRender });
-  const [postEvent] = usePostChangeTeamRole({ onSuccess: forceRender });
-
-  const [clickMemberRole, setClickMemberRole] = React.useState<number>(3);
-  const initialRoleRef = React.useRef<number>(TEST_ROLE);
   const [isDetailModalOpen, setIsDetailModalOpen] =
     React.useState<boolean>(false);
   const [isManageModalOpen, setIsManageModalOpen] =
     React.useState<boolean>(false);
 
+  if (isDelete) return <div></div>;
   return (
     <div>
       {/* 멤버 정보 카드*/}
@@ -42,7 +42,7 @@ const MemberCard = (props: MemberProps) => {
         onClick={() => setIsDetailModalOpen(true)}>
         <img src={player_list_profile_img} className="w-8 h-8 rounded-full" />
         <span className="text-xs">
-          {player_list_nickname} {teamRole[team_role_idx]}
+          {player_list_nickname} {teamRole[memberRole]}
         </span>
         <p className="ml-auto">🔎</p>
       </div>
@@ -69,9 +69,7 @@ const MemberCard = (props: MemberProps) => {
             </div>
 
             <h3 className="text-lg font-semibold">{player_list_nickname}</h3>
-            <p className="text-gray-500 text-sm mb-4">
-              {teamRole[team_role_idx]}
-            </p>
+            <p className="text-gray-500 text-sm mb-4">{teamRole[memberRole]}</p>
 
             {isTeamReader && (
               <button
@@ -79,8 +77,6 @@ const MemberCard = (props: MemberProps) => {
                 onClick={() => {
                   setIsManageModalOpen(true);
                   setIsDetailModalOpen(false);
-                  setClickMemberRole(team_role_idx);
-                  initialRoleRef.current = team_role_idx;
                 }}>
                 팀원 관리
               </button>
@@ -118,9 +114,9 @@ const MemberCard = (props: MemberProps) => {
             </label>
             <select
               className="w-full border border-gray-300 rounded-md py-2 px-3 mb-4 text-sm"
-              value={clickMemberRole}
+              defaultValue={memberRole}
               onChange={(event) => {
-                setClickMemberRole(Number(event.target.value)); // 문자열을 숫자로 변환
+                setMemberRole(Number(event.target.value)); // 문자열을 숫자로 변환
               }}>
               <option value={0}>{teamRole[0]}</option>
               <option value={1}>{teamRole[1]}</option>
@@ -131,27 +127,32 @@ const MemberCard = (props: MemberProps) => {
               onClick={() => {
                 if (confirm("방출하시겠습니까?")) {
                   setIsManageModalOpen(false);
-                  deleteEvent(clickMemberRole);
+                  deleteEvent(memberRole);
+                  setIsDelete(true);
                   alert("방출되었습니다");
                 }
               }}>
               방출
             </button>
             <button
-              disabled={clickMemberRole === initialRoleRef.current}
+              disabled={memberRole === initialRoleRef.current}
               className={`w-full text-white py-2 rounded-md mb-2 transition-all ${
-                clickMemberRole === initialRoleRef.current
+                memberRole === initialRoleRef.current
                   ? "bg-gray-300 text-gray-400 cursor-not-allowed opacity-50"
                   : "bg-blue-500 hover:bg-blue-600"
               }`}
               onClick={() => {
                 setIsManageModalOpen(false);
-                postEvent(player_list_idx, clickMemberRole);
+                postEvent(player_list_idx, memberRole);
+                initialRoleRef.current = memberRole;
               }}>
               저장
             </button>
             <button
-              onClick={() => setIsManageModalOpen(false)}
+              onClick={() => {
+                setIsManageModalOpen(false);
+                setMemberRole(initialRoleRef.current);
+              }}
               className="w-full border border-gray-300 py-2 rounded-md text-gray-600">
               닫기
             </button>

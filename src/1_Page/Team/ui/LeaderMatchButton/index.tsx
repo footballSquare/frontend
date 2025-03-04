@@ -1,13 +1,7 @@
-import MakeTeamMatchModal from "./ui/MakeTeamMatchModal";
-import React from "react";
-import { makeTeamMatchBtnProps } from "./type";
+import useMakeTeamMatchModalStore from "../../../../4_Shared/zustand/useMakeTeamMatchModal";
 
-const LeaderMatchButton = (props: makeTeamMatchBtnProps) => {
-  const { team_list_idx } = props;
-  const [isMakeTeamMatchModal, setIsMakeTeamMatchModal] =
-    React.useState<boolean>(false);
-  const toggleMakeTeamMatchModal = () =>
-    setIsMakeTeamMatchModal(!isMakeTeamMatchModal);
+const LeaderMatchButton = () => {
+  const { setToggleModal } = useMakeTeamMatchModalStore();
 
   return (
     <div className="flex gap-2">
@@ -17,17 +11,11 @@ const LeaderMatchButton = (props: makeTeamMatchBtnProps) => {
       <button
         className="bg-blue-500 text-white text-sm font-medium py-1 px-3 rounded-full cursor-auto"
         onClick={() => {
-          setIsMakeTeamMatchModal(true);
+          setToggleModal();
         }}>
         매치 생성
       </button>
       {/* 매치 생성 모달 */}
-      {isMakeTeamMatchModal && (
-        <MakeTeamMatchModal
-          team_list_idx={team_list_idx}
-          onClose={toggleMakeTeamMatchModal}
-        />
-      )}
     </div>
   );
 };

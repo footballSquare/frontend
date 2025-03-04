@@ -1,10 +1,11 @@
-import { ExtendedMatchFormData } from "../type";
+import { MatchDatIaInput } from "../type";
 import { MatchFormData } from "../../../../../../../3_Entity/Match/type";
 
-const transformMatchData = (data: ExtendedMatchFormData): MatchFormData => {
+const transformMatchData = (data: MatchDatIaInput): MatchFormData => {
   const {
     match_match_start_date,
-    match_match_start_time,
+    match_match_start_hour,
+    match_match_start_min,
     match_type_idx_radio,
     match_match_participation_type_radio,
     ...rest
@@ -18,7 +19,7 @@ const transformMatchData = (data: ExtendedMatchFormData): MatchFormData => {
     ),
     match_type_idx: Number(match_type_idx_radio),
     match_match_attribute: Number(data.match_match_attribute),
-    match_match_start_time: `${match_match_start_date} ${match_match_start_time}`,
+    match_match_start_time: `${match_match_start_date} ${match_match_start_hour}:${match_match_start_min}`,
   };
 };
 export default transformMatchData;

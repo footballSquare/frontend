@@ -6,8 +6,11 @@ import useValidParamInteger from "../../../../4_Shared/model/useValidParamIntege
 
 const TeamMemberListBox = () => {
   const [teamIdx] = useValidParamInteger("teamIdx");
-  const [, forceRender]: [number, React.DispatchWithoutAction] =
-    React.useReducer((prev: number) => prev + 1, 0);
+
+  const [, reFetch] = React.useReducer<React.ReducerWithoutAction<number>>(
+    (prev: number) => prev + 1,
+    0
+  );
 
   const [page, setPage] = React.useState<number>(1);
   const [teamMember, hasMoreContent, loading] = useGetTeamMembers(
@@ -26,7 +29,7 @@ const TeamMemberListBox = () => {
         <MemberCard
           {...elem}
           index={index}
-          forceRender={forceRender}
+          reFetch={reFetch}
           observeRef={teamMember.length === index + 1 ? observeRef : undefined}
         />
       ))}

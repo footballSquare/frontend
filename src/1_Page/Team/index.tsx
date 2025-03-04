@@ -2,10 +2,11 @@ import useGetTeamInfo from "../../3_Entity/Team/useGetTeamInfo";
 import HistoryListBox from "./ui/HistoryListBox";
 import PresentMatchBox from "./ui/PresentMatchBox";
 import TeamMemberListBox from "./ui/TeamMemberListBox";
-import LeaderMatchButton from "./ui/LeaderMatchButton";
 import TeamAwards from "./ui/TeamAwards";
-import useValidParamInteger from "../../4_Shared/model/useValidParamInteger";
 import JoinLeaveButton from "./ui/JoinLeaveButton";
+import LeaderMatchButton from "./ui/LeaderMatchButton";
+
+import useValidParamInteger from "../../4_Shared/model/useValidParamInteger";
 
 const TEST_ROLE = 0; // 테스트 role  0: 팀장 1: 팀원 2: 그외
 
@@ -60,11 +61,7 @@ const Team = () => {
                         isTeamPlayer={isTeamPlayer}
                         teamListIdx={teamInfo.team_list_idx}
                       />
-                      {isTeamReader && (
-                        <LeaderMatchButton
-                          team_list_idx={teamInfo.team_list_idx}
-                        />
-                      )}
+                      {isTeamReader && <LeaderMatchButton />}
                     </div>
                   </div>
                 </div>
@@ -90,7 +87,7 @@ const Team = () => {
 
             <div className="space-y-3 sm:col-span-3">
               <h2 className="text-base font-semibold">현재 경기</h2>
-              <PresentMatchBox />
+              <PresentMatchBox team_list_idx={teamInfo.team_list_idx} />
             </div>
           </div>
         </div>

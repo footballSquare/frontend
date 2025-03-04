@@ -1,9 +1,13 @@
 import { useState } from "react";
+
+import MatchCard from "./ui/MatchCrad";
+import MakeTeamMatchModal from "./ui/MakeTeamMatchModal";
+
 import useGetTeamMatchList from "../../../../3_Entity/Match/useGetTeamMatchList";
 import useInfiniteScrollPaging from "../../../../4_Shared/model/useInfiniteScrollPaging";
-import MatchCard from "./ui/MatchCrad";
+import useMakeTeamMatchModalStore from "../../../../4_Shared/zustand/useMakeTeamMatchModal";
 
-const PresentMatchBox = () => {
+const PresentMatchBox = ({ team_list_idx }: { team_list_idx: number }) => {
   const [page, setPage] = useState<number>(1);
   const [teamMatchList, hasMoreContent, loading] = useGetTeamMatchList(page);
   const [observeRef] = useInfiniteScrollPaging(
@@ -11,6 +15,8 @@ const PresentMatchBox = () => {
     loading,
     hasMoreContent
   );
+
+  const { isModalOpen, setToggleModal } = useMakeTeamMatchModalStore();
 
   return (
     <div className="flex flex-col space-y-2 h-[300px] overflow-scroll">
@@ -26,6 +32,13 @@ const PresentMatchBox = () => {
             }
           />
         ))
+      )}
+
+      {isModalOpen && (
+        <MakeTeamMatchModal
+          team_list_idx={team_list_idx}
+          onClose={setToggleModal}
+        />
       )}
     </div>
   );

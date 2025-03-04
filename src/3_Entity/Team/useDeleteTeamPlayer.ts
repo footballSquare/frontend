@@ -1,11 +1,7 @@
 import React from "react";
 import { useFetch } from "../../4_Shared/util/apiUtil";
 
-const useDeleteTeamPlayer = ({
-  onSuccess,
-}: {
-  onSuccess: () => void;
-}): [
+const useDeleteTeamPlayer = (): [
   deleteEvent: (userIdx: number) => void,
   serverState: unknown,
   loading: boolean
@@ -23,7 +19,6 @@ const useDeleteTeamPlayer = ({
       case 403:
         return;
     }
-    onSuccess?.();
   }, [serverState]);
   return [deleteEvent, serverState, loading];
 };
