@@ -34,10 +34,10 @@ const PlayerDashBoard = ({ userInfo }: { userInfo: UserInfoProps }) => {
   };
 
   const [postEvent] = usePostUserInfo({
-    userIdx: userInfo.userIdx,
+    userIdx: userInfo.user_idx,
     onFail: handleCancle,
   });
-  const [deleteEvent] = useDeleteUserInfo(userInfo.userIdx);
+  const [deleteEvent] = useDeleteUserInfo(userInfo.user_idx);
 
   const onSubmit: SubmitHandler<UserInfoInput> = (data) => {
     setModifyMode(false);

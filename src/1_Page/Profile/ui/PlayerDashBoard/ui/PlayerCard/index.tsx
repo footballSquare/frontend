@@ -11,6 +11,8 @@ import { matchPosition } from "../../../../../../4_Shared/constant/matchPosition
 import profile from "../../../../../../4_Shared/assets/svg/profile.svg";
 
 const PlayerCard = ({ userInfo }: { userInfo: PlayerCardProps }) => {
+  const { user_idx, is_mine, nickname, position, profile_img } = userInfo;
+
   const {
     register,
     setValue,
@@ -28,9 +30,9 @@ const PlayerCard = ({ userInfo }: { userInfo: PlayerCardProps }) => {
     handleCancel,
     handleSave,
     handleSetDefaultImage,
-  } = useImageHandler(userInfo, setValue, clearErrors);
+  } = useImageHandler(profile_img, setValue, clearErrors);
 
-  const [putEvent] = usePutUserImage({ userIdx: userInfo.userIdx });
+  const [putEvent] = usePutUserImage({ userIdx: user_idx });
   const onSubmit = (data: ImageInput) => {
     const file = convertToFile(data.profile_img, profile);
     handleSave();
@@ -43,7 +45,7 @@ const PlayerCard = ({ userInfo }: { userInfo: PlayerCardProps }) => {
       className="hidden sm:flex justify-center items-center">
       <div className="w-[160px] sm:w-[140px] md:w-[180px] lg:w-[200px] aspect-[3/4] bg-blue-900 text-white rounded-lg flex flex-col items-center justify-between p-4 shadow-md">
         <div className="text-xs font-bold self-start">
-          {matchPosition[userInfo.position]}
+          {matchPosition[position]}
         </div>
 
         {/* 이미지 업로드 부분 */}
@@ -54,20 +56,20 @@ const PlayerCard = ({ userInfo }: { userInfo: PlayerCardProps }) => {
             accept="image/*"
             className="hidden"
             {...register("profile_img")}
-            onChange={userInfo.isMine ? handleImageChange : undefined}
-            disabled={!userInfo.isMine}
+            onChange={is_mine ? handleImageChange : undefined}
+            disabled={!is_mine}
           />
           <label
             htmlFor="profileImg"
             className={`flex flex-col items-center ${
-              userInfo.isMine ? "cursor-pointer" : "cursor-default"
+              is_mine ? "cursor-pointer" : "cursor-default"
             }`}>
             <img
               className="w-28 h-28 object-cover rounded-full border-2 border-white shadow-lg"
               src={preview ? preview : profile}
               alt="프로필 미리보기"
             />
-            {userInfo.isMine && (
+            {is_mine && (
               <>
                 <span className="text-xs text-gray-300 mt-1">이미지 변경</span>
                 <button
@@ -83,7 +85,7 @@ const PlayerCard = ({ userInfo }: { userInfo: PlayerCardProps }) => {
             )}
           </label>
 
-          {userInfo.isMine && isEditing && (
+          {is_mine && isEditing && (
             <div className="flex gap-2 mt-2">
               <button
                 type="button"
@@ -108,8 +110,7 @@ const PlayerCard = ({ userInfo }: { userInfo: PlayerCardProps }) => {
         )}
 
         <div className="text-center">
-          <p className="text-sm font-semibold">{userInfo.name} #KOR</p>
-          <p className="text-xs">{userInfo.tag}번</p>
+          <p className="text-sm font-semibold">{nickname} #KOR</p>
         </div>
       </div>
     </form>
