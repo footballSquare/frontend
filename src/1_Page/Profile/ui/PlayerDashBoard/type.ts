@@ -11,6 +11,6 @@ export type UserInfoInput = {
   team: string;
   position: string;
   state_message: string;
-  common_status_idx: number;
+  common_status_idx: string;
   tag_discord: string;
 };

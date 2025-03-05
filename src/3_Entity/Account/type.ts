@@ -29,7 +29,6 @@ export type UserInfo = {
 export type UserInfoPost = {
   nickname: string;
   platform: number;
-  team: string;
   common_status_idx: number;
   position: number;
   state_message: string;
