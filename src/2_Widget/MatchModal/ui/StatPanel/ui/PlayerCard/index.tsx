@@ -1,4 +1,3 @@
-import React from "react";
 import { matchPosition } from "../../../../../../4_Shared/constant/matchPosition";
 import { PlayerCardProps } from "./type";
 import useStatInputModal from "./model/useStatInputModal";
