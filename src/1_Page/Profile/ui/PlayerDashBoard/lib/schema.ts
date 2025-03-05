@@ -31,4 +31,8 @@ export const schema = yup.object().shape({
     .required("포지션은 필수선택사항")
     .min(2, "포지션은 최소 2글자 이상이어야 합니다.")
     .max(20, "포지션은 최대 20글자를 초과할 수 없습니다."),
+
+  common_status_idx: yup.number().required("상태는 필수값"),
+
+  tag_discord: yup.string().required("디스코드 태그는 필수값입니다."),
 });
