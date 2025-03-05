@@ -18,7 +18,16 @@ import { hasChanges } from "./util/validate";
 import { converPostData } from "./util/convert";
 
 const PlayerDashBoard = ({ userInfo }: { userInfo: UserInfoProps }) => {
-  const { is_mine, tag_discord } = userInfo;
+  const {
+    is_mine,
+    user_idx,
+    nickname,
+    position,
+    profile_img,
+    short_team_name,
+  } = userInfo;
+  const profileProps = { is_mine, user_idx, nickname, position, profile_img };
+
   const {
     reset,
     register,
@@ -28,6 +37,7 @@ const PlayerDashBoard = ({ userInfo }: { userInfo: UserInfoProps }) => {
   } = useForm<UserInfoInput>({
     resolver: yupResolver(schema),
   });
+
   const [modifyMode, setModifyMode] = React.useState<boolean>(false);
   const [defaultUserInfoInput] = useInputHandler(reset, userInfo);
   const inputBackupDataRef = React.useRef<UserInfoInput>(defaultUserInfoInput);
@@ -38,10 +48,10 @@ const PlayerDashBoard = ({ userInfo }: { userInfo: UserInfoProps }) => {
   };
 
   const [postEvent] = usePostUserInfo({
-    userIdx: userInfo.user_idx,
+    userIdx: user_idx,
     onFail: handleCancle,
   });
-  const [deleteEvent] = useDeleteUserInfo(userInfo.user_idx);
+  const [deleteEvent] = useDeleteUserInfo(user_idx);
 
   const onSubmit: SubmitHandler<UserInfoInput> = (data) => {
     setModifyMode(false);
@@ -52,7 +62,7 @@ const PlayerDashBoard = ({ userInfo }: { userInfo: UserInfoProps }) => {
   return (
     <div className="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4  ">
       {/* Player 카드 */}
-      <PlayerCard userInfo={userInfo} />
+      <PlayerCard userInfo={profileProps} />
 
       {/* 정보 수정 폼 */}
       <div className="w-full max-w-sm bg-white shadow-md rounded-lg p-4">
@@ -62,14 +72,14 @@ const PlayerDashBoard = ({ userInfo }: { userInfo: UserInfoProps }) => {
         <h1 className="text-lg font-bold text-center mt-1">BEST PLAYER</h1>
         <form onSubmit={handleSubmit(onSubmit)}>
           <input
-            {...register("nickname")}
+            {...register("state_message")}
             disabled={!modifyMode}
             className={`w-full p-1 text-xs text-center ${
               modifyMode
                 ? "border-b bg-transparent text-gray-500"
                 : "text-gray-500  text-xs"
             }`}
-            placeholder="Nickname"
+            placeholder="상태 메시지 입력"
           />
           <div className="mt-2 space-y-3">
             {/* 이름 & 닉네임 */}
@@ -77,16 +87,20 @@ const PlayerDashBoard = ({ userInfo }: { userInfo: UserInfoProps }) => {
               <label className="text-xs font-medium text-gray-600">
                 Nickname
               </label>
-              <input
-                {...register("nickname")}
-                disabled={!modifyMode}
-                className={`w-full p-1 text-xs ${
+              <div
+                className={`flex w-full p-1 text-xs ${
                   modifyMode
                     ? "border rounded-md"
                     : "border-b bg-transparent text-gray-500"
-                }`}
-                placeholder="Nickname"
-              />
+                }`}>
+                <p>{`#${short_team_name} - `}</p>
+                <input
+                  {...register("nickname")}
+                  disabled={!modifyMode}
+                  placeholder="Nickname"
+                />
+              </div>
+
               {errors.nickname && (
                 <p className="text-red-500 text-xs">
                   {errors.nickname.message}
@@ -100,16 +114,20 @@ const PlayerDashBoard = ({ userInfo }: { userInfo: UserInfoProps }) => {
                 <label className="text-xs font-medium text-gray-600">
                   Team
                 </label>
-                <input
-                  {...register("team")}
-                  disabled={!modifyMode}
-                  className={`w-full p-1 text-xs ${
+                <div
+                  className={`flex w-full p-1 text-xs gap-1 ${
                     modifyMode
                       ? "border rounded-md"
                       : "border-b bg-transparent text-gray-500"
-                  }`}
-                  placeholder="Team"
-                />
+                  }`}>
+                  <img className="w-[15px] h-[15px] object-cover" />
+                  <input
+                    {...register("team")}
+                    disabled={!modifyMode}
+                    placeholder="Team"
+                  />
+                </div>
+
                 {errors.team && (
                   <p className="text-red-500 text-xs">{errors.team.message}</p>
                 )}
@@ -171,9 +189,24 @@ const PlayerDashBoard = ({ userInfo }: { userInfo: UserInfoProps }) => {
               <label className="text-xs font-medium text-gray-600">
                 Discord Tag
               </label>
-              <p className="w-full p-1 text-xs border-b bg-transparent text-gray-500">
-                {tag_discord}
-              </p>
+              <div
+                className={`flex w-full p-1 text-xs ${
+                  modifyMode
+                    ? "border rounded-md"
+                    : "border-b bg-transparent text-gray-500"
+                }`}>
+                <input
+                  {...register("tag_discord")}
+                  disabled={!modifyMode}
+                  placeholder="discord tag"
+                />
+              </div>
+
+              {errors.nickname && (
+                <p className="text-red-500 text-xs">
+                  {errors.nickname.message}
+                </p>
+              )}
             </div>
 
             {/* 수정/저장 버튼 */}
@@ -204,7 +237,7 @@ const PlayerDashBoard = ({ userInfo }: { userInfo: UserInfoProps }) => {
               ))}
           </div>
         </form>
-        {!modifyMode && userInfo.is_mine && (
+        {!modifyMode && is_mine && (
           <div className="flex w-full py-1 text-xs rounded-md font-bold mt-1 justify-end gap-2">
             <button
               className="w-full h-6 border border-red-600 text-red-600 font-semibold px-2 py-0.5 text-[10px] rounded shadow-sm transition-all duration-200"

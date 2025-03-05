@@ -9,7 +9,6 @@ type TeamAwards = {
 
 export type UserInfo = {
   is_mine: boolean;
-  is_hire: boolean;
   user_idx: number;
   profile_img: string;
   short_team_name: string;
@@ -17,6 +16,8 @@ export type UserInfo = {
   state_message: string;
   platform: number;
   team: string;
+  team_emblem: string;
+  common_status_idx: number;
   position: number;
   tag_discord: string;
   mmr: number;
@@ -25,15 +26,11 @@ export type UserInfo = {
   trophies: TeamAwards[];
 };
 
-export type UserInfoPost = Omit<
-  UserInfo,
-  | "match_count"
-  | "winning_rate"
-  | "trophies"
-  | "is_mine"
-  | "user_idx"
-  | "profile_img"
-  | "short_team_name"
-  | "tag_discord"
-  | "mmr"
->;
+export type UserInfoPost = {
+  platform: number;
+  team: string;
+  team_emblem: string;
+  common_status_idx: number;
+  position: number;
+  state_message: string;
+};
