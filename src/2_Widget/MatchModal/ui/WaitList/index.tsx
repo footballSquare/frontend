@@ -1,0 +1,64 @@
+import React from "react";
+import { matchPosition } from "../../../../4_Shared/constant/matchPosition";
+import { WaitingListProps } from "./type";
+import applyBtn from "../../../../4_Shared/assets/svg/applyBtn.svg";
+
+const WaitingList = React.memo((props: WaitingListProps) => {
+  const [selectedPosition, setSelectedPosition] = React.useState<number>(0);
+  const {
+    matchFormationPosition,
+    matchParticipants,
+    matchWaitList,
+    matchApproveHandler,
+  } = props;
+
+  return (
+    <div>
+      {/* 포지션 select & option 태그, 포지션 명 & 각 지원자 수 표시 */}
+      <select
+        className="w-[164px] h-[32px] rounded-[4px] text-center border-1 border-blue"
+        onChange={(e) => setSelectedPosition(Number(e.target.value))}
+      >
+        {matchFormationPosition.map((position) => (
+          <option
+            key={position}
+            value={position}
+            className="flex w-full justify-between"
+          >
+            {`${matchPosition[position]} | ${
+              matchWaitList && matchWaitList[position]?.length
+            } 명 지원`}
+          </option>
+        ))}
+      </select>
+
+      {/* 선택된 포지션 별 대기자 명단 & 참여 승인 버튼 */}
+      {matchWaitList && (
+        <div className="flex flex-col gap-2">
+          {matchWaitList[selectedPosition]?.map((player) => (
+            <div
+              key={player.player_list_idx}
+              className="flex gap-2 justify-around"
+            >
+              {/* <img src={player.player_list_url} alt="player" /> */}
+              <p>{player.player_list_nickname}</p>
+              <button
+                onClick={() =>
+                  matchApproveHandler(
+                    player,
+                    selectedPosition,
+                    matchParticipants
+                  )
+                }
+              >
+                <img src={applyBtn} alt="" />
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+});
+
+export default WaitingList;

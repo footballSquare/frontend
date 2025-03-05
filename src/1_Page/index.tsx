@@ -5,6 +5,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import PAGE_URI from "../4_Shared/constant/pageUri";
 import FreeMatch from "./FreeMatch";
+import Profile from "./Profile";
 
 const Page = () => {
   const [cookies] = useCookies(["accessToken"]);
@@ -20,13 +21,14 @@ const Page = () => {
         />
         <Route path={PAGE_URI.MAIN} element={<Main />} />
         <Route path={PAGE_URI.TEAMLIST} element={<Main />} />
+        <Route path={`${PAGE_URI.TEAM}/:teamIdx`} element={<Main />} />
         <Route path={`${PAGE_URI.TEAM}/:teamIdx`} element={<Team />} />
         <Route
           path={`${PAGE_URI.COMMUNITY}/:communityIdx`}
           element={<Main />}
         />
         <Route path={PAGE_URI.RANKING} element={<Main />} />
-        <Route path={`${PAGE_URI.PROFILE}/:userIdx`} element={<Main />} />
+        <Route path={`${PAGE_URI.PROFILE}/:userIdx`} element={<Profile />} />
         <Route path={PAGE_URI.FREEMATCH} element={<FreeMatch />} />
       </Routes>
     </div>

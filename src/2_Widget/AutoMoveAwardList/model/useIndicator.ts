@@ -20,6 +20,7 @@ const useIndicator = (containerRef: React.RefObject<HTMLDivElement>) => {
       window.removeEventListener("resize", updateVisibleCount); // 클린업
     };
   }, []);
+
   return [visibleTrophyCount];
 };
 export default useIndicator;
