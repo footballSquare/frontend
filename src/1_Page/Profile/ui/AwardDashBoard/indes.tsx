@@ -2,7 +2,7 @@ import { UserInfoStats } from "./type";
 import AutoMoveAwardList from "../../../../2_Widget/AutoMoveAwardList";
 
 const AwardDashBoard = ({ awardInfo }: { awardInfo: UserInfoStats }) => {
-  const { match_count = 0, winning_rate = 0, trophies = [], mmr } = awardInfo;
+  const { match_count = 0, winning_rate = 0, trophies = [] } = awardInfo;
 
   return (
     <div className="max-w-sm mx-auto bg-white shadow-md rounded-lg p-4">
@@ -41,12 +41,12 @@ const AwardDashBoard = ({ awardInfo }: { awardInfo: UserInfoStats }) => {
           </p>
         </div>
       </div>
-      <div>
+      {/* <div>
         <label className="text-xs font-medium text-gray-600">mmr</label>
         <p className="border-b border-gray-400 py-1 text-center text-sm">
           {mmr}
         </p>
-      </div>
+      </div> */}
       {/* 어워드 리스트 */}
       <div className="mt-4">
         <h3 className="text-blue-600 font-semibold text-xs mb-2">AWARD LIST</h3>
