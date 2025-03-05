@@ -5,7 +5,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { schema } from "./lib/schema";
 // 타입
 import { UserInfoProps } from "./type";
-import { UserInfoInput } from "../../../../3_Entity/Account/type";
+import { UserInfoInput } from "./type";
 // 상수
 import { platform } from "../../../../4_Shared/constant/platform";
 import { matchPosition } from "../../../../4_Shared/constant/matchPosition";
@@ -14,6 +14,8 @@ import useInputHandler from "./model/useInputHandler";
 import usePostUserInfo from "../../../../3_Entity/Account/usePutUserInfo";
 import useDeleteUserInfo from "../../../../3_Entity/Account/useDeleteUserInfo";
 import PlayerCard from "./ui/PlayerCard";
+import { hasChanges } from "./util/validate";
+import { converPostData } from "./util/convert";
 
 const PlayerDashBoard = ({ userInfo }: { userInfo: UserInfoProps }) => {
   const { is_mine, tag_discord } = userInfo;
@@ -43,14 +45,8 @@ const PlayerDashBoard = ({ userInfo }: { userInfo: UserInfoProps }) => {
 
   const onSubmit: SubmitHandler<UserInfoInput> = (data) => {
     setModifyMode(false);
-    const isChange =
-      JSON.stringify(data) !== JSON.stringify(inputBackupDataRef.current);
-    if (!isChange) return;
-    postEvent({
-      ...data,
-      platform: platform.indexOf(data.platform),
-      position: matchPosition.indexOf(data.position),
-    });
+    if (!hasChanges(data, inputBackupDataRef.current)) return;
+    postEvent(converPostData(data));
   };
 
   return (
@@ -64,135 +60,149 @@ const PlayerDashBoard = ({ userInfo }: { userInfo: UserInfoProps }) => {
           YOUR NOT ALONE
         </h2>
         <h1 className="text-lg font-bold text-center mt-1">BEST PLAYER</h1>
-        <p className="text-gray-500 text-center text-xs">
-          State message in here
-        </p>
-
-        <form onSubmit={handleSubmit(onSubmit)} className="mt-2 space-y-3">
-          {/* 이름 & 닉네임 */}
-          <div>
-            <label className="text-xs font-medium text-gray-600">
-              Nickname
-            </label>
-            <input
-              {...register("nickname")}
-              disabled={!modifyMode}
-              className={`w-full p-1 text-xs ${
-                modifyMode
-                  ? "border rounded-md"
-                  : "border-b bg-transparent text-gray-500"
-              }`}
-              placeholder="Nickname"
-            />
-            {errors.nickname && (
-              <p className="text-red-500 text-xs">{errors.nickname.message}</p>
-            )}
-          </div>
-
-          {/* 팀 & 플랫폼 */}
-          <div className="grid grid-cols-2 gap-2">
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <input
+            {...register("nickname")}
+            disabled={!modifyMode}
+            className={`w-full p-1 text-xs text-center ${
+              modifyMode
+                ? "border-b bg-transparent text-gray-500"
+                : "text-gray-500  text-xs"
+            }`}
+            placeholder="Nickname"
+          />
+          <div className="mt-2 space-y-3">
+            {/* 이름 & 닉네임 */}
             <div>
-              <label className="text-xs font-medium text-gray-600">Team</label>
+              <label className="text-xs font-medium text-gray-600">
+                Nickname
+              </label>
               <input
-                {...register("team")}
+                {...register("nickname")}
                 disabled={!modifyMode}
                 className={`w-full p-1 text-xs ${
                   modifyMode
                     ? "border rounded-md"
                     : "border-b bg-transparent text-gray-500"
                 }`}
-                placeholder="Team"
+                placeholder="Nickname"
               />
-              {errors.team && (
-                <p className="text-red-500 text-xs">{errors.team.message}</p>
+              {errors.nickname && (
+                <p className="text-red-500 text-xs">
+                  {errors.nickname.message}
+                </p>
               )}
             </div>
+
+            {/* 팀 & 플랫폼 */}
+            <div className="grid grid-cols-2 gap-2">
+              <div>
+                <label className="text-xs font-medium text-gray-600">
+                  Team
+                </label>
+                <input
+                  {...register("team")}
+                  disabled={!modifyMode}
+                  className={`w-full p-1 text-xs ${
+                    modifyMode
+                      ? "border rounded-md"
+                      : "border-b bg-transparent text-gray-500"
+                  }`}
+                  placeholder="Team"
+                />
+                {errors.team && (
+                  <p className="text-red-500 text-xs">{errors.team.message}</p>
+                )}
+              </div>
+              <div>
+                <label className="text-xs font-medium text-gray-600">
+                  Platform
+                </label>
+                <select
+                  {...register("platform")}
+                  disabled={!modifyMode}
+                  className={
+                    modifyMode
+                      ? "w-full p-1 text-xs border rounded-md"
+                      : "w-full p-1 text-xs border-b bg-transparent text-gray-500"
+                  }>
+                  {platform.map((plat, index) => (
+                    <option key={index} value={plat}>
+                      {plat}
+                    </option>
+                  ))}
+                </select>
+                {errors.platform && (
+                  <p className="text-red-500 text-xs">
+                    {errors.platform.message}
+                  </p>
+                )}
+              </div>
+            </div>
+
+            {/* 포지션 선택 */}
             <div>
               <label className="text-xs font-medium text-gray-600">
-                Platform
+                Position
               </label>
               <select
-                {...register("platform")}
+                {...register("position")}
                 disabled={!modifyMode}
                 className={
                   modifyMode
                     ? "w-full p-1 text-xs border rounded-md"
                     : "w-full p-1 text-xs border-b bg-transparent text-gray-500"
                 }>
-                {platform.map((plat, index) => (
-                  <option key={index} value={plat}>
-                    {plat}
+                {matchPosition.map((position) => (
+                  <option key={`match-position-${position}`} value={position}>
+                    {position}
                   </option>
                 ))}
               </select>
-              {errors.platform && (
+              {errors.position && (
                 <p className="text-red-500 text-xs">
-                  {errors.platform.message}
+                  {errors.position.message}
                 </p>
               )}
             </div>
-          </div>
 
-          {/* 포지션 선택 */}
-          <div>
-            <label className="text-xs font-medium text-gray-600">
-              Position
-            </label>
-            <select
-              {...register("position")}
-              disabled={!modifyMode}
-              className={
-                modifyMode
-                  ? "w-full p-1 text-xs border rounded-md"
-                  : "w-full p-1 text-xs border-b bg-transparent text-gray-500"
-              }>
-              {matchPosition.map((position) => (
-                <option key={`match-position-${position}`} value={position}>
-                  {position}
-                </option>
+            {/* MMR & 전화번호 */}
+            <div>
+              <label className="text-xs font-medium text-gray-600">
+                Discord Tag
+              </label>
+              <p className="w-full p-1 text-xs border-b bg-transparent text-gray-500">
+                {tag_discord}
+              </p>
+            </div>
+
+            {/* 수정/저장 버튼 */}
+            {is_mine &&
+              (!modifyMode ? (
+                <button
+                  className="w-full py-1 text-xs rounded-md font-bold mt-1 bg-blue-600 text-white"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    inputBackupDataRef.current = getValues(); // 현재 폼 데이터 백업
+                    setModifyMode(true);
+                  }}>
+                  수정하기
+                </button>
+              ) : (
+                <div className="flex w-full py-1 text-xs rounded-md font-bold mt-1 justify-end gap-2">
+                  <button
+                    className="w-full h-6 border border-red-600 text-red-600 font-semibold px-2 py-0.5 text-[10px] rounded shadow-sm transition-all duration-200"
+                    onClick={handleCancle}>
+                    취소
+                  </button>
+                  <button
+                    type="submit"
+                    className="w-full h-6 border border-blue-600 text-blue-600 font-semibold px-2 py-0.5 text-[10px] rounded shadow-sm transition-all duration-200">
+                    저장
+                  </button>
+                </div>
               ))}
-            </select>
-            {errors.position && (
-              <p className="text-red-500 text-xs">{errors.position.message}</p>
-            )}
           </div>
-
-          {/* MMR & 전화번호 */}
-          <div>
-            <label className="text-xs font-medium text-gray-600">
-              Discord Tag
-            </label>
-            <p className="w-full p-1 text-xs border-b bg-transparent text-gray-500">
-              {tag_discord}
-            </p>
-          </div>
-
-          {/* 수정/저장 버튼 */}
-          {is_mine &&
-            (!modifyMode ? (
-              <button
-                className="w-full py-1 text-xs rounded-md font-bold mt-1 bg-blue-600 text-white"
-                onClick={(e) => {
-                  e.preventDefault();
-                  inputBackupDataRef.current = getValues(); // 현재 폼 데이터 백업
-                  setModifyMode(true);
-                }}>
-                수정하기
-              </button>
-            ) : (
-              <div className="flex w-full py-1 text-xs rounded-md font-bold mt-1 justify-end gap-2">
-                <button
-                  className="w-full h-6 border border-red-600 text-red-600 font-semibold px-2 py-0.5 text-[10px] rounded shadow-sm transition-all duration-200"
-                  onClick={handleCancle}>
-                  취소
-                </button>
-                <button
-                  type="submit"
-                  className="w-full h-6 border border-blue-600 text-blue-600 font-semibold px-2 py-0.5 text-[10px] rounded shadow-sm transition-all duration-200">
-                  저장
-                </button>
-              </div>
-            ))}
         </form>
         {!modifyMode && userInfo.is_mine && (
           <div className="flex w-full py-1 text-xs rounded-md font-bold mt-1 justify-end gap-2">
