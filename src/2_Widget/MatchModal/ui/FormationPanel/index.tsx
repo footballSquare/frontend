@@ -14,7 +14,7 @@ const FormationPanel = React.memo((props: FormationPanelProps) => {
     isMatchLeader,
   } = props;
   return (
-    <div className="relative flex gap-6 h-full w-[35%]">
+    <div className="relative flex gap-6 h-full min-w-[35%]">
       {/* 필드 & 포메이션 선택기 */}
       <div
         className="w-full p-2 flex flex-col gap-6 items-center bg-cover bg-center"
