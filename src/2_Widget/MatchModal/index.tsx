@@ -4,7 +4,6 @@ import close_icon from "../../4_Shared/assets/svg/closeBtn.svg";
 import flag_icon from "../../4_Shared/assets/svg/flag-green.svg";
 import FormationPanel from "./ui/FormationPanel";
 import useGetMatchDetail from "../../3_Entity/Match/useGetMatchDetail";
-import Select from "../../4_Shared/components/Select";
 import { matchType } from "../../4_Shared/constant/matchType";
 import { matchParticipation } from "../../4_Shared/constant/matchParticipation";
 import WaitingList from "./ui/WaitList";
@@ -13,8 +12,8 @@ import useGetMatchWaitlist from "../../3_Entity/Match/useGetMatchWaitList";
 import useMatchApprove from "./model/useMatchApprove";
 import useMatchApply from "./model/useMatchApply";
 import { matchPosition } from "../../4_Shared/constant/matchPosition";
-import { matchAttribute } from "../../4_Shared/constant/matchAttribute";
-
+import { matchState } from "../../4_Shared/constant/matchState";
+import StatPanel from "./ui/StatPanel";
 const MatchModal = () => {
   // 로그인 구현 이전 임시 데이터
   const [myInfo, setMyInfo] = React.useState({
@@ -26,7 +25,7 @@ const MatchModal = () => {
   // 로그인 구현 이전 임시 데이터
 
   const { matchIdx, toggleMatchModal } = useMatchModalStore();
-  const [matchDetail, setMatchDetail] = useGetMatchDetail(matchIdx);
+  const [matchDetail] = useGetMatchDetail(matchIdx);
   const [matchParticipants, setMatchPaticipants] =
     useGetMatchParticipants(matchIdx);
   const [matchWaitList, setMatchWaitList] = useGetMatchWaitlist(matchIdx);
@@ -41,7 +40,7 @@ const MatchModal = () => {
     <div className="absolute top-0 left-0 w-full h-full flex justify-center items-center">
       {/* 레이어 */}
       <div
-        className="absolute top-0 left-0 w-[100vw] h-[100vh] opacity-50 bg-gray"
+        className="absolute top-0 left-0 w-full h-full opacity-50 bg-gray"
         onClick={toggleMatchModal}
       ></div>
       {/* 모달 */}
@@ -56,8 +55,7 @@ const MatchModal = () => {
             <img src={close_icon} alt="close" />
           </button>
         </div>
-
-        {/* 매치모드 / 참여방식 / 플레이타임 / 매치 시작 시간 / 게임모드  <- 매치 생성자는 시작시간 전에 변경 가능*/}
+        {/* 매치모드 / 참여방식 / 플레이타임 / 매치 시작 시간 / 게임모드 */}
         <div className="flex gap-6">
           <label className="flex flex-col text-xs font-semibold">
             예상 플레이 타임
@@ -94,54 +92,72 @@ const MatchModal = () => {
 
         {/* 포메이션 / 포지션 / 포지션별 대기 인원(승인 참가 전용) */}
         <div className="flex gap-6 h-[70%]">
-          {/* 필드 & 포메이션 선택기 */}
+          {/* 필드 & 포메이션 */}
           <FormationPanel
             matchFormationIdx={matchDetail.match.match_formation_idx}
             matchParticipants={matchParticipants.match_participant}
             matchDisApproveHandler={matchDisApproveHandler}
             isMatchLeader={isMatchLeader}
           />
+
           {/* && !isPastTime(match.match_match_start_time) */}
-          {matchParticipation[
-            matchDetail.match.match_match_participation_type
-          ] !== "승인 참여" ? (
-            <WaitingList
-              matchFormationPosition={
-                matchDetail.match.match_formation_position
-              }
-              matchParticipants={matchParticipants.match_participant}
-              matchWaitList={matchWaitList.match_waitlist}
-              matchApproveHandler={matchApproveHandler}
-              matchApplyHandler={matchApplyHandler}
-              isMatchLeader={isMatchLeader}
-            />
+          {/* 
+            매치 라인업 마감 전: 포지션 별 지원하기 버튼을 승인/아무나 참여 방식에 따라 다르게 배치
+
+            매치 라인업 마감 후 & 매치 스탯 입력 마감 전: 매치 리더에게는, 매치 마감 버튼을 출력해주고, 참여자는 스탯 입력 가능
+
+            매치 마감 후: 스탯 고정
+           */}
+          {matchState[matchDetail.match.common_status_idx] ===
+          "매치 라인업 마감 전" ? (
+            matchParticipation[
+              matchDetail.match.match_match_participation_type
+            ] === "승인 참여" ? (
+              <WaitingList
+                matchFormationPosition={
+                  matchDetail.match.match_formation_position
+                }
+                matchParticipants={matchParticipants.match_participant}
+                matchWaitList={matchWaitList.match_waitlist}
+                matchApproveHandler={matchApproveHandler}
+                matchApplyHandler={matchApplyHandler}
+                isMatchLeader={isMatchLeader}
+              />
+            ) : (
+              <div className=" flex flex-col gap-4 h-[300px] flex-wrap">
+                {matchDetail.match.match_formation_position.map(
+                  (positionIdx) => {
+                    return (
+                      !matchParticipants.match_participant.some(
+                        (elem) => elem.match_position_idx === positionIdx
+                      ) && (
+                        <button
+                          className=" border-1 border-gray shadow-lg p-[2px] w-[128px] hover:bg-blue hover:text-white"
+                          onClick={() => {
+                            matchApproveHandler(
+                              {
+                                player_list_idx: myInfo.userIdx,
+                                player_list_nickname: myInfo.nickName,
+                                player_list_url: myInfo.profileUrl,
+                              },
+                              positionIdx,
+                              matchParticipants.match_participant
+                            );
+                          }}
+                        >
+                          {matchPosition[positionIdx]}로 참가하기
+                        </button>
+                      )
+                    );
+                  }
+                )}
+              </div>
+            )
+          ) : matchState[matchDetail.match.common_status_idx] !==
+            "매치 스탯 입력 마감" ? (
+            <StatPanel  matchParticipants={matchParticipants.match_participant}/>
           ) : (
-            <div className=" flex flex-col gap-4 h-[300px] flex-wrap">
-              {matchDetail.match.match_formation_position.map((positionIdx) => {
-                return (
-                  !matchParticipants.match_participant.some(
-                    (elem) => elem.match_position_idx === positionIdx
-                  ) && (
-                    <button
-                      className=" border-1 border-gray shadow-lg p-[2px] w-[128px] hover:bg-blue hover:text-white"
-                      onClick={() => {
-                        matchApproveHandler(
-                          {
-                            player_list_idx: myInfo.userIdx,
-                            player_list_nickname: myInfo.nickName,
-                            player_list_url: myInfo.profileUrl,
-                          },
-                          positionIdx,
-                          matchParticipants.match_participant
-                        );
-                      }}
-                    >
-                      {matchPosition[positionIdx]}로 참가하기
-                    </button>
-                  )
-                );
-              })}
-            </div>
+            "매치 결과"
           )}
         </div>
         {/* 변경 사항 저장 / 매치 강제 종료 / 매치 삭제 <- 매치 생성자 전용*/}
