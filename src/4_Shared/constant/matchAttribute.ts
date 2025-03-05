@@ -1,1 +1,1 @@
-export const matchAttribute = ["비공개", "공개", "대회"];
+export const matchAttribute = ["공개", "비공개", "대회"];
