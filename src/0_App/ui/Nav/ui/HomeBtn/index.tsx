@@ -4,7 +4,7 @@ import usePageStore from "../../../../../4_Shared/zustand/usePageStore";
 
 const HomeBtn = () => {
   const navigate = useNavigate();
-  const { page, setPage } = usePageStore();
+  const { setPage } = usePageStore();
   return (
     <button
       className="lg:flex hidden items-center justify-center"

@@ -13,6 +13,7 @@ const WaitingPlayerCard = (props: WaitingPlayerCardProps) => {
     player_list_nickname,
     observeRef,
   } = props;
+  console.log(player_list_idx, player_list_profile_img);
   return (
     <div className="bg-white">
       <div className=" flex flex-col ">
@@ -20,7 +21,11 @@ const WaitingPlayerCard = (props: WaitingPlayerCardProps) => {
           ref={observeRef}
           className="flex items-center h-[72px] justify-between drop-shadow-md cursor-pointer bg-light-blue duration-500 px-4 py-2 text-xs hover:bg-blue hover:text-white"
         >
-          <img src={profileImg} alt="profile" className="w-[40px] rounded-[50%]" />
+          <img
+            src={profileImg}
+            alt="profile"
+            className="w-[40px] rounded-[50%]"
+          />
           <h3>{player_list_nickname}</h3>
           <h3>{player_prefer_position}</h3>
           <img
