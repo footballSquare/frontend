@@ -11,9 +11,10 @@ const FormationPanel = React.memo((props: FormationPanelProps) => {
     matchFormationIdx,
     matchParticipants,
     matchDisApproveHandler,
+    isMatchLeader,
   } = props;
   return (
-    <div className="relative flex gap-6 h-full w-[35%]">
+    <div className="relative flex gap-6 h-full min-w-[35%]">
       {/* 필드 & 포메이션 선택기 */}
       <div
         className="w-full p-2 flex flex-col gap-6 items-center bg-cover bg-center"
@@ -47,21 +48,23 @@ const FormationPanel = React.memo((props: FormationPanelProps) => {
               if (elem.match_position_idx === pos.positionIdx) {
                 return (
                   <div className=" flex gap-4 px-2 items-center  bg-gray rounded-lg w-fit text-xs">
-                    <button
-                      onClick={() => {
-                        matchDisApproveHandler(
-                          {
-                            player_list_idx: elem.player_list_idx,
-                            player_list_nickname: elem.player_list_nickname,
-                            player_list_url: elem.player_list_url,
-                          },
-                          elem.match_position_idx,
-                          matchParticipants
-                        );
-                      }}
-                    >
-                      X
-                    </button>
+                    {isMatchLeader && (
+                      <button
+                        onClick={() => {
+                          matchDisApproveHandler(
+                            {
+                              player_list_idx: elem.player_list_idx,
+                              player_list_nickname: elem.player_list_nickname,
+                              player_list_url: elem.player_list_url,
+                            },
+                            elem.match_position_idx,
+                            matchParticipants
+                          );
+                        }}
+                      >
+                        X
+                      </button>
+                    )}
                     <h4>{elem.player_list_nickname}</h4>
                   </div>
                 );
