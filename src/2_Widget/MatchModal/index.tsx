@@ -107,8 +107,8 @@ const MatchModal = () => {
 
             매치 마감 후: 스탯 고정
            */}
-          {matchDetail.match.common_status_idx === 1 ? (
-            matchDetail.match.match_match_participation_type === 2 ? (
+          {matchDetail.match.common_status_idx === 0 ? (
+            matchDetail.match.match_match_participation_type === 0 ? (
               <WaitingList
                 matchFormationPosition={
                   matchDetail.match.match_formation_position
