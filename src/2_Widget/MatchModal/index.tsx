@@ -12,11 +12,10 @@ import useGetMatchWaitlist from "../../3_Entity/Match/useGetMatchWaitList";
 import useMatchApprove from "./model/useMatchApprove";
 import useMatchApply from "./model/useMatchApply";
 import { matchPosition } from "../../4_Shared/constant/matchPosition";
-import { matchState } from "../../4_Shared/constant/matchState";
 import StatPanel from "./ui/StatPanel";
 const MatchModal = () => {
   // 로그인 구현 이전 임시 데이터
-  const [myInfo, setMyInfo] = React.useState({
+  const [myInfo] = React.useState({
     userIdx: 1,
     nickName: "master",
     profileUrl: "testing...",
@@ -108,11 +107,8 @@ const MatchModal = () => {
 
             매치 마감 후: 스탯 고정
            */}
-          {matchState[matchDetail.match.common_status_idx] ===
-          "매치 라인업 마감 전" ? (
-            matchParticipation[
-              matchDetail.match.match_match_participation_type
-            ] === "승인 참여" ? (
+          {matchDetail.match.common_status_idx === 1 ? (
+            matchDetail.match.match_match_participation_type === 2 ? (
               <WaitingList
                 matchFormationPosition={
                   matchDetail.match.match_formation_position
@@ -153,11 +149,12 @@ const MatchModal = () => {
                 )}
               </div>
             )
-          ) : matchState[matchDetail.match.common_status_idx] !==
-            "매치 스탯 입력 마감" ? (
-            <StatPanel  matchParticipants={matchParticipants.match_participant}/>
           ) : (
-            "매치 결과"
+            matchDetail.match.common_status_idx !== 2 && (
+              <StatPanel
+                matchParticipants={matchParticipants.match_participant}
+              />
+            )
           )}
         </div>
         {/* 변경 사항 저장 / 매치 강제 종료 / 매치 삭제 <- 매치 생성자 전용*/}
