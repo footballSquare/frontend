@@ -10,10 +10,17 @@ const WaitingList = React.memo((props: WaitingListProps) => {
     matchParticipants,
     matchWaitList,
     matchApproveHandler,
+    matchApplyHandler,
+    isMatchLeader,
   } = props;
-
+  const [myInfo,] = React.useState({
+    userIdx: 1,
+    nickName: "master",
+    profileUrl: "testing...",
+  });
+  
   return (
-    <div>
+    <div className=" w-[60%]">
       {/* 포지션 select & option 태그, 포지션 명 & 각 지원자 수 표시 */}
       <select
         className="w-[164px] h-[32px] rounded-[4px] text-center border-1 border-blue"
@@ -34,27 +41,45 @@ const WaitingList = React.memo((props: WaitingListProps) => {
 
       {/* 선택된 포지션 별 대기자 명단 & 참여 승인 버튼 */}
       {matchWaitList && (
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 mt-4 flex-wrap h-full w-full max-w-[280px]">
           {matchWaitList[selectedPosition]?.map((player) => (
             <div
               key={player.player_list_idx}
-              className="flex gap-2 justify-around"
+              className="flex gap-2 justify-between p-2 border-1 border-gray rounded-lg bg-light-blue shadow-lg"
             >
               {/* <img src={player.player_list_url} alt="player" /> */}
               <p>{player.player_list_nickname}</p>
-              <button
-                onClick={() =>
-                  matchApproveHandler(
-                    player,
-                    selectedPosition,
-                    matchParticipants
-                  )
-                }
-              >
-                <img src={applyBtn} alt="" />
-              </button>
+              {isMatchLeader && (
+                <button
+                  onClick={() =>
+                    matchApproveHandler(
+                      player,
+                      selectedPosition,
+                      matchParticipants
+                    )
+                  }
+                >
+                  <img className=" w-[24px]" src={applyBtn} alt="" />
+                </button>
+              )}
             </div>
           ))}
+
+          <button
+            className=" border-1 rounded-lg border-gray shadow-lg bg-blue text-white hover:bg-light-blue hover:text-black duration-700"
+            onClick={() => {
+              matchApplyHandler(
+                {
+                  player_list_idx: myInfo.userIdx,
+                  player_list_nickname: myInfo.nickName,
+                  player_list_url: myInfo.profileUrl,
+                },
+                selectedPosition
+              );
+            }}
+          >
+            {matchPosition[selectedPosition]} 지원하기
+          </button>
         </div>
       )}
     </div>

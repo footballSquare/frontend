@@ -20,6 +20,7 @@ const MatchCard = (props: MatchCardProps) => {
     observeRef,
   } = props;
   const { toggleMatchModal, setMatchIdx } = useMatchModalStore();
+  if(match_match_attribute !== 0) return;
   return (
     <div
       ref={observeRef}

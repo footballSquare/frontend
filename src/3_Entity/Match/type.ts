@@ -27,7 +27,7 @@ export type MatchDetail = {
     match_match_participation_type: number;
     player_list_nickname: string;
     match_match_start_time: string;
-    match_match_duration: string;
+    match_match_duration: { hours: number; minutes: number };
     common_status_idx: number;
     match_formation_idx: number;
     match_formation_position: number[];
