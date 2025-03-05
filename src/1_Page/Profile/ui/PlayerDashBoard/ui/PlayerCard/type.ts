@@ -6,5 +6,5 @@ export type PlayerCardProps = Pick<
 >;
 
 export type ImageInput = {
-  profile_img: File;
+  profile_img: File | null;
 };

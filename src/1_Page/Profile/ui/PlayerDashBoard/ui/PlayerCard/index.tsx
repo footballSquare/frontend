@@ -34,6 +34,7 @@ const PlayerCard = ({ userInfo }: { userInfo: PlayerCardProps }) => {
 
   const [putEvent] = usePutUserImage({ userIdx: user_idx });
   const onSubmit = (data: ImageInput) => {
+    console.log("클릭");
     const file = convertToFile(data.profile_img, profile);
     handleSave();
     putEvent(file);

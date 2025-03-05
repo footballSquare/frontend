@@ -3,7 +3,7 @@ import { UseFormSetValue, UseFormClearErrors } from "react-hook-form";
 import { ImageInput } from "../type";
 
 const useImageHandler = (
-  profile_img: string,
+  profile_img: string | null,
   setValue: UseFormSetValue<ImageInput>,
   clearErrors: UseFormClearErrors<ImageInput>
 ) => {
