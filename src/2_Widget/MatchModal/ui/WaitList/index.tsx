@@ -13,13 +13,12 @@ const WaitingList = React.memo((props: WaitingListProps) => {
     matchApplyHandler,
     isMatchLeader,
   } = props;
-  const [myInfo, setMyInfo] = React.useState({
+  const [myInfo,] = React.useState({
     userIdx: 1,
     nickName: "master",
     profileUrl: "testing...",
   });
-  const isLogin = true;
-
+  
   return (
     <div className=" w-[60%]">
       {/* 포지션 select & option 태그, 포지션 명 & 각 지원자 수 표시 */}
