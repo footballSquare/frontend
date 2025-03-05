@@ -10,6 +10,7 @@ export const converPostData = (data: UserInfoInput): UserInfoPost => {
     team: data.team,
     platform: platform.indexOf(data.platform),
     position: matchPosition.indexOf(data.position),
+    common_status_idx: data.common_status_idx,
   };
   return postFormData;
 };
