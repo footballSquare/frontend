@@ -1,5 +1,6 @@
 import { matchPosition } from "../../../../../4_Shared/constant/matchPosition";
 import { platform } from "../../../../../4_Shared/constant/platform";
+import { commonStatusIdx } from "../../../../../4_Shared/constant/commonStatusIdx";
 import { UserInfoInput } from "../type";
 import { UserInfoPost } from "../../../../../3_Entity/Account/type";
 
@@ -10,7 +11,7 @@ export const converPostData = (data: UserInfoInput): UserInfoPost => {
     team: data.team,
     platform: platform.indexOf(data.platform),
     position: matchPosition.indexOf(data.position),
-    common_status_idx: data.common_status_idx,
+    common_status_idx: commonStatusIdx.indexOf(data.common_status_idx),
   };
   return postFormData;
 };

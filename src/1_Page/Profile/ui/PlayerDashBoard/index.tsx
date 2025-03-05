@@ -9,6 +9,7 @@ import { UserInfoInput } from "./type";
 // 상수
 import { platform } from "../../../../4_Shared/constant/platform";
 import { matchPosition } from "../../../../4_Shared/constant/matchPosition";
+import { commonStatusIdx } from "../../../../4_Shared/constant/commonStatusIdx";
 
 import useInputHandler from "./model/useInputHandler";
 import usePostUserInfo from "../../../../3_Entity/Account/usePutUserInfo";
@@ -25,6 +26,8 @@ const PlayerDashBoard = ({ userInfo }: { userInfo: UserInfoProps }) => {
     position,
     profile_img,
     short_team_name,
+    team,
+    team_emblem,
   } = userInfo;
   const profileProps = { is_mine, user_idx, nickname, position, profile_img };
 
@@ -81,6 +84,37 @@ const PlayerDashBoard = ({ userInfo }: { userInfo: UserInfoProps }) => {
             }`}
             placeholder="상태 메시지 입력"
           />
+          {/* 팀 & 플랫폼 */}
+          <div>
+            <label className="text-xs font-medium text-gray-600">Team</label>
+            {!team ? (
+              <div className="flex w-full p-1 text-xs gap-1 border-b bg-transparent text-gray-500">
+                {team_emblem && (
+                  <img
+                    className="w-[15px] h-[15px] object-cover"
+                    src={team_emblem}
+                    alt="Team Emblem"
+                  />
+                )}
+                <p>{team}</p>
+              </div>
+            ) : (
+              <select
+                {...register("common_status_idx")}
+                disabled={!modifyMode}
+                className={
+                  modifyMode
+                    ? "w-full p-1 text-xs border rounded-md"
+                    : "w-full p-1 text-xs border-b bg-transparent text-gray-500"
+                }>
+                {commonStatusIdx.map((commontStatusIdx, index) => (
+                  <option key={index} value={commontStatusIdx}>
+                    {commontStatusIdx}
+                  </option>
+                ))}
+              </select>
+            )}
+          </div>
           <div className="mt-2 space-y-3">
             {/* 이름 & 닉네임 */}
             <div>
@@ -108,54 +142,29 @@ const PlayerDashBoard = ({ userInfo }: { userInfo: UserInfoProps }) => {
               )}
             </div>
 
-            {/* 팀 & 플랫폼 */}
-            <div className="grid grid-cols-2 gap-2">
-              <div>
-                <label className="text-xs font-medium text-gray-600">
-                  Team
-                </label>
-                <div
-                  className={`flex w-full p-1 text-xs gap-1 ${
-                    modifyMode
-                      ? "border rounded-md"
-                      : "border-b bg-transparent text-gray-500"
-                  }`}>
-                  <img className="w-[15px] h-[15px] object-cover" />
-                  <input
-                    {...register("team")}
-                    disabled={!modifyMode}
-                    placeholder="Team"
-                  />
-                </div>
-
-                {errors.team && (
-                  <p className="text-red-500 text-xs">{errors.team.message}</p>
-                )}
-              </div>
-              <div>
-                <label className="text-xs font-medium text-gray-600">
-                  Platform
-                </label>
-                <select
-                  {...register("platform")}
-                  disabled={!modifyMode}
-                  className={
-                    modifyMode
-                      ? "w-full p-1 text-xs border rounded-md"
-                      : "w-full p-1 text-xs border-b bg-transparent text-gray-500"
-                  }>
-                  {platform.map((plat, index) => (
-                    <option key={index} value={plat}>
-                      {plat}
-                    </option>
-                  ))}
-                </select>
-                {errors.platform && (
-                  <p className="text-red-500 text-xs">
-                    {errors.platform.message}
-                  </p>
-                )}
-              </div>
+            <div>
+              <label className="text-xs font-medium text-gray-600">
+                Platform
+              </label>
+              <select
+                {...register("platform")}
+                disabled={!modifyMode}
+                className={
+                  modifyMode
+                    ? "w-full p-1 text-xs border rounded-md"
+                    : "w-full p-1 text-xs border-b bg-transparent text-gray-500"
+                }>
+                {platform.map((plat, index) => (
+                  <option key={index} value={plat}>
+                    {plat}
+                  </option>
+                ))}
+              </select>
+              {errors.platform && (
+                <p className="text-red-500 text-xs">
+                  {errors.platform.message}
+                </p>
+              )}
             </div>
 
             {/* 포지션 선택 */}

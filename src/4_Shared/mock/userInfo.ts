@@ -19,6 +19,6 @@ export const mockUserInfo: { user: UserInfo } = {
     winning_rate: 12,
     trophies: teamAwardsData.team_award,
     team_emblem: profile_img,
-    common_status_idx: 4, // 6: 구직중 8: 무상태 팀이 없는 경우에 한함
+    common_status_idx: 1, // 0: 구직중 1: 무상태 팀이 없는 경우에 한함
   },
 };
