@@ -1,4 +1,11 @@
-import { TeamAwards } from "../Team/type";
+type TeamAwards = {
+  championship_list_throphy_img: string;
+  championship_list_idx: number;
+  championship_list_name: string;
+  championship_list_start_date: string;
+  championship_list_end_date: string;
+  championship_list_color: string;
+};
 
 export type UserInfo = {
   is_mine: boolean;
@@ -20,10 +27,13 @@ export type UserInfo = {
 
 export type UserInfoPost = Omit<
   UserInfo,
-  "match_count" | "winning_rate" | "trophies" | "isMine" | "userIdx"
+  | "match_count"
+  | "winning_rate"
+  | "trophies"
+  | "is_mine"
+  | "user_idx"
+  | "profile_img"
+  | "short_team_name"
+  | "tag_discord"
+  | "mmr"
 >;
-
-export type UserInfoInput = Omit<UserInfoPost, "platform" | "position"> & {
-  platform: string;
-  position: string;
-};
