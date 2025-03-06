@@ -127,7 +127,7 @@ const PlayerDashBoard = ({ userInfo }: { userInfo: UserInfoProps }) => {
                     ? "border rounded-md"
                     : "border-b bg-transparent text-gray-500"
                 }`}>
-                <p>{`#${short_team_name} - `}</p>
+                <p className="whitespace-nowrap">{`#${short_team_name} - `}</p>
                 <input
                   {...register("nickname")}
                   disabled={!modifyMode}
