@@ -40,8 +40,7 @@ const MatchModal = () => {
       {/* 레이어 */}
       <div
         className="absolute top-0 left-0 w-full h-full opacity-50 bg-gray"
-        onClick={toggleMatchModal}
-      ></div>
+        onClick={toggleMatchModal}></div>
       {/* 모달 */}
       <div className="flex flex-col relative w-[80%] h-[80%] bg-white gap-4 border-1 border-gray p-4 overflow-auto">
         {/* 타이틀 / 닫기 버튼 / 대회명(대회 매치 전용) / 게임 팀 이름(팀 없으면 공방) */}
@@ -139,8 +138,7 @@ const MatchModal = () => {
                               positionIdx,
                               matchParticipants.match_participant
                             );
-                          }}
-                        >
+                          }}>
                           {matchPosition[positionIdx]}로 참가하기
                         </button>
                       )

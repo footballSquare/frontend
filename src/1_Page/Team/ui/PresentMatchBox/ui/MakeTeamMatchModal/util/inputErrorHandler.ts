@@ -1,9 +1,9 @@
-import { ExtendedMatchFormData } from "../type";
+import { MatchDataInput } from "../type";
 import { isPastTimeValidation } from "../../../../../../../4_Shared/util/inputValidator";
 import { UseFormSetError } from "react-hook-form";
 
 const inputErrorHandler = (
-  setError: UseFormSetError<ExtendedMatchFormData>,
+  setError: UseFormSetError<MatchDataInput>,
   match_match_start_date: string,
   match_match_start_hour: string,
   match_match_start_min: string
@@ -21,7 +21,7 @@ const inputErrorHandler = (
   );
 
   if (validationError) {
-    setError(validationError.field as keyof ExtendedMatchFormData, {
+    setError(validationError.field as keyof MatchDataInput, {
       message: validationError.message,
     });
     return true; // 에러 발생
