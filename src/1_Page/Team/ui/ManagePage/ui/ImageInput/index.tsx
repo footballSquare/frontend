@@ -1,9 +1,10 @@
-import React from "react";
+import React, { RefObject } from "react";
 import { UseFormRegister } from "react-hook-form";
 import { TeamInfoInput } from "../../type"; // TeamInfoInput 타입 가져오기
 import useImageHandler from "./model/useImageHandler";
 
 type ImageInputProps = {
+  cancleRef: RefObject<boolean>;
   name: keyof TeamInfoInput; // 필드 이름을 TeamInfoInput의 키로 설정
   imgSrc: string;
   label: string;
@@ -13,6 +14,7 @@ type ImageInputProps = {
 };
 
 const ImageInput = ({
+  cancleRef,
   label,
   name,
   register,
@@ -24,7 +26,8 @@ const ImageInput = ({
   const [imagePreview, handleImageClick, handleImageChange] = useImageHandler(
     imgSrc,
     inputFileRef,
-    modifyMode
+    modifyMode,
+    cancleRef.current
   );
 
   return (
