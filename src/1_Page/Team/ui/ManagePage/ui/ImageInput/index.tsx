@@ -38,6 +38,7 @@ const ImageInput = ({
 
       {/* 숨겨진 파일 입력 */}
       <input
+        key={"input_" + modifyMode}
         {...register(name)} // register에 name을 동적으로 전달
         ref={inputFileRef}
         type="file"
