@@ -1,4 +1,4 @@
-import welcomeBanner from "./assets/svg/welcomeBanner.svg";
+import welcomeBanner from "../../4_Shared/assets/img/welcomeBanner.png"
 import { useNavigate } from "react-router-dom";
 const Welcome = () => {
   const navigate = useNavigate();
@@ -26,7 +26,7 @@ const Welcome = () => {
           Get Start
         </button>
       </div>
-      <div className="pt-[90px]">
+      <div className=" pt-2">
         <img
           src={welcomeBanner}
           className=" max-w-[700px]"

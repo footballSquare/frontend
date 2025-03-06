@@ -33,7 +33,7 @@ const useMatchApprove = (
       >, // 승인할 대기자
       matchPosition: number, // 포지션 넘버
       matchParticipants: MatchParticipant[] // 현재 참가자(기 승인자) 목록
-    ) => {
+    ): void => {
       const isPositionEmpty = !matchParticipants.some(
         (participant) => participant.match_position_idx === matchPosition
       );
@@ -42,12 +42,19 @@ const useMatchApprove = (
         setMatchParticipants((prev) => ({
           match_participant: [
             ...prev.match_participant,
-            {
-              match_position_idx: matchPosition,
-              player_list_idx: player.player_list_idx,
-              player_list_nickname: player.player_list_nickname,
-              player_list_url: player.player_list_url,
-            },
+            ...(matchParticipants.some(
+              (participant) =>
+                participant.player_list_idx === player.player_list_idx
+            )
+              ? []
+              : [
+                  {
+                    match_position_idx: matchPosition,
+                    player_list_idx: player.player_list_idx,
+                    player_list_nickname: player.player_list_nickname,
+                    player_list_url: player.player_list_url,
+                  },
+                ]),
           ],
         }));
 
@@ -74,7 +81,7 @@ const useMatchApprove = (
       >, // 승인 취소할 유저
       matchPosition: number, // 포지션 넘버
       matchParticipants: MatchParticipant[] // 현재 참가자(기 승인자) 목록
-    ) => {
+    ): void => {
       const isPositionEmpty = !matchParticipants.some(
         (participant) => participant.match_position_idx === matchPosition
       );
@@ -101,7 +108,7 @@ const useMatchApprove = (
               },
             ],
           },
-        })); // 대기자 리스트에서 제거
+        }));
       }
     },
     [setMatchParticipants, setMatchWaitList]

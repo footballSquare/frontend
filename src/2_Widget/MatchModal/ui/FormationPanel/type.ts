@@ -20,4 +20,5 @@ export type FormationPanelProps = {
       player_list_url: string;
     }[]
   ) => void;
+  isMatchLeader: boolean;
 };
