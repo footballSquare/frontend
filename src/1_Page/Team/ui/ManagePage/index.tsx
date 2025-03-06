@@ -24,8 +24,13 @@ const ManagePage = ({
     resolver: yupResolver(schema),
   });
   const [defaultTeamInfoInput] = useInputHandler(reset, teamInfo);
-  const [modifyMode, handleCancle, handleModifyFalse, handleBackupData] =
-    useManageModify(reset, defaultTeamInfoInput);
+  const {
+    modifyMode,
+    cancleRef,
+    handleCancle,
+    handleModifyFalse,
+    handleBackupData,
+  } = useManageModify(reset, defaultTeamInfoInput);
   const onSubmit: SubmitHandler<TeamInfoInput> = () => {
     handleModifyFalse();
   };
@@ -44,6 +49,7 @@ const ManagePage = ({
         <form onSubmit={handleSubmit(onSubmit)} className="mt-2 space-y-3">
           {/* 팀 배너 이미지 선택 */}
           <ImageInput
+            cancleRef={cancleRef}
             imgSrc={teamInfo.team_list_banner}
             name={"team_list_banner"}
             label={"Team Banner"}
@@ -54,6 +60,7 @@ const ManagePage = ({
 
           {/* 팀 엠블렘 이미지 선택 */}
           <ImageInput
+            cancleRef={cancleRef}
             imgSrc={teamInfo.team_list_emblem}
             name={"team_list_emblem"}
             label={"Team Emblem"}

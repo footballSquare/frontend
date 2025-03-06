@@ -3,7 +3,8 @@ import React from "react";
 const useImageHandler = (
   defaultImg: string,
   inputFileRef: React.RefObject<HTMLInputElement>,
-  modifyMode: boolean
+  modifyMode: boolean,
+  cancleTrigger: boolean | null
 ): [
   imagePreview: string,
   handleImageClick: () => void,
@@ -12,8 +13,9 @@ const useImageHandler = (
   const [imagePreview, setImagePreview] = React.useState<string>(defaultImg);
   const imagePreviewBackupRef = React.useRef<string>(defaultImg);
   const prevModifyModeRef = React.useRef<boolean>(modifyMode);
+
   React.useEffect(() => {
-    if (prevModifyModeRef && !modifyMode) {
+    if (cancleTrigger) {
       setImagePreview(imagePreviewBackupRef.current);
     }
     prevModifyModeRef.current = modifyMode;
