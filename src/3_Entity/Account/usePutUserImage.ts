@@ -1,17 +1,8 @@
 import { useFetch } from "../../4_Shared/util/apiUtil";
 
-<<<<<<< HEAD
 const usePutUserImage = (
   userIdx: number
 ): [
-=======
-const usePutUserImage = ({
-  userIdx,
-}: {
-  userIdx: number;
-  onFail?: () => void;
-}): [
->>>>>>> develop
   putEvent: (profileImg: File | null) => void,
   serverState: unknown,
   loading: boolean
