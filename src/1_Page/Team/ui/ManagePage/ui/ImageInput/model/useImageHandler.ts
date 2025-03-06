@@ -12,13 +12,12 @@ const useImageHandler = (
 ] => {
   const [imagePreview, setImagePreview] = React.useState<string>(defaultImg);
   const imagePreviewBackupRef = React.useRef<string>(defaultImg);
-  const prevModifyModeRef = React.useRef<boolean>(modifyMode);
 
+  // 이미지 캔슬
   React.useEffect(() => {
     if (cancleTrigger) {
       setImagePreview(imagePreviewBackupRef.current);
     }
-    prevModifyModeRef.current = modifyMode;
   }, [modifyMode]);
 
   // 이미지 클릭 시 input file 클릭 이벤트 호출
@@ -30,13 +29,14 @@ const useImageHandler = (
   const handleImageChange = async (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    const file = event.target.files?.[0]; // 첫 번째 파일을 선택
+    const file = event.target.files?.[0];
+    console.log(file);
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setImagePreview(reader.result as string); // 미리보기 이미지 설정
+        setImagePreview(reader.result as string);
       };
-      reader.readAsDataURL(file); // 파일을 URL로 변환
+      reader.readAsDataURL(file);
     }
   };
   return [imagePreview, handleImageClick, handleImageChange];
