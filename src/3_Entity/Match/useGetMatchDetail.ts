@@ -3,7 +3,13 @@ import { useFetch } from "../../4_Shared/util/apiUtil";
 import { mockMatchDetail } from "../../4_Shared/mock//matchDetail";
 import { MatchDetail } from "./type";
 
-const useGetMatchDetail = (matchIdx: number): [MatchDetail, boolean] => {
+const useGetMatchDetail = (
+  matchIdx: number
+): [
+  MatchDetail,
+  React.Dispatch<React.SetStateAction<MatchDetail>>,
+  boolean
+] => {
   const [serverState, request, loading] = useFetch();
   const [matchDetail, setMatchDetail] =
     React.useState<MatchDetail>(mockMatchDetail);
@@ -18,7 +24,7 @@ const useGetMatchDetail = (matchIdx: number): [MatchDetail, boolean] => {
     }
   }, [loading, serverState]);
 
-  return [matchDetail, loading];
+  return [matchDetail, setMatchDetail, loading];
 };
 
 export default useGetMatchDetail;

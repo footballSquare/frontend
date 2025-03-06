@@ -34,6 +34,12 @@ export type MatchDetail = {
   };
 };
 
+export type MatchParticipant = {
+  match_position_idx: number;
+  player_list_idx: number;
+  player_list_nickname: string;
+  player_list_url: string;
+};
 export type MatchParticipants = {
   match_participant: {
     match_position_idx: number;
