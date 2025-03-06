@@ -1,6 +1,5 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { toFormattedDate } from "../../../../../../4_Shared/lib/dateFormatter";
 import usePostTeamMatch from "../../../../../../3_Entity/Match/usePostTeamMatch";
 
 // 타입
@@ -11,11 +10,12 @@ import { MatchDataInput } from "./type";
 import { teamMatchAttribute } from "../../../../../../4_Shared/constant/teamMatchAttribute";
 import { matchType } from "../../../../../../4_Shared/constant/matchType";
 import { matchParticipation } from "../../../../../../4_Shared/constant/matchParticipation";
-import { matchDuration } from "../../../../../../4_Shared/constant/matchDuration";
 import { formation } from "../../../../../../4_Shared/constant/formation";
 import { transformMatchData } from "./util/transformMatchData";
 import { findNearDate } from "./util/nearDateHandler";
 import { schema } from "./lib/schema";
+import { createMatchDefault } from "./util/defaultValue";
+import { matchDuration } from "../../../../../../4_Shared/constant/matchDuration";
 
 const MakeTeamMatchModal = (props: MakeTeamMatchModalProps) => {
   const { team_list_idx, onClose, refetch } = props;
@@ -33,17 +33,7 @@ const MakeTeamMatchModal = (props: MakeTeamMatchModalProps) => {
     formState: { errors },
   } = useForm<MatchDataInput>({
     resolver: yupResolver(schema),
-    defaultValues: {
-      match_match_start_date: toFormattedDate(today),
-      match_match_start_time: `${hour}:${min}`,
-      match_match_start_hour: hour,
-      match_match_start_min: min,
-      match_match_attribute: 0,
-      match_type_idx_radio: "0",
-      match_match_participation_type_radio: "1",
-      match_match_duration: matchDuration[1],
-      match_formation_idx: 0,
-    },
+    defaultValues: createMatchDefault(today, hour, min),
   });
   const onSubmit: SubmitHandler<MatchDataInput> = (data) => {
     if (confirm("생성하시겠습니까?")) {
@@ -56,7 +46,7 @@ const MakeTeamMatchModal = (props: MakeTeamMatchModalProps) => {
   const isCanFormationChange = watch("match_type_idx_radio") === "0";
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center">
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-1">
       <div className="bg-white rounded-2xl shadow-xl w-[500px] p-6">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-xl font-semibold">팀 매치 생성</h2>
