@@ -2,7 +2,6 @@ import { useFetch } from "../../4_Shared/util/apiUtil";
 
 const usePutUserImage = ({
   userIdx,
-  onFail = () => {},
 }: {
   userIdx: number;
   onFail?: () => void;
