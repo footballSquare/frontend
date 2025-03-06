@@ -34,10 +34,8 @@ const PlayerCard = ({ userInfo }: { userInfo: PlayerCardProps }) => {
 
   const [putEvent] = usePutUserImage({ userIdx: user_idx });
   const onSubmit = (data: ImageInput) => {
-    console.log("클릭");
-    const file = convertToFile(data.profile_img, profile);
     handleSave();
-    putEvent(file);
+    putEvent(convertToFile(data.profile_img, profile));
   };
 
   return (
@@ -71,7 +69,7 @@ const PlayerCard = ({ userInfo }: { userInfo: PlayerCardProps }) => {
               alt="프로필 미리보기"
             />
             {is_mine && (
-              <>
+              <div className="flex flex-col text-center">
                 <span className="text-xs text-gray-300 mt-1">이미지 변경</span>
                 <button
                   type="button"
@@ -82,7 +80,7 @@ const PlayerCard = ({ userInfo }: { userInfo: PlayerCardProps }) => {
                   }}>
                   기본 이미지 설정
                 </button>
-              </>
+              </div>
             )}
           </label>
 
