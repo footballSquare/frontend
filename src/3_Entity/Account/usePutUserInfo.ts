@@ -1,13 +1,9 @@
 import { useFetch } from "../../4_Shared/util/apiUtil";
 import { UserInfoPost } from "./type";
 
-const usePutUserInfo = ({
-  userIdx,
-  onFail = () => {},
-}: {
-  userIdx: number;
-  onFail?: () => void;
-}): [
+const usePutUserInfo = (
+  userIdx: number
+): [
   postEvent: (userInfo: UserInfoPost) => void,
   serverState: unknown,
   loading: boolean
@@ -18,14 +14,6 @@ const usePutUserInfo = ({
     request({ userIdx, userInfo });
     console.log("전송된 데이터:", userInfo);
   };
-
-  // React.useEffect(() => {
-  //   if (!serverState) return;
-  //   switch (serverState.) {
-  //     case "403":
-  //       onFail();
-  //   }
-  // }, [serverState]);
 
   return [postEvent, serverState, loading];
 };
