@@ -87,7 +87,7 @@ const PlayerDashBoard = ({ userInfo }: { userInfo: UserInfoProps }) => {
           {/* 팀 & 플랫폼 */}
           <div>
             <label className="text-xs font-medium text-gray-600">Team</label>
-            {!team ? (
+            {team ? (
               <div className="flex w-full p-1 text-xs gap-1 border-b bg-transparent text-gray-500">
                 {team_emblem && (
                   <img
