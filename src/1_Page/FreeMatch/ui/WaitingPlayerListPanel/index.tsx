@@ -1,13 +1,13 @@
 import React from "react";
 import Button from "../../../../4_Shared/components/Button";
 import WaitingPlayerList from "../../../../2_Widget/WaitingPlayerList";
-import footballPlayer from "../../../../4_Shared/assets/svg/footballPlayer.svg";
+import footballPlayer from "../../../../4_Shared/assets/img/footballPlayer.png";
 const WaitingPlayerListPanel = () => {
   const [isWatingPlayerListOpen, setIsWaitingPlayerListOpen] =
     React.useState(false);
 
   return (
-    <div className=" flex flex-col gap-4 w-[50%] h-[80vh] overflow-y-auto">
+    <div className=" flex flex-col gap-4 w-[40%] h-[80vh] overflow-y-auto">
       {/* Button Wrapper */}
       <div className="w-[70%]">
         {isWatingPlayerListOpen ? (
@@ -35,7 +35,7 @@ const WaitingPlayerListPanel = () => {
       
       {isWatingPlayerListOpen ? (
         <WaitingPlayerList />
-      ) :<img src={footballPlayer} alt="footballPlayer" className="w-full h-[70vh]"/>}
+      ) :<img src={footballPlayer} alt="footballPlayer" className=" h-[70vh]"/>}
     </div>
   );
 };
