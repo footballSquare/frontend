@@ -4,7 +4,6 @@ import { UserInfoPost } from "./type";
 
 const usePutUserInfo = ({
   userIdx,
-  onFail = () => {},
 }: {
   userIdx: number;
   onFail?: () => void;

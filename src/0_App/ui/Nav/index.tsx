@@ -5,8 +5,10 @@ import SignBtns from "./ui/SignBtns";
 import { useNavigate } from "react-router-dom";
 const Nav = () => {
   const navigate = useNavigate();
+  const tempTeamIdx = 1;
+  const tempUserIdx = 1;
   return (
-    <nav className="flex h-[80px] w-full justify-center items-center sticky top-0 bg-white shadow-md">
+    <nav className=" fixed top-0 left-0 flex h-[80px] w-full justify-center items-center bg-white shadow-md">
       <div className="sm:justify-between flex justify-center max-w-[1280px] w-full items-center">
         {/* HomeBtn(Logo) */}
         <HomeBtn />
@@ -21,7 +23,7 @@ const Nav = () => {
           <NavigationBtn
             text={"MY TEAM"}
             navigationHandler={() => {
-              navigate(PAGE_URI.TEAM);
+              navigate(`${PAGE_URI.TEAM}/${tempTeamIdx}`);
             }}
           />
           <NavigationBtn
@@ -45,7 +47,7 @@ const Nav = () => {
           <NavigationBtn
             text={"MY PROFILE"}
             navigationHandler={() => {
-              navigate(PAGE_URI.PROFILE);
+              navigate(`${PAGE_URI.PROFILE}/${tempUserIdx}`);
             }}
           />
         </div>
