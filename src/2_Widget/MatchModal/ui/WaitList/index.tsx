@@ -2,18 +2,15 @@ import React from "react";
 import { matchPosition } from "../../../../4_Shared/constant/matchPosition";
 import { WaitingListProps } from "./type";
 import applyBtn from "../../../../4_Shared/assets/svg/applyBtn.svg";
-import useWaitListApprove from "./model/useWaitListApprove";
 
-const WaitingList = (props: WaitingListProps) => {
+const WaitingList = React.memo((props: WaitingListProps) => {
   const [selectedPosition, setSelectedPosition] = React.useState<number>(0);
   const {
     matchFormationPosition,
-    setMatchParticipants,
     matchParticipants,
     matchWaitList,
+    matchApproveHandler,
   } = props;
-
-  const [waitListApproveHandler] = useWaitListApprove(setMatchParticipants);
 
   return (
     <div>
@@ -47,7 +44,7 @@ const WaitingList = (props: WaitingListProps) => {
               <p>{player.player_list_nickname}</p>
               <button
                 onClick={() =>
-                  waitListApproveHandler(
+                  matchApproveHandler(
                     player,
                     selectedPosition,
                     matchParticipants
@@ -62,6 +59,6 @@ const WaitingList = (props: WaitingListProps) => {
       )}
     </div>
   );
-};
+});
 
 export default WaitingList;
