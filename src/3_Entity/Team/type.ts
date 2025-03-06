@@ -35,3 +35,20 @@ export type TeamMembers = {
   player_list_nickname: string;
   team_role_idx: number;
 };
+
+export type TeamPutInfo = {
+  team_list_name: string;
+  team_list_short_name: string;
+  team_list_color: string;
+  team_list_announcement: string;
+  team_list_emblem: string;
+  team_list_banner: string;
+  common_status_idx: number;
+};
+
+export type SignTeamMember = {
+  player_list_idx: number;
+  player_list_platform: string;
+  player_list_profile_img: string;
+  player_list_nickname: string;
+};

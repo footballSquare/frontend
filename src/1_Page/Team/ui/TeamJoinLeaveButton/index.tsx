@@ -7,10 +7,12 @@ const TeamJoinLeaveButton = ({
   isTeamReader,
   isTeamPlayer,
   teamListIdx,
+  handleMoveManagePage,
 }: {
   isTeamPlayer: boolean;
   teamListIdx: number;
   isTeamReader: boolean;
+  handleMoveManagePage: () => void;
 }) => {
   const [deleteEvent] = useDeleteLeaveTeam(teamListIdx);
   const [putEvent] = usePutSignTeam(teamListIdx);
@@ -43,14 +45,14 @@ const TeamJoinLeaveButton = ({
       {/* 팀 리더일 경우에만 팀 관리 및 매치 생성 버튼 */}
       {isTeamReader && isTeamMember && !isJoinRequestPending && (
         <div className="flex gap-2 mt-2">
-          <button className="bg-blue-500 text-white text-sm font-medium py-1 px-3 rounded-full">
+          <button
+            className="bg-blue-500 text-white text-sm font-medium py-1 px-3 rounded-full"
+            onClick={handleMoveManagePage}>
             팀관리
           </button>
           <button
             className="bg-blue-500 text-white text-sm font-medium py-1 px-3 rounded-full"
-            onClick={() => {
-              setToggleModal();
-            }}>
+            onClick={setToggleModal}>
             매치 생성
           </button>
         </div>
