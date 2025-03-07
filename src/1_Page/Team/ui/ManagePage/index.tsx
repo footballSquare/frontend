@@ -3,17 +3,14 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { TeamInfo } from "../../../../3_Entity/Team/type";
 import { TeamInfoInput } from "./type";
 import { schema } from "./lib/schema";
-import useInputHandler from "./model/useInputHandler";
 import useManageModify from "./model/useManageModify";
 import ImageInput from "./ui/ImageInput";
 
-const ManagePage = ({
-  teamInfo,
-  handleMoveTeamPage,
-}: {
+const ManagePage = (props: {
   teamInfo: TeamInfo;
   handleMoveTeamPage: () => void;
 }) => {
+  const { teamInfo, handleMoveTeamPage } = props;
   const {
     reset,
     register,
@@ -23,9 +20,8 @@ const ManagePage = ({
   } = useForm<TeamInfoInput>({
     resolver: yupResolver(schema),
   });
-  const [defaultTeamInfoInput] = useInputHandler(reset, teamInfo);
   const { modifyMode, handleCancle, handleModifyFalse, handleBackupData } =
-    useManageModify(reset, defaultTeamInfoInput);
+    useManageModify({ reset, teamInfo });
 
   const onSubmit: SubmitHandler<TeamInfoInput> = () => {
     handleModifyFalse();

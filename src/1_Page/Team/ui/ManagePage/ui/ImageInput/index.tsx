@@ -21,14 +21,14 @@ const ImageInput = (props: ImageInputProps) => {
 
   const inputFileRef = React.useRef<HTMLInputElement>(null);
 
-  const [
+  const {
     imagePreview,
     modifyMode,
     handleImageClick,
     handleImageChange,
     handleCancle,
     handleSave,
-  ] = useImageHandler({
+  } = useImageHandler({
     imgSrc,
     inputFileRef,
     setValue,

@@ -15,7 +15,7 @@ const useManageAction = (
       if (isTeamMember) {
         // 탈퇴 처리
         alert("탈퇴되었습니다");
-        setIsTeamMember(false); // 탈퇴 후 상태 변경
+        setIsTeamMember(false);
       } else if (!isJoinRequestPending) {
         // 가입 처리
         alert("가입 신청 완료되었습니다");
