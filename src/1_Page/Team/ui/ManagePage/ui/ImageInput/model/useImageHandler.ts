@@ -4,7 +4,7 @@ import { UseImageHandlerReturnType, UseImageHandlerProps } from "./type";
 const useImageHandler = ({
   imgSrc,
   inputFileRef,
-  setError,
+  setValue,
   clearErrors,
 }: UseImageHandlerProps): UseImageHandlerReturnType => {
   const [modifyMode, setModifyMode] = React.useState<boolean>(false);
@@ -17,8 +17,11 @@ const useImageHandler = ({
   };
 
   const handleCancle = () => {
+    clearErrors();
     setImagePreview(imageBackupRef.current);
     setModifyMode(false);
+    if (!inputFileRef.current) return;
+    inputFileRef.current.value = "";
   };
 
   // 이미지 클릭 시 input file 클릭 이벤트 호출
@@ -30,26 +33,18 @@ const useImageHandler = ({
   const handleImageChange = async (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    clearErrors();
     const file = event.target.files?.[0];
     if (file) {
-      if (file.size >= 2 * 1024 * 1024) {
-        setError("emblem", {
-          type: "manual",
-          message: "파일 크기가 2MB를 초과할 수 없습니다.",
-        });
-        return;
-      }
-
       const reader = new FileReader();
       reader.onloadend = () => {
         setImagePreview(reader.result as string);
         setModifyMode(true);
-        event.target.value = "";
       };
       reader.readAsDataURL(file);
+      setValue("img", file);
     }
   };
+
   return [
     imagePreview,
     modifyMode,

@@ -47,3 +47,16 @@ export const isPastTimeValidation = (
 
   return null;
 };
+
+export const isFileExtension = (value: File) => {
+  if (!(value instanceof File)) return false;
+  const allowedMimeTypes = ["image/jpeg", "image/png", "image/svg+xml"];
+  const allowedExtensions = [".jpg", ".jpeg", ".png", ".svg"];
+
+  const isValidMimeType = allowedMimeTypes.includes(value.type);
+  const isValidExtension = allowedExtensions.some((ext) =>
+    value.name.toLowerCase().endsWith(ext)
+  );
+
+  return isValidMimeType || isValidExtension;
+};

@@ -1,7 +1,7 @@
 import {
   UseFormSetError,
   UseFormClearErrors,
-  FieldValues,
+  UseFormSetValue,
 } from "react-hook-form";
 
 export type UseImageHandlerReturnType = [
@@ -16,6 +16,6 @@ export type UseImageHandlerReturnType = [
 export type UseImageHandlerProps = {
   imgSrc: string;
   inputFileRef: React.RefObject<HTMLInputElement>;
-  setError: UseFormSetError<{ emblem: string }>;
-  clearErrors: UseFormClearErrors<{ emblem: string }>;
+  setValue: UseFormSetValue<{ img?: File | null }>;
+  clearErrors: UseFormClearErrors<{ img: string }>;
 };
