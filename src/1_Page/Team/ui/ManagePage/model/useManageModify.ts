@@ -1,11 +1,10 @@
 import React, { RefObject } from "react";
 
 import { TeamInfoInput } from "../type";
-import { UseFormReset } from "react-hook-form";
+import { ModifyPropsType } from "./type";
 
 const useManageModify = (
-  reset: UseFormReset<TeamInfoInput>,
-  defaultTeamInfoInput: TeamInfoInput
+  props: ModifyPropsType
 ): {
   modifyMode: boolean;
   cancleRef: RefObject<boolean>;
@@ -13,9 +12,18 @@ const useManageModify = (
   handleModifyFalse: () => void;
   handleBackupData: (data: TeamInfoInput) => void;
 } => {
+  const { reset, teamInfo } = props;
+
   const [modifyMode, setModifyMode] = React.useState<boolean>(false);
   const cancleRef = React.useRef<boolean>(false);
+  const defaultTeamInfoInput: TeamInfoInput = {
+    ...teamInfo,
+  };
   const inputBackupDataRef = React.useRef<TeamInfoInput>(defaultTeamInfoInput);
+
+  React.useEffect(() => {
+    reset(defaultTeamInfoInput);
+  }, [teamInfo]);
 
   React.useEffect(() => {
     if (modifyMode) {
