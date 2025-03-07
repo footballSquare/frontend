@@ -17,7 +17,9 @@ const useImageHandler = (
   React.useEffect(() => {
     if (cancleTrigger) {
       setImagePreview(imagePreviewBackupRef.current);
+      return;
     }
+    imagePreviewBackupRef.current = imagePreview;
   }, [modifyMode]);
 
   // 이미지 클릭 시 input file 클릭 이벤트 호출
