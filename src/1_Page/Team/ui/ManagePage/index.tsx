@@ -5,7 +5,7 @@ import { TeamInfoInput } from "./type";
 import { schema } from "./lib/schema";
 import useInputHandler from "./model/useInputHandler";
 import useManageModify from "./model/useManageModify";
-import EmblemImageInput from "./ui/EmblemImageInput";
+import ImageInput from "./ui/ImageInput";
 
 const ManagePage = ({
   teamInfo,
@@ -40,21 +40,23 @@ const ManagePage = ({
       <div className="space-y-6">
         {/* Team Banner */}
         <div className="relative">
-          <EmblemImageInput
+          <ImageInput
             imgSrc={teamInfo.team_list_banner}
             width="w-full"
             height="h-[160px]"
             isEmblem={false}
+            putEvent={console.log}
           />
         </div>
 
         {/* Team Emblem */}
         <div className="flex justify-start items-center space-x-4">
-          <EmblemImageInput
+          <ImageInput
             imgSrc={teamInfo.team_list_emblem}
             width="w-[40px]"
             height="h-[40px]"
             isEmblem={true}
+            putEvent={console.log}
           />
           <div className="flex flex-col">
             <h2 className="text-lg font-semibold text-gray-700">Team Info</h2>

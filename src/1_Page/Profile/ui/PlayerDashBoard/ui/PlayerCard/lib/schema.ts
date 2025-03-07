@@ -8,8 +8,6 @@ export const schema = yup.object().shape({
     .test("fileType", "JPG, PNG, SVG 형식만 가능합니다.", (value) => {
       if (!value) return true; // ✅ null일 경우 검사 통과
 
-      if (typeof value === "string") return true; // ✅ 기본 이미지가 URL(string)인 경우 검사 통과
-
       if (!(value instanceof File)) return false; // ✅ File이 아닌 경우 검사 실패
 
       const allowedMimeTypes = ["image/jpeg", "image/png", "image/svg+xml"];

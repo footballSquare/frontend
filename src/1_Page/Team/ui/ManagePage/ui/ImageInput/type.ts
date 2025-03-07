@@ -3,8 +3,9 @@ export type ImageInputProps = {
   width: string;
   height: string;
   isEmblem: boolean;
+  putEvent: (img?: File | null) => void;
 };
 
-export type ImagePost = {
-  img: string;
+export type ImageInputType = {
+  img?: File | null;
 };
