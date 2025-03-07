@@ -15,24 +15,19 @@ import { matchPosition } from "../../4_Shared/constant/matchPosition";
 import StatPanel from "./ui/StatPanel";
 const MatchModal = () => {
   // 로그인 구현 이전 임시 데이터
-  const [myInfo] = React.useState({
-    userIdx: 1,
-    nickName: "master",
-    profileUrl: "testing...",
-  });
   const isMatchLeader = true;
   // 로그인 구현 이전 임시 데이터
 
   const { matchIdx, toggleMatchModal } = useMatchModalStore();
   const [matchDetail] = useGetMatchDetail(matchIdx);
-  const [matchParticipants, setMatchPaticipants] =
+  const [matchParticipants, setMatchParticipants] =
     useGetMatchParticipants(matchIdx);
   const [matchWaitList, setMatchWaitList] = useGetMatchWaitlist(matchIdx);
-  const [matchApproveHandler, matchDisApproveHandler] = useMatchApprove(
+  const [matchApproveHandler, matchDisApproveHandler] = useMatchApprove({
     setMatchWaitList,
-    setMatchPaticipants
-  );
-  const [matchApplyHandler] = useMatchApply(setMatchWaitList);
+    setMatchParticipants,
+  });
+  const [matchApplyHandler] = useMatchApply({ setMatchWaitList });
 
   return (
     // 모달 커버
@@ -99,16 +94,9 @@ const MatchModal = () => {
             isMatchLeader={isMatchLeader}
           />
 
-          {/* && !isPastTime(match.match_match_start_time) */}
-          {/* 
-            매치 라인업 마감 전: 포지션 별 지원하기 버튼을 승인/아무나 참여 방식에 따라 다르게 배치
-
-            매치 라인업 마감 후 & 매치 스탯 입력 마감 전: 매치 리더에게는, 매치 마감 버튼을 출력해주고, 참여자는 스탯 입력 가능
-
-            매치 마감 후: 스탯 고정
-           */}
           {matchDetail.match.common_status_idx === 0 ? (
             matchDetail.match.match_match_participation_type === 0 ? (
+              // 매치 라인업 마감 전 & 승인 참여
               <WaitingList
                 matchFormationPosition={
                   matchDetail.match.match_formation_position
@@ -120,6 +108,7 @@ const MatchModal = () => {
                 isMatchLeader={isMatchLeader}
               />
             ) : (
+              // 매치 라인업 마감 전 & 자유 참여
               <div className=" flex flex-col gap-4 h-[300px] flex-wrap">
                 {matchDetail.match.match_formation_position.map(
                   (positionIdx) => {
@@ -130,15 +119,16 @@ const MatchModal = () => {
                         <button
                           className=" border-1 border-gray shadow-lg p-[2px] w-[128px] hover:bg-blue hover:text-white"
                           onClick={() => {
-                            matchApproveHandler(
-                              {
-                                player_list_idx: myInfo.userIdx,
-                                player_list_nickname: myInfo.nickName,
-                                player_list_url: myInfo.profileUrl,
+                            matchApproveHandler({
+                              player: {
+                                player_list_idx: 1,
+                                player_list_nickname: "master",
+                                player_list_url: "url",
                               },
-                              positionIdx,
-                              matchParticipants.match_participant
-                            );
+                              matchPosition: positionIdx,
+                              matchParticipants:
+                                matchParticipants.match_participant,
+                            });
                           }}
                         >
                           {matchPosition[positionIdx]}로 참가하기
@@ -150,6 +140,7 @@ const MatchModal = () => {
               </div>
             )
           ) : (
+            // 매치 라인업 마감 & 대회
             matchDetail.match.common_status_idx !== 2 && (
               <StatPanel
                 matchParticipants={matchParticipants.match_participant}
