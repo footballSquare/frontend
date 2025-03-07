@@ -7,7 +7,7 @@ import { schema } from "./lib/schema";
 import useImageHandler from "./model/useImageHandler";
 
 const ImageInput = (props: ImageInputProps) => {
-  const { imgSrc, width, height, isEmblem, putEvent } = props;
+  const { imgSrc, width, height, putEvent } = props;
   const key = "img";
   const {
     register,
@@ -50,13 +50,6 @@ const ImageInput = (props: ImageInputProps) => {
             src={imagePreview}
             alt="Uploaded Emblem Preview"
           />
-          {isEmblem && (
-            <img
-              className={`${width} ${height} object-cover rounded-full `}
-              src={imagePreview}
-              alt="Uploaded Emblem Preview"
-            />
-          )}
         </div>
 
         {modifyMode ? (

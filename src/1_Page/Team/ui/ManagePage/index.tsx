@@ -40,7 +40,6 @@ const ManagePage = (props: {
             imgSrc={teamInfo.team_list_banner}
             width="w-full"
             height="h-[160px]"
-            isEmblem={false}
             putEvent={console.log}
           />
         </div>
@@ -51,7 +50,6 @@ const ManagePage = (props: {
             imgSrc={teamInfo.team_list_emblem}
             width="w-[40px]"
             height="h-[40px]"
-            isEmblem={true}
             putEvent={console.log}
           />
           <div className="flex flex-col">
