@@ -1,4 +1,3 @@
-import React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 
@@ -19,18 +18,16 @@ const ImageInput = (props: ImageInputProps) => {
     resolver: yupResolver(schema),
   });
 
-  const inputFileRef = React.useRef<HTMLInputElement>(null);
-
   const {
     imagePreview,
     modifyMode,
+    inputFileRef,
     handleImageClick,
     handleImageChange,
     handleCancle,
     handleSave,
   } = useImageHandler({
     imgSrc,
-    inputFileRef,
     setValue,
     clearErrors,
   });
