@@ -3,17 +3,18 @@ import { UseImageHandlerProps } from "./type";
 
 const useImageHandler = ({
   imgSrc,
-  inputFileRef,
   setValue,
   clearErrors,
 }: UseImageHandlerProps): {
   imagePreview: string;
+  inputFileRef: React.RefObject<HTMLInputElement>;
   modifyMode: boolean;
   handleImageClick: () => void;
   handleImageChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleCancle: () => void;
   handleSave: () => void;
 } => {
+  const inputFileRef = React.useRef<HTMLInputElement>(null);
   const [modifyMode, setModifyMode] = React.useState<boolean>(false);
   const [imagePreview, setImagePreview] = React.useState<string>(imgSrc);
   const imageBackupRef = React.useRef<string>(imgSrc);
@@ -54,6 +55,7 @@ const useImageHandler = ({
 
   return {
     imagePreview,
+    inputFileRef,
     modifyMode,
     handleImageClick,
     handleImageChange,
