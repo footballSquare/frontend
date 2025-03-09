@@ -16,7 +16,6 @@ const useMatchApprove = (
   const matchApproveHandler = React.useCallback(
     (props: MatchApproveHandlerProps): void => {
       const { player, matchPosition, matchParticipants } = props;
-      console.log(matchParticipants);
       if (
         // 포지션이 비어 있는 지 체크
         !matchParticipants.some(
