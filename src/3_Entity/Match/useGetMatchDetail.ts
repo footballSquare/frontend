@@ -13,7 +13,7 @@ const useGetMatchDetail = (
 ] => {
   const [serverState, request, loading] = useFetch();
   const [matchDetail, setMatchDetail] =
-    React.useState<MatchDetail>(mockMatchDetail);
+    React.useState<MatchDetail>(mockMatchDetail.match);
   const { setIsMatchEnd } = useMatchModalStore();
 
   React.useEffect(() => {
@@ -22,8 +22,8 @@ const useGetMatchDetail = (
 
   React.useEffect(() => {
     if (!loading && serverState) {
-      setMatchDetail(serverState as MatchDetail);
-      setIsMatchEnd((serverState as MatchDetail).match.common_status_idx === 2);
+      setMatchDetail(serverState.match as MatchDetail);
+      setIsMatchEnd((serverState.match as MatchDetail).common_status_idx === 2);
     }
   }, [loading, serverState]);
 

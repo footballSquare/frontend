@@ -55,7 +55,7 @@ const MatchModal = () => {
             예상 플레이 타임
             {/* 아래의 select 태그 Select 컴포넌트로 적용 */}
             <p className="flex justify-center items-center w-[164px] h-[32px] rounded-[4px] border-1 border-blue">
-              {`${matchDetail.match.match_match_duration.hours} 시간 ${matchDetail.match.match_match_duration.minutes} 분`}
+              {`${matchDetail.match_match_duration.hours} 시간 ${matchDetail.match_match_duration.minutes} 분`}
             </p>
           </label>
           <label className="flex flex-col text-xs font-semibold">
@@ -63,7 +63,7 @@ const MatchModal = () => {
             <p className="flex justify-center items-center w-[164px] h-[32px] rounded-[4px] border-1 border-blue">
               {
                 matchParticipation[
-                  matchDetail.match.match_match_participation_type
+                  matchDetail.match_match_participation_type
                 ]
               }
             </p>
@@ -72,14 +72,14 @@ const MatchModal = () => {
           <label className="flex flex-col text-xs font-semibold">
             시작 시간
             <p className="flex justify-center items-center w-[164px] h-[32px] rounded-[4px] border-1 border-gray">
-              {matchDetail.match.match_match_start_time}
+              {matchDetail.match_match_start_time}
             </p>
           </label>
 
           <label className="flex flex-col text-xs font-semibold">
             매치 종류
             <p className="flex justify-center items-center h-[32px]">
-              {matchType[matchDetail.match.match_type_idx]}
+              {matchType[matchDetail.match_type_idx]}
             </p>
           </label>
         </div>
@@ -88,18 +88,18 @@ const MatchModal = () => {
         <div className="flex gap-6 h-[70%]">
           {/* 필드 & 포메이션 */}
           <FormationPanel
-            matchFormationIdx={matchDetail.match.match_formation_idx}
+            matchFormationIdx={matchDetail.match_formation_idx}
             matchParticipants={matchParticipants.match_participant}
             matchDisApproveHandler={matchDisApproveHandler}
             isMatchLeader={isMatchLeader}
           />
 
-          {matchDetail.match.common_status_idx === 0 ? (
-            matchDetail.match.match_match_participation_type === 0 ? (
+          {matchDetail.common_status_idx === 0 ? (
+            matchDetail.match_match_participation_type === 0 ? (
               // 매치 라인업 마감 전 & 승인 참여
               <WaitingList
                 matchFormationPosition={
-                  matchDetail.match.match_formation_position
+                  matchDetail.match_formation_position
                 }
                 matchParticipants={matchParticipants.match_participant}
                 matchWaitList={matchWaitList.match_waitlist}
@@ -110,7 +110,7 @@ const MatchModal = () => {
             ) : (
               // 매치 라인업 마감 전 & 자유 참여
               <div className=" flex flex-col gap-4 h-[300px] flex-wrap">
-                {matchDetail.match.match_formation_position.map(
+                {matchDetail.match_formation_position.map(
                   (positionIdx) => {
                     return (
                       !matchParticipants.match_participant.some(
@@ -141,7 +141,7 @@ const MatchModal = () => {
             )
           ) : (
             // 매치 라인업 마감 & 대회
-            matchDetail.match.common_status_idx !== 2 && (
+            matchDetail.common_status_idx !== 2 && (
               <StatPanel
                 matchParticipants={matchParticipants.match_participant}
               />
