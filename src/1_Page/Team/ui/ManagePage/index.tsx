@@ -3,14 +3,19 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { TeamInfo } from "../../../../3_Entity/Team/type";
 import { TeamInfoInput } from "./type";
 import { schema } from "./lib/schema";
+import EmblemImageInput from "./ui/EmblemImageInput";
+import BannerImageInput from "./ui/ImageInput copy";
 import useManageModify from "./model/useManageModify";
-import ImageInput from "./ui/ImageInput";
 
 const ManagePage = (props: {
   teamInfo: TeamInfo;
   handleMoveTeamPage: () => void;
 }) => {
-  const { teamInfo, handleMoveTeamPage } = props;
+  const {
+    teamInfo,
+    teamInfo: { team_list_idx, team_list_emblem, team_list_banner },
+    handleMoveTeamPage,
+  } = props;
   const {
     reset,
     register,
@@ -36,21 +41,21 @@ const ManagePage = (props: {
       <div className="space-y-6">
         {/* Team Banner */}
         <div className="relative">
-          <ImageInput
-            imgSrc={teamInfo.team_list_banner}
+          <BannerImageInput
+            team_list_idx={team_list_idx}
+            imgSrc={team_list_banner}
             width="w-full"
             height="h-[160px]"
-            putEvent={console.log}
           />
         </div>
 
         {/* Team Emblem */}
         <div className="flex justify-start items-center space-x-4">
-          <ImageInput
-            imgSrc={teamInfo.team_list_emblem}
+          <EmblemImageInput
+            team_list_idx={team_list_idx}
+            imgSrc={team_list_emblem}
             width="w-[40px]"
             height="h-[40px]"
-            putEvent={console.log}
           />
           <div className="flex flex-col">
             <h2 className="text-lg font-semibold text-gray-700">Team Info</h2>

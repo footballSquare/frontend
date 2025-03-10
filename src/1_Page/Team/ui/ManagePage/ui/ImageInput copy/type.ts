@@ -2,9 +2,9 @@ export type ImageInputProps = {
   imgSrc: string;
   width: string;
   height: string;
-  putEvent: (img?: File | null) => void;
+  team_list_idx: number;
 };
 
 export type ImageInputType = {
-  img?: File | null;
+  img: File | null;
 };
