@@ -1,4 +1,3 @@
-import React from "react";
 import useMatchModalStore from "../../4_Shared/zustand/useMatchModal";
 import close_icon from "../../4_Shared/assets/svg/closeBtn.svg";
 import flag_icon from "../../4_Shared/assets/svg/flag-green.svg";
