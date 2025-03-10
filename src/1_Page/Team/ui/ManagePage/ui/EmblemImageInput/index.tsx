@@ -4,10 +4,12 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { ImageInputProps, ImageInputType } from "./type";
 import { schema } from "./lib/schema";
 import useImageHandler from "./model/useImageHandler";
+import usePutTeamEmblem from "../../../../../../3_Entity/Team/usePutTeamEmblem";
 
-const ImageInput = (props: ImageInputProps) => {
-  const { imgSrc, width, height, putEvent } = props;
+const EmblemImageInput = (props: ImageInputProps) => {
+  const { imgSrc, width, height, team_list_idx } = props;
   const key = "img";
+
   const {
     register,
     handleSubmit,
@@ -31,6 +33,8 @@ const ImageInput = (props: ImageInputProps) => {
     setValue,
     clearErrors,
   });
+
+  const [putEvent] = usePutTeamEmblem(team_list_idx);
 
   const onSubmit: SubmitHandler<ImageInputType> = (data) => {
     handleSave();
@@ -90,4 +94,4 @@ const ImageInput = (props: ImageInputProps) => {
   );
 };
 
-export default ImageInput;
+export default EmblemImageInput;

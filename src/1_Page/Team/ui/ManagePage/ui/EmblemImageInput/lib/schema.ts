@@ -5,6 +5,7 @@ export const schema = yup.object().shape({
   img: yup
     .mixed<File>()
     .nullable()
+    .default(null)
     .test("fileType", "JPG, PNG, SVG 형식만 가능합니다.", (value) => {
       if (value && value instanceof File) {
         console.log(value instanceof File);

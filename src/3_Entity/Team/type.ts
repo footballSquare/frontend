@@ -41,8 +41,6 @@ export type TeamPutInfo = {
   team_list_short_name: string;
   team_list_color: string;
   team_list_announcement: string;
-  team_list_emblem: string;
-  team_list_banner: string;
   common_status_idx: number;
 };
 
