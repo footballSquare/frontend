@@ -1,44 +1,35 @@
 import React from "react";
-import {
-  MatchWaitList,
-  MatchParticipants,
-  MatchParticipant,
-} from "../../../3_Entity/Match/type";
+import usePostMatchApproval from "../../../3_Entity/Match/usePostMatchApproval";
+import useDeleteMatchApproval from "../../../3_Entity/Match/useDeleteMatchApproval";
+import { UseMatchApproveProps, MatchApproveHandlerProps } from "./type";
+
 const useMatchApprove = (
-  setMatchWaitList: React.Dispatch<React.SetStateAction<MatchWaitList>>,
-  setMatchParticipants: React.Dispatch<React.SetStateAction<MatchParticipants>>
+  props: UseMatchApproveProps
 ): [
-  (
-    player: Pick<
-      MatchParticipant,
-      "player_list_idx" | "player_list_nickname" | "player_list_url"
-    >,
-    matchPosition: number,
-    matchParticipants: MatchParticipant[]
-  ) => void,
-  (
-    player: Pick<
-      MatchParticipant,
-      "player_list_idx" | "player_list_nickname" | "player_list_url"
-    >,
-    matchPosition: number,
-    matchParticipants: MatchParticipant[]
-  ) => void
+  (props: MatchApproveHandlerProps) => void,
+  (props: MatchApproveHandlerProps) => void
 ] => {
+  const { setMatchParticipants, setMatchWaitList } = props;
+  const [postMatchApproval] = usePostMatchApproval();
+  const [deleteMatchApproval] = useDeleteMatchApproval();
+
   const matchApproveHandler = React.useCallback(
-    (
-      player: Pick<
-        MatchParticipant,
-        "player_list_idx" | "player_list_nickname" | "player_list_url"
-      >, // 승인할 대기자
-      matchPosition: number, // 포지션 넘버
-      matchParticipants: MatchParticipant[] // 현재 참가자(기 승인자) 목록
-    ): void => {
-      const isPositionEmpty = !matchParticipants.some(
-        (participant) => participant.match_position_idx === matchPosition
-      );
-      // 참가자 리스트에 추가, 대기자 리스트에서 제거
-      if (isPositionEmpty) {
+    (props: MatchApproveHandlerProps): void => {
+      const { player, matchPosition, matchParticipants } = props;
+      if (
+        // 포지션이 비어 있는 지 체크
+        !matchParticipants.some(
+          (participant) => participant.match_position_idx === matchPosition
+        ) &&
+        // 승인하려는 유저가 이미 참여된 상태인 지 체크
+        !matchParticipants.some(
+          (participant) =>
+            participant.player_list_idx === player.player_list_idx
+        )
+      ) {
+        // post api
+        postMatchApproval(player.player_list_idx);
+        // set MatchParticipants state
         setMatchParticipants((prev) => ({
           match_participant: [
             ...prev.match_participant,
@@ -57,7 +48,7 @@ const useMatchApprove = (
                 ]),
           ],
         }));
-
+        // set MatchWaitList state
         setMatchWaitList((prev) => ({
           match_waitlist: {
             ...prev.match_waitlist,
@@ -67,26 +58,33 @@ const useMatchApprove = (
               (waiter) => waiter.player_list_idx !== player.player_list_idx
             ),
           },
-        })); // 대기자 리스트에서 제거
+        }));
+      } else {
+        alert("참여자가 존재하는 포지션이거나, 이미 참여 확정된 유저 입니다.");
       }
+      console.log(matchParticipants);
     },
-    [setMatchParticipants, setMatchWaitList]
+    [setMatchParticipants, setMatchWaitList, postMatchApproval]
   );
 
   const matchDisApproveHandler = React.useCallback(
-    (
-      player: Pick<
-        MatchParticipant,
-        "player_list_idx" | "player_list_nickname" | "player_list_url"
-      >, // 승인 취소할 유저
-      matchPosition: number, // 포지션 넘버
-      matchParticipants: MatchParticipant[] // 현재 참가자(기 승인자) 목록
-    ): void => {
-      const isPositionEmpty = !matchParticipants.some(
-        (participant) => participant.match_position_idx === matchPosition
-      );
-      // 참가자 리스트에서 제거, 대기자 리스트에 추가
-      if (!isPositionEmpty) {
+    (props: MatchApproveHandlerProps): void => {
+      const { player, matchPosition, matchParticipants } = props;
+
+      if (
+        // 해당 포지션에 참가 확정 된 유저가 있는 지 체크
+        matchParticipants.some(
+          (participant) => participant.match_position_idx === matchPosition
+        ) &&
+        // 참여상태인 유저가 맞는 지 체크
+        matchParticipants.some(
+          (participant) =>
+            participant.player_list_idx === player.player_list_idx
+        )
+      ) {
+        // delete api
+        deleteMatchApproval(player.player_list_idx);
+        // set MatchParticipants state
         setMatchParticipants((prev) => ({
           match_participant: [
             ...prev.match_participant.filter(
@@ -95,12 +93,12 @@ const useMatchApprove = (
             ),
           ],
         }));
-
+        // set MatchWaitList state
         setMatchWaitList((prev) => ({
           match_waitlist: {
             ...prev.match_waitlist,
             [matchPosition]: [
-              ...(prev.match_waitlist?.[matchPosition] ?? []), // 기존 대기자 목록이 있으면 추가하고 없으면 빈 배열로 시작
+              ...(prev.match_waitlist?.[matchPosition] ?? []),
               {
                 player_list_idx: player.player_list_idx,
                 player_list_nickname: player.player_list_nickname,
@@ -111,8 +109,9 @@ const useMatchApprove = (
         }));
       }
     },
-    [setMatchParticipants, setMatchWaitList]
+    [setMatchParticipants, setMatchWaitList, deleteMatchApproval]
   );
+
   return [matchApproveHandler, matchDisApproveHandler];
 };
 
