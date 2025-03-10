@@ -24,7 +24,7 @@ const Page = () => {
         <Route path={PAGE_URI.TEAMLIST} element={<Main />} />
         <Route path={`${PAGE_URI.TEAM}/:teamIdx`} element={<Team />} />
         <Route
-          path={`${PAGE_URI.COMMUNITY}`}
+          path={`${PAGE_URI.COMMUNITY}/:communityIdx`}
           element={<Community />}
         />
         <Route path={PAGE_URI.RANKING} element={<Main />} />
