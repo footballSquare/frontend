@@ -1,4 +1,4 @@
-import { MatchParticipant } from "../../../../3_Entity/Match/type";
+import { MatchApplyHandlerProps, MatchApproveHandlerProps } from "../../model/type";
 export type WaitingListProps = {
   matchFormationPosition: number[];
   matchParticipants: {
@@ -14,20 +14,7 @@ export type WaitingListProps = {
       player_list_url: string;
     }[];
   } | null;
-  matchApproveHandler: (
-    player: Pick<
-      MatchParticipant,
-      "player_list_idx" | "player_list_nickname" | "player_list_url"
-    >,
-    matchPosition: number,
-    matchParticipants: MatchParticipant[]
-  ) => void;
-  matchApplyHandler: (
-    player: Pick<
-      MatchParticipant,
-      "player_list_idx" | "player_list_nickname" | "player_list_url"
-    >,
-    matchPosition: number
-  ) => void;
+  matchApproveHandler: (props: MatchApproveHandlerProps) => void;
+  matchApplyHandler: (props: MatchApplyHandlerProps) => void;
   isMatchLeader: boolean;
 };
