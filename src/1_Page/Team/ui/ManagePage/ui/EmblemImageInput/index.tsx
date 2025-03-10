@@ -7,7 +7,7 @@ import useImageHandler from "./model/useImageHandler";
 import usePutTeamEmblem from "../../../../../../3_Entity/Team/usePutTeamEmblem";
 
 const EmblemImageInput = (props: ImageInputProps) => {
-  const { imgSrc, width, height, team_list_idx } = props;
+  const { imgSrc, team_list_idx } = props;
   const key = "img";
 
   const {
@@ -47,7 +47,7 @@ const EmblemImageInput = (props: ImageInputProps) => {
       <div className="relative space-y-4 bg-gray-50 p-4 rounded-md shadow-md">
         <div className="flex gap-1">
           <img
-            className={`${width} ${height} object-cover `}
+            className={`h-[160px] w-full object-cover `}
             src={imagePreview}
             alt="Uploaded Emblem Preview"
           />
