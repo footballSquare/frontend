@@ -6,6 +6,7 @@ import { schema } from "./lib/schema";
 import EmblemImageInput from "./ui/EmblemImageInput";
 import BannerImageInput from "./ui/ImageInput copy";
 import useManageModify from "./model/useManageModify";
+import InputField from "./ui/InputFiled";
 
 const ManagePage = (props: {
   teamInfo: TeamInfo;
@@ -44,8 +45,6 @@ const ManagePage = (props: {
           <BannerImageInput
             team_list_idx={team_list_idx}
             imgSrc={team_list_banner}
-            width="w-full"
-            height="h-[160px]"
           />
         </div>
 
@@ -54,8 +53,6 @@ const ManagePage = (props: {
           <EmblemImageInput
             team_list_idx={team_list_idx}
             imgSrc={team_list_emblem}
-            width="w-[40px]"
-            height="h-[40px]"
           />
           <div className="flex flex-col">
             <h2 className="text-lg font-semibold text-gray-700">Team Info</h2>
@@ -65,84 +62,49 @@ const ManagePage = (props: {
           </div>
         </div>
 
-        {/* Team Name */}
-        <div>
-          <label className="text-sm font-medium text-gray-600">Team Name</label>
-          <input
-            {...register("team_list_name")}
-            disabled={!modifyMode}
-            className={`w-full p-2 text-sm border rounded-md ${
-              modifyMode ? "border-gray-300" : "bg-gray-100 text-gray-500"
-            }`}
+        <form onSubmit={handleSubmit(onSubmit)}>
+          {/* 팀명 입력 */}
+          <InputField
+            label="Team Name"
+            name="team_list_name"
+            register={register}
+            errors={errors}
+            modifyMode={modifyMode}
             placeholder="Enter Team Name"
           />
-          {errors.team_list_name && (
-            <p className="text-red-500 text-xs">
-              {errors.team_list_name.message}
-            </p>
-          )}
-        </div>
 
-        <form onSubmit={handleSubmit(onSubmit)}>
-          {/* Short Team Name */}
-          <div>
-            <label className="text-sm font-medium text-gray-600">
-              Short Team Name
-            </label>
-            <input
-              {...register("team_list_short_name")}
-              disabled={!modifyMode}
-              className={`w-full p-2 text-sm border rounded-md ${
-                modifyMode ? "border-gray-300" : "bg-gray-100 text-gray-500"
-              }`}
-              placeholder="Enter Short Team Name"
-            />
-            {errors.team_list_short_name && (
-              <p className="text-red-500 text-xs">
-                {errors.team_list_short_name.message}
-              </p>
-            )}
-          </div>
+          {/* 팀 약칭 입력 */}
+          <InputField
+            label="Short Team Name"
+            name="team_list_short_name"
+            register={register}
+            errors={errors}
+            modifyMode={modifyMode}
+            placeholder="Enter Short Team Name"
+          />
 
-          {/* Team Color */}
-          <div>
-            <label className="text-sm font-medium text-gray-600">
-              Team Color
-            </label>
-            <input
-              {...register("team_list_color")}
-              type="color"
-              disabled={!modifyMode}
-              className={`w-12 h-12 ${
-                modifyMode ? "border cursor-pointer" : "bg-transparent"
-              }`}
-            />
-            {errors.team_list_color && (
-              <p className="text-red-500 text-xs">
-                {errors.team_list_color.message}
-              </p>
-            )}
-          </div>
+          {/* 팀 색상 선택 */}
+          <InputField
+            label="Team Color"
+            name="team_list_color"
+            register={register}
+            errors={errors}
+            modifyMode={modifyMode}
+            type="color"
+          />
 
-          {/* Team Notice */}
-          <div>
-            <label className="text-sm font-medium text-gray-600">
-              Team Notice
-            </label>
-            <textarea
-              {...register("team_list_announcement")}
-              disabled={!modifyMode}
-              className="w-full p-2 text-sm border rounded-md"
-              placeholder="Enter Team Notice"
-            />
-            {errors.team_list_announcement && (
-              <p className="text-red-500 text-xs">
-                {errors.team_list_announcement.message}
-              </p>
-            )}
-          </div>
+          {/* 팀 공지 입력 */}
+          <InputField
+            label="Team Notice"
+            name="team_list_announcement"
+            register={register}
+            errors={errors}
+            modifyMode={modifyMode}
+            type="textarea"
+            placeholder="Enter Team Notice"
+          />
 
-          {/* Submit Buttons */}
+          {/* 제출 버튼 */}
           <div className="flex justify-end gap-4 mt-4">
             {!modifyMode ? (
               <button

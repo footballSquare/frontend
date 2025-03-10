@@ -6,7 +6,7 @@ import { schema } from "./lib/schema";
 import useImageHandler from "./model/useImageHandler";
 import usePutTeamBanner from "../../../../../../3_Entity/Team/usePutTeamBanner";
 const BannerImageInput = (props: ImageInputProps) => {
-  const { imgSrc, width, height, team_list_idx } = props;
+  const { imgSrc, team_list_idx } = props;
   const key = "img";
   const {
     register,
@@ -45,7 +45,7 @@ const BannerImageInput = (props: ImageInputProps) => {
       <div className="relative space-y-4 bg-gray-50 p-4 rounded-md shadow-md">
         <div className="flex gap-1">
           <img
-            className={`${width} ${height} object-cover `}
+            className={`w-full h-[80px] object-cover `}
             src={imagePreview}
             alt="Uploaded Emblem Preview"
           />
