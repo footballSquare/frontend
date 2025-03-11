@@ -1,36 +1,33 @@
-import { useForm, SubmitHandler } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
 import { TeamInfo } from "../../../../3_Entity/Team/type";
-import { TeamInfoInput } from "./type";
-import { schema } from "./lib/schema";
 import EmblemImageInput from "./ui/EmblemImageInput";
-import BannerImageInput from "./ui/ImageInput copy";
-import useManageModify from "./model/useManageModify";
-import InputField from "./ui/InputFiled";
+import BannerImageInput from "./ui/BannerImageInput";
+import TextInputForm from "./ui/TextInputForm";
 
 const ManagePage = (props: {
   teamInfo: TeamInfo;
   handleMoveTeamPage: () => void;
 }) => {
   const {
-    teamInfo,
-    teamInfo: { team_list_idx, team_list_emblem, team_list_banner },
+    teamInfo: {
+      community_list_idx,
+      team_list_idx,
+      team_list_name,
+      team_list_short_name,
+      team_list_color,
+      team_list_emblem,
+      team_list_banner,
+      team_list_announcement,
+      team_list_created_at,
+      whole_member,
+    },
     handleMoveTeamPage,
   } = props;
-  const {
-    reset,
-    register,
-    handleSubmit,
-    getValues,
-    formState: { errors },
-  } = useForm<TeamInfoInput>({
-    resolver: yupResolver(schema),
-  });
-  const { modifyMode, handleCancle, handleModifyFalse, handleBackupData } =
-    useManageModify({ reset, teamInfo });
 
-  const onSubmit: SubmitHandler<TeamInfoInput> = () => {
-    handleModifyFalse();
+  const teamTextInputInfo = {
+    team_list_name,
+    team_list_short_name,
+    team_list_color,
+    team_list_announcement,
   };
 
   return (
@@ -62,75 +59,8 @@ const ManagePage = (props: {
           </div>
         </div>
 
-        <form onSubmit={handleSubmit(onSubmit)}>
-          {/* 팀명 입력 */}
-          <InputField
-            label="Team Name"
-            name="team_list_name"
-            register={register}
-            errors={errors}
-            modifyMode={modifyMode}
-            placeholder="Enter Team Name"
-          />
+        <TextInputForm teamInfo={teamTextInputInfo} />
 
-          {/* 팀 약칭 입력 */}
-          <InputField
-            label="Short Team Name"
-            name="team_list_short_name"
-            register={register}
-            errors={errors}
-            modifyMode={modifyMode}
-            placeholder="Enter Short Team Name"
-          />
-
-          {/* 팀 색상 선택 */}
-          <InputField
-            label="Team Color"
-            name="team_list_color"
-            register={register}
-            errors={errors}
-            modifyMode={modifyMode}
-            type="color"
-          />
-
-          {/* 팀 공지 입력 */}
-          <InputField
-            label="Team Notice"
-            name="team_list_announcement"
-            register={register}
-            errors={errors}
-            modifyMode={modifyMode}
-            type="textarea"
-            placeholder="Enter Team Notice"
-          />
-
-          {/* 제출 버튼 */}
-          <div className="flex justify-end gap-4 mt-4">
-            {!modifyMode ? (
-              <button
-                className="py-2 px-4 bg-blue-600 text-white rounded-md"
-                onClick={(e) => {
-                  e.preventDefault();
-                  handleBackupData(getValues());
-                }}>
-                수정하기
-              </button>
-            ) : (
-              <div className="flex gap-2">
-                <button
-                  className="py-2 px-4 bg-red-600 text-white rounded-md"
-                  onClick={handleCancle}>
-                  취소
-                </button>
-                <button
-                  type="submit"
-                  className="py-2 px-4 bg-green-600 text-white rounded-md">
-                  저장
-                </button>
-              </div>
-            )}
-          </div>
-        </form>
         {/* Back Button */}
         <div className="flex justify-end mt-4">
           <button
