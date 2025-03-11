@@ -6,18 +6,19 @@ import { InputFieldProps } from "./type";
 
 const InputTeamName = (props: InputFieldProps) => {
   const { register, errors, modifyMode, getValues } = props;
-  const [result, loading, getEvent, resetResult] = useGetRepeatTeam();
   const formKey = "team_list_name";
+  const [result, loading, getEvent, resetResult] = useGetRepeatTeam();
+
+  // result = [available , notavailable , null]
+  React.useEffect(() => {
+    if (modifyMode) {
+      resetResult(); // 증복
+    }
+  }, [modifyMode]);
 
   const handleClick = () => {
     getEvent(getValues(formKey));
   };
-
-  React.useEffect(() => {
-    if (modifyMode) {
-      resetResult();
-    }
-  }, [modifyMode]);
 
   return (
     <div>

@@ -25,7 +25,7 @@ const useGetRepeatTeam = (): [
     RESULT_STATE.UNAVAILABLE
   );
 
-  const getEvent = (teamName: string) => {
+  const checkRepeat = (teamName: string) => {
     setResult(RESULT_STATE.PENDING);
     request({ teamName });
   };
@@ -47,7 +47,7 @@ const useGetRepeatTeam = (): [
     }
   }, [serverState]);
 
-  return [result, loading, getEvent, resetResult];
+  return [result, loading, checkRepeat, resetResult];
 };
 
 export default useGetRepeatTeam;
