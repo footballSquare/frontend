@@ -13,7 +13,7 @@ const InputField = (props: InputFieldProps) => {
     <div>
       <p className="text-sm font-medium text-gray-600">{label}</p>
       {type === "textarea" ? (
-        <textarea
+        <input
           {...register(name)}
           disabled={!modifyMode}
           className={`w-full p-2 text-sm border rounded-md ${

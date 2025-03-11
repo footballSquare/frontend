@@ -1,14 +1,11 @@
-import {
-  UseFormRegister,
-  FieldErrors,
-  UseFormGetValues,
-} from "react-hook-form";
+import { UseFormRegister, FieldErrors } from "react-hook-form";
 
 import { TeamInfoInput } from "../../type";
+import { UseFormWatch } from "react-hook-form";
 
 export type InputFieldProps = {
   register: UseFormRegister<TeamInfoInput>;
-  getValues: UseFormGetValues<TeamInfoInput>;
+  watch: UseFormWatch<TeamInfoInput>;
   errors: FieldErrors<TeamInfoInput>;
   modifyMode: boolean;
 };
