@@ -1,22 +1,23 @@
 import { InputFieldProps } from "./type";
 const TeamNameInput = (props: InputFieldProps) => {
-  const { label, register, name, errors, modifyMode, placeholder = "" } = props;
+  const { register, errors, modifyMode } = props;
+  const formKey = "team_list_name";
 
   return (
     <div>
-      <p className="text-sm font-medium text-gray-600">{label}</p>
+      <p className="text-sm font-medium text-gray-600">Team Name</p>
       <input
-        {...register(name)}
+        {...register(formKey)}
         type="text"
         disabled={!modifyMode}
         className={`w-full p-2 text-sm border rounded-md ${
           modifyMode ? "border-gray-300" : "bg-gray-100 text-gray-500"
         }`}
-        placeholder={placeholder}
+        placeholder={"팀 이름을 입력하세요"}
       />
       <button className="">버튼</button>
-      {errors[name] && (
-        <p className="text-red-500 text-xs">{errors[name]?.message}</p>
+      {errors[formKey] && (
+        <p className="text-red-500 text-xs">{errors[formKey]?.message}</p>
       )}
     </div>
   );
