@@ -38,9 +38,6 @@ export type MatchParticipant = {
   player_list_nickname: string;
   player_list_url: string;
 };
-export type MatchParticipants = {
-  match_participant: MatchParticipant[];
-};
 
 export type MatchWaitList = {
   match_waitlist: {

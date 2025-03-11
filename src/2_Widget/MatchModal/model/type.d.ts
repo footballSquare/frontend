@@ -1,13 +1,11 @@
 import React from "react";
-import {
-  MatchWaitList,
-  MatchParticipants,
-  MatchParticipant,
-} from "../../../3_Entity/Match/type";
+import { MatchWaitList, MatchParticipant } from "../../../3_Entity/Match/types/response";
 
 export type UseMatchApproveProps = {
   setMatchWaitList: React.Dispatch<React.SetStateAction<MatchWaitList>>;
-  setMatchParticipants: React.Dispatch<React.SetStateAction<MatchParticipants>>;
+  setMatchParticipants: React.Dispatch<
+    React.SetStateAction<MatchParticipant[]>
+  >;
 };
 export type MatchApproveHandlerProps = {
   player: Pick<
