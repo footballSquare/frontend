@@ -1,10 +1,11 @@
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { TeamInfoInput } from "./type";
 import useManageModify from "./model/useManageModify";
 import InputField from "./ui/InputFiled";
 import TeamNameInput from "./ui/TeamNameInput";
+import InputShortName from "./ui/InputShortName";
 import { schema } from "./lib/schema";
-import { TeamInfoInput } from "./type";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { useForm, SubmitHandler } from "react-hook-form";
 
 const TextInputForm = (props: TeamInfoInput) => {
   const teamInfo = props;
@@ -13,10 +14,13 @@ const TextInputForm = (props: TeamInfoInput) => {
     register,
     handleSubmit,
     getValues,
+    watch,
     formState: { errors },
   } = useForm<TeamInfoInput>({
     resolver: yupResolver(schema),
+    mode: "onChange",
   });
+
   const { modifyMode, handleCancle, handleModifyFalse, handleBackupData } =
     useManageModify({ reset, teamInfo });
 
@@ -27,19 +31,18 @@ const TextInputForm = (props: TeamInfoInput) => {
     <form onSubmit={handleSubmit(onSubmit)}>
       {/* 팀명 입력 */}
       <TeamNameInput
+        getValues={getValues}
         register={register}
         errors={errors}
         modifyMode={modifyMode}
       />
 
       {/* 팀 약칭 입력 */}
-      <InputField
-        label="Short Team Name"
-        name="team_list_short_name"
+      <InputShortName
+        watch={watch}
         register={register}
         errors={errors}
         modifyMode={modifyMode}
-        placeholder="Enter Short Team Name"
       />
 
       {/* 팀 색상 선택 */}

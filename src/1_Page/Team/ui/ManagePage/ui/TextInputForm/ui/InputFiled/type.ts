@@ -1,6 +1,7 @@
 import { UseFormRegister, FieldErrors } from "react-hook-form";
 
 import { TeamInfoInput } from "../../type";
+
 export type InputFieldProps = {
   label: string;
   name: keyof TeamInfoInput;
