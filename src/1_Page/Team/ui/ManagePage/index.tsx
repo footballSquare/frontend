@@ -9,7 +9,6 @@ const ManagePage = (props: {
 }) => {
   const {
     teamInfo: {
-      community_list_idx,
       team_list_idx,
       team_list_name,
       team_list_short_name,
@@ -17,8 +16,6 @@ const ManagePage = (props: {
       team_list_emblem,
       team_list_banner,
       team_list_announcement,
-      team_list_created_at,
-      whole_member,
     },
     handleMoveTeamPage,
   } = props;
@@ -59,7 +56,7 @@ const ManagePage = (props: {
           </div>
         </div>
 
-        <TextInputForm teamInfo={teamTextInputInfo} />
+        <TextInputForm {...teamTextInputInfo} />
 
         {/* Back Button */}
         <div className="flex justify-end mt-4">

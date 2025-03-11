@@ -6,7 +6,8 @@ import { TeamInfoInput } from "./type";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, SubmitHandler } from "react-hook-form";
 
-const TextInputForm = (teamInfo: TeamInfoInput) => {
+const TextInputForm = (props: TeamInfoInput) => {
+  const teamInfo = props;
   const {
     reset,
     register,
@@ -26,12 +27,9 @@ const TextInputForm = (teamInfo: TeamInfoInput) => {
     <form onSubmit={handleSubmit(onSubmit)}>
       {/* 팀명 입력 */}
       <TeamNameInput
-        label="Team Name"
-        name="team_list_name"
         register={register}
         errors={errors}
         modifyMode={modifyMode}
-        placeholder="Enter Team Name"
       />
 
       {/* 팀 약칭 입력 */}
