@@ -1,12 +1,9 @@
-import { TeamInfo } from "../../../../3_Entity/Team/type";
 import EmblemImageInput from "./ui/EmblemImageInput";
 import BannerImageInput from "./ui/BannerImageInput";
 import TextInputForm from "./ui/TextInputForm";
+import { ManagePageProps } from "./type";
 
-const ManagePage = (props: {
-  teamInfo: TeamInfo;
-  handleMoveTeamPage: () => void;
-}) => {
+const ManagePage = (props: ManagePageProps) => {
   const {
     teamInfo: {
       team_list_idx,
