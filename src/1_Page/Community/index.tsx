@@ -1,11 +1,10 @@
 import { useParams } from "react-router-dom";
-import ChampionShipList from "./ui/ChampionShipList";
+import ChampionShipList from "./ui/ChampionshipList";
 import CommunityAdminList from "./ui/CommunityAdminList";
 import CommunityPostList from "./ui/CommunityPostList";
 import CommunityTeamList from "./ui/CommunityTeamList";
 const Community = () => {
   const { communityIdx } = useParams();
-  console.log(communityIdx)
   return (
     <div className="bg-gray-100 w-full p-4 flex gap-4">
       {/* Left Sidebar */}
@@ -29,7 +28,7 @@ const Community = () => {
 
         <div className=" flex gap-4">
           {/* Left Tab */}
-          <ChampionShipList />
+          <ChampionShipList communityIdx={Number(communityIdx)}/>
 
           {/* Middle Tab */}
           <CommunityPostList />
