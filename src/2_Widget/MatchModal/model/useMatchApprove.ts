@@ -30,24 +30,22 @@ const useMatchApprove = (
         // post api
         postMatchApproval(player.player_list_idx);
         // set MatchParticipants state
-        setMatchParticipants((prev) => ({
-          match_participant: [
-            ...prev.match_participant,
-            ...(matchParticipants.some(
-              (participant) =>
-                participant.player_list_idx === player.player_list_idx
-            )
-              ? []
-              : [
-                  {
-                    match_position_idx: matchPosition,
-                    player_list_idx: player.player_list_idx,
-                    player_list_nickname: player.player_list_nickname,
-                    player_list_url: player.player_list_url,
-                  },
-                ]),
-          ],
-        }));
+        setMatchParticipants((prev) => [
+          ...prev,
+          ...(matchParticipants.some(
+            (participant) =>
+              participant.player_list_idx === player.player_list_idx
+          )
+            ? []
+            : [
+                {
+                  match_position_idx: matchPosition,
+                  player_list_idx: player.player_list_idx,
+                  player_list_nickname: player.player_list_nickname,
+                  player_list_url: player.player_list_url,
+                },
+              ]),
+        ]);
         // set MatchWaitList state
         setMatchWaitList((prev) => ({
           match_waitlist: {
@@ -85,14 +83,12 @@ const useMatchApprove = (
         // delete api
         deleteMatchApproval(player.player_list_idx);
         // set MatchParticipants state
-        setMatchParticipants((prev) => ({
-          match_participant: [
-            ...prev.match_participant.filter(
-              (participant) =>
-                participant.player_list_idx !== player.player_list_idx
-            ),
-          ],
-        }));
+        setMatchParticipants((prev) =>
+          prev.filter(
+            (participant) =>
+              participant.player_list_idx !== player.player_list_idx
+          )
+        );
         // set MatchWaitList state
         setMatchWaitList((prev) => ({
           match_waitlist: {

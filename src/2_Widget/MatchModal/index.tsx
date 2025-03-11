@@ -88,7 +88,7 @@ const MatchModal = () => {
           {/* 필드 & 포메이션 */}
           <FormationPanel
             matchFormationIdx={matchDetail.match_formation_idx}
-            matchParticipants={matchParticipants.match_participant}
+            matchParticipants={matchParticipants}
             matchDisApproveHandler={matchDisApproveHandler}
             isMatchLeader={isMatchLeader}
           />
@@ -100,7 +100,7 @@ const MatchModal = () => {
                 matchFormationPosition={
                   matchDetail.match_formation_position
                 }
-                matchParticipants={matchParticipants.match_participant}
+                matchParticipants={matchParticipants}
                 matchWaitList={matchWaitList.match_waitlist}
                 matchApproveHandler={matchApproveHandler}
                 matchApplyHandler={matchApplyHandler}
@@ -112,7 +112,7 @@ const MatchModal = () => {
                 {matchDetail.match_formation_position.map(
                   (positionIdx) => {
                     return (
-                      !matchParticipants.match_participant.some(
+                      !matchParticipants.some(
                         (elem) => elem.match_position_idx === positionIdx
                       ) && (
                         <button
@@ -126,7 +126,7 @@ const MatchModal = () => {
                               },
                               matchPosition: positionIdx,
                               matchParticipants:
-                                matchParticipants.match_participant,
+                                matchParticipants,
                             });
                           }}
                         >
@@ -142,7 +142,7 @@ const MatchModal = () => {
             // 매치 라인업 마감 & 대회
             matchDetail.common_status_idx !== 2 && (
               <StatPanel
-                matchParticipants={matchParticipants.match_participant}
+                matchParticipants={matchParticipants}
               />
             )
           )}
