@@ -16,14 +16,10 @@ const useManageModify = (
 
   const [modifyMode, setModifyMode] = React.useState<boolean>(false);
   const cancleRef = React.useRef<boolean>(false);
-
-  const defaultTeamInfoInput: TeamInfoInput = {
-    ...teamInfo,
-  };
-  const inputBackupDataRef = React.useRef<TeamInfoInput>(defaultTeamInfoInput);
+  const inputBackupDataRef = React.useRef<TeamInfoInput>(teamInfo);
 
   React.useEffect(() => {
-    reset(defaultTeamInfoInput);
+    reset(teamInfo);
   }, [teamInfo]);
 
   React.useEffect(() => {
