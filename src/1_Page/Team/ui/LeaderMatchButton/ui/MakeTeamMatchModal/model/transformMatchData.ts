@@ -1,5 +1,5 @@
 import { ExtendedMatchFormData } from "../type";
-import { MatchFormData } from "../../../../../../../3_Entity/Match/type";
+import { MatchFormData } from "../../../../../../../3_Entity/Match/types/response";
 
 const transformMatchData = (data: ExtendedMatchFormData): MatchFormData => {
   const {
