@@ -1,5 +1,5 @@
 import { TeamInfo } from "../../../../../../3_Entity/Team/type";
-import { MatchFormData } from "../../../../../../3_Entity/Match/type";
+import { MatchFormData } from "../../../../../../3_Entity/Match/types/response";
 
 export type makeTeamMatchModalProps = Pick<TeamInfo, "team_list_idx"> & {
   onClose: () => void;
