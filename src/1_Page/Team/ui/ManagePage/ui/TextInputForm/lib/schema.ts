@@ -23,4 +23,6 @@ export const schema = Yup.object().shape({
   short_team_repeat_checked: Yup.boolean()
     .required()
     .oneOf([true], "팀 약칭 중복 체크를 완료해주세요."),
+
+  common_status_idx: Yup.string().required("필수값입니다"),
 });

@@ -1,19 +1,12 @@
+import { TeamJoinLeaveButtonProps } from "./type";
+import useManageAction from "./model/useManageAction";
+
 import useDeleteLeaveTeam from "../../../../3_Entity/Team/useDeleteLeaveTeam";
 import usePutSignTeam from "../../../../3_Entity/Team/usePutSignTeam";
 import useMakeTeamMatchModalStore from "../../../../4_Shared/zustand/useMakeTeamMatchModal";
-import useManageAction from "./model/useManageAction";
 
-const TeamJoinLeaveButton = ({
-  isTeamReader,
-  isTeamPlayer,
-  teamListIdx,
-  handleMoveManagePage,
-}: {
-  isTeamPlayer: boolean;
-  teamListIdx: number;
-  isTeamReader: boolean;
-  handleMoveManagePage: () => void;
-}) => {
+const TeamJoinLeaveButton = (props: TeamJoinLeaveButtonProps) => {
+  const { isTeamReader, isTeamPlayer, teamListIdx, handleTogglePage } = props;
   const [deleteEvent] = useDeleteLeaveTeam(teamListIdx);
   const [putEvent] = usePutSignTeam(teamListIdx);
   const { setToggleModal } = useMakeTeamMatchModalStore();
@@ -47,7 +40,7 @@ const TeamJoinLeaveButton = ({
         <div className="flex gap-2 mt-2">
           <button
             className="bg-blue-500 text-white text-sm font-medium py-1 px-3 rounded-full"
-            onClick={handleMoveManagePage}>
+            onClick={handleTogglePage}>
             팀관리
           </button>
           <button

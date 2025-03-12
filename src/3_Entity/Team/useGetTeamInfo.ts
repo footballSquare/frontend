@@ -9,6 +9,7 @@ const useGetTeamInfo = (teamIdx: number): [TeamInfo, boolean] => {
 
   React.useEffect(() => {
     request(teamInfoData);
+    console.log(teamIdx);
   }, []);
 
   React.useEffect(() => {

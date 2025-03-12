@@ -1,5 +1,5 @@
 export type TeamInfo = {
-  community_list_idx: number;
+  community_list_idx?: number | null; // ✅ `null` 허용
   team_list_idx: number;
   team_list_name: string;
   team_list_short_name: string;
@@ -8,7 +8,7 @@ export type TeamInfo = {
   team_list_banner: string;
   team_list_announcement: string;
   team_list_created_at: string;
-  whole_member: number;
+  common_status_idx: number;
 };
 
 export type TeamAwards = {
