@@ -1,7 +1,7 @@
 export type FormValues = {
   autoMatch: number;
   matchAttribute: number;
-  gameType: number;
+  gameType: string;
   startTime: string;
   duration: string;
   participationMode: number;

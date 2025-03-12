@@ -15,7 +15,7 @@ const AutoMatchModal = (props: AutoMatchModalProps) => {
     defaultValues: {
       autoMatch: 1,
       matchAttribute: 1,
-      gameType: 1,
+      gameType: "1",
       startTime: "10:00",
       duration: "2 hours",
       participationMode: 1,
@@ -23,13 +23,12 @@ const AutoMatchModal = (props: AutoMatchModalProps) => {
     },
   });
 
-  // Handle form submission
   const onSubmit = (data: FormValues) => {
     console.log(data);
   };
 
   const watchGameType = watch("gameType");
-  const isCanFormation = watchGameType === 1;
+  const isCanFormation = watchGameType === "0";
 
   return (
     <div className="fixed inset-0 z-10 bg-black/50 flex items-center justify-center">
@@ -127,20 +126,27 @@ const AutoMatchModal = (props: AutoMatchModalProps) => {
           </div>
 
           {/* Formation Selection */}
-          {isCanFormation && (
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                포메이션
-              </label>
-              <select
-                {...register("formation")}
-                className="w-full p-3 text-sm border-2 border-gray-200 rounded-xl focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none transition-all duration-200">
-                {matchFormation.map((formation, index) => (
-                  <option value={index}>{formation}</option>
-                ))}
-              </select>
-            </div>
-          )}
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1.5">
+              포메이션
+            </label>
+            <select
+              {...register("formation")}
+              className={`w-full p-3 text-sm border-2 rounded-xl focus:outline-none transition-all duration-200 
+              ${
+                isCanFormation
+                  ? "border-gray-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200"
+                  : "bg-gray-100 text-gray-400 cursor-not-allowed border-gray-300"
+              }`}
+              disabled={!isCanFormation}>
+              {matchFormation.map((formation, index) => (
+                <option key={index} value={index}>
+                  {formation}
+                </option>
+              ))}
+            </select>
+          </div>
 
           {/* Buttons */}
           <div className="flex justify-end gap-3 mt-8">
