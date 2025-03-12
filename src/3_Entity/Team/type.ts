@@ -46,7 +46,7 @@ export type TeamPutInfo = {
 
 export type SignTeamMember = {
   player_list_idx: number;
-  player_list_platform: string;
+  player_list_platform: number;
   player_list_profile_img: string;
   player_list_nickname: string;
 };
