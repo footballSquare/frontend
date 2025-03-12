@@ -1,14 +1,11 @@
+import { useFormContext } from "react-hook-form";
 import { InputFieldProps } from "./type";
 const InputField = (props: InputFieldProps) => {
+  const { label, modifyMode, type = "text", name, placeholder = "" } = props;
   const {
-    label,
     register,
-    name,
-    errors,
-    modifyMode,
-    type = "text",
-    placeholder = "",
-  } = props;
+    formState: { errors },
+  } = useFormContext();
   return (
     <div>
       <p className="text-sm font-medium text-gray-600">{label}</p>
@@ -35,7 +32,9 @@ const InputField = (props: InputFieldProps) => {
         />
       )}
       {errors[name] && (
-        <p className="text-red-500 text-xs">{errors[name]?.message}</p>
+        <p className="text-red-500 text-xs">
+          {errors[name]?.message?.toString()}
+        </p>
       )}
     </div>
   );
