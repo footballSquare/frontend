@@ -7,7 +7,7 @@ export const RESULT_STATE = {
   PENDING: null,
 } as const;
 
-type ResultStateType = (typeof RESULT_STATE)[keyof typeof RESULT_STATE];
+export type ResultStateType = (typeof RESULT_STATE)[keyof typeof RESULT_STATE];
 
 const useGetRepeatTeam = (): [
   ResultStateType,

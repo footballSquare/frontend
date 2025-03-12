@@ -19,10 +19,6 @@ const useManageModify = (
   const inputBackupDataRef = React.useRef<TeamInfoInput>(teamInfo);
 
   React.useEffect(() => {
-    reset(teamInfo);
-  }, [teamInfo]);
-
-  React.useEffect(() => {
     if (modifyMode) {
       cancleRef.current = false;
     }
