@@ -19,6 +19,7 @@ const TextInputForm = (props: TextInputFormProps) => {
   });
   const {
     handleSubmit,
+    getValues,
     formState: { isValid },
     reset,
   } = forms;
@@ -62,7 +63,7 @@ const TextInputForm = (props: TextInputFormProps) => {
               className="py-2 px-4 bg-blue-600 text-white rounded-md"
               onClick={(e) => {
                 e.preventDefault();
-                handleBackupData(forms.getValues());
+                handleBackupData(getValues());
               }}>
               수정하기
             </button>
@@ -70,7 +71,10 @@ const TextInputForm = (props: TextInputFormProps) => {
             <div className="flex gap-2">
               <button
                 className="py-2 px-4 bg-red-600 text-white rounded-md"
-                onClick={handleCancle}>
+                onClick={() => {
+                  handleCancle();
+                  console.log(getValues());
+                }}>
                 취소
               </button>
               <button
