@@ -1,0 +1,5 @@
+export const RESULT_STATE = {
+  AVAILABLE: "AVAILABLE",
+  UNAVAILABLE: "UNAVAILABLE",
+  PENDING: null,
+} as const;
