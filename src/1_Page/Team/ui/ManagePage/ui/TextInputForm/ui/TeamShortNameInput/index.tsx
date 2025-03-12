@@ -1,13 +1,13 @@
 import React from "react";
-import useGetRepeatTeam, {
-  RESULT_STATE,
-} from "../../../../../../../../3_Entity/Team/useGetRepeatTeam";
-import { InputFieldProps } from "./type";
 
-const TeamNameInput = (props: InputFieldProps) => {
+import { InputFieldProps } from "./type";
+import useGetRepeatShortTeam from "../../../../../../../../3_Entity/Team/useGetRepeatShortTeam";
+import { RESULT_STATE } from "../../../../../../../../3_Entity/Team/useGetRepeatShortTeam";
+
+const TeamShortNameInput = (props: InputFieldProps) => {
   const { register, errors, modifyMode, getValues, isRepeatCheckRef } = props;
-  const formKey = "team_list_name";
-  const [result, loading, getEvent, resetResult] = useGetRepeatTeam();
+  const formKey = "team_list_short_name";
+  const [result, loading, getEvent, resetResult] = useGetRepeatShortTeam();
   const isNotRepeat = result === RESULT_STATE.AVAILABLE;
   const isRepeat = result === RESULT_STATE.UNAVAILABLE;
 
@@ -60,7 +60,9 @@ const TeamNameInput = (props: InputFieldProps) => {
           className={`text-sm mt-1 ${
             isRepeat ? "text-red-500" : "text-green-500"
           }`}>
-          {isRepeat ? "이미 사용 중인 팀명입니다." : "사용 가능한 팀명입니다."}
+          {isRepeat
+            ? "이미 사용 중인 팀약칭입니다."
+            : "사용 가능한 팀약칭입니다."}
         </p>
       )}
       {errors[formKey] && (
@@ -70,4 +72,4 @@ const TeamNameInput = (props: InputFieldProps) => {
   );
 };
 
-export default TeamNameInput;
+export default TeamShortNameInput;
