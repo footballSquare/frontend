@@ -12,9 +12,9 @@ export const convertToPutData = (data: TeamInfoInput) => {
   return { common_status_idx: Number(common_status_idx), ...rest };
 };
 
-export const convertToTeamInfo = (props: TextInputFormProps) => ({
-  ...props,
-  common_status_idx: props.common_status_idx.toString(), // ✅ number → string 변환
+export const convertToTeamInfo = (data: TextInputFormProps) => ({
+  ...data,
+  common_status_idx: data.common_status_idx.toString(),
   team_repeat_checked: false,
   short_team_repeat_checked: false,
 });

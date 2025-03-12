@@ -11,7 +11,7 @@ export const teamInfoData = {
     team_list_announcement:
       "레알 팀원 모집 중 입니다. 멀티포지션 환영, 접률 좋은분 환영",
     team_list_created_at: "2024-10-20",
-    whole_member: 15,
+    common_status_idx: 1,
   },
 };
 
