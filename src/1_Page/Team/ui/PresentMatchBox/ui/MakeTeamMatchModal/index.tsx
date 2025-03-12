@@ -62,7 +62,7 @@ const MakeTeamMatchModal = (props: MakeTeamMatchModalProps) => {
           <div>
             <label className="block text-gray-700">매치 속성 선택</label>
             <select
-              {...register("match_match_attribute", { required: true })}
+              {...register("match_match_attribute")}
               className="w-full border border-gray-300 rounded-lg p-2 mt-1">
               {teamMatchAttribute.map((item, index) => (
                 <option key={index} value={index}>
@@ -81,7 +81,7 @@ const MakeTeamMatchModal = (props: MakeTeamMatchModalProps) => {
                   <input
                     type="radio"
                     value={index}
-                    {...register("match_type_idx_radio", { required: true })}
+                    {...register("match_type_idx_radio")}
                     className="accent-blue-500"
                   />
                   {item}
@@ -115,7 +115,7 @@ const MakeTeamMatchModal = (props: MakeTeamMatchModalProps) => {
             <label className="block text-gray-700">시작 날짜 선택</label>
             <input
               type="date"
-              {...register("match_match_start_date", { required: true })}
+              {...register("match_match_start_date")}
               className="w-full border border-gray-300 rounded-lg p-2 mt-1"
             />
             {errors.match_match_start_date && (
@@ -134,7 +134,7 @@ const MakeTeamMatchModal = (props: MakeTeamMatchModalProps) => {
                   시작 - 시간
                 </label>
                 <select
-                  {...register("match_match_start_hour", { required: true })}
+                  {...register("match_match_start_hour")}
                   className="w-full border border-gray-300 rounded-lg p-3 text-center text-gray-800 focus:ring-2 focus:ring-blue-400 focus:outline-none">
                   {Array.from({ length: 24 }, (_, index) => {
                     const hours = index.toString().padStart(2, "0");
@@ -152,7 +152,7 @@ const MakeTeamMatchModal = (props: MakeTeamMatchModalProps) => {
                   분
                 </label>
                 <select
-                  {...register("match_match_start_min", { required: true })}
+                  {...register("match_match_start_min")}
                   className="w-full border border-gray-300 rounded-lg p-3 text-center text-gray-800 focus:ring-2 focus:ring-blue-400 focus:outline-none">
                   <option value="00">00</option>
                   <option value="30">30</option>
@@ -177,7 +177,7 @@ const MakeTeamMatchModal = (props: MakeTeamMatchModalProps) => {
                   <input
                     type="radio"
                     value={item}
-                    {...register("match_match_duration", { required: true })}
+                    {...register("match_match_duration")}
                     className="accent-blue-500"
                   />
                   {item}

@@ -1,11 +1,11 @@
 export type FormValues = {
-  autoMatch: boolean;
-  matchType: string;
-  gameType: string;
+  autoMatch: number;
+  matchAttribute: number;
+  gameType: number;
   startTime: string;
   duration: string;
-  participationMode: string;
-  formation: string;
+  participationMode: number;
+  formation: number;
 };
 
 export type AutoMatchModalProps = {

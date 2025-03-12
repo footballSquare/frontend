@@ -1,29 +1,35 @@
 import { useForm } from "react-hook-form";
 
 import { FormValues, AutoMatchModalProps } from "./type";
+import { teamMatchAttribute } from "../../../../../../../../4_Shared/constant/teamMatchAttribute";
+import { matchType } from "../../../../../../../../4_Shared/constant/matchType";
+import { matchParticipation } from "../../../../../../../../4_Shared/constant/matchParticipation";
+import { matchFormation } from "../../../../../../../../4_Shared/constant/matchFormation";
+import { matchDuration } from "../../../../../../../../4_Shared/constant/matchDuration";
+import { timesFor30 } from "../lib/time";
 
 const AutoMatchModal = (props: AutoMatchModalProps) => {
   const { onClose } = props;
 
   const { register, handleSubmit, watch } = useForm<FormValues>({
     defaultValues: {
-      autoMatch: false,
-      matchType: "team",
-      gameType: "11v11",
+      autoMatch: 1,
+      matchAttribute: 1,
+      gameType: 1,
       startTime: "10:00",
       duration: "2 hours",
-      participationMode: "anyone",
-      formation: "433",
+      participationMode: 1,
+      formation: 1,
     },
   });
 
   // Handle form submission
   const onSubmit = (data: FormValues) => {
     console.log(data);
-    onClose();
   };
 
   const watchGameType = watch("gameType");
+  const isCanFormation = watchGameType === 1;
 
   return (
     <div className="fixed inset-0 z-10 bg-black/50 flex items-center justify-center">
@@ -54,10 +60,11 @@ const AutoMatchModal = (props: AutoMatchModalProps) => {
               매치 속성
             </label>
             <select
-              {...register("matchType")}
+              {...register("matchAttribute")}
               className="w-full p-3 text-sm border-2 border-gray-200 rounded-xl focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none transition-all duration-200">
-              <option value="team">팀 매치</option>
-              <option value="public">팀 공개 매치</option>
+              {teamMatchAttribute.map((attribute, index) => (
+                <option value={index}>{attribute}</option>
+              ))}
             </select>
           </div>
 
@@ -69,8 +76,9 @@ const AutoMatchModal = (props: AutoMatchModalProps) => {
             <select
               {...register("gameType")}
               className="w-full p-3 text-sm border-2 border-gray-200 rounded-xl focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none transition-all duration-200">
-              <option value="11v11">11:11</option>
-              <option value="4v4">4:4</option>
+              {matchType.map((type, index) => (
+                <option value={index}>{type}</option>
+              ))}
             </select>
           </div>
 
@@ -82,9 +90,11 @@ const AutoMatchModal = (props: AutoMatchModalProps) => {
             <select
               {...register("startTime")}
               className="w-full p-3 text-sm border-2 border-gray-200 rounded-xl focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none transition-all duration-200">
-              <option value="10:00">10:00</option>
-              <option value="10:30">10:30</option>
-              <option value="11:00">11:00</option>
+              {timesFor30.map((time) => (
+                <option key={time} value={time}>
+                  {time}
+                </option>
+              ))}
             </select>
           </div>
 
@@ -96,9 +106,9 @@ const AutoMatchModal = (props: AutoMatchModalProps) => {
             <select
               {...register("duration")}
               className="w-full p-3 text-sm border-2 border-gray-200 rounded-xl focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none transition-all duration-200">
-              <option value="2 hours">2시간</option>
-              <option value="1 hour">1시간</option>
-              <option value="30 minutes">30분</option>
+              {matchDuration.map((time) => (
+                <option value={time}>{time}</option>
+              ))}
             </select>
           </div>
 
@@ -110,13 +120,14 @@ const AutoMatchModal = (props: AutoMatchModalProps) => {
             <select
               {...register("participationMode")}
               className="w-full p-3 text-sm border-2 border-gray-200 rounded-xl focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none transition-all duration-200">
-              <option value="anyone">아무나 참여</option>
-              <option value="approval">승인 참여</option>
+              {matchParticipation.map((participation, index) => (
+                <option value={index}>{participation}</option>
+              ))}
             </select>
           </div>
 
           {/* Formation Selection */}
-          {watchGameType === "11v11" && (
+          {isCanFormation && (
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1.5">
                 포메이션
@@ -124,9 +135,9 @@ const AutoMatchModal = (props: AutoMatchModalProps) => {
               <select
                 {...register("formation")}
                 className="w-full p-3 text-sm border-2 border-gray-200 rounded-xl focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none transition-all duration-200">
-                <option value="433">4-3-3</option>
-                <option value="442">4-4-2</option>
-                <option value="352">3-5-2</option>
+                {matchFormation.map((formation, index) => (
+                  <option value={index}>{formation}</option>
+                ))}
               </select>
             </div>
           )}

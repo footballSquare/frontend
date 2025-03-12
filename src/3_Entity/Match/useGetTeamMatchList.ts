@@ -2,10 +2,6 @@ import React from "react";
 import { useFetch } from "../../4_Shared/util/apiUtil";
 import { matchList } from "../../4_Shared/mock/matchList";
 import { MatchInfo } from "./type";
-import { teamMatchAttribute } from "../../4_Shared/constant/teamMatchAttribute";
-import { matchType } from "../../4_Shared/constant/matchType";
-import { matchParticipation } from "../../4_Shared/constant/matchParticipation";
-import { matchFormation } from "../../4_Shared/constant/matchFormation";
 
 const ITEMS_PER_PAGE = 10;
 

@@ -1,13 +1,8 @@
 import React from "react";
+import { ResultStateType } from "./type";
+
 import { useFetch } from "../../4_Shared/util/apiUtil";
-
-export const RESULT_STATE = {
-  AVAILABLE: "AVAILABLE",
-  UNAVAILABLE: "UNAVAILABLE",
-  PENDING: null,
-} as const;
-
-type ResultStateType = (typeof RESULT_STATE)[keyof typeof RESULT_STATE];
+import { RESULT_STATE } from "../../4_Shared/constant/result";
 
 const useGetRepeatShortTeam = (): [
   ResultStateType,
