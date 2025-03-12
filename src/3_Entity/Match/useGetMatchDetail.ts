@@ -1,7 +1,7 @@
 import React from "react";
 import { useFetch } from "../../4_Shared/util/apiUtil";
 import { mockMatchDetail } from "../../4_Shared/mock//matchDetail";
-import { MatchDetail } from "./type";
+import { MatchDetail } from "./types/response";
 import useMatchModalStore from "../../4_Shared/zustand/useMatchModal";
 
 const useGetMatchDetail = (
@@ -12,8 +12,9 @@ const useGetMatchDetail = (
   boolean
 ] => {
   const [serverState, request, loading] = useFetch();
-  const [matchDetail, setMatchDetail] =
-    React.useState<MatchDetail>(mockMatchDetail.match);
+  const [matchDetail, setMatchDetail] = React.useState<MatchDetail>(
+    mockMatchDetail.match
+  );
   const { setIsMatchEnd } = useMatchModalStore();
 
   React.useEffect(() => {
