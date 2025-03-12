@@ -1,6 +1,6 @@
 import Button from "../../../../4_Shared/components/Button";
 import StandbyList from "../../../../2_Widget/StandbyList";
-import footballPlayer from "../../../../4_Shared/assets/svg/footballPlayer.svg";
+import footballPlayer from "../../../../4_Shared/assets/img/footballPlayer.png";
 import useStandbyList from "./model/useStandbyList";
 const StandbyListPanel = () => {
   const [isStandbyListOpen, toggleStandbyList] = useStandbyList();
