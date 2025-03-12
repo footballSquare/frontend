@@ -57,9 +57,10 @@ const ManagePage = (props: ManagePageProps) => {
           </div>
         </div>
 
-        <TextInputForm {...teamTextInputInfo} />
-
-        <TeamApplications />
+        <div className="flex flex-wrap w-full gap-3">
+          <TextInputForm {...teamTextInputInfo} />
+          <TeamApplications />
+        </div>
 
         {/* Back Button */}
         <div className="flex justify-end mt-4">

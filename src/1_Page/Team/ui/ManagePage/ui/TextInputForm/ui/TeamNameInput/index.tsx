@@ -59,10 +59,10 @@ const TeamNameInput = (props: InputFieldProps) => {
         <input
           {...register(formKey)}
           disabled={disable}
-          className={`flex-1 p-2 text-sm border rounded-md transition-all duration-300 ${
-            disable
-              ? "bg-gray-100 text-gray-500 border-gray-300 cursor-not-allowed"
-              : "border-gray-300 bg-white text-black"
+          className={`w-full p-3 text-sm border-2 rounded-xl outline-none transition-all duration-200 ${
+            !disable
+              ? "border-indigo-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200"
+              : "bg-gray-50 text-gray-500 border-gray-100"
           }`}
           placeholder={
             isShort ? "짧은 팀 이름을 입력하세요" : "팀 이름을 입력하세요"
