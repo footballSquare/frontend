@@ -1,3 +1,5 @@
+import { RESULT_STATE } from "./useGetRepeatShortTeam";
+
 export type TeamInfo = {
   community_list_idx?: number | null; // ✅ `null` 허용
   team_list_idx: number;
@@ -50,3 +52,5 @@ export type SignTeamMember = {
   player_list_profile_img: string;
   player_list_nickname: string;
 };
+
+export type ResultStateType = (typeof RESULT_STATE)[keyof typeof RESULT_STATE];

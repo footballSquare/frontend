@@ -1,8 +1,8 @@
 import React from "react";
-import { useFetch } from "../../4_Shared/util/apiUtil";
-import { RESULT_STATE } from "./useGetRepeatShortTeam";
+import { ResultStateType } from "./type";
 
-type ResultStateType = (typeof RESULT_STATE)[keyof typeof RESULT_STATE];
+import { useFetch } from "../../4_Shared/util/apiUtil";
+import { RESULT_STATE } from "../../4_Shared/constant/result";
 
 const useGetRepeatTeam = (): [
   ResultStateType,
