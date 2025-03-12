@@ -1,12 +1,11 @@
 import React from "react";
-import useGetWaitingPlayerList from "../../3_Entity/Match/useGetWaitingPlayerList";
-import WaitingPlayerCard from "./ui/WaitingPlayerCard";
+import useGetStandbyList from "../../3_Entity/Match/useGetStandbyList";
+import StandbyPlayerCard from "./ui/StandbyPlayerCard";
 import useInfiniteScrollPaging from "../../4_Shared/model/useInfiniteScrollPaging";
 
 const WaitingPlayerList = () => {
   const [page, setPage] = React.useState<number>(1);
-  const [waitingPlayerList, hasMoreContent, loading] =
-    useGetWaitingPlayerList(page);
+  const [standbyList, hasMoreContent, loading] = useGetStandbyList(page);
   const [observeRef] = useInfiniteScrollPaging(
     setPage,
     loading,
@@ -15,12 +14,12 @@ const WaitingPlayerList = () => {
 
   return (
     <div className="flex flex-col overflow-y-auto h-full w-full">
-      {waitingPlayerList.map((elem, index) => {
+      {standbyList.map((elem, index) => {
         return (
-          <WaitingPlayerCard
+          <StandbyPlayerCard
             {...elem}
             observeRef={
-              (waitingPlayerList.length === index + 1 && observeRef) ||
+              (standbyList.length === index + 1 && observeRef) ||
               undefined
             }
             key={index}
