@@ -1,7 +1,15 @@
-export type useGetChampionshipListProps = {
+type UseGetChampionshipListProps = {
   communityIdx: number;
 };
 
-export type useGetCommunityInfoProps = {
+type UseGetCommunityInfoProps = {
+  communityIdx: number;
+};
+
+type UseGetCommunityStaffListProps = {
+  communityIdx: number;
+};
+
+type UseGetCommunitySTeamListProps = {
   communityIdx: number;
 };
