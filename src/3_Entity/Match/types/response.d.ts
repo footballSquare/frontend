@@ -10,7 +10,7 @@ export type MatchInfo = {
   common_status_idx: number;
 };
 
-export type WaitingPlayerInfo = {
+export type StandbyPlayerInfo = {
   player_list_idx: number;
   player_list_platform: number;
   player_list_profile_img: string;

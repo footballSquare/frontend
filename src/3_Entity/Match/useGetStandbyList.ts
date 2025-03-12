@@ -1,13 +1,13 @@
 import React from "react";
 import { useFetch } from "../../4_Shared/util/apiUtil";
 import { waitingPlayerList } from "../../4_Shared/mock/waitingPlayerList";
-import { WaitingPlayerInfo } from "./types/response";
+import { StandbyPlayerInfo } from "./types/response";
 
 const ITEMS_PER_PAGE = 10;
 
-const useGetOpenMatchList = (page: number): [WaitingPlayerInfo[], boolean, boolean] => {
+const useGetStandbyList = (page: number): [StandbyPlayerInfo[], boolean, boolean] => {
   const [serverState, request, loading] = useFetch();
-  const [openMatchList, setOpenMatchList] = React.useState<WaitingPlayerInfo[]>([]);
+  const [standbyList, setStandbyList] = React.useState<StandbyPlayerInfo[]>([]);
   const [hasMoreContent, setHasMoreContent] = React.useState<boolean>(true);
 
   React.useEffect(() => {
@@ -16,17 +16,17 @@ const useGetOpenMatchList = (page: number): [WaitingPlayerInfo[], boolean, boole
 
   React.useEffect(() => {
     if (!loading && serverState && "access_list" in serverState) {
-      setOpenMatchList((prev) => [
+      setStandbyList((prev) => [
         ...prev,
-        ...(serverState as { access_list: WaitingPlayerInfo[] }).access_list,
+        ...(serverState as { access_list: StandbyPlayerInfo[] }).access_list,
       ]);
       setHasMoreContent(
-        (serverState as { access_list: WaitingPlayerInfo[] }).access_list.length >= ITEMS_PER_PAGE
+        (serverState as { access_list: StandbyPlayerInfo[] }).access_list.length >= ITEMS_PER_PAGE
       );
     }
   }, [loading, serverState]);
 
-  return [openMatchList, hasMoreContent, loading];
+  return [standbyList, hasMoreContent, loading];
 };
 
-export default useGetOpenMatchList;
+export default useGetStandbyList;
