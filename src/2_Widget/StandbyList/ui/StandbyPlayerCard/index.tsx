@@ -1,5 +1,5 @@
 import { StandyPlayerCardProps } from "./type";
-import profileImg from "../../../../4_Shared/assets/svg/tempProfile.jpg";
+import profileImg from "../../../../4_Shared/assets/img/tempProfile.jpg"
 import { platform } from "../../../../4_Shared/constant/platform";
 import pc_icon from "../../../../4_Shared/assets/svg/pc-desktop.svg";
 import ps_icon from "../../../../4_Shared/assets/svg/platform-playstation.svg";
