@@ -1,7 +1,7 @@
 import { useFormContext } from "react-hook-form";
+
 import { InputFieldProps } from "./type";
 import useResultHandler from "./model/useResultHandler";
-
 import useGetRepeatTeam from "../../../../../../../../3_Entity/Team/useGetRepeatTeam";
 import useGetRepeatShortTeam from "../../../../../../../../3_Entity/Team/useGetRepeatShortTeam";
 
@@ -12,8 +12,8 @@ const TeamNameInput = (props: InputFieldProps) => {
     register,
     formState: { errors },
     getValues,
-    setValue,
     trigger,
+    setValue,
   } = useFormContext();
 
   // isShort 값에 따라 다른 필드 사용
@@ -34,18 +34,19 @@ const TeamNameInput = (props: InputFieldProps) => {
 
   // result 값에 따라 적용
   const [isNotRepeat, isRepeat] = useResultHandler({
+    repeatFormKey,
     result: selectResult,
     modifyMode,
     resetResult: selectResetResult,
+    trigger,
+    setValue,
   });
   const disable = !modifyMode || isNotRepeat;
-  if (isNotRepeat) {
-    setValue(repeatFormKey, true);
-  }
+
   const handleClick = async () => {
-    const isValid = await trigger(formKey);
+    const isValid = await trigger(formKey); // 유효성 검증
     if (isValid) {
-      selectGetEvent(getValues(formKey));
+      selectGetEvent(getValues(formKey)); // 증복검사
     }
   };
 
