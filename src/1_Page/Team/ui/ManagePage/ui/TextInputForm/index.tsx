@@ -20,12 +20,13 @@ const TextInputForm = (props: TextInputFormProps) => {
   const {
     handleSubmit,
     getValues,
+    setValue,
     formState: { isValid },
     reset,
   } = forms;
 
   const { modifyMode, handleCancle, handleModifyFalse, handleBackupData } =
-    useManageModify({ reset, teamInfo });
+    useManageModify({ reset, setValue, teamInfo });
   const [putEvent] = usePutTeamInfo(team_list_idx);
 
   const onSubmit: SubmitHandler<TeamInfoInput> = (data) => {

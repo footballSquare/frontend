@@ -11,9 +11,9 @@ const useManageModify = (
   handleModifyFalse: () => void;
   handleBackupData: (data: TeamInfoInput) => void;
 } => {
-  const { reset, teamInfo } = props;
-
+  const { reset, setValue, teamInfo } = props;
   const [modifyMode, setModifyMode] = React.useState<boolean>(false);
+
   const inputBackupDataRef = React.useRef<TeamInfoInput>(teamInfo);
   const resetRepeat = {
     team_repeat_checked: false,
@@ -22,7 +22,8 @@ const useManageModify = (
 
   const handleModifyFalse = () => {
     setModifyMode(false);
-    reset(resetRepeat);
+    setValue("team_repeat_checked", false);
+    setValue("short_team_repeat_checked", false);
   };
 
   const handleCancle = () => {
