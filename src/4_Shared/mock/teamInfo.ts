@@ -192,28 +192,16 @@ export const signTeamMember = {
       player_list_nickname: "최라모스",
     },
     {
-      player_list_idx: 44,
+      player_list_idx: 45,
       player_list_platform: 2,
       player_list_profile_img: team_banner_img,
-      player_list_nickname: "최라모스",
+      player_list_nickname: "박성진",
     },
     {
-      player_list_idx: 44,
+      player_list_idx: 46,
       player_list_platform: 2,
       player_list_profile_img: team_banner_img,
-      player_list_nickname: "최라모스",
-    },
-    {
-      player_list_idx: 44,
-      player_list_platform: 2,
-      player_list_profile_img: team_banner_img,
-      player_list_nickname: "최라모스",
-    },
-    {
-      player_list_idx: 44,
-      player_list_platform: 2,
-      player_list_profile_img: team_banner_img,
-      player_list_nickname: "최라모스",
+      player_list_nickname: "이기동",
     },
   ],
 };
