@@ -1,21 +1,53 @@
 import React from "react";
 import { useFetch } from "../../4_Shared/util/apiUtil";
 
-const useGetRepeatShortTeam = (): [boolean, boolean] => {
+export const RESULT_STATE = {
+  AVAILABLE: "AVAILABLE",
+  UNAVAILABLE: "UNAVAILABLE",
+  PENDING: null,
+} as const;
+
+type ResultStateType = (typeof RESULT_STATE)[keyof typeof RESULT_STATE];
+
+const useGetRepeatShortTeam = (): [
+  ResultStateType,
+  boolean,
+  (teamName: string) => void,
+  () => void
+] => {
   const [serverState, request, loading] = useFetch();
-  const [isRepeat, setIsRepeat] = React.useState<boolean>(false);
+
+  const resetResult = () => {
+    setResult(RESULT_STATE.PENDING);
+  };
+
+  const [result, setResult] = React.useState<ResultStateType>(
+    RESULT_STATE.UNAVAILABLE
+  );
+
+  const checkRepeat = (teamName: string) => {
+    setResult(RESULT_STATE.PENDING);
+    request({ teamName });
+  };
 
   React.useEffect(() => {
-    request({ true: "true" });
-  }, []);
-
-  React.useEffect(() => {
-    if (!loading && serverState && "access_list" in serverState) {
-      setIsRepeat((serverState as { access_list: boolean }).access_list);
+    if (!serverState) return;
+    setResult(RESULT_STATE.AVAILABLE);
+    switch (serverState.status) {
+      case 200:
+        setResult(RESULT_STATE.AVAILABLE);
+        console.log("중복 없음");
+        return;
+      case 409:
+        setResult(RESULT_STATE.UNAVAILABLE);
+        console.log("중복");
+        return;
+      default:
+        return;
     }
-  }, [loading, serverState]);
+  }, [serverState]);
 
-  return [isRepeat, loading];
+  return [result, loading, checkRepeat, resetResult];
 };
 
 export default useGetRepeatShortTeam;

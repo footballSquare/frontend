@@ -4,8 +4,9 @@ import { TeamInfoInput } from "./type";
 import useManageModify from "./model/useManageModify";
 import InputField from "./ui/InputFiled";
 import TeamNameInput from "./ui/TeamNameInput";
-import InputShortName from "./ui/InputShortName";
+import TeamShortNameInput from "./ui/TeamShortNameInput";
 import { schema } from "./lib/schema";
+import React from "react";
 
 const TextInputForm = (props: TeamInfoInput) => {
   const teamInfo = props;
@@ -14,7 +15,6 @@ const TextInputForm = (props: TeamInfoInput) => {
     register,
     handleSubmit,
     getValues,
-    watch,
     formState: { errors },
   } = useForm<TeamInfoInput>({
     resolver: yupResolver(schema),
@@ -24,7 +24,14 @@ const TextInputForm = (props: TeamInfoInput) => {
   const { modifyMode, handleCancle, handleModifyFalse, handleBackupData } =
     useManageModify({ reset, teamInfo });
 
+  const isTeamRepeatCheckRef = React.useRef<boolean>(true);
+  const isShortTeamRepeatCheckRef = React.useRef<boolean>(true);
+
   const onSubmit: SubmitHandler<TeamInfoInput> = () => {
+    if (!isTeamRepeatCheckRef.current) {
+      alert("증복체크 해야합니다");
+      return;
+    }
     handleModifyFalse();
   };
   return (
@@ -35,14 +42,15 @@ const TextInputForm = (props: TeamInfoInput) => {
         register={register}
         errors={errors}
         modifyMode={modifyMode}
+        isRepeatCheckRef={isTeamRepeatCheckRef}
       />
 
-      {/* 팀 약칭 입력 */}
-      <InputShortName
-        watch={watch}
+      <TeamShortNameInput
+        getValues={getValues}
         register={register}
         errors={errors}
         modifyMode={modifyMode}
+        isRepeatCheckRef={isShortTeamRepeatCheckRef}
       />
 
       {/* 팀 색상 선택 */}
