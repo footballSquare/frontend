@@ -2,6 +2,7 @@ import EmblemImageInput from "./ui/EmblemImageInput";
 import BannerImageInput from "./ui/BannerImageInput";
 import TextInputForm from "./ui/TextInputForm";
 import { ManagePageProps } from "./type";
+import TeamApplications from "./ui/TeamApplications";
 
 const ManagePage = (props: ManagePageProps) => {
   const {
@@ -57,6 +58,8 @@ const ManagePage = (props: ManagePageProps) => {
         </div>
 
         <TextInputForm {...teamTextInputInfo} />
+
+        <TeamApplications />
 
         {/* Back Button */}
         <div className="flex justify-end mt-4">

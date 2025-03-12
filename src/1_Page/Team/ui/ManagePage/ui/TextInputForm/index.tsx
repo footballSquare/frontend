@@ -12,11 +12,13 @@ import { convertToPutData, convertToTeamInfo } from "../../util/convet";
 const TextInputForm = (props: TextInputFormProps) => {
   const { team_list_idx } = props;
   const teamInfo = convertToTeamInfo(props);
+
   const forms = useForm<TeamInfoInput>({
     resolver: yupResolver(schema),
     defaultValues: teamInfo,
     mode: "onChange",
   });
+
   const {
     handleSubmit,
     getValues,
