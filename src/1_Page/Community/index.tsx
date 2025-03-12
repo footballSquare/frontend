@@ -6,7 +6,7 @@ import CommunityTeamList from "./ui/CommunityTeamList";
 const Community = () => {
   const { communityIdx } = useParams();
   return (
-    <div className="bg-gray-100 w-full p-4 flex gap-4">
+    <div className="bg-white w-full p-4 flex gap-4">
       {/* Left Sidebar */}
       <div className="bg-white rounded-lg shadow p-4 w-full max-w-[360px]">
         <div className="flex flex-col items-center mb-4 border-1">
@@ -15,7 +15,7 @@ const Community = () => {
           </div>
           <h2 className="text-xl font-bold">KFPL</h2>
         </div>
-        <CommunityAdminList />
+        <CommunityAdminList communityIdx={Number(communityIdx)} />
       </div>
 
       <div className=" flex flex-col gap-4 w-full">
@@ -28,13 +28,13 @@ const Community = () => {
 
         <div className=" flex gap-4">
           {/* Left Tab */}
-          <ChampionShipList communityIdx={Number(communityIdx)}/>
+          <ChampionShipList communityIdx={Number(communityIdx)} />
 
           {/* Middle Tab */}
           <CommunityPostList />
 
           {/* Right Tab */}
-          <CommunityTeamList />
+          <CommunityTeamList communityIdx={Number(communityIdx)} />
         </div>
       </div>
     </div>

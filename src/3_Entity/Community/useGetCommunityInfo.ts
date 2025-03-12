@@ -1,10 +1,9 @@
 import React from "react";
 import { useFetch } from "../../4_Shared/util/apiUtil";
 import { mockCommunityInfo } from "../../4_Shared/mock/communityInfo";
-import { Community } from "./types/response";
-import { useGetCommunityInfoProps } from "./types/request";
+
 const useGetCommunityInfo = (
-  props: useGetCommunityInfoProps
+  props: UseGetCommunityInfoProps
 ): [Community, boolean] => {
   const { communityIdx } = props;
   const [serverState, request, loading] = useFetch();

@@ -1,3 +1,3 @@
-export type ChampionshipListProps = {
+type ChampionshipListProps = {
   communityIdx: number;
 };

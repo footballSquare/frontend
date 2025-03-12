@@ -1,11 +1,9 @@
 import React from "react";
 import { useFetch } from "../../4_Shared/util/apiUtil";
 import { mockChampionshipList } from "../../4_Shared/mock/championshipList";
-import { Championship } from "./types/response";
-import { useGetChampionshipListProps } from "./types/request";
 
 const useGetChampionshipList = (
-  props: useGetChampionshipListProps
+  props: UseGetChampionshipListProps
 ): [Championship[], boolean] => {
   const { communityIdx } = props;
   const [serverState, request, loading] = useFetch();

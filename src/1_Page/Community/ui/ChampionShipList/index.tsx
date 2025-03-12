@@ -1,9 +1,8 @@
 import useGetChampionshipList from "../../../../3_Entity/Community/useGetChampionshipList";
-import { ChampionshipListProps } from "./type";
 const ChampionShipList = (props: ChampionshipListProps) => {
   const {communityIdx} = props;
   const [championshipList] = useGetChampionshipList({communityIdx});
-  return <div className="bg-white rounded-lg shadow">
+  return <div className="bg-white rounded-lg shadow w-full">
     {championshipList.map((elem)=>{
       return(<div>
         {elem.championship_list_idx}
