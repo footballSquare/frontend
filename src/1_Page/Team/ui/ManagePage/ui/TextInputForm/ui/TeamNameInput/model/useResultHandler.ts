@@ -1,5 +1,5 @@
 import React from "react";
-import { RESULT_STATE } from "../../../../../../../../../3_Entity/Team/useGetRepeatTeam";
+import { RESULT_STATE } from "../../../../../../../../../4_Shared/constant/result";
 import { UseResultHandlerProps } from "./type";
 
 const useResultHandler = ({

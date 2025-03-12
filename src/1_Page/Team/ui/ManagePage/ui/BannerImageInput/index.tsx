@@ -45,9 +45,8 @@ const BannerImageInput = (props: ImageInputProps) => {
       <div className="relative space-y-4 bg-gray-50 p-4 rounded-md shadow-md">
         <div className="flex gap-1">
           <img
-            className={`w-full h-[80px] object-cover `}
+            className={`w-full h-[100px] object-cover `}
             src={imagePreview}
-            alt="Uploaded Emblem Preview"
           />
         </div>
 

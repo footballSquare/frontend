@@ -43,7 +43,7 @@ const EmblemImageInput = (props: ImageInputProps) => {
       <div className="relative space-y-4 bg-gray-50 p-4 rounded-md shadow-md">
         <div className="flex gap-1">
           <img
-            className={`h-[160px] w-full object-cover `}
+            className={`h-[40px] w-[40px] object-cover `}
             src={imagePreview}
             alt="Uploaded Emblem Preview"
           />

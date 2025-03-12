@@ -3,6 +3,8 @@ import BannerImageInput from "./ui/BannerImageInput";
 import TextInputForm from "./ui/TextInputForm";
 import { ManagePageProps } from "./type";
 import TeamApplications from "./ui/TeamApplications";
+import useDeleteTeam from "../../../../3_Entity/Team/useDeleteTeam";
+import AutoMatchModalBtn from "./ui/AutoMatchModalBtn";
 
 const ManagePage = (props: ManagePageProps) => {
   const {
@@ -28,6 +30,8 @@ const ManagePage = (props: ManagePageProps) => {
     common_status_idx,
   };
 
+  const [deleteEvent] = useDeleteTeam(team_list_idx);
+
   return (
     <div className="w-full p-4 bg-white shadow-md rounded-lg">
       <h2 className="text-blue-600 font-semibold text-center text-sm">
@@ -36,12 +40,10 @@ const ManagePage = (props: ManagePageProps) => {
       <h1 className="text-lg font-bold text-center mt-1">TEAM DETAILS</h1>
       <div className="space-y-6">
         {/* Team Banner */}
-        <div className="relative">
-          <BannerImageInput
-            team_list_idx={team_list_idx}
-            imgSrc={team_list_banner}
-          />
-        </div>
+        <BannerImageInput
+          team_list_idx={team_list_idx}
+          imgSrc={team_list_banner}
+        />
 
         {/* Team Emblem */}
         <div className="flex justify-start items-center space-x-4">
@@ -49,12 +51,7 @@ const ManagePage = (props: ManagePageProps) => {
             team_list_idx={team_list_idx}
             imgSrc={team_list_emblem}
           />
-          <div className="flex flex-col">
-            <h2 className="text-lg font-semibold text-gray-700">Team Info</h2>
-            <p className="text-sm text-gray-500">
-              Edit or update team details below.
-            </p>
-          </div>
+          <AutoMatchModalBtn />
         </div>
 
         <div className="flex flex-wrap w-full gap-3">
@@ -62,12 +59,24 @@ const ManagePage = (props: ManagePageProps) => {
           <TeamApplications team_list_idx={team_list_idx} />
         </div>
 
-        {/* Back Button */}
-        <div className="flex justify-end mt-4">
+        <div className="flex justify-end gap-4 mt-6">
+          {/* Team Dissolution Button */}
+          <button
+            onClick={() => {
+              if (confirm("정말로 해체하시겠습니까?")) {
+                deleteEvent();
+              }
+            }}
+            type="button"
+            className="py-2 px-6 bg-red-500 text-white rounded-md shadow-md hover:bg-red-600 transition duration-300 focus:outline-none focus:ring-2 focus:ring-red-500">
+            팀 해체
+          </button>
+
+          {/* Go Back Button */}
           <button
             onClick={handleMoveTeamPage}
             type="button"
-            className="py-2 px-4 bg-gray-300 text-gray-700 rounded-md">
+            className="py-2 px-6 bg-gray-300 text-gray-700 rounded-md shadow-md hover:bg-gray-400 transition duration-300 focus:outline-none focus:ring-2 focus:ring-gray-500">
             뒤로가기
           </button>
         </div>
