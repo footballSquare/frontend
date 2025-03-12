@@ -13,15 +13,18 @@ const ManagePage = (props: ManagePageProps) => {
       team_list_emblem,
       team_list_banner,
       team_list_announcement,
+      common_status_idx,
     },
     handleMoveTeamPage,
   } = props;
 
   const teamTextInputInfo = {
+    team_list_idx,
     team_list_name,
     team_list_short_name,
     team_list_color,
     team_list_announcement,
+    common_status_idx,
   };
 
   return (

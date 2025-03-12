@@ -5,13 +5,13 @@ import useManageModify from "./model/useManageModify";
 import InputField from "./ui/InputFiled";
 import TeamNameInput from "./ui/TeamNameInput";
 import { schema } from "./lib/schema";
+import usePutTeamInfo from "../../../../../../3_Entity/Team/usePutTeamInfo";
+import StatusRadio from "./ui/StautsRadio";
+import { convertToPutData, convertToTeamInfo } from "../../util/convet";
 
 const TextInputForm = (props: TextInputFormProps) => {
-  const teamInfo = {
-    ...props,
-    team_repeat_checked: false,
-    short_team_repeat_checked: false,
-  };
+  const { team_list_idx } = props;
+  const teamInfo = convertToTeamInfo(props);
   const forms = useForm<TeamInfoInput>({
     resolver: yupResolver(schema),
     defaultValues: teamInfo,
@@ -26,9 +26,11 @@ const TextInputForm = (props: TextInputFormProps) => {
 
   const { modifyMode, handleCancle, handleModifyFalse, handleBackupData } =
     useManageModify({ reset, teamInfo });
+  const [putEvent] = usePutTeamInfo(team_list_idx);
 
-  const onSubmit: SubmitHandler<TeamInfoInput> = () => {
+  const onSubmit: SubmitHandler<TeamInfoInput> = (data) => {
     handleModifyFalse();
+    putEvent(convertToPutData(data));
   };
 
   return (
@@ -36,7 +38,10 @@ const TextInputForm = (props: TextInputFormProps) => {
       <form onSubmit={handleSubmit(onSubmit)}>
         {/* 팀명 입력 */}
         <TeamNameInput modifyMode={modifyMode} isShort={false} />
+        {/* 짧은 태그 입력 */}
         <TeamNameInput modifyMode={modifyMode} isShort={true} />
+        {/* 팀원 모집상태 */}
+        <StatusRadio modifyMode={modifyMode} />
 
         {/* 팀 색상 선택 */}
         <InputField

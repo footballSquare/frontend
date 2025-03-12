@@ -6,8 +6,8 @@ import TeamAwards from "./ui/TeamAwards";
 import TeamJoinLeaveButton from "./ui/TeamJoinLeaveButton";
 
 import useValidParamInteger from "../../4_Shared/model/useValidParamInteger";
-import React from "react";
 import ManagePage from "./ui/ManagePage";
+import useManagePage from "./useManagePage";
 
 const Team = () => {
   const TEST_ROLE = 0; // 테스트 role  0: 팀장 1: 팀원 2: 그외
@@ -16,18 +16,11 @@ const Team = () => {
 
   const [teamIdx] = useValidParamInteger("teamIdx");
   const [teamInfo, loading] = useGetTeamInfo(teamIdx);
-
-  const [isManagePage, setIsManagePage] = React.useState<boolean>(false);
-  const handleMoveManagePage = () => {
-    setIsManagePage(true);
-  };
-  const handleMoveTeamPage = () => {
-    setIsManagePage(false);
-  };
+  const [isManagePage, handleTogglePage] = useManagePage();
 
   if (isManagePage)
     return (
-      <ManagePage teamInfo={teamInfo} handleMoveTeamPage={handleMoveTeamPage} />
+      <ManagePage teamInfo={teamInfo} handleMoveTeamPage={handleTogglePage} />
     );
 
   return (
@@ -70,7 +63,7 @@ const Team = () => {
                       {teamInfo.team_list_short_name}
                     </h1>
                     <TeamJoinLeaveButton
-                      handleMoveManagePage={handleMoveManagePage}
+                      handleTogglePage={handleTogglePage}
                       isTeamPlayer={isTeamPlayer}
                       isTeamReader={isTeamReader}
                       teamListIdx={teamInfo.team_list_idx}
