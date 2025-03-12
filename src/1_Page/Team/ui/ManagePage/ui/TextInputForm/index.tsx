@@ -77,10 +77,7 @@ const TextInputForm = (props: TextInputFormProps) => {
             <div className="flex gap-2">
               <button
                 className="py-2 px-4 bg-red-600 text-white rounded-md"
-                onClick={() => {
-                  handleCancle();
-                  console.log(getValues());
-                }}>
+                onClick={handleCancle}>
                 취소
               </button>
               <button

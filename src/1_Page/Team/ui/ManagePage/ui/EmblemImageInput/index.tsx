@@ -28,11 +28,7 @@ const EmblemImageInput = (props: ImageInputProps) => {
     handleImageChange,
     handleCancle,
     handleSave,
-  } = useImageHandler({
-    imgSrc,
-    setValue,
-    clearErrors,
-  });
+  } = useImageHandler({ imgSrc, setValue, clearErrors });
 
   const [putEvent] = usePutTeamEmblem(team_list_idx);
 
