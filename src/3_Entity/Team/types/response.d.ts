@@ -13,7 +13,7 @@ export type TeamInfo = {
   common_status_idx: number;
 };
 
-export type SignTeamMember = {
+export type TeamSignMember = {
   player_list_idx: number;
   player_list_platform: number;
   player_list_profile_img: string;

@@ -3,10 +3,10 @@ import { useFetch } from "../../4_Shared/util/apiUtil";
 
 const usePutSignTeam = (
   teamListIdx: number
-): [putEvent: () => void, serverState: unknown, loading: boolean] => {
+): [putSignTeam: () => void, serverState: unknown, loading: boolean] => {
   const [serverState, request, loading] = useFetch();
 
-  const putEvent = () => {
+  const putSignTeam = () => {
     request({ teamListIdx });
     console.log("팀 가입신청", teamListIdx);
   };
@@ -16,7 +16,7 @@ const usePutSignTeam = (
     if (serverState.status === 403) return;
   }, [serverState]);
 
-  return [putEvent, serverState, loading];
+  return [putSignTeam, serverState, loading];
 };
 
 export default usePutSignTeam;
