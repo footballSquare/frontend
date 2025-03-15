@@ -20,7 +20,7 @@ const useGetRepeatTeam = (): [
     setResult(RESULT_STATE.PENDING);
   };
 
-  const checkRepeat = (teamName: string) => {
+  const getRepeatTeam = (teamName: string) => {
     setResult(RESULT_STATE.PENDING);
     request({ teamName });
   };
@@ -42,7 +42,7 @@ const useGetRepeatTeam = (): [
     }
   }, [serverState]);
 
-  return [result, loading, checkRepeat, resetResult];
+  return [result, loading, getRepeatTeam, resetResult];
 };
 
 export default useGetRepeatTeam;
