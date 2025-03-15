@@ -1,6 +1,6 @@
-import { TeamInfo } from "../../../../3_Entity/Team/type";
+import { TeamInfo } from "../../../../3_Entity/Team/types/response";
 
 export type ManagePageProps = {
   teamInfo: TeamInfo;
-  handleMoveTeamPage: () => void;
+  handleTogglePage: () => void;
 };
