@@ -18,12 +18,9 @@ const Team = () => {
   const [teamInfo, loading] = useGetTeamInfo(teamIdx);
   const [isManagePage, handleTogglePage] = useManagePage();
 
-  if (isManagePage)
-    return (
-      <ManagePage teamInfo={teamInfo} handleMoveTeamPage={handleTogglePage} />
-    );
-
-  return (
+  return isManagePage ? (
+    <ManagePage teamInfo={teamInfo} handleTogglePage={handleTogglePage} />
+  ) : (
     <main className="flex flex-col w-[90%] text-sm pt-5">
       {loading ? (
         <div>로딩중</div>
