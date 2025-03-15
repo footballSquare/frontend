@@ -19,7 +19,7 @@ const useGetRepeatShortTeam = (): [
     setResult(RESULT_STATE.PENDING);
   };
 
-  const checkRepeat = (teamName: string) => {
+  const getRepeatShortTeam = (teamName: string) => {
     setResult(RESULT_STATE.PENDING);
     request({ teamName });
   };
@@ -41,7 +41,7 @@ const useGetRepeatShortTeam = (): [
     }
   }, [serverState]);
 
-  return [result, loading, checkRepeat, resetResult];
+  return [result, loading, getRepeatShortTeam, resetResult];
 };
 
 export default useGetRepeatShortTeam;
