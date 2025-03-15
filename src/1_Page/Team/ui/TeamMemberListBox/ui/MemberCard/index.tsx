@@ -8,8 +8,7 @@ import { platform } from "../../../../../../4_Shared/constant/platform";
 import { teamRole } from "../../../../../../4_Shared/constant/teamRole";
 import useDeleteTeamPlayer from "../../../../../../3_Entity/Team/useDeleteTeamPlayer";
 import usePostChangeTeamRole from "../../../../../../3_Entity/Team/usePostChangeTeamRole";
-
-const TEST_ROLE = 0;
+import { modalReducer } from "./model/reducer";
 
 const MemberCard = (props: MemberProps) => {
   const {
@@ -19,18 +18,20 @@ const MemberCard = (props: MemberProps) => {
     team_role_idx,
     player_list_platform,
     observeRef,
+    teamIdx,
+    isTeamReader,
   } = props;
-  const isTeamReader = TEST_ROLE === 0;
-  const initialRoleRef = React.useRef<number>(team_role_idx); // 변경되었는지 확인용
+
+  const initialRoleRef = React.useRef<number>(team_role_idx); // 저장용 Ref
   const [isDelete, setIsDelete] = React.useState<boolean>(false); // 삭제 상태
   const [memberRole, setMemberRole] = React.useState<number>(team_role_idx); // 멤버 상태
-  const [deleteEvent] = useDeleteTeamPlayer();
-  const [postEvent] = usePostChangeTeamRole();
+  const [deleteTeamPlayer] = useDeleteTeamPlayer(teamIdx);
+  const [postChangeTeamRole] = usePostChangeTeamRole();
 
-  const [isDetailModalOpen, setIsDetailModalOpen] =
-    React.useState<boolean>(false);
-  const [isManageModalOpen, setIsManageModalOpen] =
-    React.useState<boolean>(false);
+  const [modalState, dispatch] = React.useReducer(modalReducer, {
+    detail: false,
+    manage: false,
+  });
 
   if (isDelete) return <div></div>;
   return (
@@ -39,7 +40,7 @@ const MemberCard = (props: MemberProps) => {
       <div
         className="flex items-center space-x-2 border-b border-gray-200 pb-2 mb-2 cursor-pointer"
         ref={observeRef}
-        onClick={() => setIsDetailModalOpen(true)}>
+        onClick={() => dispatch({ type: "OPEN_DETAIL" })}>
         <img src={player_list_profile_img} className="w-8 h-8 rounded-full" />
         <span className="text-xs">
           {player_list_nickname} {teamRole[memberRole]}
@@ -48,7 +49,7 @@ const MemberCard = (props: MemberProps) => {
       </div>
 
       {/* 디테일 모달 */}
-      {isDetailModalOpen && (
+      {modalState.detail && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center">
           <div className="bg-white rounded-lg w-[300px] p-6 text-center shadow-lg">
             <div className="flex justify-center gap-4 mb-4">
@@ -75,15 +76,14 @@ const MemberCard = (props: MemberProps) => {
               <button
                 className="w-full bg-blue-500 text-white text-sm font-medium py-2 rounded-full mb-2"
                 onClick={() => {
-                  setIsManageModalOpen(true);
-                  setIsDetailModalOpen(false);
+                  dispatch({ type: "OPEN_MANAGE" });
                 }}>
                 팀원 관리
               </button>
             )}
 
             <button
-              onClick={() => setIsDetailModalOpen(false)}
+              onClick={() => dispatch({ type: "CLOSE_ALL" })}
               className="w-full border border-gray-300 py-2 rounded-md text-gray-600">
               닫기
             </button>
@@ -92,7 +92,7 @@ const MemberCard = (props: MemberProps) => {
       )}
 
       {/* 팀원 관리 모달 */}
-      {isManageModalOpen && (
+      {modalState.manage && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center">
           <div className="bg-white rounded-lg w-[300px] p-6 text-center shadow-lg">
             <div className="flex justify-between items-center mb-4">
@@ -100,9 +100,7 @@ const MemberCard = (props: MemberProps) => {
                 📂
               </div>
               <button
-                onClick={() => {
-                  setIsManageModalOpen(false);
-                }}
+                onClick={() => dispatch({ type: "CLOSE_ALL" })}
                 className="text-gray-500 text-lg">
                 ✕
               </button>
@@ -126,8 +124,8 @@ const MemberCard = (props: MemberProps) => {
               className="w-full bg-red-500 text-white py-2 rounded-md mb-2"
               onClick={() => {
                 if (confirm("방출하시겠습니까?")) {
-                  setIsManageModalOpen(false);
-                  deleteEvent(memberRole);
+                  dispatch({ type: "CLOSE_ALL" });
+                  deleteTeamPlayer(memberRole);
                   setIsDelete(true);
                   alert("방출되었습니다");
                 }
@@ -142,15 +140,15 @@ const MemberCard = (props: MemberProps) => {
                   : "bg-blue-500 hover:bg-blue-600"
               }`}
               onClick={() => {
-                setIsManageModalOpen(false);
-                postEvent(player_list_idx, memberRole);
+                dispatch({ type: "CLOSE_ALL" });
+                postChangeTeamRole(player_list_idx, memberRole);
                 initialRoleRef.current = memberRole;
               }}>
               저장
             </button>
             <button
               onClick={() => {
-                setIsManageModalOpen(false);
+                dispatch({ type: "CLOSE_ALL" });
                 setMemberRole(initialRoleRef.current);
               }}
               className="w-full border border-gray-300 py-2 rounded-md text-gray-600">
