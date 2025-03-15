@@ -1,19 +1,19 @@
 import { useFetch } from "../../4_Shared/util/apiUtil";
 const usePostApproveMember = (
-  team_list_idx: number
+  teamListIdx: number
 ): [
-  postEvent: (userIdx: number) => void,
+  postApproveMember: (userIdx: number) => void,
   serverState: unknown,
   loading: boolean
 ] => {
   const [serverState, request, loading] = useFetch();
 
-  const postEvent = (userIdx: number) => {
+  const postApproveMember = (userIdx: number) => {
     request({ userIdx });
-    console.log("확인 요청:", team_list_idx, userIdx);
+    console.log("확인 요청:", teamListIdx, userIdx);
   };
 
-  return [postEvent, serverState, loading];
+  return [postApproveMember, serverState, loading];
 };
 
 export default usePostApproveMember;

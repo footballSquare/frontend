@@ -1,25 +1,18 @@
 import { useFetch } from "../../4_Shared/util/apiUtil";
-import { MatchFormData } from "./types/response";
+import { PostTeamMatchProps } from "./types/request";
 
-const usePostTeamMatch = ({
-  teamListIdx,
-  onSuccess,
-}: {
-  teamListIdx: number;
-  onSuccess: () => void;
-}): [
-  postEvent: (matchFormData: MatchFormData) => void,
+const usePostTeamMatch = (): [
+  postEvent: (props: PostTeamMatchProps) => void,
   serverState: unknown,
   loading: boolean
 ] => {
   const [serverState, request, loading] = useFetch();
 
-  const postEvent = (matchFormData: MatchFormData) => {
-    request(matchFormData);
-    console.log(matchFormData, teamListIdx);
-    onSuccess();
+  const postTeamMatch = (props: PostTeamMatchProps) => {
+    request(props);
+    console.log(props);
   };
 
-  return [postEvent, serverState, loading];
+  return [postTeamMatch, serverState, loading];
 };
 export default usePostTeamMatch;

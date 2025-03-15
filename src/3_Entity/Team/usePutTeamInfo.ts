@@ -1,19 +1,20 @@
 import React from "react";
 import { useFetch } from "../../4_Shared/util/apiUtil";
-import { TeamUpdateInfo } from "./types/request";
+import { PutTeamInfoProps } from "./types/request";
 
 const usePutTeamInfo = (
-  teamListIdx: number
+  team_list_idx: number
 ): [
-  putEvent: (data: TeamUpdateInfo) => void,
+  putTeamInfo: (props: PutTeamInfoProps) => void,
   serverState: unknown,
   loading: boolean
 ] => {
   const [serverState, request, loading] = useFetch();
 
-  const putEvent = (data: TeamUpdateInfo) => {
-    request({ data, teamListIdx });
-    console.log("팀 정보 수정", teamListIdx, data);
+  const putTeamInfo = (props: PutTeamInfoProps) => {
+    const { ...data } = props;
+    request({ ...data, team_list_idx });
+    console.log("팀 정보 수정", team_list_idx);
   };
 
   React.useEffect(() => {
@@ -21,7 +22,7 @@ const usePutTeamInfo = (
     if (serverState.status === 403) return;
   }, [serverState]);
 
-  return [putEvent, serverState, loading];
+  return [putTeamInfo, serverState, loading];
 };
 
 export default usePutTeamInfo;

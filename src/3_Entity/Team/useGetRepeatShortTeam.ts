@@ -12,13 +12,12 @@ const useGetRepeatShortTeam = (): [
 ] => {
   const [serverState, request, loading] = useFetch();
 
-  const resetResult = () => {
-    setResult(RESULT_STATE.PENDING);
-  };
-
   const [result, setResult] = React.useState<ResultStateType>(
     RESULT_STATE.UNAVAILABLE
   );
+  const resetResult = () => {
+    setResult(RESULT_STATE.PENDING);
+  };
 
   const checkRepeat = (teamName: string) => {
     setResult(RESULT_STATE.PENDING);

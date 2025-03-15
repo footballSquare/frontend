@@ -3,10 +3,10 @@ import { useFetch } from "../../4_Shared/util/apiUtil";
 
 const useDeleteTeam = (
   teamListIdx: number
-): [deleteEvent: () => void, serverState: unknown, loading: boolean] => {
+): [deleteTeam: () => void, serverState: unknown, loading: boolean] => {
   const [serverState, request, loading] = useFetch();
 
-  const deleteEvent = () => {
+  const deleteTeam = () => {
     request({ teamListIdx });
     console.log("삭제된 데이터:", teamListIdx);
   };
@@ -18,7 +18,7 @@ const useDeleteTeam = (
         return;
     }
   }, [serverState]);
-  return [deleteEvent, serverState, loading];
+  return [deleteTeam, serverState, loading];
 };
 
 export default useDeleteTeam;

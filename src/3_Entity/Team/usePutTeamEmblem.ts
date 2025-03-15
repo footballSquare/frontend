@@ -4,15 +4,15 @@ import { useFetch } from "../../4_Shared/util/apiUtil";
 const usePutTeamEmblem = (
   teamListIdx: number
 ): [
-  putEvent: (data: File | null) => void,
+  putTeamEmblem: (img: File | null) => void,
   serverState: unknown,
   loading: boolean
 ] => {
   const [serverState, request, loading] = useFetch();
 
-  const putEvent = (data: File | null) => {
-    request({ data, teamListIdx });
-    console.log("엠블렘 정보 수정", teamListIdx, data);
+  const putTeamEmblem = (img: File | null) => {
+    request({ img, teamListIdx });
+    console.log("엠블렘 정보 수정", teamListIdx, img);
   };
 
   React.useEffect(() => {
@@ -20,7 +20,7 @@ const usePutTeamEmblem = (
     if (serverState.status === 403) return;
   }, [serverState]);
 
-  return [putEvent, serverState, loading];
+  return [putTeamEmblem, serverState, loading];
 };
 
 export default usePutTeamEmblem;
