@@ -23,7 +23,7 @@ const ManagePage = (props: ManagePageProps) => {
     handleTogglePage,
   } = props;
 
-  const teamTextInputInfo = {
+  const textInputFormProps = {
     team_list_idx,
     team_list_name,
     team_list_short_name,
@@ -57,7 +57,7 @@ const ManagePage = (props: ManagePageProps) => {
         </section>
 
         <section className="flex flex-wrap w-full gap-3">
-          <TextInputForm {...teamTextInputInfo} />
+          <TextInputForm {...textInputFormProps} />
           <TeamApplications team_list_idx={team_list_idx} />
         </section>
 

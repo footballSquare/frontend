@@ -7,7 +7,7 @@ import TeamJoinLeaveButton from "./ui/TeamJoinLeaveButton";
 
 import useValidParamInteger from "../../4_Shared/model/useValidParamInteger";
 import ManagePage from "./ui/ManagePage";
-import useManagePage from "./useManagePage";
+import useManagePage from "./model/useManagePage";
 
 const Team = () => {
   const TEST_ROLE = 0; // 테스트 role  0: 팀장 1: 팀원 2: 그외
@@ -17,6 +17,16 @@ const Team = () => {
   const [teamIdx] = useValidParamInteger("teamIdx");
   const [teamInfo, loading] = useGetTeamInfo(teamIdx);
   const [isManagePage, handleTogglePage] = useManagePage();
+
+  const {
+    team_list_banner,
+    team_list_emblem,
+    team_list_color,
+    team_list_name,
+    team_list_short_name,
+    team_list_idx,
+    team_list_announcement,
+  } = teamInfo;
 
   return isManagePage ? (
     <ManagePage teamInfo={teamInfo} handleTogglePage={handleTogglePage} />
@@ -30,7 +40,7 @@ const Team = () => {
           <section className="flex justify-center">
             <img
               className="w-full h-[200px] object-cover rounded-lg"
-              src={teamInfo?.team_list_banner}
+              src={team_list_banner}
               alt="팀 배너"
             />
           </section>
@@ -49,21 +59,24 @@ const Team = () => {
                     className="w-16 h-16 rounded-full object-cover border border-gray-200"
                   />
                   <section className="flex flex-col items-center min-w-[120px]">
-                    <h1
-                      style={{
-                        fontSize: "1.5rem",
-                        fontWeight: "bold",
-                        textAlign: "center",
-                        color: teamInfo.team_list_color,
-                      }}>
-                      {teamInfo.team_list_name} {"#"}
-                      {teamInfo.team_list_short_name}
-                    </h1>
+                    <div className="flex gap-1">
+                      <h1
+                        className={`text-xl font-bold text-center`}
+                        style={{ color: team_list_color }}>
+                        {team_list_name} {"#"}
+                        {team_list_short_name}
+                      </h1>
+                      <img
+                        className="w-[30px] h-[30px] object-cover"
+                        src={team_list_emblem}
+                      />
+                    </div>
+
                     <TeamJoinLeaveButton
                       handleTogglePage={handleTogglePage}
                       isTeamPlayer={isTeamPlayer}
                       isTeamReader={isTeamReader}
-                      teamListIdx={teamInfo.team_list_idx}
+                      teamListIdx={team_list_idx}
                     />
                   </section>
                 </div>
@@ -77,7 +90,7 @@ const Team = () => {
                 <div className="max-w-[200px]">
                   <h2 className="text-base font-semibold">팀 설명</h2>
                   <p className="text-gray-600 text-xs whitespace-pre-line">
-                    {teamInfo.team_list_announcement}
+                    {team_list_announcement}
                   </p>
                   <div>
                     <h2 className="text-base font-semibold">팀 현황</h2>
@@ -89,7 +102,7 @@ const Team = () => {
 
             <div className="space-y-3 sm:col-span-3">
               <h2 className="text-base font-semibold">현재 경기</h2>
-              <PresentMatchBox team_list_idx={teamInfo.team_list_idx} />
+              <PresentMatchBox team_list_idx={team_list_idx} />
             </div>
           </article>
         </div>
