@@ -2,7 +2,15 @@ import React from "react";
 import { RESULT_STATE } from "../../../../../4_Shared/constant/result";
 import { ResultStateType } from "../../../../../3_Entity/Team/types/response";
 
-const useManageAction = (isTeamPlayer: boolean) => {
+const useManageAction = (
+  isTeamPlayer: boolean
+): {
+  isLeaving: boolean;
+  isPending: boolean;
+  confirmAction: () => boolean;
+  updateToLeave: () => void;
+  updateToSignPending: () => void;
+} => {
   const [isTeamMember, setIsTeamMember] = React.useState<ResultStateType>(
     isTeamPlayer ? RESULT_STATE.AVAILABLE : RESULT_STATE.UNAVAILABLE
   );

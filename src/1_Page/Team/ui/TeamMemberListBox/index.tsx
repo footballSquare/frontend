@@ -1,16 +1,12 @@
 import React from "react";
-import useGetTeamMembers from "../../../../3_Entity/Team/useGetTeamMembers";
+import { TeamMemberListBoxProps } from "./type";
 import MemberCard from "./ui/MemberCard";
+
+import useGetTeamMembers from "../../../../3_Entity/Team/useGetTeamMembers";
 import useInfiniteScrollPaging from "../../../../4_Shared/model/useInfiniteScrollPaging";
-import useValidParamInteger from "../../../../4_Shared/model/useValidParamInteger";
 
-const TeamMemberListBox = () => {
-  const [teamIdx] = useValidParamInteger("teamIdx");
-
-  const [, reFetch] = React.useReducer<React.ReducerWithoutAction<number>>(
-    (prev: number) => prev + 1,
-    0
-  );
+const TeamMemberListBox = (props: TeamMemberListBoxProps) => {
+  const { teamIdx, isTeamReader } = props;
 
   const [page, setPage] = React.useState<number>(1);
   const [teamMember, hasMoreContent, loading] = useGetTeamMembers(
@@ -29,8 +25,9 @@ const TeamMemberListBox = () => {
         <MemberCard
           {...elem}
           index={index}
-          reFetch={reFetch}
           observeRef={teamMember.length === index + 1 ? observeRef : undefined}
+          teamIdx={teamIdx}
+          isTeamReader={isTeamReader}
         />
       ))}
     </div>

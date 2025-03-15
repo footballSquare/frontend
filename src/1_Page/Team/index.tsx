@@ -88,7 +88,10 @@ const Team = () => {
                   </p>
                   <div>
                     <h2 className="text-base font-semibold">팀 현황</h2>
-                    <TeamMemberListBox />
+                    <TeamMemberListBox
+                      isTeamReader={isTeamReader}
+                      teamIdx={teamIdx}
+                    />
                   </div>
                 </div>
               </section>
