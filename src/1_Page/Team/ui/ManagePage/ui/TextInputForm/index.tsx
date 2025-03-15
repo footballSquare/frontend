@@ -1,21 +1,23 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, SubmitHandler, FormProvider } from "react-hook-form";
+
 import { TextInputFormProps, TeamInfoInput } from "./type";
-import useManageModify from "./model/useManageModify";
+
 import InputField from "./ui/InputFiled";
 import TeamNameInput from "./ui/TeamNameInput";
-import { schema } from "./lib/schema";
-import usePutTeamInfo from "../../../../../../3_Entity/Team/usePutTeamInfo";
 import StatusRadio from "./ui/StautsRadio";
-import { convertToPutData, convertToTeamInfo } from "../../util/convet";
+import useManageModify from "./model/useManageModify";
+import { schema } from "./lib/schema";
+import { convertToPutData, convertToTeamInfoInput } from "./util/convet";
+import usePutTeamInfo from "../../../../../../3_Entity/Team/usePutTeamInfo";
 
 const TextInputForm = (props: TextInputFormProps) => {
   const { team_list_idx } = props;
-  const teamInfo = convertToTeamInfo(props);
+  const teamInfoInput = convertToTeamInfoInput(props);
 
   const forms = useForm<TeamInfoInput>({
     resolver: yupResolver(schema),
-    defaultValues: teamInfo,
+    defaultValues: teamInfoInput,
     mode: "onChange",
   });
 
@@ -28,12 +30,12 @@ const TextInputForm = (props: TextInputFormProps) => {
   } = forms;
 
   const { modifyMode, handleCancle, handleModifyFalse, handleBackupData } =
-    useManageModify({ reset, setValue, teamInfo });
-  const [putEvent] = usePutTeamInfo(team_list_idx);
+    useManageModify({ reset, setValue, teamInfoInput });
 
+  const [putTeamInfo] = usePutTeamInfo(team_list_idx);
   const onSubmit: SubmitHandler<TeamInfoInput> = (data) => {
     handleModifyFalse();
-    putEvent(convertToPutData(data));
+    putTeamInfo(convertToPutData(data));
   };
 
   return (

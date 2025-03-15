@@ -1,4 +1,4 @@
-export type InputFieldProps = {
+export type TeamNameCheckInputProps = {
   modifyMode: boolean;
   isShort: boolean;
 };

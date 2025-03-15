@@ -1,7 +1,7 @@
-import { TeamPutInfo } from "../../../../../3_Entity/Team/type";
-import { TeamInfoInput, TextInputFormProps } from "../ui/TextInputForm/type";
+import { PutTeamInfoProps } from "../../../../../../../3_Entity/Team/types/request";
+import { TeamInfoInput, TextInputFormProps } from "../type";
 
-export const convertToPutData = (data: TeamInfoInput): TeamPutInfo => {
+export const convertToPutData = (data: TeamInfoInput): PutTeamInfoProps => {
   const {
     common_status_idx,
     team_repeat_checked,
@@ -12,7 +12,9 @@ export const convertToPutData = (data: TeamInfoInput): TeamPutInfo => {
   return { common_status_idx: Number(common_status_idx), ...rest };
 };
 
-export const convertToTeamInfo = (data: TextInputFormProps): TeamInfoInput => ({
+export const convertToTeamInfoInput = (
+  data: TextInputFormProps
+): TeamInfoInput => ({
   ...data,
   common_status_idx: data.common_status_idx.toString(),
   team_repeat_checked: false,

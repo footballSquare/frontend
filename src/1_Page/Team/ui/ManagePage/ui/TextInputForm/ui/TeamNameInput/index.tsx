@@ -1,11 +1,11 @@
 import { useFormContext } from "react-hook-form";
+import { TeamNameCheckInputProps } from "./type";
 
-import { InputFieldProps } from "./type";
 import useResultHandler from "./model/useResultHandler";
 import useGetRepeatTeam from "../../../../../../../../3_Entity/Team/useGetRepeatTeam";
 import useGetRepeatShortTeam from "../../../../../../../../3_Entity/Team/useGetRepeatShortTeam";
 
-const TeamNameInput = (props: InputFieldProps) => {
+const TeamNameCheckInput = (props: TeamNameCheckInputProps) => {
   const { modifyMode, isShort } = props;
 
   const {
@@ -110,4 +110,4 @@ const TeamNameInput = (props: InputFieldProps) => {
   );
 };
 
-export default TeamNameInput;
+export default TeamNameCheckInput;

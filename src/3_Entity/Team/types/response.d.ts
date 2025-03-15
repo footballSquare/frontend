@@ -1,4 +1,4 @@
-import { RESULT_STATE } from "./useGetRepeatShortTeam";
+import { RESULT_STATE } from "../../../4_Shared/constant/result";
 
 export type TeamInfo = {
   community_list_idx?: number | null;

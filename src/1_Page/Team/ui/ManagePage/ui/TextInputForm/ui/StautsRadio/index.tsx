@@ -2,7 +2,8 @@ import { useFormContext } from "react-hook-form";
 
 export type StatusRadioProps = { modifyMode: boolean };
 
-const StatusRadio = ({ modifyMode }: StatusRadioProps) => {
+const StatusRadio = (props: StatusRadioProps) => {
+  const { modifyMode } = props;
   const { register, watch } = useFormContext();
   const formKey = "common_status_idx";
   const selectedStatus = watch(formKey);

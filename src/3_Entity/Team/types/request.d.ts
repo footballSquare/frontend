@@ -1,12 +1,7 @@
 export type PutTeamInfoProps = {
-  team_name: string;
-  team_short_name: string;
-  team_color: string;
-  team_announcement: string;
-  status_idx: number;
-};
-
-export type TeamRoleUpdate = {
-  userIdx: number;
-  newRole: number;
+  team_list_name: string;
+  team_list_short_name: string;
+  team_list_color: string;
+  team_list_announcement: string;
+  common_status_idx: number;
 };
