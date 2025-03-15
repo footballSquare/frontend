@@ -35,7 +35,7 @@ const ManagePage = (props: ManagePageProps) => {
   const [deleteEvent] = useDeleteTeam(team_list_idx);
 
   return (
-    <div className="w-full p-4 bg-white shadow-md rounded-lg">
+    <main className="w-full p-4 bg-white shadow-md rounded-lg">
       <h2 className="text-blue-600 font-semibold text-center text-sm">
         TEAM MANAGEMENT
       </h2>
@@ -48,21 +48,20 @@ const ManagePage = (props: ManagePageProps) => {
         />
 
         {/* Team Emblem */}
-        <div className="flex justify-start items-center space-x-4">
+        <section className="flex justify-start items-center space-x-4">
           <EmblemImageInput
             team_list_idx={team_list_idx}
             imgSrc={team_list_emblem}
           />
           <AutoMatchModalBtn />
-        </div>
+        </section>
 
-        <div className="flex flex-wrap w-full gap-3">
+        <section className="flex flex-wrap w-full gap-3">
           <TextInputForm {...teamTextInputInfo} />
           <TeamApplications team_list_idx={team_list_idx} />
-        </div>
+        </section>
 
-        <div className="flex justify-end gap-4 mt-6">
-          {/* Team Dissolution Button */}
+        <footer className="flex justify-end gap-4 mt-6">
           <button
             onClick={() => {
               if (confirm("정말로 해체하시겠습니까?")) {
@@ -74,16 +73,15 @@ const ManagePage = (props: ManagePageProps) => {
             팀 해체
           </button>
 
-          {/* Go Back Button */}
           <button
             onClick={handleTogglePage}
             type="button"
             className="py-2 px-6 bg-gray-300 text-gray-700 rounded-md shadow-md hover:bg-gray-400 transition duration-300 focus:outline-none focus:ring-2 focus:ring-gray-500">
             뒤로가기
           </button>
-        </div>
+        </footer>
       </div>
-    </div>
+    </main>
   );
 };
 
