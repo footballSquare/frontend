@@ -1,4 +1,4 @@
-export type FormValues = {
+export type AutoMatchForm = {
   autoMatch: number;
   matchAttribute: number;
   gameType: string;

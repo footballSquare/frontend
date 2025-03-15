@@ -32,7 +32,7 @@ const ManagePage = (props: ManagePageProps) => {
     common_status_idx,
   };
 
-  const [deleteEvent] = useDeleteTeam(team_list_idx);
+  const [deleteTeam] = useDeleteTeam(team_list_idx);
 
   return (
     <main className="w-full p-4 bg-white shadow-md rounded-lg">
@@ -65,7 +65,7 @@ const ManagePage = (props: ManagePageProps) => {
           <button
             onClick={() => {
               if (confirm("정말로 해체하시겠습니까?")) {
-                deleteEvent();
+                deleteTeam();
               }
             }}
             type="button"

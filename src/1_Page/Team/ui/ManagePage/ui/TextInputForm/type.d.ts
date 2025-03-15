@@ -7,7 +7,7 @@ export type TextInputFormProps = {
   common_status_idx: number;
 };
 
-export type TeamInfoInput = Omit<
+export type TeamInfoForm = Omit<
   TextInputFormProps,
   "team_list_idx" | "common_status_idx"
 > & {
