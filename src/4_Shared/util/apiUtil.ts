@@ -1,3 +1,4 @@
+import axios from "axios";
 import React from "react";
 
 export const useFetch = (): [
@@ -12,6 +13,15 @@ export const useFetch = (): [
     try {
       setLoading(true);
       // API 호출
+      const response = await axios({
+        method: '',
+        url: '',
+        params: {},
+        headers: {
+          Authorization: ''
+        }
+      })
+      console.log(response.data, response.status)
       setServerState({ ...mockdata });
     } catch (error) {
       console.log(error);

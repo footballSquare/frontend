@@ -1,5 +1,5 @@
 import { useFetch } from "../../4_Shared/util/apiUtil";
-import { MatchFormData } from "./type";
+import { MatchFormData } from "./types/response";
 
 const usePostTeamMatch = ({
   teamListIdx,
