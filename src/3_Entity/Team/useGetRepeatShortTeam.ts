@@ -1,5 +1,5 @@
 import React from "react";
-import { ResultStateType } from "./type";
+import { ResultStateType } from "./types/response";
 
 import { useFetch } from "../../4_Shared/util/apiUtil";
 import { RESULT_STATE } from "../../4_Shared/constant/result";

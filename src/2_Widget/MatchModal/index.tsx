@@ -59,11 +59,7 @@ const MatchModal = () => {
           <label className="flex flex-col text-xs font-semibold">
             참가 모드
             <p className="flex justify-center items-center w-[164px] h-[32px] rounded-[4px] border-1 border-blue">
-              {
-                matchParticipation[
-                  matchDetail.match_match_participation_type
-                ]
-              }
+              {matchParticipation[matchDetail.match_match_participation_type]}
             </p>
           </label>
 
@@ -96,9 +92,7 @@ const MatchModal = () => {
             matchDetail.match_match_participation_type === 0 ? (
               // 매치 라인업 마감 전 & 승인 참여
               <WaitingList
-                matchFormationPosition={
-                  matchDetail.match_formation_position
-                }
+                matchFormationPosition={matchDetail.match_formation_position}
                 matchParticipants={matchParticipants}
                 matchWaitList={matchWaitList.match_waitlist}
                 matchApproveHandler={matchApproveHandler}
@@ -108,48 +102,35 @@ const MatchModal = () => {
             ) : (
               // 매치 라인업 마감 전 & 자유 참여
               <div className=" flex flex-col gap-4 h-[300px] flex-wrap">
-                {matchDetail.match_formation_position.map(
-                  (positionIdx) => {
-                    return (
-                      !matchParticipants.some(
-                        (elem) => elem.match_position_idx === positionIdx
-                      ) && (
-                        <button
-                          className=" border-1 border-gray shadow-lg p-[2px] w-[128px] hover:bg-blue hover:text-white"
-                          onClick={() => {
-                            matchApproveHandler({
-                              player: {
-                                player_list_idx: 1,
-                                player_list_nickname: "master",
-                                player_list_url: "url",
-                              },
-<<<<<<< HEAD
-                              positionIdx,
-                              matchParticipants.match_participant
-                            );
-                          }}>
-=======
-                              matchPosition: positionIdx,
-                              matchParticipants:
-                                matchParticipants,
-                            });
-                          }}
-                        >
->>>>>>> develop
-                          {matchPosition[positionIdx]}로 참가하기
-                        </button>
-                      )
-                    );
-                  }
-                )}
+                {matchDetail.match_formation_position.map((positionIdx) => {
+                  return (
+                    !matchParticipants.some(
+                      (elem) => elem.match_position_idx === positionIdx
+                    ) && (
+                      <button
+                        className=" border-1 border-gray shadow-lg p-[2px] w-[128px] hover:bg-blue hover:text-white"
+                        onClick={() => {
+                          matchApproveHandler({
+                            player: {
+                              player_list_idx: 1,
+                              player_list_nickname: "master",
+                              player_list_url: "url",
+                            },
+                            matchPosition: positionIdx,
+                            matchParticipants: matchParticipants,
+                          });
+                        }}>
+                        {matchPosition[positionIdx]}로 참가하기
+                      </button>
+                    )
+                  );
+                })}
               </div>
             )
           ) : (
             // 매치 라인업 마감 & 대회
             matchDetail.common_status_idx !== 2 && (
-              <StatPanel
-                matchParticipants={matchParticipants}
-              />
+              <StatPanel matchParticipants={matchParticipants} />
             )
           )}
         </div>
