@@ -16,7 +16,7 @@ export const convertToTeamInfoForm = (
   data: TextInputFormProps
 ): TeamInfoForm => ({
   ...data,
-  common_status_idx: data.common_status_idx.toString(),
+  common_status_idx: data.common_status_idx?.toString(),
   team_repeat_checked: false,
   short_team_repeat_checked: false,
 });
