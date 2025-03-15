@@ -50,8 +50,8 @@ const Team = () => {
 
           {/* 내용 */}
           <article className="flex flex-col gap-5 sm:grid grid-cols-5 w-full ">
-            <div className="w-full flex flex-wrap gap-1 sm:col-span-2">
-              <div className="flex flex-col items-center">
+            <div className="w-full flex flex-wrap gap-1 sm:col-span-2 ">
+              <div className="flex flex-col items-center ">
                 <div className="flex items-center ">
                   <img
                     src={team_list_emblem}
@@ -80,8 +80,8 @@ const Team = () => {
                 </section>
               </div>
 
-              <section className="space-y-3">
-                <div className="max-w-[200px]">
+              <section className="space-y-3 w-full">
+                <div className="max-w-[400px]">
                   <h2 className="text-base font-semibold">팀 설명</h2>
                   <p className="text-gray-600 text-xs whitespace-pre-line">
                     {team_list_announcement}

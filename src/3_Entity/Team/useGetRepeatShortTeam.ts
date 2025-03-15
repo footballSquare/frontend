@@ -10,6 +10,10 @@ const useGetRepeatShortTeam = (): [
   (teamName: string) => void,
   () => void
 ] => {
+  // loading : true -> pending
+  // loading : false , result : true : -> succ
+  // loading : false , result : false : -> fail
+
   const [serverState, request, loading] = useFetch();
 
   const [result, setResult] = React.useState<ResultStateType>(
