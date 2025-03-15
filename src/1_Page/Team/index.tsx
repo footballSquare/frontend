@@ -3,7 +3,7 @@ import HistoryListBox from "./ui/HistoryListBox";
 import PresentMatchBox from "./ui/PresentMatchBox";
 import TeamMemberListBox from "./ui/TeamMemberListBox";
 import TeamAwards from "./ui/TeamAwards";
-import TeamJoinLeaveButton from "./ui/TeamJoinLeaveButton";
+import TeamManageButtonGroupProps from "./ui/TeamManageButtonGroupProps";
 
 import useValidParamInteger from "../../4_Shared/model/useValidParamInteger";
 import ManagePage from "./ui/ManagePage";
@@ -54,25 +54,19 @@ const Team = () => {
               <div className="flex flex-col items-center">
                 <div className="flex items-center ">
                   <img
-                    src={teamInfo.team_list_emblem}
+                    src={team_list_emblem}
                     alt="Team Emblem"
                     className="w-16 h-16 rounded-full object-cover border border-gray-200"
                   />
                   <section className="flex flex-col items-center min-w-[120px]">
-                    <div className="flex gap-1">
-                      <h1
-                        className={`text-xl font-bold text-center`}
-                        style={{ color: team_list_color }}>
-                        {team_list_name} {"#"}
-                        {team_list_short_name}
-                      </h1>
-                      <img
-                        className="w-[30px] h-[30px] object-cover"
-                        src={team_list_emblem}
-                      />
-                    </div>
+                    <h1
+                      className={`text-xl font-bold text-center`}
+                      style={{ color: team_list_color }}>
+                      {team_list_name} {"#"}
+                      {team_list_short_name}
+                    </h1>
 
-                    <TeamJoinLeaveButton
+                    <TeamManageButtonGroupProps
                       handleTogglePage={handleTogglePage}
                       isTeamPlayer={isTeamPlayer}
                       isTeamReader={isTeamReader}
