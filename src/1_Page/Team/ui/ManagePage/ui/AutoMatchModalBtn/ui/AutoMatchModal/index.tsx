@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 
-import { FormValues, AutoMatchModalProps } from "./type";
+import { AutoMatchForm, AutoMatchModalProps } from "./type";
 import { teamMatchAttribute } from "../../../../../../../../4_Shared/constant/teamMatchAttribute";
 import { matchType } from "../../../../../../../../4_Shared/constant/matchType";
 import { matchParticipation } from "../../../../../../../../4_Shared/constant/matchParticipation";
@@ -11,7 +11,7 @@ import { timesFor30 } from "../lib/time";
 const AutoMatchModal = (props: AutoMatchModalProps) => {
   const { onClose } = props;
 
-  const { register, handleSubmit, watch } = useForm<FormValues>({
+  const { register, handleSubmit, watch } = useForm<AutoMatchForm>({
     defaultValues: {
       autoMatch: 1,
       matchAttribute: 1,
@@ -23,7 +23,7 @@ const AutoMatchModal = (props: AutoMatchModalProps) => {
     },
   });
 
-  const onSubmit = (data: FormValues) => {
+  const onSubmit = (data: AutoMatchForm) => {
     console.log(data);
   };
 

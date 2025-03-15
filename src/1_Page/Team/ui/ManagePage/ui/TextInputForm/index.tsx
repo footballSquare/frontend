@@ -1,21 +1,21 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, SubmitHandler, FormProvider } from "react-hook-form";
 
-import { TextInputFormProps, TeamInfoInput } from "./type";
+import { TextInputFormProps, TeamInfoForm } from "./type";
 
 import InputField from "./ui/InputFiled";
 import TeamNameInput from "./ui/TeamNameInput";
 import StatusRadio from "./ui/StautsRadio";
 import useManageModify from "./model/useManageModify";
 import { schema } from "./lib/schema";
-import { convertToPutData, convertToTeamInfoInput } from "./util/convet";
+import { convertToPutData, convertToTeamInfoForm } from "./util/convet";
 import usePutTeamInfo from "../../../../../../3_Entity/Team/usePutTeamInfo";
 
 const TextInputForm = (props: TextInputFormProps) => {
   const { team_list_idx } = props;
-  const teamInfoInput = convertToTeamInfoInput(props);
+  const teamInfoInput = convertToTeamInfoForm(props);
 
-  const forms = useForm<TeamInfoInput>({
+  const forms = useForm<TeamInfoForm>({
     resolver: yupResolver(schema),
     defaultValues: teamInfoInput,
     mode: "onChange",
@@ -33,7 +33,8 @@ const TextInputForm = (props: TextInputFormProps) => {
     useManageModify({ reset, setValue, teamInfoInput });
 
   const [putTeamInfo] = usePutTeamInfo(team_list_idx);
-  const onSubmit: SubmitHandler<TeamInfoInput> = (data) => {
+
+  const onSubmit: SubmitHandler<TeamInfoForm> = (data) => {
     handleModifyFalse();
     putTeamInfo(convertToPutData(data));
   };

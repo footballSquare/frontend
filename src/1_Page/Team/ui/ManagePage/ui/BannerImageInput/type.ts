@@ -3,6 +3,6 @@ export type BannerImageInputProps = {
   team_list_idx: number;
 };
 
-export type ImageFormType = {
+export type ImageForm = {
   img: File | null;
 };

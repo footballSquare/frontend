@@ -1,6 +1,6 @@
 import React from "react";
 
-import { TeamInfoInput } from "../type";
+import { TeamInfoForm } from "../type";
 import { UseManageModifyProps } from "./type";
 
 const useManageModify = (
@@ -9,12 +9,12 @@ const useManageModify = (
   modifyMode: boolean;
   handleCancle: () => void;
   handleModifyFalse: () => void;
-  handleBackupData: (data: TeamInfoInput) => void;
+  handleBackupData: (data: TeamInfoForm) => void;
 } => {
   const { reset, setValue, teamInfoInput } = props;
   const [modifyMode, setModifyMode] = React.useState<boolean>(false);
 
-  const inputBackupDataRef = React.useRef<TeamInfoInput>(teamInfoInput);
+  const inputBackupDataRef = React.useRef<TeamInfoForm>(teamInfoInput);
   const resetRepeat = {
     team_repeat_checked: false,
     short_team_repeat_checked: false,
@@ -34,7 +34,7 @@ const useManageModify = (
     });
   };
 
-  const handleBackupData = (data: TeamInfoInput) => {
+  const handleBackupData = (data: TeamInfoForm) => {
     setModifyMode(true);
     inputBackupDataRef.current = data;
   };

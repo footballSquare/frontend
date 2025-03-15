@@ -1,10 +1,12 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 
-import { BannerImageInputProps, ImageFormType } from "./type";
+import { BannerImageInputProps, ImageForm } from "./type";
 import { schema } from "./lib/schema";
 import useImageHandler from "./model/useImageHandler";
+
 import usePutTeamBanner from "../../../../../../3_Entity/Team/usePutTeamBanner";
+
 const BannerImageInput = (props: BannerImageInputProps) => {
   const { imgSrc, team_list_idx } = props;
   const key = "img";
@@ -14,11 +16,11 @@ const BannerImageInput = (props: BannerImageInputProps) => {
     setValue,
     clearErrors,
     formState: { errors },
-  } = useForm<ImageFormType>({
+  } = useForm<ImageForm>({
     resolver: yupResolver(schema),
   });
 
-  const [putEvent] = usePutTeamBanner(team_list_idx);
+  const [putTeamBanner] = usePutTeamBanner(team_list_idx);
 
   const {
     imagePreview,
@@ -34,9 +36,9 @@ const BannerImageInput = (props: BannerImageInputProps) => {
     clearErrors,
   });
 
-  const onSubmit: SubmitHandler<ImageFormType> = (data) => {
+  const onSubmit: SubmitHandler<ImageForm> = (props) => {
     handleSave();
-    putEvent(data.img);
+    putTeamBanner(props.img);
   };
 
   return (
