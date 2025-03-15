@@ -6,7 +6,8 @@ import { MatchInfo } from "./types/response";
 const ITEMS_PER_PAGE = 10;
 
 const useGetTeamMatchList = (
-  page: number
+  page: number,
+  teamIdx: number
 ): [MatchInfo[], boolean, boolean, () => void] => {
   const [serverState, request, loading] = useFetch();
   const [openMatchList, setOpenMatchList] = React.useState<MatchInfo[]>([]);
@@ -20,6 +21,7 @@ const useGetTeamMatchList = (
 
   React.useEffect(() => {
     request(matchList);
+    console.log(teamIdx);
   }, [page]);
 
   React.useEffect(() => {

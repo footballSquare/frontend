@@ -1,12 +1,12 @@
 import { matchDuration } from "../../../../../../../4_Shared/constant/matchDuration";
 import { toFormattedDate } from "../../../../../../../4_Shared/lib/dateFormatter";
-import { MatchDataInput } from "../type";
+import { MatchDataForm } from "../type";
 
 export const createMatchDefault = (
   today: Date,
   hour: string,
   min: string
-): MatchDataInput => {
+): MatchDataForm => {
   return {
     match_match_start_date: toFormattedDate(today),
     match_match_start_time: `${hour}:${min}`,

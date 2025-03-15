@@ -4,14 +4,14 @@ import usePostTeamMatch from "../../../../../../3_Entity/Match/usePostTeamMatch"
 
 // 타입
 import { MakeTeamMatchModalProps } from "./type";
-import { MatchDataInput } from "./type";
+import { MatchDataForm } from "./type";
 
 // 상수
 import { teamMatchAttribute } from "../../../../../../4_Shared/constant/teamMatchAttribute";
 import { matchType } from "../../../../../../4_Shared/constant/matchType";
 import { matchParticipation } from "../../../../../../4_Shared/constant/matchParticipation";
 import { formation } from "../../../../../../4_Shared/constant/formation";
-import { transformMatchData } from "./util/transformMatchData";
+import { convertToPostMatchProps } from "./util/convert";
 import { findNearDate } from "./util/nearDateHandler";
 import { schema } from "./lib/schema";
 import { createMatchDefault } from "./util/defaultValue";
@@ -22,22 +22,21 @@ const MakeTeamMatchModal = (props: MakeTeamMatchModalProps) => {
   const today = new Date();
   const { hour, min } = findNearDate(today);
 
-  const [postEvent] = usePostTeamMatch({
-    teamListIdx: team_list_idx,
-    onSuccess: refetch,
-  });
+  const [postEvent] = usePostTeamMatch(team_list_idx);
   const {
     register,
     watch,
     handleSubmit,
     formState: { errors },
-  } = useForm<MatchDataInput>({
+  } = useForm<MatchDataForm>({
     resolver: yupResolver(schema),
     defaultValues: createMatchDefault(today, hour, min),
   });
-  const onSubmit: SubmitHandler<MatchDataInput> = (data) => {
+
+  const onSubmit: SubmitHandler<MatchDataForm> = async (data) => {
     if (confirm("생성하시겠습니까?")) {
-      postEvent(transformMatchData(data));
+      await postEvent(convertToPostMatchProps(data)); // post가 실행된 이후 리펫치 통해 데이터 불러옴
+      refetch();
       onClose();
     }
   };

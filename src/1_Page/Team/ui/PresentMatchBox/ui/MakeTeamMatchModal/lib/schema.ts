@@ -20,7 +20,7 @@ export const schema = yup.object().shape({
 
   match_match_start_time: yup
     .string()
-    .required("시간을 선택해야 합니다.") // `optional()`을 제거하고 필수로 설정
+    .required("시간을 선택해야 합니다.")
     .test(
       "is-not-past-time",
       "과거 시간은 선택할 수 없습니다.",
