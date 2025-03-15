@@ -1,7 +1,9 @@
 import { useFetch } from "../../4_Shared/util/apiUtil";
 import { PostTeamMatchProps } from "./types/request";
 
-const usePostTeamMatch = (): [
+const usePostTeamMatch = (
+  teamIdx: number
+): [
   postEvent: (props: PostTeamMatchProps) => void,
   serverState: unknown,
   loading: boolean
@@ -10,7 +12,7 @@ const usePostTeamMatch = (): [
 
   const postTeamMatch = (props: PostTeamMatchProps) => {
     request(props);
-    console.log(props);
+    console.log(props, teamIdx);
   };
 
   return [postTeamMatch, serverState, loading];

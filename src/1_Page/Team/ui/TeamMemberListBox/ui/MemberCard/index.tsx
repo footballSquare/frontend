@@ -25,13 +25,13 @@ const MemberCard = (props: MemberProps) => {
   const initialRoleRef = React.useRef<number>(team_role_idx); // 저장용 Ref
   const [isDelete, setIsDelete] = React.useState<boolean>(false); // 삭제 상태
   const [memberRole, setMemberRole] = React.useState<number>(team_role_idx); // 멤버 상태
-  const [deleteTeamPlayer] = useDeleteTeamPlayer(teamIdx);
-  const [postChangeTeamRole] = usePostChangeTeamRole();
-
   const [modalState, dispatch] = React.useReducer(modalReducer, {
     detail: false,
     manage: false,
-  });
+  }); //모달 state
+
+  const [deleteTeamPlayer] = useDeleteTeamPlayer(teamIdx);
+  const [postChangeTeamRole] = usePostChangeTeamRole(teamIdx);
 
   if (isDelete) return <div></div>;
   return (
@@ -116,9 +116,9 @@ const MemberCard = (props: MemberProps) => {
               onChange={(event) => {
                 setMemberRole(Number(event.target.value)); // 문자열을 숫자로 변환
               }}>
-              <option value={0}>{teamRole[0]}</option>
-              <option value={1}>{teamRole[1]}</option>
-              <option value={2}>{teamRole[2]}</option>
+              {teamRole.map((value, index) => (
+                <option value={index}>{value}</option>
+              ))}
             </select>
             <button
               className="w-full bg-red-500 text-white py-2 rounded-md mb-2"
