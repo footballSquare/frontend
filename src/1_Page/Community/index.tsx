@@ -1,8 +1,8 @@
 import { useParams } from "react-router-dom";
 import ChampionShipList from "./ui/ChampionshipList";
 import CommunityAdminList from "./ui/CommunityAdminList";
-import CommunityPostList from "./ui/CommunityPostList";
 import CommunityTeamList from "./ui/CommunityTeamList";
+import BoardList from "../../2_Widget/BoardList";
 const Community = () => {
   const { communityIdx } = useParams();
   return (
@@ -20,21 +20,29 @@ const Community = () => {
 
       <div className=" flex flex-col gap-4 w-full">
         {/* 배너 */}
-        <div className="w-full h-36 bg-blue-600 rounded-lg mb-4 overflow-hidden">
-          <div className="w-full h-full bg-blue-600 flex items-center justify-center text-white text-xl">
-            배너 이미지
-          </div>
+        <div className="w-full min-h-[160px] bg-blue-600 flex items-center justify-center text-white text-xl">
+          배너 이미지
         </div>
 
         <div className=" flex gap-4">
           {/* Left Tab */}
-          <ChampionShipList communityIdx={Number(communityIdx)} />
+          <div className="w-full">
+            <h3 className="font-bold mb-2">Championship</h3>
+            <ChampionShipList communityIdx={Number(communityIdx)} />
+          </div>
 
           {/* Middle Tab */}
-          <CommunityPostList />
+          <div className="w-full">
+            <h3 className="font-bold mb-2">Community Board</h3>
+            <BoardList category={0} />
+          </div>
+          
 
           {/* Right Tab */}
-          <CommunityTeamList communityIdx={Number(communityIdx)} />
+          <div className="w-full">
+            <h3 className="font-bold mb-2">Community Teams</h3>
+            <CommunityTeamList communityIdx={Number(communityIdx)} />
+          </div>
         </div>
       </div>
     </div>

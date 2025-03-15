@@ -4,20 +4,17 @@ const CommunityTeamList = (props: CommunityTeamListProps) => {
   const { communityIdx } = props;
   const [communityTeamList] = useGetCommunityTeamList({ communityIdx });
   return (
-    <div className=" w-full">
-      <h3>커뮤니티 소속 팀 목록</h3>
-      <div>
-        {communityTeamList.map((team) => {
-          return (
-            <div
-              className={` flex flex-col gap-4 border-1`}
-              style={{ backgroundColor: team.team_list_color }}
-            >
-              <h3>TEAM - {team.team_list_name}</h3>
-            </div>
-          );
-        })}
-      </div>
+    <div className="bg-white rounded-lg shadow w-full flex flex-col gap-4 overflow-y-auto">
+      {communityTeamList.map((team) => {
+        return (
+          <div
+            className={` border border-gray shadow-lg rounded-lg p-2`}
+            style={{ backgroundColor: team.team_list_color }}
+          >
+            <h3>TEAM - {team.team_list_name}</h3>
+          </div>
+        );
+      })}
     </div>
   );
 };
