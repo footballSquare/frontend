@@ -1,6 +1,6 @@
 import React from "react";
 import { useFetch } from "../../4_Shared/util/apiUtil";
-import { MatchWaitList } from "./type";
+import { MatchWaitList } from "./types/response";
 import { mockMatchWaitList } from "../../4_Shared/mock/matchWaitList";
 
 const useGetMatchWaitlist = (

@@ -13,12 +13,12 @@ const WaitingList = React.memo((props: WaitingListProps) => {
     matchApplyHandler,
     isMatchLeader,
   } = props;
-  const [myInfo,] = React.useState({
+  const [myInfo] = React.useState({
     userIdx: 1,
     nickName: "master",
     profileUrl: "testing...",
   });
-  
+
   return (
     <div className=" w-[60%]">
       {/* 포지션 select & option 태그, 포지션 명 & 각 지원자 수 표시 */}
@@ -52,11 +52,11 @@ const WaitingList = React.memo((props: WaitingListProps) => {
               {isMatchLeader && (
                 <button
                   onClick={() =>
-                    matchApproveHandler(
+                    matchApproveHandler({
                       player,
-                      selectedPosition,
-                      matchParticipants
-                    )
+                      matchPosition: selectedPosition,
+                      matchParticipants,
+                    })
                   }
                 >
                   <img className=" w-[24px]" src={applyBtn} alt="" />
@@ -68,14 +68,14 @@ const WaitingList = React.memo((props: WaitingListProps) => {
           <button
             className=" border-1 rounded-lg border-gray shadow-lg bg-blue text-white hover:bg-light-blue hover:text-black duration-700"
             onClick={() => {
-              matchApplyHandler(
-                {
+              matchApplyHandler({
+                player: {
                   player_list_idx: myInfo.userIdx,
                   player_list_nickname: myInfo.nickName,
                   player_list_url: myInfo.profileUrl,
                 },
-                selectedPosition
-              );
+                matchPosition: selectedPosition,
+              });
             }}
           >
             {matchPosition[selectedPosition]} 지원하기
