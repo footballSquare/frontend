@@ -1,5 +1,5 @@
 import useGetChampionshipList from "../../../../3_Entity/Community/useGetChampionshipList";
-const ChampionShipList = (props: ChampionshipListProps) => {
+const ChampionshipList = (props: ChampionshipListProps) => {
   const { communityIdx } = props;
   const [championshipList] = useGetChampionshipList({ communityIdx });
   return (
@@ -27,4 +27,4 @@ const ChampionShipList = (props: ChampionshipListProps) => {
   );
 };
 
-export default ChampionShipList;
+export default ChampionshipList;
