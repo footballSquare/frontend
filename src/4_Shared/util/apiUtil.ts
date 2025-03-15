@@ -6,7 +6,10 @@ export const useFetch = (): [
   (mockdata: object) => Promise<void>,
   boolean
 ] => {
-  const [serverState, setServerState] = React.useState<Record<string, unknown> | null>(null);
+  const [serverState, setServerState] = React.useState<Record<
+    string,
+    unknown
+  > | null>(null);
   const [loading, setLoading] = React.useState<boolean>(true);
 
   const request = async (mockdata: object) => {
@@ -14,14 +17,14 @@ export const useFetch = (): [
       setLoading(true);
       // API 호출
       const response = await axios({
-        method: '',
-        url: '',
+        method: "",
+        url: "",
         params: {},
         headers: {
-          Authorization: ''
-        }
-      })
-      console.log(response.data, response.status)
+          Authorization: "",
+        },
+      });
+      console.log(response.data, response.status);
       setServerState({ ...mockdata });
     } catch (error) {
       console.log(error);

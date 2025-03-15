@@ -1,17 +1,17 @@
 import React from "react";
 import { useFetch } from "../../4_Shared/util/apiUtil";
-import { TeamPutInfo } from "./type";
+import { TeamUpdateInfo } from "./types/request";
 
 const usePutTeamInfo = (
   teamListIdx: number
 ): [
-  putEvent: (data: TeamPutInfo) => void,
+  putEvent: (data: TeamUpdateInfo) => void,
   serverState: unknown,
   loading: boolean
 ] => {
   const [serverState, request, loading] = useFetch();
 
-  const putEvent = (data: TeamPutInfo) => {
+  const putEvent = (data: TeamUpdateInfo) => {
     request({ data, teamListIdx });
     console.log("팀 정보 수정", teamListIdx, data);
   };
