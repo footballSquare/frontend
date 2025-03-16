@@ -15,7 +15,10 @@ const useModifyHandler = (props: UseModifyHandlerProps) => {
   const handleModifyFalse = () => {
     setModifyMode(false);
   };
-  return { modifyMode, handleCancle, handleModifyFalse };
+  const handleModifyTrue = () => {
+    setModifyMode(false);
+  };
+  return { modifyMode, handleCancle, handleModifyFalse, handleModifyTrue };
 };
 
 export default useModifyHandler;

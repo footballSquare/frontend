@@ -42,11 +42,12 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
 
   const userInfoForm = convetToInfoForm(props);
   const inputBackupDataRef = React.useRef<UserInfoForm>(userInfoForm);
-  const { modifyMode, handleCancle, handleModifyFalse } = useModifyHandler({
-    userInfoForm,
-    reset,
-    inputBackupDataRef,
-  });
+  const { modifyMode, handleCancle, handleModifyFalse, handleModifyTrue } =
+    useModifyHandler({
+      userInfoForm,
+      reset,
+      inputBackupDataRef,
+    });
 
   const [postEvent] = usePostUserInfo(user_idx);
   const [deleteEvent] = useDeleteUserInfo(user_idx);
@@ -221,7 +222,7 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
                   onClick={(e) => {
                     e.preventDefault();
                     inputBackupDataRef.current = getValues(); // 현재 폼 데이터 백업
-                    setModifyMode(true);
+                    handleModifyTrue();
                   }}>
                   수정하기
                 </button>
