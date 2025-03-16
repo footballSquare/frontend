@@ -76,7 +76,7 @@ const Team = () => {
                 </div>
                 <section className="flex flex-col items-start w-full">
                   <h2 className="text-base font-semibold">팀 연혁</h2>
-                  <HistoryListBox />
+                  <HistoryListBox team_list_idx={team_list_idx} />
                 </section>
               </div>
 

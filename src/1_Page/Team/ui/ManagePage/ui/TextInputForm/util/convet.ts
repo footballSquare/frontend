@@ -1,4 +1,3 @@
-import React from "react";
 import { PutTeamInfoProps } from "../../../../../../../3_Entity/Team/types/request";
 import { TeamInfoForm, TextInputFormProps } from "../type";
 
