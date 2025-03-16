@@ -3,6 +3,6 @@ export type ImageInputProps = {
   imgSrc: string;
 };
 
-export type ImageInputType = {
+export type ImageForm = {
   img: File | null;
 };

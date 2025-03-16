@@ -1,7 +1,7 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 
-import { ImageInputProps, ImageInputType } from "./type";
+import { ImageInputProps, ImageForm } from "./type";
 import { schema } from "../../../../../../4_Shared/lib/imgSchema";
 import useImageHandler from "./model/useImageHandler";
 import usePutTeamEmblem from "../../../../../../3_Entity/Team/usePutTeamEmblem";
@@ -16,7 +16,7 @@ const EmblemImageInput = (props: ImageInputProps) => {
     setValue,
     clearErrors,
     formState: { errors },
-  } = useForm<ImageInputType>({
+  } = useForm<ImageForm>({
     resolver: yupResolver(schema),
   });
 
