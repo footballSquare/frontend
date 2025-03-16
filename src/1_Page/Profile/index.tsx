@@ -1,7 +1,7 @@
-import useGetMyInfo from "../../3_Entity/Account/useGetUserInfo";
-import useValidParamInteger from "../../4_Shared/model/useValidParamInteger";
 import AwardDashBoard from "./ui/AwardDashBoard/indes";
 import PlayerDashBoard from "./ui/PlayerDashBoard";
+import useGetMyInfo from "../../3_Entity/Account/useGetUserInfo";
+import useValidParamInteger from "../../4_Shared/model/useValidParamInteger";
 
 const Profile = () => {
   const [userIdx] = useValidParamInteger("userIdx");

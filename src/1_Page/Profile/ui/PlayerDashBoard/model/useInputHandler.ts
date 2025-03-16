@@ -14,13 +14,6 @@ const useInputHandler = (
     reset(defaultUserInfoInput);
   }, [userInfo]);
 
-  const defaultUserInfoInput: UserInfoInput = {
-    ...userInfo,
-    platform: platform[userInfo.platform],
-    position: matchPosition[userInfo.position],
-    common_status_idx: commonStatusIdx[userInfo.common_status_idx],
-  };
-
   return [defaultUserInfoInput];
 };
 

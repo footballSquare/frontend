@@ -4,21 +4,19 @@ import { yupResolver } from "@hookform/resolvers/yup";
 
 import { schema } from "./lib/schema";
 // 타입
-import { UserInfoProps } from "./type";
-import { UserInfoInput } from "./type";
+import { UserInfoProps, UserInfoForm } from "./type";
 // 상수
 import { platform } from "../../../../4_Shared/constant/platform";
 import { matchPosition } from "../../../../4_Shared/constant/matchPosition";
 import { commonStatusIdx } from "../../../../4_Shared/constant/commonStatusIdx";
 
-import useInputHandler from "./model/useInputHandler";
 import usePostUserInfo from "../../../../3_Entity/Account/usePutUserInfo";
 import useDeleteUserInfo from "../../../../3_Entity/Account/useDeleteUserInfo";
 import PlayerCard from "./ui/PlayerCard";
 import { hasChanges } from "./util/validate";
-import { converPostData } from "./util/convert";
+import { convertToPostData, convetToInfoForm } from "./util/convert";
 
-const PlayerDashBoard = ({ userInfo }: { userInfo: UserInfoProps }) => {
+const PlayerDashBoard = (props: UserInfoProps) => {
   const {
     is_mine,
     user_idx,
@@ -28,7 +26,7 @@ const PlayerDashBoard = ({ userInfo }: { userInfo: UserInfoProps }) => {
     short_team_name,
     team,
     team_emblem,
-  } = userInfo;
+  } = props;
   const profileProps = { is_mine, user_idx, nickname, position, profile_img };
 
   const {
@@ -37,29 +35,31 @@ const PlayerDashBoard = ({ userInfo }: { userInfo: UserInfoProps }) => {
     handleSubmit,
     getValues,
     formState: { errors },
-  } = useForm<UserInfoInput>({
+  } = useForm<UserInfoForm>({
     resolver: yupResolver(schema),
   });
 
   const [modifyMode, setModifyMode] = React.useState<boolean>(false);
-  const [defaultUserInfoInput] = useInputHandler(reset, userInfo);
-  const inputBackupDataRef = React.useRef<UserInfoInput>(defaultUserInfoInput);
+
+  const defaultUserInfoInput = convetToInfoForm(props);
+
+  React.useEffect(() => {
+    reset(defaultUserInfoInput);
+  }, [props]);
+  const inputBackupDataRef = React.useRef<UserInfoForm>(defaultUserInfoInput);
 
   const handleCancle = () => {
     reset(inputBackupDataRef.current);
     setModifyMode(false);
   };
 
-  const [postEvent] = usePostUserInfo({
-    userIdx: user_idx,
-    onFail: handleCancle,
-  });
+  const [postEvent] = usePostUserInfo(user_idx);
   const [deleteEvent] = useDeleteUserInfo(user_idx);
 
-  const onSubmit: SubmitHandler<UserInfoInput> = (data) => {
+  const onSubmit: SubmitHandler<UserInfoForm> = (data) => {
     setModifyMode(false);
     if (!hasChanges(data, inputBackupDataRef.current)) return;
-    postEvent(converPostData(data));
+    postEvent(convertToPostData(data));
   };
 
   return (
