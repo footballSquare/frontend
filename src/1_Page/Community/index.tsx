@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import ChampionShipList from "./ui/ChampionshipList";
+import ChampionshipList from "./ui/ChampionShipList";
 import CommunityAdminList from "./ui/CommunityAdminList";
 import CommunityTeamList from "./ui/CommunityTeamList";
 import BoardList from "../../2_Widget/BoardList";
@@ -28,7 +28,7 @@ const Community = () => {
           {/* Left Tab */}
           <div className="w-full">
             <h3 className="font-bold mb-2">Championship</h3>
-            <ChampionShipList communityIdx={Number(communityIdx)} />
+            <ChampionshipList communityIdx={Number(communityIdx)} />
           </div>
 
           {/* Middle Tab */}
