@@ -1,11 +1,11 @@
 import { useForm, SubmitHandler } from "react-hook-form";
-import { PlayerCardProps, ImageForm } from "./type";
 import { yupResolver } from "@hookform/resolvers/yup";
 
-import { schema } from "../../4_Shared/lib/imgSchema";
+import { PlayerCardProps, ImageForm } from "./type";
 import useImageHandler from "./model/useImageHandler";
-
 import usePutProfileImage from "../../3_Entity/Account/usePutProfileImage";
+
+import { schema } from "../../4_Shared/lib/imgSchema";
 import { matchPosition } from "../../4_Shared/constant/matchPosition";
 import profile from "../../4_Shared/assets/svg/profile.svg";
 import camera from "../../4_Shared/assets/svg/camera.svg";

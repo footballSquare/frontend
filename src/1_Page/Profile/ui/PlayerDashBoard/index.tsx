@@ -3,6 +3,9 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 import { schema } from "./lib/schema";
+import { hasChanges } from "./util/validate";
+import { convertToPostData, convertToInfoForm } from "./util/convert";
+import useModifyHandler from "./model/useModifyHandler";
 // 타입
 import { PlayerDashBoardProps, UserInfoForm } from "./type";
 // 상수
@@ -12,10 +15,6 @@ import { commonStatusIdx } from "../../../../4_Shared/constant/commonStatusIdx";
 
 import usePostUserInfo from "../../../../3_Entity/Account/usePutUserInfo";
 import useDeleteUserInfo from "../../../../3_Entity/Account/useDeleteUserInfo";
-
-import { hasChanges } from "./util/validate";
-import { convertToPostData, convertToInfoForm } from "./util/convert";
-import useModifyHandler from "./model/useModifyHandler";
 
 const PlayerDashBoard = (props: PlayerDashBoardProps) => {
   const { is_mine, user_idx, short_team_name, team, team_emblem } = props;
