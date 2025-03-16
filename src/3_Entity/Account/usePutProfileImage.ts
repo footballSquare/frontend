@@ -1,6 +1,6 @@
 import { useFetch } from "../../4_Shared/util/apiUtil";
 
-const usePutUserImage = (
+const usePutProfileImage = (
   userIdx: number
 ): [
   putEvent: (profileImg: File | null) => void,
@@ -22,4 +22,4 @@ const usePutUserImage = (
   return [putEvent, serverState, loading];
 };
 
-export default usePutUserImage;
+export default usePutProfileImage;

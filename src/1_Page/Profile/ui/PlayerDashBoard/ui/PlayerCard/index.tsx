@@ -5,7 +5,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { schema } from "./lib/schema";
 import useImageHandler from "./model/useImageHandler";
 
-import usePutUserImage from "../../../../../../3_Entity/Account/usePutUserImage";
+import usePutProfileImage from "../../../../../../3_Entity/Account/usePutProfileImage";
 import { matchPosition } from "../../../../../../4_Shared/constant/matchPosition";
 import profile from "../../../../../../4_Shared/assets/svg/profile.svg";
 
@@ -21,7 +21,6 @@ const PlayerCard = ({ userInfo }: { userInfo: PlayerCardProps }) => {
   } = useForm<ImageForm>({
     resolver: yupResolver(schema) as Resolver<ImageForm>,
   });
-
   const {
     preview,
     modifyMode,
@@ -31,7 +30,7 @@ const PlayerCard = ({ userInfo }: { userInfo: PlayerCardProps }) => {
     handleSetDefaultImage,
   } = useImageHandler({ profile_img, setValue, clearErrors });
 
-  const [putEvent] = usePutUserImage(user_idx);
+  const [putEvent] = usePutProfileImage(user_idx);
 
   const onSubmit: SubmitHandler<ImageForm> = (data) => {
     handleSave();
