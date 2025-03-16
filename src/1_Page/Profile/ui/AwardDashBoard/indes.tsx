@@ -2,7 +2,7 @@ import { AwardDashBoardProps } from "./type";
 import AutoMoveAwardList from "../../../../2_Widget/AutoMoveAwardList";
 
 const AwardDashBoard = (props: AwardDashBoardProps) => {
-  const { match_count, winning_rate, trophies } = props;
+  const { match_count, winning_rate, trophies = [] } = props;
 
   return (
     <div className="max-w-sm mx-auto bg-white shadow-md rounded-lg p-4">
