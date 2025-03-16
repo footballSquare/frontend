@@ -1,7 +1,7 @@
 import { useFormContext } from "react-hook-form";
 import { TeamNameCheckInputProps } from "./type";
 
-import useResultHandler from "./model/useResultHandler";
+import useLoadHandler from "./model/useLoadHandler";
 import useGetRepeatTeam from "../../../../../../../../3_Entity/Team/useGetRepeatTeam";
 import useGetRepeatShortTeam from "../../../../../../../../3_Entity/Team/useGetRepeatShortTeam";
 
@@ -22,26 +22,23 @@ const TeamNameCheckInput = (props: TeamNameCheckInputProps) => {
     ? "short_team_repeat_checked"
     : "team_repeat_checked";
 
-  const [shortResult, shortLoading, shortGetEvent, shortResetResult] =
+  const [isRepeatShort, shortLoading, getRepeatShortTeam] =
     useGetRepeatShortTeam();
-  const [result, loading, getEvent, resetResult] = useGetRepeatTeam();
+  const [isRepeatTeam, teamLoading, getRepeatTeam] = useGetRepeatTeam();
 
   // 훅 동적 적용
-  const selectResult = isShort ? shortResult : result;
-  const selectLoading = isShort ? shortLoading : loading;
-  const selectGetEvent = isShort ? shortGetEvent : getEvent;
-  const selectResetResult = isShort ? shortResetResult : resetResult;
-
-  // result 값에 따라 적용
-  const [isNotRepeat, isRepeat] = useResultHandler({
-    repeatFormKey,
-    result: selectResult,
+  const isRepeat = isShort ? isRepeatShort : isRepeatTeam;
+  const loading = isShort ? shortLoading : teamLoading;
+  const selectGetEvent = isShort ? getRepeatShortTeam : getRepeatTeam;
+  const [loadState] = useLoadHandler({
+    loading,
     modifyMode,
-    resetResult: selectResetResult,
-    trigger,
+    isRepeat,
     setValue,
+    trigger,
+    repeatFormKey,
   });
-  const disable = !modifyMode || isNotRepeat;
+  const disable = !modifyMode || (!loadState && !isRepeat);
 
   const handleClick = async () => {
     const isValid = await trigger(formKey); // 유효성 검증
@@ -86,7 +83,7 @@ const TeamNameCheckInput = (props: TeamNameCheckInputProps) => {
         )}
       </div>
 
-      {modifyMode && !selectLoading && selectResult && (
+      {modifyMode && !loadState && (
         <p
           className={`text-sm mt-1 ${
             isRepeat ? "text-red-500" : "text-green-500"

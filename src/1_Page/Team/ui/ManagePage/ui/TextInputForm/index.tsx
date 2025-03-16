@@ -10,14 +10,18 @@ import useManageModify from "./model/useManageModify";
 import { schema } from "./lib/schema";
 import { convertToPutData, convertToTeamInfoForm } from "./util/convet";
 import usePutTeamInfo from "../../../../../../3_Entity/Team/usePutTeamInfo";
+import React from "react";
 
 const TextInputForm = (props: TextInputFormProps) => {
   const { team_list_idx } = props;
-  const teamInfoInput = convertToTeamInfoForm(props);
+
+  const teamInfoForm = React.useMemo(
+    () => convertToTeamInfoForm(props),
+    [props]
+  ); // 팀 인포가 반복되서 input Form으로 변하는것 방지
 
   const forms = useForm<TeamInfoForm>({
     resolver: yupResolver(schema),
-    defaultValues: teamInfoInput,
     mode: "onChange",
   });
 
@@ -30,7 +34,7 @@ const TextInputForm = (props: TextInputFormProps) => {
   } = forms;
 
   const { modifyMode, handleCancle, handleModifyFalse, handleBackupData } =
-    useManageModify({ reset, setValue, teamInfoInput });
+    useManageModify({ reset, setValue, teamInfoForm });
 
   const [putTeamInfo] = usePutTeamInfo(team_list_idx);
 
