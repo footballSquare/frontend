@@ -8,8 +8,8 @@ const useGetUserInfo = (userIdx: number): [UserInfo, boolean] => {
   const [userInfo, setUserInfo] = React.useState<UserInfo>({} as UserInfo);
 
   React.useEffect(() => {
-    console.log(userIdx);
     request(mockUserInfo);
+    console.log(userIdx);
   }, []);
 
   React.useEffect(() => {
