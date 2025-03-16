@@ -140,7 +140,7 @@ const MatchModal = () => {
             )
           ) : (
             // 매치 라인업 마감 & 대회
-            matchDetail.common_status_idx !== 2 && (
+            (matchDetail.common_status_idx !== 2 && matchDetail.match_match_attribute === 2) && (
               <StatPanel
                 matchParticipants={matchParticipants}
               />

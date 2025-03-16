@@ -9,3 +9,7 @@ export type useGetMatchParticipantsProps = {
 export type uesGetMatchWaitListProps = {
   matchIdx: number;
 };
+
+type UseGetMatchStatsProps = {
+  matchIdx: number;
+}
