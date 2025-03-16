@@ -37,7 +37,7 @@ const PlayerCard = (props: PlayerCardProps) => {
 
   const onSubmit: SubmitHandler<ImageForm> = (data) => {
     handleSave();
-    putEvent(data.profile_img);
+    putEvent(data.img);
   };
 
   return (
@@ -58,7 +58,7 @@ const PlayerCard = (props: PlayerCardProps) => {
               type="file"
               accept="image/*"
               className="hidden"
-              {...register("profile_img")}
+              {...register("img")}
               onChange={is_mine ? handleImageChange : undefined}
               disabled={!is_mine}
             />
@@ -129,9 +129,9 @@ const PlayerCard = (props: PlayerCardProps) => {
         )}
 
         {/* Error message */}
-        {errors.profile_img && (
+        {errors.img && (
           <div className="bg-red-900 bg-opacity-30 px-4 py-2 text-red-300 text-xs">
-            {errors.profile_img.message}
+            {errors.img.message}
           </div>
         )}
 

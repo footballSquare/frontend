@@ -8,5 +8,5 @@ export type PlayerCardProps = {
 };
 
 export type ImageForm = {
-  profile_img: File | null;
+  img: File | null;
 };
