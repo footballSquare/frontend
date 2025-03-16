@@ -1,11 +1,11 @@
-import { UserInfo } from "../../../../3_Entity/Account/type";
+import { UserInfo } from "../../../../3_Entity/Account/types/response";
 
 export type UserInfoProps = Omit<
   UserInfo,
   "match_count" | "winning_rate" | "trophies" | "mmr"
 >;
 
-export type UserInfoInput = {
+export type UserInfoForm = {
   nickname: string;
   platform: string;
   team: string;

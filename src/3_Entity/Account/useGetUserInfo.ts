@@ -1,7 +1,7 @@
 import React from "react";
 import { useFetch } from "../../4_Shared/util/apiUtil.ts";
 import { mockUserInfo } from "../../4_Shared/mock/userInfo.ts";
-import { UserInfo } from "./type.ts";
+import { UserInfo } from "./types/response";
 
 const useGetUserInfo = (userIdx: number): [UserInfo, boolean] => {
   const [serverState, request, loading] = useFetch();

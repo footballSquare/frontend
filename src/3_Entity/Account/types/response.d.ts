@@ -1,4 +1,4 @@
-type TeamAwards = {
+type Awards = {
   championship_list_throphy_img: string;
   championship_list_idx: number;
   championship_list_name: string;
@@ -23,13 +23,5 @@ export type UserInfo = {
   mmr: number;
   match_count: number;
   winning_rate: number;
-  trophies: TeamAwards[];
-};
-
-export type UserInfoPost = {
-  nickname: string;
-  platform: number;
-  common_status_idx: number;
-  position: number;
-  state_message: string;
+  trophies: Awards[];
 };
