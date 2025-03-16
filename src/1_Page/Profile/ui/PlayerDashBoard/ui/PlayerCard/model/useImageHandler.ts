@@ -1,15 +1,20 @@
 import React from "react";
-import { UseFormSetValue, UseFormClearErrors } from "react-hook-form";
-import { ImageInput } from "../type";
+import { UseImageHandlerProps } from "./type";
 
 const useImageHandler = (
-  profile_img: string | null,
-  setValue: UseFormSetValue<ImageInput>,
-  clearErrors: UseFormClearErrors<ImageInput>
-) => {
+  props: UseImageHandlerProps
+): {
+  preview: string | null;
+  modifyMode: boolean;
+  handleImageChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handleCancel: () => void;
+  handleSave: () => void;
+  handleSetDefaultImage: () => void;
+} => {
+  const { profile_img, setValue, clearErrors } = props;
   const backupImageRef = React.useRef<string | null>(profile_img); // 초기 이미지 저장
   const [preview, setPreview] = React.useState<string | null>(profile_img);
-  const [isEditing, setIsEditing] = React.useState<boolean>(false); // 수정 모드 상태
+  const [modifyMode, setModifyMode] = React.useState<boolean>(false); // 수정 모드 상태
 
   // userInfo 변경 시 초기화
   React.useEffect(() => {
@@ -24,30 +29,30 @@ const useImageHandler = (
       const objectUrl = URL.createObjectURL(file);
       setPreview(objectUrl);
       setValue("profile_img", file);
-      setIsEditing(true); // 변경되었으므로 버튼 표시
+      setModifyMode(true); // 변경되었으므로 버튼 표시
     }
   };
 
   // 취소 버튼 클릭 시 원래 이미지로 되돌리기
   const handleCancel = () => {
     setPreview(backupImageRef.current);
-    setIsEditing(false);
+    setModifyMode(false);
     clearErrors();
   };
 
   // 저장 버튼 클릭 시 변경된 이미지 유지
   const handleSave = () => {
     backupImageRef.current = preview;
-    setIsEditing(false);
+    setModifyMode(false);
   };
 
   const handleSetDefaultImage = () => {
     setPreview(null);
-    setIsEditing(true);
+    setModifyMode(true);
   };
   return {
     preview,
-    isEditing,
+    modifyMode,
     handleImageChange,
     handleCancel,
     handleSave,

@@ -1,6 +1,6 @@
 import { UserInfo } from "../../../../3_Entity/Account/types/response";
 
-export type UserInfoProps = Omit<
+export type PlayerDashBoardProps = Omit<
   UserInfo,
   "match_count" | "winning_rate" | "trophies" | "mmr"
 >;

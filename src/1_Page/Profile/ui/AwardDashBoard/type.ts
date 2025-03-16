@@ -1,6 +1,6 @@
-import { UserInfo } from "../../../../3_Entity/Account/type";
+import { UserInfo } from "../../../../3_Entity/Account/types/response";
 
-export type UserInfoStats = Pick<
+export type AwardDashBoardProps = Pick<
   UserInfo,
   "match_count" | "winning_rate" | "trophies" | "mmr"
 >;

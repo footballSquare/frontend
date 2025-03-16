@@ -13,12 +13,12 @@ const Profile = () => {
     <main className="flex flex-wrap gap-4 w-full justify-center bg-white shadow-md rounded-lg p-4">
       {/* Player Dashboard */}
       <div className="w-[90%] sm:w-[55%] min-w-[300px]">
-        <PlayerDashBoard userInfo={{ ...playerProps }} />
+        <PlayerDashBoard {...playerProps} />
       </div>
 
       {/* Award Dashboard */}
       <div className="w-[90%] sm:w-[40%] min-w-[250px] bg-white shadow-md rounded-lg p-4">
-        <AwardDashBoard awardInfo={awardProps} />
+        <AwardDashBoard {...awardProps} />
       </div>
     </main>
   );
