@@ -8,29 +8,20 @@ type Awards = {
 };
 
 export type UserInfo = {
-  isMine: boolean;
-  userIdx: number;
-  name: string;
+  is_mine: boolean;
+  user_idx: number;
+  profile_img: string;
+  short_team_name: string;
   nickname: string;
+  state_message: string;
   platform: number;
   team: string;
+  team_emblem: string;
+  common_status_idx: number;
   position: number;
   tag_discord: string;
-  tag: string;
   mmr: number;
-  phone_number: string;
   match_count: number;
   winning_rate: number;
   trophies: Awards[];
-  profile_img: string;
-};
-
-export type UserInfoPost = Omit<
-  UserInfo,
-  "match_count" | "winning_rate" | "trophies" | "isMine" | "userIdx"
->;
-
-export type UserInfoInput = Omit<UserInfoPost, "platform" | "position"> & {
-  platform: string;
-  position: string;
 };
