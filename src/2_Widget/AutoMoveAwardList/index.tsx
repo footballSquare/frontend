@@ -2,9 +2,10 @@ import HoverTrophy from "./ui/HoverTrophy";
 import React from "react";
 import useIndexAutoAnimate from "./model/useIndexAutoAnimate";
 import useIndicator from "./model/useIndicator";
-import { TeamAwards } from "../../3_Entity/Team/type";
+import { AutoMoveAwardListProps } from "./type";
 
-const AutoMoveAwardList = ({ awards }: { awards: TeamAwards[] }) => {
+const AutoMoveAwardList = (props: AutoMoveAwardListProps) => {
+  const { awards } = props;
   const containerRef = React.useRef<HTMLDivElement>(null);
   const [visibleTrophyCount] = useIndicator(containerRef);
   const [currentIndex, handleClickCurrentIndex] = useIndexAutoAnimate(

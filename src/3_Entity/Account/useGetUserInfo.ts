@@ -9,6 +9,7 @@ const useGetUserInfo = (userIdx: number): [UserInfo, boolean] => {
 
   React.useEffect(() => {
     request(mockUserInfo);
+    console.log(userIdx);
   }, []);
 
   React.useEffect(() => {
