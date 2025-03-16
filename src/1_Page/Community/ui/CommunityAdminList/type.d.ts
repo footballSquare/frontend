@@ -1,0 +1,3 @@
+type CommunityAdminListProps = {
+  communityIdx: number;
+};

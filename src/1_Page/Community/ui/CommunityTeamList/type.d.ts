@@ -1,0 +1,3 @@
+type CommunityTeamListProps = {
+  communityIdx: number;
+};

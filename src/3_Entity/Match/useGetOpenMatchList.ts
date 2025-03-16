@@ -1,7 +1,7 @@
 import React from "react";
 import { useFetch } from "../../4_Shared/util/apiUtil";
 import { matchList } from "../../4_Shared/mock/matchList";
-import { MatchInfo } from "./type";
+import { MatchInfo } from "./types/response";
 
 const ITEMS_PER_PAGE = 10;
 

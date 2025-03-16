@@ -1,6 +1,6 @@
 import React from "react";
 import Button from "../../../../4_Shared/components/Button";
-import WaitingPlayerList from "../../../../2_Widget/WaitingPlayerList";
+import WaitingPlayerList from "../../../../2_Widget/StandbyList";
 import footballPlayer from "../../../../4_Shared/assets/img/footballPlayer.png";
 const WaitingPlayerListPanel = () => {
   const [isWatingPlayerListOpen, setIsWaitingPlayerListOpen] =

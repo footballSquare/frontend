@@ -1,14 +1,15 @@
 import React from "react";
 import { useFetch } from "../../4_Shared/util/apiUtil";
 import { teamHistoryData } from "../../4_Shared/mock/teamInfo";
-import { TeamHistory } from "./type";
+import { TeamHistory } from "./types/response";
 
-const useGetTeamHistory = (): [TeamHistory[], boolean] => {
+const useGetTeamHistory = (teamListIdx: number): [TeamHistory[], boolean] => {
   const [serverState, request, loading] = useFetch();
   const [teamHistory, setTeamHistory] = React.useState<TeamHistory[]>([]);
 
   React.useEffect(() => {
     request(teamHistoryData);
+    console.log(teamListIdx);
   }, []);
 
   React.useEffect(() => {

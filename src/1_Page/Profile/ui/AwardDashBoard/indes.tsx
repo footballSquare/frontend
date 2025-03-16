@@ -1,16 +1,19 @@
-import { UserInfoStats } from "./type";
+import { AwardDashBoardProps } from "./type";
 import AutoMoveAwardList from "../../../../2_Widget/AutoMoveAwardList";
 
-const AwardDashBoard = ({ awardInfo }: { awardInfo: UserInfoStats }) => {
-  const { match_count = 0, winning_rate = 0, trophies = [] } = awardInfo;
+const AwardDashBoard = (props: AwardDashBoardProps) => {
+  const { match_count, winning_rate, trophies = [] } = props;
 
   return (
-    <div className="max-w-sm mx-auto bg-white shadow-md rounded-lg p-4">
+    <div className="w-full bg-white shadow-md rounded-lg p-4 border border-blue-300">
       {/* 제목 */}
       <h2 className="text-blue-600 font-semibold text-center text-sm">
         PLAY TO WIN
       </h2>
       <h1 className="text-lg font-bold text-center mt-1">AWARD</h1>
+      <p className="text-gray-500 text-center text-xs cursor-pointer">
+        See More Award
+      </p>
 
       {/* 트로피 리스트 */}
       {trophies.length !== 0 && (
@@ -38,31 +41,26 @@ const AwardDashBoard = ({ awardInfo }: { awardInfo: UserInfoStats }) => {
           </p>
         </div>
       </div>
-
+      {/* <div>
+        <label className="text-xs font-medium text-gray-600">mmr</label>
+        <p className="border-b border-gray-400 py-1 text-center text-sm">
+          {mmr}
+        </p>
+      </div> */}
       {/* 어워드 리스트 */}
-      <div className="mt-3">
-        <h3 className="text-blue-600 font-semibold text-xs mb-1">AWARD LIST</h3>
-        <div className="bg-gray-100 p-1 rounded-md space-y-1 overflow-y-auto h-full max-h-[200px] flex-1">
+      <div className="mt-4">
+        <h3 className="text-blue-600 font-semibold text-xs mb-2">AWARD LIST</h3>
+        <div className="max-h-[150px] overflow-y-auto space-y-2">
           {trophies.length !== 0 &&
             trophies.map((award, index) => (
               <div
                 key={index}
-                className="bg-white p-1 rounded-md shadow-sm flex flex-row-reverse items-center space-x-2 space-x-reverse">
-                {/* 트로피 이미지 */}
-                <img
-                  src={award.championship_list_throphy_img}
-                  alt={award.championship_list_name}
-                  className="w-8 h-8 object-contain"
-                />
+                className="cursor-pointer text-xs text-gray-500 hover:text-gray-700">
                 {/* 텍스트 정보 */}
-                <div className="text-right">
-                  <h3 className="text-xs font-medium text-gray-800">
+                <div className="text-left">
+                  <h3 className="font-medium underline">
                     {award.championship_list_name}
                   </h3>
-                  <p className="text-xs text-gray-500">
-                    {award.championship_list_start_date} ~{" "}
-                    {award.championship_list_end_date}
-                  </p>
                 </div>
               </div>
             ))}
