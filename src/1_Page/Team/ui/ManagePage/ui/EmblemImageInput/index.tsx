@@ -32,7 +32,7 @@ const EmblemImageInput = (props: ImageInputProps) => {
 
   const [putEvent] = usePutTeamEmblem(team_list_idx);
 
-  const onSubmit: SubmitHandler<ImageInputType> = (data) => {
+  const onSubmit: SubmitHandler<ImageForm> = (data) => {
     handleSave();
     putEvent(data.img);
   };
