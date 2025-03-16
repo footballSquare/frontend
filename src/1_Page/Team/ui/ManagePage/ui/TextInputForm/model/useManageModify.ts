@@ -11,14 +11,18 @@ const useManageModify = (
   handleModifyFalse: () => void;
   handleBackupData: (data: TeamInfoForm) => void;
 } => {
-  const { reset, setValue, teamInfoInput } = props;
+  const { reset, setValue, teamInfoForm } = props;
   const [modifyMode, setModifyMode] = React.useState<boolean>(false);
 
-  const inputBackupDataRef = React.useRef<TeamInfoForm>(teamInfoInput);
+  const inputBackupDataRef = React.useRef<TeamInfoForm>(teamInfoForm);
   const resetRepeat = {
     team_repeat_checked: false,
     short_team_repeat_checked: false,
   };
+
+  React.useEffect(() => {
+    reset(teamInfoForm);
+  }, [teamInfoForm]);
 
   const handleModifyFalse = () => {
     setModifyMode(false);

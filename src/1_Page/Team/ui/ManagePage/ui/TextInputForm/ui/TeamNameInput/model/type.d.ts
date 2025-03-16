@@ -1,11 +1,10 @@
 import { FieldValues, UseFormSetValue, UseFormTrigger } from "react-hook-form";
-import { ResultStateType } from "../../../../../../../../../3_Entity/Team/useGetRepeatTeam";
 
-export type UseResultHandlerProps = {
+export type useLoadHandler = {
+  loading: boolean;
   repeatFormKey: "short_team_repeat_checked" | "team_repeat_checked";
-  result: ResultStateType;
+  isRepeat: boolean;
   modifyMode: boolean;
-  resetResult: () => void;
   setValue: UseFormSetValue<FieldValues>;
   trigger: UseFormTrigger<FieldValues>;
 };

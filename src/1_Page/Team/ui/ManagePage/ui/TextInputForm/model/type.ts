@@ -1,8 +1,8 @@
 import { UseFormReset, UseFormSetValue } from "react-hook-form";
-import { TeamInfoInput } from "../type";
+import { TeamInfoForm } from "../type";
 
 export type UseManageModifyProps = {
-  setValue: UseFormSetValue<TeamInfoInput>;
-  reset: UseFormReset<TeamInfoInput>;
-  teamInfoInput: TeamInfoInput;
+  setValue: UseFormSetValue<TeamInfoForm>;
+  reset: UseFormReset<TeamInfoForm>;
+  teamInfoForm: TeamInfoForm;
 };
