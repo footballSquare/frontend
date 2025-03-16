@@ -5,6 +5,6 @@ export type PlayerCardProps = Pick<
   "profile_img" | "position" | "nickname" | "is_mine" | "user_idx"
 >;
 
-export type ImageInput = {
+export type ImageForm = {
   profile_img: File | null;
 };

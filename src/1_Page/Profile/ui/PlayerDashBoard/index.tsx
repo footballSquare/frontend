@@ -4,7 +4,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 
 import { schema } from "./lib/schema";
 // 타입
-import { UserInfoProps, UserInfoForm } from "./type";
+import { PlayerDashBoardProps, UserInfoForm } from "./type";
 // 상수
 import { platform } from "../../../../4_Shared/constant/platform";
 import { matchPosition } from "../../../../4_Shared/constant/matchPosition";
@@ -16,7 +16,7 @@ import PlayerCard from "./ui/PlayerCard";
 import { hasChanges } from "./util/validate";
 import { convertToPostData, convetToInfoForm } from "./util/convert";
 
-const PlayerDashBoard = (props: UserInfoProps) => {
+const PlayerDashBoard = (props: PlayerDashBoardProps) => {
   const {
     is_mine,
     user_idx,
@@ -38,15 +38,14 @@ const PlayerDashBoard = (props: UserInfoProps) => {
   } = useForm<UserInfoForm>({
     resolver: yupResolver(schema),
   });
+  const userInfoForm = convetToInfoForm(props);
 
   const [modifyMode, setModifyMode] = React.useState<boolean>(false);
-
-  const defaultUserInfoInput = convetToInfoForm(props);
+  const inputBackupDataRef = React.useRef<UserInfoForm>(userInfoForm);
 
   React.useEffect(() => {
-    reset(defaultUserInfoInput);
-  }, [props]);
-  const inputBackupDataRef = React.useRef<UserInfoForm>(defaultUserInfoInput);
+    reset(userInfoForm);
+  }, [userInfoForm]); // 초기값 설정
 
   const handleCancle = () => {
     reset(inputBackupDataRef.current);

@@ -1,8 +1,7 @@
-import { useForm, Resolver } from "react-hook-form";
-import { PlayerCardProps, ImageInput } from "./type";
+import { useForm, Resolver, SubmitHandler } from "react-hook-form";
+import { PlayerCardProps, ImageForm } from "./type";
 import { yupResolver } from "@hookform/resolvers/yup";
 
-import { convertToFile } from "./util/convertToFile";
 import { schema } from "./lib/schema";
 import useImageHandler from "./model/useImageHandler";
 
@@ -19,23 +18,24 @@ const PlayerCard = ({ userInfo }: { userInfo: PlayerCardProps }) => {
     handleSubmit,
     formState: { errors },
     clearErrors,
-  } = useForm<ImageInput>({
-    resolver: yupResolver(schema) as Resolver<ImageInput>,
+  } = useForm<ImageForm>({
+    resolver: yupResolver(schema) as Resolver<ImageForm>,
   });
 
   const {
     preview,
-    isEditing,
+    modifyMode,
     handleImageChange,
     handleCancel,
     handleSave,
     handleSetDefaultImage,
-  } = useImageHandler(profile_img, setValue, clearErrors);
+  } = useImageHandler({ profile_img, setValue, clearErrors });
 
   const [putEvent] = usePutUserImage(user_idx);
-  const onSubmit = (data: ImageInput) => {
+
+  const onSubmit: SubmitHandler<ImageForm> = (data) => {
     handleSave();
-    putEvent(convertToFile(data.profile_img, profile));
+    putEvent(data.profile_img);
   };
 
   return (
@@ -84,7 +84,7 @@ const PlayerCard = ({ userInfo }: { userInfo: PlayerCardProps }) => {
             )}
           </label>
 
-          {is_mine && isEditing && (
+          {is_mine && modifyMode && (
             <div className="flex gap-2 mt-2">
               <button
                 type="button"

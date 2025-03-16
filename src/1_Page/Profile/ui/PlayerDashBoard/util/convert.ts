@@ -2,7 +2,7 @@ import { matchPosition } from "../../../../../4_Shared/constant/matchPosition";
 import { platform } from "../../../../../4_Shared/constant/platform";
 import { commonStatusIdx } from "../../../../../4_Shared/constant/commonStatusIdx";
 
-import { UserInfoForm, UserInfoProps } from "../type";
+import { UserInfoForm, PlayerDashBoardProps } from "../type";
 import { UserInfoPost } from "../../../../../3_Entity/Account/types/request";
 
 export const convertToPostData = (data: UserInfoForm): UserInfoPost => {
@@ -17,7 +17,9 @@ export const convertToPostData = (data: UserInfoForm): UserInfoPost => {
   return postFormData;
 };
 
-export const convetToInfoForm = (userInfo: UserInfoProps): UserInfoForm => {
+export const convetToInfoForm = (
+  userInfo: PlayerDashBoardProps
+): UserInfoForm => {
   return {
     ...userInfo,
     platform: platform[Number(userInfo.platform)],
