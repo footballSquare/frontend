@@ -2,7 +2,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 import { BannerImageInputProps, ImageForm } from "./type";
-import { schema } from "./lib/schema";
+import { schema } from "../../../../../../4_Shared/lib/imgSchema";
 import useImageHandler from "./model/useImageHandler";
 
 import usePutTeamBanner from "../../../../../../3_Entity/Team/usePutTeamBanner";

@@ -1,5 +1,5 @@
 import * as yup from "yup";
-import { isFileExtension } from "../../../../../../../4_Shared/util/inputValidator";
+import { isFileExtension } from "../util/inputValidator";
 
 export const schema = yup.object().shape({
   img: yup
