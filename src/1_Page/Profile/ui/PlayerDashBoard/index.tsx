@@ -15,6 +15,7 @@ import useDeleteUserInfo from "../../../../3_Entity/Account/useDeleteUserInfo";
 import PlayerCard from "./ui/PlayerCard";
 import { hasChanges } from "./util/validate";
 import { convertToPostData, convetToInfoForm } from "./util/convert";
+import useModifyHandler from "./model/useModifyHandler";
 
 const PlayerDashBoard = (props: PlayerDashBoardProps) => {
   const {
@@ -38,25 +39,20 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
   } = useForm<UserInfoForm>({
     resolver: yupResolver(schema),
   });
+
   const userInfoForm = convetToInfoForm(props);
-
-  const [modifyMode, setModifyMode] = React.useState<boolean>(false);
   const inputBackupDataRef = React.useRef<UserInfoForm>(userInfoForm);
-
-  React.useEffect(() => {
-    reset(userInfoForm);
-  }, [userInfoForm]); // 초기값 설정
-
-  const handleCancle = () => {
-    reset(inputBackupDataRef.current);
-    setModifyMode(false);
-  };
+  const { modifyMode, handleCancle, handleModifyFalse } = useModifyHandler({
+    userInfoForm,
+    reset,
+    inputBackupDataRef,
+  });
 
   const [postEvent] = usePostUserInfo(user_idx);
   const [deleteEvent] = useDeleteUserInfo(user_idx);
 
   const onSubmit: SubmitHandler<UserInfoForm> = (data) => {
-    setModifyMode(false);
+    handleModifyFalse();
     if (!hasChanges(data, inputBackupDataRef.current)) return;
     postEvent(convertToPostData(data));
   };
