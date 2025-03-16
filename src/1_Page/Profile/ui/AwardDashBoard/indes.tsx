@@ -5,7 +5,7 @@ const AwardDashBoard = (props: AwardDashBoardProps) => {
   const { match_count, winning_rate, trophies = [] } = props;
 
   return (
-    <div className="max-w-sm mx-auto bg-white shadow-md rounded-lg p-4">
+    <div className="w-full bg-white shadow-md rounded-lg p-4 border border-blue-300">
       {/* 제목 */}
       <h2 className="text-blue-600 font-semibold text-center text-sm">
         PLAY TO WIN
