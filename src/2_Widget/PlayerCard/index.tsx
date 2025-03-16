@@ -1,8 +1,8 @@
-import { useForm, Resolver, SubmitHandler } from "react-hook-form";
+import { useForm, SubmitHandler } from "react-hook-form";
 import { PlayerCardProps, ImageForm } from "./type";
 import { yupResolver } from "@hookform/resolvers/yup";
 
-import { schema } from "./lib/schema";
+import { schema } from "../../4_Shared/lib/imgSchema";
 import useImageHandler from "./model/useImageHandler";
 
 import usePutProfileImage from "../../3_Entity/Account/usePutProfileImage";
