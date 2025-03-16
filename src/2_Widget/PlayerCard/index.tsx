@@ -21,7 +21,7 @@ const PlayerCard = (props: PlayerCardProps) => {
     formState: { errors },
     clearErrors,
   } = useForm<ImageForm>({
-    resolver: yupResolver(schema) as Resolver<ImageForm>,
+    resolver: yupResolver(schema),
   });
 
   const {
