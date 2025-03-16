@@ -6,6 +6,7 @@ import { useCookies } from "react-cookie";
 import PAGE_URI from "../4_Shared/constant/pageUri";
 import FreeMatch from "./FreeMatch";
 import Profile from "./Profile";
+import Championship from "./Championship";
 
 const Page = () => {
   const [cookies] = useCookies(["accessToken"]);
@@ -29,6 +30,7 @@ const Page = () => {
         <Route path={PAGE_URI.RANKING} element={<Main />} />
         <Route path={`${PAGE_URI.PROFILE}/:userIdx`} element={<Profile />} />
         <Route path={PAGE_URI.FREEMATCH} element={<FreeMatch />} />
+        <Route path={PAGE_URI.CHAMPIONSHIP} element={<Championship />} />
       </Routes>
     </div>
   );
