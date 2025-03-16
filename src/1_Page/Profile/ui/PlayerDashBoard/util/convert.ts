@@ -17,7 +17,7 @@ export const convertToPostData = (data: UserInfoForm): UserInfoPost => {
   return postFormData;
 };
 
-export const convetToInfoForm = (
+export const convertToInfoForm = (
   userInfo: PlayerDashBoardProps
 ): UserInfoForm => {
   return {

@@ -12,9 +12,9 @@ import { commonStatusIdx } from "../../../../4_Shared/constant/commonStatusIdx";
 
 import usePostUserInfo from "../../../../3_Entity/Account/usePutUserInfo";
 import useDeleteUserInfo from "../../../../3_Entity/Account/useDeleteUserInfo";
-import PlayerCard from "./ui/PlayerCard";
+import PlayerCard from "../../../../2_Widget/PlayerCard";
 import { hasChanges } from "./util/validate";
-import { convertToPostData, convetToInfoForm } from "./util/convert";
+import { convertToPostData, convertToInfoForm } from "./util/convert";
 import useModifyHandler from "./model/useModifyHandler";
 
 const PlayerDashBoard = (props: PlayerDashBoardProps) => {
@@ -28,7 +28,15 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
     team,
     team_emblem,
   } = props;
-  const profileProps = { is_mine, user_idx, nickname, position, profile_img };
+
+  const playerCardProps = {
+    team,
+    is_mine,
+    user_idx,
+    nickname,
+    position,
+    profile_img,
+  };
 
   const {
     reset,
@@ -39,8 +47,8 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
   } = useForm<UserInfoForm>({
     resolver: yupResolver(schema),
   });
-
-  const userInfoForm = convetToInfoForm(props);
+  // memo로 객체 재생성 방지
+  const userInfoForm = React.useMemo(() => convertToInfoForm(props), [props]);
   const inputBackupDataRef = React.useRef<UserInfoForm>(userInfoForm);
   const { modifyMode, handleCancle, handleModifyFalse, handleModifyTrue } =
     useModifyHandler({
@@ -61,7 +69,7 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
   return (
     <div className="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4  ">
       {/* Player 카드 */}
-      <PlayerCard userInfo={profileProps} />
+      <PlayerCard {...playerCardProps} />
 
       {/* 정보 수정 폼 */}
       <div className="w-full max-w-sm bg-white shadow-md rounded-lg p-4">
