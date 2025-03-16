@@ -32,6 +32,7 @@ const PlayerCard = (props: PlayerCardProps) => {
     handleSave,
     handleSetDefaultImage,
   } = useImageHandler({ profile_img, setValue, clearErrors });
+
   const [putEvent] = usePutProfileImage(user_idx);
 
   const onSubmit: SubmitHandler<ImageForm> = (data) => {
@@ -40,8 +41,8 @@ const PlayerCard = (props: PlayerCardProps) => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="hidden sm:block">
-      <div className="w-[240px] bg-gray-800 text-white rounded-md overflow-hidden shadow-lg border border-gray-700">
+    <form onSubmit={handleSubmit(onSubmit)} className="w-[100%] h-[100%]">
+      <div className=" bg-gray-800 text-white rounded-md overflow-hidden shadow-lg border border-gray-700">
         {/* Header with position badge */}
         <div className="relative h-12 bg-blue-600 flex items-center px-3">
           <div className="absolute top-2 right-2 bg-gray-900 text-xs font-medium px-2 py-1 rounded-full">
