@@ -52,13 +52,13 @@ const FormationPanel = React.memo((props: FormationPanelProps) => {
                       <button
                         onClick={() => {
                           matchDisApproveHandler(
-                            {
+                            {player: {
                               player_list_idx: elem.player_list_idx,
                               player_list_nickname: elem.player_list_nickname,
                               player_list_url: elem.player_list_url,
                             },
-                            elem.match_position_idx,
-                            matchParticipants
+                            matchPosition: elem.match_position_idx,
+                            matchParticipants}
                           );
                         }}
                       >
