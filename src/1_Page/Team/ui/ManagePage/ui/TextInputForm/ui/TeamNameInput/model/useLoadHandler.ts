@@ -1,5 +1,5 @@
 import React from "react";
-import { useLoadHandler } from "./type";
+import { useLoadHandlerProps } from "./type";
 
 const useLoadHandler = ({
   loading,
@@ -8,7 +8,7 @@ const useLoadHandler = ({
   setValue,
   trigger,
   repeatFormKey,
-}: useLoadHandler) => {
+}: useLoadHandlerProps) => {
   const [loadState, setLoadState] = React.useState<boolean>(true);
   React.useEffect(() => {
     setLoadState(loading);
@@ -19,11 +19,12 @@ const useLoadHandler = ({
   }, [modifyMode]);
 
   React.useEffect(() => {
+    if (loadState) return;
     if (!isRepeat) {
       setValue(repeatFormKey, true);
       trigger(repeatFormKey);
     }
-  }, [isRepeat]);
+  }, [isRepeat, loadState]);
 
   return [loadState];
 };

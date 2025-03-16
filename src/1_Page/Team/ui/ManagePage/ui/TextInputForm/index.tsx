@@ -22,7 +22,7 @@ const TextInputForm = (props: TextInputFormProps) => {
 
   const forms = useForm<TeamInfoForm>({
     resolver: yupResolver(schema),
-    mode: "onChange",
+    // mode: "onChange",
   });
 
   const {
@@ -39,8 +39,8 @@ const TextInputForm = (props: TextInputFormProps) => {
   const [putTeamInfo] = usePutTeamInfo(team_list_idx);
 
   const onSubmit: SubmitHandler<TeamInfoForm> = (data) => {
-    handleModifyFalse();
     putTeamInfo(convertToPutData(data));
+    handleModifyFalse();
   };
 
   return (
@@ -93,7 +93,7 @@ const TextInputForm = (props: TextInputFormProps) => {
               </button>
               <button
                 type="submit"
-                disabled={!isValid}
+                disabled={isValid}
                 className={`py-2 px-4 rounded-md text-white font-semibold shadow-md transition duration-300
               ${
                 isValid
