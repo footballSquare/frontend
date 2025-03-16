@@ -5,8 +5,7 @@ import SignBtns from "./ui/SignBtns";
 import { useNavigate } from "react-router-dom";
 const Nav = () => {
   const navigate = useNavigate();
-  const tempTeamIdx = 1;
-  const tempUserIdx = 1;
+  const tempIdx = 1;
   return (
     <nav className=" fixed top-0 left-0 flex h-[80px] w-full justify-center items-center bg-white shadow-md">
       <div className="sm:justify-between flex justify-center max-w-[1280px] w-full items-center">
@@ -23,7 +22,7 @@ const Nav = () => {
           <NavigationBtn
             text={"MY TEAM"}
             navigationHandler={() => {
-              navigate(`${PAGE_URI.TEAM}/${tempTeamIdx}`);
+              navigate(`${PAGE_URI.TEAM}/${tempIdx}`);
             }}
           />
           <NavigationBtn
@@ -35,7 +34,7 @@ const Nav = () => {
           <NavigationBtn
             text={"COMMUNITY"}
             navigationHandler={() => {
-              navigate(PAGE_URI.COMMUNITY);
+              navigate(`${PAGE_URI.COMMUNITY}/${tempIdx}`);
             }}
           />
           <NavigationBtn
@@ -47,7 +46,7 @@ const Nav = () => {
           <NavigationBtn
             text={"MY PROFILE"}
             navigationHandler={() => {
-              navigate(`${PAGE_URI.PROFILE}/${tempUserIdx}`);
+              navigate(`${PAGE_URI.PROFILE}/${tempIdx}`);
             }}
           />
         </div>

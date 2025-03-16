@@ -1,24 +1,13 @@
 import React from "react";
-import { MatchWaitList, MatchParticipant } from "../../../3_Entity/Match/type";
+import { MatchApplyHandlerProps, UseMatchApplyProps } from "./type";
 const useMatchApply = (
-  setMatchWaitList: React.Dispatch<React.SetStateAction<MatchWaitList>>
-): [
-  (
-    player: Pick<
-      MatchParticipant,
-      "player_list_idx" | "player_list_nickname" | "player_list_url"
-    >,
-    matchPosition: number
-  ) => void
-] => {
+  props: UseMatchApplyProps
+): [(props: MatchApplyHandlerProps) => void] => {
+  const { setMatchWaitList } = props;
+
   const matchApplyHandler = React.useCallback(
-    (
-      player: Pick<
-        MatchParticipant,
-        "player_list_idx" | "player_list_nickname" | "player_list_url"
-      >,
-      matchPosition: number
-    ): void => {
+    (props: MatchApplyHandlerProps): void => {
+      const { player, matchPosition } = props;
       setMatchWaitList((prev) => ({
         match_waitlist: {
           ...prev.match_waitlist,
