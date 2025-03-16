@@ -32,7 +32,6 @@ const PlayerCard = (props: PlayerCardProps) => {
     handleSave,
     handleSetDefaultImage,
   } = useImageHandler({ profile_img, setValue, clearErrors });
-
   const [putEvent] = usePutProfileImage(user_idx);
 
   const onSubmit: SubmitHandler<ImageForm> = (data) => {
