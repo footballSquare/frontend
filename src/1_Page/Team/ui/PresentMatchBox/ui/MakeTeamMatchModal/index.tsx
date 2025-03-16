@@ -6,15 +6,18 @@ import usePostTeamMatch from "../../../../../../3_Entity/Match/usePostTeamMatch"
 import { MakeTeamMatchModalProps } from "./type";
 import { MatchDataForm } from "./type";
 
+import { findNearDate } from "./util/nearDateHandler";
+import { schema } from "./lib/schema";
+import {
+  convertToPostMatchProps,
+  convertToMatchDataForm,
+} from "./util/convert";
+
 // 상수
 import { teamMatchAttribute } from "../../../../../../4_Shared/constant/teamMatchAttribute";
 import { matchType } from "../../../../../../4_Shared/constant/matchType";
 import { matchParticipation } from "../../../../../../4_Shared/constant/matchParticipation";
 import { formation } from "../../../../../../4_Shared/constant/formation";
-import { convertToPostMatchProps } from "./util/convert";
-import { findNearDate } from "./util/nearDateHandler";
-import { schema } from "./lib/schema";
-import { createMatchDefault } from "./util/defaultValue";
 import { matchDuration } from "../../../../../../4_Shared/constant/matchDuration";
 
 const MakeTeamMatchModal = (props: MakeTeamMatchModalProps) => {
@@ -30,7 +33,7 @@ const MakeTeamMatchModal = (props: MakeTeamMatchModalProps) => {
     formState: { errors },
   } = useForm<MatchDataForm>({
     resolver: yupResolver(schema),
-    defaultValues: createMatchDefault(today, hour, min),
+    defaultValues: convertToMatchDataForm(today, hour, min),
   });
 
   const onSubmit: SubmitHandler<MatchDataForm> = async (data) => {

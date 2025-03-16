@@ -38,8 +38,8 @@ const TeamNameCheckInput = (props: TeamNameCheckInputProps) => {
     trigger,
     repeatFormKey,
   });
-  const disable = !modifyMode || (!loadState && !isRepeat);
 
+  const disable = !modifyMode || (!loadState && !isRepeat);
   const handleClick = async () => {
     const isValid = await trigger(formKey); // 유효성 검증
     if (isValid) {

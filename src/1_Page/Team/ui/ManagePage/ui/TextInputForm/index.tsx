@@ -15,14 +15,14 @@ import React from "react";
 const TextInputForm = (props: TextInputFormProps) => {
   const { team_list_idx } = props;
 
+  // props가 변경되지 않는 한, 기존 teamInfoForm 값을 재사용하여 불필요한 input form 재생성을 방지
   const teamInfoForm = React.useMemo(
     () => convertToTeamInfoForm(props),
     [props]
-  ); // 팀 인포가 반복되서 input Form으로 변하는것 방지
-
+  );
   const forms = useForm<TeamInfoForm>({
     resolver: yupResolver(schema),
-    // mode: "onChange",
+    mode: "onChange",
   });
 
   const {
