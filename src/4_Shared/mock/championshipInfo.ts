@@ -1,0 +1,175 @@
+import trophy from "../assets/img/trophy.jpg";
+
+export const mockChampionshipInfo = {
+  championship_data: {
+    championship_type_name: "리그",
+    championship_list_name: "2024 S4 KFPL 리그",
+    championship_list_description:
+      "2024년 S4 리그입니다. 한 팀은 15명의 로스터를 가질 수 있습니다.",
+    match_type_idx: 0,
+    championship_list_throphy_img: trophy,
+    championship_list_start_date: "2024-10-20",
+    championship_list_end_date: "2024-11-10",
+    common_status_idx: 3,
+    championship_list_color: "#fff111",
+    winner_team_idx: null,
+    winner_team_name: null,
+    winner_team_emblem: null,
+    winner_team_color: null,
+  },
+};
+
+export const mockChampionshipTeamInfo = {
+  participation_team: [
+    {
+      team_list_idx: 10,
+      team_list_name: "아스날",
+      team_list_short_name: "ARS",
+      team_list_color: "#fff512",
+      team_list_emblem: trophy,
+    },
+    {
+      team_list_idx: 11,
+      team_list_name: "Favorite vs fashion",
+      team_list_short_name: "FvF",
+      team_list_color: "#fff516",
+      team_list_emblem: trophy,
+    },
+  ],
+};
+
+export const mockChampionshipMatchList = {
+  championship_match: [
+    {
+      championship_match_idx: 0,
+      championship_match_first: {
+        team_list_idx: 10,
+        championship_match_first_idx: 305,
+        team_list_name: "아스날",
+        team_list_short_name: "ARS",
+        team_list_color: "#fff512",
+        team_list_emblem: trophy,
+        match_team_stats_our_score: 1,
+        match_team_stats_other_score: 0,
+        common_status_idx: 0,
+      },
+      championship_match_second: {
+        team_list_idx: 11,
+        championship_match_second_idx: 306,
+        team_list_name: "Favorite vs fashion",
+        team_list_short_name: "FvF",
+        team_list_color: "#fff516",
+        team_list_emblem: trophy,
+        match_team_stats_our_score: 0,
+        match_team_stats_other_score: 1,
+        common_status_idx: 0,
+      },
+    },
+  ],
+};
+
+export const mockChampionshipDetail = {
+  championship_match: {
+    championship_match_idx: 1,
+    championship_list_idx: 5,
+    match_info: {
+      match_match_start_time: "2025-03-19T10:00:00.000Z",
+      match_match_duration: {
+        minutes: 30,
+      },
+    },
+    first_team: {
+      team_list_idx: 2,
+      stats: {
+        match_team_stats_our_score: 1,
+        match_team_stats_other_score: 0,
+        match_team_stats_possession: 60,
+        match_team_stats_total_shot: 3,
+        match_team_stats_expected_goal: 1.2,
+        match_team_stats_total_pass: 99,
+        match_team_stats_total_tackle: 15,
+        match_team_stats_success_tackle: 8,
+        match_team_stats_saved: 15,
+        match_team_stats_cornerkick: 3,
+        match_team_stats_freekick: 0,
+        match_team_stats_penaltykick: 0,
+        mom_player_idx: 2,
+        mom_player_nickname: "김지단",
+      },
+      player_stats: [
+        {
+          match_match_idx: 26,
+          player_list_idx: 1,
+          player_list_nickname: "TestUser",
+          match_player_stats_goal: 0,
+          match_player_stats_assist: 2,
+          match_player_stats_successrate_pass: 18,
+          match_player_stats_successrate_dribble: 7,
+          match_player_stats_successrate_tackle: 5,
+          match_player_stats_possession: 10,
+          match_player_stats_standing_tackle: 3,
+          match_player_stats_sliding_tackle: 2,
+          match_player_stats_cutting: 1,
+          match_player_stats_saved: 0,
+          match_player_stats_successrate_saved: 0,
+          match_player_stats_evidence_img: "test_url",
+        },
+        {
+          match_match_idx: 26,
+          player_list_idx: 2,
+          player_list_nickname: "김지단",
+          match_player_stats_goal: 0,
+          match_player_stats_assist: 2,
+          match_player_stats_successrate_pass: 18,
+          match_player_stats_successrate_dribble: 7,
+          match_player_stats_successrate_tackle: 5,
+          match_player_stats_possession: 10,
+          match_player_stats_standing_tackle: 3,
+          match_player_stats_sliding_tackle: 2,
+          match_player_stats_cutting: 1,
+          match_player_stats_saved: 0,
+          match_player_stats_successrate_saved: 0,
+          match_player_stats_evidence_img: "테스트중 입니다.",
+        },
+      ],
+    },
+    second_team: {
+      team_list_idx: 11,
+      stats: {
+        match_team_stats_our_score: 3,
+        match_team_stats_other_score: 1,
+        match_team_stats_possession: 60,
+        match_team_stats_total_shot: 3,
+        match_team_stats_expected_goal: 1.2,
+        match_team_stats_total_pass: 99,
+        match_team_stats_total_tackle: 15,
+        match_team_stats_success_tackle: 8,
+        match_team_stats_saved: 15,
+        match_team_stats_cornerkick: 3,
+        match_team_stats_freekick: 0,
+        match_team_stats_penaltykick: 0,
+        mom_player_idx: 28,
+        mom_player_nickname: "차범근",
+      },
+      player_stats: [
+        {
+          match_match_idx: 27,
+          player_list_idx: 10,
+          player_list_nickname: "차범근",
+          match_player_stats_goal: 0,
+          match_player_stats_assist: 2,
+          match_player_stats_successrate_pass: 18,
+          match_player_stats_successrate_dribble: 7,
+          match_player_stats_successrate_tackle: 5,
+          match_player_stats_possession: 10,
+          match_player_stats_standing_tackle: 3,
+          match_player_stats_sliding_tackle: 2,
+          match_player_stats_cutting: 1,
+          match_player_stats_saved: 0,
+          match_player_stats_successrate_saved: 0,
+          match_player_stats_evidence_img: "테스트중 입니다.",
+        },
+      ],
+    },
+  },
+};
