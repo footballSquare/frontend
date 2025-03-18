@@ -1,24 +1,9 @@
-type Participant = {
-  id: number;
-  name: string;
-  rank?: number;
-  result?: string;
-};
-
-const dummyParticipants: Participant[] = [
-  { id: 1, name: "playerA", rank: 1, result: "우승" },
-  { id: 2, name: "playerB", rank: 2, result: "준우승" },
-  { id: 3, name: "playerC", rank: 3, result: "4강" },
-  { id: 4, name: "playerD", rank: 4, result: "4강" },
-  { id: 5, name: "playerE", rank: 5, result: "8강" },
-  { id: 6, name: "playerF", rank: 6, result: "8강" },
-];
 import useGetChampionshipInfo from "../../3_Entity/Championship/useGetChampionshipInfo";
 import trophy from "../../4_Shared/assets/img/trophy.jpg";
 import { getTextColorFromBackground } from "../../4_Shared/lib/colorChecker";
 import useValidParamInteger from "../../4_Shared/model/useValidParamInteger";
-import MatchRank from "./ui/MatchRank";
-
+import MatchList from "./ui/MatchList";
+import ParticipationMembers from "./ui/ParticipationMembers";
 import TeamList from "./ui/TeamList";
 
 const Championship = () => {
@@ -29,7 +14,6 @@ const Championship = () => {
   return (
     <div className="min-h-screen w-full bg-gray-100 text-gray-800">
       {/* 상단 배너 영역 */}
-
       <header
         className="relative flex flex-col justify-center items-center min-h-[200px] gap-3 p-4 overflow-hidden"
         style={{
@@ -73,28 +57,14 @@ const Championship = () => {
       </header>
 
       {/* 메인 컨텐츠 영역 */}
-      <main className="max-w-7xl mx-auto px-4 py-8 grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <main className="px-4 py-8 grid grid-cols-1 lg:grid-cols-4 gap-4">
         {/* 출전 선수 목록 (왼쪽) */}
-        <section className="bg-white rounded-md shadow p-4">
-          <h2 className="text-lg font-semibold mb-4">출전 선수</h2>
-          <ul className="space-y-2">
-            {dummyParticipants.map((player) => (
-              <li
-                key={player.id}
-                className="flex items-center justify-between border-b last:border-b-0 py-2">
-                <div className="flex items-center space-x-2">
-                  <div className="w-8 h-8 bg-gray-300 rounded-full" />
-                  <span className="font-medium">{player.name}</span>
-                </div>
-                <div className="text-sm text-gray-500">
-                  {player.result || "참가 중"}
-                </div>
-              </li>
-            ))}
-          </ul>
-        </section>
+        <ParticipationMembers />
+        {/* 팀 목록 */}
         <TeamList teamIdx={0} />
-        <MatchRank />
+        {/* 매치 순위 */}
+        {/* 매치 목록*/}
+        <MatchList championshipIdx={championshipIdx} />
 
         {/* 대진표 영역 (오른쪽) */}
         <section className="bg-white rounded-md shadow p-4 overflow-auto">
