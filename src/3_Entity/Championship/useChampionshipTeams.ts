@@ -5,10 +5,11 @@ import { mockChampionshipTeamInfo } from "../../4_Shared/mock/championshipInfo.t
 
 const useChampionshipTeams = (
   championshipInfoIdx: number
-): [ChampionshipTeamInfo, boolean] => {
+): [ChampionshipTeamInfo[], boolean] => {
   const [serverState, request, loading] = useFetch();
-  const [championshipTeamㄴ, setChampionshipTeams] =
-    React.useState<ChampionshipTeamInfo>({} as ChampionshipTeamInfo);
+  const [championshipTeam, setChampionshipTeams] = React.useState<
+    ChampionshipTeamInfo[]
+  >([]);
 
   React.useEffect(() => {
     request(mockChampionshipTeamInfo);
@@ -18,13 +19,13 @@ const useChampionshipTeams = (
   React.useEffect(() => {
     if (!loading && serverState && "participation_team" in serverState) {
       setChampionshipTeams(
-        (serverState as { participation_team: ChampionshipTeamInfo })
+        (serverState as { participation_team: ChampionshipTeamInfo[] })
           .participation_team
       );
     }
   }, [loading, serverState]);
 
-  return [championshipTeamㄴ, loading];
+  return [championshipTeam, loading];
 };
 
 export default useChampionshipTeams;
