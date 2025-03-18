@@ -22,6 +22,7 @@ import MatchRank from "./ui/MatchRank";
 import TeamList from "./ui/TeamList";
 
 const Championship = () => {
+  const isAdmin = true;
   const [championshipIdx] = useValidParamInteger("championshipIdx");
   const [championshipInfo] = useGetChampionshipInfo(championshipIdx);
 
@@ -53,7 +54,7 @@ const Championship = () => {
         </div>
 
         <div className="w-full flex flex-col justify-center sm:flex-row items-center gap-2">
-          <p className="w-[40%] px-3 py-2 text-center rounded-md border border-current sm:w-[23%] text-inherit">
+          <p className="px-3 py-2 text-center rounded-md border border-current sm:w-[23%] text-inherit">
             대회 기간
           </p>
           <p className="w-[40%] px-3 py-2 text-center rounded-md border border-current sm:w-[23%] text-inherit">
@@ -63,6 +64,12 @@ const Championship = () => {
             대회 기간
           </p>
         </div>
+        {isAdmin && (
+          <div className="w-[40%] text-inherit flex justify-end gap-4 sm:w-[69%] ">
+            <button>대회 수정</button>
+            <button>대회 마감</button>
+          </div>
+        )}
       </header>
 
       {/* 메인 컨텐츠 영역 */}
