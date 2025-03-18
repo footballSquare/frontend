@@ -13,31 +13,53 @@ const dummyParticipants: Participant[] = [
   { id: 5, name: "playerE", rank: 5, result: "8강" },
   { id: 6, name: "playerF", rank: 6, result: "8강" },
 ];
+import useGetChampionshipInfo from "../../3_Entity/Championship/useGetChampionshipInfo";
 import trophy from "../../4_Shared/assets/img/trophy.jpg";
+import { getTextColorFromBackground } from "../../4_Shared/lib/colorChecker";
+import useValidParamInteger from "../../4_Shared/model/useValidParamInteger";
+import MatchRank from "./ui/MatchRank";
+
+import TeamList from "./ui/TeamList";
 
 const Championship = () => {
+  const [championshipIdx] = useValidParamInteger("championshipIdx");
+  const [championshipInfo] = useGetChampionshipInfo(championshipIdx);
+
   return (
     <div className="min-h-screen w-full bg-gray-100 text-gray-800">
       {/* 상단 배너 영역 */}
-      <header className="relative flex flex-col justify-center items-center min-h-[200px] bg-blue-600 text-white gap-3 p-4">
-        <div className="absolute top-0 left-0 w-[100px] h-[100px] border-4 border-white rounded-full transform -translate-x-1/2 -translate-y-1/2 opacity-20"></div>
-        <div className="absolute bottom-0 right-0 w-[100px] h-[100px] border-4 border-white rounded-full transform translate-x-1/2 translate-y-1/2"></div>
+
+      <header
+        className="relative flex flex-col justify-center items-center min-h-[200px] gap-3 p-4 overflow-hidden"
+        style={{
+          backgroundColor: championshipInfo.championship_list_color,
+          color: getTextColorFromBackground(
+            championshipInfo.championship_list_color
+          ),
+        }}>
+        <div className="absolute top-0 left-0 w-[100px] h-[100px] border-4 border-current rounded-full transform -translate-x-1/2 -translate-y-1/2 opacity-20"></div>
+        <div className="absolute bottom-0 right-0 w-[100px] h-[100px] border-4 border-current rounded-full transform translate-x-1/2 translate-y-1/2"></div>
+
         {/* 대회 제목 + 트로피 아이콘 */}
         <div className="flex items-center space-x-2 mb-4 md:mb-0">
-          {/* Heroicons trophy 예시 (Outline) */}
-          <img className="w-[40px] h-[40px] object-cover" src={trophy} />
-          <h1 className="text-2xl font-bold">KOR PLUS 24 FW CUP</h1>
+          <img
+            className="w-[40px] h-[40px] object-cover"
+            src={trophy}
+            alt="Trophy"
+          />
+          <h1 className="text-2xl font-bold">
+            {championshipInfo.championship_list_name}
+          </h1>
         </div>
 
-        {/* 대회 정보 입력부 */}
         <div className="w-full flex flex-col justify-center sm:flex-row items-center gap-2">
-          <p className="w-[40%] px-3 py-2 text-center rounded-md border text-white sm:w-[23%]">
+          <p className="w-[40%] px-3 py-2 text-center rounded-md border border-current sm:w-[23%] text-inherit">
             대회 기간
           </p>
-          <p className="w-[40%] px-3 py-2 text-center rounded-md border text-white sm:w-[23%]">
+          <p className="w-[40%] px-3 py-2 text-center rounded-md border border-current sm:w-[23%] text-inherit">
             대회 기간
           </p>
-          <p className="w-[40%] px-3 py-2 text-center rounded-md border text-white sm:w-[23%]">
+          <p className="w-[40%] px-3 py-2 text-center rounded-md border border-current sm:w-[23%] text-inherit">
             대회 기간
           </p>
         </div>
@@ -64,24 +86,8 @@ const Championship = () => {
             ))}
           </ul>
         </section>
-
-        {/* 중앙 영역 (예: 현재 경기 정보/대진 정보 등) */}
-        <section className="bg-white rounded-md shadow p-4">
-          <h2 className="text-lg font-semibold mb-4">현재 경기 정보</h2>
-          <div className="space-y-2">
-            {/* 예시로 매치업 리스트 */}
-            <div className="flex items-center justify-between">
-              <span className="font-medium">@playerA</span>
-              <span className="text-sm text-gray-500">vs</span>
-              <span className="font-medium">@playerB</span>
-            </div>
-            <div className="flex items-center justify-between">
-              <span className="font-medium">@playerC</span>
-              <span className="text-sm text-gray-500">vs</span>
-              <span className="font-medium">@playerD</span>
-            </div>
-          </div>
-        </section>
+        <TeamList teamIdx={0} />
+        <MatchRank />
 
         {/* 대진표 영역 (오른쪽) */}
         <section className="bg-white rounded-md shadow p-4 overflow-auto">
