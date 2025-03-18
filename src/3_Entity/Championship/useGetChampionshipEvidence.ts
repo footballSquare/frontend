@@ -7,7 +7,7 @@ const useGetChampionshipEvidence = (
   championshipInfoIdx: number
 ): [EvidenceImage, boolean] => {
   const [serverState, request, loading] = useFetch();
-  const [championshipInfo, setChampionshipInfo] = React.useState<EvidenceImage>(
+  const [evidenceImage, setEvidenceImage] = React.useState<EvidenceImage>(
     {} as EvidenceImage
   );
 
@@ -18,13 +18,13 @@ const useGetChampionshipEvidence = (
 
   React.useEffect(() => {
     if (!loading && serverState && "evidance_img" in serverState) {
-      setChampionshipInfo(
+      setEvidenceImage(
         (serverState as { evidance_img: EvidenceImage }).evidance_img
       );
     }
   }, [loading, serverState]);
 
-  return [championshipInfo, loading];
+  return [evidenceImage, loading];
 };
 
 export default useGetChampionshipEvidence;
