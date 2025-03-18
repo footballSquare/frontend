@@ -6,11 +6,8 @@ import { useCookies } from "react-cookie";
 import PAGE_URI from "../4_Shared/constant/pageUri";
 import FreeMatch from "./FreeMatch";
 import Profile from "./Profile";
-<<<<<<< HEAD
-import Championship from "./Championship";
-=======
 import Community from "./Community";
->>>>>>> develop
+import Championship from "./Championship";
 
 const Page = () => {
   const [cookies] = useCookies(["accessToken"]);
