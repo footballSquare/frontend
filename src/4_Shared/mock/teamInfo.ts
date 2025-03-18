@@ -5,13 +5,13 @@ export const teamInfoData = {
     team_list_idx: 10,
     team_list_name: "레알",
     team_list_short_name: "RMA",
-    team_list_color: "#f152482",
-    team_list_emblem: "URL",
+    team_list_color: "#f12482",
+    team_list_emblem: team_banner_img,
     team_list_banner: team_banner_img,
     team_list_announcement:
       "레알 팀원 모집 중 입니다. 멀티포지션 환영, 접률 좋은분 환영",
     team_list_created_at: "2024-10-20",
-    whole_member: 15,
+    common_status_idx: 1,
   },
 };
 
@@ -24,7 +24,7 @@ export const teamAwardsData = {
       championship_list_name: "2025 KFPL 끝물 토너먼트",
       championship_list_start_date: "2025-04-25",
       championship_list_end_date: "2025-05-10",
-      championship_list_color: "#9B11E",
+      championship_list_color: "#9B11E1",
     },
     {
       championship_list_throphy_img: trophy_img,
@@ -32,7 +32,7 @@ export const teamAwardsData = {
       championship_list_name: "2025 KFPL 끝물 토너먼트",
       championship_list_start_date: "2025-04-25",
       championship_list_end_date: "2025-05-10",
-      championship_list_color: "#9B11E",
+      championship_list_color: "#9B11E1",
     },
     {
       championship_list_throphy_img: trophy_img,
@@ -40,7 +40,7 @@ export const teamAwardsData = {
       championship_list_name: "2025 KFPL 끝물 토너먼트",
       championship_list_start_date: "2025-04-25",
       championship_list_end_date: "2025-05-10",
-      championship_list_color: "#9B11E",
+      championship_list_color: "#9B11E1",
     },
     {
       championship_list_throphy_img: trophy_img,
@@ -48,7 +48,7 @@ export const teamAwardsData = {
       championship_list_name: "2025 KFPL 끝물 토너먼트",
       championship_list_start_date: "2025-04-25",
       championship_list_end_date: "2025-05-10",
-      championship_list_color: "#9B11E",
+      championship_list_color: "#9B11E1",
     },
     {
       championship_list_throphy_img: trophy_img,
@@ -56,7 +56,7 @@ export const teamAwardsData = {
       championship_list_name: "2025 KFPL 끝물 토너먼트",
       championship_list_start_date: "2025-04-25",
       championship_list_end_date: "2025-05-10",
-      championship_list_color: "#9B11E",
+      championship_list_color: "#9B11E1",
     },
     {
       championship_list_throphy_img: trophy_img,
@@ -64,7 +64,7 @@ export const teamAwardsData = {
       championship_list_name: "2025 KFPL 끝물 토너먼트",
       championship_list_start_date: "2025-04-25",
       championship_list_end_date: "2025-05-10",
-      championship_list_color: "#9B11E",
+      championship_list_color: "#9B11E1",
     },
     {
       championship_list_throphy_img: trophy_img,
@@ -72,7 +72,7 @@ export const teamAwardsData = {
       championship_list_name: "2025 KFPL 끝물 토너먼트",
       championship_list_start_date: "2025-04-25",
       championship_list_end_date: "2025-05-10",
-      championship_list_color: "#9B11E",
+      championship_list_color: "#9B11E1",
     },
   ],
 };
@@ -84,7 +84,7 @@ export const teamHistoryData = {
       championship_list_name: "2025 KFPL 끝물 토너먼트",
       championship_list_start_date: "2025-04-25",
       championship_list_end_date: "2025-05-10",
-      championship_list_color: "#9B11E",
+      championship_list_color: "#9B11E1",
     },
     {
       championship_list_idx: 0,
@@ -173,6 +173,35 @@ export const teamMemberData = {
       player_list_profile_img: "URL",
       player_list_nickname: "최라모스",
       team_role_idx: 1,
+    },
+  ],
+};
+
+export const signTeamMember = {
+  access_list: [
+    {
+      player_list_idx: 30,
+      player_list_platform: 1,
+      player_list_profile_img: team_banner_img,
+      player_list_nickname: "김지단",
+    },
+    {
+      player_list_idx: 44,
+      player_list_platform: 2,
+      player_list_profile_img: team_banner_img,
+      player_list_nickname: "최라모스",
+    },
+    {
+      player_list_idx: 45,
+      player_list_platform: 2,
+      player_list_profile_img: team_banner_img,
+      player_list_nickname: "박성진",
+    },
+    {
+      player_list_idx: 46,
+      player_list_platform: 2,
+      player_list_profile_img: team_banner_img,
+      player_list_nickname: "이기동",
     },
   ],
 };
