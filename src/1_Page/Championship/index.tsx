@@ -1,5 +1,6 @@
 import useGetChampionshipInfo from "../../3_Entity/Championship/useGetChampionshipInfo";
 import trophy from "../../4_Shared/assets/img/trophy.jpg";
+import { matchType } from "../../4_Shared/constant/matchType";
 import { getTextColorFromBackground } from "../../4_Shared/lib/colorChecker";
 import useValidParamInteger from "../../4_Shared/model/useValidParamInteger";
 import MatchList from "./ui/MatchList";
@@ -39,13 +40,13 @@ const Championship = () => {
 
         <div className="w-full flex flex-col justify-center sm:flex-row items-center gap-2">
           <p className="px-3 py-2 text-center rounded-md border border-current sm:w-[23%] text-inherit">
-            대회 기간
+            {`${championshipInfo.championship_list_start_date} + ${championshipInfo.championship_list_end_date}`}
           </p>
           <p className="w-[40%] px-3 py-2 text-center rounded-md border border-current sm:w-[23%] text-inherit">
-            대회 기간
+            {championshipInfo.championship_type_name}
           </p>
           <p className="w-[40%] px-3 py-2 text-center rounded-md border border-current sm:w-[23%] text-inherit">
-            대회 기간
+            {matchType[championshipInfo.match_type_idx]}
           </p>
         </div>
         {isAdmin && (
