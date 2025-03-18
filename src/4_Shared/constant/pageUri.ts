@@ -9,7 +9,7 @@ const PAGE_URI = {
   FREEMATCH: "/free-match",
   LOGIN: "/login",
   SIGNUP: "/signup",
-  CHAMPIONSHIP: "championship",
+  CHAMPIONSHIP: "/championship",
 };
 
 export default PAGE_URI;
