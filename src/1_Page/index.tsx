@@ -6,13 +6,17 @@ import { useCookies } from "react-cookie";
 import PAGE_URI from "../4_Shared/constant/pageUri";
 import FreeMatch from "./FreeMatch";
 import Profile from "./Profile";
+<<<<<<< HEAD
 import Championship from "./Championship";
+=======
+import Community from "./Community";
+>>>>>>> develop
 
 const Page = () => {
   const [cookies] = useCookies(["accessToken"]);
   const hasAccessToken = !!cookies.accessToken; // accessToken 존재 여부 확인
   return (
-    <div className="w-full flex justify-center bg-light-blue">
+    <div className="w-full h-full flex justify-center bg-light-blue">
       <Routes>
         <Route
           path="/"
@@ -25,7 +29,7 @@ const Page = () => {
         <Route path={`${PAGE_URI.TEAM}/:teamIdx`} element={<Team />} />
         <Route
           path={`${PAGE_URI.COMMUNITY}/:communityIdx`}
-          element={<Main />}
+          element={<Community />}
         />
         <Route path={PAGE_URI.RANKING} element={<Main />} />
         <Route path={`${PAGE_URI.PROFILE}/:userIdx`} element={<Profile />} />

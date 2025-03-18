@@ -52,7 +52,9 @@ const Trophy = ({
               alt="Trophy"
               className="w-[80px] h-[80px] mb-2"
             />
-            <h3 className="text-lg font-semibold text-center">
+            <h3
+              className="text-lg font-semibold text-center"
+              style={{ color: trophyData.championship_list_color }}>
               {trophyData.championship_list_name}
             </h3>
             <p className="text-gray-500 text-sm">
