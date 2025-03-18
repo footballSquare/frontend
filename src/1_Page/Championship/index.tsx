@@ -111,11 +111,6 @@ const Championship = () => {
           </div>
         </section>
       </main>
-
-      {/* 푸터 영역 */}
-      <footer className="text-center py-4 text-sm text-gray-500">
-        © Copyright 2021. All rights reserved by ChamPlay
-      </footer>
     </div>
   );
 };
