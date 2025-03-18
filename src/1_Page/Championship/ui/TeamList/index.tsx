@@ -8,14 +8,20 @@ const TeamList = (props: TeamListProps) => {
   const [teamList] = useChampionshipTeams(teamIdx);
   return (
     <section className="bg-white rounded-md shadow p-4">
-      <h2 className="text-lg font-semibold mb-4">현재 경기 정보</h2>
+      <h2 className="text-lg font-semibold mb-4">참가 팀</h2>
       <div className="space-y-2">
         {/* 예시로 매치업 리스트 */}
-        {teamList.map((value) => (
-          <div className="flex items-center justify-between">
-            <span className="font-medium">@playerA</span>
-            <span className="text-sm text-gray-500">vs</span>
-            <span className="font-medium">@playerB</span>
+        {teamList.map((team) => (
+          <div className="flex items-center justify-start gap-4">
+            <span className="font-medium">{team.team_list_name}</span>
+            <span className="text-sm" style={{ color: team.team_list_color }}>
+              {team.team_list_short_name}
+            </span>
+            <img
+              src={team.team_list_emblem}
+              alt="Team Emblem"
+              className="h-6 w-6"
+            />
           </div>
         ))}
       </div>

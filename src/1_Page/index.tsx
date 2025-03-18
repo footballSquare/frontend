@@ -31,7 +31,10 @@ const Page = () => {
         <Route path={PAGE_URI.RANKING} element={<Main />} />
         <Route path={`${PAGE_URI.PROFILE}/:userIdx`} element={<Profile />} />
         <Route path={PAGE_URI.FREEMATCH} element={<FreeMatch />} />
-        <Route path={PAGE_URI.CHAMPIONSHIP} element={<Championship />} />
+        <Route
+          path={`${PAGE_URI.CHAMPIONSHIP}/:championshipIdx`}
+          element={<Championship />}
+        />
       </Routes>
     </div>
   );
