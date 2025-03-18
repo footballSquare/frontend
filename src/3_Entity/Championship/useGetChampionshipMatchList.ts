@@ -6,7 +6,7 @@ import { mockChampionshipMatchList } from "../../4_Shared/mock/championshipInfo"
 
 const ITEMS_PER_PAGE = 5;
 
-const useGetChmpinshipMatchList = (
+const useGetChampionshipMatchList = (
   props: useGetChmpinshipMatchListProps
 ): [ChampionshipMatchList[], boolean, boolean] => {
   const { category, page } = props;
@@ -40,4 +40,4 @@ const useGetChmpinshipMatchList = (
   return [matchList, hasMoreContent, loading];
 };
 
-export default useGetChmpinshipMatchList;
+export default useGetChampionshipMatchList;
