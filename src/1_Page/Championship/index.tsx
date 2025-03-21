@@ -63,7 +63,7 @@ const Championship = () => {
       {/* 메인 컨텐츠 영역 */}
       <main className="px-4 py-8 grid grid-cols-1 lg:grid-cols-4 gap-4">
         {/* 출전 선수 목록 (왼쪽) */}
-        <ParticipationMembers />
+        <ParticipationMembers championshipIdx={championshipIdx} />
         {/* 팀 목록 */}
         <TeamList teamIdx={0} />
         {/* 매치 순위 */}
