@@ -1,11 +1,10 @@
+import React from "react";
 import useGetChampionshipInfo from "../../3_Entity/Championship/useGetChampionshipInfo";
 import trophy from "../../4_Shared/assets/img/trophy.jpg";
 import { matchType } from "../../4_Shared/constant/matchType";
 import { getTextColorFromBackground } from "../../4_Shared/lib/colorChecker";
 import useValidParamInteger from "../../4_Shared/model/useValidParamInteger";
-import MatchList from "./ui/MatchList";
-import ParticipationMembers from "./ui/ParticipationMembers";
-import TeamList from "./ui/TeamList";
+import DashBoard from "./ui/DashBoard";
 
 const Championship = () => {
   const isAdmin = true;
@@ -59,45 +58,7 @@ const Championship = () => {
           )}
         </div>
       </header>
-
-      {/* 메인 컨텐츠 영역 */}
-      <main className="px-4 py-8 grid grid-cols-1 lg:grid-cols-4 gap-4">
-        {/* 출전 선수 목록 (왼쪽) */}
-        <ParticipationMembers championshipIdx={championshipIdx} />
-        {/* 팀 목록 */}
-        <TeamList teamIdx={0} />
-        {/* 매치 순위 */}
-        {/* 매치 목록*/}
-        <MatchList championshipIdx={championshipIdx} />
-
-        {/* 대진표 영역 (오른쪽) */}
-        <section className="bg-white rounded-md shadow p-4 overflow-auto">
-          <h2 className="text-lg font-semibold mb-4">대진표</h2>
-          {/* 간단한 8강/16강 예시 (좌우 대진) */}
-          <div className="flex justify-center space-x-8">
-            {/* 왼쪽 대진 */}
-            <div className="space-y-2">
-              {[...Array(8)].map((_, i) => (
-                <div
-                  key={`left-slot-${i}`}
-                  className="w-32 h-10 bg-green-200 flex items-center justify-center rounded-md">
-                  <span className="text-sm">Left {i + 1}</span>
-                </div>
-              ))}
-            </div>
-            {/* 오른쪽 대진 */}
-            <div className="space-y-2">
-              {[...Array(8)].map((_, i) => (
-                <div
-                  key={`right-slot-${i}`}
-                  className="w-32 h-10 bg-green-200 flex items-center justify-center rounded-md">
-                  <span className="text-sm">Right {i + 1}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-      </main>
+      <DashBoard championshipIdx={championshipIdx} />
     </div>
   );
 };
