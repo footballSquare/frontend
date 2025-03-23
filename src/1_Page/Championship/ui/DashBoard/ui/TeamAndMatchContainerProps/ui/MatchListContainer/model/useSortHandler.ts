@@ -1,8 +1,9 @@
 import React from "react";
 import { SORT_OPTION } from "../constant/sortOption";
 
-const useSortHandler = (props: useSortHandlerProps): UseSortHandlerReturn => {
-  const { matchList } = props;
+const useSortHandler = (
+  matchList: useSortHandlerProps
+): UseSortHandlerReturn => {
   const [searchTerm, setSearchTerm] = React.useState<string>("");
   // 2. useState의 타입을 SORT_OPTION으로 변경
   const [sortOption, setSortOption] = React.useState<SORT_OPTION>(
