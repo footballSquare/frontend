@@ -6,9 +6,7 @@ import { convertMatchData } from "./util/convert";
 const MatchLineup = (props: MatchLineupProps) => {
   const { matchIdx } = props;
   const [isFormationView, setIsFormationView] = React.useState<boolean>(true);
-
   const [championshipDetail] = useGetChampionshipDetail(matchIdx);
-
   const { assignedFirst, assignedSecond } =
     convertMatchData(championshipDetail);
 
