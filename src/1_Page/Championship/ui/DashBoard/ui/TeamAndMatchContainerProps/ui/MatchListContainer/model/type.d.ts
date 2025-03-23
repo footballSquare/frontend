@@ -6,6 +6,4 @@ type UseSortHandlerReturn = {
   sortedMatches: ChampionshipMatchList[];
 };
 
-type useSortHandlerProps = {
-  matchList: ChampionshipMatchList[];
-};
+type useSortHandlerProps = ChampionshipMatchList[];
