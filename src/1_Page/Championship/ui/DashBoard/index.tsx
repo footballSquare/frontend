@@ -1,14 +1,15 @@
 import React from "react";
 import { navList } from "./constant/navList";
-import { calculateTeamStats } from "./util/cal";
+
+import { convertToLeague } from "./util/convertToLeague";
+import { convertToTournamentFormat } from "./util/convertToTournamentFormat";
 
 import MatchContainer from "./ui/MatchContainer";
 import ParticipationMembers from "./ui/ParticipationMembers";
-import TeamRankingLeagueTable from "./ui/TeamRankingLeagueTable";
-import TeamRangkingTornement from "./ui/TeamRangkingTornement";
+import LeagueBracket from "./ui/LeagueBracket";
+import TournamentBracket from "./ui/TournamentBracket";
 
 import useGetChampionshipMatchList from "../../../../3_Entity/Championship/useGetChampionshipMatchList";
-import { convertToTournamentFormat } from "./util/calTor";
 
 const DashBoard = (props: DashBoardProps) => {
   const { championshipIdx, isLeague } = props;
@@ -35,11 +36,9 @@ const DashBoard = (props: DashBoardProps) => {
         </div>
         <div className={activeTab === "teams" ? "block" : "hidden"}>
           {isLeague ? (
-            <TeamRankingLeagueTable teamStats={calculateTeamStats(matchList)} />
+            <LeagueBracket teamStats={convertToLeague(matchList)} />
           ) : (
-            <TeamRangkingTornement
-              rounds={convertToTournamentFormat(matchList)}
-            />
+            <TournamentBracket rounds={convertToTournamentFormat(matchList)} />
           )}
         </div>
         <div className={activeTab === "matches" ? "block" : "hidden"}>

@@ -9,14 +9,14 @@ export const TournamentBracket = (props: TournamentBracketProps) => {
         토너먼트 대진표
       </h1>
 
-      {/* 수평 레이아웃을 위한 컨테이너 */}
-      <div className="flex min-w-max">
+      {/* 반응형 크기 조정 */}
+      <div className="flex min-w-max justify-center md:scale-100 sm:scale-90 xs:scale-75 transition-all">
         {rounds.map((roundContnet) => (
           <div
             key={roundContnet.round}
             className="flex-shrink-0 px-4"
             style={{ width: "280px" }}>
-            {/* 라운드 제목 16, 8 ,4 등*/}
+            {/* 라운드 제목 16, 8 ,4 등 */}
             <div className="bg-blue-600 text-white py-2 px-4 rounded-t-lg text-center font-bold">
               {roundContnet.label}
             </div>

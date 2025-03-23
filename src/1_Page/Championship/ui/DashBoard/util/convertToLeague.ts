@@ -1,4 +1,4 @@
-export const calculateTeamStats = (
+export const convertToLeague = (
   matches: ChampionshipMatchList[]
 ): TeamStats[] => {
   const statsMap: { [teamId: number]: TeamStats } = {};

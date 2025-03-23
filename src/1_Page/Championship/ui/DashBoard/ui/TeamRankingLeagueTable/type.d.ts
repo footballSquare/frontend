@@ -1,3 +1,0 @@
-type TeamRankingLeagueTableProps = {
-  teamStats: TeamStats[];
-};
