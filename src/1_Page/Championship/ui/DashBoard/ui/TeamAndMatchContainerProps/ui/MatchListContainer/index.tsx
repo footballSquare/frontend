@@ -9,7 +9,7 @@ const MatchListContainer = (props: MatchListContainerProps) => {
     handleSearchChange,
     handleSortChange,
     sortedMatches,
-  } = useSortHandler(matchList);
+  } = useSortHandler({ matchList });
 
   return (
     <div className="w-full max-w-md mx-auto ">
