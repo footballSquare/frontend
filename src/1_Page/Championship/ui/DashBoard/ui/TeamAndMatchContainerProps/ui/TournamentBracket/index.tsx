@@ -10,7 +10,7 @@ export const TournamentBracket = (props: TournamentBracketProps) => {
       </h1>
 
       {/* 반응형 크기 조정 */}
-      <div className="flex min-w-max justify-center md:scale-100 sm:scale-90 xs:scale-75 transition-all">
+      <div className="flex min-w-max justify-center md:scale-100 sm:scale-90 xs:scale-75 transition-all overflow-x-auto">
         {rounds.map((roundContnet) => (
           <div
             key={roundContnet.round}

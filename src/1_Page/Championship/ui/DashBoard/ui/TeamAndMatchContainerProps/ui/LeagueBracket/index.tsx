@@ -7,8 +7,8 @@ const LeagueBracket = (props: LeagueBracketProps) => {
   const [showAllTeams, setShowAllTeams] = React.useState(false);
 
   return (
-    <div className="py-4 bg-gradient-to-r from-slate-50 to-slate-100 rounded-xl">
-      <table className="w-full border-collapse rounded-lg overflow-hidden">
+    <div className="py-4 bg-gradient-to-r from-slate-50 to-slate-100 rounded-xl overflow-x-auto">
+      <table className="w-full border-collapse rounded-lg overflow-hidden min-w-[600px]">
         <thead>
           <tr className="bg-gradient-to-r from-blue-700 to-blue-600 text-white text-left">
             <th className="px-6 py-4 font-semibold text-sm md:text-base">
