@@ -9,6 +9,7 @@ const Championship = () => {
   const isAdmin = true;
   const [championshipIdx] = useValidParamInteger("championshipIdx");
   const [championshipInfo] = useGetChampionshipInfo(championshipIdx);
+  const isLeague = championshipInfo.championship_type_name === "리그";
 
   return (
     <div className="min-h-screen w-full bg-gray-100 text-gray-800">
@@ -63,7 +64,7 @@ const Championship = () => {
           )}
         </div>
       </header>
-      <DashBoard championshipIdx={championshipIdx} />
+      <DashBoard championshipIdx={championshipIdx} isLeague={isLeague} />
     </div>
   );
 };
