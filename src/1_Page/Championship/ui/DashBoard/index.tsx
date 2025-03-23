@@ -2,7 +2,7 @@ import React from "react";
 import { navList } from "./constant/navList";
 import { calculateTeamStats } from "./util/cal";
 
-import MatchList from "./ui/MatchList";
+import MatchContainer from "./ui/MatchContainer";
 import ParticipationMembers from "./ui/ParticipationMembers";
 import TeamRankingLeagueTable from "./ui/TeamRankingLeagueTable";
 import TeamRangkingTornement from "./ui/TeamRangkingTornement";
@@ -43,7 +43,7 @@ const DashBoard = (props: DashBoardProps) => {
           )}
         </div>
         <div className={activeTab === "matches" ? "block" : "hidden"}>
-          <MatchList matchList={matchList} />
+          <MatchContainer matchList={matchList} />
         </div>
       </main>
     </div>
