@@ -1,11 +1,8 @@
-import useGetChampionshipMatchList from "../../../../../../3_Entity/Championship/useGetChampionshipMatchList";
 import MatchCard from "./ui/MatchCard";
-
 import { MatchListProps } from "./type";
 
 const MatchList = (props: MatchListProps) => {
-  const { championshipIdx } = props;
-  const [matchList] = useGetChampionshipMatchList(championshipIdx);
+  const { matchList } = props;
 
   return (
     <div className="w-full max-w-md mx-auto ">
