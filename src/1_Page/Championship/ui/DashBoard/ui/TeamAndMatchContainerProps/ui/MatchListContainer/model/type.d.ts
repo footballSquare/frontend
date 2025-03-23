@@ -5,3 +5,7 @@ type UseSortHandlerReturn = {
   handleSortChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
   sortedMatches: ChampionshipMatchList[];
 };
+
+type useSortHandlerProps = {
+  matchList: ChampionshipMatchList[];
+};
