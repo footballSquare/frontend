@@ -4,9 +4,9 @@
  * 2) 그 순서대로 Flat 배열 생성
  * 3) 각 라운드별로 분할하여 { round, label, matches }[] 형태로 반환
  */
-export function convertToTournamentFormat(
+export const convertToTournamentFormat = (
   props: ChampionshipMatchList[]
-): TournamentData[] {
+): TournamentData[] => {
   const matches = props;
 
   // 1) 팀 등장 횟수로 라운드를 분류 → Flat 배열 만들기
@@ -118,4 +118,4 @@ export function convertToTournamentFormat(
 
   // 최종 반환: [{ round: 1, label: '16강', matches: [...] }, { round: 2, label: '8강', ... }, ... ]
   return result;
-}
+};

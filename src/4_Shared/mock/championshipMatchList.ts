@@ -269,6 +269,8 @@ export const mockChampionshipMatchTor = {
         team_list_color: "#C91A09",
         team_list_emblem: trophy,
         match_team_stats_our_score: 2,
+        match_team_stats_other_score: 1,
+
         common_status_idx: 4,
       },
       championship_match_second: {
@@ -278,6 +280,8 @@ export const mockChampionshipMatchTor = {
         team_list_color: "#004A99",
         team_list_emblem: trophy,
         match_team_stats_our_score: 1,
+        match_team_stats_other_score: 2,
+
         common_status_idx: 4,
       },
     },
@@ -290,6 +294,8 @@ export const mockChampionshipMatchTor = {
         team_list_color: "#0033A0",
         team_list_emblem: trophy,
         match_team_stats_our_score: 1,
+        match_team_stats_other_score: 3,
+
         common_status_idx: 4,
       },
       championship_match_second: {
@@ -299,6 +305,8 @@ export const mockChampionshipMatchTor = {
         team_list_color: "#101C54",
         team_list_emblem: trophy,
         match_team_stats_our_score: 3,
+        match_team_stats_other_score: 1,
+
         common_status_idx: 4,
       },
     },
@@ -311,6 +319,8 @@ export const mockChampionshipMatchTor = {
         team_list_color: "#E4002B",
         team_list_emblem: trophy,
         match_team_stats_our_score: 2,
+        match_team_stats_other_score: 0,
+
         common_status_idx: 4,
       },
       championship_match_second: {
@@ -320,6 +330,8 @@ export const mockChampionshipMatchTor = {
         team_list_color: "#A30B37",
         team_list_emblem: trophy,
         match_team_stats_our_score: 0,
+        match_team_stats_other_score: 2,
+
         common_status_idx: 4,
       },
     },
@@ -332,6 +344,8 @@ export const mockChampionshipMatchTor = {
         team_list_color: "#C8102E",
         team_list_emblem: trophy,
         match_team_stats_our_score: 1,
+        match_team_stats_other_score: 2,
+
         common_status_idx: 4,
       },
       championship_match_second: {
@@ -341,6 +355,8 @@ export const mockChampionshipMatchTor = {
         team_list_color: "#E41E24",
         team_list_emblem: trophy,
         match_team_stats_our_score: 2,
+        match_team_stats_other_score: 1,
+
         common_status_idx: 4,
       },
     },
@@ -355,6 +371,8 @@ export const mockChampionshipMatchTor = {
         team_list_color: "#C91A09",
         team_list_emblem: trophy,
         match_team_stats_our_score: 2,
+        match_team_stats_other_score: 3,
+
         common_status_idx: 4,
       },
       championship_match_second: {
@@ -364,6 +382,8 @@ export const mockChampionshipMatchTor = {
         team_list_color: "#101C54",
         team_list_emblem: trophy,
         match_team_stats_our_score: 3,
+        match_team_stats_other_score: 2,
+
         common_status_idx: 4,
       },
     },
@@ -376,6 +396,8 @@ export const mockChampionshipMatchTor = {
         team_list_color: "#E4002B",
         team_list_emblem: trophy,
         match_team_stats_our_score: 1,
+        match_team_stats_other_score: 2,
+
         common_status_idx: 4,
       },
       championship_match_second: {
@@ -385,6 +407,8 @@ export const mockChampionshipMatchTor = {
         team_list_color: "#E41E24",
         team_list_emblem: trophy,
         match_team_stats_our_score: 2,
+        match_team_stats_other_score: 1,
+
         common_status_idx: 4,
       },
     },
@@ -399,6 +423,8 @@ export const mockChampionshipMatchTor = {
         team_list_color: "#101C54",
         team_list_emblem: trophy,
         match_team_stats_our_score: 3,
+        match_team_stats_other_score: 2,
+
         common_status_idx: 4,
       },
       championship_match_second: {
@@ -408,6 +434,8 @@ export const mockChampionshipMatchTor = {
         team_list_color: "#E41E24",
         team_list_emblem: trophy,
         match_team_stats_our_score: 2,
+        match_team_stats_other_score: 3,
+
         common_status_idx: 4,
       },
     },

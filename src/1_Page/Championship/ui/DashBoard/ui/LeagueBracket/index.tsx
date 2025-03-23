@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 
-const TeamRankingLeagueTable = (props: TeamRankingLeagueTableProps) => {
+const LeagueBracket = (props: LeagueBracketProps) => {
   const { teamStats } = props;
   const navigate = useNavigate();
   return (
@@ -60,8 +60,10 @@ const TeamRankingLeagueTable = (props: TeamRankingLeagueTableProps) => {
                       className="w-8 h-8 object-contain"
                     />
                   </div>
-                  <span className="font-medium text-gray-800">
-                    {team.team_list_short_name}
+                  <span className="font-medium">
+                    {team.team_list_name.length < 12
+                      ? team.team_list_name
+                      : team.team_list_short_name}
                   </span>
                 </div>
               </td>
@@ -103,4 +105,4 @@ const TeamRankingLeagueTable = (props: TeamRankingLeagueTableProps) => {
   );
 };
 
-export default TeamRankingLeagueTable;
+export default LeagueBracket;
