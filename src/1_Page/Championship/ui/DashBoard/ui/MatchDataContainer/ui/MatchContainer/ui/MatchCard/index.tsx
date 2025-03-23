@@ -1,4 +1,4 @@
-import { matchState } from "../../../../../../../../4_Shared/constant/matchState";
+import { matchState } from "../../../../../../../../../../4_Shared/constant/matchState";
 
 const MatchCard = (props: MatchCardProps) => {
   const { match, index } = props;
