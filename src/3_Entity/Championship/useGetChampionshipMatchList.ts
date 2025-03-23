@@ -1,7 +1,10 @@
 import React from "react";
 import { ChampionshipMatchList } from "./types/response";
 import { useFetch } from "../../4_Shared/util/apiUtil";
-import { mockChampionshipMatchList } from "../../4_Shared/mock/championshipMatchList";
+import {
+  mockChampionshipMatchList,
+  mockChampionshipMatchTor,
+} from "../../4_Shared/mock/championshipMatchList";
 
 const useGetChampionshipMatchList = (
   championshipListIdx: number
@@ -12,7 +15,7 @@ const useGetChampionshipMatchList = (
   );
 
   React.useEffect(() => {
-    request(mockChampionshipMatchList);
+    request(mockChampionshipMatchTor);
     console.log(championshipListIdx);
   }, []);
 

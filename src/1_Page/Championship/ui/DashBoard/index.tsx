@@ -1,18 +1,20 @@
 import React from "react";
 import { DashBoardProps } from "./type";
+import { navList } from "./constant/navList";
+import { calculateTeamStats } from "./util/cal";
+
 import MatchList from "./ui/MatchList";
 import ParticipationMembers from "./ui/ParticipationMembers";
-import { navList } from "./constant/navList";
+import TeamRankingLeagueTable from "./ui/TeamRankingLeagueTable";
+import TeamRangkingTornement from "./ui/TeamRangkingTornement";
+
 import useGetChampionshipMatchList from "../../../../3_Entity/Championship/useGetChampionshipMatchList";
-import { calculateTeamStats } from "./util/cal";
-import TeamRankingLeagueTable from "./ui/TeamRanking";
+import { convertToTournamentFormat } from "./util/calTor";
 
 const DashBoard = (props: DashBoardProps) => {
-  const { championshipIdx } = props;
+  const { championshipIdx, isLeague } = props;
   const [activeTab, setActiveTab] = React.useState("players");
-
   const [matchList] = useGetChampionshipMatchList(championshipIdx);
-  const teamStats = calculateTeamStats(matchList);
 
   return (
     <div className="w-full p-4">
@@ -33,7 +35,13 @@ const DashBoard = (props: DashBoardProps) => {
           <ParticipationMembers championshipIdx={championshipIdx} />
         </div>
         <div className={activeTab === "teams" ? "block" : "hidden"}>
-          <TeamRankingLeagueTable teamStats={teamStats} />
+          {!isLeague ? (
+            <TeamRankingLeagueTable teamStats={calculateTeamStats(matchList)} />
+          ) : (
+            <TeamRangkingTornement
+              rounds={convertToTournamentFormat(matchList)}
+            />
+          )}
         </div>
         <div className={activeTab === "matches" ? "block" : "hidden"}>
           <MatchList matchList={matchList} />
