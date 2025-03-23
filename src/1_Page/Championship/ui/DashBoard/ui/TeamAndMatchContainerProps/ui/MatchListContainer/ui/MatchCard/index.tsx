@@ -1,13 +1,14 @@
 import { matchState } from "../../../../../../../../../../4_Shared/constant/matchState";
 
 const MatchCard = (props: MatchCardProps) => {
-  const { match, index, handleSelect } = props;
+  const { match, index, selectedIdx, handleSelect } = props;
   const home = match.championship_match_first;
   const away = match.championship_match_second;
   const status = matchState[home.common_status_idx] || "";
 
   // 경기 종료 여부 (common_status_idx === 4)
   const isFinished = home.common_status_idx === 4;
+  const isSelected = selectedIdx === match.championship_match_idx;
 
   return (
     <li
@@ -18,16 +19,17 @@ const MatchCard = (props: MatchCardProps) => {
       isFinished
         ? "bg-gray-600 text-white hover:bg-gray-700"
         : "bg-white text-gray-800 hover:bg-gray-100"
-    }`}>
+    }
+    ${isSelected ? "border-4 border-blue-600 bg-blue-100 shadow-xl" : ""}`}>
       {/* 팀 명 및 점수 */}
-      <div className="flex items-center justify-between">
-        <span className="font-medium">
+      <div className="flex items-center justify-between w-full">
+        <span className="font-medium w-[40%] overflow-hidden text-ellipsis whitespace-nowrap text-left">
           {home.team_list_name.length < 10
             ? home.team_list_name
             : home.team_list_short_name}
         </span>
         <span
-          className={`mx-2 px-4 py-1 rounded-full font-bold border
+          className={`mx-2 px-4 py-1 rounded-full font-bold border flex-grow-0 flex-shrink-0 text-center w-[80px]
     ${
       isFinished
         ? "border-white bg-gray-700 text-white"
@@ -35,7 +37,7 @@ const MatchCard = (props: MatchCardProps) => {
     }`}>
           {home.match_team_stats_our_score} - {away.match_team_stats_our_score}
         </span>
-        <span className="font-medium">
+        <span className="font-medium w-[40%] overflow-hidden text-ellipsis whitespace-nowrap text-right">
           {away.team_list_name.length < 10
             ? away.team_list_name
             : away.team_list_short_name}

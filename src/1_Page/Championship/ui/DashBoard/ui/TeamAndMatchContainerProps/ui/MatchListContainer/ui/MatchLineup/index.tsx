@@ -20,7 +20,7 @@ const renderTeamSection = (
         {players.map((player, idx) => (
           <div key={`lineup-${idx}`} className="relative group p-2 border-b">
             <div className="text-sm">{player.player_list_nickname}</div>
-            <div className="absolute left-full top-0 ml-2 p-2 bg-white border shadow text-xs hidden group-hover:block whitespace-nowrap z-10">
+            <div className="absolute left-full top-0 ml-2 p-2 bg-white border text-xs hidden group-hover:block whitespace-nowrap z-10">
               <div>Goal: {player.match_player_stats_goal}</div>
               <div>Assist: {player.match_player_stats_assist}</div>
               <div>Pass: {player.match_player_stats_successrate_pass}</div>
@@ -37,7 +37,7 @@ const renderTeamSection = (
     {/* 팀 포메이션 */}
 
     <div
-      className={`relative w-full h-[600px] sm :h-auto bg-green-600 rounded-md  ${
+      className={`relative w-full sm:w-[350px] sm:h-[600px] h-auto bg-green-600 rounded-md ${
         !isFormationView ? "hidden sm:block" : "relative"
       }`}>
       {assignedPositions.map((player, idx) => (

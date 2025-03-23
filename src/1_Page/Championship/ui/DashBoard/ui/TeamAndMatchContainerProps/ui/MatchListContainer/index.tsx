@@ -41,6 +41,7 @@ const MatchListContainer = (props: MatchListContainerProps) => {
         <ul className="space-y-3 w-full max-h-[470px] overflow-y-scroll overflow-x-hidden cursor-pointer flex flex-col items-center">
           {sortedMatches.map((match, index) => (
             <MatchCard
+              selectedIdx={selectedIdx}
               handleSelect={handleSelect}
               match={match}
               index={index}
@@ -50,7 +51,7 @@ const MatchListContainer = (props: MatchListContainerProps) => {
       </div>
 
       {/* MatchLineup (반응형 적용) */}
-      <div className="flex-1 min-h-[500px] bg-gray-100 p-4 rounded-lg shadow-md overflow-x-auto md:overflow-visible">
+      <div className="flex-1 min-h-[500px] bg-gray-100 p-4 overflow-x-auto md:overflow-visible">
         <MatchLineup matchIdx={selectedIdx} />
       </div>
     </div>
