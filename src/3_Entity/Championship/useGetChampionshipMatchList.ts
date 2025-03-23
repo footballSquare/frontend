@@ -1,7 +1,7 @@
 import React from "react";
 import { ChampionshipMatchList } from "./types/response";
 import { useFetch } from "../../4_Shared/util/apiUtil";
-import { mockChampionshipMatchList } from "../../4_Shared/mock/championshipInfo";
+import { mockChampionshipMatchList } from "../../4_Shared/mock/championshipMatchList";
 
 const useGetChampionshipMatchList = (
   championshipListIdx: number
