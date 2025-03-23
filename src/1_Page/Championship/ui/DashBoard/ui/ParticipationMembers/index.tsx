@@ -1,5 +1,4 @@
 import useGetPlayerStats from "../../../../../../3_Entity/Championship/useGetPlayerStats";
-import { ParticipationMembersProps } from "./type";
 
 import MemberCard from "./ui/MemberCard";
 

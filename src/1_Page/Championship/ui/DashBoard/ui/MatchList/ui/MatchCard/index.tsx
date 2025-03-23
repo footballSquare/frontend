@@ -1,5 +1,4 @@
 import { matchState } from "../../../../../../../../4_Shared/constant/matchState";
-import { MatchCardProps } from "./type";
 
 const MatchCard = (props: MatchCardProps) => {
   const { match, index } = props;

@@ -1,4 +1,4 @@
-export type MatchCardProps = {
+type MatchCardProps = {
   match: ChampionshipMatchList;
   index: number;
 };

@@ -1,3 +1,3 @@
-export type ParticipationMembersProps = {
+type ParticipationMembersProps = {
   championshipIdx: number;
 };

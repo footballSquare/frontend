@@ -1,12 +1,5 @@
-import { ChampionshipMatchList } from "../../../../../../3_Entity/Championship/types/response";
+import { TournamentBracketProps } from "./type";
 
-export type TournamentBracketProps = {
-  rounds: {
-    round: number;
-    label: string;
-    matches: ChampionshipMatchList[];
-  }[];
-};
 export const TournamentBracket = (props: TournamentBracketProps) => {
   const { rounds } = props;
 
@@ -23,7 +16,7 @@ export const TournamentBracket = (props: TournamentBracketProps) => {
             key={roundObj.round}
             className="flex-shrink-0 px-4"
             style={{ width: "280px" }}>
-            {/* 라운드 제목 */}
+            {/* 라운드 제목 16, 8 ,4 등*/}
             <div className="bg-blue-600 text-white py-2 px-4 rounded-t-lg text-center font-bold">
               {roundObj.label}
             </div>

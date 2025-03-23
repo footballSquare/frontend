@@ -1,6 +1,3 @@
-import { TeamStats } from "../ui/MatchList/type";
-import { ChampionshipMatchList } from "../../../../../3_Entity/Championship/types/response";
-
 export const calculateTeamStats = (
   matches: ChampionshipMatchList[]
 ): TeamStats[] => {

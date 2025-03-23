@@ -1,5 +1,3 @@
-import { ChampionshipMatchList } from "../../../../../3_Entity/Championship/types/response";
-
 /**
  * 무작위 순서의 `ChampionshipMatchList[]`를 받아,
  * 1) 팀 등장 횟수로 16강/8강/4강/2강/결승 라운드 파악
@@ -7,9 +5,10 @@ import { ChampionshipMatchList } from "../../../../../3_Entity/Championship/type
  * 3) 각 라운드별로 분할하여 { round, label, matches }[] 형태로 반환
  */
 export function convertToTournamentFormat(
-  matches: ChampionshipMatchList[]
-): { round: number; label: string; matches: ChampionshipMatchList[] }[] {
-  // ----------------------------
+  props: ChampionshipMatchList[]
+): TournamentData[] {
+  const matches = props;
+
   // 1) 팀 등장 횟수로 라운드를 분류 → Flat 배열 만들기
   // ----------------------------
   const rounds: { [key: number]: ChampionshipMatchList[] } = {

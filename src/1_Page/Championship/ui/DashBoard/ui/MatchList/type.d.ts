@@ -1,8 +1,8 @@
-export type MatchListProps = {
+type MatchListProps = {
   matchList: ChampionshipMatchList[];
 };
 
-export type TeamStats = {
+type TeamStats = {
   team_list_idx: number;
   team_list_name: string;
   team_list_short_name: string;

@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router-dom";
-import { TeamRankingLeagueTableProps } from "./type";
 
 const TeamRankingLeagueTable = (props: TeamRankingLeagueTableProps) => {
   const { teamStats } = props;
