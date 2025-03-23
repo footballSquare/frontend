@@ -1,6 +1,6 @@
 import React from "react";
 import { useFetch } from "../../4_Shared/util/apiUtil.ts";
-import { mockChampionshipDetail } from "../../4_Shared/mock/championshipInfo.ts";
+import { mockChampionshipDetail } from "../../4_Shared/mock/chmpionshipDetail.ts";
 
 const useGetChampionshipDetail = (
   championshipInfoIdx: number
