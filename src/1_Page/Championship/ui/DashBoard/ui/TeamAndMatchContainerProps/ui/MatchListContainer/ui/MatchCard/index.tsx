@@ -1,7 +1,7 @@
 import { matchState } from "../../../../../../../../../../4_Shared/constant/matchState";
 
 const MatchCard = (props: MatchCardProps) => {
-  const { match, index } = props;
+  const { match, index, handleSelect } = props;
   const home = match.championship_match_first;
   const away = match.championship_match_second;
   const status = matchState[home.common_status_idx] || "";
@@ -11,6 +11,7 @@ const MatchCard = (props: MatchCardProps) => {
 
   return (
     <li
+      onClick={() => handleSelect(match.championship_match_idx)}
       key={`match-list-${index}`}
       className={`flex flex-col w-[90%] rounded-lg p-4 shadow-lg transition-transform transform hover:scale-[1.03]
     ${
