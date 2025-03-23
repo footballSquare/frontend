@@ -10,7 +10,7 @@ export const TournamentBracket = (props: TournamentBracketProps) => {
       </h1>
 
       {/* 수평 레이아웃을 위한 컨테이너 */}
-      <div className="flex min-w-max pb-6">
+      <div className="flex min-w-max">
         {rounds.map((roundContnet) => (
           <div
             key={roundContnet.round}
