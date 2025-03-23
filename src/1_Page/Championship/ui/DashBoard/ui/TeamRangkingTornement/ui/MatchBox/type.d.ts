@@ -1,0 +1,3 @@
+type MatchBoxProps = {
+  match: ChampionshipMatchList;
+};
