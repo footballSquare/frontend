@@ -2,7 +2,6 @@ import React from "react";
 import { DashBoardProps } from "./type";
 import MatchList from "./ui/MatchList";
 import ParticipationMembers from "./ui/ParticipationMembers";
-import TeamList from "./ui/TeamList";
 import { navList } from "./constant/navList";
 import useGetChampionshipMatchList from "../../../../3_Entity/Championship/useGetChampionshipMatchList";
 import { calculateTeamStats } from "./util/cal";

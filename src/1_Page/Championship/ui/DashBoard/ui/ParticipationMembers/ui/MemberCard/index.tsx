@@ -16,12 +16,15 @@ const PlayerStatsTable = (props: PlayerStatsTableProps) => {
   return (
     <tr
       key={index}
-      className={`text-center transition-all duration-300 group cursor-pointer ${
+      className={`text-center transition-all duration-300 group ${
         index % 2 === 0 ? "bg-gray-50" : "bg-white"
-      } text-xs md:text-sm border-b border-gray-200 hover:bg-blue-50 hover:scale-[1.01]`}
-      onClick={() => navigate(`/profile/${player.player_list_idx}`)}>
+      } text-xs md:text-sm border-b border-gray-200 hover:bg-blue-50 hover:scale-[1.01]`}>
       <td className="px-3 py-3 font-medium">
-        <div className="flex items-center space-x-2">
+        <div
+          className="flex items-center space-x-2 cursor-pointer"
+          onClick={() => {
+            navigate(`/profile/${player.player_list_idx}`);
+          }}>
           <div className="relative">
             <img
               src={player.match_player_stats_evidence_img}
