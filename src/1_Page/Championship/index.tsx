@@ -47,12 +47,18 @@ const Championship = () => {
             {matchType[championshipInfo.match_type_idx]}
           </p>
         </div>
-        <div className="w-[40%] text-inherit flex justify-between gap-4 sm:w-[69%] ">
-          <p>{championshipInfo.championship_list_description}</p>
+        <div className="w-[69%] flex flex-col sm:flex-row justify-between items-start gap-4">
+          <p className="text-inherit flex-1">
+            {championshipInfo.championship_list_description}
+          </p>
           {isAdmin && (
-            <div>
-              <button>대회 수정</button>
-              <button>대회 마감</button>
+            <div className="flex gap-2">
+              <button className="px-3 py-2 border border-gray-300 rounded hover:bg-gray-100">
+                대회 수정
+              </button>
+              <button className="px-3 py-2 border border-gray-300 rounded hover:bg-gray-100">
+                대회 마감
+              </button>
             </div>
           )}
         </div>
