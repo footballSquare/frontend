@@ -1,5 +1,4 @@
 import React from "react";
-import { DashBoardProps } from "./type";
 import { navList } from "./constant/navList";
 import { calculateTeamStats } from "./util/cal";
 

@@ -1,5 +1,4 @@
 import React from "react";
-import { ChampionshipDetail } from "./types/response.ts";
 import { useFetch } from "../../4_Shared/util/apiUtil.ts";
 import { mockChampionshipDetail } from "../../4_Shared/mock/championshipInfo.ts";
 

@@ -1,4 +1,4 @@
-export type ChampionshipInfo = {
+type ChampionshipInfo = {
   championship_type_name: string;
   championship_list_name: string;
   championship_list_description: string;
@@ -14,7 +14,7 @@ export type ChampionshipInfo = {
   winner_team_color: string | null;
 };
 
-export type ChampionshipTeamInfo = {
+type ChampionshipTeamInfo = {
   team_list_idx: number;
   team_list_name: string;
   team_list_short_name: string;
@@ -22,7 +22,7 @@ export type ChampionshipTeamInfo = {
   team_list_emblem: string;
 };
 
-export type ChampionshipMatchList = {
+type ChampionshipMatchList = {
   championship_match_idx: number;
   championship_match_first: {
     team_list_idx: number;
@@ -48,7 +48,7 @@ export type ChampionshipMatchList = {
   };
 };
 
-export type ChampionshipDetail = {
+type ChampionshipDetail = {
   championship_match_idx: number;
   championship_list_idx: number;
   match_info: {
@@ -131,7 +131,7 @@ export type ChampionshipDetail = {
   };
 };
 
-export type EvidenceImage = {
+type EvidenceImage = {
   championship_match_idx: number;
   first_match_idx: number;
   second_match_idx: number;
@@ -153,7 +153,7 @@ export type EvidenceImage = {
   }[];
 };
 
-export type PlayerStats = {
+type PlayerStats = {
   match_player_stats_idx: number;
   player_list_nickname: string;
   match_player_stats_goal: number;

@@ -1,0 +1,1 @@
+type TournamentBracketProps = { rounds: TournamentData[] };

@@ -1,5 +1,4 @@
 import MatchCard from "./ui/MatchCard";
-import { MatchListProps } from "./type";
 
 const MatchList = (props: MatchListProps) => {
   const { matchList } = props;

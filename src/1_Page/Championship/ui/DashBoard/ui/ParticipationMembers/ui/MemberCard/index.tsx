@@ -2,7 +2,6 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { createPortal } from "react-dom";
 
-import { PlayerStatsTableProps } from "./type";
 import denide from "../../../../../../../../4_Shared/assets/svg/denied.svg";
 import plus from "../../../../../../../../4_Shared/assets/svg/plus.svg";
 
