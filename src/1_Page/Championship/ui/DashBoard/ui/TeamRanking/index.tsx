@@ -52,7 +52,7 @@ const TeamRankingLeagueTable = (props: TeamRankingLeagueTableProps) => {
               </td>
               <td className="px-6 py-4">
                 <div
-                  className="flex items-center gap-4"
+                  className="flex items-center gap-4 cursor-pointer"
                   onClick={() => navigate(`/team/${team.team_list_idx}`)}>
                   <div className="w-10 h-10 rounded-full bg-white p-1 shadow-sm flex items-center justify-center">
                     <img
