@@ -1,10 +1,4 @@
-import React from "react";
 import { ChampionshipMatchList } from "../../../../../../3_Entity/Championship/types/response";
-
-/**
- * 평면 배열의 경기를 라운드별로 분할하여
- * [{ round: 1, label: "16강", matches: [...] }, ...] 형태로 반환
- */
 
 export type TournamentBracketProps = {
   rounds: {
@@ -15,10 +9,6 @@ export type TournamentBracketProps = {
 };
 export const TournamentBracket = (props: TournamentBracketProps) => {
   const { rounds } = props;
-  // 2) roundData 개수를 확인
-  const totalRounds = rounds.length;
-  // 예: 8강 -> 3라운드 (8강,4강,결승)
-  //     16강 -> 4라운드 ...
 
   return (
     <div className="p-6 bg-gradient-to-r from-blue-50 to-slate-50 rounded-lg overflow-x-auto">
@@ -28,7 +18,7 @@ export const TournamentBracket = (props: TournamentBracketProps) => {
 
       {/* 수평 레이아웃을 위한 컨테이너 */}
       <div className="flex min-w-max pb-6">
-        {rounds.map((roundObj, roundIdx) => (
+        {rounds.map((roundObj) => (
           <div
             key={roundObj.round}
             className="flex-shrink-0 px-4"
@@ -56,11 +46,6 @@ export const TournamentBracket = (props: TournamentBracketProps) => {
 
                 return (
                   <div key={match.championship_match_idx} className="relative">
-                    {/* 연결선 (다음 라운드로) */}
-                    {roundIdx < totalRounds - 1 && (
-                      <div className="absolute -right-4 top-1/2 w-8 h-px bg-blue-300" />
-                    )}
-
                     {/* 현재 라운드 매치카드 */}
                     <div className="border border-gray-200 rounded-lg overflow-hidden shadow-md bg-white">
                       {/* 매치 헤더 */}

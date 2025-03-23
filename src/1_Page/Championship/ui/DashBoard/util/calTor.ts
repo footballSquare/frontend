@@ -96,17 +96,18 @@ export function convertToTournamentFormat(
     startIndex += matchesInThisRound;
 
     // 라벨 (ex. 16강, 8강, 4강, 결승)
-    const roundIndex = r + 1;
-    const isLastRound = roundIndex === totalRounds;
-    const isSemiFinal = roundIndex === totalRounds - 1;
+    const roundIndex = r + 1; // 1부터 시작하는 라운드 인덱스
     let label = "";
-    if (isLastRound) {
+
+    // 🔹 **수정된 `remainingTeams` 계산법**
+    const remainingTeams = Math.pow(2, totalRounds - roundIndex + 1);
+
+    if (remainingTeams === 2) {
       label = "결승";
-    } else if (isSemiFinal) {
+    } else if (remainingTeams === 4) {
       label = "준결승";
     } else {
-      const roundTeamCount = Math.pow(2, totalRounds - roundIndex);
-      label = `${roundTeamCount}강`;
+      label = `${remainingTeams}강`;
     }
 
     result.push({
