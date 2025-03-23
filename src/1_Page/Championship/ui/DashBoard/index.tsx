@@ -34,7 +34,7 @@ const DashBoard = (props: DashBoardProps) => {
           <ParticipationMembers championshipIdx={championshipIdx} />
         </div>
         <div className={activeTab === "teams" ? "block" : "hidden"}>
-          {!isLeague ? (
+          {isLeague ? (
             <TeamRankingLeagueTable teamStats={calculateTeamStats(matchList)} />
           ) : (
             <TeamRangkingTornement
