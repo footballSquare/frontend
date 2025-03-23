@@ -1,20 +1,12 @@
 import React from "react";
 import { navList } from "./constant/navList";
 
-import { convertToLeague } from "./util/convertToLeague";
-import { convertToTournamentFormat } from "./util/convertToTournamentFormat";
-
-import MatchContainer from "./ui/MatchContainer";
 import ParticipationMembers from "./ui/ParticipationMembers";
-import LeagueBracket from "./ui/LeagueBracket";
-import TournamentBracket from "./ui/TournamentBracket";
-
-import useGetChampionshipMatchList from "../../../../3_Entity/Championship/useGetChampionshipMatchList";
+import MatchDataContainer from "./ui/MatchDataContainer";
 
 const DashBoard = (props: DashBoardProps) => {
   const { championshipIdx, isLeague } = props;
   const [activeTab, setActiveTab] = React.useState("players");
-  const [matchList] = useGetChampionshipMatchList(championshipIdx);
 
   return (
     <div className="w-full p-4">
@@ -34,16 +26,11 @@ const DashBoard = (props: DashBoardProps) => {
         <div className={activeTab === "players" ? "block" : "hidden"}>
           <ParticipationMembers championshipIdx={championshipIdx} />
         </div>
-        <div className={activeTab === "teams" ? "block" : "hidden"}>
-          {isLeague ? (
-            <LeagueBracket teamStats={convertToLeague(matchList)} />
-          ) : (
-            <TournamentBracket rounds={convertToTournamentFormat(matchList)} />
-          )}
-        </div>
-        <div className={activeTab === "matches" ? "block" : "hidden"}>
-          <MatchContainer matchList={matchList} />
-        </div>
+        <MatchDataContainer
+          isLeague={isLeague}
+          championshipIdx={championshipIdx}
+          activeTab={activeTab}
+        />
       </main>
     </div>
   );
