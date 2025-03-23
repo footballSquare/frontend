@@ -1,7 +1,7 @@
 import useSortHandler from "./model/useSortHandler";
 import MatchCard from "./ui/MatchCard";
 
-const MatchContainer = (props: MatchListProps) => {
+const MatchListContainer = (props: MatchListContainerProps) => {
   const { matchList } = props;
   const {
     searchTerm,
@@ -46,4 +46,4 @@ const MatchContainer = (props: MatchListProps) => {
   );
 };
 
-export default MatchContainer;
+export default MatchListContainer;

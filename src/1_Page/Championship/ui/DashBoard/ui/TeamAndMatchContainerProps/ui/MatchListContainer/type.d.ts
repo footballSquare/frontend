@@ -1,4 +1,4 @@
-type MatchListProps = {
+type MatchListContainerProps = {
   matchList: ChampionshipMatchList[];
 };
 

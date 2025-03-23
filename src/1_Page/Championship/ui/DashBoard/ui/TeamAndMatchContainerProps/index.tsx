@@ -3,27 +3,28 @@ import { convertToTournamentFormat } from "./util/convertToTournamentFormat";
 
 import LeagueBracket from "./ui/LeagueBracket";
 import TournamentBracket from "./ui/TournamentBracket";
-import MatchContainer from "./ui/MatchContainer";
+import MatchListContainer from "./ui/MatchListContainer";
 
 import useGetChampionshipMatchList from "../../../../../../3_Entity/Championship/useGetChampionshipMatchList";
+import { ACTIVE_TAB } from "../../constant/activeTab";
 
-const MatchDataContainer = (props: MatchDataContainerProps) => {
+const TeamAndMatchContainer = (props: TeamAndMatchContainerProps) => {
   const { championshipIdx, isLeague, activeTab } = props;
   const [matchList] = useGetChampionshipMatchList(championshipIdx);
   return (
     <div>
-      <div className={activeTab === "teams" ? "block" : "hidden"}>
+      <div className={activeTab === ACTIVE_TAB.TEAM ? "block" : "hidden"}>
         {isLeague ? (
           <LeagueBracket teamStats={convertToLeague(matchList)} />
         ) : (
           <TournamentBracket rounds={convertToTournamentFormat(matchList)} />
         )}
       </div>
-      <div className={activeTab === "matches" ? "block" : "hidden"}>
-        <MatchContainer matchList={matchList} />
+      <div className={activeTab === ACTIVE_TAB.MATCH ? "block" : "hidden"}>
+        <MatchListContainer matchList={matchList} />
       </div>
     </div>
   );
 };
 
-export default MatchDataContainer;
+export default TeamAndMatchContainer;
