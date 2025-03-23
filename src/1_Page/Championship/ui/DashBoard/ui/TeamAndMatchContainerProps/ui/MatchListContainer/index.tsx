@@ -16,8 +16,9 @@ const MatchListContainer = (props: MatchListContainerProps) => {
   } = useSortHandler(matchList);
 
   return (
-    <div className="w-full mx-auto grid grid-cols-2 gap-4">
-      <div className="col-span-1 max-w-md w-full">
+    <div className="w-full mx-auto flex flex-col md:flex-row gap-4">
+      {/* 매치 결과 리스트 (좌측) */}
+      <div className="max-w-md w-full flex-shrink-0">
         <h2 className="text-lg font-bold text-blue-700 mb-4">매치 결과</h2>
         {/* 검색 및 정렬 옵션 UI */}
         <div className="flex gap-4 mb-6 bg-white p-4 rounded-lg shadow-md">
@@ -47,7 +48,9 @@ const MatchListContainer = (props: MatchListContainerProps) => {
           ))}
         </ul>
       </div>
-      <div className="col-span-1">
+
+      {/* MatchLineup (반응형 적용) */}
+      <div className="flex-1 min-h-[500px] bg-gray-100 p-4 rounded-lg shadow-md overflow-x-auto md:overflow-visible">
         <MatchLineup matchIdx={selectedIdx} />
       </div>
     </div>
