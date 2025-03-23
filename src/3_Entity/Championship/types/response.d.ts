@@ -59,6 +59,7 @@ type ChampionshipDetail = {
   };
   first_team: {
     team_list_idx: number;
+    team_formation_idx: number;
     stats: {
       match_team_stats_our_score: number;
       match_team_stats_other_score: number;
@@ -95,6 +96,7 @@ type ChampionshipDetail = {
   };
   second_team: {
     team_list_idx: number;
+    team_formation_idx: number;
     stats: {
       match_team_stats_our_score: number;
       match_team_stats_other_score: number;
