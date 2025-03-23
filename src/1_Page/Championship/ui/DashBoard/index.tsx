@@ -24,13 +24,15 @@ const DashBoard = (props: DashBoardProps) => {
         ))}
       </nav>
       <main className="px-4 py-8">
-        {activeTab === "players" && (
+        <div style={{ display: activeTab === "players" ? "block" : "none" }}>
           <ParticipationMembers championshipIdx={championshipIdx} />
-        )}
-        {activeTab === "teams" && <TeamList teamIdx={0} />}
-        {activeTab === "matches" && (
+        </div>
+        <div style={{ display: activeTab === "teams" ? "block" : "none" }}>
+          <TeamList teamIdx={0} />
+        </div>
+        <div style={{ display: activeTab === "matches" ? "block" : "none" }}>
           <MatchList championshipIdx={championshipIdx} />
-        )}
+        </div>
       </main>
     </div>
   );

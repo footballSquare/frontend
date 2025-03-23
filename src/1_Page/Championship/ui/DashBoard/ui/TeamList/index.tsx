@@ -1,4 +1,4 @@
-import useChampionshipTeams from "../../../../3_Entity/Championship/useChampionshipTeams";
+import useChampionshipTeams from "../../../../../../3_Entity/Championship/useChampionshipTeams";
 
 export type TeamListProps = {
   teamIdx: number;

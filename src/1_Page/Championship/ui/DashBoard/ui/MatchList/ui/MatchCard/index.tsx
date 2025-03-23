@@ -1,4 +1,4 @@
-import { matchState } from "../../../../../../4_Shared/constant/matchState";
+import { matchState } from "../../../../../../../../4_Shared/constant/matchState";
 import { MatchCardProps } from "./type";
 
 const MatchCard = (props: MatchCardProps) => {

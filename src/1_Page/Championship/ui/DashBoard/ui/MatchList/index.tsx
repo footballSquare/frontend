@@ -1,4 +1,4 @@
-import useGetChampionshipMatchList from "../../../../3_Entity/Championship/useGetChampionshipMatchList";
+import useGetChampionshipMatchList from "../../../../../../3_Entity/Championship/useGetChampionshipMatchList";
 import MatchCard from "./ui/MatchCard";
 
 import { MatchListProps } from "./type";
