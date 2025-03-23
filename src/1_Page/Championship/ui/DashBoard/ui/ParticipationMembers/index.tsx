@@ -1,4 +1,4 @@
-import useGetPlayerStats from "../../../../3_Entity/Championship/useGetPlayerStats";
+import useGetPlayerStats from "../../../../../../3_Entity/Championship/useGetPlayerStats";
 import { ParticipationMembersProps } from "./type";
 
 const PlayerStatsTable = (props: ParticipationMembersProps) => {
