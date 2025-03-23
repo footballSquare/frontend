@@ -1,4 +1,3 @@
-import React from "react";
 import useGetChampionshipInfo from "../../3_Entity/Championship/useGetChampionshipInfo";
 import trophy from "../../4_Shared/assets/img/trophy.jpg";
 import { matchType } from "../../4_Shared/constant/matchType";
@@ -39,7 +38,7 @@ const Championship = () => {
 
         <div className="w-full flex flex-col justify-center sm:flex-row items-center gap-2">
           <p className="px-3 py-2 text-center rounded-md border border-current sm:w-[23%] text-inherit">
-            {`${championshipInfo.championship_list_start_date} + ${championshipInfo.championship_list_end_date}`}
+            {`${championshipInfo.championship_list_start_date} ~ ${championshipInfo.championship_list_end_date}`}
           </p>
           <p className="w-[40%] px-3 py-2 text-center rounded-md border border-current sm:w-[23%] text-inherit">
             {championshipInfo.championship_type_name}

@@ -10,7 +10,7 @@ const DashBoard = (props: DashBoardProps) => {
   const [activeTab, setActiveTab] = React.useState("players"); // 기본 탭 설정
 
   return (
-    <div className="w-full">
+    <div className="w-full p-4">
       <nav className="flex justify-around bg-blue-600 text-white p-2 rounded-md">
         {navList.map(({ id, label }) => (
           <button
@@ -23,14 +23,14 @@ const DashBoard = (props: DashBoardProps) => {
           </button>
         ))}
       </nav>
-      <main className="px-4 py-8">
-        <div style={{ display: activeTab === "players" ? "block" : "none" }}>
+      <main className="pt-2">
+        <div className={activeTab === "players" ? "block" : "hidden"}>
           <ParticipationMembers championshipIdx={championshipIdx} />
         </div>
-        <div style={{ display: activeTab === "teams" ? "block" : "none" }}>
+        <div className={activeTab === "teams" ? "block" : "hidden"}>
           <TeamList teamIdx={0} />
         </div>
-        <div style={{ display: activeTab === "matches" ? "block" : "none" }}>
+        <div className={activeTab === "matches" ? "block" : "hidden"}>
           <MatchList championshipIdx={championshipIdx} />
         </div>
       </main>

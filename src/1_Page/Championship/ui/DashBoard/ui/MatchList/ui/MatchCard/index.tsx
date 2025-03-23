@@ -10,7 +10,7 @@ const MatchCard = (props: MatchCardProps) => {
   return (
     <li
       key={`match-list-${index}`}
-      className={`flex flex-col w-full rounded-lg shadow-lg p-4 transition-transform transform hover:scale-105 ${
+      className={`flex flex-col w-[90%] rounded-lg shadow-lg p-4 transition-transform transform hover:scale-105 ${
         home.common_status_idx === 4
           ? "bg-gray-600 text-white hover:bg-gray-700"
           : "bg-white text-black hover:bg-gray-300"
