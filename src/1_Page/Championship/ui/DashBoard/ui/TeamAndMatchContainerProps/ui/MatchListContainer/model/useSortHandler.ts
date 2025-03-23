@@ -1,23 +1,22 @@
 import React from "react";
+import { SORT_OPTION } from "../constant/sortOption";
 
-const useSortHandler = (
-  matchList: ChampionshipMatchList[]
-): UseSortHandlerReturn => {
-  // 검색어
-  const [searchTerm, setSearchTerm] = React.useState("");
-  // 정렬 옵션: 기본 / 오름차순 / 내림차순
-  const [sortOption, setSortOption] = React.useState<
-    "default" | "asc" | "desc"
-  >("default");
+const useSortHandler = (props: useSortHandlerProps): UseSortHandlerReturn => {
+  const { matchList } = props;
+  const [searchTerm, setSearchTerm] = React.useState<string>("");
+  // 2. useState의 타입을 SORT_OPTION으로 변경
+  const [sortOption, setSortOption] = React.useState<SORT_OPTION>(
+    SORT_OPTION.DEFAULT
+  );
 
   // 검색어 변경 핸들러
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
   };
 
-  // 정렬 옵션 변경 핸들러
+  // 3. handleSortChange에서 SORT_OPTION을 올바르게 사용
   const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSortOption(e.target.value as "default" | "asc" | "desc");
+    setSortOption(e.target.value as SORT_OPTION);
   };
 
   // 1) 검색 필터 적용
@@ -30,7 +29,6 @@ const useSortHandler = (
       const { team_list_name: sn, team_list_short_name: ss } =
         match.championship_match_second;
 
-      // 두 팀 중 하나라도 검색어를 포함하면 표시
       return (
         fn.toLowerCase().includes(lowerSearch) ||
         fs.toLowerCase().includes(lowerSearch) ||
@@ -44,13 +42,11 @@ const useSortHandler = (
   const sortedMatches = React.useMemo(() => {
     const sorted = [...filteredMatches];
 
-    if (sortOption === "asc") {
-      // 매치 번호 오름차순
+    if (sortOption === SORT_OPTION.ASC) {
       sorted.sort(
         (a, b) => a.championship_match_idx - b.championship_match_idx
       );
-    } else if (sortOption === "desc") {
-      // 매치 번호 내림차순
+    } else if (sortOption === SORT_OPTION.DESC) {
       sorted.sort(
         (a, b) => b.championship_match_idx - a.championship_match_idx
       );
