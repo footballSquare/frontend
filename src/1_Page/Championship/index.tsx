@@ -12,7 +12,7 @@ const Championship = () => {
   const isLeague = championshipInfo.championship_type_name === "리그";
 
   return (
-    <div className="min-h-screen w-full bg-gray-100 text-gray-800">
+    <div className="w-full min-h-full  text-gray-800">
       {/* 상단 배너 영역 */}
       <header
         className="relative flex flex-col justify-center items-center min-h-[200px] gap-3 p-4 overflow-hidden"
