@@ -7,7 +7,7 @@ export const getSelectedMatchTeams = (
   );
 
   return [
-    selectedMatch?.championship_match_second?.team_list_name ?? "",
     selectedMatch?.championship_match_first?.team_list_name ?? "",
+    selectedMatch?.championship_match_second?.team_list_name ?? "",
   ];
 };

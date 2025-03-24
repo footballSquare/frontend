@@ -5,7 +5,9 @@ import { getSelectedMatchTeams } from "./ui/MatchLineup/util/select";
 
 const MatchListContainer = (props: MatchListContainerProps) => {
   const { matchList } = props;
-  const [selectedIdx, setSelectedIdx] = React.useState<number>(-1);
+  const [selectedIdx, setSelectedIdx] = React.useState<number>(
+    matchList[0].championship_match_idx
+  );
   const handleSelect = (idx: number) => setSelectedIdx(idx);
 
   return (
