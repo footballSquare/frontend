@@ -20,7 +20,7 @@ const TeamSection = (props: TeamSectionProps) => {
               onClick={() => navigate(`/profile/${player.player_list_idx}`)}
               className="relative group p-3 border-b bg-white rounded-md shadow-md hover:bg-gray-50 transition">
               <div className="text-sm">{player.player_list_nickname}</div>
-              <div className="absolute left-full top-0 ml-2 p-2 bg-gray-800 text-white text-xs rounded-md shadow-md border border-gray-600 opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap z-10">
+              <div className="fixed left-1/2 -translate-x-1/2 top-[calc(100%+8px)] p-2 bg-gray-800 text-white text-xs rounded-md shadow-lg border border-gray-600 opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap  pointer-events-none">
                 <div>
                   Position: {matchPosition[player.match_player_stats_possition]}
                 </div>
@@ -61,7 +61,7 @@ const TeamSection = (props: TeamSectionProps) => {
               }}>
               <p>{player.player_list_nickname}</p>
               <div className="bg-white rounded-full w-8 h-8 flex items-center justify-center shadow group-hover:scale-110 transition-transform"></div>
-              <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 p-2 bg-gray-800 text-white text-xs rounded-md shadow-md border border-gray-600 opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap ">
+              <div className="fixed left-1/2 -translate-x-1/2 top-[calc(100%+8px)] p-2 bg-gray-800 text-white text-xs rounded-md shadow-lg border border-gray-600 opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap z-[9999] pointer-events-none">
                 <div>
                   Position: {matchPosition[player.match_player_stats_possition]}
                 </div>
@@ -91,7 +91,7 @@ const TeamSection = (props: TeamSectionProps) => {
               className="relative group p-3 border-b bg-white rounded-md shadow-md hover:bg-gray-50 transition"
               onClick={() => navigate(`/profile/${player.player_list_idx}`)}>
               <div className="text-sm">{player.player_list_nickname}</div>
-              <div className="absolute right-full top-0 mr-2 p-2 bg-gray-800 text-white text-xs rounded-md shadow-md border border-gray-600 opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap ">
+              <div className="fixed left-1/2 -translate-x-1/2 top-[calc(100%+8px)] p-2 bg-gray-800 text-white text-xs rounded-md shadow-lg border border-gray-600 opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap pointer-events-none">
                 <div>
                   Position: {matchPosition[player.match_player_stats_possition]}
                 </div>
