@@ -1,7 +1,9 @@
 import { formation } from "../../../../../../../../../../../4_Shared/constant/formation";
 import { formationCoordinateMap } from "../constant/lineup";
 
-export const convertMatchData = (championshipDetail: ChampionshipDetail) => {
+export const convertMatchFormation = (
+  championshipDetail: ChampionshipDetail
+): MatchFormationResult => {
   if (!championshipDetail) return { assignedFirst: [], assignedSecond: [] };
 
   const firstTeamPlayers = championshipDetail?.first_team?.player_stats || [];
