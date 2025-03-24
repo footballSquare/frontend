@@ -1,16 +1,14 @@
-// 팀 섹션 렌더링 함수 (포메이션 + 라인업)
 const TeamSection = (props) => {
   const { players, assignedPositions, isFirstTeam, isFormationView } = props;
 
   return (
-    <div className={"flex flex-col md:flex-row items-center w-full  md:w-auto"}>
+    <div className={"flex flex-col sm:flex-row items-center w-full  md:w-auto"}>
       {/* 팀 라인업 */}
       {isFirstTeam && (
         <div
-          style={{
-            display: isFormationView ? "sm:none" : "flex",
-          }}
-          className="w-full md:w-1/4 sm:block">
+          className={`w-full flex-col md:w-1/4 ${
+            isFormationView ? "hidden" : "flex"
+          } sm:flex`}>
           {players?.map((player, idx) => (
             <div key={`lineup-${idx}`} className="relative group p-2 border-b">
               <div className="text-sm">{player.player_list_nickname}</div>
@@ -33,10 +31,9 @@ const TeamSection = (props) => {
       {/* 팀 포메이션 */}
 
       <div
-        className={`relative w-full sm:w-[350px] sm:h-[600px] h-auto bg-green-600 rounded-md `}
-        style={{
-          display: !isFormationView ? "sm:none" : "relative",
-        }}>
+        className={`w-full sm:w-[350px] h-[600px]  bg-green-600 rounded-md relative ${
+          isFormationView ? "block " : "hidden"
+        } sm:block`}>
         {assignedPositions.map((player, idx) => (
           <div
             key={`formation-${idx}`}
@@ -55,10 +52,9 @@ const TeamSection = (props) => {
       {/* 상대 팀 라인업 */}
       {!isFirstTeam && (
         <div
-          className={`w-full flex flex-col md:w-1/4 `}
-          style={{
-            display: isFormationView ? "sm:none" : "flex",
-          }}>
+          className={`w-full flex-col md:w-1/4 ${
+            isFormationView ? "hidden" : "flex"
+          } sm:flex`}>
           {players?.map((player, idx) => (
             <div key={`lineup-${idx}`} className="relative group p-2 border-b">
               <div className="text-sm">{player.player_list_nickname}</div>
