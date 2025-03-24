@@ -1,14 +1,11 @@
 import React from "react";
-import useGetChampionshipDetail from "../../../../../../../../../../3_Entity/Championship/useGetChampionshipDetail";
 import TeamSection from "./ui/TeamSection";
-import { convertMatchFormation } from "./util/convert";
+import useGetChampionshipDetail from "../../../../../../../../../../3_Entity/Championship/useGetChampionshipDetail";
 
 const MatchLineup = (props: MatchLineupProps) => {
   const { matchIdx, selectTeamList } = props;
   const [isFormationView, setIsFormationView] = React.useState<boolean>(true);
   const [championshipDetail] = useGetChampionshipDetail(matchIdx);
-  const { assignedFirst, assignedSecond } =
-    convertMatchFormation(championshipDetail);
 
   return (
     <div className="p-4">
@@ -48,7 +45,6 @@ const MatchLineup = (props: MatchLineupProps) => {
         {/* 첫 번째 팀 (왼쪽) */}
         <TeamSection
           players={championshipDetail?.first_team?.player_stats}
-          assignedPositions={assignedFirst}
           isFirstTeam={true}
           isFormationView={isFormationView}
         />
@@ -56,7 +52,6 @@ const MatchLineup = (props: MatchLineupProps) => {
         {/* 두 번째 팀 (오른쪽) */}
         <TeamSection
           players={championshipDetail?.second_team?.player_stats}
-          assignedPositions={assignedSecond}
           isFirstTeam={false}
           isFormationView={isFormationView}
         />

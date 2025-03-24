@@ -10,7 +10,7 @@ export const mockChampionshipDetail = {
     },
     first_team: {
       team_list_idx: 2,
-      team_formation_idx: 1,
+      team_formation_idx: 0, // 4-3-3 포메이션 (index 0)
       stats: {
         match_team_stats_our_score: 1,
         match_team_stats_other_score: 0,
@@ -44,7 +44,7 @@ export const mockChampionshipDetail = {
           match_player_stats_saved: 0,
           match_player_stats_successrate_saved: 0,
           match_player_stats_evidence_img: "test_url",
-          match_player_stats_possition: 1,
+          match_player_stats_possition: 0, // GK
         },
         {
           match_match_idx: 26,
@@ -62,7 +62,7 @@ export const mockChampionshipDetail = {
           match_player_stats_saved: 0,
           match_player_stats_successrate_saved: 0,
           match_player_stats_evidence_img: "테스트중 입니다.",
-          match_player_stats_possition: 2,
+          match_player_stats_possition: 1, // RB
         },
         {
           match_match_idx: 26,
@@ -80,7 +80,7 @@ export const mockChampionshipDetail = {
           match_player_stats_saved: 0,
           match_player_stats_successrate_saved: 0,
           match_player_stats_evidence_img: "test_url",
-          match_player_stats_possition: 3,
+          match_player_stats_possition: 2, // RCB
         },
         {
           match_match_idx: 26,
@@ -98,7 +98,7 @@ export const mockChampionshipDetail = {
           match_player_stats_saved: 0,
           match_player_stats_successrate_saved: 0,
           match_player_stats_evidence_img: "테스트중 입니다.",
-          match_player_stats_possition: 4,
+          match_player_stats_possition: 4, // LCB
         },
         {
           match_match_idx: 26,
@@ -116,7 +116,7 @@ export const mockChampionshipDetail = {
           match_player_stats_saved: 0,
           match_player_stats_successrate_saved: 0,
           match_player_stats_evidence_img: "test_url",
-          match_player_stats_possition: 5,
+          match_player_stats_possition: 5, // LB
         },
         {
           match_match_idx: 26,
@@ -134,7 +134,7 @@ export const mockChampionshipDetail = {
           match_player_stats_saved: 0,
           match_player_stats_successrate_saved: 0,
           match_player_stats_evidence_img: "테스트중 입니다.",
-          match_player_stats_possition: 6,
+          match_player_stats_possition: 14, // RCM
         },
         {
           match_match_idx: 26,
@@ -152,7 +152,7 @@ export const mockChampionshipDetail = {
           match_player_stats_saved: 0,
           match_player_stats_successrate_saved: 0,
           match_player_stats_evidence_img: "test_url",
-          match_player_stats_possition: 7,
+          match_player_stats_possition: 13, // CM
         },
         {
           match_match_idx: 26,
@@ -169,8 +169,8 @@ export const mockChampionshipDetail = {
           match_player_stats_cutting: 1,
           match_player_stats_saved: 0,
           match_player_stats_successrate_saved: 0,
-          match_player_stats_evidence_img: "테스트중 입니다.",
-          match_player_stats_possition: 8,
+          match_player_stats_evidence_img: "test_url",
+          match_player_stats_possition: 12, // LCM
         },
         {
           match_match_idx: 26,
@@ -188,7 +188,7 @@ export const mockChampionshipDetail = {
           match_player_stats_saved: 0,
           match_player_stats_successrate_saved: 0,
           match_player_stats_evidence_img: "test_url",
-          match_player_stats_possition: 9,
+          match_player_stats_possition: 19, // RW
         },
         {
           match_match_idx: 26,
@@ -205,8 +205,8 @@ export const mockChampionshipDetail = {
           match_player_stats_cutting: 1,
           match_player_stats_saved: 0,
           match_player_stats_successrate_saved: 0,
-          match_player_stats_evidence_img: "테스트중 입니다.",
-          match_player_stats_possition: 10,
+          match_player_stats_evidence_img: "test_url",
+          match_player_stats_possition: 20, // ST
         },
         {
           match_match_idx: 26,
@@ -224,13 +224,13 @@ export const mockChampionshipDetail = {
           match_player_stats_saved: 0,
           match_player_stats_successrate_saved: 0,
           match_player_stats_evidence_img: "test_url",
-          match_player_stats_possition: 11,
+          match_player_stats_possition: 21, // LW
         },
       ],
     },
     second_team: {
       team_list_idx: 11,
-      team_formation_idx: 1,
+      team_formation_idx: 0, // 4-3-3 포메이션 (index 0)
       stats: {
         match_team_stats_our_score: 3,
         match_team_stats_other_score: 1,
@@ -263,8 +263,8 @@ export const mockChampionshipDetail = {
           match_player_stats_cutting: 1,
           match_player_stats_saved: 0,
           match_player_stats_successrate_saved: 0,
-          match_player_stats_evidence_img: "테스트중 입니다.",
-          match_player_stats_possition: 1,
+          match_player_stats_evidence_img: "test_url",
+          match_player_stats_possition: 0, // GK
         },
         {
           match_match_idx: 27,
@@ -282,7 +282,7 @@ export const mockChampionshipDetail = {
           match_player_stats_saved: 0,
           match_player_stats_successrate_saved: 0,
           match_player_stats_evidence_img: "test_url",
-          match_player_stats_possition: 2,
+          match_player_stats_possition: 1, // RB
         },
         {
           match_match_idx: 27,
@@ -300,7 +300,7 @@ export const mockChampionshipDetail = {
           match_player_stats_saved: 0,
           match_player_stats_successrate_saved: 0,
           match_player_stats_evidence_img: "test_url",
-          match_player_stats_possition: 3,
+          match_player_stats_possition: 2, // RCB
         },
         {
           match_match_idx: 27,
@@ -318,7 +318,7 @@ export const mockChampionshipDetail = {
           match_player_stats_saved: 0,
           match_player_stats_successrate_saved: 0,
           match_player_stats_evidence_img: "test_url",
-          match_player_stats_possition: 4,
+          match_player_stats_possition: 4, // LCB
         },
         {
           match_match_idx: 27,
@@ -336,7 +336,7 @@ export const mockChampionshipDetail = {
           match_player_stats_saved: 0,
           match_player_stats_successrate_saved: 0,
           match_player_stats_evidence_img: "test_url",
-          match_player_stats_possition: 5,
+          match_player_stats_possition: 5, // LB
         },
         {
           match_match_idx: 27,
@@ -354,7 +354,7 @@ export const mockChampionshipDetail = {
           match_player_stats_saved: 0,
           match_player_stats_successrate_saved: 0,
           match_player_stats_evidence_img: "test_url",
-          match_player_stats_possition: 6,
+          match_player_stats_possition: 14, // RCM
         },
         {
           match_match_idx: 27,
@@ -372,7 +372,7 @@ export const mockChampionshipDetail = {
           match_player_stats_saved: 0,
           match_player_stats_successrate_saved: 0,
           match_player_stats_evidence_img: "test_url",
-          match_player_stats_possition: 7,
+          match_player_stats_possition: 13, // CM
         },
         {
           match_match_idx: 27,
@@ -390,7 +390,7 @@ export const mockChampionshipDetail = {
           match_player_stats_saved: 0,
           match_player_stats_successrate_saved: 0,
           match_player_stats_evidence_img: "test_url",
-          match_player_stats_possition: 8,
+          match_player_stats_possition: 12, // LCM
         },
         {
           match_match_idx: 27,
@@ -408,7 +408,7 @@ export const mockChampionshipDetail = {
           match_player_stats_saved: 0,
           match_player_stats_successrate_saved: 0,
           match_player_stats_evidence_img: "test_url",
-          match_player_stats_possition: 9,
+          match_player_stats_possition: 19, // RW
         },
         {
           match_match_idx: 27,
@@ -426,7 +426,7 @@ export const mockChampionshipDetail = {
           match_player_stats_saved: 0,
           match_player_stats_successrate_saved: 0,
           match_player_stats_evidence_img: "test_url",
-          match_player_stats_possition: 10,
+          match_player_stats_possition: 20, // ST
         },
         {
           match_match_idx: 27,
@@ -444,7 +444,7 @@ export const mockChampionshipDetail = {
           match_player_stats_saved: 0,
           match_player_stats_successrate_saved: 0,
           match_player_stats_evidence_img: "test_url",
-          match_player_stats_possition: 11,
+          match_player_stats_possition: 21, // LW
         },
       ],
     },

@@ -50,7 +50,6 @@ type ChampionshipMatchList = {
 
 type PlayerStats = {
   match_match_idx: number;
-  player_list_idx: number;
   player_list_nickname: string;
   match_player_stats_goal: number;
   match_player_stats_assist: number;
@@ -64,6 +63,7 @@ type PlayerStats = {
   match_player_stats_saved: number;
   match_player_stats_successrate_saved: number;
   match_player_stats_evidence_img: string;
+  match_player_stats_possition: number;
 };
 
 type TeamStat = {
