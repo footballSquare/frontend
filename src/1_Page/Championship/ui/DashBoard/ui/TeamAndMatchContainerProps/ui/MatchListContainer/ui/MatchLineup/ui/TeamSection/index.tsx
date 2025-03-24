@@ -1,4 +1,4 @@
-const TeamSection = (props) => {
+const TeamSection = (props: TeamSectionProps) => {
   const { players, assignedPositions, isFirstTeam, isFormationView } = props;
 
   return (

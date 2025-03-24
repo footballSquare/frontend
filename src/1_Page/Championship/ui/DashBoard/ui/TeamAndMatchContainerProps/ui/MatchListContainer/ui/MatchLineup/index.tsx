@@ -1,14 +1,14 @@
 import React from "react";
 import useGetChampionshipDetail from "../../../../../../../../../../3_Entity/Championship/useGetChampionshipDetail";
 import TeamSection from "./ui/TeamSection";
-import { convertMatchData } from "./util/convert";
+import { convertMatchFormation } from "./util/convert";
 
 const MatchLineup = (props: MatchLineupProps) => {
   const { matchIdx, selectTeamList } = props;
   const [isFormationView, setIsFormationView] = React.useState<boolean>(true);
   const [championshipDetail] = useGetChampionshipDetail(matchIdx);
   const { assignedFirst, assignedSecond } =
-    convertMatchData(championshipDetail);
+    convertMatchFormation(championshipDetail);
 
   return (
     <div className="p-4">
