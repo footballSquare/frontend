@@ -4,7 +4,7 @@ import TeamSection from "./ui/TeamSection";
 import { convertMatchData } from "./util/convert";
 
 const MatchLineup = (props: MatchLineupProps) => {
-  const { matchIdx } = props;
+  const { matchIdx, selectTeamList } = props;
   const [isFormationView, setIsFormationView] = React.useState<boolean>(true);
   const [championshipDetail] = useGetChampionshipDetail(matchIdx);
   const { assignedFirst, assignedSecond } =
@@ -12,6 +12,16 @@ const MatchLineup = (props: MatchLineupProps) => {
 
   return (
     <div className="p-4">
+      <div className="flex justify-center items-center gap-4 mb-4">
+        <h2 className="text-xl font-bold mb-4 text-center">
+          {selectTeamList[0]}
+        </h2>
+        <span className="text-xl font-bold">VS</span>
+        <h2 className="text-xl font-bold mb-4 text-center">
+          {selectTeamList[1]}
+        </h2>
+      </div>
+
       <h2 className="text-xl font-bold mb-4 text-center">
         매치 #{matchIdx} 라인업
       </h2>
@@ -27,7 +37,7 @@ const MatchLineup = (props: MatchLineupProps) => {
         </button>
         <button
           className={`px-4 py-2 border rounded ${
-            isFormationView ? "bg-blue-600 text-white" : "bg-gray-200"
+            !isFormationView ? "bg-blue-600 text-white" : "bg-gray-200"
           }`}
           onClick={() => setIsFormationView(false)}>
           라인업 보기

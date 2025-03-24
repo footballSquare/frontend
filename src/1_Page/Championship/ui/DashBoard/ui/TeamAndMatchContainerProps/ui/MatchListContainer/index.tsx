@@ -1,6 +1,7 @@
 import React from "react";
 import MatchCardBox from "./ui/MatchCardBox";
 import MatchLineup from "./ui/MatchLineup";
+import { getSelectedMatchTeams } from "./ui/MatchLineup/util/select";
 
 const MatchListContainer = (props: MatchListContainerProps) => {
   const { matchList } = props;
@@ -18,7 +19,10 @@ const MatchListContainer = (props: MatchListContainerProps) => {
 
       {/* MatchLineup (반응형 적용) */}
       <div className="flex-1 min-h-[500px] bg-gray-100 p-4 overflow-x-auto md:overflow-visible">
-        <MatchLineup matchIdx={selectedIdx} />
+        <MatchLineup
+          matchIdx={selectedIdx}
+          selectTeamList={getSelectedMatchTeams(matchList, selectedIdx)}
+        />
       </div>
     </div>
   );
