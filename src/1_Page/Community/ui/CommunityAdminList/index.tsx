@@ -6,10 +6,10 @@ const CommunityAdminList = (props: CommunityAdminListProps) => {
   const [communityStaffList] = useGetCommunityStaffList({ communityIdx });
 
   return (
-    <div className="space-y-3 border-1">
-      {communityStaffList.map((staff) => {
+    <div className="space-y-3">
+      {communityStaffList.map((staff, index) => {
         return (
-          <div className="flex items-center space-x-2">
+          <div key={index} className="flex items-center space-x-2 border border-gray p-2">
             <img
               src={staff.player_list_profile_img}
               alt="Profile"
