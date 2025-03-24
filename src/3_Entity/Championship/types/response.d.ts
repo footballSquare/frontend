@@ -49,7 +49,7 @@ type ChampionshipMatchList = {
 };
 
 type PlayerStats = {
-  match_match_idx: number;
+  match_player_stats_idx: number;
   player_list_nickname: string;
   match_player_stats_goal: number;
   match_player_stats_assist: number;
@@ -57,12 +57,16 @@ type PlayerStats = {
   match_player_stats_successrate_dribble: number;
   match_player_stats_successrate_tackle: number;
   match_player_stats_possession: number;
+  match_player_stats_evidence_img: string;
   match_player_stats_standing_tackle: number;
   match_player_stats_sliding_tackle: number;
   match_player_stats_cutting: number;
   match_player_stats_saved: number;
   match_player_stats_successrate_saved: number;
-  match_player_stats_evidence_img: string;
+  championship_match_idx: number;
+  championship_list_idx: number;
+  match_match_idx: number;
+  player_list_idx: number;
   match_player_stats_possition: number;
 };
 
@@ -126,25 +130,4 @@ type EvidenceImage = {
     player_list_nickname: string;
     match_player_stats_evidence_img: string;
   }[];
-};
-
-type PlayerStats = {
-  match_player_stats_idx: number;
-  player_list_nickname: string;
-  match_player_stats_goal: number;
-  match_player_stats_assist: number;
-  match_player_stats_successrate_pass: number;
-  match_player_stats_successrate_dribble: number;
-  match_player_stats_successrate_tackle: number;
-  match_player_stats_possession: number;
-  match_player_stats_evidence_img: string;
-  match_player_stats_standing_tackle: number;
-  match_player_stats_sliding_tackle: number;
-  match_player_stats_cutting: number;
-  match_player_stats_saved: number;
-  match_player_stats_successrate_saved: number;
-  championship_match_idx: number;
-  championship_list_idx: number;
-  match_match_idx: number;
-  player_list_idx: number;
 };
