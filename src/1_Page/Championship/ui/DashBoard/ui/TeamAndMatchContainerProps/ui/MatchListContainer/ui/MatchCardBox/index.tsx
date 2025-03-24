@@ -11,7 +11,7 @@ const MatchCardBox = (props: MatchCardBoxProps) => {
   } = useSortHandler(matchList);
 
   return (
-    <div className="max-w-md w-full flex-shrink-0">
+    <div className="sm:max-w-[300px] w-full flex-shrink-0">
       <h2 className="text-lg font-bold text-blue-700 mb-4">매치 결과</h2>
       {/* 검색 및 정렬 옵션 UI */}
       <div className="flex gap-4 mb-6 bg-white p-4 rounded-lg shadow-md">
@@ -32,7 +32,12 @@ const MatchCardBox = (props: MatchCardBoxProps) => {
         </select>
       </div>
 
-      <ul className="space-y-3 w-full max-h-[470px] overflow-y-scroll overflow-x-hidden cursor-pointer flex flex-col items-center">
+      <ul className="w-full max-h-[470px] flex flex-row space-x-3 overflow-x-scroll overflow-y-hidden sm:flex-col sm:space-x-0 sm:space-y-3 sm:overflow-x-hidden sm:overflow-y-scroll cursor-pointer items-center">
+        {sortedMatches.length === 0 && (
+          <li className="w-full text-center text-gray-400">
+            검색 결과가 없습니다.
+          </li>
+        )}
         {sortedMatches.map((match, index) => (
           <MatchCard
             selectedIdx={selectedIdx}
