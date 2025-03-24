@@ -3,12 +3,12 @@ const TeamSection = (props) => {
   const { players, assignedPositions, isFirstTeam, isFormationView } = props;
 
   return (
-    <div className={"flex flex-col md:flex-row items-center w-full md:w-auto"}>
+    <div className={"flex flex-col md:flex-row items-center w-full  md:w-auto"}>
       {/* 팀 라인업 */}
       {isFirstTeam && (
         <div
           style={{
-            display: isFormationView ? "none" : "block",
+            display: isFormationView ? "sm:none" : "flex",
           }}
           className="w-full md:w-1/4 sm:block">
           {players?.map((player, idx) => (
@@ -35,18 +35,19 @@ const TeamSection = (props) => {
       <div
         className={`relative w-full sm:w-[350px] sm:h-[600px] h-auto bg-green-600 rounded-md `}
         style={{
-          display: !isFormationView ? "none" : "block",
+          display: !isFormationView ? "sm:none" : "relative",
         }}>
         {assignedPositions.map((player, idx) => (
           <div
             key={`formation-${idx}`}
-            className="absolute bg-white text-black text-sm rounded-full w-8 h-8 flex items-center justify-center shadow"
+            className="absolute flex flex-col items-center"
             style={{
               top: player.top,
               left: player.left,
               transform: "translateX(-50%)",
             }}>
-            {player.nickname}
+            <p>{player.nickname}</p>
+            <div className=" bg-white rounded-full w-8 h-8 flex items-center justify-center shadow"></div>
           </div>
         ))}
       </div>
@@ -54,9 +55,9 @@ const TeamSection = (props) => {
       {/* 상대 팀 라인업 */}
       {!isFirstTeam && (
         <div
-          className={`w-full md:w-1/4`}
+          className={`w-full flex flex-col md:w-1/4 `}
           style={{
-            display: isFormationView ? "none" : "block",
+            display: isFormationView ? "sm:none" : "flex",
           }}>
           {players?.map((player, idx) => (
             <div key={`lineup-${idx}`} className="relative group p-2 border-b">
