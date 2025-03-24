@@ -7,6 +7,7 @@ import PAGE_URI from "../4_Shared/constant/pageUri";
 import FreeMatch from "./FreeMatch";
 import Profile from "./Profile";
 import Community from "./Community";
+import CommunityManaging from "./CommunityManaging";
 
 const Page = () => {
   const [cookies] = useCookies(["accessToken"]);
@@ -27,6 +28,7 @@ const Page = () => {
           path={`${PAGE_URI.COMMUNITY}/:communityIdx`}
           element={<Community />}
         />
+        <Route path={`${PAGE_URI.COMMUNITYMANAGING}/:communityIdx`} element={<CommunityManaging />} />
         <Route path={PAGE_URI.RANKING} element={<Main />} />
         <Route path={`${PAGE_URI.PROFILE}/:userIdx`} element={<Profile />} />
         <Route path={PAGE_URI.FREEMATCH} element={<FreeMatch />} />
