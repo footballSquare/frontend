@@ -20,20 +20,6 @@ const TeamSection = (props: TeamSectionProps) => {
               onClick={() => navigate(`/profile/${player.player_list_idx}`)}
               className="relative group p-3 border-b bg-white rounded-md shadow-md hover:bg-gray-50 transition">
               <div className="text-sm">{player.player_list_nickname}</div>
-              <div className="fixed left-1/2 -translate-x-1/2 top-[calc(100%+8px)] p-2 bg-gray-800 text-white text-xs rounded-md shadow-lg border border-gray-600 opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap  pointer-events-none">
-                <div>
-                  Position: {matchPosition[player.match_player_stats_possition]}
-                </div>
-                <div>Goal: {player.match_player_stats_goal}</div>
-                <div>Assist: {player.match_player_stats_assist}</div>
-                <div>Pass: {player.match_player_stats_successrate_pass}</div>
-                <div>
-                  Dribble: {player.match_player_stats_successrate_dribble}
-                </div>
-                <div>
-                  Tackle: {player.match_player_stats_successrate_tackle}
-                </div>
-              </div>
             </div>
           ))}
         </div>
@@ -52,7 +38,7 @@ const TeamSection = (props: TeamSectionProps) => {
           const basePos = basePositionCoordinates[pos];
           return (
             <div
-              key={`formation-${player.match_player_stats_possession}`}
+              key={`formation-${player.player_list_idx}-${player.match_player_stats_possession}`}
               className="absolute flex flex-col items-center group"
               style={{
                 top: basePos.top,
@@ -61,7 +47,8 @@ const TeamSection = (props: TeamSectionProps) => {
               }}>
               <p>{player.player_list_nickname}</p>
               <div className="bg-white rounded-full w-8 h-8 flex items-center justify-center shadow group-hover:scale-110 transition-transform"></div>
-              <div className="fixed left-1/2 -translate-x-1/2 top-[calc(100%+8px)] p-2 bg-gray-800 text-white text-xs rounded-md shadow-lg border border-gray-600 opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap z-[9999] pointer-events-none">
+              <div className="fixed left-1/2 -translate-x-1/2 top-[calc(100%+8px)] p-2 bg-gray-800 text-white text-xs rounded-md shadow-lg border border-gray-600 opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap  pointer-events-none">
+                <div>Name: {player.player_list_nickname}</div>
                 <div>
                   Position: {matchPosition[player.match_player_stats_possition]}
                 </div>
@@ -91,20 +78,6 @@ const TeamSection = (props: TeamSectionProps) => {
               className="relative group p-3 border-b bg-white rounded-md shadow-md hover:bg-gray-50 transition"
               onClick={() => navigate(`/profile/${player.player_list_idx}`)}>
               <div className="text-sm">{player.player_list_nickname}</div>
-              <div className="fixed left-1/2 -translate-x-1/2 top-[calc(100%+8px)] p-2 bg-gray-800 text-white text-xs rounded-md shadow-lg border border-gray-600 opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap pointer-events-none">
-                <div>
-                  Position: {matchPosition[player.match_player_stats_possition]}
-                </div>
-                <div>Goal: {player.match_player_stats_goal}</div>
-                <div>Assist: {player.match_player_stats_assist}</div>
-                <div>Pass: {player.match_player_stats_successrate_pass}</div>
-                <div>
-                  Dribble: {player.match_player_stats_successrate_dribble}
-                </div>
-                <div>
-                  Tackle: {player.match_player_stats_successrate_tackle}
-                </div>
-              </div>
             </div>
           ))}
         </div>
