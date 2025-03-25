@@ -29,9 +29,11 @@ const TeamSection = (props: TeamSectionProps) => {
 
       {/* 팀 포메이션 */}
       <div
-        className={`w-full sm:w-[300px] h-[500px] bg-green-500 rounded-lg shadow-xl p-2 relative ${
+        className={`w-full sm:w-[300px] h-[500px] bg-green-500 rounded-lg shadow-xl p-2 relative overflow-hidden ${
           isFormationView ? "block" : "hidden"
         } sm:block`}>
+        <div className="absolute top-0 left-1/2 w-[100px] h-[100px] rounded-full border border-white  transform -translate-x-1/2 -translate-y-1/2"></div>
+        <div className="absolute bottom-0 left-1/2 w-[150px] h-[100px] border border-white  transform -translate-x-1/2 translate-y-1/2"></div>
         {players?.map((player) => {
           // players의 인덱스를 기준으로 matchPosition 배열에서 포지션을 결정
           const pos = matchPosition[player.match_player_stats_possition];
