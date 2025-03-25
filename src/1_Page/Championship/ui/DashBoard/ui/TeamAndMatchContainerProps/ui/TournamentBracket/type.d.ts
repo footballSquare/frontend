@@ -1,1 +1,1 @@
-type TournamentBracketProps = { rounds: TournamentData[] };
+type TournamentBracketProps = { tournamentData: TournamentData[] };
