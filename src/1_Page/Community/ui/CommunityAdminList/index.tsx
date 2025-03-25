@@ -11,7 +11,7 @@ const CommunityAdminList = (props: CommunityAdminListProps) => {
         return (
           <div key={index} className="flex items-center space-x-2 border border-gray p-2">
             <img
-              src={staff.player_list_profile_img}
+              src={staff.player_list_profile_img ?? undefined}
               alt="Profile"
               className=" object-cover w-8 h-8 rounded-full overflow-hidden"
             />
