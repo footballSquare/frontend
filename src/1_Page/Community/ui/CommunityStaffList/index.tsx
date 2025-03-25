@@ -1,7 +1,7 @@
 import useGetCommunityStaffList from "../../../../3_Entity/Community/useGetCommunityStaffList";
 import { teamRole } from "../../../../4_Shared/constant/teamRole";
 
-const CommunityAdminList = (props: CommunityAdminListProps) => {
+const CommunityStaffList = (props: CommunityStaffListProps) => {
   const { communityIdx } = props;
   const [communityStaffList] = useGetCommunityStaffList({ communityIdx });
 
@@ -28,4 +28,4 @@ const CommunityAdminList = (props: CommunityAdminListProps) => {
   );
 };
 
-export default CommunityAdminList;
+export default CommunityStaffList;
