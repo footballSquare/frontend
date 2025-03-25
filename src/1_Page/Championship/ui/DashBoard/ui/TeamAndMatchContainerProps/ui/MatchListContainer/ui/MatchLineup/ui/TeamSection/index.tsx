@@ -28,7 +28,7 @@ const TeamSection = (props: TeamSectionProps) => {
               }}
               className="relative group p-3 border-b bg-white rounded-md shadow-md hover:bg-gray-50 transition">
               <div
-                className={`text-sm ${
+                className={`text-sm whitespace-nowrap overflow-hidden text-ellipsis ${
                   player.player_list_idx === momPlayerIdx
                     ? "text-yellow-500 font-bold"
                     : ""
@@ -162,7 +162,7 @@ const TeamSection = (props: TeamSectionProps) => {
                 );
               }}>
               <div
-                className={`text-sm ${
+                className={`text-sm whitespace-nowrap overflow-hidden text-ellipsis ${
                   player.player_list_idx === momPlayerIdx
                     ? "text-yellow-500 font-bold"
                     : ""
