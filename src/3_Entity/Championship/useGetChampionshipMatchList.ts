@@ -1,16 +1,13 @@
 import React from "react";
 import { useFetch } from "../../4_Shared/util/apiUtil";
-import {
-  mockChampionshipMatchList,
-  mockChampionshipMatchTor,
-} from "../../4_Shared/mock/championshipMatchList";
+import { mockChampionshipMatchTor } from "../../4_Shared/mock/championshipMatchList";
 
 const useGetChampionshipMatchList = (
   championshipListIdx: number
 ): [ChampionshipMatchList[], boolean] => {
   const [serverState, request, loading] = useFetch();
   const [matchList, setMatchList] = React.useState<ChampionshipMatchList[]>(
-    mockChampionshipMatchList.championship_match
+    mockChampionshipMatchTor.championship_match
   );
 
   React.useEffect(() => {
