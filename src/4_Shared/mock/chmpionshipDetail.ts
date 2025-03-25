@@ -25,7 +25,7 @@ export const mockChampionshipDetail = {
         match_team_stats_freekick: 0,
         match_team_stats_penaltykick: 0,
         mom_player_idx: 2,
-        mom_player_nickname: "김지단",
+        mom_player_nickname: "Dani Carvajal",
       },
       player_stats: [
         {
@@ -244,8 +244,8 @@ export const mockChampionshipDetail = {
         match_team_stats_cornerkick: 3,
         match_team_stats_freekick: 0,
         match_team_stats_penaltykick: 0,
-        mom_player_idx: 28,
-        mom_player_nickname: "차범근",
+        mom_player_idx: 10,
+        mom_player_nickname: "마누엘 노이어",
       },
       player_stats: [
         {

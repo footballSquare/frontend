@@ -97,7 +97,7 @@ const MatchLineup = (props: MatchLineupProps) => {
             {/* 두 번째 팀 (오른쪽) */}
             <TeamSection
               momPlayerIdx={
-                championshipDetail?.first_team?.stats?.mom_player_idx
+                championshipDetail?.second_team?.stats?.mom_player_idx
               }
               players={championshipDetail?.second_team?.player_stats}
               isFirstTeam={false}
