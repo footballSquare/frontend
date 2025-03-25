@@ -1,5 +1,5 @@
 type ChampionshipInfo = {
-  championship_type_name: string;
+  championship_type: number;
   championship_list_name: string;
   championship_list_description: string;
   match_type_idx: number;

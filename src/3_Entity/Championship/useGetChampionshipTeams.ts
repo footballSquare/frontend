@@ -2,7 +2,7 @@ import React from "react";
 import { useFetch } from "../../4_Shared/util/apiUtil.ts";
 import { mockChampionshipTeamInfo } from "../../4_Shared/mock/championshipInfo.ts";
 
-const useChampionshipTeams = (
+const useGetChampionshipTeams = (
   championshipInfoIdx: number
 ): [ChampionshipTeamInfo[], boolean] => {
   const [serverState, request, loading] = useFetch();
@@ -27,4 +27,4 @@ const useChampionshipTeams = (
   return [championshipTeam, loading];
 };
 
-export default useChampionshipTeams;
+export default useGetChampionshipTeams;

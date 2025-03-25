@@ -2,8 +2,9 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 
 const LeagueBracket = (props: LeagueBracketProps) => {
-  const { teamStats } = props;
+  const { teamStats, teamList } = props;
   const navigate = useNavigate();
+
   const [showAllTeams, setShowAllTeams] = React.useState(false);
 
   return (

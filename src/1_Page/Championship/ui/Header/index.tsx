@@ -1,6 +1,7 @@
 import React from "react";
 import { getTextColorFromBackground } from "../../../../4_Shared/lib/colorChecker";
 import { matchType } from "../../../../4_Shared/constant/matchType";
+import { championshipTypes } from "../../../../4_Shared/constant/championshipTypes";
 
 type HeaderProps = { championshipInfo: ChampionshipInfo; isAdmin: boolean };
 
@@ -46,7 +47,7 @@ const Header = (props: HeaderProps) => {
               {`${championshipInfo.championship_list_start_date} ~ ${championshipInfo.championship_list_end_date}`}
             </p>
             <p className="w-[40%] px-3 py-2 text-center rounded-md border border-current sm:w-[23%] text-inherit">
-              {championshipInfo.championship_type_name}
+              {championshipTypes[championshipInfo.championship_type]}
             </p>
             <p className="w-[40%] px-3 py-2 text-center rounded-md border border-current sm:w-[23%] text-inherit">
               {matchType[championshipInfo.match_type_idx]}

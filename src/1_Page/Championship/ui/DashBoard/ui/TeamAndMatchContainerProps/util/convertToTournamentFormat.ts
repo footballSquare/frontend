@@ -1,14 +1,7 @@
-/**
- * 무작위 순서의 `ChampionshipMatchList[]`를 받아,
- * 1) 팀 등장 횟수로 16강/8강/4강/2강/결승 라운드 파악
- * 2) 그 순서대로 Flat 배열 생성
- * 3) 각 라운드별로 분할하여 { round, label, matches }[] 형태로 반환
- */
 export const convertToTournamentFormat = (
-  props: ChampionshipMatchList[]
+  matches: ChampionshipMatchList[],
+  teamList: ChampionshipTeamInfo[]
 ): TournamentData[] => {
-  const matches = props;
-
   // 1) 팀 등장 횟수로 라운드를 분류 → Flat 배열 만들기
   // ----------------------------
   const rounds: { [key: number]: ChampionshipMatchList[] } = {
@@ -34,15 +27,15 @@ export const convertToTournamentFormat = (
     const fId = match.championship_match_first.team_list_idx;
     const sId = match.championship_match_second.team_list_idx;
     const minAppearances = Math.min(
-      teamAppearanceCount[fId],
-      teamAppearanceCount[sId]
+      teamAppearanceCount[fId] || 0,
+      teamAppearanceCount[sId] || 0
     );
 
     if (minAppearances === 1) rounds[16].push(match); // 16강
     else if (minAppearances === 2) rounds[8].push(match); // 8강
     else if (minAppearances === 3) rounds[4].push(match); // 4강
     else if (minAppearances === 4) rounds[2].push(match); // 결승(2강)
-    else if (minAppearances === 5) rounds[1].push(match); // 우승전(1강) - 보통은 결승으로 끝나므로 잘 안 쓰일 가능성
+    else if (minAppearances === 5) rounds[1].push(match); // 우승전(1강)
   });
 
   // (1-3) 각 라운드별 경기 정렬
@@ -62,21 +55,31 @@ export const convertToTournamentFormat = (
     ...rounds[1],
   ];
 
-  // ----------------------------
-  // 2) Flat 배열을 라운드별로 잘라서 { round, label, matches } 형태로 만들기
-  // ----------------------------
-  const totalMatches = flatMatches.length; // ex) 7 => 8강 / 15 => 16강
-  const teamCount = totalMatches + 1; // ex) 7+1=8팀, 15+1=16팀
-  const totalRounds = Math.log2(teamCount);
-  if (!Number.isInteger(totalRounds)) {
-    throw new Error(
-      `팀 수가 2의 거듭제곱 형태가 아닙니다. (teamCount=${teamCount})`
-    );
+  // 만약 경기 데이터가 없으면, teamList를 기반으로 더미 경기(첫 라운드)를 생성
+  let flatMatchesFinal = flatMatches;
+  if (flatMatches.length === 0) {
+    const dummyMatches: ChampionshipMatchList[] = [];
+    for (let i = 0; i < teamList.length; i += 2) {
+      dummyMatches.push({
+        championship_match_idx: i / 2,
+        championship_match_first: {
+          ...teamList[i],
+          match_team_stats_our_score: 0,
+          match_team_stats_other_score: 0,
+        },
+        championship_match_second: {
+          ...teamList[i + 1],
+          match_team_stats_our_score: 0,
+          match_team_stats_other_score: 0,
+        },
+      } as ChampionshipMatchList);
+    }
+    flatMatchesFinal = dummyMatches;
   }
 
-  // 혹시 또 정렬이 필요하면 여기서 다시 match_idx 정렬
-  // (이미 위에서 라운드별 정렬을 했으니 대부분 OK)
-  // flatMatches.sort((a, b) => a.championship_match_idx - b.championship_match_idx);
+  // 2) Flat 배열을 라운드별로 잘라서 { round, label, matches } 형태로 만들기
+  const teamCount = teamList.length; // teamList 기준 팀 수 사용
+  const totalRounds = Math.log2(teamCount);
 
   const result: {
     round: number;
@@ -88,7 +91,7 @@ export const convertToTournamentFormat = (
   for (let r = 0; r < totalRounds; r++) {
     // 라운드별 경기 수
     const matchesInThisRound = teamCount / Math.pow(2, r + 1);
-    const roundMatches = flatMatches.slice(
+    const roundMatches = flatMatchesFinal.slice(
       startIndex,
       startIndex + matchesInThisRound
     );
@@ -98,7 +101,7 @@ export const convertToTournamentFormat = (
     const roundIndex = r + 1; // 1부터 시작하는 라운드 인덱스
     let label = "";
 
-    // 🔹 **수정된 `remainingTeams` 계산법**
+    // 수정된 remainingTeams 계산법
     const remainingTeams = Math.pow(2, totalRounds - roundIndex + 1);
 
     if (remainingTeams === 2) {
@@ -116,6 +119,5 @@ export const convertToTournamentFormat = (
     });
   }
 
-  // 최종 반환: [{ round: 1, label: '16강', matches: [...] }, { round: 2, label: '8강', ... }, ... ]
   return result;
 };
