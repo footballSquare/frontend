@@ -65,10 +65,12 @@ const TeamSection = (props: TeamSectionProps) => {
                 transform: "translateX(-50%)",
               }}>
               <div className="group flex flex-col items-center">
-                <p>{player.player_list_nickname}</p>
+                <p className="truncate whitespace-nowrap overflow-hidden text-[10px] leading-tight">
+                  {player.player_list_nickname}
+                </p>
                 <div className="bg-white rounded-full w-8 h-8 flex items-center justify-center shadow group-hover:scale-110 transition-transform"></div>
                 <div
-                  className={`absolute left-1/2 -translate-x-1/2 top-[calc(100%+8px)] p-2 bg-gray-800 text-white text-xs rounded-md shadow-lg border border-gray-600 whitespace-nowrap transition-opacity duration-200 ${
+                  className={`absolute left-1/2 -translate-x-1/2 top-[calc(100%+8px)] p-2 bg-gray-800 text-white text-xs rounded-md shadow-lg border border-gray-600 whitespace-nowrap transition-opacity duration-200  ${
                     activeTooltipId === player.player_list_idx
                       ? "opacity-100"
                       : "opacity-0 group-hover:opacity-100"

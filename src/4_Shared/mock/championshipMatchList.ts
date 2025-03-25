@@ -209,14 +209,12 @@ export const mockChampionshipMatchTor = {
       championship_match_first: {
         team_list_idx: 1,
         championship_match_first_idx: 114,
-
         team_list_name: "FC 서울",
         team_list_short_name: "SEO",
         team_list_color: "#C91A09",
         team_list_emblem: trophy,
         match_team_stats_our_score: 2,
         match_team_stats_other_score: 1,
-
         common_status_idx: 4,
       },
       championship_match_second: {

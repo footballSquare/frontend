@@ -16,11 +16,11 @@ export const basePositionCoordinates: {
   CDM: { top: "60%", left: "50%" },
   LDM: { top: "60%", left: "30%" },
   // Midfielders
-  RM: { top: "50%", left: "75%" },
+  RM: { top: "50%", left: "85%" },
   RCM: { top: "50%", left: "65%" },
   CM: { top: "50%", left: "50%" },
   LCM: { top: "50%", left: "35%" },
-  LM: { top: "50%", left: "25%" },
+  LM: { top: "50%", left: "15%" },
   // Attacking Midfielders
   RAM: { top: "40%", left: "70%" },
   CAM: { top: "38%", left: "50%" },
@@ -29,5 +29,5 @@ export const basePositionCoordinates: {
   RW: { top: "28%", left: "80%" },
   ST: { top: "20%", left: "50%" },
   LW: { top: "28%", left: "20%" },
-  CF: { top: "18%", left: "50%" },
+  CF: { top: "25%", left: "65%" },
 };
