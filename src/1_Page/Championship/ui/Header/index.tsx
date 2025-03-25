@@ -2,16 +2,14 @@ import React from "react";
 import { getTextColorFromBackground } from "../../../../4_Shared/lib/colorChecker";
 import { matchType } from "../../../../4_Shared/constant/matchType";
 import { championshipTypes } from "../../../../4_Shared/constant/championshipTypes";
-import AdminBtns from "./ui/AdminBtns";
 
 type HeaderProps = {
   championshipInfo: ChampionshipInfo;
   isAdmin: boolean;
-  championshipIdx: number;
 };
 
 const Header = (props: HeaderProps) => {
-  const { championshipInfo, isAdmin, championshipIdx } = props;
+  const { championshipInfo, isAdmin } = props;
   const [isHeaderCollapsed, setIsHeaderCollapsed] =
     React.useState<boolean>(false);
   const toggleHeader = () => setIsHeaderCollapsed(!isHeaderCollapsed);
@@ -63,7 +61,18 @@ const Header = (props: HeaderProps) => {
             <p className="text-inherit flex-1">
               {championshipInfo.championship_list_description}
             </p>
-            {isAdmin && <AdminBtns championshipIdx={championshipIdx} />}
+            {isAdmin && (
+              <div>
+                <div className="flex gap-2">
+                  <button className="px-3 py-2 border border-gray-300 rounded hover:bg-gray-100">
+                    대회 수정
+                  </button>
+                  <button className="px-3 py-2 border border-gray-300 rounded hover:bg-gray-100">
+                    대회 마감
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       )}
