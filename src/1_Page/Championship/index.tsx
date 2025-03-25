@@ -7,7 +7,7 @@ const Championship = () => {
   const isAdmin = true;
   const [championshipIdx] = useValidParamInteger("championshipIdx");
   const [championshipInfo] = useGetChampionshipInfo(championshipIdx);
-  const isLeague = championshipInfo.championship_type_name === "리그";
+  const isLeague = championshipInfo.championship_type === 0;
 
   return (
     <div className="w-full min-h-full  text-gray-800">
