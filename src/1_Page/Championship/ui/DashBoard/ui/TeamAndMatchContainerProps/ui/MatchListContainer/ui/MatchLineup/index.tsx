@@ -1,7 +1,7 @@
 import React from "react";
 import TeamSection from "./ui/TeamSection";
 import useGetChampionshipDetail from "../../../../../../../../../../3_Entity/Championship/useGetChampionshipDetail";
-import { teamStatKeys } from "./constant/lineup";
+import TeamStatsCard from "./ui/TeamStatCard";
 
 const MatchLineup = (props: MatchLineupProps) => {
   const { matchIdx, selectTeamList } = props;
@@ -36,74 +36,19 @@ const MatchLineup = (props: MatchLineupProps) => {
       {isTeamHistoryView ? (
         <div className="container mx-auto px-4 py-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="bg-white shadow-lg rounded-xl overflow-hidden transition-all duration-300 hover:shadow-xl">
-              <div className="flex items-center justify-center p-4 bg-blue-50">
-                <h3 className="text-xl font-bold text-blue-800">
-                  {selectTeamList[0]}
-                </h3>
-              </div>
-              <div className="p-4">
-                <div className="overflow-x-auto">
-                  <table className="w-full">
-                    <tbody>
-                      {teamStatKeys.map((item) => (
-                        <tr
-                          key={item.key}
-                          className="border-b last:border-b-0 hover:bg-gray-50 transition-colors">
-                          <td className="px-4 py-3 flex items-center text-gray-700">
-                            <span className="font-medium">{item.label}</span>
-                          </td>
-                          <td className="px-4 py-3 text-right">
-                            <div className="flex items-center justify-end">
-                              <span className="font-semibold text-gray-800 mr-2">
-                                {championshipDetail?.first_team.stats?.[
-                                  item.key
-                                ] ?? 0}
-                              </span>
-                            </div>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
+            <TeamStatsCard
+              teamName={selectTeamList[0]}
+              stats={championshipDetail?.first_team.stats}
+              backgroundColorClass="bg-blue-50"
+              textColorClass="text-blue-800"
+            />
 
-            <div className="bg-white shadow-lg rounded-xl overflow-hidden transition-all duration-300 hover:shadow-xl">
-              <div className="flex items-center justify-center p-4 bg-green-50">
-                <h3 className="text-xl font-bold text-green-800">
-                  {selectTeamList[1]}
-                </h3>
-              </div>
-
-              <div className="p-4">
-                <div className="overflow-x-auto">
-                  <table className="w-full">
-                    <tbody>
-                      {teamStatKeys.map((item) => (
-                        <tr
-                          key={item.key}
-                          className="border-b last:border-b-0 hover:bg-gray-50 transition-colors">
-                          <td className="px-4 py-3 flex items-center text-gray-700">
-                            <span className="font-medium">{item.label}</span>
-                          </td>
-                          <td className="px-4 py-3 text-right">
-                            <div className="flex items-center justify-end">
-                              <span className="font-semibold text-gray-800 mr-2">
-                                {championshipDetail?.second_team.stats?.[
-                                  item.key
-                                ] ?? 0}
-                              </span>
-                            </div>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
+            <TeamStatsCard
+              teamName={selectTeamList[1]}
+              stats={championshipDetail?.second_team.stats}
+              backgroundColorClass="bg-green-50"
+              textColorClass="text-green-800"
+            />
           </div>
         </div>
       ) : (
