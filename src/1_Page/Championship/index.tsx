@@ -12,7 +12,11 @@ const Championship = () => {
   return (
     <div className="w-full min-h-full  text-gray-800">
       {/* 상단 배너 영역 */}
-      <Header championshipInfo={championshipInfo} isAdmin={isAdmin} />
+      <Header
+        championshipIdx={championshipIdx}
+        championshipInfo={championshipInfo}
+        isAdmin={isAdmin}
+      />
 
       <DashBoard
         championshipIdx={championshipIdx}

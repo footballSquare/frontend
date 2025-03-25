@@ -1,13 +1,15 @@
+import React from "react";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
-import { matchPosition } from "../../../../../../../../../../../../4_Shared/constant/matchPosition";
 import { basePositionCoordinates } from "../../constant/lineup";
+import { matchPosition } from "../../../../../../../../../../../../4_Shared/constant/matchPosition";
 
 const TeamSection = (props: TeamSectionProps) => {
   const { players, isFirstTeam, isFormationView, momPlayerIdx } = props;
 
   const navigate = useNavigate();
-  const [activeTooltipId, setActiveTooltipId] = useState<number | null>(null);
+  const [activeTooltipId, setActiveTooltipId] = React.useState<number | null>(
+    null
+  );
 
   return (
     <div className={"flex flex-col sm:flex-row items-center w-full  md:w-auto"}>
