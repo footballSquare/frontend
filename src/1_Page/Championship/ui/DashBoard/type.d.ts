@@ -1,6 +1,6 @@
 type DashBoardProps = {
   championshipIdx: number;
-  isLeague: boolean;
+  championship_type: number;
 };
 
 type TournamentData = {

@@ -6,7 +6,7 @@ import ParticipationMembers from "./ui/ParticipationMembers";
 import TeamAndMatchContainerProps from "./ui/TeamAndMatchContainerProps";
 
 const DashBoard = (props: DashBoardProps) => {
-  const { championshipIdx, isLeague } = props;
+  const { championshipIdx, championship_type } = props;
   const [activeTab, setActiveTab] = React.useState<ACTIVE_TAB>(
     ACTIVE_TAB.PLAYERS
   );
@@ -34,7 +34,7 @@ const DashBoard = (props: DashBoardProps) => {
         </div>
         {/* 팀 and 매치 목록 */}
         <TeamAndMatchContainerProps
-          isLeague={isLeague}
+          championship_type={championship_type}
           championshipIdx={championshipIdx}
           activeTab={activeTab}
         />
