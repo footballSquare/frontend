@@ -20,10 +20,8 @@ const Header = (props: HeaderProps) => {
         ),
       }}>
       <div className="w-full flex justify-end">
-        <button
-          onClick={toggleHeader}
-          className="px-3 py-2 border border-gray-300 rounded hover:bg-gray-100">
-          {isHeaderCollapsed ? "배너 열기" : "배너 접기"}
+        <button onClick={toggleHeader} className="text-lg hover:opacity-70">
+          {isHeaderCollapsed ? "▽" : "△"}
         </button>
       </div>
 
