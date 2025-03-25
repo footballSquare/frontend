@@ -8,6 +8,10 @@ const MatchListContainer = (props: MatchListContainerProps) => {
   const [selectedIdx, setSelectedIdx] = React.useState<number>(
     matchList[0].championship_match_idx
   );
+  const { selectTeamList, selectTeamScore } = getSelectedMatchTeams(
+    matchList,
+    selectedIdx
+  );
   const handleSelect = (idx: number) => setSelectedIdx(idx);
 
   return (
@@ -23,7 +27,8 @@ const MatchListContainer = (props: MatchListContainerProps) => {
       <div className="flex-1 min-h-[500px] bg-gray-100 p-4 overflow-x-auto md:overflow-visible">
         <MatchLineup
           matchIdx={selectedIdx}
-          selectTeamList={getSelectedMatchTeams(matchList, selectedIdx)}
+          selectTeamList={selectTeamList}
+          selectTeamScore={selectTeamScore}
         />
       </div>
     </div>
