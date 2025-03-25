@@ -100,6 +100,17 @@ const TeamSection = (props: TeamSectionProps) => {
                       )}
                     </div>
                   )}
+                  {/* 어시스트 아이콘 표시 */}
+                  {player.match_player_stats_assist > 0 && (
+                    <div className="absolute -bottom-1 -right-1 text-[10px] bg-black text-white px-1 rounded-full flex items-center gap-0.5">
+                      🎯
+                      {player.match_player_stats_assist > 1 && (
+                        <span className="ml-0.5">
+                          +{player.match_player_stats_assist}
+                        </span>
+                      )}
+                    </div>
+                  )}
                 </div>
                 <div
                   className={`absolute left-1/2 -translate-x-1/2 top-[calc(100%+8px)] p-2 bg-gray-800 text-white text-xs rounded-md shadow-lg border border-gray-600 whitespace-nowrap transition-opacity duration-200  ${
