@@ -4,7 +4,7 @@ export const convertToLeague = (
 ): TeamStats[] => {
   const statsMap: { [teamId: number]: TeamStats } = {};
 
-  // Initialize statsMap using teamList data so that every team appears
+  // 팀 리스트로 팀 배열 생성
   teamList.forEach((team) => {
     statsMap[team.team_list_idx] = {
       team_list_idx: team.team_list_idx,
@@ -23,50 +23,12 @@ export const convertToLeague = (
     };
   });
 
-  // Process match data to update team statistics
+  // 매치 리스트를 통해 팀 리스트 데이터 업데이트
   matches.forEach((match) => {
     const team1 = match.championship_match_first;
     const team2 = match.championship_match_second;
 
-    // Ensure team1 is in statsMap in case it's not in teamList
-    if (!statsMap[team1.team_list_idx]) {
-      statsMap[team1.team_list_idx] = {
-        team_list_idx: team1.team_list_idx,
-        team_list_name: team1.team_list_name,
-        team_list_short_name: team1.team_list_short_name,
-        team_list_color: team1.team_list_color,
-        team_list_emblem: team1.team_list_emblem,
-        matchesPlayed: 0,
-        wins: 0,
-        draws: 0,
-        losses: 0,
-        goalsFor: 0,
-        goalsAgainst: 0,
-        goalDifference: 0,
-        points: 0,
-      };
-    }
-
-    // Ensure team2 is in statsMap in case it's not in teamList
-    if (!statsMap[team2.team_list_idx]) {
-      statsMap[team2.team_list_idx] = {
-        team_list_idx: team2.team_list_idx,
-        team_list_name: team2.team_list_name,
-        team_list_short_name: team2.team_list_short_name,
-        team_list_color: team2.team_list_color,
-        team_list_emblem: team2.team_list_emblem,
-        matchesPlayed: 0,
-        wins: 0,
-        draws: 0,
-        losses: 0,
-        goalsFor: 0,
-        goalsAgainst: 0,
-        goalDifference: 0,
-        points: 0,
-      };
-    }
-
-    // Update team1 statistics
+    // 매치의 팀1의 데이터 업데이트
     statsMap[team1.team_list_idx].matchesPlayed += 1;
     statsMap[team1.team_list_idx].goalsFor += team1.match_team_stats_our_score;
     statsMap[team1.team_list_idx].goalsAgainst +=
@@ -83,7 +45,7 @@ export const convertToLeague = (
       statsMap[team1.team_list_idx].losses += 1;
     }
 
-    // Update team2 statistics
+    // 매치의 팀2의 데이터 업데이트
     statsMap[team2.team_list_idx].matchesPlayed += 1;
     statsMap[team2.team_list_idx].goalsFor += team2.match_team_stats_our_score;
     statsMap[team2.team_list_idx].goalsAgainst +=
@@ -101,12 +63,12 @@ export const convertToLeague = (
     }
   });
 
-  // Calculate goal difference for each team
+  // 골득실 계산
   Object.values(statsMap).forEach((team) => {
     team.goalDifference = team.goalsFor - team.goalsAgainst;
   });
 
-  // Convert statsMap to an array and sort by points, goal difference, and goals for
+  // 객체 배열화 및 sosrt 함수를 통한 정렬
   const teamStatsArray = Object.values(statsMap);
   teamStatsArray.sort((a, b) => {
     if (b.points !== a.points) return b.points - a.points;
