@@ -22,7 +22,11 @@ const TeamAndMatchContainer = (props: TeamAndMatchContainerProps) => {
           <LeagueBracket leagueData={convertToLeague(matchList, teamList)} />
         ) : (
           <TournamentBracket
-            tournamentData={convertToTournamentFormat(matchList, teamList)}
+            tournamentData={convertToTournamentFormat(
+              matchList,
+              teamList,
+              championship_type
+            )}
           />
         )}
       </div>
