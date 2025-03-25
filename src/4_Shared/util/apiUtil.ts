@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import React from "react";
 
 const SERVER_URL = import.meta.env.VITE_SERVER_URL;
@@ -72,10 +72,26 @@ export const useFetchData = (): [
         },
         data: body ? body : undefined,
       });
-      console.log(response.data, response.status);
+      
       setServerState({ ...response.data, status: response.status });
-    } catch (error) {
-      console.log(error);
+    } catch (error: unknown) {
+      if (error instanceof AxiosError) {
+        const { status, data } = error.response ?? {};
+
+        if (status === 404) {
+          console.error("Not Found:", status, data);
+          alert("해당 데이터를 찾을 수 없습니다.");
+          window.location.href = "/";
+        } else if (status === 500) {
+          console.error("Internal Server Error:", status, data);
+          alert("해당 데이터를 찾을 수 없습니다.");
+          window.location.href = "/";
+        } else if (status === 400) {
+          console.error("Client error:", status, data);
+          alert("해당 데이터를 찾을 수 없습니다.");
+          window.location.href = "/";
+        }
+      }
     } finally {
       setLoading(false);
     }

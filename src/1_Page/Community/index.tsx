@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
-import ChampionshipList from "./ui/ChampionshipList";
-import CommunityAdminList from "./ui/CommunityAdminList";
+import ChampionshipList from "./ui/ChampionShipList";
+import CommunityStaffList from "./ui/CommunityStaffList";
 import CommunityTeamList from "../../2_Widget/CommunityTeamList";
 import useModifyMode from "./model/useModifyMode";
 import useGetCommunityInfo from "../../3_Entity/Community/useGetCommunityInfo";
@@ -51,7 +51,7 @@ const Community = () => {
         )}
 
         {/* 커뮤니티 운영진 목록 */}
-        <CommunityAdminList communityIdx={Number(communityIdx)} />
+        <CommunityStaffList communityIdx={Number(communityIdx)} />
 
         {/* 커뮤니티 상호작용 버튼 (운영진 지원, 수정) */}
         {isCommunityAdmin ? (
