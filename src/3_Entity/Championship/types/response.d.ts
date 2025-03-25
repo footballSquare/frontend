@@ -70,7 +70,7 @@ type PlayerStats = {
   match_player_stats_possition: number;
 };
 
-type TeamStat = {
+type TeamStats = {
   match_team_stats_our_score: number;
   match_team_stats_other_score: number;
   match_team_stats_possession: number;
@@ -99,13 +99,13 @@ type ChampionshipDetail = {
   first_team: {
     team_list_idx: number;
     team_formation_idx: number;
-    stats: TeamStat;
+    stats: TeamStats;
     player_stats: PlayerStats[];
   };
   second_team: {
     team_list_idx: number;
     team_formation_idx: number;
-    stats: TeamStat;
+    stats: TeamStats;
     player_stats: PlayerStats[];
   };
 };

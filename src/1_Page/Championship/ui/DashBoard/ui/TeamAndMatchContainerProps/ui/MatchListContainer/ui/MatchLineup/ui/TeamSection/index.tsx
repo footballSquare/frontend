@@ -4,7 +4,7 @@ import { matchPosition } from "../../../../../../../../../../../../4_Shared/cons
 import { basePositionCoordinates } from "../../constant/lineup";
 
 const TeamSection = (props: TeamSectionProps) => {
-  const { players, isFirstTeam, isFormationView } = props;
+  const { players, isFirstTeam, isFormationView, momPlayerIdx } = props;
   const navigate = useNavigate();
   const [activeTooltipId, setActiveTooltipId] = useState<number | null>(null);
 
@@ -27,7 +27,15 @@ const TeamSection = (props: TeamSectionProps) => {
                 );
               }}
               className="relative group p-3 border-b bg-white rounded-md shadow-md hover:bg-gray-50 transition">
-              <div className="text-sm">{player.player_list_nickname}</div>
+              <div
+                className={`text-sm ${
+                  player.player_list_idx === momPlayerIdx
+                    ? "text-yellow-500 font-bold"
+                    : ""
+                }`}>
+                {player.player_list_idx === momPlayerIdx ? "MOM " : ""}
+                {player.player_list_nickname}
+              </div>
             </div>
           ))}
         </div>
@@ -47,6 +55,7 @@ const TeamSection = (props: TeamSectionProps) => {
         {players?.map((player) => {
           // players의 인덱스를 기준으로 matchPosition 배열에서 포지션을 결정
           const pos = matchPosition[player.match_player_stats_possition];
+
           const basePos = basePositionCoordinates[pos];
           return (
             <div
@@ -65,10 +74,33 @@ const TeamSection = (props: TeamSectionProps) => {
                 transform: "translateX(-50%)",
               }}>
               <div className="group flex flex-col items-center">
-                <p className="truncate whitespace-nowrap overflow-hidden text-[10px] leading-tight">
+                <p
+                  className={`truncate whitespace-nowrap overflow-hidden text-[10px] leading-tight ${
+                    player.player_list_idx === momPlayerIdx
+                      ? "text-yellow-400 font-bold"
+                      : ""
+                  }`}>
+                  {player.player_list_idx === momPlayerIdx ? "MOM " : ""}
                   {player.player_list_nickname}
                 </p>
-                <div className="bg-white rounded-full w-8 h-8 flex items-center justify-center shadow group-hover:scale-110 transition-transform"></div>
+                <div
+                  className={`relative rounded-full w-8 h-8 flex items-center justify-center shadow group-hover:scale-110 transition-transform ${
+                    player.player_list_idx === momPlayerIdx
+                      ? "bg-yellow-300"
+                      : "bg-white"
+                  }`}>
+                  {/* 골 아이콘 표시 */}
+                  {player.match_player_stats_goal > 0 && (
+                    <div className="absolute -bottom-1 -left-1 text-[10px] bg-black text-white px-1 rounded-full flex items-center gap-0.5">
+                      ⚽
+                      {player.match_player_stats_goal > 1 && (
+                        <span className="ml-0.5">
+                          +{player.match_player_stats_goal}
+                        </span>
+                      )}
+                    </div>
+                  )}
+                </div>
                 <div
                   className={`absolute left-1/2 -translate-x-1/2 top-[calc(100%+8px)] p-2 bg-gray-800 text-white text-xs rounded-md shadow-lg border border-gray-600 whitespace-nowrap transition-opacity duration-200  ${
                     activeTooltipId === player.player_list_idx
@@ -118,7 +150,15 @@ const TeamSection = (props: TeamSectionProps) => {
                     : player.player_list_idx
                 );
               }}>
-              <div className="text-sm">{player.player_list_nickname}</div>
+              <div
+                className={`text-sm ${
+                  player.player_list_idx === momPlayerIdx
+                    ? "text-yellow-500 font-bold"
+                    : ""
+                }`}>
+                {player.player_list_idx === momPlayerIdx ? "MOM " : ""}
+                {player.player_list_nickname}
+              </div>
             </div>
           ))}
         </div>

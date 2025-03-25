@@ -13,3 +13,8 @@ type MatchFormationResult = {
   assignedFirst: AssignFormation[];
   assignedSecond: AssignFormation[];
 };
+
+type TeamStatKey = {
+  label: string;
+  key: keyof TeamStats;
+};
