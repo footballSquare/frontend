@@ -16,7 +16,7 @@ const EvidenceDetailModal = (props: EvidenceDetailModalProps) => {
 
       {isModalOpen && (
         <div
-          className="fixed inset-0 z-50 overflow-y-auto bg-black/60 flex items-center justify-center p-4"
+          className="fixed inset-0 z-10 h-full bg-black/60 flex items-center justify-center p-4"
           onClick={handleToggleModal}>
           <div
             className="bg-white w-full max-w-4xl rounded-2xl shadow-2xl border border-gray-200 max-h-[90vh] overflow-y-auto"
@@ -47,8 +47,8 @@ const EvidenceDetailModal = (props: EvidenceDetailModalProps) => {
                       </h3>
                       {evidence.first_team_evidence &&
                       evidence.first_team_evidence.length > 0 ? (
-                        <div className="overflow-x-auto w-full">
-                          <div className="grid grid-cols-4 gap-4">
+                        <div className="overflow-x-auto  w-full">
+                          <div className="grid grid-cols-4 gap-4 p-1">
                             {evidence.first_team_evidence.map((item) => (
                               <div
                                 key={item.match_team_stats_evidence_img}
@@ -81,12 +81,12 @@ const EvidenceDetailModal = (props: EvidenceDetailModalProps) => {
                       </h3>
                       {evidence.second_team_evidence &&
                       evidence.second_team_evidence.length > 0 ? (
-                        <div className="overflow-x-auto w-full">
+                        <div className="overflow-x-auto w-full ">
                           <div className="grid grid-cols-4 gap-4">
                             {evidence.second_team_evidence.map((item) => (
                               <div
                                 key={item.match_team_stats_evidence_img}
-                                className="group relative cursor-pointer"
+                                className="group relative cursor-pointer p-1"
                                 onClick={() =>
                                   setSelectedImage(
                                     item.match_team_stats_evidence_img
@@ -116,7 +116,7 @@ const EvidenceDetailModal = (props: EvidenceDetailModalProps) => {
                       {evidence.player_evidence &&
                       evidence.player_evidence.length > 0 ? (
                         <div className="overflow-x-auto w-full">
-                          <div className="grid grid-cols-4 gap-4">
+                          <div className="grid grid-cols-4 gap-4 p-1">
                             {evidence.player_evidence.map((item) => (
                               <div
                                 key={item.match_player_stats_evidence_img}
@@ -126,7 +126,7 @@ const EvidenceDetailModal = (props: EvidenceDetailModalProps) => {
                                     item.match_player_stats_evidence_img
                                   )
                                 }>
-                                <p className="text-sm text-gray-600 mb-2">
+                                <p className="font-semibold text-gray-600 mb-2">
                                   {item.player_list_nickname}
                                 </p>
                                 <img
