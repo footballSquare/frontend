@@ -7,14 +7,17 @@ const Championship = () => {
   const isAdmin = true;
   const [championshipIdx] = useValidParamInteger("championshipIdx");
   const [championshipInfo] = useGetChampionshipInfo(championshipIdx);
-  const isLeague = championshipInfo.championship_type === 0;
+  const championship_type = championshipInfo.championship_type;
 
   return (
     <div className="w-full min-h-full  text-gray-800">
       {/* 상단 배너 영역 */}
       <Header championshipInfo={championshipInfo} isAdmin={isAdmin} />
 
-      <DashBoard championshipIdx={championshipIdx} isLeague={isLeague} />
+      <DashBoard
+        championshipIdx={championshipIdx}
+        championship_type={championship_type}
+      />
     </div>
   );
 };

@@ -1,5 +1,5 @@
 type TeamAndMatchContainerProps = {
   championshipIdx: number;
-  isLeague: boolean;
+  championship_type: number;
   activeTab: string;
 };

@@ -77,7 +77,9 @@ export const convertToTournamentFormat = (
     flatMatchesFinal = dummyMatches;
   }
 
+  // ----------------------------
   // 2) Flat 배열을 라운드별로 잘라서 { round, label, matches } 형태로 만들기
+  // ----------------------------
   const teamCount = teamList.length; // teamList 기준 팀 수 사용
   const totalRounds = Math.log2(teamCount);
 

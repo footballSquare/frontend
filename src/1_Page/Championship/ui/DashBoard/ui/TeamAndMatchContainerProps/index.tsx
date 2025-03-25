@@ -10,9 +10,11 @@ import useGetChampionshipTeamList from "../../../../../../3_Entity/Championship/
 import { ACTIVE_TAB } from "../../constant/activeTab";
 
 const TeamAndMatchContainer = (props: TeamAndMatchContainerProps) => {
-  const { championshipIdx, isLeague, activeTab } = props;
+  const { championshipIdx, championship_type, activeTab } = props;
   const [matchList] = useGetChampionshipMatchList(championshipIdx);
   const [teamList] = useGetChampionshipTeamList(championshipIdx);
+  const isLeague = championship_type === 0;
+
   return (
     <div>
       <div className={activeTab === ACTIVE_TAB.TEAM ? "block" : "hidden"}>
