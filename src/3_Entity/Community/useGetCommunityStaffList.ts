@@ -1,18 +1,18 @@
 import { mockCommunityStaffList } from "../../4_Shared/mock/communityStaffList";
 import React from "react";
-import { useFetch } from "../../4_Shared/util/apiUtil";
+import { useFetchData } from "../../4_Shared/util/apiUtil";
 
 const useGetCommunityStaffList = (
   props: UseGetCommunityStaffListProps
 ): [CommunityStaff[], boolean] => {
   const { communityIdx } = props;
-  const [serverState, request, loading] = useFetch();
+  const [serverState, request, loading] = useFetchData();
   const [communityStaffList, setCommunityStaffList] = React.useState<
     CommunityStaff[]
   >(mockCommunityStaffList.community_staff);
 
   React.useEffect(() => {
-    request(mockCommunityStaffList);
+    request("GET", `community/${communityIdx}/staff`, null);
   }, [communityIdx]);
 
   React.useEffect(() => {

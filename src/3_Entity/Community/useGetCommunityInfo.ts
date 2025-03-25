@@ -16,7 +16,7 @@ const useGetCommunityInfo = (
 
   React.useEffect(() => {
     if (!loading && serverState) {
-      setCommunityInfo(serverState.community as Community);
+      setCommunityInfo(serverState as Community);
     }
   }, [loading, serverState]);
 

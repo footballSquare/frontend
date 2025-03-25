@@ -4,9 +4,9 @@ const ChampionshipList = (props: ChampionshipListProps) => {
   const [championshipList] = useGetChampionshipList({ communityIdx });
   return (
     <div className="bg-white rounded-lg shadow w-full flex flex-col gap-4 overflow-y-auto">
-      {championshipList.map((elem) => {
+      {championshipList.map((elem, index) => {
         return (
-          <div className=" border border-gray shadow-lg rounded-lg p-2">
+          <div key={index} className=" border border-gray shadow-lg rounded-lg p-2 min-h-[120px]">
             {/* {elem.championship_list_idx} */}
             <h3>{elem.championship_list_name}</h3>
             <img
