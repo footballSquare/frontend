@@ -5,6 +5,7 @@ import { basePositionCoordinates } from "../../constant/lineup";
 
 const TeamSection = (props: TeamSectionProps) => {
   const { players, isFirstTeam, isFormationView, momPlayerIdx } = props;
+
   const navigate = useNavigate();
   const [activeTooltipId, setActiveTooltipId] = useState<number | null>(null);
 
@@ -34,14 +35,14 @@ const TeamSection = (props: TeamSectionProps) => {
                     : ""
                 }`}>
                 {player.player_list_idx === momPlayerIdx ? "MOM " : ""}
+                {matchPosition[player.match_player_stats_possition]}
+                {" : "}
                 {player.player_list_nickname}
               </div>
             </div>
           ))}
         </div>
       )}
-
-      {/* 팀 포메이션 */}
 
       {/* 팀 포메이션 */}
       <div
@@ -168,6 +169,8 @@ const TeamSection = (props: TeamSectionProps) => {
                     : ""
                 }`}>
                 {player.player_list_idx === momPlayerIdx ? "MOM " : ""}
+                {matchPosition[player.match_player_stats_possition]}
+                {" : "}
                 {player.player_list_nickname}
               </div>
             </div>
