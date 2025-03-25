@@ -1,61 +1,5 @@
 import trophy from "../assets/img/trophy.jpg";
 
-const teams = [
-  { idx: 1, name: "FC 서울", short: "SEO", color: "#C91A09" },
-  { idx: 2, name: "전북 현대 모터스", short: "JEO", color: "#007A33" },
-  { idx: 3, name: "울산 현대", short: "ULS", color: "#004A99" },
-  { idx: 4, name: "포항 스틸러스", short: "POH", color: "#AD1C1C" },
-  { idx: 5, name: "제주 유나이티드", short: "JEJ", color: "#FF5A00" },
-  { idx: 6, name: "수원 삼성 블루윙즈", short: "SSB", color: "#0033A0" },
-  { idx: 7, name: "인천 유나이티드", short: "INC", color: "#101C54" },
-  { idx: 8, name: "강원 FC", short: "GAN", color: "#F15A22" },
-  { idx: 9, name: "대구 FC", short: "DAE", color: "#0F85C1" },
-  { idx: 10, name: "광주 FC", short: "GWA", color: "#E4002B" },
-  { idx: 11, name: "대전 하나 시티즌", short: "DAJ", color: "#B70E0E" },
-  { idx: 12, name: "수원 FC", short: "SUW", color: "#A30B37" },
-  { idx: 13, name: "성남 FC", short: "SEONG", color: "#111111" },
-  { idx: 14, name: "경남 FC", short: "GYE", color: "#C8102E" },
-  { idx: 15, name: "부산 아이파크", short: "BUS", color: "#E41E24" },
-  { idx: 16, name: "충남 아산 FC", short: "ASA", color: "#004EA2" },
-];
-const totalRounds = 8;
-let matchIndex = 1;
-const matchList = [];
-
-for (let round = 1; round <= totalRounds; round++) {
-  for (let i = 0; i < teams.length; i += 2) {
-    matchList.push({
-      championship_match_idx: matchIndex++,
-      championship_match_first: {
-        team_list_idx: teams[i].idx,
-        championship_match_first_idx: matchIndex * 100,
-        team_list_name: teams[i].name,
-        team_list_short_name: teams[i].short,
-        team_list_color: teams[i].color,
-        team_list_emblem: trophy,
-        match_team_stats_our_score: Math.floor(Math.random() * 4),
-        match_team_stats_other_score: Math.floor(Math.random() * 4),
-        common_status_idx: 4,
-      },
-      championship_match_second: {
-        team_list_idx: teams[i + 1].idx,
-        championship_match_second_idx: matchIndex * 100 + 1,
-        team_list_name: teams[i + 1].name,
-        team_list_short_name: teams[i + 1].short,
-        team_list_color: teams[i + 1].color,
-        team_list_emblem: trophy,
-        match_team_stats_our_score: Math.floor(Math.random() * 4),
-        match_team_stats_other_score: Math.floor(Math.random() * 4),
-        common_status_idx: 4,
-      },
-    });
-  }
-}
-
-export const mockChampionshipMatchList = {
-  championship_match: matchList,
-};
-
 export const mockChampionshipMatchTor = {
   championship_match: [
     // 16강 (Round of 16) - 8경기
@@ -264,6 +208,8 @@ export const mockChampionshipMatchTor = {
       championship_match_idx: 9,
       championship_match_first: {
         team_list_idx: 1,
+        championship_match_first_idx: 114,
+
         team_list_name: "FC 서울",
         team_list_short_name: "SEO",
         team_list_color: "#C91A09",
@@ -274,6 +220,7 @@ export const mockChampionshipMatchTor = {
         common_status_idx: 4,
       },
       championship_match_second: {
+        championship_match_second_idx: 102,
         team_list_idx: 3,
         team_list_name: "울산 현대",
         team_list_short_name: "ULS",
@@ -289,6 +236,8 @@ export const mockChampionshipMatchTor = {
       championship_match_idx: 10,
       championship_match_first: {
         team_list_idx: 6,
+        championship_match_first_idx: 114,
+
         team_list_name: "수원 삼성 블루윙즈",
         team_list_short_name: "SSB",
         team_list_color: "#0033A0",
@@ -300,6 +249,8 @@ export const mockChampionshipMatchTor = {
       },
       championship_match_second: {
         team_list_idx: 7,
+
+        championship_match_second_idx: 102,
         team_list_name: "인천 유나이티드",
         team_list_short_name: "INC",
         team_list_color: "#101C54",
@@ -314,6 +265,8 @@ export const mockChampionshipMatchTor = {
       championship_match_idx: 11,
       championship_match_first: {
         team_list_idx: 10,
+        championship_match_first_idx: 114,
+
         team_list_name: "광주 FC",
         team_list_short_name: "GWA",
         team_list_color: "#E4002B",
@@ -326,6 +279,8 @@ export const mockChampionshipMatchTor = {
       championship_match_second: {
         team_list_idx: 12,
         team_list_name: "수원 FC",
+        championship_match_second_idx: 102,
+
         team_list_short_name: "SUW",
         team_list_color: "#A30B37",
         team_list_emblem: trophy,
@@ -340,6 +295,8 @@ export const mockChampionshipMatchTor = {
       championship_match_first: {
         team_list_idx: 14,
         team_list_name: "경남 FC",
+        championship_match_first_idx: 114,
+
         team_list_short_name: "GYE",
         team_list_color: "#C8102E",
         team_list_emblem: trophy,
@@ -356,6 +313,7 @@ export const mockChampionshipMatchTor = {
         team_list_emblem: trophy,
         match_team_stats_our_score: 2,
         match_team_stats_other_score: 1,
+        championship_match_second_idx: 102,
 
         common_status_idx: 4,
       },
@@ -368,6 +326,8 @@ export const mockChampionshipMatchTor = {
         team_list_idx: 1,
         team_list_name: "FC 서울",
         team_list_short_name: "SEO",
+        championship_match_first_idx: 114,
+
         team_list_color: "#C91A09",
         team_list_emblem: trophy,
         match_team_stats_our_score: 2,
@@ -383,6 +343,7 @@ export const mockChampionshipMatchTor = {
         team_list_emblem: trophy,
         match_team_stats_our_score: 3,
         match_team_stats_other_score: 2,
+        championship_match_second_idx: 102,
 
         common_status_idx: 4,
       },
@@ -392,6 +353,8 @@ export const mockChampionshipMatchTor = {
       championship_match_first: {
         team_list_idx: 10,
         team_list_name: "광주 FC",
+        championship_match_first_idx: 114,
+
         team_list_short_name: "GWA",
         team_list_color: "#E4002B",
         team_list_emblem: trophy,
@@ -408,6 +371,7 @@ export const mockChampionshipMatchTor = {
         team_list_emblem: trophy,
         match_team_stats_our_score: 2,
         match_team_stats_other_score: 1,
+        championship_match_second_idx: 102,
 
         common_status_idx: 4,
       },
@@ -419,6 +383,8 @@ export const mockChampionshipMatchTor = {
       championship_match_first: {
         team_list_idx: 7,
         team_list_name: "인천 유나이티드",
+        championship_match_first_idx: 114,
+
         team_list_short_name: "INC",
         team_list_color: "#101C54",
         team_list_emblem: trophy,
@@ -435,6 +401,7 @@ export const mockChampionshipMatchTor = {
         team_list_emblem: trophy,
         match_team_stats_our_score: 2,
         match_team_stats_other_score: 3,
+        championship_match_second_idx: 102,
 
         common_status_idx: 4,
       },
