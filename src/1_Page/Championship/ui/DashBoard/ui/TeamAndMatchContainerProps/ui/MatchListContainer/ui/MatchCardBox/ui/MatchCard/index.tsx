@@ -14,7 +14,7 @@ const MatchCard = (props: MatchCardProps) => {
     <li
       onClick={() => handleSelect(match.championship_match_idx)}
       key={`match-list-${index}`}
-      className={`flex flex-col min-w-[150px] w-auto sm:w-[95%] sm:p-2 p-2 rounded-lg shadow-lg transition-transform transform hover:scale-[1.03]
+      className={`flex flex-col min-w-[200px] w-auto sm:w-[95%] sm:p-2 p-2 rounded-lg shadow-lg transition-transform transform hover:scale-[1.03]
     ${
       isFinished
         ? "bg-gray-600 text-white hover:bg-gray-700"

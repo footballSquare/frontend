@@ -5,7 +5,7 @@ import TeamStatsCard from "./ui/TeamStatCard";
 import EvidenceDetailModal from "./ui/EvidenceDetailModal";
 
 const MatchLineup = (props: MatchLineupProps) => {
-  const { matchIdx, selectTeamList } = props;
+  const { matchIdx, selectTeamList, selectTeamScore } = props;
   const [isFormationView, setIsFormationView] = React.useState<boolean>(true);
   const [isTeamHistoryView, setIsTeamHistoryView] =
     React.useState<boolean>(false);
@@ -58,11 +58,11 @@ const MatchLineup = (props: MatchLineupProps) => {
         <div>
           <div className="flex justify-center items-center gap-4 mb-4">
             <h2 className="text-xl font-bold mb-4 text-center">
-              {selectTeamList[0]}
+              {selectTeamList[0]} {`(${selectTeamScore[0]})`}
             </h2>
             <span className="text-xl font-bold">VS</span>
             <h2 className="text-xl font-bold mb-4 text-center">
-              {selectTeamList[1]}
+              {selectTeamList[1]} {`(${selectTeamScore[1]})`}
             </h2>
           </div>
 
