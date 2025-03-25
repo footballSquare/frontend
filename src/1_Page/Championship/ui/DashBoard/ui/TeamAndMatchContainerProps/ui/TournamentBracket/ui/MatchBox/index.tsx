@@ -1,3 +1,5 @@
+import defaultTeamImg from "../../../../../../../../../../4_Shared/assets/svg/team.svg";
+
 const MatchBox = (props: MatchBoxProps) => {
   const { match } = props;
 
@@ -36,7 +38,10 @@ const MatchBox = (props: MatchBoxProps) => {
           }`}>
           <div className="w-10 h-10 rounded-full bg-white shadow-sm flex items-center justify-center p-1 mr-3">
             <img
-              src={match.championship_match_first.team_list_emblem}
+              src={
+                match.championship_match_first.team_list_emblem ||
+                defaultTeamImg
+              }
               alt={match.championship_match_first.team_list_name}
               className="w-8 h-8 object-contain"
             />
@@ -73,7 +78,10 @@ const MatchBox = (props: MatchBoxProps) => {
           }`}>
           <div className="w-10 h-10 rounded-full bg-white shadow-sm flex items-center justify-center p-1 mr-3">
             <img
-              src={match.championship_match_second.team_list_emblem}
+              src={
+                match.championship_match_second.team_list_emblem ||
+                defaultTeamImg
+              }
               alt={match.championship_match_second.team_list_name}
               className="w-8 h-8 object-contain"
             />

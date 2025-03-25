@@ -55,7 +55,7 @@ export const convertToTournamentFormat = (
     ...rounds[1],
   ];
 
-  // 만약 경기 데이터가 없으면, teamList를 기반으로 더미 경기(첫 라운드)를 생성
+  // 만약 flatMatches 자체가 아예 없으면, teamList를 이용해 첫 라운드 dummy 경기를 생성
   let flatMatchesFinal = flatMatches;
   if (flatMatches.length === 0) {
     const dummyMatches: ChampionshipMatchList[] = [];
@@ -80,9 +80,9 @@ export const convertToTournamentFormat = (
   // ----------------------------
   // 2) Flat 배열을 라운드별로 잘라서 { round, label, matches } 형태로 만들기
   // ----------------------------
-  const teamCount = teamList.length; // teamList 기준 팀 수 사용
+  // 총 팀 수는 teamList 기준
+  const teamCount = teamList.length;
   const totalRounds = Math.log2(teamCount);
-
   const result: {
     round: number;
     label: string;
@@ -90,22 +90,84 @@ export const convertToTournamentFormat = (
   }[] = [];
   let startIndex = 0;
 
+  // prevRoundMatches는 이전 라운드의 경기들을 보관 (dummy 경기 생성 시 활용)
+  // 첫 라운드(예: 16강)는 flatMatchesFinal에서 가져옴
+  let prevRoundMatches: ChampionshipMatchList[] = flatMatchesFinal;
+
   for (let r = 0; r < totalRounds; r++) {
-    // 라운드별 경기 수
-    const matchesInThisRound = teamCount / Math.pow(2, r + 1);
+    // 각 라운드에서 필요한 경기 수
+    const expectedMatches = teamCount / Math.pow(2, r + 1);
     const roundMatches = flatMatchesFinal.slice(
       startIndex,
-      startIndex + matchesInThisRound
+      startIndex + expectedMatches
     );
-    startIndex += matchesInThisRound;
+    startIndex += expectedMatches;
 
-    // 라벨 (ex. 16강, 8강, 4강, 결승)
-    const roundIndex = r + 1; // 1부터 시작하는 라운드 인덱스
+    // 만약 해당 라운드의 경기 수가 부족하면, 이전 라운드 경기 승자(dummy)를 이용해 채워 넣음.
+    // 예: 16강의 매치 1,2 승자는 VS 매치 3,4 승자 (즉, prevRoundMatches[0,1]와 prevRoundMatches[2,3]를 활용)
+    if (roundMatches.length < expectedMatches) {
+      const missing = expectedMatches - roundMatches.length;
+      for (let i = 0; i < missing; i++) {
+        let dummyFirst, dummySecond;
+        // 다음 라운드의 한 경기(j)를 생성할 때, 해당 경기는 이전 라운드에서 2경기를 쌍으로 묶어 생성.
+        if (prevRoundMatches.length >= i * 2 + 2) {
+          const matchA = prevRoundMatches[i * 2];
+          const matchB = prevRoundMatches[i * 2 + 1];
+          dummyFirst = {
+            team_list_idx: -1,
+            team_list_name: `승자 (${matchA.championship_match_idx})`,
+            team_list_short_name: "",
+            team_list_color: "#cccccc",
+            team_list_emblem: "",
+            match_team_stats_our_score: 0,
+            match_team_stats_other_score: 0,
+          };
+          dummySecond = {
+            team_list_idx: -1,
+            team_list_name: `승자 (${matchB.championship_match_idx})`,
+            team_list_short_name: "",
+            team_list_color: "#cccccc",
+            team_list_emblem: "",
+            match_team_stats_our_score: 0,
+            match_team_stats_other_score: 0,
+          };
+        } else {
+          // 이전 라운드 정보가 부족하면 기본 dummy 값 사용
+          dummyFirst = {
+            team_list_idx: -1,
+            team_list_name: `Dummy 승자1`,
+            team_list_short_name: "",
+            team_list_color: "#cccccc",
+            team_list_emblem: "",
+            match_team_stats_our_score: 0,
+            match_team_stats_other_score: 0,
+          };
+          dummySecond = {
+            team_list_idx: -1,
+            team_list_name: `Dummy 승자2`,
+            team_list_short_name: "",
+            team_list_color: "#cccccc",
+            team_list_emblem: "",
+            match_team_stats_our_score: 0,
+            match_team_stats_other_score: 0,
+          };
+        }
+        const dummyMatch: ChampionshipMatchList = {
+          championship_match_idx: startIndex + i, // 임시 인덱스 할당
+          championship_match_first: dummyFirst,
+          championship_match_second: dummySecond,
+        } as ChampionshipMatchList;
+        roundMatches.push(dummyMatch);
+      }
+    }
+
+    // 현재 라운드의 경기들을 다음 라운드 dummy 생성용으로 저장
+    prevRoundMatches = roundMatches;
+
+    // 라운드 라벨 설정 (예: 16강, 8강, 4강, 결승)
+    const roundIndex = r + 1;
     let label = "";
-
-    // 수정된 remainingTeams 계산법
     const remainingTeams = Math.pow(2, totalRounds - roundIndex + 1);
-
     if (remainingTeams === 2) {
       label = "결승";
     } else if (remainingTeams === 4) {

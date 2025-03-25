@@ -19,10 +19,10 @@ const TeamAndMatchContainer = (props: TeamAndMatchContainerProps) => {
     <div>
       <div className={activeTab === ACTIVE_TAB.TEAM ? "block" : "hidden"}>
         {isLeague ? (
-          <LeagueBracket teamStats={convertToLeague(matchList, teamList)} />
+          <LeagueBracket leagueData={convertToLeague(matchList, teamList)} />
         ) : (
           <TournamentBracket
-            rounds={convertToTournamentFormat(matchList, teamList)}
+            tournamentData={convertToTournamentFormat(matchList, teamList)}
           />
         )}
       </div>

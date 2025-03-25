@@ -1,7 +1,7 @@
 import MatchBox from "./ui/MatchBox";
 
 export const TournamentBracket = (props: TournamentBracketProps) => {
-  const { rounds } = props;
+  const { tournamentData } = props;
 
   return (
     <div className="p-6 bg-gradient-to-r from-blue-50 to-slate-50 rounded-lg overflow-x-auto">
@@ -11,7 +11,7 @@ export const TournamentBracket = (props: TournamentBracketProps) => {
 
       {/* 반응형 크기 조정 */}
       <div className="flex min-w-max justify-center md:scale-100 sm:scale-90 xs:scale-75 transition-all overflow-x-auto">
-        {rounds.map((roundContnet) => (
+        {tournamentData.map((roundContnet) => (
           <div
             key={roundContnet.round}
             className="flex-shrink-0 px-4"

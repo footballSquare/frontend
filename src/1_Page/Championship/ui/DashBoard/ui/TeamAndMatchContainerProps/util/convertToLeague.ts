@@ -1,8 +1,8 @@
 export const convertToLeague = (
   matches: ChampionshipMatchList[],
   teamList: ChampionshipTeamInfo[]
-): TeamStats[] => {
-  const statsMap: { [teamId: number]: TeamStats } = {};
+): LeagueData[] => {
+  const statsMap: { [teamId: number]: LeagueData } = {};
 
   // 팀 리스트로 팀 배열 생성
   teamList.forEach((team) => {

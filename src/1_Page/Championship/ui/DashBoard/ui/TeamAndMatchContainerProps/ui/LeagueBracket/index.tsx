@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 
 const LeagueBracket = (props: LeagueBracketProps) => {
-  const { teamStats, teamList } = props;
+  const { leagueData } = props;
   const navigate = useNavigate();
 
   const [showAllTeams, setShowAllTeams] = React.useState(false);
@@ -37,7 +37,7 @@ const LeagueBracket = (props: LeagueBracketProps) => {
           </tr>
         </thead>
         <tbody>
-          {(showAllTeams ? teamStats : teamStats.slice(0, 10)).map(
+          {(showAllTeams ? leagueData : leagueData.slice(0, 10)).map(
             (team, index) => (
               <tr
                 key={team.team_list_idx}
@@ -107,7 +107,7 @@ const LeagueBracket = (props: LeagueBracketProps) => {
           )}
         </tbody>
       </table>
-      {teamStats.length > 10 && (
+      {leagueData.length > 10 && (
         <div className="text-center py-4">
           <button
             className="bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700 transition"
