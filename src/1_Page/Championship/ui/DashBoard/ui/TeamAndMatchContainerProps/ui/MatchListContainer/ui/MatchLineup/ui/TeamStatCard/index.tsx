@@ -30,7 +30,11 @@ const TeamStatsCard = ({ teamName, stats, color }: TeamStatCardProps) => {
                   <td className="px-4 py-3 text-right">
                     <div className="flex items-center justify-end">
                       <span className="font-bold text-gray-900 text-lg bg-indigo-50 px-3 py-1 rounded-full group-hover:bg-indigo-100 transition-colors">
-                        {stats?.[item.key] ?? 0}
+                        {stats?.[item.key] != null
+                          ? ["match_team_stats_possession"].includes(item.key)
+                            ? `${stats[item.key]}%`
+                            : stats[item.key]
+                          : 0}
                       </span>
                     </div>
                   </td>
