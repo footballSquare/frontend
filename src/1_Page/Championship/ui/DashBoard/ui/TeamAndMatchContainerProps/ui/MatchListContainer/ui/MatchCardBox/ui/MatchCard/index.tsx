@@ -14,7 +14,7 @@ const MatchCard = (props: MatchCardProps) => {
     <li
       onClick={() => handleSelect(match.championship_match_idx)}
       key={`match-list-${index}`}
-      className={`flex flex-col w-[90%] sm:w-[95%] sm:p-2 p-2 rounded-lg shadow-lg transition-transform transform hover:scale-[1.03]
+      className={`flex flex-col min-w-[150px] w-auto sm:w-[95%] sm:p-2 p-2 rounded-lg shadow-lg transition-transform transform hover:scale-[1.03]
     ${
       isFinished
         ? "bg-gray-600 text-white hover:bg-gray-700"
@@ -30,7 +30,7 @@ const MatchCard = (props: MatchCardProps) => {
           {home.team_list_short_name}
         </span>
         <span
-          className={`mx-2 px-2 py-1 rounded-full font-bold border flex-grow-0 flex-shrink-0 text-center w-[70px] sm:w-[50px] sm:px-1 sm:py-0.5 text-xs sm:text-[10px]
+          className={`mx-2 px-2 py-1 rounded-full font-bold border flex-grow-0 flex-shrink-0 text-center w-[50px] sm:w-[50px] sm:px-1 sm:py-0.5 text-xs sm:text-[10px]
     ${
       isFinished
         ? "border-white bg-gray-700 text-white"
