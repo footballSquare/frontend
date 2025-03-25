@@ -146,15 +146,14 @@ export const mockChampionshipEvidence = {
         {
           match_match_idx: 26,
           team_list_idx: 2,
-          match_team_stats_evidence_img: "test_url",
+          match_team_stats_evidence_img: trophy,
         },
       ],
       second_team_evidence: [
         {
           match_match_idx: 27,
           team_list_idx: 11,
-          match_team_stats_evidence_img:
-            "https://footballsquare-evidance-img.s3.ap-northeast-2.amazonaws.com/evidance/1741943325416-___________.PNG",
+          match_team_stats_evidence_img: trophy,
         },
       ],
       player_evidence: [
@@ -162,13 +161,13 @@ export const mockChampionshipEvidence = {
           match_match_idx: 26,
           player_list_idx: 1,
           player_list_nickname: "TestUser",
-          match_player_stats_evidence_img: "test_url",
+          match_player_stats_evidence_img: trophy,
         },
         {
           match_match_idx: 27,
           player_list_idx: 10,
           player_list_nickname: "차범근",
-          match_player_stats_evidence_img: "테스트중 입니다.",
+          match_player_stats_evidence_img: trophy,
         },
       ],
     },

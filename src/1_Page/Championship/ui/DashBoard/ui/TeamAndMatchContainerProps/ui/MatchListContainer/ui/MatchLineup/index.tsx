@@ -2,6 +2,7 @@ import React from "react";
 import TeamSection from "./ui/TeamSection";
 import useGetChampionshipDetail from "../../../../../../../../../../3_Entity/Championship/useGetChampionshipDetail";
 import TeamStatsCard from "./ui/TeamStatCard";
+import EvidenceDetailModal from "./ui/EvidenceDetailModal";
 
 const MatchLineup = (props: MatchLineupProps) => {
   const { matchIdx, selectTeamList } = props;
@@ -12,6 +13,10 @@ const MatchLineup = (props: MatchLineupProps) => {
 
   return (
     <div className="p-4">
+      <EvidenceDetailModal
+        matchIdx={matchIdx}
+        selectTeamList={selectTeamList}
+      />
       <div className="flex justify-center mb-4 gap-4">
         <button
           className={`px-4 py-2 rounded-full border transition-colors duration-200 ${
