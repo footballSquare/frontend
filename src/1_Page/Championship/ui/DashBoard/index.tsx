@@ -13,13 +13,15 @@ const DashBoard = (props: DashBoardProps) => {
 
   return (
     <div className="w-full p-4">
-      <nav className="flex justify-around bg-blue-600 text-white p-2 rounded-md">
+      <nav className="flex overflow-x-auto space-x-2 bg-white p-2 rounded-md scrollbar-hide">
         {navList.map(({ id, label }) => (
           <button
             key={id}
             onClick={() => setActiveTab(id as ACTIVE_TAB)}
-            className={`px-4 py-2 rounded-md transition ${
-              activeTab === id ? "bg-blue-800" : "bg-blue-600 hover:bg-blue-700"
+            className={`flex-shrink-0 px-4 py-2 rounded-full text-sm font-medium transition ${
+              activeTab === id
+                ? "bg-blue-600 text-white"
+                : "bg-gray-100 text-gray-700 hover:bg-gray-200"
             }`}>
             {label}
           </button>
