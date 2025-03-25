@@ -39,15 +39,13 @@ const MatchLineup = (props: MatchLineupProps) => {
             <TeamStatsCard
               teamName={selectTeamList[0]}
               stats={championshipDetail?.first_team.stats}
-              backgroundColorClass="bg-blue-50"
-              textColorClass="text-blue-800"
+              color="blue"
             />
 
             <TeamStatsCard
               teamName={selectTeamList[1]}
               stats={championshipDetail?.second_team.stats}
-              backgroundColorClass="bg-green-50"
-              textColorClass="text-green-800"
+              color="green"
             />
           </div>
         </div>

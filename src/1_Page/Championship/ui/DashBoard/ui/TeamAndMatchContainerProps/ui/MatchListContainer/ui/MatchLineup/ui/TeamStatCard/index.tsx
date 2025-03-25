@@ -1,27 +1,35 @@
 import { teamStatKeys } from "./constant/teamStatKeys";
 
-const TeamStatsCard = (props: TeamStatCardProps) => {
-  const { teamName, stats, backgroundColorClass, textColorClass } = props;
+const TeamStatsCard = ({ teamName, stats, color }: TeamStatCardProps) => {
+  const textColorClass = `text-${color}-800`;
+  const backgroundColorClass = `bg-${color}-50`;
+
   return (
-    <div className="bg-white shadow-lg rounded-xl overflow-hidden transition-all duration-300 hover:shadow-xl">
-      <div
-        className={`flex items-center justify-center p-4 ${backgroundColorClass}`}>
-        <h3 className={`text-xl font-bold ${textColorClass}`}>{teamName}</h3>
+    <div className="bg-white border-2 border-gray-100 rounded-2xl overflow-hidden shadow-2xl hover:shadow-3xl transform hover:-translate-y-2 transition-all duration-300">
+      <div className={`relative p-5 ${backgroundColorClass} bg-opacity-10`}>
+        <h3
+          className={`text-2xl font-extrabold ${textColorClass} text-center tracking-wider`}>
+          {teamName}
+        </h3>
       </div>
-      <div className="p-4">
+
+      <div className="p-5 bg-gray-50 bg-opacity-50">
         <div className="overflow-x-auto">
           <table className="w-full">
             <tbody>
               {teamStatKeys.map((item) => (
                 <tr
                   key={item.key}
-                  className="border-b last:border-b-0 hover:bg-gray-50 transition-colors">
-                  <td className="px-4 py-3 flex items-center text-gray-700">
-                    <span className="font-medium">{item.label}</span>
+                  className="border-b last:border-b-0 hover:bg-white transition-colors duration-200 group">
+                  <td className="px-4 py-3 text-gray-700">
+                    <span
+                      className={`font-semibold transition-colors text-gray-800 `}>
+                      {item.label}
+                    </span>
                   </td>
                   <td className="px-4 py-3 text-right">
                     <div className="flex items-center justify-end">
-                      <span className="font-semibold text-gray-800 mr-2">
+                      <span className="font-bold text-gray-900 text-lg bg-indigo-50 px-3 py-1 rounded-full group-hover:bg-indigo-100 transition-colors">
                         {stats?.[item.key] ?? 0}
                       </span>
                     </div>
@@ -35,4 +43,5 @@ const TeamStatsCard = (props: TeamStatCardProps) => {
     </div>
   );
 };
+
 export default TeamStatsCard;
