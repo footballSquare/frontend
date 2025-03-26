@@ -65,7 +65,7 @@ export const useFetchData = (): [
       // API 호출
       const response = await axios({
         method: method,
-        url: `${SERVER_URL}/${endpoint}`,
+        url: `${SERVER_URL}${endpoint}`,
         params: {},
         headers: {
           Authorization: "",
