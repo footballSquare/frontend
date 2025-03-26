@@ -18,10 +18,11 @@ const MatchModal = () => {
   // 로그인 구현 이전 임시 데이터
 
   const { matchIdx, toggleMatchModal } = useMatchModalStore();
-  const [matchDetail] = useGetMatchDetail(matchIdx);
-  const [matchParticipants, setMatchParticipants] =
-    useGetMatchParticipants(matchIdx);
-  const [matchWaitList, setMatchWaitList] = useGetMatchWaitlist(matchIdx);
+  const [matchDetail] = useGetMatchDetail({ matchIdx });
+  const [matchParticipants, setMatchParticipants] = useGetMatchParticipants({
+    matchIdx,
+  });
+  const [matchWaitList, setMatchWaitList] = useGetMatchWaitlist({ matchIdx });
   const [matchApproveHandler, matchDisApproveHandler] = useMatchApprove({
     setMatchWaitList,
     setMatchParticipants,
