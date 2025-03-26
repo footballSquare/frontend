@@ -1,1 +1,1 @@
-export const teamRole = ["회장", "부회장", "팀원"];
+export const teamRole = ["팀장", "부팀장", "팀원"];

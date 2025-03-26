@@ -48,6 +48,7 @@ export type MatchWaitList = {
     }[];
   } | null;
 };
+<<<<<<< HEAD
 
 export type MatchFormData = {
   match_formation_idx: number;
@@ -95,3 +96,5 @@ type MatchStats = {
   team_stats: MatchTeamStat;
   player_stats: MatchPlayerStat[];
 };
+=======
+>>>>>>> 78fa2690ac374a5f513051f47d4f63a5f3637d59
