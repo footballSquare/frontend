@@ -1,4 +1,4 @@
-export type MatchInfo = {
+type MatchInfo = {
   match_match_idx: number;
   match_type_idx: number;
   team_list_idx: number;
@@ -10,7 +10,7 @@ export type MatchInfo = {
   common_status_idx: number;
 };
 
-export type StandbyPlayerInfo = {
+type StandbyPlayerInfo = {
   player_list_idx: number;
   player_list_platform: number;
   player_list_profile_img: string;
@@ -18,7 +18,7 @@ export type StandbyPlayerInfo = {
   player_prefer_position: string;
 };
 
-export type MatchDetail = {
+type MatchDetail = {
   match_match_idx: number;
   match_type_idx: number;
   team_list_idx: number | null;
@@ -32,14 +32,14 @@ export type MatchDetail = {
   match_formation_position: number[];
 };
 
-export type MatchParticipant = {
+type MatchParticipant = {
   match_position_idx: number;
   player_list_idx: number;
   player_list_nickname: string;
   player_list_url: string;
 };
 
-export type MatchWaitList = {
+type MatchWaitList = {
   match_waitlist: {
     [key: string]: {
       player_list_idx: number;
@@ -48,9 +48,8 @@ export type MatchWaitList = {
     }[];
   } | null;
 };
-<<<<<<< HEAD
 
-export type MatchFormData = {
+type MatchFormData = {
   match_formation_idx: number;
   match_match_participation_type: number;
   match_type_idx: number;
@@ -96,5 +95,3 @@ type MatchStats = {
   team_stats: MatchTeamStat;
   player_stats: MatchPlayerStat[];
 };
-=======
->>>>>>> 78fa2690ac374a5f513051f47d4f63a5f3637d59

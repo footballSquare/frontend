@@ -1,24 +1,24 @@
 import React from "react";
-import { useFetch } from "../../4_Shared/util/apiUtil";
+import { useFetchData } from "../../4_Shared/util/apiUtil";
 import { mockMatchDetail } from "../../4_Shared/mock//matchDetail";
-import { MatchDetail } from "./types/response";
 import useMatchModalStore from "../../4_Shared/zustand/useMatchModal";
 
 const useGetMatchDetail = (
-  matchIdx: number
+  props: useGetMatchDetailProps
 ): [
   MatchDetail,
   React.Dispatch<React.SetStateAction<MatchDetail>>,
   boolean
 ] => {
-  const [serverState, request, loading] = useFetch();
+  const { matchIdx } = props;
+  const [serverState, request, loading] = useFetchData();
   const [matchDetail, setMatchDetail] = React.useState<MatchDetail>(
     mockMatchDetail.match
   );
   const { setIsMatchEnd } = useMatchModalStore();
 
   React.useEffect(() => {
-    request(mockMatchDetail);
+    request("GET", `/match/${matchIdx}`, null);
   }, [matchIdx]);
 
   React.useEffect(() => {
