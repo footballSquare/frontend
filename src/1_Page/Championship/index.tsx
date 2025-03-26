@@ -4,7 +4,6 @@ import DashBoard from "./ui/DashBoard";
 import Header from "./ui/Header";
 
 const Championship = () => {
-  const isAdmin = true;
   const [championshipIdx] = useValidParamInteger("championshipIdx");
   const [championshipInfo] = useGetChampionshipInfo(championshipIdx);
   const championship_type = championshipInfo.championship_type;
@@ -12,7 +11,7 @@ const Championship = () => {
   return (
     <div className="w-full min-h-full  text-gray-800">
       {/* 상단 배너 영역 */}
-      <Header championshipInfo={championshipInfo} isAdmin={isAdmin} />
+      <Header championshipInfo={championshipInfo} />
 
       <DashBoard
         championshipIdx={championshipIdx}

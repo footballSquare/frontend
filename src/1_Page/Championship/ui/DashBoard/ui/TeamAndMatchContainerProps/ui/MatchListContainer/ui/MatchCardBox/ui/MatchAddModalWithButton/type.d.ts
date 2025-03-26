@@ -1,0 +1,3 @@
+type MatchAddModalWithButtonProps = {
+  teamList: ChampionshipTeamInfo[];
+};

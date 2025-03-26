@@ -1,5 +1,6 @@
 type MatchListContainerProps = {
   matchList: ChampionshipMatchList[];
+  teamList: ChampionshipTeamInfo[];
 };
 
 type SelectMatchTeamInfo = {

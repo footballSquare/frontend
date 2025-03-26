@@ -1,7 +1,11 @@
 import MatchCard from "./ui/MatchCard";
+import MatchAddModalWithButton from "./ui/MatchAddModalWithButton";
 import useSortHandler from "./model/useSortHandler";
+
 const MatchCardBox = (props: MatchCardBoxProps) => {
-  const { matchList, selectedIdx, handleSelect } = props;
+  const { matchList, teamList, selectedIdx, handleSelect } = props;
+  const isAdmin = true;
+
   const {
     searchTerm,
     sortOption,
@@ -14,6 +18,9 @@ const MatchCardBox = (props: MatchCardBoxProps) => {
     <div className="sm:max-w-[300px] w-full flex-shrink-0">
       <h2 className="text-lg font-bold text-blue-700 mb-4">매치 결과</h2>
       {/* 검색 및 정렬 옵션 UI */}
+      <div className="flex justify-end">
+        {isAdmin && <MatchAddModalWithButton teamList={teamList} />}
+      </div>
       <div className="flex gap-4 mb-6 bg-white p-4 rounded-lg shadow-md">
         <input
           type="text"
