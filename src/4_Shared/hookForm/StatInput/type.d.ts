@@ -1,5 +1,4 @@
-import { UseFormRegister, FieldErrors } from "react-hook-form";
-export type InputProps = {
+type StatInputProps = {
   register: UseFormRegister<{
     evidence: string;
     goals: number;
@@ -40,6 +39,5 @@ export type InputProps = {
   }>;
   text: string;
   type: string;
-  defaultValue?: number | string;
   isMatchEnd: boolean;
 };
