@@ -12,7 +12,7 @@ const useGetCommunityStaffList = (
   >(mockCommunityStaffList.community_staff);
 
   React.useEffect(() => {
-    request("GET", `community/${communityIdx}/staff`, null);
+    request("GET", `/community/${communityIdx}/staff`, null);
   }, [communityIdx]);
 
   React.useEffect(() => {
