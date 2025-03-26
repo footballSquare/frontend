@@ -1,29 +1,41 @@
 import React from "react";
-import { useFetch } from "../../4_Shared/util/apiUtil";
+import { useFetchData } from "../../4_Shared/util/apiUtil";
 import { mockCommunityTeamList } from "../../4_Shared/constant/communityTeamList";
+
+const ITEMS_PER_PAGE = 5;
 
 const useGetCommunityTeamList = (
   props: UseGetCommunitySTeamListProps
-): [CommunityTeam[], boolean] => {
-  const { communityIdx } = props;
-  const [serverState, request, loading] = useFetch();
+): [CommunityTeam[], boolean, boolean] => {
+  const { communityIdx, page } = props;
+  const [serverState, request, loading] = useFetchData();
   const [communityTeamList, setCommunityTeamList] = React.useState<
-  CommunityTeam[]
+    CommunityTeam[]
   >(mockCommunityTeamList.participation_team);
+  const [hasMoreContent, setHasMoreContent] = React.useState<boolean>(true);
 
   React.useEffect(() => {
-    request(mockCommunityTeamList);
+    request(
+      "GET",
+      `/community/${communityIdx}/participation_team?page=${page}`,
+      null
+    );
   }, [communityIdx]);
 
   React.useEffect(() => {
     if (!loading && serverState) {
       setCommunityTeamList(
-        (serverState as { participation_team: CommunityTeam[] }).participation_team
+        (serverState as { participation_team: CommunityTeam[] })
+          .participation_team
+      );
+      setHasMoreContent(
+        (serverState as { participation_team: CommunityTeam[] })
+          .participation_team.length >= ITEMS_PER_PAGE
       );
     }
   }, [loading, serverState]);
 
-  return [communityTeamList, loading];
+  return [communityTeamList, hasMoreContent, loading];
 };
 
 export default useGetCommunityTeamList;

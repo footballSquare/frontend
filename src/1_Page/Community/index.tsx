@@ -8,7 +8,9 @@ const Community = () => {
   const { communityIdx } = useParams();
   const isCommunityAdmin = true;
   const [modifyMode, toggleModifyMode] = useModifyMode();
-  const [communityInfo] = useGetCommunityInfo({ communityIdx: Number(communityIdx) });
+  const [communityInfo] = useGetCommunityInfo({
+    communityIdx: Number(communityIdx),
+  });
   return (
     <div className="bg-white w-full p-4 flex gap-4">
       {/* Left Sidebar */}
