@@ -31,7 +31,7 @@ const TeamAndMatchContainer = (props: TeamAndMatchContainerProps) => {
         )}
       </div>
       <div className={activeTab === ACTIVE_TAB.MATCH ? "block" : "hidden"}>
-        <MatchListContainer matchList={matchList} />
+        <MatchListContainer matchList={matchList} teamList={teamList} />
       </div>
     </div>
   );
