@@ -5,7 +5,7 @@ import SignBtns from "./ui/SignBtns";
 import { useNavigate } from "react-router-dom";
 const Nav = () => {
   const navigate = useNavigate();
-  const tempIdx = 1;
+  const tempIdx = 0;
   return (
     <nav className=" fixed top-0 left-0 flex h-[80px] w-full justify-center items-center bg-white shadow-md">
       <div className="sm:justify-between flex justify-center max-w-[1280px] w-full items-center">
