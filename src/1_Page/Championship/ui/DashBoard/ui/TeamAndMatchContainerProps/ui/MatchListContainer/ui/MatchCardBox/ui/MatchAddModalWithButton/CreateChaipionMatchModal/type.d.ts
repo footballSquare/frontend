@@ -3,8 +3,8 @@ type CreateChampionMatchModalProps = {
   teamList: ChampionshipTeamInfo[];
 };
 
-type FormValues = {
-  team: string;
+type CreateChampionMatchFormValues = {
+  teams: number[];
   matchDate: string;
   startTime: string;
 };

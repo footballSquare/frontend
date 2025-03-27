@@ -1,30 +1,7 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
-import React, { useState, useEffect } from "react";
-
-const schema = yup.object().shape({
-  teams: yup
-    .array()
-    .of(yup.number().required())
-    .min(2, "팀 두개 필수입니다.")
-    .required(),
-  matchDate: yup
-    .string()
-    .required("날짜 선택은 필수입니다.")
-    .test(
-      "is-date",
-      "유효한 날짜를 입력해주세요",
-      (value) => !!value && !isNaN(Date.parse(value))
-    ),
-  startTime: yup.string().required("시작 시각 선택은 필수입니다."),
-});
-
-interface FormValues {
-  teams: number[];
-  matchDate: string;
-  startTime: string;
-}
+import useSetValueHandler from "./model/useTeamListHandler";
+import { schema } from "./lib/schema";
 
 const CreateChampionMatchModal = (props: CreateChampionMatchModalProps) => {
   const { onClose, teamList } = props;
@@ -34,7 +11,7 @@ const CreateChampionMatchModal = (props: CreateChampionMatchModalProps) => {
     handleSubmit,
     formState: { errors },
     setValue,
-  } = useForm<FormValues>({
+  } = useForm<CreateChampionMatchFormValues>({
     resolver: yupResolver(schema),
     defaultValues: {
       teams: [],
@@ -42,32 +19,10 @@ const CreateChampionMatchModal = (props: CreateChampionMatchModalProps) => {
       startTime: "10:00",
     },
   });
+  const { selectedTeams, handleAddTeam, handleRemoveTeam } =
+    useSetValueHandler(setValue);
 
-  const [selectedTeams, setSelectedTeams] = useState<ChampionshipTeamInfo[]>(
-    []
-  );
-
-  useEffect(() => {
-    setValue(
-      "teams",
-      selectedTeams.map((team) => team.team_list_idx)
-    );
-  }, [selectedTeams, setValue]);
-
-  const handleAddTeam = (team: ChampionshipTeamInfo) => {
-    if (selectedTeams.length >= 2) return;
-    if (!selectedTeams.find((t) => t.team_list_idx === team.team_list_idx)) {
-      setSelectedTeams([...selectedTeams, team]);
-    }
-  };
-
-  const handleRemoveTeam = (team: ChampionshipTeamInfo) => {
-    setSelectedTeams(
-      selectedTeams.filter((t) => t.team_list_idx !== team.team_list_idx)
-    );
-  };
-
-  const onSubmit = (data: FormValues) => {
+  const onSubmit = (data: CreateChampionMatchFormValues) => {
     // 매치 생성 로직 처리
     console.log("Match Created:", data);
     onClose();
@@ -95,7 +50,8 @@ const CreateChampionMatchModal = (props: CreateChampionMatchModalProps) => {
                   <span>#{team.team_list_short_name}</span>
 
                   {selectedTeams.find(
-                    (t) => t.team_list_idx === team.team_list_idx
+                    (t: ChampionshipTeamInfo) =>
+                      t.team_list_idx === team.team_list_idx
                   ) ? (
                     <button
                       type="button"
@@ -188,12 +144,21 @@ const CreateChampionMatchModal = (props: CreateChampionMatchModalProps) => {
           </div>
           <div className="mb-4">
             <label>매치 시작 시 각 선택</label>
-            <input
-              type="time"
+            <select
               {...register("startTime")}
-              step="1800" // 30분 단위
-              className="w-full p-2 border border-gray-300 rounded mt-1"
-            />
+              className="w-full p-2 border border-gray-300 rounded mt-1">
+              {Array.from({ length: 48 }, (_, i) => {
+                const hour = Math.floor(i / 2);
+                const minutes = (i % 2) * 30;
+                const hourString = hour.toString().padStart(2, "0");
+                const minuteString = minutes.toString().padStart(2, "0");
+                return (
+                  <option key={i} value={`${hourString}:${minuteString}`}>
+                    {`${hourString}:${minuteString}`}
+                  </option>
+                );
+              })}
+            </select>
             {errors.startTime && (
               <p className="text-red-500 text-sm mt-1">
                 {errors.startTime.message}
