@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import useSetValueHandler from "./model/useTeamListHandler";
 import { schema } from "./lib/schema";
+import { convertCreateChampionMatchForm } from "./util/convert";
 
 const CreateChampionMatchModal = (props: CreateChampionMatchModalProps) => {
   const { onClose, teamList } = props;
@@ -23,8 +24,8 @@ const CreateChampionMatchModal = (props: CreateChampionMatchModalProps) => {
     useSetValueHandler(setValue);
 
   const onSubmit = (data: CreateChampionMatchFormValues) => {
-    // 매치 생성 로직 처리
-    console.log("Match Created:", data);
+    convertCreateChampionMatchForm(data);
+
     onClose();
   };
 
