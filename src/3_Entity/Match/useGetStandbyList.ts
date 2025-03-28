@@ -1,11 +1,11 @@
 import React from "react";
 import { useFetch } from "../../4_Shared/util/apiUtil";
 import { waitingPlayerList } from "../../4_Shared/mock/waitingPlayerList";
-import { StandbyPlayerInfo } from "./types/response";
 
 const ITEMS_PER_PAGE = 10;
 
-const useGetStandbyList = (page: number): [StandbyPlayerInfo[], boolean, boolean] => {
+const useGetStandbyList = (props: UseGetStandbyListProps): [StandbyPlayerInfo[], boolean, boolean] => {
+  const { page } = props;
   const [serverState, request, loading] = useFetch();
   const [standbyList, setStandbyList] = React.useState<StandbyPlayerInfo[]>([]);
   const [hasMoreContent, setHasMoreContent] = React.useState<boolean>(true);

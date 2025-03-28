@@ -1,15 +1,15 @@
 import React from "react";
 import { useFetch } from "../../4_Shared/util/apiUtil";
-import { MatchWaitList } from "./types/response";
 import { mockMatchWaitList } from "../../4_Shared/mock/matchWaitList";
 
 const useGetMatchWaitlist = (
-  matchIdx: number
+  props: uesGetMatchWaitListProps
 ): [
   MatchWaitList,
   React.Dispatch<React.SetStateAction<MatchWaitList>>,
   boolean
 ] => {
+  const { matchIdx } = props;
   const [serverState, request, loading] = useFetch();
   const [matchWaitList, setMatchWaitList] =
     React.useState<MatchWaitList>(mockMatchWaitList);

@@ -1,15 +1,15 @@
 import React from "react";
 import { useFetch } from "../../4_Shared/util/apiUtil";
-import { MatchParticipant } from "./types/response";
 import { mockMatchParticipants } from "../../4_Shared/mock/matchParticipants";
 
 const useGetMatchParticipants = (
-  matchIdx: number
+  porps: useGetMatchParticipantsProps
 ): [
   MatchParticipant[],
   React.Dispatch<React.SetStateAction<MatchParticipant[]>>,
   boolean
 ] => {
+  const { matchIdx } = porps;
   const [serverState, request, loading] = useFetch();
   const [matchPaticipants, setMatchPaticipants] = React.useState<
     MatchParticipant[]
