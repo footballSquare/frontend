@@ -46,7 +46,8 @@ export const useFetchData = (): [
   (
     method: string,
     endpoint: string,
-    body: Record<string, string> | null
+    body: Record<string, string> | null,
+    authorization: boolean
   ) => Promise<void>,
   boolean
 ] => {
