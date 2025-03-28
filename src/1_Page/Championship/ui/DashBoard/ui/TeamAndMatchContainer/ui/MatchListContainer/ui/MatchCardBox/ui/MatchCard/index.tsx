@@ -1,14 +1,27 @@
+import useDeleteChampionshipMatch from "../../../../../../../../../../../../3_Entity/Championship/useDeleteChampionshipMatch";
 import { matchState } from "../../../../../../../../../../../../4_Shared/constant/matchState";
+import useValidParamInteger from "../../../../../../../../../../../../4_Shared/model/useValidParamInteger";
+
+const isAdmin = true; // 관리자 여부 (예시로 true로 설정)
 
 const MatchCard = (props: MatchCardProps) => {
-  const { match, index, selectedIdx, handleSelect } = props;
+  const { match, index, selectedIdx, handleSelect, refetch } = props;
   const home = match.championship_match_first;
   const away = match.championship_match_second;
   const status = matchState[home.common_status_idx] || "";
-
   // 경기 종료 여부 (common_status_idx === 4)
   const isFinished = home.common_status_idx === 4;
   const isSelected = selectedIdx === match.championship_match_idx;
+
+  const [championshipIdx] = useValidParamInteger("championshipIdx");
+  const [deleteEvent] = useDeleteChampionshipMatch(championshipIdx);
+
+  const handleDelete = async () => {
+    if (confirm("정말 삭제하시겠습니까?")) {
+      await deleteEvent(match.championship_match_idx);
+      refetch();
+    }
+  };
 
   return (
     <li
@@ -22,6 +35,16 @@ const MatchCard = (props: MatchCardProps) => {
     }
     ${isSelected ? "border-4 border-blue-600 bg-blue-100 shadow-xl" : ""}`}>
       {/* 팀 명 및 점수 */}
+      {isAdmin && (
+        <div className="flex w-full justify-end">
+          <button
+            onClick={handleDelete}
+            className="w-6 h-6 flex items-center justify-center text-sm text-red-500 hover:text-red-900 transition-colors"
+            aria-label="Delete Match">
+            ✕
+          </button>
+        </div>
+      )}
       <div className="flex items-center justify-between w-full">
         <span className="font-medium w-[40%] overflow-hidden text-ellipsis whitespace-nowrap text-left hidden sm:inline sm:text-xs text-[10px]">
           {home.team_list_name}

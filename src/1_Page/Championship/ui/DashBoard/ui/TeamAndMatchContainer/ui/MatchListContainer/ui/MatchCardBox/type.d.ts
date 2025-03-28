@@ -3,4 +3,5 @@ type MatchCardBoxProps = {
   teamList: ChampionshipTeamInfo[];
   selectedIdx: number;
   handleSelect: (idx: number) => void;
+  refetch: () => void;
 };

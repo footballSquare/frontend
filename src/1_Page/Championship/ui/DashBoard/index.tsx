@@ -3,7 +3,7 @@ import { navList } from "./constant/navList";
 import { ACTIVE_TAB } from "./constant/activeTab";
 
 import ParticipationMembers from "./ui/ParticipationMembers";
-import TeamAndMatchContainerProps from "./ui/TeamAndMatchContainerProps";
+import TeamAndMatchContainer from "./ui/TeamAndMatchContainer";
 
 const DashBoard = (props: DashBoardProps) => {
   const { championshipIdx, championship_type } = props;
@@ -33,7 +33,7 @@ const DashBoard = (props: DashBoardProps) => {
           <ParticipationMembers championshipIdx={championshipIdx} />
         </div>
         {/* 팀 and 매치 목록 */}
-        <TeamAndMatchContainerProps
+        <TeamAndMatchContainer
           championship_type={championship_type}
           championshipIdx={championshipIdx}
           activeTab={activeTab}

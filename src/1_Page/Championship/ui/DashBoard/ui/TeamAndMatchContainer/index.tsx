@@ -11,10 +11,13 @@ import { ACTIVE_TAB } from "../../constant/activeTab";
 
 const TeamAndMatchContainer = (props: TeamAndMatchContainerProps) => {
   const { championshipIdx, championship_type, activeTab } = props;
-  const [matchList] = useGetChampionshipMatchList(championshipIdx);
+  const [matchList, loading, refetch] =
+    useGetChampionshipMatchList(championshipIdx);
+
   const [teamList] = useGetChampionshipTeamList(championshipIdx);
   const isLeague = championship_type === 0;
 
+  if (loading) <div>로딩중</div>;
   return (
     <div>
       <div className={activeTab === ACTIVE_TAB.TEAM ? "block" : "hidden"}>
@@ -31,7 +34,11 @@ const TeamAndMatchContainer = (props: TeamAndMatchContainerProps) => {
         )}
       </div>
       <div className={activeTab === ACTIVE_TAB.MATCH ? "block" : "hidden"}>
-        <MatchListContainer matchList={matchList} teamList={teamList} />
+        <MatchListContainer
+          refetch={refetch}
+          matchList={matchList}
+          teamList={teamList}
+        />
       </div>
     </div>
   );
