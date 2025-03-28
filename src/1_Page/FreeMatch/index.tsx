@@ -1,6 +1,7 @@
 import StandbyListPanel from "./ui/StandbyListPanel";
 import MatchList from "./ui/MatchList";
 import Button from "../../4_Shared/components/Button";
+import PostOpenMatchPanel from "./ui/PostOpenMatchPanel";
 
 const FreeMatch = () => {
   return (
@@ -10,7 +11,7 @@ const FreeMatch = () => {
         {/* 매치 생성 / 선호 포지션 참여 / 랜덤 참여 버튼*/}
         <div className="flex justify-between w-full">
           <div className="flex gap-4 bg-light-blue">
-            <Button text="매치만들기" bg="blue" textColor="white" bold={true} />
+            <PostOpenMatchPanel />
             <Button
               text="선호 포지션 참여"
               bg="blue"

@@ -1,7 +1,7 @@
 import { useFetch } from "../../4_Shared/util/apiUtil";
 
 const usePostTeamMatch = (
-  props: UsePostTeamMathProps
+  props: UsePostTeamMatchProps
 ): [
   postEvent: (props: PostTeamMatchProps) => void,
   serverState: unknown,

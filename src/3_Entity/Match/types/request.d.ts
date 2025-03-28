@@ -27,7 +27,7 @@ type useGetTeamMatchListProps = {
   teamIdx: number;
 };
 
-type UsePostTeamMathProps = {
+type UsePostTeamMatchProps = {
   teamIdx: number;
 };
 
@@ -39,3 +39,11 @@ type PostTeamMatchProps = {
   match_match_start_time: string;
   match_match_duration: string;
 };
+
+type PostOpenMatchProps = {
+  match_formation_idx: number;
+  match_match_participation_type: number;
+  match_type_idx: number;
+  match_match_start_time: string;
+  match_match_duration: string;
+}

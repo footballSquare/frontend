@@ -1,8 +1,6 @@
 import React from "react";
 import { useFetch } from "../../4_Shared/util/apiUtil";
-import { MatchPlayerStat, MatchStats, MatchTeamStat } from "./types/response";
 import { mockMatchStats } from "../../4_Shared/mock/matchStats";
-import { UseGetMatchStatsProps } from "./types/request";
 
 const useGetMatchStats = (
   props: UseGetMatchStatsProps
