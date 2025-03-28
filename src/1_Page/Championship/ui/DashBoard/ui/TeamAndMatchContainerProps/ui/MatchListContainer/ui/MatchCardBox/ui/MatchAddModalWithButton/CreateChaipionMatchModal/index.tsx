@@ -3,9 +3,15 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import useSetValueHandler from "./model/useTeamListHandler";
 import { schema } from "./lib/schema";
 import { convertCreateChampionMatchForm } from "./util/convert";
+import useValidParamInteger from "../../../../../../../../../../../../../4_Shared/model/useValidParamInteger";
+import usePostCreateChampionshipMatch from "../../../../../../../../../../../../../3_Entity/Championship/usePostCreateChampionshipMatch";
 
 const CreateChampionMatchModal = (props: CreateChampionMatchModalProps) => {
   const { onClose, teamList } = props;
+
+  const [championshipIdx] = useValidParamInteger("championshipIdx");
+
+  const [postEvent] = usePostCreateChampionshipMatch(championshipIdx);
 
   const {
     register,
@@ -24,8 +30,7 @@ const CreateChampionMatchModal = (props: CreateChampionMatchModalProps) => {
     useSetValueHandler(setValue);
 
   const onSubmit = (data: CreateChampionMatchFormValues) => {
-    convertCreateChampionMatchForm(data);
-
+    postEvent(convertCreateChampionMatchForm(data));
     onClose();
   };
 
