@@ -18,10 +18,11 @@ const MatchModal = () => {
   // 로그인 구현 이전 임시 데이터
 
   const { matchIdx, toggleMatchModal } = useMatchModalStore();
-  const [matchDetail] = useGetMatchDetail(matchIdx);
-  const [matchParticipants, setMatchParticipants] =
-    useGetMatchParticipants(matchIdx);
-  const [matchWaitList, setMatchWaitList] = useGetMatchWaitlist(matchIdx);
+  const [matchDetail] = useGetMatchDetail({ matchIdx });
+  const [matchParticipants, setMatchParticipants] = useGetMatchParticipants({
+    matchIdx,
+  });
+  const [matchWaitList, setMatchWaitList] = useGetMatchWaitlist({ matchIdx });
   const [matchApproveHandler, matchDisApproveHandler] = useMatchApprove({
     setMatchWaitList,
     setMatchParticipants,
@@ -34,7 +35,8 @@ const MatchModal = () => {
       {/* 레이어 */}
       <div
         className="absolute top-0 left-0 w-full h-full opacity-50 bg-gray"
-        onClick={toggleMatchModal}></div>
+        onClick={toggleMatchModal}
+      ></div>
       {/* 모달 */}
       <div className="flex flex-col relative w-[80%] h-[80%] bg-white gap-4 border-1 border-gray p-4 overflow-auto">
         {/* 타이틀 / 닫기 버튼 / 대회명(대회 매치 전용) / 게임 팀 이름(팀 없으면 공방) */}
@@ -119,7 +121,8 @@ const MatchModal = () => {
                             matchPosition: positionIdx,
                             matchParticipants: matchParticipants,
                           });
-                        }}>
+                        }}
+                      >
                         {matchPosition[positionIdx]}로 참가하기
                       </button>
                     )
@@ -129,7 +132,8 @@ const MatchModal = () => {
             )
           ) : (
             // 매치 라인업 마감 & 대회
-            matchDetail.common_status_idx !== 2 && (
+            matchDetail.common_status_idx !== 2 &&
+            matchDetail.match_match_attribute === 2 && (
               <StatPanel matchParticipants={matchParticipants} />
             )
           )}
