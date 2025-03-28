@@ -1,5 +1,6 @@
 import axios, { AxiosError } from "axios";
 import React from "react";
+import { useCookies } from "react-cookie";
 
 const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
@@ -54,11 +55,13 @@ export const useFetchData = (): [
     unknown
   > | null>(null);
   const [loading, setLoading] = React.useState<boolean>(true);
+  const [cookies] = useCookies(["access_token"]);
 
   const request = async (
     method: string,
     endpoint: string,
-    body: Record<string, string> | null
+    body: Record<string, string> | null,
+    authorization: boolean = false
   ) => {
     try {
       setLoading(true);
@@ -67,28 +70,22 @@ export const useFetchData = (): [
         method: method,
         url: `${SERVER_URL}${endpoint}`,
         params: {},
-        headers: {
-          Authorization: "",
-        },
-        data: body ? body : undefined,
+        headers: authorization
+          ? {
+              Authorization: `${cookies.access_token}`,
+            }
+          : undefined,
+        data: body ?? undefined,
       });
-      
+
       setServerState({ ...response.data, status: response.status });
     } catch (error: unknown) {
       if (error instanceof AxiosError) {
         const { status, data } = error.response ?? {};
-
-        if (status === 404) {
-          console.error("Not Found:", status, data);
-          alert("해당 데이터를 찾을 수 없습니다.");
-          window.location.href = "/";
-        } else if (status === 500) {
+        setServerState({ status: status });
+        if (status === 500) {
           console.error("Internal Server Error:", status, data);
-          alert("해당 데이터를 찾을 수 없습니다.");
-          window.location.href = "/";
-        } else if (status === 400) {
-          console.error("Client error:", status, data);
-          alert("해당 데이터를 찾을 수 없습니다.");
+          alert("알 수 없는 오류.");
           window.location.href = "/";
         }
       }
