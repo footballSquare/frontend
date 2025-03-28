@@ -1,10 +1,11 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { basePositionCoordinates } from "../../constant/lineup";
 import { matchPosition } from "../../../../../../../../../../../../4_Shared/constant/matchPosition";
+import { formations } from "../../../../../../../../../../../../2_Widget/MatchModal/ui/FormationPanel/constant/formation";
 
 const TeamSection = (props: TeamSectionProps) => {
-  const { players, isFirstTeam, isFormationView, momPlayerIdx } = props;
+  const { players, teamFormation, isFirstTeam, isFormationView, momPlayerIdx } =
+    props;
 
   const navigate = useNavigate();
   const [activeTooltipId, setActiveTooltipId] = React.useState<number | null>(
@@ -56,10 +57,11 @@ const TeamSection = (props: TeamSectionProps) => {
         </div>
         <div className="absolute bottom-0 left-1/2 w-[100px] h-[40px] border-t border-l border-r border-white transform -translate-x-1/2"></div>
         {players?.map((player) => {
-          // players의 인덱스를 기준으로 matchPosition 배열에서 포지션을 결정
-          const pos = matchPosition[player.match_player_stats_possition];
+          const location = formations[teamFormation].filter(
+            (formation) =>
+              formation.positionIdx === player.match_player_stats_possition
+          )[0] || { top: 0, left: 0 };
 
-          const basePos = basePositionCoordinates[pos];
           return (
             <div
               onClick={() => {
@@ -72,8 +74,8 @@ const TeamSection = (props: TeamSectionProps) => {
               key={`formation-${player.player_list_idx}-${player.match_player_stats_possession}`}
               className="absolute flex flex-col items-center"
               style={{
-                top: basePos.top,
-                left: basePos.left,
+                top: location.top,
+                left: location.left,
                 transform: "translateX(-50%)",
               }}>
               <div className="group flex flex-col items-center">

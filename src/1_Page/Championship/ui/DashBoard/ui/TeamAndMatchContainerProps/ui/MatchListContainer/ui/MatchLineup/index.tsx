@@ -91,6 +91,7 @@ const MatchLineup = (props: MatchLineupProps) => {
           <div className="flex flex-col md:flex-row flex-wrap justify-center gap-4">
             {/* 첫 번째 팀 (왼쪽) */}
             <TeamSection
+              teamFormation={championshipDetail?.first_team?.team_formation_idx}
               momPlayerIdx={
                 championshipDetail?.first_team?.stats?.mom_player_idx
               }
@@ -101,6 +102,9 @@ const MatchLineup = (props: MatchLineupProps) => {
 
             {/* 두 번째 팀 (오른쪽) */}
             <TeamSection
+              teamFormation={
+                championshipDetail?.second_team?.team_formation_idx
+              }
               momPlayerIdx={
                 championshipDetail?.second_team?.stats?.mom_player_idx
               }
