@@ -4,8 +4,8 @@ import useGetOpenMatchList from "../../../../3_Entity/Match/useGetOpenMatchList"
 import useInfiniteScrollPaging from "../../../../4_Shared/model/useInfiniteScrollPaging";
 
 const MatchList = () => {
-  const [page, setPage] = React.useState<number>(1);
-  const [openMatchList, hasMoreContent, loading] = useGetOpenMatchList(page);
+  const [page, setPage] = React.useState<number>(0);
+  const [openMatchList, hasMoreContent, loading] = useGetOpenMatchList({page});
   const [observeRef] = useInfiniteScrollPaging(
     setPage,
     loading,
