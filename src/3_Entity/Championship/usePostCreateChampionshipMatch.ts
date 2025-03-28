@@ -4,7 +4,7 @@ import { useFetch } from "../../4_Shared/util/apiUtil";
 const usePostCreateChampionshipMatch = (
   championshipIdx: number
 ): [
-  postEvent: (
+  postCreateChampionshipMatch: (
     championshipMatchForm: UsePostCreateChampionshipMatchProps
   ) => void,
   serverState: unknown,
@@ -12,7 +12,7 @@ const usePostCreateChampionshipMatch = (
 ] => {
   const [serverState, request, loading] = useFetch();
 
-  const postEvent = (
+  const postCreateChampionshipMatch = (
     championshipMatchForm: UsePostCreateChampionshipMatchProps
   ) => {
     request({ championshipIdx, championshipMatchForm });
@@ -26,7 +26,7 @@ const usePostCreateChampionshipMatch = (
     }
   }, [serverState]);
 
-  return [postEvent, serverState, loading];
+  return [postCreateChampionshipMatch, serverState, loading];
 };
 
 export default usePostCreateChampionshipMatch;

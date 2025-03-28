@@ -1,7 +1,7 @@
 import defaultTeamImg from "../../../../../../../../../../4_Shared/assets/svg/team.svg";
 
 const MatchBox = (props: MatchBoxProps) => {
-  const { match } = props;
+  const { match, index } = props;
 
   const team1Score = match.championship_match_first.match_team_stats_our_score;
   const team2Score = match.championship_match_second.match_team_stats_our_score;
@@ -14,7 +14,9 @@ const MatchBox = (props: MatchBoxProps) => {
     match.championship_match_second.common_status_idx === 4;
 
   return (
-    <div key={match.championship_match_idx} className="relative">
+    <div
+      key={index + "_MatchBox_" + match.championship_match_idx}
+      className="relative">
       {/* 현재 라운드 매치카드 */}
       <div className="border border-gray-200 rounded-lg overflow-hidden shadow-md bg-white">
         <div className="bg-gray-100 px-4 py-2 flex justify-between items-center border-b">

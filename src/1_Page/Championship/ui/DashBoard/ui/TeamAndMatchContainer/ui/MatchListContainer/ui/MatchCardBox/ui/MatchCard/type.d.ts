@@ -3,4 +3,5 @@ type MatchCardProps = {
   selectedIdx: number;
   index: number;
   handleSelect: (idx: number) => void;
+  refetch: () => void;
 };

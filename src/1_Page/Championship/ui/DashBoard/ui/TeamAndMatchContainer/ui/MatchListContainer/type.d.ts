@@ -1,4 +1,5 @@
 type MatchListContainerProps = {
+  refetch: () => void;
   matchList: ChampionshipMatchList[];
   teamList: ChampionshipTeamInfo[];
 };

@@ -11,9 +11,9 @@ export const TournamentBracket = (props: TournamentBracketProps) => {
 
       {/* 반응형 크기 조정 */}
       <div className="flex min-w-max justify-center md:scale-100 sm:scale-90 xs:scale-75 transition-all overflow-x-auto">
-        {tournamentData.map((roundContnet) => (
+        {tournamentData.map((roundContnet, index) => (
           <div
-            key={roundContnet.round}
+            key={index + "_match_" + roundContnet.round}
             className="flex-shrink-0 px-4"
             style={{ width: "280px" }}>
             {/* 라운드 제목 16, 8 ,4 등 */}
@@ -23,8 +23,8 @@ export const TournamentBracket = (props: TournamentBracketProps) => {
 
             {/* 매치 컨테이너 */}
             <div className="space-y-12 relative mt-4">
-              {roundContnet.matches.map((match) => (
-                <MatchBox match={match} />
+              {roundContnet.matches.map((match, index) => (
+                <MatchBox match={match} index={index} />
               ))}
             </div>
           </div>
