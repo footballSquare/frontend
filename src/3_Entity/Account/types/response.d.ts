@@ -25,3 +25,13 @@ export type UserInfo = {
   winning_rate: number;
   trophies: Awards[];
 };
+
+type SignInData = {
+  player_status: string;
+  access_token: string;
+  user_idx: number;
+  profile_image: string | null;
+  team_idx: number | null;
+  team_role_idx: number | null;
+  community_role_idx: number | null;
+};
