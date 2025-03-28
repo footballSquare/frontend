@@ -1,6 +1,6 @@
 import * as yup from "yup";
 
-const statInputSchema = yup.object().shape({
+const statInputschema = yup.object().shape({
   evidence: yup.string().required("증빙자료는 필수 항목입니다."),
   goals: yup.number().required("득점은 필수 항목입니다.").min(0),
   assists: yup
@@ -46,4 +46,4 @@ const statInputSchema = yup.object().shape({
     .max(100, "0~100 사이의 숫자만 입력해주세요."),
 });
 
-export default statInputSchema
+export default statInputschema;
