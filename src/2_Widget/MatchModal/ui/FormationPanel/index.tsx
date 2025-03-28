@@ -44,10 +44,10 @@ const FormationPanel = React.memo((props: FormationPanelProps) => {
               <span className="text-xs">{matchPosition[pos.positionIdx]}</span>
             </div>
             {/* 참가자 이름 */}
-            {matchParticipants.map((elem) => {
+            {matchParticipants.map((elem, index) => {
               if (elem.match_position_idx === pos.positionIdx) {
                 return (
-                  <div className=" flex gap-4 px-2 items-center  bg-gray rounded-lg w-fit text-xs">
+                  <div className=" flex gap-4 px-2 items-center  bg-gray rounded-lg w-fit text-xs" key={index}>
                     {isMatchLeader && (
                       <button
                         onClick={() => {
