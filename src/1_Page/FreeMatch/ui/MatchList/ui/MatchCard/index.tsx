@@ -1,6 +1,5 @@
 import { matchParticipation } from "../../../../../../4_Shared/constant/matchParticipation";
 import { matchType } from "../../../../../../4_Shared/constant/matchType";
-import { MatchCardProps } from "./type";
 import apply_icon from "../../../../../../4_Shared/assets/svg/apply.svg";
 import denied_icon from "../../../../../../4_Shared/assets/svg/denied.svg";
 import { isPastTime } from "../../../../../../4_Shared/lib/timeChecker";
