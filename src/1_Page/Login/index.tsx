@@ -1,34 +1,38 @@
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import LoginInput from "../../4_Shared/hookForm/LoginInput";
+import loginInputSchema from "../../4_Shared/hookForm/LoginInput/schema";
+import useGetSignIn from "../../3_Entity/Account/useGetSignIn";
+
 const Login = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(loginInputSchema),
+  });
+  const [signInEvent] = useGetSignIn();
+
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+    <div className="flex items-center justify-center min-h-screen">
       <div className="bg-white p-8 rounded shadow-md w-full max-w-md">
         <h1 className="text-2xl font-bold mb-6 text-center">Login</h1>
-        <form>
-          <div className="mb-4">
-            <label htmlFor="id" className="block text-sm font-medium text-gray-700">
-              ID
-            </label>
-            <input
-              type="text"
-              id="id"
-              className="mt-1 block w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Enter your ID"
-            />
-          </div>
-          <div className="mb-6">
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-              Password
-            </label>
-            <input
-              type="password"
-              id="password"
-              className="mt-1 block w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Enter your password"
-            />
-          </div>
+        <form
+          onSubmit={handleSubmit((data) => {
+            signInEvent({ id: data.id, password: data.password });
+          })}
+          className="flex flex-col gap-4"
+        >
+          <LoginInput register={register} registerType={"id"} errors={errors} />
+          <LoginInput
+            register={register}
+            registerType={"password"}
+            errors={errors}
+          />
           <button
             type="submit"
-            className="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="mt-4 w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             Login
           </button>
