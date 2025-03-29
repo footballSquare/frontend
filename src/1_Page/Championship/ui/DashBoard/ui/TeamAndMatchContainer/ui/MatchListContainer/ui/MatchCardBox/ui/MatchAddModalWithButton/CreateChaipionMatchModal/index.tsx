@@ -7,7 +7,7 @@ import useValidParamInteger from "../../../../../../../../../../../../../4_Share
 import usePostCreateChampionshipMatch from "../../../../../../../../../../../../../3_Entity/Championship/usePostCreateChampionshipMatch";
 
 const CreateChampionMatchModal = (props: CreateChampionMatchModalProps) => {
-  const { onClose, teamList, refetch } = props;
+  const { onClose, teamList, handleAddMatch } = props;
 
   const [championshipIdx] = useValidParamInteger("championshipIdx");
 
@@ -31,7 +31,7 @@ const CreateChampionMatchModal = (props: CreateChampionMatchModalProps) => {
 
   const onSubmit = async (data: CreateChampionMatchFormValues) => {
     await postEvent(convertCreateChampionMatchForm(data));
-    refetch();
+    handleAddMatch(data);
     onClose();
   };
 

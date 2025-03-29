@@ -4,7 +4,7 @@ import { mockChampionshipMatchTor } from "../../4_Shared/mock/championshipMatchL
 
 const useGetChampionshipMatchList = (
   championshipListIdx: number
-): [ChampionshipMatchList[], boolean, () => void] => {
+): [ChampionshipMatchList[], boolean] => {
   const [serverState, request, loading] = useFetch();
   const [matchList, setMatchList] = React.useState<ChampionshipMatchList[]>(
     mockChampionshipMatchTor.championship_match
@@ -29,11 +29,7 @@ const useGetChampionshipMatchList = (
     }
   }, [loading, serverState]);
 
-  const refetch = () => {
-    request(mockChampionshipMatchTor);
-  };
-
-  return [matchList, loading, refetch];
+  return [matchList, loading];
 };
 
 export default useGetChampionshipMatchList;

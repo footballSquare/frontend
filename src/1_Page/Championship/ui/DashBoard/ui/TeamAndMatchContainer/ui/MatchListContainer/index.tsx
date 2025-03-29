@@ -4,7 +4,7 @@ import MatchLineup from "./ui/MatchLineup";
 import { getSelectedMatchTeams } from "./ui/MatchLineup/util/select";
 
 const MatchListContainer = (props: MatchListContainerProps) => {
-  const { matchList, teamList, refetch } = props;
+  const { matchList, teamList, handleAddMatch, handleDeleteMatch } = props;
   const [selectedIdx, setSelectedIdx] = React.useState<number>(
     matchList[0].championship_match_idx
   );
@@ -19,11 +19,12 @@ const MatchListContainer = (props: MatchListContainerProps) => {
     <div className="w-full mx-auto flex flex-col md:flex-row gap-4">
       {/* 매치 결과 리스트 (좌측) */}
       <MatchCardBox
+        handleAddMatch={handleAddMatch}
+        handleDeleteMatch={handleDeleteMatch}
         teamList={teamList}
         matchList={matchList}
         selectedIdx={selectedIdx}
         handleSelect={handleSelect}
-        refetch={refetch}
       />
 
       {/* MatchLineup (반응형 적용) */}
