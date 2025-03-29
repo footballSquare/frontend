@@ -1,49 +1,45 @@
 import { convertToLeague } from "./util/convertToLeague";
 import { convertToTournamentFormat } from "./util/convertToTournamentFormat";
+import { convertToFilterMatchList } from "./util/convertToFilterMatchList";
 
 import LeagueBracket from "./ui/LeagueBracket";
 import TournamentBracket from "./ui/TournamentBracket";
 import MatchListContainer from "./ui/MatchListContainer";
 
-import useGetChampionshipMatchList from "../../../../../../3_Entity/Championship/useGetChampionshipMatchList";
-import useGetChampionshipTeamList from "../../../../../../3_Entity/Championship/useGetChampionshipTeams";
 import { ACTIVE_TAB } from "../../constant/activeTab";
 import useManageMatchList from "./model/useManageMatchList";
 
+import useGetChampionshipMatchList from "../../../../../../3_Entity/Championship/useGetChampionshipMatchList";
+import useGetChampionshipTeamList from "../../../../../../3_Entity/Championship/useGetChampionshipTeams";
+
 const TeamAndMatchContainer = (props: TeamAndMatchContainerProps) => {
   const { championshipIdx, championship_type, activeTab } = props;
+  const isLeague = championship_type === 0;
+
   const [matchList] = useGetChampionshipMatchList(championshipIdx);
   const [teamList] = useGetChampionshipTeamList(championshipIdx);
 
   const [displayMatchList, handleDeleteMatch, handleAddMatch] =
     useManageMatchList(matchList, teamList);
 
-  const isLeague = championship_type === 0;
-
-  let convertedData: TournamentData[] | LeagueData[] = [];
-  let eliminatedTeams: number[] = [];
-
-  if (isLeague) {
-    [convertedData] = convertToLeague(displayMatchList, teamList);
-  } else {
-    [convertedData, eliminatedTeams] = convertToTournamentFormat(
-      displayMatchList,
-      teamList,
-      championship_type
-    );
-  }
-  const filteredTeamList = teamList.filter(
-    (team) => !eliminatedTeams.includes(team.team_list_idx)
-  );
+  const filteredTeamList = isLeague
+    ? teamList
+    : convertToFilterMatchList(matchList, teamList);
 
   return (
     <div>
       <div className={activeTab === ACTIVE_TAB.TEAM ? "block" : "hidden"}>
         {isLeague ? (
-          <LeagueBracket leagueData={convertedData as LeagueData[]} />
+          <LeagueBracket
+            leagueData={convertToLeague(displayMatchList, teamList)}
+          />
         ) : (
           <TournamentBracket
-            tournamentData={convertedData as TournamentData[]}
+            tournamentData={convertToTournamentFormat(
+              displayMatchList,
+              teamList,
+              championship_type
+            )}
           />
         )}
       </div>
