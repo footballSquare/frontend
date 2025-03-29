@@ -1,5 +1,5 @@
 export const convertToLeague = (
-  matches: ChampionshipMatchList[],
+  matchList: ChampionshipMatchList[],
   teamList: ChampionshipTeamInfo[]
 ): LeagueData[] => {
   const statsMap: { [teamId: number]: LeagueData } = {};
@@ -24,7 +24,7 @@ export const convertToLeague = (
   });
 
   // 매치 리스트를 통해 팀 리스트 데이터 업데이트
-  matches.forEach((match) => {
+  matchList.forEach((match) => {
     const team1 = match.championship_match_first;
     const team2 = match.championship_match_second;
 

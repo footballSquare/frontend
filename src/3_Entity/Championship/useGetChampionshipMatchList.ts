@@ -6,9 +6,7 @@ const useGetChampionshipMatchList = (
   championshipListIdx: number
 ): [ChampionshipMatchList[], boolean] => {
   const [serverState, request, loading] = useFetch();
-  const [matchList, setMatchList] = React.useState<ChampionshipMatchList[]>(
-    mockChampionshipMatchTor.championship_match
-  );
+  const [matchList, setMatchList] = React.useState<ChampionshipMatchList[]>([]);
 
   React.useEffect(() => {
     request(mockChampionshipMatchTor);

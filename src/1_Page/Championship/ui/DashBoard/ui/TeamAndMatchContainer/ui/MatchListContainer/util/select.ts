@@ -5,6 +5,10 @@ export const getSelectedMatchTeams = (
   selectTeamList: string[];
   selectTeamScore: number[];
 } => {
+  if (!matchList || !Array.isArray(matchList) || matchList.length === 0) {
+    return { selectTeamList: [], selectTeamScore: [] };
+  }
+
   const selectedMatch = matchList.find(
     (match) => match.championship_match_idx === selectedIdx
   );

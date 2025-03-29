@@ -1,8 +1,8 @@
 import React from "react";
 import TeamSection from "./ui/TeamSection";
-import useGetChampionshipDetail from "../../../../../../../../../../3_Entity/Championship/useGetChampionshipDetail";
 import TeamStatsCard from "./ui/TeamStatCard";
 import EvidenceDetailModal from "./ui/EvidenceDetailModal";
+import useGetChampionshipDetail from "../../../../../../../../../../3_Entity/Championship/useGetChampionshipDetail";
 
 const MatchLineup = (props: MatchLineupProps) => {
   const { matchIdx, selectTeamList, selectTeamScore } = props;

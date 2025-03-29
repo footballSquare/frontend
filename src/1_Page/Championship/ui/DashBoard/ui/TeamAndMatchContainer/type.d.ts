@@ -7,7 +7,7 @@ type TeamAndMatchContainerProps = {
 type TournamentData = {
   round: number;
   label: string;
-  matches: ChampionshipMatchList[];
+  matchList: ChampionshipMatchList[];
 };
 
 type LeagueData = {
