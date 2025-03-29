@@ -68,7 +68,11 @@ const Header = (props: HeaderProps) => {
                   </button>
                   <button
                     className="px-3 py-2 border border-gray-300 rounded hover:bg-gray-100"
-                    onClick={putChampionshipEnd}>
+                    onClick={() => {
+                      if (confirm("정말 대회를 마감하시겠습니까?")) {
+                        putChampionshipEnd();
+                      }
+                    }}>
                     대회 마감
                   </button>
                 </div>
