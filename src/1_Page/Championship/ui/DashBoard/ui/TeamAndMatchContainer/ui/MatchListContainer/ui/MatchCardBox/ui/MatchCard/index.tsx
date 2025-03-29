@@ -5,7 +5,7 @@ import useValidParamInteger from "../../../../../../../../../../../../4_Shared/m
 const isAdmin = true; // 관리자 여부 (예시로 true로 설정)
 
 const MatchCard = (props: MatchCardProps) => {
-  const { match, index, selectedIdx, handleSelect, refetch } = props;
+  const { match, index, selectedIdx, handleSelect, handleDeleteMatch } = props;
   const home = match.championship_match_first;
   const away = match.championship_match_second;
   const status = matchState[home.common_status_idx] || "";
@@ -16,10 +16,10 @@ const MatchCard = (props: MatchCardProps) => {
   const [championshipIdx] = useValidParamInteger("championshipIdx");
   const [deleteEvent] = useDeleteChampionshipMatch(championshipIdx);
 
-  const handleDelete = async () => {
+  const handleDelete = () => {
     if (confirm("정말 삭제하시겠습니까?")) {
-      await deleteEvent(match.championship_match_idx);
-      refetch();
+      deleteEvent(match.championship_match_idx);
+      handleDeleteMatch(match.championship_match_idx);
     }
   };
 

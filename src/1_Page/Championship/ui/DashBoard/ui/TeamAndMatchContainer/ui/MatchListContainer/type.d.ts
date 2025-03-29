@@ -1,5 +1,6 @@
 type MatchListContainerProps = {
-  refetch: () => void;
+  handleDeleteMatch: (matchIdx: number) => void;
+  handleAddMatch: (newMatch: UsePostCreateChampionshipMatchProps) => void;
   matchList: ChampionshipMatchList[];
   teamList: ChampionshipTeamInfo[];
 };

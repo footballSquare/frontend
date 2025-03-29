@@ -3,5 +3,6 @@ type MatchCardBoxProps = {
   teamList: ChampionshipTeamInfo[];
   selectedIdx: number;
   handleSelect: (idx: number) => void;
-  refetch: () => void;
+  handleDeleteMatch: (matchIdx: number) => void;
+  handleAddMatch: (newMatch: UsePostCreateChampionshipMatchProps) => void;
 };

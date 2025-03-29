@@ -8,11 +8,14 @@ import MatchListContainer from "./ui/MatchListContainer";
 import useGetChampionshipMatchList from "../../../../../../3_Entity/Championship/useGetChampionshipMatchList";
 import useGetChampionshipTeamList from "../../../../../../3_Entity/Championship/useGetChampionshipTeams";
 import { ACTIVE_TAB } from "../../constant/activeTab";
+import useManageMatchList from "./model/useManageMatchList";
 
 const TeamAndMatchContainer = (props: TeamAndMatchContainerProps) => {
   const { championshipIdx, championship_type, activeTab } = props;
-  const [matchList, loading, refetch] =
-    useGetChampionshipMatchList(championshipIdx);
+  const [matchList, loading] = useGetChampionshipMatchList(championshipIdx);
+
+  const [displayMatchList, handleDeleteMatch, handleAddMatch] =
+    useManageMatchList(matchList);
 
   const [teamList] = useGetChampionshipTeamList(championshipIdx);
   const isLeague = championship_type === 0;
@@ -22,11 +25,13 @@ const TeamAndMatchContainer = (props: TeamAndMatchContainerProps) => {
     <div>
       <div className={activeTab === ACTIVE_TAB.TEAM ? "block" : "hidden"}>
         {isLeague ? (
-          <LeagueBracket leagueData={convertToLeague(matchList, teamList)} />
+          <LeagueBracket
+            leagueData={convertToLeague(displayMatchList, teamList)}
+          />
         ) : (
           <TournamentBracket
             tournamentData={convertToTournamentFormat(
-              matchList,
+              displayMatchList,
               teamList,
               championship_type
             )}
@@ -35,8 +40,9 @@ const TeamAndMatchContainer = (props: TeamAndMatchContainerProps) => {
       </div>
       <div className={activeTab === ACTIVE_TAB.MATCH ? "block" : "hidden"}>
         <MatchListContainer
-          refetch={refetch}
-          matchList={matchList}
+          handleDeleteMatch={handleDeleteMatch}
+          handleAddMatch={handleAddMatch}
+          matchList={displayMatchList}
           teamList={teamList}
         />
       </div>

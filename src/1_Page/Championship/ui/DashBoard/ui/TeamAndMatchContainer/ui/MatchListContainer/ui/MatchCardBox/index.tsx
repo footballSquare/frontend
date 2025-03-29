@@ -3,7 +3,14 @@ import MatchAddModalWithButton from "./ui/MatchAddModalWithButton";
 import useSortHandler from "./model/useSortHandler";
 
 const MatchCardBox = (props: MatchCardBoxProps) => {
-  const { matchList, teamList, selectedIdx, handleSelect, refetch } = props;
+  const {
+    matchList,
+    teamList,
+    selectedIdx,
+    handleSelect,
+    handleAddMatch,
+    handleDeleteMatch,
+  } = props;
   const isAdmin = true;
 
   const {
@@ -20,7 +27,10 @@ const MatchCardBox = (props: MatchCardBoxProps) => {
       {/* 검색 및 정렬 옵션 UI */}
       <div className="flex justify-end">
         {isAdmin && (
-          <MatchAddModalWithButton teamList={teamList} refetch={refetch} />
+          <MatchAddModalWithButton
+            teamList={teamList}
+            handleAddMatch={handleAddMatch}
+          />
         )}
       </div>
       <div className="flex gap-4 mb-6 bg-white p-4 rounded-lg shadow-md">
@@ -49,7 +59,7 @@ const MatchCardBox = (props: MatchCardBoxProps) => {
         )}
         {sortedMatches.map((match, index) => (
           <MatchCard
-            refetch={refetch}
+            handleDeleteMatch={handleDeleteMatch}
             selectedIdx={selectedIdx}
             handleSelect={handleSelect}
             match={match}

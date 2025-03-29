@@ -1,4 +1,4 @@
 type MatchAddModalWithButtonProps = {
   teamList: ChampionshipTeamInfo[];
-  refetch: () => void;
+  handleAddMatch: (match: ChampionshipMatchInfo) => void;
 };
