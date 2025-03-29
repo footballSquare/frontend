@@ -4,7 +4,8 @@ import MatchLineup from "./ui/MatchLineup";
 import { getSelectedMatchTeams } from "./ui/MatchLineup/util/select";
 
 const MatchListContainer = (props: MatchListContainerProps) => {
-  const { matchList, teamList, handleAddMatch, handleDeleteMatch } = props;
+  const { matchList, filteredTeamList, handleAddMatch, handleDeleteMatch } =
+    props;
   const [selectedIdx, setSelectedIdx] = React.useState<number>(
     matchList[0].championship_match_idx
   );
@@ -21,7 +22,7 @@ const MatchListContainer = (props: MatchListContainerProps) => {
       <MatchCardBox
         handleAddMatch={handleAddMatch}
         handleDeleteMatch={handleDeleteMatch}
-        teamList={teamList}
+        filteredTeamList={filteredTeamList}
         matchList={matchList}
         selectedIdx={selectedIdx}
         handleSelect={handleSelect}

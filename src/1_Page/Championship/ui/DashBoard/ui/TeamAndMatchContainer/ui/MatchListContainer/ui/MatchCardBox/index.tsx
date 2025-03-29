@@ -5,7 +5,7 @@ import useSortHandler from "./model/useSortHandler";
 const MatchCardBox = (props: MatchCardBoxProps) => {
   const {
     matchList,
-    teamList,
+    filteredTeamList,
     selectedIdx,
     handleSelect,
     handleAddMatch,
@@ -28,7 +28,7 @@ const MatchCardBox = (props: MatchCardBoxProps) => {
       <div className="flex justify-end">
         {isAdmin && (
           <MatchAddModalWithButton
-            teamList={teamList}
+            filteredTeamList={filteredTeamList}
             handleAddMatch={handleAddMatch}
           />
         )}

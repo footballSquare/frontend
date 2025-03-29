@@ -2,7 +2,7 @@ type MatchListContainerProps = {
   handleDeleteMatch: (matchIdx: number) => void;
   handleAddMatch: (newMatch: UsePostCreateChampionshipMatchProps) => void;
   matchList: ChampionshipMatchList[];
-  teamList: ChampionshipTeamInfo[];
+  filteredTeamList: ChampionshipTeamInfo[];
 };
 
 type SelectMatchTeamInfo = {
