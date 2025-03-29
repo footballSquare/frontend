@@ -5,7 +5,7 @@ import { createPortal } from "react-dom";
 import denide from "../../../../../../../../4_Shared/assets/svg/denied.svg";
 import plus from "../../../../../../../../4_Shared/assets/svg/plus.svg";
 
-const PlayerStatsTable = (props: PlayerStatsTableProps) => {
+const PlayerRow = (props: PlayerRowProps) => {
   const { player, index } = props;
   const navigate = useNavigate();
   // 이미지 모달 상태 관리
@@ -159,4 +159,4 @@ const PlayerStatsTable = (props: PlayerStatsTableProps) => {
   );
 };
 
-export default PlayerStatsTable;
+export default PlayerRow;

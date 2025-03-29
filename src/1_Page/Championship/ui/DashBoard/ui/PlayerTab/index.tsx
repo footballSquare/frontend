@@ -1,8 +1,8 @@
 import useGetPlayerStats from "../../../../../../3_Entity/Championship/useGetPlayerStats";
 
-import MemberCard from "./ui/MemberCard";
+import MemberCard from "./ui/PlayerRow";
 
-const PlayerStatsTable = (props: ParticipationMembersProps) => {
+const PlayerTab = (props: PlayerTabProps) => {
   const { championshipIdx } = props;
   const [playerStats] = useGetPlayerStats(championshipIdx);
 
@@ -42,4 +42,4 @@ const PlayerStatsTable = (props: ParticipationMembersProps) => {
   );
 };
 
-export default PlayerStatsTable;
+export default PlayerTab;

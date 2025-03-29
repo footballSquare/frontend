@@ -1,10 +1,7 @@
 export const getSelectedMatchTeams = (
   matchList: ChampionshipMatchList[],
   selectedIdx: number
-): {
-  selectTeamList: string[];
-  selectTeamScore: number[];
-} => {
+): SelectTeamMatchInfo => {
   if (!matchList || !Array.isArray(matchList) || matchList.length === 0) {
     return { selectTeamList: [], selectTeamScore: [] };
   }

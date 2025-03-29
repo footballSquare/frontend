@@ -1,6 +1,6 @@
 import defaultTeamImg from "../../../../../../../../../../4_Shared/assets/svg/team.svg";
 
-const MatchBox = (props: MatchBoxProps) => {
+const TournamentMatchColumn = (props: TournamentMatchColumnProps) => {
   const { match, index } = props;
 
   const team1Score = match.championship_match_first.match_team_stats_our_score;
@@ -113,4 +113,4 @@ const MatchBox = (props: MatchBoxProps) => {
     </div>
   );
 };
-export default MatchBox;
+export default TournamentMatchColumn;

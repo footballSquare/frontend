@@ -1,4 +1,4 @@
-type PlayerStatsTableProps = {
+type PlayerRowProps = {
   player: PlayerStats;
   index: number;
 };

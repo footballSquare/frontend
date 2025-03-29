@@ -1,4 +1,4 @@
-type MatchBoxProps = {
+type TournamentMatchColumnProps = {
   match: ChampionshipMatchList;
   index: number;
 };

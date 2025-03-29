@@ -1,11 +1,11 @@
-type MatchListContainerProps = {
+type MatchListTabProps = {
   handleDeleteMatch: (matchIdx: number) => void;
   handleAddMatch: (newMatch: UsePostCreateChampionshipMatchProps) => void;
   matchList: ChampionshipMatchList[];
   filteredTeamList: ChampionshipTeamInfo[];
 };
 
-type SelectMatchTeamInfo = {
-  teamName: string;
-  teamScore: number;
+type SelectTeamMatchInfo = {
+  selectTeamList: string[];
+  selectTeamScore: number[];
 };
