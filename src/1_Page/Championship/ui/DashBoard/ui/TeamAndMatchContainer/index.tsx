@@ -18,13 +18,12 @@ const TeamAndMatchContainer = (props: TeamAndMatchContainerProps) => {
 
   const [matchList] = useGetChampionshipMatchList(championshipIdx);
   const [teamList] = useGetChampionshipTeamList(championshipIdx);
-
   const [displayMatchList, handleDeleteMatch, handleAddMatch] =
     useManageMatchList(matchList, teamList);
 
   const filteredTeamList = isLeague
     ? teamList
-    : convertToFilterMatchList(matchList, teamList);
+    : convertToFilterMatchList(displayMatchList, teamList);
 
   return (
     <div>
@@ -45,10 +44,10 @@ const TeamAndMatchContainer = (props: TeamAndMatchContainerProps) => {
       </div>
       <div className={activeTab === ACTIVE_TAB.MATCH ? "block" : "hidden"}>
         <MatchListContainer
-          handleDeleteMatch={handleDeleteMatch}
-          handleAddMatch={handleAddMatch}
           matchList={displayMatchList}
           filteredTeamList={filteredTeamList}
+          handleDeleteMatch={handleDeleteMatch}
+          handleAddMatch={handleAddMatch}
         />
       </div>
     </div>

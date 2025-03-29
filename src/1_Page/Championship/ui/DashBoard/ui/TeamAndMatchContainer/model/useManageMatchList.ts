@@ -9,8 +9,13 @@ const useManageMatchList = (
   (matchIdx: number) => void,
   (newMatch: UsePostCreateChampionshipMatchProps) => void
 ] => {
-  const [displayMatchList, setDisplayMatchList] =
-    React.useState<ChampionshipMatchList[]>(matchList);
+  const [displayMatchList, setDisplayMatchList] = React.useState<
+    ChampionshipMatchList[]
+  >([]);
+
+  React.useEffect(() => {
+    setDisplayMatchList(matchList);
+  }, [matchList]);
 
   const handleDeleteMatch = (matchIdx: number) => {
     setDisplayMatchList((prev) =>

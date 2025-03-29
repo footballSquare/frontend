@@ -1,14 +1,18 @@
 import React from "react";
 import MatchCardBox from "./ui/MatchCardBox";
 import MatchLineup from "./ui/MatchLineup";
-import { getSelectedMatchTeams } from "./ui/MatchLineup/util/select";
+import { getSelectedMatchTeams } from "./util/select";
 
 const MatchListContainer = (props: MatchListContainerProps) => {
   const { matchList, filteredTeamList, handleAddMatch, handleDeleteMatch } =
     props;
-  const [selectedIdx, setSelectedIdx] = React.useState<number>(
-    matchList[0].championship_match_idx
-  );
+  const [selectedIdx, setSelectedIdx] = React.useState<number>(0);
+
+  React.useEffect(() => {
+    if (matchList.length === 0) return;
+    setSelectedIdx(matchList[0].championship_match_idx);
+  }, [matchList]);
+
   const handleSelect = (idx: number) => setSelectedIdx(idx);
 
   const { selectTeamList, selectTeamScore } = getSelectedMatchTeams(

@@ -1,5 +1,5 @@
 export const convertToTournamentFormat = (
-  matches: ChampionshipMatchList[],
+  matchList: ChampionshipMatchList[],
   teamList: ChampionshipTeamInfo[],
   championship_type: number
 ): TournamentData[] => {
@@ -26,7 +26,7 @@ export const convertToTournamentFormat = (
 
   // (1-1) 팀 등장 횟수 계산
   const teamAppearanceCount: { [teamId: number]: number } = {};
-  matches.forEach((match) => {
+  matchList.forEach((match) => {
     const fId = match.championship_match_first.team_list_idx;
     const sId = match.championship_match_second.team_list_idx;
     teamAppearanceCount[fId] = (teamAppearanceCount[fId] || 0) + 1;
@@ -34,7 +34,7 @@ export const convertToTournamentFormat = (
   });
 
   // (1-2) minAppearances로 해당 경기가 16/8/4/2/결승 중 어디인지 결정
-  matches.forEach((match) => {
+  matchList.forEach((match) => {
     const fId = match.championship_match_first.team_list_idx;
     const sId = match.championship_match_second.team_list_idx;
     // 두 팀 중 진 팀의 발현횟수를 기준으로 라운드 결정:
@@ -89,7 +89,7 @@ export const convertToTournamentFormat = (
     flatMatchesFinal = dummyMatches;
   }
 
-  // 2) Flat 배열을 라운드별로 잘라서 { round, label, matches } 형태로 만들기
+  // 2) Flat 배열을 라운드별로 잘라서 { round, label, matchList } 형태로 만들기
   // 시각화를 위해서 형태 변형
 
   // 총 팀 수는 championship_type에 따른 bracket 크기를 사용 (예: 16강이면 16)
@@ -97,7 +97,7 @@ export const convertToTournamentFormat = (
   const result: {
     round: number;
     label: string;
-    matches: ChampionshipMatchList[];
+    matchList: ChampionshipMatchList[];
   }[] = [];
   let startIndex = 0;
 
@@ -192,7 +192,7 @@ export const convertToTournamentFormat = (
     result.push({
       round: roundIndex,
       label,
-      matches: roundMatches,
+      matchList: roundMatches,
     });
   }
 
