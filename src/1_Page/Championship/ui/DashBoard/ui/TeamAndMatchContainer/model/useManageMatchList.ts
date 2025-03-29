@@ -28,6 +28,7 @@ const useManageMatchList = (
     console.log(dummyMatcth);
     setDisplayMatchList((prev) => [...prev, dummyMatcth]);
   };
+
   return [displayMatchList, handleDeleteMatch, handleAddMatch];
 };
 

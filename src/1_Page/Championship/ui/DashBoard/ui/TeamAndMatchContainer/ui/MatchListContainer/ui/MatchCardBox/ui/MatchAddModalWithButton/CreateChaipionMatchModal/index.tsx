@@ -7,7 +7,7 @@ import useValidParamInteger from "../../../../../../../../../../../../../4_Share
 import usePostCreateChampionshipMatch from "../../../../../../../../../../../../../3_Entity/Championship/usePostCreateChampionshipMatch";
 
 const CreateChampionMatchModal = (props: CreateChampionMatchModalProps) => {
-  const { onClose, teamList, handleAddMatch } = props;
+  const { onClose, filteredTeamList, handleAddMatch } = props;
 
   const [championshipIdx] = useValidParamInteger("championshipIdx");
 
@@ -45,7 +45,7 @@ const CreateChampionMatchModal = (props: CreateChampionMatchModalProps) => {
           <div className="mb-4">
             <label>매치 참여 팀 선택</label>
             <div className="flex flex-col gap-2 mt-1 overflow-y-scroll max-h-60">
-              {teamList.map((team: ChampionshipTeamInfo) => (
+              {filteredTeamList.map((team: ChampionshipTeamInfo) => (
                 <div
                   key={team.team_list_idx}
                   className="flex items-center justify-between border p-2 rounded">

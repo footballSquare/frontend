@@ -1,9 +1,8 @@
-// championship_type = 1: 16강 2 :8강 3: 4강
 export const convertToTournamentFormat = (
   matches: ChampionshipMatchList[],
   teamList: ChampionshipTeamInfo[],
   championship_type: number
-): TournamentData[] => {
+): [convertedData: TournamentData[], eliminatedTeams: number[]] => {
   // championship_type 기반 bracket 크기 결정 (없으면 teamList.length 사용)
   const roundSizeMap: Record<number, number> = {
     1: 16,
@@ -197,5 +196,21 @@ export const convertToTournamentFormat = (
     });
   }
 
-  return result;
+  const eliminatedTeams: number[] = [];
+
+  matches.forEach((match) => {
+    if (
+      match.championship_match_first.match_team_stats_our_score >
+      match.championship_match_second.match_team_stats_our_score
+    ) {
+      eliminatedTeams.push(match.championship_match_second.team_list_idx);
+    } else if (
+      match.championship_match_first.match_team_stats_our_score <
+      match.championship_match_second.match_team_stats_our_score
+    ) {
+      eliminatedTeams.push(match.championship_match_first.team_list_idx);
+    }
+  });
+
+  return [result, eliminatedTeams];
 };

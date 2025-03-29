@@ -2,7 +2,7 @@ import React from "react";
 import CreateChaipionMatchModal from "./CreateChaipionMatchModal";
 
 const MatchAddModalWithButton = (props: MatchAddModalWithButtonProps) => {
-  const { teamList, handleAddMatch } = props;
+  const { filteredTeamList, handleAddMatch } = props;
   const [isModalOpen, setIsModalOpen] = React.useState(false);
   const handleToggleModal = () => setIsModalOpen(!isModalOpen);
 
@@ -16,7 +16,7 @@ const MatchAddModalWithButton = (props: MatchAddModalWithButtonProps) => {
       {isModalOpen && (
         <CreateChaipionMatchModal
           onClose={handleToggleModal}
-          teamList={teamList}
+          filteredTeamList={filteredTeamList}
           handleAddMatch={handleAddMatch}
         />
       )}

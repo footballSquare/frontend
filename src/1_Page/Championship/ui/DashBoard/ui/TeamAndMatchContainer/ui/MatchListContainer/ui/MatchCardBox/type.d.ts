@@ -1,6 +1,6 @@
 type MatchCardBoxProps = {
   matchList: ChampionshipMatchList[];
-  teamList: ChampionshipTeamInfo[];
+  filteredTeamList: ChampionshipTeamInfo[];
   selectedIdx: number;
   handleSelect: (idx: number) => void;
   handleDeleteMatch: (matchIdx: number) => void;

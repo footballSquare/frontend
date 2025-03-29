@@ -20,20 +20,30 @@ const TeamAndMatchContainer = (props: TeamAndMatchContainerProps) => {
 
   const isLeague = championship_type === 0;
 
+  let convertedData: TournamentData[] | LeagueData[] = [];
+  let eliminatedTeams: number[] = [];
+
+  if (isLeague) {
+    [convertedData] = convertToLeague(displayMatchList, teamList);
+  } else {
+    [convertedData, eliminatedTeams] = convertToTournamentFormat(
+      displayMatchList,
+      teamList,
+      championship_type
+    );
+  }
+  const filteredTeamList = teamList.filter(
+    (team) => !eliminatedTeams.includes(team.team_list_idx)
+  );
+
   return (
     <div>
       <div className={activeTab === ACTIVE_TAB.TEAM ? "block" : "hidden"}>
         {isLeague ? (
-          <LeagueBracket
-            leagueData={convertToLeague(displayMatchList, teamList)}
-          />
+          <LeagueBracket leagueData={convertedData as LeagueData[]} />
         ) : (
           <TournamentBracket
-            tournamentData={convertToTournamentFormat(
-              displayMatchList,
-              teamList,
-              championship_type
-            )}
+            tournamentData={convertedData as TournamentData[]}
           />
         )}
       </div>
@@ -42,7 +52,7 @@ const TeamAndMatchContainer = (props: TeamAndMatchContainerProps) => {
           handleDeleteMatch={handleDeleteMatch}
           handleAddMatch={handleAddMatch}
           matchList={displayMatchList}
-          teamList={teamList}
+          filteredTeamList={filteredTeamList}
         />
       </div>
     </div>
