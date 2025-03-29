@@ -1,7 +1,6 @@
 type MatchLineupProps = {
   matchIdx: number;
-  selectTeamScore: number[];
-  selectTeamList: string[];
+  selectedTeams: SelectTeamMatchInfo;
 };
 
 type AssignFormation = {

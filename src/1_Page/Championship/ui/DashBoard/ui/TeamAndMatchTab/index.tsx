@@ -1,6 +1,5 @@
 import React from "react";
 import { ACTIVE_TAB } from "../../constant/activeTab";
-
 import { convertToMatchData } from "./util/convertToMatchData";
 
 import LeagueBracket from "./ui/LeagueBracket";
@@ -11,7 +10,7 @@ import useManageMatchList from "./model/useManageMatchList";
 import useGetChampionshipMatchList from "../../../../../../3_Entity/Championship/useGetChampionshipMatchList";
 import useGetChampionshipTeamList from "../../../../../../3_Entity/Championship/useGetChampionshipTeams";
 
-const TeamAndMatchContainer = (props: TeamAndMatchContainerProps) => {
+const TeamAndMatchTab = (props: TeamAndMatchTabProps) => {
   const { championshipIdx, championship_type, activeTab } = props;
   const isLeague = championship_type === 0;
 
@@ -31,6 +30,7 @@ const TeamAndMatchContainer = (props: TeamAndMatchContainerProps) => {
 
   return (
     <div>
+      {/* 팀 목록 탭 */}
       <div className={activeTab === ACTIVE_TAB.TEAM ? "block" : "hidden"}>
         {isLeague ? (
           <LeagueBracket leagueData={convertedData.leagueData} />
@@ -39,6 +39,7 @@ const TeamAndMatchContainer = (props: TeamAndMatchContainerProps) => {
         )}
       </div>
 
+      {/* 매치 목록 탭  */}
       <div className={activeTab === ACTIVE_TAB.MATCH ? "block" : "hidden"}>
         <MatchListContainer
           matchList={displayMatchList}
@@ -51,4 +52,4 @@ const TeamAndMatchContainer = (props: TeamAndMatchContainerProps) => {
   );
 };
 
-export default TeamAndMatchContainer;
+export default TeamAndMatchTab;

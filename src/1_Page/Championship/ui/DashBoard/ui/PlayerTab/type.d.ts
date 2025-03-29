@@ -1,0 +1,3 @@
+type PlayerTabProps = {
+  championshipIdx: number;
+};

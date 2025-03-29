@@ -5,7 +5,7 @@ import EvidenceDetailModal from "./ui/EvidenceDetailModal";
 import useGetChampionshipDetail from "../../../../../../../../../../3_Entity/Championship/useGetChampionshipDetail";
 
 const MatchLineup = (props: MatchLineupProps) => {
-  const { matchIdx, selectTeamList, selectTeamScore } = props;
+  const { matchIdx, selectedTeams } = props;
   const [isFormationView, setIsFormationView] = React.useState<boolean>(true);
   const [isTeamHistoryView, setIsTeamHistoryView] =
     React.useState<boolean>(false);
@@ -15,7 +15,7 @@ const MatchLineup = (props: MatchLineupProps) => {
     <div className="p-4">
       <EvidenceDetailModal
         matchIdx={matchIdx}
-        selectTeamList={selectTeamList}
+        selectTeamList={selectedTeams.selectTeamList}
       />
       <div className="flex justify-center mb-4 gap-4">
         <button
@@ -42,13 +42,13 @@ const MatchLineup = (props: MatchLineupProps) => {
         <div className="container mx-auto px-4 py-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <TeamStatsCard
-              teamName={selectTeamList[0]}
+              teamName={selectedTeams.selectTeamList[0]}
               stats={championshipDetail?.first_team.stats}
               color="blue"
             />
 
             <TeamStatsCard
-              teamName={selectTeamList[1]}
+              teamName={selectedTeams.selectTeamList[1]}
               stats={championshipDetail?.second_team.stats}
               color="green"
             />
@@ -58,11 +58,13 @@ const MatchLineup = (props: MatchLineupProps) => {
         <div>
           <div className="flex justify-center items-center gap-4 mb-4">
             <h2 className="text-xl font-bold mb-4 text-center">
-              {selectTeamList[0]} {`(${selectTeamScore[0]})`}
+              {selectedTeams.selectTeamList[0]}{" "}
+              {`(${selectedTeams.selectTeamScore[0]})`}
             </h2>
             <span className="text-xl font-bold">VS</span>
             <h2 className="text-xl font-bold mb-4 text-center">
-              {selectTeamList[1]} {`(${selectTeamScore[1]})`}
+              {selectedTeams.selectTeamList[1]}{" "}
+              {`(${selectedTeams.selectTeamScore[1]})`}
             </h2>
           </div>
 

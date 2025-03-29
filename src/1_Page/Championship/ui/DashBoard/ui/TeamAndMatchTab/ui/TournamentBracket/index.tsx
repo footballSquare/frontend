@@ -1,4 +1,4 @@
-import MatchBox from "./ui/MatchBox";
+import TournamentMatchColumn from "./ui/TournamentMatchColumn";
 
 export const TournamentBracket = (props: TournamentBracketProps) => {
   const { tournamentData } = props;
@@ -24,7 +24,7 @@ export const TournamentBracket = (props: TournamentBracketProps) => {
             {/* 매치 컨테이너 */}
             <div className="space-y-12 relative mt-4">
               {roundContnet.matchList.map((match, index) => (
-                <MatchBox match={match} index={index} />
+                <TournamentMatchColumn match={match} index={index} />
               ))}
             </div>
           </div>

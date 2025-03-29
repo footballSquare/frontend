@@ -2,8 +2,8 @@ import React from "react";
 import { navList } from "./constant/navList";
 import { ACTIVE_TAB } from "./constant/activeTab";
 
-import ParticipationMembers from "./ui/ParticipationMembers";
-import TeamAndMatchContainer from "./ui/TeamAndMatchContainer";
+import PlayerTab from "./ui/PlayerTab";
+import TeamAndMatchTab from "./ui/TeamAndMatchTab";
 
 const DashBoard = (props: DashBoardProps) => {
   const { championshipIdx, championship_type } = props;
@@ -30,10 +30,10 @@ const DashBoard = (props: DashBoardProps) => {
       <main className="pt-2">
         {/* 출전선수 목록 */}
         <div className={activeTab === ACTIVE_TAB.PLAYERS ? "block" : "hidden"}>
-          <ParticipationMembers championshipIdx={championshipIdx} />
+          <PlayerTab championshipIdx={championshipIdx} />
         </div>
         {/* 팀 and 매치 목록 */}
-        <TeamAndMatchContainer
+        <TeamAndMatchTab
           championship_type={championship_type}
           championshipIdx={championshipIdx}
           activeTab={activeTab}

@@ -1,3 +1,0 @@
-type ParticipationMembersProps = {
-  championshipIdx: number;
-};
