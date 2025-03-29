@@ -21,7 +21,6 @@ const useGetMatchWaitlist = (
   React.useEffect(() => {
     if (!loading && serverState) {
       setMatchWaitList(serverState as MatchWaitList);
-      console.log(serverState);
     }
   }, [loading, serverState]);
 

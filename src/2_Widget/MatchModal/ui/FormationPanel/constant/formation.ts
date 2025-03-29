@@ -5,7 +5,7 @@ export const formations = [
     { positionIdx: 23, top: "20%", left: "30%" }, // LW
     { positionIdx: 19, top: "20%", left: "70%" }, // RW
     { positionIdx: 14, top: "40%", left: "30%" }, // LCM
-    { positionIdx: 13, top: "40%", left: "50%" }, // CM
+    { positionIdx: 8, top: "40%", left: "50%" }, // CDM
     { positionIdx: 12, top: "40%", left: "70%" }, // RCM
     { positionIdx: 5, top: "60%", left: "20%" },  // LB
     { positionIdx: 4, top: "60%", left: "40%" },  // LCB
@@ -46,10 +46,10 @@ export const formations = [
     { positionIdx: 21, top: "10%", left: "50%" }, // ST
     { positionIdx: 23, top: "20%", left: "30%" }, // LW
     { positionIdx: 19, top: "20%", left: "70%" }, // RW
-    { positionIdx: 10, top: "40%", left: "20%" },  // LWB
+    { positionIdx: 15, top: "40%", left: "20%" },  // LM
     { positionIdx: 14, top: "40%", left: "40%" }, // LCM
     { positionIdx: 12, top: "40%", left: "60%" }, // RCM
-    { positionIdx: 6, top: "40%", left: "80%" },  // RWB
+    { positionIdx: 11, top: "40%", left: "80%" },  // RM
     { positionIdx: 4, top: "60%", left: "30%" },  // LCB
     { positionIdx: 3, top: "60%", left: "50%" },  // CB
     { positionIdx: 2, top: "60%", left: "70%" },  // RCB
