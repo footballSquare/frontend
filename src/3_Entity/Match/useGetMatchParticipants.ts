@@ -1,5 +1,5 @@
 import React from "react";
-import { useFetch } from "../../4_Shared/util/apiUtil";
+import { useFetchData } from "../../4_Shared/util/apiUtil";
 import { mockMatchParticipants } from "../../4_Shared/mock/matchParticipants";
 
 const useGetMatchParticipants = (
@@ -10,13 +10,13 @@ const useGetMatchParticipants = (
   boolean
 ] => {
   const { matchIdx } = porps;
-  const [serverState, request, loading] = useFetch();
+  const [serverState, request, loading] = useFetchData();
   const [matchPaticipants, setMatchPaticipants] = React.useState<
     MatchParticipant[]
   >(mockMatchParticipants.match_participant);
 
   React.useEffect(() => {
-    request(mockMatchParticipants);
+    request("GET", `/match/${matchIdx}/participant`, null, false);
   }, [matchIdx]);
 
   React.useEffect(() => {
@@ -25,6 +25,7 @@ const useGetMatchParticipants = (
         (serverState as { match_participant: MatchParticipant[] })
           .match_participant
       );
+      console.log(serverState)
     }
   }, [loading, serverState]);
 

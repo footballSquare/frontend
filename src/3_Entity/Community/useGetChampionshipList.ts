@@ -18,7 +18,8 @@ const useGetChampionshipList = (
     request(
       "GET",
       `/community/${communityIdx}/championship?page=${page}`,
-      null
+      null,
+      false
     );
   }, [communityIdx]);
 
