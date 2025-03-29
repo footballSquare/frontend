@@ -318,34 +318,34 @@ export const mockChampionshipMatchTor = {
     },
 
     // 4강 (Semi-finals) - 2경기
-    {
-      championship_match_idx: 13,
-      championship_match_first: {
-        team_list_idx: 1,
-        team_list_name: "FC 서울",
-        team_list_short_name: "SEO",
-        championship_match_first_idx: 114,
+    // {
+    //   championship_match_idx: 13,
+    //   championship_match_first: {
+    //     team_list_idx: 1,
+    //     team_list_name: "FC 서울",
+    //     team_list_short_name: "SEO",
+    //     championship_match_first_idx: 114,
 
-        team_list_color: "#C91A09",
-        team_list_emblem: trophy,
-        match_team_stats_our_score: 2,
-        match_team_stats_other_score: 3,
+    //     team_list_color: "#C91A09",
+    //     team_list_emblem: trophy,
+    //     match_team_stats_our_score: 2,
+    //     match_team_stats_other_score: 3,
 
-        common_status_idx: 4,
-      },
-      championship_match_second: {
-        team_list_idx: 7,
-        team_list_name: "인천 유나이티드",
-        team_list_short_name: "INC",
-        team_list_color: "#101C54",
-        team_list_emblem: trophy,
-        match_team_stats_our_score: 3,
-        match_team_stats_other_score: 2,
-        championship_match_second_idx: 102,
+    //     common_status_idx: 4,
+    //   },
+    //   championship_match_second: {
+    //     team_list_idx: 7,
+    //     team_list_name: "인천 유나이티드",
+    //     team_list_short_name: "INC",
+    //     team_list_color: "#101C54",
+    //     team_list_emblem: trophy,
+    //     match_team_stats_our_score: 3,
+    //     match_team_stats_other_score: 2,
+    //     championship_match_second_idx: 102,
 
-        common_status_idx: 4,
-      },
-    },
+    //     common_status_idx: 4,
+    //   },
+    // },
     // {
     //   championship_match_idx: 14,
     //   championship_match_first: {
@@ -355,10 +355,9 @@ export const mockChampionshipMatchTor = {
     //     team_list_short_name: "GWA",
     //     team_list_color: "#E4002B",
     //     team_list_emblem: trophy,
-    //     match_team_stats_our_score: 0,
+    //     match_team_stats_our_score: 1,
     //     match_team_stats_other_score: 0,
-
-    //     common_status_idx: 0,
+    //     common_status_idx: 4,
     //   },
     //   championship_match_second: {
     //     team_list_idx: 15,
@@ -367,10 +366,9 @@ export const mockChampionshipMatchTor = {
     //     team_list_color: "#E41E24",
     //     team_list_emblem: trophy,
     //     match_team_stats_our_score: 0,
-    //     match_team_stats_other_score: 0,
+    //     match_team_stats_other_score: 1,
     //     championship_match_second_idx: 102,
-
-    //     common_status_idx: 0,
+    //     common_status_idx: 4,
     //   },
     // },
 

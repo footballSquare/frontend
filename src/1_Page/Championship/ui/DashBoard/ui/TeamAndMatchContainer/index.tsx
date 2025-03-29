@@ -21,9 +21,13 @@ const TeamAndMatchContainer = (props: TeamAndMatchContainerProps) => {
   const [displayMatchList, handleDeleteMatch, handleAddMatch] =
     useManageMatchList(matchList, teamList);
 
+  const tournamentData = isLeague
+    ? []
+    : convertToTournamentFormat(displayMatchList, teamList, championshipIdx);
+
   const filteredTeamList = isLeague
     ? teamList
-    : convertToFilterMatchList(displayMatchList, teamList);
+    : convertToFilterMatchList(displayMatchList, teamList, tournamentData);
 
   return (
     <div>
@@ -33,13 +37,7 @@ const TeamAndMatchContainer = (props: TeamAndMatchContainerProps) => {
             leagueData={convertToLeague(displayMatchList, teamList)}
           />
         ) : (
-          <TournamentBracket
-            tournamentData={convertToTournamentFormat(
-              displayMatchList,
-              teamList,
-              championship_type
-            )}
-          />
+          <TournamentBracket tournamentData={tournamentData} />
         )}
       </div>
       <div className={activeTab === ACTIVE_TAB.MATCH ? "block" : "hidden"}>
