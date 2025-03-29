@@ -24,7 +24,6 @@ const useGetOpenMatchList = (
       setHasMoreContent(
         (serverState as { match: MatchInfo[] }).match.length >= ITEMS_PER_PAGE
       );
-      console.log(serverState);
     }
   }, [loading, serverState]);
 

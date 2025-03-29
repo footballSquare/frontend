@@ -20,8 +20,8 @@ const useGetMatchDetail = (
   }, [matchIdx]);
 
   React.useEffect(() => {
-    if (!loading && serverState && Array.isArray(serverState.match)) {
-      setMatchDetail(serverState.match[0] as MatchDetail);
+    if (!loading && serverState) {
+      setMatchDetail(serverState.match as MatchDetail);
     }
   }, [loading, serverState]);
 

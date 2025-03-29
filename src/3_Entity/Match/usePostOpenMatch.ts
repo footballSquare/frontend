@@ -15,7 +15,7 @@ const usePostOpenMatch = (): [(props: PostOpenMatchProps) => void] => {
       "POST",
       `/match/open`,
       {
-        match_formation_idx,
+        match_formation_idx: 3,
         match_match_participation_type,
         match_type_idx,
         match_match_duration: "2 hours",

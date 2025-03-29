@@ -25,7 +25,6 @@ const useGetMatchParticipants = (
         (serverState as { match_participant: MatchParticipant[] })
           .match_participant
       );
-      console.log(serverState)
     }
   }, [loading, serverState]);
 
