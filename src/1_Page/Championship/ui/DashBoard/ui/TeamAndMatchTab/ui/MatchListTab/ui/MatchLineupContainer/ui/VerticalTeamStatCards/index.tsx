@@ -1,6 +1,7 @@
 import { teamStatKeys } from "./constant/teamStatKeys";
 
-const TeamStatsCard = ({ teamName, stats, color }: TeamStatCardProps) => {
+const VerticalTeamStatCards = (props: VerticalTeamStatCardsProps) => {
+  const { teamName, stats, color } = props;
   const textColorClass = `text-${color}-800`;
   const backgroundColorClass = `bg-${color}-50`;
 
@@ -48,4 +49,4 @@ const TeamStatsCard = ({ teamName, stats, color }: TeamStatCardProps) => {
   );
 };
 
-export default TeamStatsCard;
+export default VerticalTeamStatCards;

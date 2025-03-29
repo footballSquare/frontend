@@ -1,4 +1,4 @@
-type MatchLineupProps = {
+type MatchLineupContainerProps = {
   matchIdx: number;
   selectedTeams: SelectTeamMatchInfo;
 };

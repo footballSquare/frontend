@@ -1,7 +1,7 @@
 import React from "react";
 import useGetChampionshipEvidence from "../../../../../../../../../../../../3_Entity/Championship/useGetChampionshipEvidence";
 
-const EvidenceDetailModal = (props: EvidenceDetailModalProps) => {
+const EvidenceDetailModalWithBtn = (props: EvidenceDetailModalWithBtnProps) => {
   const { matchIdx, selectTeamList } = props;
   const [evidenceImage] = useGetChampionshipEvidence(matchIdx);
   const [isModalOpen, setIsModalOpen] = React.useState<boolean>(false);
@@ -176,4 +176,4 @@ const EvidenceDetailModal = (props: EvidenceDetailModalProps) => {
   );
 };
 
-export default EvidenceDetailModal;
+export default EvidenceDetailModalWithBtn;
