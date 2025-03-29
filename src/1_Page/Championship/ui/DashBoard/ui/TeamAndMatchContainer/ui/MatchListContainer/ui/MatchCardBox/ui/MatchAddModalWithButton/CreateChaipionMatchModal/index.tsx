@@ -11,7 +11,8 @@ const CreateChampionMatchModal = (props: CreateChampionMatchModalProps) => {
 
   const [championshipIdx] = useValidParamInteger("championshipIdx");
 
-  const [postEvent] = usePostCreateChampionshipMatch(championshipIdx);
+  const [postCreateChampionshipMatch] =
+    usePostCreateChampionshipMatch(championshipIdx);
 
   const {
     register,
@@ -29,9 +30,10 @@ const CreateChampionMatchModal = (props: CreateChampionMatchModalProps) => {
   const { selectedTeams, handleAddTeam, handleRemoveTeam } =
     useSetValueHandler(setValue);
 
-  const onSubmit = async (data: CreateChampionMatchFormValues) => {
-    await postEvent(convertCreateChampionMatchForm(data));
-    handleAddMatch(data);
+  const onSubmit = (data: CreateChampionMatchFormValues) => {
+    const convertFormData = convertCreateChampionMatchForm(data);
+    postCreateChampionshipMatch(convertFormData);
+    handleAddMatch(convertFormData);
     onClose();
   };
 

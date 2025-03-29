@@ -12,15 +12,14 @@ import useManageMatchList from "./model/useManageMatchList";
 
 const TeamAndMatchContainer = (props: TeamAndMatchContainerProps) => {
   const { championshipIdx, championship_type, activeTab } = props;
-  const [matchList, loading] = useGetChampionshipMatchList(championshipIdx);
+  const [matchList] = useGetChampionshipMatchList(championshipIdx);
+  const [teamList] = useGetChampionshipTeamList(championshipIdx);
 
   const [displayMatchList, handleDeleteMatch, handleAddMatch] =
-    useManageMatchList(matchList);
+    useManageMatchList(matchList, teamList);
 
-  const [teamList] = useGetChampionshipTeamList(championshipIdx);
   const isLeague = championship_type === 0;
 
-  if (loading) <div>로딩중</div>;
   return (
     <div>
       <div className={activeTab === ACTIVE_TAB.TEAM ? "block" : "hidden"}>
