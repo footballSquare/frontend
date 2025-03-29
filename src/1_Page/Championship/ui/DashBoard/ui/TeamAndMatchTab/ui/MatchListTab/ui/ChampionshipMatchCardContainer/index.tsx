@@ -1,8 +1,11 @@
-import MatchCard from "./ui/MatchCard";
+import ChampionshipMatchCard from "./ui/ChampionshipMatchCard";
 import MatchAddModalWithButton from "./ui/MatchAddModalWithButton";
 import useSortHandler from "./model/useSortHandler";
 
-const MatchCardBox = (props: MatchCardBoxProps) => {
+const isAdmin = true;
+const ChampionshipMatchCardContainer = (
+  props: ChampionshipMatchCardContainerProps
+) => {
   const {
     matchList,
     filteredTeamList,
@@ -11,7 +14,6 @@ const MatchCardBox = (props: MatchCardBoxProps) => {
     handleAddMatch,
     handleDeleteMatch,
   } = props;
-  const isAdmin = true;
 
   const {
     searchTerm,
@@ -58,7 +60,7 @@ const MatchCardBox = (props: MatchCardBoxProps) => {
           </li>
         )}
         {sortedMatches.map((match, index) => (
-          <MatchCard
+          <ChampionshipMatchCard
             handleDeleteMatch={handleDeleteMatch}
             selectedIdx={selectedIdx}
             handleSelect={handleSelect}
@@ -71,4 +73,4 @@ const MatchCardBox = (props: MatchCardBoxProps) => {
   );
 };
 
-export default MatchCardBox;
+export default ChampionshipMatchCardContainer;

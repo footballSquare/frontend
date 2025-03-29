@@ -4,7 +4,7 @@ import { convertToMatchData } from "./util/convertToMatchData";
 
 import LeagueBracket from "./ui/LeagueBracket";
 import TournamentBracket from "./ui/TournamentBracket";
-import MatchListContainer from "./ui/MatchListContainer";
+import MatchListTab from "./ui/MatchListTab";
 
 import useManageMatchList from "./model/useManageMatchList";
 import useGetChampionshipMatchList from "../../../../../../3_Entity/Championship/useGetChampionshipMatchList";
@@ -41,7 +41,7 @@ const TeamAndMatchTab = (props: TeamAndMatchTabProps) => {
 
       {/* 매치 목록 탭  */}
       <div className={activeTab === ACTIVE_TAB.MATCH ? "block" : "hidden"}>
-        <MatchListContainer
+        <MatchListTab
           matchList={displayMatchList}
           filteredTeamList={convertedData.filteredTeamList}
           handleDeleteMatch={handleDeleteMatch}
