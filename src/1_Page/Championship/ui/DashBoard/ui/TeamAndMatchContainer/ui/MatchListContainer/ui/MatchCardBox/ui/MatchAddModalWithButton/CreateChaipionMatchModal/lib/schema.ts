@@ -1,5 +1,4 @@
 import * as yup from "yup";
-import { isPastTime } from "../../../../../../../../../../../../../../4_Shared/lib/timeChecker";
 
 export const schema = yup.object().shape({
   teams: yup
@@ -10,11 +9,14 @@ export const schema = yup.object().shape({
   matchDate: yup
     .string()
     .required("날짜 선택은 필수입니다.")
-    .test(
-      "is-date",
-      "유효한 날짜를 입력해주세요",
-      (value) => !!value && !isNaN(Date.parse(value)) && isPastTime(value)
-    ),
+    .test("is-valid-date", "과거 날짜는 선택할 수 없습니다.", function (value) {
+      if (!value) return false;
+      const selectedDate = new Date(value);
+      const today = new Date();
+      // 오늘 날짜의 00:00:00으로 세팅
+      today.setHours(0, 0, 0, 0);
+      return selectedDate >= today;
+    }),
   startTime: yup
     .string()
     .required("시작 시각 선택은 필수입니다.")

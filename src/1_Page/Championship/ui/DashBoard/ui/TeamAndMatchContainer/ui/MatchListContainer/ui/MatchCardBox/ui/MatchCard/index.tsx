@@ -31,11 +31,11 @@ const MatchCard = (props: MatchCardProps) => {
     ${
       isFinished
         ? "bg-gray-600 text-white hover:bg-gray-700"
-        : "bg-white text-gray-800 hover:bg-gray-100"
+        : "bg-gray-200 text-gray-800 hover:bg-gray-300"
     }
     ${isSelected ? "border-4 border-blue-600 bg-blue-100 shadow-xl" : ""}`}>
       {/* 팀 명 및 점수 */}
-      {isAdmin && (
+      {isAdmin && !isFinished && (
         <div className="flex w-full justify-end">
           <button
             onClick={handleDelete}

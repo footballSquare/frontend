@@ -1,8 +1,9 @@
 import React from "react";
-import { createFakeMatch } from "../util/createFakeMatch";
+import { createDummyMatch } from "../util/createDummyMatch";
 
 const useManageMatchList = (
-  matchList: ChampionshipMatchList[]
+  matchList: ChampionshipMatchList[],
+  teamList: ChampionshipTeamInfo[]
 ): [
   ChampionshipMatchList[],
   (matchIdx: number) => void,
@@ -17,8 +18,15 @@ const useManageMatchList = (
     );
   };
   const handleAddMatch = (newMatch: UsePostCreateChampionshipMatchProps) => {
-    const fakeMatcth = createFakeMatch(newMatch);
-    setDisplayMatchList((prev) => [...prev, fakeMatcth]);
+    const newMatchTeams = teamList.filter(
+      (team) =>
+        team.team_list_idx === newMatch.first_team_idx ||
+        team.team_list_idx === newMatch.second_team_idx
+    );
+    console.log(newMatchTeams);
+    const dummyMatcth = createDummyMatch(newMatchTeams);
+    console.log(dummyMatcth);
+    setDisplayMatchList((prev) => [...prev, dummyMatcth]);
   };
   return [displayMatchList, handleDeleteMatch, handleAddMatch];
 };
