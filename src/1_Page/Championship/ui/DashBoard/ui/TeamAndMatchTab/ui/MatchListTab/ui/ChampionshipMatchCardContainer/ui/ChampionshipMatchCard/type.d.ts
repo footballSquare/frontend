@@ -1,4 +1,4 @@
-type MatchCardProps = {
+type ChampionshipMatchCardProps = {
   match: ChampionshipMatchList;
   selectedIdx: number;
   index: number;

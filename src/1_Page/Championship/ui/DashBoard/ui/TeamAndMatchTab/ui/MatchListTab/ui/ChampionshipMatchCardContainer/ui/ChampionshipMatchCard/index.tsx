@@ -1,10 +1,12 @@
 import useDeleteChampionshipMatch from "../../../../../../../../../../../../3_Entity/Championship/useDeleteChampionshipMatch";
+import usePutChampionshipMatchEnd from "../../../../../../../../../../../../3_Entity/Championship/usePutChampionshipMatchEnd";
+
 import { matchState } from "../../../../../../../../../../../../4_Shared/constant/matchState";
 import useValidParamInteger from "../../../../../../../../../../../../4_Shared/model/useValidParamInteger";
 
 const isAdmin = true; // 관리자 여부 (예시로 true로 설정)
 
-const MatchCard = (props: MatchCardProps) => {
+const ChampionshipMatchCard = (props: ChampionshipMatchCardProps) => {
   const { match, index, selectedIdx, handleSelect, handleDeleteMatch } = props;
   const home = match.championship_match_first;
   const away = match.championship_match_second;
@@ -14,11 +16,18 @@ const MatchCard = (props: MatchCardProps) => {
   const isSelected = selectedIdx === match.championship_match_idx;
 
   const [championshipIdx] = useValidParamInteger("championshipIdx");
-  const [deleteEvent] = useDeleteChampionshipMatch(championshipIdx);
+  const [deleteChampionshipMatch] = useDeleteChampionshipMatch(championshipIdx);
+  const [putChampionshipMatchEnd] = usePutChampionshipMatchEnd();
 
   const handleDelete = () => {
     if (confirm("정말 삭제하시겠습니까?")) {
-      deleteEvent(match.championship_match_idx);
+      deleteChampionshipMatch(match.championship_match_idx);
+      handleDeleteMatch(match.championship_match_idx);
+    }
+  };
+  const handleEndMatch = () => {
+    if (confirm("정말 종료하시겠습니까?")) {
+      putChampionshipMatchEnd(match.championship_match_idx);
       handleDeleteMatch(match.championship_match_idx);
     }
   };
@@ -41,7 +50,13 @@ const MatchCard = (props: MatchCardProps) => {
             onClick={handleDelete}
             className="w-6 h-6 flex items-center justify-center text-sm text-red-500 hover:text-red-900 transition-colors"
             aria-label="Delete Match">
-            ✕
+            삭제하기
+          </button>
+          <button
+            onClick={handleEndMatch}
+            className="w-6 h-6 flex items-center justify-center text-sm text-red-500 hover:text-red-900 transition-colors"
+            aria-label="End Match">
+            경기종료하기
           </button>
         </div>
       )}
@@ -87,4 +102,4 @@ const MatchCard = (props: MatchCardProps) => {
   );
 };
 
-export default MatchCard;
+export default ChampionshipMatchCard;
