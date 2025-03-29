@@ -1,17 +1,17 @@
 import useGetCommunityStaffList from "../../../../3_Entity/Community/useGetCommunityStaffList";
 import { teamRole } from "../../../../4_Shared/constant/teamRole";
 
-const CommunityAdminList = (props: CommunityAdminListProps) => {
+const CommunityStaffList = (props: CommunityStaffListProps) => {
   const { communityIdx } = props;
   const [communityStaffList] = useGetCommunityStaffList({ communityIdx });
 
   return (
-    <div className="space-y-3 border-1">
-      {communityStaffList.map((staff) => {
+    <div className="space-y-3">
+      {communityStaffList.map((staff, index) => {
         return (
-          <div className="flex items-center space-x-2">
+          <div key={index} className="flex items-center space-x-2 border border-gray p-2">
             <img
-              src={staff.player_list_profile_img}
+              src={staff.player_list_profile_img ?? undefined}
               alt="Profile"
               className=" object-cover w-8 h-8 rounded-full overflow-hidden"
             />
@@ -28,4 +28,4 @@ const CommunityAdminList = (props: CommunityAdminListProps) => {
   );
 };
 
-export default CommunityAdminList;
+export default CommunityStaffList;

@@ -5,3 +5,8 @@ export type UserInfoPost = {
   position: number;
   state_message: string;
 };
+
+type SignInEventProps = {
+  id: string;
+  password: string;
+};

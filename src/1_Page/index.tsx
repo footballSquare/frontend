@@ -7,7 +7,12 @@ import PAGE_URI from "../4_Shared/constant/pageUri";
 import FreeMatch from "./FreeMatch";
 import Profile from "./Profile";
 import Community from "./Community";
+<<<<<<< HEAD
 import Championship from "./Championship";
+=======
+import CommunityManaging from "./CommunityManaging";
+import Login from "./Login";
+>>>>>>> develop
 
 const Page = () => {
   const [cookies] = useCookies(["accessToken"]);
@@ -28,13 +33,18 @@ const Page = () => {
           path={`${PAGE_URI.COMMUNITY}/:communityIdx`}
           element={<Community />}
         />
+        <Route path={`${PAGE_URI.COMMUNITYMANAGING}/:communityIdx`} element={<CommunityManaging />} />
         <Route path={PAGE_URI.RANKING} element={<Main />} />
         <Route path={`${PAGE_URI.PROFILE}/:userIdx`} element={<Profile />} />
         <Route path={PAGE_URI.FREEMATCH} element={<FreeMatch />} />
+<<<<<<< HEAD
         <Route
           path={`${PAGE_URI.CHAMPIONSHIP}/:championshipIdx`}
           element={<Championship />}
         />
+=======
+        <Route path={PAGE_URI.LOGIN} element={<Login />} />
+>>>>>>> develop
       </Routes>
     </div>
   );
