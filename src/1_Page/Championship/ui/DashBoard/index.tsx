@@ -6,7 +6,7 @@ import PlayerTab from "./ui/PlayerTab";
 import TeamAndMatchTab from "./ui/TeamAndMatchTab";
 
 const DashBoard = (props: DashBoardProps) => {
-  const { championshipIdx, championship_type } = props;
+  const { championship_type } = props;
   const [activeTab, setActiveTab] = React.useState<ACTIVE_TAB>(
     ACTIVE_TAB.PLAYERS
   );
@@ -30,12 +30,11 @@ const DashBoard = (props: DashBoardProps) => {
       <main className="pt-2">
         {/* 출전선수 목록 */}
         <div className={activeTab === ACTIVE_TAB.PLAYERS ? "block" : "hidden"}>
-          <PlayerTab championshipIdx={championshipIdx} />
+          <PlayerTab />
         </div>
         {/* 팀 and 매치 목록 */}
         <TeamAndMatchTab
           championship_type={championship_type}
-          championshipIdx={championshipIdx}
           activeTab={activeTab}
         />
       </main>

@@ -294,14 +294,12 @@ export const mockChampionshipMatchTor = {
         team_list_idx: 14,
         team_list_name: "경남 FC",
         championship_match_first_idx: 114,
-
         team_list_short_name: "GYE",
         team_list_color: "#C8102E",
         team_list_emblem: trophy,
         match_team_stats_our_score: 1,
         match_team_stats_other_score: 2,
-
-        common_status_idx: 4,
+        common_status_idx: 2,
       },
       championship_match_second: {
         team_list_idx: 15,
@@ -312,8 +310,7 @@ export const mockChampionshipMatchTor = {
         match_team_stats_our_score: 2,
         match_team_stats_other_score: 1,
         championship_match_second_idx: 102,
-
-        common_status_idx: 4,
+        common_status_idx: 2,
       },
     },
 

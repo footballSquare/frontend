@@ -12,7 +12,7 @@ const Championship = () => {
     <div className="w-full min-h-full  text-gray-800">
       {/* 상단 배너 영역 */}
       <Header championshipInfo={championshipInfo} />
-
+      {/* 하단 정보 영역 */}
       <DashBoard
         championshipIdx={championshipIdx}
         championship_type={championship_type}
