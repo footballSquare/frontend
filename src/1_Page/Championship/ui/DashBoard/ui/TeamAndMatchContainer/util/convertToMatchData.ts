@@ -1,4 +1,157 @@
-export const convertToTournamentFormat = (
+export const convertToMatchData = (
+  displayMatchList: ChampionshipMatchList[],
+  teamList: ChampionshipTeamInfo[],
+  championshipIdx: number,
+  isLeague: boolean
+): {
+  leagueData: LeagueData[];
+  tournamentData: TournamentData[];
+  filteredTeamList: ChampionshipTeamInfo[];
+} => {
+  if (isLeague) {
+    return {
+      leagueData: convertToLeague(displayMatchList, teamList),
+      filteredTeamList: teamList,
+      tournamentData: [],
+    };
+  } else {
+    const tournamentData = convertToTournamentFormat(
+      displayMatchList,
+      teamList,
+      championshipIdx
+    );
+    const filteredTeamList = convertToFilterMatchList(
+      displayMatchList,
+      teamList,
+      tournamentData
+    );
+    return {
+      tournamentData,
+      filteredTeamList,
+      leagueData: [],
+    };
+  }
+};
+
+const convertToFilterMatchList = (
+  matchList: ChampionshipMatchList[],
+  teamList: ChampionshipTeamInfo[],
+  tournamentData: TournamentData[]
+) => {
+  const eliminatedTeams: number[] = [];
+  const teams = getHighestRoundTeamIndices(tournamentData);
+
+  matchList.forEach((match) => {
+    if (match.championship_match_first.common_status_idx !== 4) {
+      eliminatedTeams.push(match.championship_match_second.team_list_idx);
+      eliminatedTeams.push(match.championship_match_first.team_list_idx);
+    }
+    if (
+      match.championship_match_first.match_team_stats_our_score >
+      match.championship_match_second.match_team_stats_our_score
+    ) {
+      eliminatedTeams.push(match.championship_match_second.team_list_idx);
+    } else if (
+      match.championship_match_first.match_team_stats_our_score <
+      match.championship_match_second.match_team_stats_our_score
+    ) {
+      eliminatedTeams.push(match.championship_match_first.team_list_idx);
+    }
+  });
+
+  // 경기 결과가 끝난 후, 패배팀을 제외한 팀들만 필터링
+  const filteredTeamList = teamList.filter(
+    (team) =>
+      !eliminatedTeams.includes(team.team_list_idx) &&
+      !teams.includes(team.team_list_idx)
+  );
+
+  return filteredTeamList;
+};
+
+const convertToLeague = (
+  matchList: ChampionshipMatchList[],
+  teamList: ChampionshipTeamInfo[]
+): LeagueData[] => {
+  const statsMap: { [teamId: number]: LeagueData } = {};
+
+  // 팀 리스트로 팀 배열 생성
+  teamList.forEach((team) => {
+    statsMap[team.team_list_idx] = {
+      team_list_idx: team.team_list_idx,
+      team_list_name: team.team_list_name,
+      team_list_short_name: team.team_list_short_name,
+      team_list_color: team.team_list_color,
+      team_list_emblem: team.team_list_emblem,
+      matchesPlayed: 0,
+      wins: 0,
+      draws: 0,
+      losses: 0,
+      goalsFor: 0,
+      goalsAgainst: 0,
+      goalDifference: 0,
+      points: 0,
+    };
+  });
+
+  // 매치 리스트를 통해 팀 리스트 데이터 업데이트
+  matchList.forEach((match) => {
+    const team1 = match.championship_match_first;
+    const team2 = match.championship_match_second;
+
+    // 매치의 팀1의 데이터 업데이트
+    statsMap[team1.team_list_idx].matchesPlayed += 1;
+    statsMap[team1.team_list_idx].goalsFor += team1.match_team_stats_our_score;
+    statsMap[team1.team_list_idx].goalsAgainst +=
+      team1.match_team_stats_other_score;
+    if (team1.match_team_stats_our_score > team1.match_team_stats_other_score) {
+      statsMap[team1.team_list_idx].wins += 1;
+      statsMap[team1.team_list_idx].points += 3;
+    } else if (
+      team1.match_team_stats_our_score === team1.match_team_stats_other_score
+    ) {
+      statsMap[team1.team_list_idx].draws += 1;
+      statsMap[team1.team_list_idx].points += 1;
+    } else {
+      statsMap[team1.team_list_idx].losses += 1;
+    }
+
+    // 매치의 팀2의 데이터 업데이트
+    statsMap[team2.team_list_idx].matchesPlayed += 1;
+    statsMap[team2.team_list_idx].goalsFor += team2.match_team_stats_our_score;
+    statsMap[team2.team_list_idx].goalsAgainst +=
+      team2.match_team_stats_other_score;
+    if (team2.match_team_stats_our_score > team2.match_team_stats_other_score) {
+      statsMap[team2.team_list_idx].wins += 1;
+      statsMap[team2.team_list_idx].points += 3;
+    } else if (
+      team2.match_team_stats_our_score === team2.match_team_stats_other_score
+    ) {
+      statsMap[team2.team_list_idx].draws += 1;
+      statsMap[team2.team_list_idx].points += 1;
+    } else {
+      statsMap[team2.team_list_idx].losses += 1;
+    }
+  });
+
+  // 골득실 계산
+  Object.values(statsMap).forEach((team) => {
+    team.goalDifference = team.goalsFor - team.goalsAgainst;
+  });
+
+  // 객체 배열화 및 sosrt 함수를 통한 정렬
+  const teamStatsArray = Object.values(statsMap);
+  teamStatsArray.sort((a, b) => {
+    if (b.points !== a.points) return b.points - a.points;
+    if (b.goalDifference !== a.goalDifference)
+      return b.goalDifference - a.goalDifference;
+    return b.goalsFor - a.goalsFor;
+  });
+
+  return teamStatsArray;
+};
+
+const convertToTournamentFormat = (
   matchList: ChampionshipMatchList[],
   teamList: ChampionshipTeamInfo[],
   championship_type: number
@@ -197,4 +350,47 @@ export const convertToTournamentFormat = (
   }
 
   return result;
+};
+
+const getHighestRoundTeamIndices = (
+  tournamentData: TournamentData[]
+): number[] => {
+  if (!tournamentData?.length) return [];
+
+  // 마지막 라운드부터 시작하여 더미 데이터 경기가 아닌 팀 데이터가 존재하는 첫 번째 라운드를 찾음
+  const validRound = tournamentData
+    .slice()
+    .reverse()
+    .find((roundData) =>
+      roundData.matchList.some(
+        (match) =>
+          match.championship_match_first.team_list_idx !== -1 ||
+          match.championship_match_second.team_list_idx !== -1
+      )
+    );
+
+  if (!validRound) return [];
+
+  // 만약 해당 라운드의 모든 경기에서 양쪽 팀의 인덱스가 유효하다면, 즉 경기가 완료되었다면 빈 배열 반환
+  const allMatchesComplete = validRound.matchList.every(
+    (match) =>
+      match.championship_match_first.team_list_idx !== -1 &&
+      match.championship_match_second.team_list_idx !== -1
+  );
+
+  if (allMatchesComplete) return [];
+
+  // 그렇지 않으면, 해당 라운드의 경기들 중 더미 데이터(-1)가 아닌 팀 idx들을 모음
+  const teamIndices = validRound.matchList.reduce((acc: Set<number>, match) => {
+    const { championship_match_first, championship_match_second } = match;
+    if (championship_match_first.team_list_idx !== -1) {
+      acc.add(championship_match_first.team_list_idx);
+    }
+    if (championship_match_second.team_list_idx !== -1) {
+      acc.add(championship_match_second.team_list_idx);
+    }
+    return acc;
+  }, new Set<number>());
+
+  return Array.from(teamIndices);
 };
