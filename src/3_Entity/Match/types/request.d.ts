@@ -1,16 +1,37 @@
-export type useGetMatchDetailProps = {
+type useGetMatchDetailProps = {
   matchIdx: number;
 };
 
-export type useGetMatchParticipantsProps = {
+type useGetMatchParticipantsProps = {
   matchIdx: number;
 };
 
-export type uesGetMatchWaitListProps = {
+type uesGetMatchWaitListProps = {
   matchIdx: number;
 };
 
-export type PostTeamMatchProps = {
+type UseGetOpenMatchListProps = {
+  page: number;
+};
+
+type UseGetMatchStatsProps = {
+  matchIdx: number;
+};
+
+type UseGetStandbyListProps = {
+  page: number;
+};
+
+type useGetTeamMatchListProps = {
+  page: number;
+  teamIdx: number;
+};
+
+type UsePostTeamMatchProps = {
+  teamIdx: number;
+};
+
+type PostTeamMatchProps = {
   match_formation_idx: number;
   match_match_participation_type: number;
   match_type_idx: number;
@@ -18,3 +39,11 @@ export type PostTeamMatchProps = {
   match_match_start_time: string;
   match_match_duration: string;
 };
+
+type PostOpenMatchProps = {
+  match_formation_idx: number;
+  match_match_participation_type: number;
+  match_type_idx: number;
+  match_match_start_time: string;
+  match_match_duration: string;
+}

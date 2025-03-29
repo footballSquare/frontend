@@ -18,10 +18,11 @@ type Championship = {
 
 type CommunityStaff = {
   player_list_idx: number;
-  player_list_platform: number;
-  player_list_profile_img: string;
   player_list_nickname: string;
+  player_list_platform: string | null;
+  player_list_profile_img: string | null;
   community_role_idx: number;
+  community_staff_joined_at: string;
 };
 
 type CommunityTeam = {

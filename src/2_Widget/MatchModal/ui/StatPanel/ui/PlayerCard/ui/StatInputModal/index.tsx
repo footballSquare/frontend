@@ -1,8 +1,7 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import statInputSchema from "./yupSchema/statInputSchema";
-import Input from "./ui/Input";
-import { StatInputModalProps } from "./type";
+import StatInput from "../../../../../../../../4_Shared/hookForm/StatInput";
+import statInputschema from "../../../../../../../../4_Shared/hookForm/StatInput/schema";
 import useMatchModalStore from "../../../../../../../../4_Shared/zustand/useMatchModal";
 
 const StatInputModal = (props: StatInputModalProps) => {
@@ -14,23 +13,31 @@ const StatInputModal = (props: StatInputModalProps) => {
     formState: { errors, isValid },
   } = useForm({
     mode: "onChange",
-    resolver: yupResolver(statInputSchema),
+    resolver: yupResolver(statInputschema),
+    defaultValues:{
+      evidence: "",
+      goals: 0,
+      assists: 0,
+      passAccuracy: 0,
+      tackleAccuracy: 0,
+      possession: 0,
+      standingTackles: 0,
+      slidingTackles: 0,
+      interceptions: 0,
+      saves: 0,
+      saveSuccessRate: 0,
+    }
   });
-
-  const onSubmit = () => {
-    console.log("submit");
-  };
-
   return (
     <div className="absolute top-0 left-0 w-full h-full flex justify-center items-center">
       {/* 레이어 */}
       <div className="absolute top-0 left-0 w-full h-full opacity-50 bg-gray"></div>
       <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col gap-2 border-1 border-gray shadow-2xl absolute top-7 left-[35%] bg-white p-4"
+        onSubmit={handleSubmit(()=>{console.log("submit")})}
+        className="flex flex-col gap-2 border-1 border-gray shadow-2xl absolute top-7 left-[35%] bg-white p-4 max-w-[300px] max-h-[500px] overflow-auto"
       >
         <button onClick={toggleStatInputModal}>X</button>
-        <Input
+        <StatInput
           register={register}
           registerType={"evidence"}
           errors={errors}
@@ -38,7 +45,7 @@ const StatInputModal = (props: StatInputModalProps) => {
           type={"file"}
           isMatchEnd={isMatchEnd}
         />
-        <Input
+        <StatInput
           register={register}
           registerType={"goals"}
           errors={errors}
@@ -46,7 +53,7 @@ const StatInputModal = (props: StatInputModalProps) => {
           type={"number"}
           isMatchEnd={isMatchEnd}
         />
-        <Input
+        <StatInput
           register={register}
           registerType={"assists"}
           errors={errors}
@@ -54,7 +61,7 @@ const StatInputModal = (props: StatInputModalProps) => {
           type={"number"}
           isMatchEnd={isMatchEnd}
         />
-        <Input
+        <StatInput
           register={register}
           registerType={"passAccuracy"}
           errors={errors}
@@ -62,7 +69,7 @@ const StatInputModal = (props: StatInputModalProps) => {
           type={"number"}
           isMatchEnd={isMatchEnd}
         />
-        <Input
+        <StatInput
           register={register}
           registerType={"tackleAccuracy"}
           errors={errors}
@@ -70,7 +77,7 @@ const StatInputModal = (props: StatInputModalProps) => {
           type={"number"}
           isMatchEnd={isMatchEnd}
         />
-        <Input
+        <StatInput
           register={register}
           registerType={"possession"}
           errors={errors}
@@ -78,7 +85,7 @@ const StatInputModal = (props: StatInputModalProps) => {
           type={"number"}
           isMatchEnd={isMatchEnd}
         />
-        <Input
+        <StatInput
           register={register}
           registerType={"standingTackles"}
           errors={errors}
@@ -86,7 +93,7 @@ const StatInputModal = (props: StatInputModalProps) => {
           type={"number"}
           isMatchEnd={isMatchEnd}
         />
-        <Input
+        <StatInput
           register={register}
           registerType={"slidingTackles"}
           errors={errors}
@@ -94,7 +101,7 @@ const StatInputModal = (props: StatInputModalProps) => {
           type={"number"}
           isMatchEnd={isMatchEnd}
         />
-        <Input
+        <StatInput
           register={register}
           registerType={"interceptions"}
           errors={errors}
@@ -102,7 +109,7 @@ const StatInputModal = (props: StatInputModalProps) => {
           type={"number"}
           isMatchEnd={isMatchEnd}
         />
-        <Input
+        <StatInput
           register={register}
           registerType={"saves"}
           errors={errors}
@@ -110,7 +117,7 @@ const StatInputModal = (props: StatInputModalProps) => {
           type={"number"}
           isMatchEnd={isMatchEnd}
         />
-        <Input
+        <StatInput
           register={register}
           registerType={"saveSuccessRate"}
           errors={errors}
@@ -118,7 +125,15 @@ const StatInputModal = (props: StatInputModalProps) => {
           type={"number"}
           isMatchEnd={isMatchEnd}
         />
-        <button type="submit" disabled={!isValid}>
+        <button
+          type="submit"
+          disabled={!isValid}
+          className={`px-4 py-2 rounded ${
+            isValid
+              ? "bg-blue-500 text-white hover:bg-blue-600"
+              : "bg-gray cursor-not-allowed"
+          }`}
+        >
           제출
         </button>
       </form>
