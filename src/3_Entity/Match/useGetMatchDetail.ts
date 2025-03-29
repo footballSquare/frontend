@@ -1,7 +1,6 @@
 import React from "react";
 import { useFetchData } from "../../4_Shared/util/apiUtil";
 import { mockMatchDetail } from "../../4_Shared/mock//matchDetail";
-import useMatchModalStore from "../../4_Shared/zustand/useMatchModal";
 
 const useGetMatchDetail = (
   props: useGetMatchDetailProps
@@ -15,16 +14,14 @@ const useGetMatchDetail = (
   const [matchDetail, setMatchDetail] = React.useState<MatchDetail>(
     mockMatchDetail.match
   );
-  const { setIsMatchEnd } = useMatchModalStore();
 
   React.useEffect(() => {
-    request("GET", `/match/${matchIdx}`, null);
+    request("GET", `/match/${matchIdx}`, null, false);
   }, [matchIdx]);
 
   React.useEffect(() => {
-    if (!loading && serverState) {
-      setMatchDetail(serverState.match as MatchDetail);
-      setIsMatchEnd((serverState.match as MatchDetail).common_status_idx === 2);
+    if (!loading && serverState && Array.isArray(serverState.match)) {
+      setMatchDetail(serverState.match[0] as MatchDetail);
     }
   }, [loading, serverState]);
 
