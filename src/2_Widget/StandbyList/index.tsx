@@ -5,7 +5,7 @@ import useInfiniteScrollPaging from "../../4_Shared/model/useInfiniteScrollPagin
 
 const WaitingPlayerList = () => {
   const [page, setPage] = React.useState<number>(1);
-  const [standbyList, hasMoreContent, loading] = useGetStandbyList(page);
+  const [standbyList, hasMoreContent, loading] = useGetStandbyList({page});
   const [observeRef] = useInfiniteScrollPaging(
     setPage,
     loading,
