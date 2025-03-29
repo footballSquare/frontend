@@ -1,3 +1,0 @@
-type PlayerTabProps = {
-  championshipIdx: number;
-};

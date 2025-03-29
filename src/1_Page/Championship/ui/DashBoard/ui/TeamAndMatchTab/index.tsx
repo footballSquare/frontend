@@ -9,10 +9,12 @@ import MatchListTab from "./ui/MatchListTab";
 import useManageMatchList from "./model/useManageMatchList";
 import useGetChampionshipMatchList from "../../../../../../3_Entity/Championship/useGetChampionshipMatchList";
 import useGetChampionshipTeamList from "../../../../../../3_Entity/Championship/useGetChampionshipTeams";
+import useValidParamInteger from "../../../../../../4_Shared/model/useValidParamInteger";
 
 const TeamAndMatchTab = (props: TeamAndMatchTabProps) => {
-  const { championshipIdx, championship_type, activeTab } = props;
+  const { championship_type, activeTab } = props;
   const isLeague = championship_type === 0;
+  const [championshipIdx] = useValidParamInteger("championshipIdx");
 
   const [matchList] = useGetChampionshipMatchList(championshipIdx); // 대회 생성된 매치 리스트
   const [teamList] = useGetChampionshipTeamList(championshipIdx); // 대회 참가 팀리스트
@@ -20,7 +22,6 @@ const TeamAndMatchTab = (props: TeamAndMatchTabProps) => {
     matchList,
     teamList
   ); // 매치 리스트 관리
-
   const convertedData = React.useMemo(() => {
     return convertToMatchData(
       displayMatchList,

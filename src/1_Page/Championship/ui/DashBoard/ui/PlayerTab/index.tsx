@@ -1,9 +1,10 @@
 import useGetPlayerStats from "../../../../../../3_Entity/Championship/useGetPlayerStats";
+import useValidParamInteger from "../../../../../../4_Shared/model/useValidParamInteger";
 
 import MemberCard from "./ui/PlayerRow";
 
-const PlayerTab = (props: PlayerTabProps) => {
-  const { championshipIdx } = props;
+const PlayerTab = () => {
+  const [championshipIdx] = useValidParamInteger("championshipIdx");
   const [playerStats] = useGetPlayerStats(championshipIdx);
 
   return (
