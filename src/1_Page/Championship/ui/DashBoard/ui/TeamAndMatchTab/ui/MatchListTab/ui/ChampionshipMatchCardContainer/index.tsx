@@ -11,8 +11,7 @@ const ChampionshipMatchCardContainer = (
     filteredTeamList,
     selectedIdx,
     handleSelect,
-    handleAddMatch,
-    handleDeleteMatch,
+    matchHandlers,
   } = props;
 
   const {
@@ -31,7 +30,7 @@ const ChampionshipMatchCardContainer = (
         {isAdmin && (
           <MatchAddModalWithButton
             filteredTeamList={filteredTeamList}
-            handleAddMatch={handleAddMatch}
+            handleAddMatch={matchHandlers.handleAddMatch}
           />
         )}
       </div>
@@ -61,7 +60,8 @@ const ChampionshipMatchCardContainer = (
         )}
         {sortedMatches.map((match, index) => (
           <ChampionshipMatchCard
-            handleDeleteMatch={handleDeleteMatch}
+            handleEndMatch={matchHandlers.handleEndMatch}
+            handleDeleteMatch={matchHandlers.handleDeleteMatch}
             selectedIdx={selectedIdx}
             handleSelect={handleSelect}
             match={match}

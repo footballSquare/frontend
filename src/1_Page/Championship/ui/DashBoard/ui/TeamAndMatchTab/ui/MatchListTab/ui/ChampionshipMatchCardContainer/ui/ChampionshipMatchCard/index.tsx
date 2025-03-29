@@ -7,7 +7,14 @@ import useValidParamInteger from "../../../../../../../../../../../../4_Shared/m
 const isAdmin = true; // 관리자 여부 (예시로 true로 설정)
 
 const ChampionshipMatchCard = (props: ChampionshipMatchCardProps) => {
-  const { match, index, selectedIdx, handleSelect, handleDeleteMatch } = props;
+  const {
+    match,
+    index,
+    selectedIdx,
+    handleSelect,
+    handleDeleteMatch,
+    handleEndMatch,
+  } = props;
   const home = match.championship_match_first;
   const away = match.championship_match_second;
   const status = matchState[home.common_status_idx] || "";
@@ -25,10 +32,10 @@ const ChampionshipMatchCard = (props: ChampionshipMatchCardProps) => {
       handleDeleteMatch(match.championship_match_idx);
     }
   };
-  const handleEndMatch = () => {
+  const handlePutEndMatch = () => {
     if (confirm("정말 종료하시겠습니까?")) {
       putChampionshipMatchEnd(match.championship_match_idx);
-      handleDeleteMatch(match.championship_match_idx);
+      handleEndMatch(match.championship_match_idx);
     }
   };
 
@@ -53,7 +60,7 @@ const ChampionshipMatchCard = (props: ChampionshipMatchCardProps) => {
             삭제하기
           </button>
           <button
-            onClick={handleEndMatch}
+            onClick={handlePutEndMatch}
             className="w-6 h-6 flex items-center justify-center text-sm text-red-500 hover:text-red-900 transition-colors"
             aria-label="End Match">
             경기종료하기

@@ -1,6 +1,5 @@
 type MatchListTabProps = {
-  handleDeleteMatch: (matchIdx: number) => void;
-  handleAddMatch: (newMatch: UsePostCreateChampionshipMatchProps) => void;
+  matchHandlers: MatchHandlerReturn;
   matchList: ChampionshipMatchList[];
   filteredTeamList: ChampionshipTeamInfo[];
 };
