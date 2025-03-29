@@ -35,6 +35,7 @@ const PostOpenMatchPanel = () => {
   });
 
   const onSubmit = (data: any) => {
+    console.log(data)
     postOpenMatch({
       match_formation_idx: data.match_formation_idx,
       match_match_participation_type: data.match_match_participation_type,

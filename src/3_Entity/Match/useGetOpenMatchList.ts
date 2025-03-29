@@ -12,7 +12,7 @@ const useGetOpenMatchList = (
   const [hasMoreContent, setHasMoreContent] = React.useState<boolean>(true);
 
   React.useEffect(() => {
-    request("GET", `/match/open?page=${page}`, null);
+    request("GET", `/match/open?page=${page}`, null, false);
   }, [page]);
 
   React.useEffect(() => {
@@ -24,6 +24,7 @@ const useGetOpenMatchList = (
       setHasMoreContent(
         (serverState as { match: MatchInfo[] }).match.length >= ITEMS_PER_PAGE
       );
+      console.log(serverState);
     }
   }, [loading, serverState]);
 
