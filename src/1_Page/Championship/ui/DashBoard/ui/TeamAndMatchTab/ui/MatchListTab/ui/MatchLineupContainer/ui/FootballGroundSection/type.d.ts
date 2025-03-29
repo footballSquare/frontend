@@ -1,4 +1,4 @@
-type TeamSectionProps = {
+type FootballGroundSectionProps = {
   teamFormation: number;
   players: PlayerStats[];
   isFirstTeam: boolean;

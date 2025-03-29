@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { matchPosition } from "../../../../../../../../../../../../4_Shared/constant/matchPosition";
 import { formations } from "../../../../../../../../../../../../2_Widget/MatchModal/ui/FormationPanel/constant/formation";
 
-const TeamSection = (props: TeamSectionProps) => {
+const FootballGroundSection = (props: FootballGroundSectionProps) => {
   const { players, teamFormation, isFirstTeam, isFormationView, momPlayerIdx } =
     props;
 
@@ -185,4 +185,4 @@ const TeamSection = (props: TeamSectionProps) => {
   );
 };
 
-export default TeamSection;
+export default FootballGroundSection;

@@ -1,4 +1,4 @@
-type EvidenceDetailModalProps = {
+type EvidenceDetailModalWithBtnProps = {
   matchIdx: number;
   selectTeamList: string[];
 };
