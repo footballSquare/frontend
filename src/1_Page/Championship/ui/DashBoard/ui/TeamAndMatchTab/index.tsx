@@ -16,8 +16,10 @@ const TeamAndMatchTab = (props: TeamAndMatchTabProps) => {
 
   const [matchList] = useGetChampionshipMatchList(championshipIdx); // 대회 생성된 매치 리스트
   const [teamList] = useGetChampionshipTeamList(championshipIdx); // 대회 참가 팀리스트
-  const [displayMatchList, handleDeleteMatch, handleAddMatch] =
-    useManageMatchList(matchList, teamList); // 매치 리스트 관리
+  const [displayMatchList, matchHandlers] = useManageMatchList(
+    matchList,
+    teamList
+  ); // 매치 리스트 관리
 
   const convertedData = React.useMemo(() => {
     return convertToMatchData(
@@ -44,8 +46,7 @@ const TeamAndMatchTab = (props: TeamAndMatchTabProps) => {
         <MatchListTab
           matchList={displayMatchList}
           filteredTeamList={convertedData.filteredTeamList}
-          handleDeleteMatch={handleDeleteMatch}
-          handleAddMatch={handleAddMatch}
+          matchHandlers={matchHandlers}
         />
       </div>
     </div>
