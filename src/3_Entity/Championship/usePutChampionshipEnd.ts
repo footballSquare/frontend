@@ -3,12 +3,17 @@ import { useFetchData } from "../../4_Shared/util/apiUtil";
 
 const usePutChampionshipEnd = (
   championshipListIdx: number
-): [() => void, Record<string, unknown> | null] => {
+): [
+  (putData: UsePutChampionshipEndProps) => void,
+  Record<string, unknown> | null
+] => {
   const [serverState, request, loading] = useFetchData();
 
-  const putChampionshipEnd = () => {
+  const putChampionshipEnd = (
+    putChampionshipEndData: UsePutChampionshipEndProps
+  ) => {
     const endPoint = `/championship/${championshipListIdx}/done`;
-    request("PUT", endPoint, null, true);
+    request("PUT", endPoint, putChampionshipEndData, true);
   };
 
   React.useEffect(() => {
