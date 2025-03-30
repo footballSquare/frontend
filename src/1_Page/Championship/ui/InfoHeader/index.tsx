@@ -1,29 +1,26 @@
 import { useNavigate } from "react-router-dom";
+import { useCookies } from "react-cookie";
+import EndChampionshipModal from "./ui/EndChampionshipModal";
 // state
-import useToggleHeader from "./model/useToggleHeader";
-import useEndModal from "./model/useEndModal";
-import usePutChampionshipEnd from "../../../../3_Entity/Championship/usePutChampionshipEnd";
+import useToggleState from "../../../../4_Shared/model/useToggleState";
 import useParamInteger from "../../../../4_Shared/model/useParamInteger";
 import { getTextColorFromBackground } from "../../../../4_Shared/lib/colorChecker";
 import { matchType } from "../../../../4_Shared/constant/matchType";
 import { championshipTypes } from "../../../../4_Shared/constant/championshipTypes";
-import { useCookies } from "react-cookie";
 import { formatDateKoreanDate } from "../../../../4_Shared/lib/dateFormatter";
-import EndModalWithBtn from "./ui/EndModalWithBtn";
 
 const InfoHeader = (props: InfoHeaderProps) => {
   const { championshipInfo } = props;
-  const isChampionshipEnd = championshipInfo.common_status_idx === 4;
   const navigate = useNavigate();
-
+  const championshipIdx = useParamInteger("championshipIdx");
+  const isChampionshipEnd = championshipInfo.common_status_idx === 4;
+  // 어드민
   const [cookies] = useCookies(["community_role_idx"]);
   const isAdmin = cookies.community_role_idx === 0;
 
-  const [isHeaderCollapsed, toggleHeader] = useToggleHeader();
-  const [isEndModalOpen, toggleEndModal] = useEndModal();
-
-  const championshipIdx = useParamInteger("championshipIdx");
-  const [putChampionshipEnd] = usePutChampionshipEnd(championshipIdx);
+  const [isModalOpen, handleToggleModal] = useToggleState();
+  const [isHeaderCollapsed, toggleHeader] = useToggleState();
+  const [isEndModalOpen, toggleEndModal] = useToggleState(true);
 
   return (
     <header
@@ -86,7 +83,11 @@ const InfoHeader = (props: InfoHeaderProps) => {
                     }}>
                     대회 수정
                   </button>
-                  <EndModalWithBtn />
+                  <button
+                    onClick={handleToggleModal}
+                    className="px-3 py-2 border border-gray-300 rounded hover:bg-gray-100">
+                    대회 종료
+                  </button>
                 </div>
               </div>
             )}
@@ -161,6 +162,9 @@ const InfoHeader = (props: InfoHeaderProps) => {
             </button>
           </div>
         </div>
+      )}
+      {isModalOpen && (
+        <EndChampionshipModal handleToggleModal={handleToggleModal} />
       )}
     </header>
   );
