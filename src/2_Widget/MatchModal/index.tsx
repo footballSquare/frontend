@@ -21,8 +21,8 @@ const MatchModal = () => {
   const [matchDetail] = useGetMatchDetail({ matchIdx });
   const {
     player_list_idx,
-    player_list_nickname,
-    player_list_profile_image,
+    //player_list_nickname,
+    //player_list_profile_image,
     match_formation_idx,
     match_position_idxs,
     match_match_participation_type,
@@ -72,7 +72,9 @@ const MatchModal = () => {
           <label className="flex flex-col text-xs font-semibold">
             예상 플레이 타임
             {/* 아래의 select 태그 Select 컴포넌트로 적용 */}
-            <p className="flex justify-center items-center w-[164px] h-[32px] rounded-[4px] border border-blue"></p>
+            <p className="flex justify-center items-center w-[164px] h-[32px] rounded-[4px] border border-blue">
+              {`${match_match_duration.hours}.${match_match_duration.minutes || 0} 시간`}
+            </p>
           </label>
           <label className="flex flex-col text-xs font-semibold">
             참가 모드

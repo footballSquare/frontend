@@ -60,3 +60,8 @@ type PutOpenMatchJoinProps = {
   matchIdx: number;
   matchPositionIdx: number;
 }
+
+type DeleteMatchJoinProps = {
+  matchIdx: number;
+  userIdx: number;
+}
