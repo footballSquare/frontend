@@ -226,7 +226,7 @@ const convertToTournamentFormat = (
     const dummyMatches: ChampionshipMatchList[] = [];
     for (let i = 0; i < teamList.length; i += 2) {
       dummyMatches.push({
-        championship_match_idx: -1,
+        championship_match_idx: 0,
         championship_match_first: {
           ...teamList[i],
           match_team_stats_our_score: 0,
