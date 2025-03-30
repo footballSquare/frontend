@@ -32,6 +32,13 @@ const PlayerTab = () => {
           </thead>
 
           <tbody>
+            {playerStats.length === 0 && (
+              <tr>
+                <td colSpan={8} className="py-4 text-gray-500">
+                  선수 통계가 없습니다.
+                </td>
+              </tr>
+            )}
             {playerStats.map((player, index) => (
               <MemberCard player={player} index={index} />
             ))}

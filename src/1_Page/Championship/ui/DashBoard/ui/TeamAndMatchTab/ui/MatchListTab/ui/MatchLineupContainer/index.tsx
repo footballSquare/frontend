@@ -58,13 +58,13 @@ const MatchLineupContainer = (props: MatchLineupContainerProps) => {
         <div>
           <div className="flex justify-center items-center gap-4 mb-4">
             <h2 className="text-xl font-bold mb-4 text-center">
-              {selectedTeams.selectTeamList[0]}{" "}
-              {`(${selectedTeams.selectTeamScore[0]})`}
+              {selectedTeams.selectTeamList[0] || ""}
+              {`(${selectedTeams.selectTeamScore[0] || ""})`}
             </h2>
             <span className="text-xl font-bold">VS</span>
             <h2 className="text-xl font-bold mb-4 text-center">
-              {selectedTeams.selectTeamList[1]}{" "}
-              {`(${selectedTeams.selectTeamScore[1]})`}
+              {selectedTeams.selectTeamList[1] || ""}{" "}
+              {`(${selectedTeams.selectTeamScore[1] || ""})`}
             </h2>
           </div>
 

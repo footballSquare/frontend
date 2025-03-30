@@ -51,16 +51,16 @@ const ChampionshipMatchCard = (props: ChampionshipMatchCardProps) => {
     ${isSelected ? "border-4 border-blue-600 bg-blue-100 shadow-xl" : ""}`}>
       {/* 팀 명 및 점수 */}
       {isAdmin && !isFinished && (
-        <div className="flex w-full justify-end">
+        <div className="flex w-full justify-end space-x-2">
           <button
             onClick={handleDelete}
-            className="w-6 h-6 flex items-center justify-center text-sm text-red-500 hover:text-red-900 transition-colors"
+            className="px-3 py-1 flex items-center justify-center text-sm text-red-500 hover:text-red-900 transition-colors border border-red-500 rounded"
             aria-label="Delete Match">
             삭제하기
           </button>
           <button
             onClick={handlePutEndMatch}
-            className="w-6 h-6 flex items-center justify-center text-sm text-red-500 hover:text-red-900 transition-colors"
+            className="px-3 py-1 flex items-center justify-center text-sm text-red-500 hover:text-red-900 transition-colors border border-red-500 rounded"
             aria-label="End Match">
             경기종료하기
           </button>
