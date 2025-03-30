@@ -1,17 +1,24 @@
 import useToggleHeader from "./model/useToggleHeader";
+import useEndModal from "./model/useEndModal";
 
 import { getTextColorFromBackground } from "../../../../4_Shared/lib/colorChecker";
 import { matchType } from "../../../../4_Shared/constant/matchType";
 import { championshipTypes } from "../../../../4_Shared/constant/championshipTypes";
 import usePutChampionshipEnd from "../../../../3_Entity/Championship/usePutChampionshipEnd";
 import useParamInteger from "../../../../4_Shared/model/useParamInteger";
+import { useNavigate } from "react-router-dom";
 
 const isAdmin = true;
 const Header = (props: HeaderProps) => {
   const { championshipInfo } = props;
+  const isChampionshipEnd = championshipInfo.common_status_idx === 4;
+
   const [isHeaderCollapsed, toggleHeader] = useToggleHeader();
+  const [isEndModalOpen, toggleEndModal] = useEndModal();
+
   const championshipIdx = useParamInteger("championshipIdx");
   const [putChampionshipEnd] = usePutChampionshipEnd(championshipIdx);
+  const navigate = useNavigate();
 
   return (
     <header
@@ -60,10 +67,14 @@ const Header = (props: HeaderProps) => {
             <p className="text-inherit flex-1">
               {championshipInfo.championship_list_description}
             </p>
-            {isAdmin && (
+            {isAdmin && !isChampionshipEnd && (
               <div>
                 <div className="flex gap-2">
-                  <button className="px-3 py-2 border border-gray-300 rounded hover:bg-gray-100">
+                  <button
+                    className="px-3 py-2 border border-gray-300 rounded hover:bg-gray-100"
+                    onClick={() => {
+                      navigate(`/championship/${championshipIdx}/edit`);
+                    }}>
                     대회 수정
                   </button>
                   <button
@@ -78,6 +89,78 @@ const Header = (props: HeaderProps) => {
                 </div>
               </div>
             )}
+            {isChampionshipEnd && (
+              <div className="absolute bottom-0 left-0 w-full p-4 text-center bg-gray-800 text-white">
+                <p className="text-sm">
+                  대회가 종료되었습니다. 더 이상 수정할 수 없습니다.
+                </p>
+              </div>
+            )}
+            {isChampionshipEnd &&
+              championshipInfo.winner_team_idx &&
+              championshipInfo.winner_team_emblem &&
+              championshipInfo.winner_team_color &&
+              championshipInfo.winner_team_name && (
+                <div
+                  className="p-6 rounded-xl shadow-lg border border-gray-300 flex flex-col items-center"
+                  style={{
+                    backgroundColor: championshipInfo.winner_team_color,
+                    color: getTextColorFromBackground(
+                      championshipInfo.winner_team_color
+                    ),
+                  }}>
+                  <h3 className="text-xl font-bold">우승팀</h3>
+                  <div className="flex items-center mt-4">
+                    <img
+                      className="w-16 h-16 object-cover"
+                      src={championshipInfo.winner_team_emblem}
+                      alt={`${championshipInfo.winner_team_name} 엠블럼`}
+                    />
+                    <span className="ml-4 text-2xl font-semibold">
+                      {championshipInfo.winner_team_name}
+                    </span>
+                  </div>
+                </div>
+              )}
+          </div>
+        </div>
+      )}
+      {isChampionshipEnd && (
+        <div className="absolute bottom-0 left-0 w-full p-4 text-center bg-gray-800 text-white">
+          <p className="text-sm">
+            대회가 종료되었습니다. 더 이상 수정할 수 없습니다.
+          </p>
+        </div>
+      )}
+      {isChampionshipEnd && isEndModalOpen && (
+        <div className="fixed inset-0 z-10 bg-black/50 flex items-center justify-center">
+          <div className="bg-white p-8 rounded-xl shadow-2xl max-w-lg w-full transform transition-all duration-500 scale-100">
+            <div className="flex justify-center">
+              <div className="text-4xl animate-bounce">🎉</div>
+            </div>
+            <h2 className="text-3xl font-bold text-center mt-4">축하합니다!</h2>
+            {championshipInfo.winner_team_idx &&
+              championshipInfo.winner_team_name &&
+              championshipInfo.winner_team_emblem && (
+                <div className="flex flex-col items-center mt-4">
+                  <img
+                    className="w-20 h-20 object-cover"
+                    src={championshipInfo.winner_team_emblem}
+                    alt={`${championshipInfo.winner_team_name} 엠블럼`}
+                  />
+                  <p className="mt-2 text-2xl font-semibold">
+                    {championshipInfo.winner_team_name} 우승
+                  </p>
+                </div>
+              )}
+            <p className="mt-4 text-center text-gray-600">
+              대회가 종료되었습니다. 모든 결과가 확정되었습니다.
+            </p>
+            <button
+              className="mt-6 w-full px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-200"
+              onClick={toggleEndModal}>
+              확인
+            </button>
           </div>
         </div>
       )}
