@@ -15,7 +15,7 @@ const DashBoard = (props: DashBoardProps) => {
         {activeTabList.map(({ id, label }) => (
           <button
             key={id}
-            onClick={() => setActiveTab(id as ACTIVE_TAB)}
+            onClick={() => setActiveTab(id)}
             className={`flex-shrink-0 px-4 py-2 rounded-full text-sm font-medium transition ${
               activeTab === id
                 ? "bg-blue-600 text-white"

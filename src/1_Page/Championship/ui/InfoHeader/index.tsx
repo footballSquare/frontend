@@ -7,19 +7,21 @@ import useParamInteger from "../../../../4_Shared/model/useParamInteger";
 import { getTextColorFromBackground } from "../../../../4_Shared/lib/colorChecker";
 import { matchType } from "../../../../4_Shared/constant/matchType";
 import { championshipTypes } from "../../../../4_Shared/constant/championshipTypes";
-
-const isAdmin = true;
+import { useCookies } from "react-cookie";
 
 const InfoHeader = (props: InfoHeaderProps) => {
   const { championshipInfo } = props;
   const isChampionshipEnd = championshipInfo.common_status_idx === 4;
+  const navigate = useNavigate();
+
+  const [cookies] = useCookies(["community_role_idx"]);
+  const isAdmin = cookies.community_role_idx === 0;
 
   const [isHeaderCollapsed, toggleHeader] = useToggleHeader();
   const [isEndModalOpen, toggleEndModal] = useEndModal();
 
   const championshipIdx = useParamInteger("championshipIdx");
   const [putChampionshipEnd] = usePutChampionshipEnd(championshipIdx);
-  const navigate = useNavigate();
 
   return (
     <header
