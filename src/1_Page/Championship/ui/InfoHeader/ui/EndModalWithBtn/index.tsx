@@ -1,12 +1,13 @@
 import React from "react";
+import useManageSearchPlayer from "./model/useManageSearchPlayer";
+import { convertHexToRGBA } from "./lib/colorConverter";
+
 import usePutChampionshipEnd from "../../../../../../3_Entity/Championship/usePutChampionshipEnd";
-import useParamInteger from "../../../../../../4_Shared/model/useParamInteger";
 import useGetChampionshipTeams from "../../../../../../3_Entity/Championship/useGetChampionshipTeams";
 import useGetPlayerStats from "../../../../../../3_Entity/Championship/useGetPlayerStats";
-import { matchPosition } from "../../../../../../4_Shared/constant/matchPosition";
-import { convertHexToRGBA } from "./lib/colorConverter";
 import useToggleState from "../../../../../../4_Shared/model/useToggleState";
-import useManageSearchPlayer from "./model/useManageSearchPlayer";
+import { matchPosition } from "../../../../../../4_Shared/constant/matchPosition";
+import useParamInteger from "../../../../../../4_Shared/model/useParamInteger";
 
 const EndModalWithBtn = () => {
   const [isModalOpen, handleToggleModal] = useToggleState();
@@ -28,7 +29,6 @@ const EndModalWithBtn = () => {
     const teamIdx = selectTeam?.team_list_idx;
     const playerIdx = selectedPlayerAwards?.player_list_idx;
     if (!teamIdx || !playerIdx) return;
-
     putChampionshipEnd({
       team_list_idx: teamIdx,
       player_list_idx: playerIdx,
