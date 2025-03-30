@@ -1,16 +1,13 @@
-import React from "react";
 import { useNavigate } from "react-router-dom";
 import { createPortal } from "react-dom";
-
+import useModal from "./model/useModal";
 import denide from "../../../../../../../../4_Shared/assets/svg/denied.svg";
 import plus from "../../../../../../../../4_Shared/assets/svg/plus.svg";
 
 const PlayerRow = (props: PlayerRowProps) => {
   const { player, index } = props;
   const navigate = useNavigate();
-  // 이미지 모달 상태 관리
-  const [isModalOpen, setIsModalOpen] = React.useState(false);
-  const handleToogleModal = () => setIsModalOpen(!isModalOpen);
+  const [isModalOpen, handleToogleModal] = useModal();
 
   return (
     <tr

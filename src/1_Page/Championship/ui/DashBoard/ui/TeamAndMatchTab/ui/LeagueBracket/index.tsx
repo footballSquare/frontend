@@ -1,10 +1,10 @@
-import React from "react";
 import { useNavigate } from "react-router-dom";
+import useShowToggle from "./model/useShowToggle";
 
 const LeagueBracket = (props: LeagueBracketProps) => {
   const { leagueData } = props;
   const navigate = useNavigate();
-  const [showAllTeams, setShowAllTeams] = React.useState(false);
+  const [showAllTeams, handleToggle] = useShowToggle();
 
   return (
     <div className="py-4 bg-gradient-to-r from-slate-50 to-slate-100 rounded-xl overflow-x-auto">
@@ -110,7 +110,7 @@ const LeagueBracket = (props: LeagueBracketProps) => {
         <div className="text-center py-4">
           <button
             className="bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700 transition"
-            onClick={() => setShowAllTeams(!showAllTeams)}>
+            onClick={handleToggle}>
             {showAllTeams ? "간략히 보기" : "더보기"}
           </button>
         </div>

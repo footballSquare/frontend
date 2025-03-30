@@ -1,8 +1,8 @@
 import ChampionshipMatchCard from "./ui/ChampionshipMatchCard";
 import MatchAddModalWithButton from "./ui/MatchAddModalWithButton";
 import useSortHandler from "./model/useSortHandler";
+import { useCookies } from "react-cookie";
 
-const isAdmin = true;
 const ChampionshipMatchCardContainer = (
   props: ChampionshipMatchCardContainerProps
 ) => {
@@ -13,6 +13,9 @@ const ChampionshipMatchCardContainer = (
     handleSelect,
     matchHandlers,
   } = props;
+
+  const [cookies] = useCookies(["community_role_idx"]);
+  const isAdmin = cookies.community_role_idx === 0;
 
   const {
     searchTerm,

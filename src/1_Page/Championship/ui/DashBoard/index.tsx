@@ -1,8 +1,7 @@
 import React from "react";
-import { ACTIVE_TAB, activeTabList } from "./constant/activeTab";
-
 import PlayerTab from "./ui/PlayerTab";
 import TeamAndMatchTab from "./ui/TeamAndMatchTab";
+import { ACTIVE_TAB, activeTabList } from "./constant/activeTab";
 
 const DashBoard = (props: DashBoardProps) => {
   const { championship_type } = props;
