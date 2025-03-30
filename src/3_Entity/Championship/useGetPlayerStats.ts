@@ -1,6 +1,5 @@
 import React from "react";
 import { useFetchData } from "../../4_Shared/util/apiUtil.ts";
-import { mockPlayerStats } from "../../4_Shared/mock/championshipInfo";
 
 const useGetPlayerStats = (
   championshipListIdx: number
@@ -19,7 +18,7 @@ const useGetPlayerStats = (
     }
   }, [loading, serverState]);
 
-  return [mockPlayerStats.result, loading];
+  return [playerStats, loading];
 };
 
 export default useGetPlayerStats;
