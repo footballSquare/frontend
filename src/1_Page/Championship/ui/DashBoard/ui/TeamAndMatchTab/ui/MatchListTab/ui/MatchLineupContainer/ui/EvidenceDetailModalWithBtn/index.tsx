@@ -1,16 +1,16 @@
 import React from "react";
 import useGetChampionshipEvidence from "../../../../../../../../../../../../3_Entity/Championship/useGetChampionshipEvidence";
+import useToggleState from "../../../../../../../../../../../../4_Shared/model/useToggleState";
 
 const EvidenceDetailModalWithBtn = (props: EvidenceDetailModalWithBtnProps) => {
   const { matchIdx, selectTeamList } = props;
   const [evidenceImage] = useGetChampionshipEvidence(matchIdx);
-  const [isModalOpen, setIsModalOpen] = React.useState<boolean>(false);
-  const handleToggleModal = () => setIsModalOpen(!isModalOpen);
+  const [isModalOpen, handleToggleModal] = useToggleState();
   const [selectedImage, setSelectedImage] = React.useState<string | null>(null);
 
   return (
     <div className="w-full flex justify-end">
-      <button className="text-blue-600" onClick={() => setIsModalOpen(true)}>
+      <button className="text-blue-600" onClick={handleToggleModal}>
         증거 자세히 보기
       </button>
 
