@@ -8,9 +8,7 @@ import useParamInteger from "../../../../../../../../../../../../../4_Shared/mod
 
 const CreateChampionMatchModal = (props: CreateChampionMatchModalProps) => {
   const { onClose, filteredTeamList, handleAddMatch } = props;
-
   const championshipIdx = useParamInteger("championshipIdx");
-
   const [postCreateChampionshipMatch] =
     usePostCreateChampionshipMatch(championshipIdx);
 

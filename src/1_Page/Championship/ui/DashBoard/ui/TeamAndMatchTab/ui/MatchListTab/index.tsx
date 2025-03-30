@@ -1,6 +1,6 @@
 import ChampionshipMatchCardContainer from "./ui/ChampionshipMatchCardContainer";
 import MatchLineupContainer from "./ui/MatchLineupContainer";
-import { getSelectedMatchTeams } from "./util/select";
+import { getSelectedMatchTeams } from "./util/getSelectedMatchTeams";
 import useSelectHandler from "./model/useSelectHandler";
 import React from "react";
 

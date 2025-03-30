@@ -34,7 +34,7 @@ const TeamAndMatchTab = (props: TeamAndMatchTabProps) => {
   return (
     <div>
       {/* 팀 목록 탭 */}
-      <div className={activeTab === ACTIVE_TAB.TEAM ? "block" : "hidden"}>
+      <div className={activeTab === ACTIVE_TAB.TEAMS ? "block" : "hidden"}>
         {isLeague ? (
           <LeagueBracket leagueData={convertedData.leagueData} />
         ) : (
@@ -43,7 +43,7 @@ const TeamAndMatchTab = (props: TeamAndMatchTabProps) => {
       </div>
 
       {/* 매치 목록 탭  */}
-      <div className={activeTab === ACTIVE_TAB.MATCH ? "block" : "hidden"}>
+      <div className={activeTab === ACTIVE_TAB.MATCHES ? "block" : "hidden"}>
         <MatchListTab
           matchList={displayMatchList}
           filteredTeamList={convertedData.filteredTeamList}

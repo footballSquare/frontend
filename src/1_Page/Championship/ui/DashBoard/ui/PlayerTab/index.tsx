@@ -1,7 +1,6 @@
+import MemberCard from "./ui/PlayerRow";
 import useGetPlayerStats from "../../../../../../3_Entity/Championship/useGetPlayerStats";
 import useParamInteger from "../../../../../../4_Shared/model/useParamInteger";
-
-import MemberCard from "./ui/PlayerRow";
 
 const PlayerTab = () => {
   const championshipIdx = useParamInteger("championshipIdx");

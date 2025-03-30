@@ -1,10 +1,7 @@
+import { useCookies } from "react-cookie";
 import useDeleteChampionshipMatch from "../../../../../../../../../../../../3_Entity/Championship/useDeleteChampionshipMatch";
 import usePutChampionshipMatchEnd from "../../../../../../../../../../../../3_Entity/Championship/usePutChampionshipMatchEnd";
-
 import { matchState } from "../../../../../../../../../../../../4_Shared/constant/matchState";
-import useParamInteger from "../../../../../../../../../../../../4_Shared/model/useParamInteger";
-
-const isAdmin = true; // 관리자 여부 (예시로 true로 설정)
 
 const ChampionshipMatchCard = (props: ChampionshipMatchCardProps) => {
   const {
@@ -15,6 +12,9 @@ const ChampionshipMatchCard = (props: ChampionshipMatchCardProps) => {
     handleDeleteMatch,
     handleEndMatch,
   } = props;
+  const [cookies] = useCookies(["community_role_idx"]);
+  const isAdmin = cookies.community_role_idx === 0;
+
   const home = match.championship_match_first;
   const away = match.championship_match_second;
   const status = matchState[home.common_status_idx] || "";
@@ -22,8 +22,7 @@ const ChampionshipMatchCard = (props: ChampionshipMatchCardProps) => {
   const isFinished = home.common_status_idx === 4;
   const isSelected = selectedIdx === match.championship_match_idx;
 
-  const championshipIdx = useParamInteger("championshipIdx");
-  const [deleteChampionshipMatch] = useDeleteChampionshipMatch(championshipIdx);
+  const [deleteChampionshipMatch] = useDeleteChampionshipMatch();
   const [putChampionshipMatchEnd] = usePutChampionshipMatchEnd();
 
   const handleDelete = () => {
