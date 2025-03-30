@@ -48,7 +48,7 @@ const PostOpenMatchPanel = () => {
   return (
     <div>
       <Button
-        text="매치만들기"
+        text="공개 매치 생성"
         bg="blue"
         textColor="white"
         bold={true}
