@@ -15,13 +15,14 @@ const usePutOpenMatchJoin = (): [(props: PutOpenMatchJoinProps) => void] => {
   React.useEffect(() => {
     if (!loading && serverState) {
       switch (serverState.status) {
-        case 404:
-          alert("없는 매치 입니다.");
+        case 200:
+          alert("매치에 참가했습니다.");
           break;
-        case 429:
-          alert("요청이 너무 많습니다! 잠시 기다려주세요.");
+        case 401:
+          alert("로그인이 필요합니다.");
           break;
         default:
+          alert("매치 참가에 실패했습니다.");
           break;
       }
     }
