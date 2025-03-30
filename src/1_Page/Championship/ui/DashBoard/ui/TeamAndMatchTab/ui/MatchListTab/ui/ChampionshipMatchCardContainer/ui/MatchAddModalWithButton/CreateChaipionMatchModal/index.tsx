@@ -43,39 +43,43 @@ const CreateChampionMatchModal = (props: CreateChampionMatchModalProps) => {
           <div className="mb-4">
             <label>매치 참여 팀 선택</label>
             <div className="flex flex-col gap-2 mt-1 overflow-y-scroll max-h-60">
-              {filteredTeamList.map((team: ChampionshipTeamInfo) => (
-                <div
-                  key={team.team_list_idx}
-                  className="flex items-center justify-between border p-2 rounded">
-                  <img
-                    className="w-[30px] h-[30px] object-cover"
-                    src={team.team_list_emblem}
-                  />
-                  <span style={{ color: team.team_list_color }}>
-                    {team.team_list_name}
-                  </span>
-                  <span>#{team.team_list_short_name}</span>
+              {filteredTeamList.length === 0 ? (
+                <div className="text-gray-500">선택 가능한 팀이 없습니다.</div>
+              ) : (
+                filteredTeamList.map((team: ChampionshipTeamInfo) => (
+                  <div
+                    key={team.team_list_idx}
+                    className="flex items-center justify-between border p-2 rounded">
+                    <img
+                      className="w-[30px] h-[30px] object-cover"
+                      src={team.team_list_emblem}
+                    />
+                    <span style={{ color: team.team_list_color }}>
+                      {team.team_list_name}
+                    </span>
+                    <span>#{team.team_list_short_name}</span>
 
-                  {selectedTeams.find(
-                    (t: ChampionshipTeamInfo) =>
-                      t.team_list_idx === team.team_list_idx
-                  ) ? (
-                    <button
-                      type="button"
-                      onClick={() => handleRemoveTeam(team)}
-                      className="px-2 py-1 bg-red-500 text-white rounded">
-                      제거
-                    </button>
-                  ) : (
-                    <button
-                      type="button"
-                      onClick={() => handleAddTeam(team)}
-                      className="px-2 py-1 bg-green-500 text-white rounded">
-                      추가
-                    </button>
-                  )}
-                </div>
-              ))}
+                    {selectedTeams.find(
+                      (t: ChampionshipTeamInfo) =>
+                        t.team_list_idx === team.team_list_idx
+                    ) ? (
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveTeam(team)}
+                        className="px-2 py-1 bg-red-500 text-white rounded">
+                        제거
+                      </button>
+                    ) : (
+                      <button
+                        type="button"
+                        onClick={() => handleAddTeam(team)}
+                        className="px-2 py-1 bg-green-500 text-white rounded">
+                        추가
+                      </button>
+                    )}
+                  </div>
+                ))
+              )}
             </div>
             {errors.teams && (
               <p className="text-red-500 text-sm mt-1">
