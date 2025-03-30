@@ -134,7 +134,7 @@ const PlayerRow = (props: PlayerRowProps) => {
       {isModalOpen &&
         createPortal(
           <div
-            className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center"
+            className="fixed inset-0 z-10 bg-black/50 flex items-center justify-center"
             onClick={handleToogleModal}>
             <div
               className="bg-white p-2 rounded-lg max-w-3xl max-h-full"

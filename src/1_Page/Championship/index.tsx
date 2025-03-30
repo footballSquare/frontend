@@ -1,7 +1,8 @@
-import useGetChampionshipInfo from "../../3_Entity/Championship/useGetChampionshipInfo";
-import useValidParamInteger from "../../4_Shared/model/useValidParamInteger";
 import DashBoard from "./ui/DashBoard";
 import Header from "./ui/Header";
+
+import useGetChampionshipInfo from "../../3_Entity/Championship/useGetChampionshipInfo";
+import useValidParamInteger from "../../4_Shared/model/useValidParamInteger";
 
 const Championship = () => {
   const [championshipIdx] = useValidParamInteger("championshipIdx");
