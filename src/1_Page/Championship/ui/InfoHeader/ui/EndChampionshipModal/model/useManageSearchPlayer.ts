@@ -1,14 +1,9 @@
 import React from "react";
 
 const useManageSearchPlayer = (
-  playerStats: PlayerStats[]
-): [PlayerStats[], string, (value: string) => void] => {
-  const [searchTerm, setSearchTerm] = React.useState<string>("");
-
-  const handleSearchTermChange = (value: string) => {
-    setSearchTerm(value);
-  };
-
+  playerStats: PlayerStats[],
+  searchTerm: string
+): PlayerStats[] => {
   const filteredPlayers = React.useMemo(() => {
     if (playerStats && playerStats.length > 0) {
       return searchTerm
@@ -21,6 +16,6 @@ const useManageSearchPlayer = (
     }
     return [];
   }, [searchTerm, playerStats]);
-  return [filteredPlayers, searchTerm, handleSearchTermChange];
+  return filteredPlayers;
 };
 export default useManageSearchPlayer;

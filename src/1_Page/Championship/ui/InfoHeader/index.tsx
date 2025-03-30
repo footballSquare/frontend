@@ -18,6 +18,7 @@ const InfoHeader = (props: InfoHeaderProps) => {
   const [cookies] = useCookies(["community_role_idx"]);
   const isAdmin = cookies.community_role_idx === 0;
 
+  // state
   const [isModalOpen, handleToggleModal] = useToggleState();
   const [isHeaderCollapsed, toggleHeader] = useToggleState();
   const [isEndModalOpen, toggleEndModal] = useToggleState(true);

@@ -16,7 +16,6 @@ const ChampionshipMatchCardContainer = (
   } = props;
 
   const [isModalOpen, handleToggleModal] = useToggleState();
-
   const [cookies] = useCookies(["community_role_idx"]);
   const isAdmin = cookies.community_role_idx === 0;
 
