@@ -12,10 +12,10 @@ export const mockChampionshipInfo = {
     championship_list_end_date: "2024-11-10",
     common_status_idx: 3,
     championship_list_color: "#fff111",
-    winner_team_idx: null,
-    winner_team_name: null,
-    winner_team_emblem: null,
-    winner_team_color: null,
+    winner_team_idx: 2,
+    winner_team_name: "전북 현대 모터스",
+    winner_team_emblem: trophy,
+    winner_team_color: "#fff111",
   },
 };
 
