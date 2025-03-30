@@ -9,11 +9,9 @@ const useGetChampionshipEvidence = (
     {} as EvidenceImage[]
   );
 
-  const endPoint = `/championship/championship_match/${championshipMatchIdx}/evidance_img`;
-
   React.useEffect(() => {
+    const endPoint = `/championship/championship_match/${championshipMatchIdx}/evidance_img`;
     request("GET", endPoint, null, true);
-    console.log(championshipMatchIdx);
   }, []);
 
   React.useEffect(() => {
