@@ -61,7 +61,7 @@ export const useFetchData = (): [
   const request = async (
     method: string,
     endpoint: string,
-    body: Record<string, string | number> | null,
+    body: Record<string, unknown> | null,
     authorization: boolean = false
   ) => {
     try {

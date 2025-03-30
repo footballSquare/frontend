@@ -14,9 +14,9 @@ const MatchCard = (props: MatchCardProps) => {
     team_list_emblem,
     match_match_attribute,
     match_match_participation_type,
-    player_list_idx,
+    //player_list_idx,
     player_list_nickname,
-    player_list_profile_image,
+    //player_list_profile_image,
     match_match_start_time,
     common_status_idx,
     match_match_duration,
@@ -28,27 +28,35 @@ const MatchCard = (props: MatchCardProps) => {
     <div
       ref={observeRef}
       className={`flex ${
-        !isPastTime(match_match_start_time)
-          ? "bg-white hover:bg-blue hover:text-white cursor-pointer"
-          : "bg-gray"
-      } items-center justify-between gap-6 duration-500 shadow-lg px-4 py-2 p text-xs`}
+        !isPastTime(match_match_start_time) ? "bg-white" : "bg-gray"
+      }  hover:bg-blue hover:text-white cursor-pointer items-center justify-between gap-6 duration-500 shadow-lg px-4 py-2 p text-xs`}
       onClick={() => {
-        if (!isPastTime(match_match_start_time)) {
-          toggleMatchModal();
-          setMatchIdx(match_match_idx);
-        }
+        toggleMatchModal();
+        setMatchIdx(match_match_idx);
       }}
     >
-      <h3>{`> ${team_list_idx === null ? "공방게임" : "팀게임"}`}</h3>
+      {team_list_idx === null ? (
+        <h3>{`> Host: ${player_list_nickname}`}</h3>
+      ) : (
+        <div className=" flex gap-4 justify-center items-center">
+          <h3>{`> Team: ${team_list_name}`}</h3>
+          <img
+            src={team_list_emblem || undefined}
+            alt="팀 엠블럼"
+            className="w-10 h-10 rounded-full border border-gray"
+          />
+        </div>
+      )}
+
       <h3>{`# ${matchParticipation[match_match_participation_type]}`}</h3>
 
       <div className=" font-semibold">
         <h5 className="text-sm">{`게임모드: [${matchType[match_type_idx]}]`}</h5>
         <h5 className="text-sm">{`매치시작시간: ${match_match_start_time}`}</h5>
-        <h5 className="text-sm">{`예상 플레이 타임: ${match_match_duration.hours}시간 ${match_match_duration.minutes}분`}</h5>
+        <h5 className="text-sm">{`예상 플레이 타임: ${
+          match_match_duration.hours
+        }.${match_match_duration.minutes || 0}시간`}</h5>
       </div>
-
-      <h4>{`주최자: ${player_list_nickname}`}</h4>
       <img
         src={`${common_status_idx === 0 ? apply_icon : denied_icon}`}
         alt="상태 아이콘"
