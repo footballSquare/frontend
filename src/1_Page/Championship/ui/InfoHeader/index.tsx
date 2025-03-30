@@ -131,6 +131,7 @@ const InfoHeader = (props: InfoHeaderProps) => {
           </p>
         </div>
       )}
+      {/* 승자 모달 */}
       {isChampionshipEnd && isEndModalOpen && (
         <div className="fixed inset-0 z-10 bg-black/50 flex items-center justify-center">
           <div className="bg-white p-8 rounded-xl shadow-2xl max-w-lg w-full transform transition-all duration-500 scale-100">

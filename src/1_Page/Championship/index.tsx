@@ -14,10 +14,7 @@ const Championship = () => {
       {/* 상단 배너 영역 */}
       <InfoHeader championshipInfo={championshipInfo} />
       {/* 하단 정보 영역 */}
-      <DashBoard
-        championshipIdx={championshipIdx}
-        championship_type={championship_type}
-      />
+      <DashBoard championship_type={championship_type} />
     </div>
   );
 };
