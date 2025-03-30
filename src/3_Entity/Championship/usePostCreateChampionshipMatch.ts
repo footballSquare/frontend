@@ -1,8 +1,8 @@
 import React from "react";
-import { useFetch } from "../../4_Shared/util/apiUtil";
+import { useFetchData } from "../../4_Shared/util/apiUtil";
 
 const usePostCreateChampionshipMatch = (
-  championshipIdx: number
+  championshipListIdx: number
 ): [
   postCreateChampionshipMatch: (
     championshipMatchForm: UsePostCreateChampionshipMatchProps
@@ -10,13 +10,13 @@ const usePostCreateChampionshipMatch = (
   serverState: unknown,
   loading: boolean
 ] => {
-  const [serverState, request, loading] = useFetch();
+  const [serverState, request, loading] = useFetchData();
 
   const postCreateChampionshipMatch = (
     championshipMatchForm: UsePostCreateChampionshipMatchProps
   ) => {
-    request({ championshipIdx, championshipMatchForm });
-    console.log("전송된 데이터:", championshipIdx, championshipMatchForm);
+    const endPoint = `/championship/${championshipListIdx}/championship_match`;
+    request("POST", endPoint, championshipMatchForm, true);
   };
 
   React.useEffect(() => {

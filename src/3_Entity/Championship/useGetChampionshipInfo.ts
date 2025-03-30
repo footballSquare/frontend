@@ -1,17 +1,16 @@
 import React from "react";
-import { useFetch } from "../../4_Shared/util/apiUtil.ts";
-import { mockChampionshipInfo } from "../../4_Shared/mock/championshipInfo.ts";
+import { useFetchData } from "../../4_Shared/util/apiUtil.ts";
 
 const useGetChampionshipInfo = (
-  championshipInfoIdx: number
+  championshipListIdx: number
 ): [ChampionshipInfo, boolean] => {
-  const [serverState, request, loading] = useFetch();
+  const [serverState, request, loading] = useFetchData();
   const [championshipInfo, setChampionshipInfo] =
     React.useState<ChampionshipInfo>({} as ChampionshipInfo);
 
   React.useEffect(() => {
-    request(mockChampionshipInfo);
-    console.log(championshipInfoIdx);
+    const endPoint = `/championship/${championshipListIdx}`;
+    request("GET", endPoint, null, true);
   }, []);
 
   React.useEffect(() => {
