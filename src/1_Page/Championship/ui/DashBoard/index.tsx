@@ -1,6 +1,5 @@
 import React from "react";
-import { navList } from "./constant/navList";
-import { ACTIVE_TAB } from "./constant/activeTab";
+import { ACTIVE_TAB, activeTabList } from "./constant/activeTab";
 
 import PlayerTab from "./ui/PlayerTab";
 import TeamAndMatchTab from "./ui/TeamAndMatchTab";
@@ -14,7 +13,7 @@ const DashBoard = (props: DashBoardProps) => {
   return (
     <div className="w-full p-4">
       <nav className="flex overflow-x-auto space-x-2 bg-white p-2 rounded-md scrollbar-hide">
-        {navList.map(({ id, label }) => (
+        {activeTabList.map(({ id, label }) => (
           <button
             key={id}
             onClick={() => setActiveTab(id as ACTIVE_TAB)}

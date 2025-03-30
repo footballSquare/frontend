@@ -1,5 +1,5 @@
 import DashBoard from "./ui/DashBoard";
-import Header from "./ui/Header";
+import InfoHeader from "./ui/InfoHeader";
 
 import useGetChampionshipInfo from "../../3_Entity/Championship/useGetChampionshipInfo";
 import useValidParamInteger from "../../4_Shared/model/useValidParamInteger";
@@ -12,7 +12,7 @@ const Championship = () => {
   return (
     <div className="w-full min-h-full  text-gray-800">
       {/* 상단 배너 영역 */}
-      <Header championshipInfo={championshipInfo} />
+      <InfoHeader championshipInfo={championshipInfo} />
       {/* 하단 정보 영역 */}
       <DashBoard
         championshipIdx={championshipIdx}

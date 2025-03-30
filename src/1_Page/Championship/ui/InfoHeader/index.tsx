@@ -1,15 +1,16 @@
+import { useNavigate } from "react-router-dom";
+// state
 import useToggleHeader from "./model/useToggleHeader";
 import useEndModal from "./model/useEndModal";
-
+import usePutChampionshipEnd from "../../../../3_Entity/Championship/usePutChampionshipEnd";
+import useParamInteger from "../../../../4_Shared/model/useParamInteger";
 import { getTextColorFromBackground } from "../../../../4_Shared/lib/colorChecker";
 import { matchType } from "../../../../4_Shared/constant/matchType";
 import { championshipTypes } from "../../../../4_Shared/constant/championshipTypes";
-import usePutChampionshipEnd from "../../../../3_Entity/Championship/usePutChampionshipEnd";
-import useParamInteger from "../../../../4_Shared/model/useParamInteger";
-import { useNavigate } from "react-router-dom";
 
 const isAdmin = true;
-const Header = (props: HeaderProps) => {
+
+const InfoHeader = (props: InfoHeaderProps) => {
   const { championshipInfo } = props;
   const isChampionshipEnd = championshipInfo.common_status_idx === 4;
 
@@ -164,4 +165,4 @@ const Header = (props: HeaderProps) => {
   );
 };
 
-export default Header;
+export default InfoHeader;
