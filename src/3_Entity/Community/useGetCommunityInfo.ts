@@ -11,7 +11,7 @@ const useGetCommunityInfo = (
     React.useState<Community>(mockCommunityInfo);
 
   React.useEffect(() => {
-    request("GET", `/community/${communityIdx}`, null);
+    request("GET", `/community/${communityIdx}`, null, false);
   }, [communityIdx]);
 
   React.useEffect(() => {

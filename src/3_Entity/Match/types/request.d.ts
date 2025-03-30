@@ -46,4 +46,22 @@ type PostOpenMatchProps = {
   match_type_idx: number;
   match_match_start_time: string;
   match_match_duration: string;
+};
+
+type PutMatchEndProps = {
+  matchIdx: number;
+};
+
+type DeleteMatchProps = {
+  matchIdx: number;
+}; 
+
+type PutOpenMatchJoinProps = {
+  matchIdx: number;
+  matchPositionIdx: number;
+}
+
+type DeleteMatchJoinProps = {
+  matchIdx: number;
+  userIdx: number;
 }
