@@ -96,33 +96,29 @@ const Header = (props: HeaderProps) => {
                 </p>
               </div>
             )}
-            {isChampionshipEnd &&
-              championshipInfo.winner_team_idx &&
-              championshipInfo.winner_team_emblem &&
-              championshipInfo.winner_team_color &&
-              championshipInfo.winner_team_name && (
-                <div
-                  className="p-6 rounded-xl shadow-lg border border-gray-300 flex flex-col items-center"
-                  style={{
-                    backgroundColor: championshipInfo.winner_team_color,
-                    color: getTextColorFromBackground(
-                      championshipInfo.winner_team_color
-                    ),
-                  }}>
-                  <h3 className="text-xl font-bold">우승팀</h3>
-                  <div className="flex items-center mt-4">
-                    <img
-                      className="w-16 h-16 object-cover"
-                      src={championshipInfo.winner_team_emblem}
-                      alt={`${championshipInfo.winner_team_name} 엠블럼`}
-                    />
-                    <span className="ml-4 text-2xl font-semibold">
-                      {championshipInfo.winner_team_name}
-                    </span>
-                  </div>
-                </div>
-              )}
           </div>
+          {isChampionshipEnd && (
+            <div
+              className="p-6  border-gray-300 flex flex-col items-center h-[200px]"
+              style={{
+                backgroundColor: championshipInfo.winner_team_color || "white",
+                color: getTextColorFromBackground(
+                  championshipInfo.winner_team_color || "#ffffff"
+                ),
+              }}>
+              <h3 className="text-xl font-bold">우승팀</h3>
+              <div className="flex items-center mt-4">
+                <img
+                  className="w-16 h-16 object-cover"
+                  src={championshipInfo.winner_team_emblem || "placeholder.png"}
+                  alt={`${championshipInfo.winner_team_name} 엠블럼`}
+                />
+                <span className="ml-4 text-2xl font-semibold">
+                  {championshipInfo.winner_team_name}
+                </span>
+              </div>
+            </div>
+          )}
         </div>
       )}
       {isChampionshipEnd && (
