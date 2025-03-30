@@ -9,17 +9,21 @@ const MatchCard = (props: MatchCardProps) => {
   const {
     match_match_idx,
     match_type_idx,
-    team_list_idx, // 없으면 공방게임, 있으면 팀게임
-    match_match_attribute, // 공개 비공개 대회..
+    team_list_idx,
+    team_list_name,
+    team_list_emblem,
+    match_match_attribute,
     match_match_participation_type,
+    player_list_idx,
     player_list_nickname,
+    player_list_profile_image,
     match_match_start_time,
-    match_match_duration,
     common_status_idx,
+    match_match_duration,
     observeRef,
   } = props;
   const { toggleMatchModal, setMatchIdx } = useMatchModalStore();
-  if(match_match_attribute !== 0) return;
+  if (match_match_attribute !== 0) return;
   return (
     <div
       ref={observeRef}
@@ -41,7 +45,7 @@ const MatchCard = (props: MatchCardProps) => {
       <div className=" font-semibold">
         <h5 className="text-sm">{`게임모드: [${matchType[match_type_idx]}]`}</h5>
         <h5 className="text-sm">{`매치시작시간: ${match_match_start_time}`}</h5>
-        <h5 className="text-sm">{`예상 플레이 타임: ${match_match_duration}`}</h5>
+        <h5 className="text-sm">{`예상 플레이 타임: ${match_match_duration.hours}시간 ${match_match_duration.minutes}분`}</h5>
       </div>
 
       <h4>{`주최자: ${player_list_nickname}`}</h4>
