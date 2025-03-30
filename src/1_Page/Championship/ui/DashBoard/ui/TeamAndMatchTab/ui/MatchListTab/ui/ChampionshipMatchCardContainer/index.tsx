@@ -1,7 +1,8 @@
 import ChampionshipMatchCard from "./ui/ChampionshipMatchCard";
-import MatchAddModalWithButton from "./ui/MatchAddModalWithButton";
+import CreateChaipionMatchModal from "./ui/CreateChaipionMatchModal";
 import useSortHandler from "./model/useSortHandler";
 import { useCookies } from "react-cookie";
+import useToggleState from "../../../../../../../../../../4_Shared/model/useToggleState";
 
 const ChampionshipMatchCardContainer = (
   props: ChampionshipMatchCardContainerProps
@@ -13,6 +14,8 @@ const ChampionshipMatchCardContainer = (
     handleSelect,
     matchHandlers,
   } = props;
+
+  const [isModalOpen, handleToggleModal] = useToggleState();
 
   const [cookies] = useCookies(["community_role_idx"]);
   const isAdmin = cookies.community_role_idx === 0;
@@ -31,10 +34,11 @@ const ChampionshipMatchCardContainer = (
       {/* 검색 및 정렬 옵션 UI */}
       <div className="flex justify-end">
         {isAdmin && (
-          <MatchAddModalWithButton
-            filteredTeamList={filteredTeamList}
-            handleAddMatch={matchHandlers.handleAddMatch}
-          />
+          <button
+            onClick={handleToggleModal}
+            className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">
+            매치 생성
+          </button>
         )}
       </div>
       <div className="flex gap-4 mb-6 bg-white p-4 rounded-lg shadow-md">
@@ -72,6 +76,14 @@ const ChampionshipMatchCardContainer = (
           />
         ))}
       </ul>
+
+      {isModalOpen && (
+        <CreateChaipionMatchModal
+          onClose={handleToggleModal}
+          filteredTeamList={filteredTeamList}
+          handleAddMatch={matchHandlers.handleAddMatch}
+        />
+      )}
     </div>
   );
 };

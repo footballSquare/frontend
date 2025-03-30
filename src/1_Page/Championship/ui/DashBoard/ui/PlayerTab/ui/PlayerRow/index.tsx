@@ -1,13 +1,13 @@
 import { useNavigate } from "react-router-dom";
 import { createPortal } from "react-dom";
-import useModal from "./model/useModal";
 import denide from "../../../../../../../../4_Shared/assets/svg/denied.svg";
 import plus from "../../../../../../../../4_Shared/assets/svg/plus.svg";
+import useToggleState from "../../../../../../../../4_Shared/model/useToggleState";
 
 const PlayerRow = (props: PlayerRowProps) => {
   const { player, index } = props;
   const navigate = useNavigate();
-  const [isModalOpen, handleToogleModal] = useModal();
+  const [isModalOpen, handleToogleModal] = useToggleState();
 
   return (
     <tr

@@ -1,10 +1,10 @@
 import { useNavigate } from "react-router-dom";
-import useShowToggle from "./model/useShowToggle";
+import useToggleState from "../../../../../../../../4_Shared/model/useToggleState";
 
 const LeagueBracket = (props: LeagueBracketProps) => {
   const { leagueData } = props;
   const navigate = useNavigate();
-  const [showAllTeams, handleToggle] = useShowToggle();
+  const [showAllTeams, handleToggle] = useToggleState();
 
   return (
     <div className="py-4 bg-gradient-to-r from-slate-50 to-slate-100 rounded-xl overflow-x-auto">
