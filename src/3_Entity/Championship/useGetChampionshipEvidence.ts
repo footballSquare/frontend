@@ -1,18 +1,19 @@
 import React from "react";
-import { useFetch } from "../../4_Shared/util/apiUtil.ts";
-import { mockChampionshipEvidence } from "../../4_Shared/mock/championshipInfo.ts";
+import { useFetchData } from "../../4_Shared/util/apiUtil.ts";
 
 const useGetChampionshipEvidence = (
-  championshipInfoIdx: number
+  championshipMatchIdx: number
 ): [EvidenceImage[], boolean] => {
-  const [serverState, request, loading] = useFetch();
+  const [serverState, request, loading] = useFetchData();
   const [evidenceImage, setEvidenceImage] = React.useState<EvidenceImage[]>(
     {} as EvidenceImage[]
   );
 
+  const endPoint = `/championship/championship_match/${championshipMatchIdx}/evidance_img`;
+
   React.useEffect(() => {
-    request(mockChampionshipEvidence);
-    console.log(championshipInfoIdx);
+    request("GET", endPoint, null, true);
+    console.log(championshipMatchIdx);
   }, []);
 
   React.useEffect(() => {

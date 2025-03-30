@@ -1,18 +1,18 @@
 import React from "react";
-import { useFetch } from "../../4_Shared/util/apiUtil";
+import { useFetchData } from "../../4_Shared/util/apiUtil";
 
-const useDeleteChampionshipMatch = (
-  championshipIdx: number
-): [(championshipMatchIdx: number) => void, Record<string, unknown> | null] => {
-  const [serverState, request, loading] = useFetch();
+const useDeleteChampionshipMatch = (): [
+  (championshipMatchIdx: number) => void,
+  Record<string, unknown> | null
+] => {
+  const [serverState, request, loading] = useFetchData();
 
   const deleteChampionshipMatch = (championshipMatchIdx: number) => {
-    request({
-      data: `deleteMatchApproval of ${championshipMatchIdx}`,
-      championshipIdx,
-    });
+    const endPoint =
+      import.meta.env.VITE_SERVER_URL +
+      `/championship/championship_match/${championshipMatchIdx}`;
+    request("DELETE", endPoint, null, true);
   };
-
   React.useEffect(() => {
     if (!loading && serverState) {
       switch (serverState.status) {

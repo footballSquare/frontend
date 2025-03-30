@@ -1,16 +1,15 @@
 import React from "react";
-import { useFetch } from "../../4_Shared/util/apiUtil";
+import { useFetchData } from "../../4_Shared/util/apiUtil";
 
 const usePutChampionshipMatchEnd = (): [
   (championshipMatchIdx: number) => void,
   Record<string, unknown> | null
 ] => {
-  const [serverState, request, loading] = useFetch();
+  const [serverState, request, loading] = useFetchData();
 
   const putChampionshipMatchEnd = (championshipMatchIdx: number) => {
-    request({
-      data: `deleteMatchApproval of ${championshipMatchIdx}`,
-    });
+    const endPoint = `/championship/championship_match/${championshipMatchIdx}/done`;
+    request("PUT", endPoint, null, true);
   };
 
   React.useEffect(() => {
