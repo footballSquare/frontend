@@ -8,7 +8,6 @@ const Championship = () => {
   const [championshipIdx] = useValidParamInteger("championshipIdx");
   const [championshipInfo] = useGetChampionshipInfo(championshipIdx);
   const championship_type_idx = championshipInfo.championship_type_idx;
-  console.log(championshipInfo);
 
   return (
     <div className="w-full min-h-full  text-gray-800">

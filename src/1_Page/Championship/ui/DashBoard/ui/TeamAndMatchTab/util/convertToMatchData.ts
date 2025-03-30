@@ -1,14 +1,13 @@
 export const convertToMatchData = (
   displayMatchList: ChampionshipMatchList[],
   teamList: ChampionshipTeamInfo[],
-  championshipIdx: number,
-  isLeague: boolean
+  championshipTypeIdx: number
 ): {
   leagueData: LeagueData[];
   tournamentData: TournamentData[];
   filteredTeamList: ChampionshipTeamInfo[];
 } => {
-  if (isLeague) {
+  if (championshipTypeIdx === 0) {
     return {
       leagueData: convertToLeague(displayMatchList, teamList),
       filteredTeamList: teamList,
@@ -18,7 +17,7 @@ export const convertToMatchData = (
     const tournamentData = convertToTournamentFormat(
       displayMatchList,
       teamList,
-      championshipIdx
+      championshipTypeIdx
     );
     const filteredTeamList = convertToFilterMatchList(
       displayMatchList,
@@ -154,7 +153,7 @@ const convertToLeague = (
 const convertToTournamentFormat = (
   matchList: ChampionshipMatchList[],
   teamList: ChampionshipTeamInfo[],
-  championship_type: number
+  championshipTypeIdx: number
 ): TournamentData[] => {
   // championship_type 기반 bracket 크기 결정 (없으면 teamList.length 사용)
   const roundSizeMap: Record<number, number> = {
@@ -163,8 +162,9 @@ const convertToTournamentFormat = (
     3: 4,
   };
 
+  console.log(championshipTypeIdx);
   // 대회 타입에 따른 라운드 사이즈
-  const startingRoundSize = roundSizeMap[championship_type];
+  const startingRoundSize = roundSizeMap[championshipTypeIdx];
   //round 개수 계산 ex 16강:4개 8강:3
   const totalRounds = Math.log2(startingRoundSize);
 
@@ -226,7 +226,7 @@ const convertToTournamentFormat = (
     const dummyMatches: ChampionshipMatchList[] = [];
     for (let i = 0; i < teamList.length; i += 2) {
       dummyMatches.push({
-        championship_match_idx: i / 2,
+        championship_match_idx: -1,
         championship_match_first: {
           ...teamList[i],
           match_team_stats_our_score: 0,

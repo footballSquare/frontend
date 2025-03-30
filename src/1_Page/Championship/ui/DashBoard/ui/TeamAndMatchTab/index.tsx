@@ -26,10 +26,9 @@ const TeamAndMatchTab = (props: TeamAndMatchTabProps) => {
     return convertToMatchData(
       displayMatchList,
       teamList,
-      championshipIdx,
-      isLeague
+      championship_type_idx
     );
-  }, [displayMatchList, teamList, championshipIdx, isLeague]);
+  }, [displayMatchList, teamList, championship_type_idx]);
 
   return (
     <div>
