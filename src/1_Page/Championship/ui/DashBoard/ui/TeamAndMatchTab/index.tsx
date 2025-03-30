@@ -30,7 +30,6 @@ const TeamAndMatchTab = (props: TeamAndMatchTabProps) => {
       isLeague
     );
   }, [displayMatchList, teamList, championshipIdx, isLeague]);
-  console.log(convertedData);
 
   return (
     <div>
