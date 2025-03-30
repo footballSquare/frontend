@@ -4,13 +4,13 @@ import { getTextColorFromBackground } from "../../../../4_Shared/lib/colorChecke
 import { matchType } from "../../../../4_Shared/constant/matchType";
 import { championshipTypes } from "../../../../4_Shared/constant/championshipTypes";
 import usePutChampionshipEnd from "../../../../3_Entity/Championship/usePutChampionshipEnd";
-import useValidParamInteger from "../../../../4_Shared/model/useValidParamInteger";
+import useParamInteger from "../../../../4_Shared/model/useParamInteger";
 
 const isAdmin = true;
 const Header = (props: HeaderProps) => {
   const { championshipInfo } = props;
   const [isHeaderCollapsed, toggleHeader] = useToggleHeader();
-  const [championshipIdx] = useValidParamInteger("championshipIdx");
+  const championshipIdx = useParamInteger("championshipIdx");
   const [putChampionshipEnd] = usePutChampionshipEnd(championshipIdx);
 
   return (

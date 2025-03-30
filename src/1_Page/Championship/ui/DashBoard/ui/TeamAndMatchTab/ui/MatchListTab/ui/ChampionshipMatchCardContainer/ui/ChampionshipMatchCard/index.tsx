@@ -2,7 +2,7 @@ import useDeleteChampionshipMatch from "../../../../../../../../../../../../3_En
 import usePutChampionshipMatchEnd from "../../../../../../../../../../../../3_Entity/Championship/usePutChampionshipMatchEnd";
 
 import { matchState } from "../../../../../../../../../../../../4_Shared/constant/matchState";
-import useValidParamInteger from "../../../../../../../../../../../../4_Shared/model/useValidParamInteger";
+import useParamInteger from "../../../../../../../../../../../../4_Shared/model/useParamInteger";
 
 const isAdmin = true; // 관리자 여부 (예시로 true로 설정)
 
@@ -22,7 +22,7 @@ const ChampionshipMatchCard = (props: ChampionshipMatchCardProps) => {
   const isFinished = home.common_status_idx === 4;
   const isSelected = selectedIdx === match.championship_match_idx;
 
-  const [championshipIdx] = useValidParamInteger("championshipIdx");
+  const championshipIdx = useParamInteger("championshipIdx");
   const [deleteChampionshipMatch] = useDeleteChampionshipMatch(championshipIdx);
   const [putChampionshipMatchEnd] = usePutChampionshipMatchEnd();
 
