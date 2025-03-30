@@ -12,8 +12,8 @@ import useGetChampionshipTeamList from "../../../../../../3_Entity/Championship/
 import useParamInteger from "../../../../../../4_Shared/model/useParamInteger";
 
 const TeamAndMatchTab = (props: TeamAndMatchTabProps) => {
-  const { championship_type, activeTab } = props;
-  const isLeague = championship_type === 0;
+  const { championship_type_idx, activeTab } = props;
+  const isLeague = championship_type_idx === 0;
   const championshipIdx = useParamInteger("championshipIdx");
 
   const [matchList] = useGetChampionshipMatchList(championshipIdx); // 대회 생성된 매치 리스트
