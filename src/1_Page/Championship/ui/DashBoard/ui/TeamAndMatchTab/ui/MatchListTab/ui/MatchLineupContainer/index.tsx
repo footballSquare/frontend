@@ -3,9 +3,13 @@ import FootballGroundSection from "./ui/FootballGroundSection";
 import VerticalTeamStatCards from "./ui/VerticalTeamStatCards";
 import EvidenceDetailModalWithBtn from "./ui/EvidenceDetailModalWithBtn";
 import useGetChampionshipDetail from "../../../../../../../../../../3_Entity/Championship/useGetChampionshipDetail";
+import { useCookies } from "react-cookie";
 
 const MatchLineupContainer = (props: MatchLineupContainerProps) => {
   const { matchIdx, selectedTeams } = props;
+  const [cookies] = useCookies(["community_role_idx"]);
+  const isAdmin = cookies.community_role_idx === 0;
+
   const [isFormationView, setIsFormationView] = React.useState<boolean>(true);
   const [isTeamHistoryView, setIsTeamHistoryView] =
     React.useState<boolean>(false);
@@ -13,10 +17,12 @@ const MatchLineupContainer = (props: MatchLineupContainerProps) => {
 
   return (
     <div className="p-4">
-      <EvidenceDetailModalWithBtn
-        matchIdx={matchIdx}
-        selectTeamList={selectedTeams.selectTeamList}
-      />
+      {isAdmin && (
+        <EvidenceDetailModalWithBtn
+          matchIdx={matchIdx}
+          selectTeamList={selectedTeams.selectTeamList}
+        />
+      )}
       <div className="flex justify-center mb-4 gap-4">
         <button
           className={`px-4 py-2 rounded-full border transition-colors duration-200 ${
