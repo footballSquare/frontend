@@ -13,19 +13,22 @@ const EndChampionshipModal = (props: EndChampionshipModalProps) => {
   const { handleToggleModal } = props;
 
   const championshipListIdx = useParamInteger("championshipListIdx");
+  // api
   const [championshipTeam] = useGetChampionshipTeams(championshipListIdx);
   const [playerStats] = useGetPlayerStats(championshipListIdx);
   const [putChampionshipEnd] = usePutChampionshipEnd(championshipListIdx);
 
+  // state
   const [selectTeam, setSelectTeam] =
     React.useState<ChampionshipTeamInfo | null>(null);
   const [selectedPlayerAwards, setSelectedPlayerAwards] =
     React.useState<PlayerStats | null>(null);
-
-  const [filteredPlayers, searchTerm, handleSearchTermChange] =
-    useManageSearchPlayer(playerStats);
+  const [searchTerm, setSearchTerm] = React.useState<string>("");
+  // filterData
+  const filteredPlayers = useManageSearchPlayer(playerStats, searchTerm);
 
   const handlePutEnd = () => {
+    // null 체크
     const teamIdx = selectTeam?.team_list_idx;
     const playerIdx = selectedPlayerAwards?.player_list_idx;
     if (!teamIdx || !playerIdx) return;
@@ -154,12 +157,12 @@ const EndChampionshipModal = (props: EndChampionshipModalProps) => {
                 type="text"
                 placeholder="선수 이름으로 검색..."
                 value={searchTerm}
-                onChange={(e) => handleSearchTermChange(e.target.value)}
+                onChange={(e) => setSearchTerm(e.target.value)}
                 className="w-full px-3 py-3 focus:outline-none"
               />
               {searchTerm && (
                 <button
-                  onClick={() => handleSearchTermChange("")}
+                  onClick={() => setSearchTerm("")}
                   className="px-3 text-gray-400 hover:text-gray-600">
                   ✕
                 </button>

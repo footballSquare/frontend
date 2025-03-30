@@ -1,27 +1,32 @@
 import React from "react";
+import { useCookies } from "react-cookie";
+
 import FootballGroundSection from "./ui/FootballGroundSection";
 import VerticalTeamStatCards from "./ui/VerticalTeamStatCards";
-import EvidenceDetailModalWithBtn from "./ui/EvidenceDetailModalWithBtn";
+import EvidenceDetailModal from "./ui/EvidenceDetailModal";
+
 import useGetChampionshipDetail from "../../../../../../../../../../3_Entity/Championship/useGetChampionshipDetail";
-import { useCookies } from "react-cookie";
+import useToggleState from "../../../../../../../../../../4_Shared/model/useToggleState";
 
 const MatchLineupContainer = (props: MatchLineupContainerProps) => {
   const { matchIdx, selectedTeams } = props;
+  // admin
   const [cookies] = useCookies(["community_role_idx"]);
   const isAdmin = cookies.community_role_idx === 0;
-
+  // api
+  const [championshipDetail] = useGetChampionshipDetail(matchIdx);
+  // state
+  const [isModalOpen, handleToggleModal] = useToggleState();
   const [isFormationView, setIsFormationView] = React.useState<boolean>(true);
   const [isTeamHistoryView, setIsTeamHistoryView] =
     React.useState<boolean>(false);
-  const [championshipDetail] = useGetChampionshipDetail(matchIdx);
 
   return (
     <div className="p-4">
       {isAdmin && (
-        <EvidenceDetailModalWithBtn
-          matchIdx={matchIdx}
-          selectTeamList={selectedTeams.selectTeamList}
-        />
+        <button className="text-blue-600" onClick={handleToggleModal}>
+          증거 자세히 보기
+        </button>
       )}
       <div className="flex justify-center mb-4 gap-4">
         <button
@@ -122,6 +127,14 @@ const MatchLineupContainer = (props: MatchLineupContainerProps) => {
             />
           </div>
         </div>
+      )}
+
+      {isModalOpen && (
+        <EvidenceDetailModal
+          handleToggleModal={handleToggleModal}
+          matchIdx={matchIdx}
+          selectTeamList={selectedTeams.selectTeamList}
+        />
       )}
     </div>
   );
