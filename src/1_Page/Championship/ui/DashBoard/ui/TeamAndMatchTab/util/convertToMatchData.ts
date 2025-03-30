@@ -162,7 +162,6 @@ const convertToTournamentFormat = (
     3: 4,
   };
 
-  console.log(championshipTypeIdx);
   // 대회 타입에 따른 라운드 사이즈
   const startingRoundSize = roundSizeMap[championshipTypeIdx];
   //round 개수 계산 ex 16강:4개 8강:3
