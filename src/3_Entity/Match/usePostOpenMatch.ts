@@ -1,9 +1,7 @@
 import React from "react";
 import { useFetchData } from "../../4_Shared/util/apiUtil";
 
-const usePostOpenMatch = (): [
-  postEvent: (props: PostOpenMatchProps) => void
-] => {
+const usePostOpenMatch = (): [(props: PostOpenMatchProps) => void] => {
   const [serverState, request, loading] = useFetchData();
   const postOpenMatch = (props: PostOpenMatchProps) => {
     const {
@@ -17,11 +15,11 @@ const usePostOpenMatch = (): [
       "POST",
       `/match/open`,
       {
-        match_formation_idx,
+        match_formation_idx: 3,
         match_match_participation_type,
         match_type_idx,
+        match_match_duration: "2 hours",
         match_match_start_time,
-        match_match_duration: match_match_duration,
       },
       true
     );

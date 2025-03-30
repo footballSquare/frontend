@@ -61,7 +61,7 @@ export const useFetchData = (): [
   const request = async (
     method: string,
     endpoint: string,
-    body: Record<string, string | number> | null,
+    body: Record<string, unknown> | null,
     authorization: boolean = false
   ) => {
     try {
@@ -83,11 +83,10 @@ export const useFetchData = (): [
     } catch (error: unknown) {
       if (error instanceof AxiosError) {
         const { status, data } = error.response ?? {};
-        setServerState({ status: status });
+        setServerState({ status });
         if (status === 500) {
           console.error("Internal Server Error:", status, data);
           alert("알 수 없는 오류.");
-          window.location.href = "/";
         }
       }
     } finally {

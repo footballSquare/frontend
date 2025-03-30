@@ -35,6 +35,7 @@ const PostOpenMatchPanel = () => {
   });
 
   const onSubmit = (data: any) => {
+    console.log(data)
     postOpenMatch({
       match_formation_idx: data.match_formation_idx,
       match_match_participation_type: data.match_match_participation_type,
@@ -47,7 +48,7 @@ const PostOpenMatchPanel = () => {
   return (
     <div>
       <Button
-        text="매치만들기"
+        text="공개 매치 생성"
         bg="blue"
         textColor="white"
         bold={true}

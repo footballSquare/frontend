@@ -33,7 +33,7 @@ const WaitingList = React.memo((props: WaitingListProps) => {
             className="flex w-full justify-between"
           >
             {`${matchPosition[position]} | ${
-              matchWaitList && matchWaitList[position]?.length
+              matchWaitList && (matchWaitList[position]?.length || 0)
             } 명 지원`}
           </option>
         ))}
