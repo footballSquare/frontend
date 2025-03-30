@@ -9,6 +9,7 @@ import { matchType } from "../../../../4_Shared/constant/matchType";
 import { championshipTypes } from "../../../../4_Shared/constant/championshipTypes";
 import { useCookies } from "react-cookie";
 import { formatDateKoreanDate } from "../../../../4_Shared/lib/dateFormatter";
+import EndModalWithBtn from "./ui/EndModalWithBtn";
 
 const InfoHeader = (props: InfoHeaderProps) => {
   const { championshipInfo } = props;
@@ -85,15 +86,7 @@ const InfoHeader = (props: InfoHeaderProps) => {
                     }}>
                     대회 수정
                   </button>
-                  <button
-                    className="px-3 py-2 border border-gray-300 rounded hover:bg-gray-100"
-                    onClick={() => {
-                      if (confirm("정말 대회를 마감하시겠습니까?")) {
-                        putChampionshipEnd();
-                      }
-                    }}>
-                    대회 마감
-                  </button>
+                  <EndModalWithBtn />
                 </div>
               </div>
             )}
