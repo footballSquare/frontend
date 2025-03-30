@@ -4,7 +4,7 @@ import TeamAndMatchTab from "./ui/TeamAndMatchTab";
 import { ACTIVE_TAB, activeTabList } from "./constant/activeTab";
 
 const DashBoard = (props: DashBoardProps) => {
-  const { championship_type } = props;
+  const { championship_type_idx } = props;
   const [activeTab, setActiveTab] = React.useState<ACTIVE_TAB>(
     ACTIVE_TAB.PLAYERS
   );
@@ -32,7 +32,7 @@ const DashBoard = (props: DashBoardProps) => {
         </div>
         {/* 팀 and 매치 목록 */}
         <TeamAndMatchTab
-          championship_type={championship_type}
+          championship_type_idx={championship_type_idx}
           activeTab={activeTab}
         />
       </main>

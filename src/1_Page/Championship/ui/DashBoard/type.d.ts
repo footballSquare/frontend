@@ -1,3 +1,3 @@
 type DashBoardProps = {
-  championship_type: number;
+  championship_type_idx: number;
 };

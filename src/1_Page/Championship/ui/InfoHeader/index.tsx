@@ -59,7 +59,7 @@ const InfoHeader = (props: InfoHeaderProps) => {
               {`${championshipInfo.championship_list_start_date} ~ ${championshipInfo.championship_list_end_date}`}
             </p>
             <p className="w-[40%] px-3 py-2 text-center rounded-md border border-current sm:w-[23%] text-inherit">
-              {championshipTypes[championshipInfo.championship_type]}
+              {championshipTypes[championshipInfo.championship_type_idx]}
             </p>
             <p className="w-[40%] px-3 py-2 text-center rounded-md border border-current sm:w-[23%] text-inherit">
               {matchType[championshipInfo.match_type_idx]}

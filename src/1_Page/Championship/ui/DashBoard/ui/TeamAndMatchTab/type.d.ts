@@ -1,5 +1,5 @@
 type TeamAndMatchTabProps = {
-  championship_type: number;
+  championship_type_idx: number;
   activeTab: string;
 };
 
