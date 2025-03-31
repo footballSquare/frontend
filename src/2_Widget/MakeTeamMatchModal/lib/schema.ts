@@ -1,17 +1,20 @@
 import * as yup from "yup";
-import { isPastTimeValidation } from "../../../../../../../4_Shared/util/inputValidator";
+import { isPastTime } from "../../../4_Shared/lib/timeChecker";
 
 export const schema = yup.object().shape({
   match_match_start_date: yup
     .string()
     .required("날짜를 선택해야 합니다.")
-    .test("is-not-past-date", "과거 날짜는 선택할 수 없습니다.", (date) =>
-      date
-        ? isPastTimeValidation({
-            key: "match_match_start_date",
-            value: date,
-          }) === null
-        : false
+    .test(
+      "is-not-past-date",
+      "과거 날짜는 선택할 수 없습니다.",
+      function (match_match_start_date) {
+        if (!match_match_start_date) {
+          return false;
+        }
+        const givenTime = `${match_match_start_date} 00:00`;
+        return !isPastTime(givenTime);
+      }
     ),
 
   match_match_start_hour: yup.string().required("시간을 선택해야 합니다."),
@@ -34,18 +37,11 @@ export const schema = yup.object().shape({
           !match_match_start_date ||
           !match_match_start_hour ||
           !match_match_start_min
-        )
+        ) {
           return false;
-
-        return (
-          isPastTimeValidation(
-            { key: "match_match_start_date", value: match_match_start_date },
-            {
-              key: "match_match_start_time",
-              value: `${match_match_start_hour}:${match_match_start_min}`,
-            }
-          ) === null
-        );
+        }
+        const givenTime = `${match_match_start_date} ${match_match_start_hour}:${match_match_start_min}`;
+        return !isPastTime(givenTime);
       }
     ),
 

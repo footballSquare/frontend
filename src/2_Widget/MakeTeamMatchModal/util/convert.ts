@@ -1,6 +1,3 @@
-import { MatchDataForm } from "../type";
-import { PostTeamMatchProps } from "../../../../../../../3_Entity/Match/types/request";
-
 export const convertToPostMatchProps = (
   data: MatchDataForm
 ): PostTeamMatchProps => {
@@ -25,8 +22,8 @@ export const convertToPostMatchProps = (
   };
 };
 
-import { matchDuration } from "../../../../../../../4_Shared/constant/matchDuration";
-import { toFormattedDate } from "../../../../../../../4_Shared/lib/dateFormatter";
+import { matchDuration } from "../../../4_Shared/constant/matchDuration";
+import { toFormattedDate } from "../../../4_Shared/lib/dateFormatter";
 
 export const convertToMatchDataForm = (
   today: Date,
