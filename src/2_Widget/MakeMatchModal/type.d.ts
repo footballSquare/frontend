@@ -13,3 +13,7 @@ type MatchDataForm = {
   match_match_duration: string;
   match_formation_idx: number;
 };
+
+type MatchDataFormWithIdx = MatchDataForm & {
+  team_list_idx: number;
+};
