@@ -1,10 +1,6 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import usePostTeamMatch from "../../../../../../3_Entity/Match/usePostTeamMatch";
-
-// 타입
-import { MakeTeamMatchModalProps } from "./type";
-import { MatchDataForm } from "./type";
+import usePostTeamMatch from "../../3_Entity/Match/usePostTeamMatch";
 
 import { findNearDate } from "./util/nearDateHandler";
 import { schema } from "./lib/schema";
@@ -14,11 +10,11 @@ import {
 } from "./util/convert";
 
 // 상수
-import { teamMatchAttribute } from "../../../../../../4_Shared/constant/teamMatchAttribute";
-import { matchType } from "../../../../../../4_Shared/constant/matchType";
-import { matchParticipation } from "../../../../../../4_Shared/constant/matchParticipation";
-import { formation } from "../../../../../../4_Shared/constant/formation";
-import { matchDuration } from "../../../../../../4_Shared/constant/matchDuration";
+import { teamMatchAttribute } from "../../4_Shared/constant/teamMatchAttribute";
+import { matchType } from "../../4_Shared/constant/matchType";
+import { matchParticipation } from "../../4_Shared/constant/matchParticipation";
+import { formation } from "../../4_Shared/constant/formation";
+import { matchDuration } from "../../4_Shared/constant/matchDuration";
 
 const MakeTeamMatchModal = (props: MakeTeamMatchModalProps) => {
   const { team_list_idx, onClose, refetch } = props;

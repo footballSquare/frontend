@@ -54,14 +54,14 @@ type PutMatchEndProps = {
 
 type DeleteMatchProps = {
   matchIdx: number;
-}; 
+};
 
 type PutOpenMatchJoinProps = {
   matchIdx: number;
   matchPositionIdx: number;
-}
+};
 
 type DeleteMatchJoinProps = {
   matchIdx: number;
   userIdx: number;
-}
+};

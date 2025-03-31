@@ -1,19 +1,18 @@
 import { useState } from "react";
-import { PresentMatchBoxProps } from "./type";
 
 import MatchCard from "./ui/MatchCrad";
-import MakeTeamMatchModal from "./ui/MakeTeamMatchModal";
+import MakeTeamMatchModal from "../../../../2_Widget/MakeTeamMatchModal";
 
 import useGetTeamMatchList from "../../../../3_Entity/Match/useGetTeamMatchList";
 import useInfiniteScrollPaging from "../../../../4_Shared/model/useInfiniteScrollPaging";
 import useMakeTeamMatchModalStore from "../../../../4_Shared/zustand/useMakeTeamMatchModal";
+import useParamInteger from "../../../../4_Shared/model/useParamInteger";
 
-const PresentMatchBox = (props: PresentMatchBoxProps) => {
-  const { team_list_idx } = props;
+const PresentMatchBox = () => {
+  const team_list_idx = useParamInteger("team_list_idx");
   const [page, setPage] = useState<number>(1);
   const [teamMatchList, hasMoreContent, loading, refetch] = useGetTeamMatchList(
-    page,
-    team_list_idx
+    { page, teamIdx: team_list_idx }
   );
 
   const [observeRef] = useInfiniteScrollPaging(
