@@ -6,17 +6,11 @@ const ITEMS_PER_PAGE = 10;
 
 const useGetTeamMatchList = (
   props: useGetTeamMatchListProps
-): [MatchInfo[], boolean, boolean, () => void] => {
+): [MatchInfo[], boolean, boolean] => {
   const { page, teamIdx } = props;
   const [serverState, request, loading] = useFetch();
   const [openMatchList, setOpenMatchList] = React.useState<MatchInfo[]>([]);
   const [hasMoreContent, setHasMoreContent] = React.useState<boolean>(true);
-
-  const refetch = React.useCallback(() => {
-    setOpenMatchList([]);
-    setHasMoreContent(true);
-    request(matchList);
-  }, [request]);
 
   React.useEffect(() => {
     request(matchList);
@@ -35,7 +29,7 @@ const useGetTeamMatchList = (
     }
   }, [loading, serverState]);
 
-  return [openMatchList, hasMoreContent, loading, refetch];
+  return [openMatchList, hasMoreContent, loading];
 };
 
 export default useGetTeamMatchList;

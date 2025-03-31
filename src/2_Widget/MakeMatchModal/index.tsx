@@ -1,22 +1,22 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import usePostTeamMatch from "../../3_Entity/Match/usePostTeamMatch";
 
+// 유틸
 import { findNearDate } from "./util/nearDateHandler";
 import { schema } from "./lib/schema";
 import {
   convertToPostMatchProps,
   convertToMatchDataForm,
 } from "./util/convert";
-
+import usePostTeamMatch from "../../3_Entity/Match/usePostTeamMatch";
 // 상수
 import { teamMatchAttribute } from "../../4_Shared/constant/teamMatchAttribute";
-import { matchType } from "../../4_Shared/constant/matchType";
-import { matchParticipation } from "../../4_Shared/constant/matchParticipation";
 import { formation } from "../../4_Shared/constant/formation";
+import { matchParticipation } from "../../4_Shared/constant/matchParticipation";
+import { matchType } from "../../4_Shared/constant/matchType";
 import { matchDuration } from "../../4_Shared/constant/matchDuration";
 
-const MakeTeamMatchModal = (props: MakeTeamMatchModalProps) => {
+const MakeMatchModal = (props: MakeTeamMatchModalProps) => {
   const { team_list_idx, onClose, refetch } = props;
   const today = new Date();
   const { hour, min } = findNearDate(today);
@@ -225,4 +225,4 @@ const MakeTeamMatchModal = (props: MakeTeamMatchModalProps) => {
   );
 };
 
-export default MakeTeamMatchModal;
+export default MakeMatchModal;
