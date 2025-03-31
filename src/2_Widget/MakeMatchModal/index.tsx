@@ -37,6 +37,8 @@ const MakeMatchModal = () => {
     resolver: yupResolver(schema),
     defaultValues: convertToMatchDataForm(today, hour, min),
   });
+  // 포메이션 변경 조건
+  const isCanFormationChange = watch("match_type_idx_radio") === "0";
 
   const onSubmit: SubmitHandler<MatchDataForm> = (data) => {
     if (confirm("생성하시겠습니까?")) {
@@ -48,9 +50,6 @@ const MakeMatchModal = () => {
       setToggleModal();
     }
   };
-
-  // 포메이션 변경 조건
-  const isCanFormationChange = watch("match_type_idx_radio") === "0";
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-10">
