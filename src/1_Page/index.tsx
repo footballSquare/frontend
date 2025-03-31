@@ -9,6 +9,7 @@ import Profile from "./Profile";
 import Community from "./Community";
 import CommunityManaging from "./CommunityManaging";
 import Login from "./Login";
+import Championship from "./Championship";
 
 const Page = () => {
   const [cookies] = useCookies(["accessToken"]);
@@ -29,11 +30,18 @@ const Page = () => {
           path={`${PAGE_URI.COMMUNITY}/:communityIdx`}
           element={<Community />}
         />
-        <Route path={`${PAGE_URI.COMMUNITYMANAGING}/:communityIdx`} element={<CommunityManaging />} />
+        <Route
+          path={`${PAGE_URI.COMMUNITYMANAGING}/:communityIdx`}
+          element={<CommunityManaging />}
+        />
         <Route path={PAGE_URI.RANKING} element={<Main />} />
         <Route path={`${PAGE_URI.PROFILE}/:userIdx`} element={<Profile />} />
         <Route path={PAGE_URI.FREEMATCH} element={<FreeMatch />} />
         <Route path={PAGE_URI.LOGIN} element={<Login />} />
+        <Route
+          path={`${PAGE_URI.CHAMPIONSHIP}/:championshipIdx`}
+          element={<Championship />}
+        />
       </Routes>
     </div>
   );
