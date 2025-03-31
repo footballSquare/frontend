@@ -45,8 +45,6 @@ export const schema = yup.object().shape({
       }
     ),
 
-  match_match_attribute: yup.number().required("매치 속성을 선택해야 합니다."),
-
   match_type_idx_radio: yup.string().required("매치 종류를 선택해야 합니다."),
 
   match_match_participation_type_radio: yup
