@@ -8,6 +8,7 @@ import {
   convertToPostMatchProps,
   convertToMatchDataForm,
   convertToPostOpenMatchProps,
+  convertToMatchInfo,
 } from "./util/convert";
 import usePostTeamMatch from "../../3_Entity/Match/usePostTeamMatch";
 // 상수
@@ -18,12 +19,15 @@ import { matchDuration } from "../../4_Shared/constant/matchDuration";
 import usePostOpenMatch from "../../3_Entity/Match/usePostOpenMatch";
 import useParamInteger from "../../4_Shared/model/useParamInteger";
 import useMakeMatchModalStore from "../../4_Shared/zustand/useMakeMatchModalStore";
+import useDisplayMatchInfoStore from "../../4_Shared/zustand/useDisplayMatchInfoStore";
 
 const MakeMatchModal = () => {
   const today = new Date();
   const { hour, min } = findNearDate(today);
   const team_list_idx = useParamInteger("team_list_idx");
   const { isOpenMatch, setToggleModal } = useMakeMatchModalStore();
+
+  const { insertDataAtStart } = useDisplayMatchInfoStore();
 
   const [postTeamMatch] = usePostTeamMatch({ teamIdx: team_list_idx });
   const [postOpenMatch] = usePostOpenMatch();
@@ -46,6 +50,7 @@ const MakeMatchModal = () => {
         postOpenMatch(convertToPostOpenMatchProps(data));
       } else {
         postTeamMatch(convertToPostMatchProps(data));
+        insertDataAtStart(convertToMatchInfo({ ...data, team_list_idx }));
       }
       setToggleModal();
     }
@@ -165,6 +170,8 @@ const MakeMatchModal = () => {
               )}
             </div>
           </div>
+
+          {/* matchDurtaion 부터 하기  */}
 
           {/* 매치 지속 시간 선택 */}
           <div>
