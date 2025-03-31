@@ -8,7 +8,6 @@ type MatchDataForm = {
   match_match_start_time: string;
   match_match_start_hour: string;
   match_match_start_min: string;
-  match_match_attribute: number;
   match_type_idx_radio: string;
   match_match_participation_type_radio: string;
   match_match_duration: string;

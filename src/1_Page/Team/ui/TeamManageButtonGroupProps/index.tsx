@@ -3,7 +3,7 @@ import useManageAction from "./model/useManageAction";
 
 import useDeleteLeaveTeam from "../../../../3_Entity/Team/useDeleteLeaveTeam";
 import usePutSignTeam from "../../../../3_Entity/Team/usePutSignTeam";
-import useMakeTeamMatchModalStore from "../../../../4_Shared/zustand/useMakeTeamMatchModal";
+import useMakeTeamMatchModalStore from "../../../../4_Shared/zustand/useMakeMatchModalStore";
 
 const TeamManageButtonGroup = (props: TeamManageButtonGroupProps) => {
   const { isTeamReader, isTeamPlayer, teamListIdx, handleTogglePage } = props;
