@@ -1,7 +1,6 @@
 import React from "react";
 import { useFetch } from "../../4_Shared/util/apiUtil";
 import { signTeamMember } from "../../4_Shared/mock/teamInfo";
-import { TeamSignMember } from "./types/response";
 
 const useGetSignMemberList = (
   teamListIdx: number

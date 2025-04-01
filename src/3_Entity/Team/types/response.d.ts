@@ -1,6 +1,6 @@
 import { RESULT_STATE } from "../../../4_Shared/constant/result";
 
-export type TeamInfo = {
+type TeamInfo = {
   community_list_idx?: number | null;
   team_list_idx: number;
   team_list_name: string;
@@ -13,14 +13,14 @@ export type TeamInfo = {
   common_status_idx: number;
 };
 
-export type TeamSignMember = {
+type TeamSignMember = {
   player_list_idx: number;
   player_list_platform: number;
   player_list_profile_img: string;
   player_list_nickname: string;
 };
 
-export type TeamAwards = {
+type TeamAwards = {
   championship_list_throphy_img: string;
   championship_list_idx: number;
   championship_list_name: string;
@@ -29,7 +29,7 @@ export type TeamAwards = {
   championship_list_color: string;
 };
 
-export type TeamHistory = {
+type TeamHistory = {
   championship_list_idx: number;
   championship_list_name: string;
   championship_list_start_date: string;
@@ -37,7 +37,7 @@ export type TeamHistory = {
   championship_list_color: string;
 };
 
-export type TeamMembers = {
+type TeamMembers = {
   player_list_idx: number;
   player_list_platform: number;
   player_list_profile_img: string;
@@ -45,4 +45,4 @@ export type TeamMembers = {
   team_role_idx: number;
 };
 
-export type ResultStateType = (typeof RESULT_STATE)[keyof typeof RESULT_STATE];
+type ResultStateType = (typeof RESULT_STATE)[keyof typeof RESULT_STATE];

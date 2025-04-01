@@ -1,7 +1,6 @@
 import React from "react";
 import { useFetch } from "../../4_Shared/util/apiUtil";
 import { teamInfoData } from "../../4_Shared/mock/teamInfo";
-import { TeamInfo } from "./types/response";
 
 const useGetTeamInfo = (teamListIdx: number): [TeamInfo, boolean] => {
   const [serverState, request, loading] = useFetch();

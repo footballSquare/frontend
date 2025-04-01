@@ -1,7 +1,6 @@
 import React from "react";
 import { useFetch } from "../../4_Shared/util/apiUtil";
 import { teamMemberData } from "../../4_Shared/mock/teamInfo";
-import { TeamMembers } from "./types/response";
 
 const ITEMS_PER_PAGE = 10;
 
