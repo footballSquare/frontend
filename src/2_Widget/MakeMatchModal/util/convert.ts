@@ -25,29 +25,6 @@ export const convertToPostMatchProps = (
   };
 };
 
-export const convertToPostOpenMatchProps = (
-  data: MatchDataForm
-): PostOpenMatchProps => {
-  const {
-    match_match_start_date,
-    match_match_start_hour,
-    match_match_start_min,
-    match_type_idx_radio,
-    match_match_participation_type_radio,
-    match_match_duration,
-    match_formation_idx,
-  } = data;
-  return {
-    match_formation_idx,
-    match_match_participation_type: Number(
-      match_match_participation_type_radio
-    ),
-    match_type_idx: Number(match_type_idx_radio),
-    match_match_start_time: `${match_match_start_date} ${match_match_start_hour}:${match_match_start_min}`,
-    match_match_duration: parseDuration(match_match_duration),
-  };
-};
-
 export const convertToMatchInfo = (props: MatchDataFormWithIdx): MatchInfo => {
   const {
     match_match_start_date,

@@ -1,10 +1,9 @@
-import { TeamAwardsProps } from "./type";
-
 import AutoMoveAwardList from "../../../../2_Widget/AutoMoveAwardList";
 import useGetTeamAwards from "../../../../3_Entity/Team/useGetTeamAwards";
+import useParamInteger from "../../../../4_Shared/model/useParamInteger";
 
-const TeamAwards = (props: TeamAwardsProps) => {
-  const { teamIdx } = props;
+const TeamAwards = () => {
+  const teamIdx = useParamInteger("team_list_idx");
   const [teamAwards] = useGetTeamAwards(teamIdx);
 
   return (

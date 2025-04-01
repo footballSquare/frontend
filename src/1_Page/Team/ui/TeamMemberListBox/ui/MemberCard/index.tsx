@@ -10,6 +10,7 @@ import useDeleteTeamPlayer from "../../../../../../3_Entity/Team/useDeleteTeamPl
 import usePostChangeTeamRole from "../../../../../../3_Entity/Team/usePostChangeTeamRole";
 import { modalReducer } from "./model/reducer";
 import useParamInteger from "../../../../../../4_Shared/model/useParamInteger";
+import { useCookies } from "react-cookie";
 
 const MemberCard = (props: MemberProps) => {
   const {
@@ -19,10 +20,12 @@ const MemberCard = (props: MemberProps) => {
     team_role_idx,
     player_list_platform,
     observeRef,
-    isTeamReader,
   } = props;
-
   const teamIdx = useParamInteger("teamIdx");
+
+  const [cookies] = useCookies(["team_role_idx", "team_idx"]);
+  const isTeamReader =
+    cookies.team_idx === teamIdx && cookies.team_role_idx === 0;
 
   const initialRoleRef = React.useRef<number>(team_role_idx); // 저장용 Ref
   const [isDelete, setIsDelete] = React.useState<boolean>(false); // 삭제 상태

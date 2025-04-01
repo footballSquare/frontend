@@ -1,36 +1,48 @@
+import React from "react";
+
 import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { schema } from "./lib/schema";
 
 // 유틸
-import { findNearDate } from "./util/nearDateHandler";
-import { schema } from "./lib/schema";
 import {
   convertToPostMatchProps,
   convertToMatchDataForm,
-  convertToPostOpenMatchProps,
-  convertToMatchInfo,
 } from "./util/convert";
+// 엔티티
 import usePostTeamMatch from "../../3_Entity/Match/usePostTeamMatch";
+import usePostOpenMatch from "../../3_Entity/Match/usePostOpenMatch";
+
+import { findNearDate } from "../../4_Shared/lib/findNearDate";
+
 // 상수
 import { matchFormation } from "../../4_Shared/constant/matchFormation";
 import { matchParticipation } from "../../4_Shared/constant/matchParticipation";
 import { matchType } from "../../4_Shared/constant/matchType";
 import { matchDuration } from "../../4_Shared/constant/matchDuration";
-import usePostOpenMatch from "../../3_Entity/Match/usePostOpenMatch";
-import useParamInteger from "../../4_Shared/model/useParamInteger";
+// state
 import useMakeMatchModalStore from "../../4_Shared/zustand/useMakeMatchModalStore";
 import useDisplayMatchInfoStore from "../../4_Shared/zustand/useDisplayMatchInfoStore";
 
 const MakeMatchModal = () => {
   const today = new Date();
   const { hour, min } = findNearDate(today);
-  const team_list_idx = useParamInteger("team_list_idx");
-  const { isOpenMatch, setToggleModal } = useMakeMatchModalStore();
+  const { isOpenMatch, teamIdx, toggleMakeMatchModal } =
+    useMakeMatchModalStore();
 
-  const { insertDataAtStart } = useDisplayMatchInfoStore();
-
-  const [postTeamMatch] = usePostTeamMatch({ teamIdx: team_list_idx });
+  // 오픈 매치 관련
   const [postOpenMatch] = usePostOpenMatch();
+  const [postTeamMatch, newTeamMatchData] = usePostTeamMatch({
+    teamIdx,
+  });
+
+  // 팀 매치 데이터가 생성되면, 새로운 팀 매치 데이터를 상태에 추가
+  const { insertDataAtStart } = useDisplayMatchInfoStore();
+  React.useEffect(() => {
+    if (newTeamMatchData) {
+      insertDataAtStart(newTeamMatchData);
+    }
+  }, [newTeamMatchData]);
 
   const {
     register,
@@ -47,10 +59,9 @@ const MakeMatchModal = () => {
   const onSubmit: SubmitHandler<MatchDataForm> = (data) => {
     if (confirm("생성하시겠습니까?")) {
       if (isOpenMatch) {
-        postOpenMatch(convertToPostOpenMatchProps(data));
+        postOpenMatch(convertToPostMatchProps(data));
       } else {
         postTeamMatch(convertToPostMatchProps(data));
-        insertDataAtStart(convertToMatchInfo({ ...data, team_list_idx }));
       }
       setToggleModal();
     }
@@ -65,7 +76,7 @@ const MakeMatchModal = () => {
           </h2>
           <button
             className="text-gray-400 hover:text-gray-600"
-            onClick={setToggleModal}>
+            onClick={toggleMakeMatchModal}>
             ✖
           </button>
         </div>
@@ -213,7 +224,7 @@ const MakeMatchModal = () => {
           {/* 버튼 */}
           <div className="flex justify-end gap-4 mt-6">
             <button
-              onClick={setToggleModal}
+              onClick={toggleMakeMatchModal}
               type="button"
               className="px-4 py-2 rounded-lg border border-gray-300">
               취소

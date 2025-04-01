@@ -1,19 +1,36 @@
-import { useFetch } from "../../4_Shared/util/apiUtil";
+import React from "react";
+import { useFetchData } from "../../4_Shared/util/apiUtil";
 
 const usePostTeamMatch = (
   props: UsePostTeamMatchProps
 ): [
-  postEvent: (props: PostTeamMatchProps) => void,
-  serverState: unknown,
-  loading: boolean
+  postTeamMatch: (props: PostTeamMatchProps) => void,
+  newMatchData: MatchInfo | null
 ] => {
   const { teamIdx } = props;
-  const [serverState, request, loading] = useFetch();
+  const [serverState, request, loading] = useFetchData();
+  const [newMatchData, setNewMatchData] = React.useState<MatchInfo | null>(
+    null
+  );
+
   const postTeamMatch = (props: PostTeamMatchProps) => {
-    request(props);
-    console.log(props, teamIdx);
+    if (!teamIdx) return;
+    const endPoint = `/match/team/${teamIdx}`;
+    request("POST", endPoint, props, true);
   };
 
-  return [postTeamMatch, serverState, loading];
+  React.useEffect(() => {
+    if (!loading && serverState) {
+      if (serverState.status === 200 && serverState.data) {
+        setNewMatchData(serverState.data as MatchInfo); // match 데이터 저장
+        alert("매치가 생성되었습니다.");
+      } else {
+        alert("매치 생성에 실패했습니다.");
+      }
+    }
+  }, [loading, serverState]);
+
+  return [postTeamMatch, newMatchData];
 };
+
 export default usePostTeamMatch;

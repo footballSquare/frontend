@@ -28,7 +28,7 @@ type useGetTeamMatchListProps = {
 };
 
 type UsePostTeamMatchProps = {
-  teamIdx: number;
+  teamIdx: number | null;
 };
 
 type PostTeamMatchProps = {

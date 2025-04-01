@@ -3,19 +3,15 @@ import { create } from "zustand";
 
 type DisplayMatchInfoState = {
   displayData: MatchInfo[];
-  prevData: MatchInfo;
-  insertPrevData: (newData: MatchInfo[]) => void;
   clearDisplayData: () => void;
   insertDataAtStart: (newData: MatchInfo) => void;
   insertDisplayData: (newData: MatchInfo[]) => void;
 };
 
+// { player_list_nickname, player_list_profile_image, player_list_idx, team_list_name,team_list_emblem }
+
 const useDisplayMatchInfoStore = create<DisplayMatchInfoState>((set) => ({
   displayData: [],
-  prevData: {} as MatchInfo,
-  insertPrevData: (newData: MatchInfo[]) => {
-    set((state) => newData);
-  },
   clearDisplayData: () => set({ displayData: [] }),
   insertDataAtStart: (newData: MatchInfo) =>
     set((state) => ({ displayData: [newData, ...state.displayData] })),

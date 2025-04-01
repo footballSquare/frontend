@@ -7,6 +7,7 @@ import useMakeTeamMatchModalStore from "../../../../4_Shared/zustand/useMakeMatc
 import useDisplayMatchInfoStore from "../../../../4_Shared/zustand/useDisplayMatchInfoStore";
 import { useCookies } from "react-cookie";
 import useParamInteger from "../../../../4_Shared/model/useParamInteger";
+import React from "react";
 
 const TeamManageButtonGroup = (props: TeamManageButtonGroupProps) => {
   const { handleTogglePage } = props;
@@ -16,20 +17,21 @@ const TeamManageButtonGroup = (props: TeamManageButtonGroupProps) => {
   const [deleteLeaveTeam] = useDeleteLeaveTeam(teamIdx);
   const [putSignTeam] = usePutSignTeam(teamIdx);
 
-  const [cookies] = useCookies(["team_role_idx"]);
+  // 팀 권한과 가입여부
+  const [cookies] = useCookies(["team_role_idx", "team_idx"]);
   const teamRoleIdx = cookies.team_role_idx;
-  const isTeamReader = teamRoleIdx === 0;
-
-  const { setToggleModal } = useMakeTeamMatchModalStore(); // 팀매치 생성 모달 전역으로 관리
-  const { insertPrevData } = useDisplayMatchInfoStore();
-
+  const isTeamPlayer = cookies.team_idx !== teamIdx;
+  const isTeamReader = cookies.team_idx === teamIdx && teamRoleIdx === 0;
   const {
     isLeaving,
     isPending,
     confirmAction,
     updateToLeave,
     updateToSignPending,
-  } = useManageAction(teamRoleIdx);
+  } = useManageAction(isTeamPlayer);
+
+  // 팀매치 생성 모달 전역으로 관리
+  const { openTeamMatch } = useMakeTeamMatchModalStore(); // 팀매치 생성 모달 전역으로 관리
 
   return (
     <div className="flex flex-col items-center gap-2 mt-2">
@@ -64,7 +66,7 @@ const TeamManageButtonGroup = (props: TeamManageButtonGroupProps) => {
       </div>
 
       {/* 팀 리더일 경우에만 팀 관리 및 매치 생성 버튼 */}
-      {isTeamReader && isLeaving && !isPending && (
+      {!isTeamReader && isLeaving && !isPending && (
         <div className="flex gap-2 mt-2">
           <button
             className="bg-blue-500 text-white text-sm font-medium py-1 px-3 rounded-full"
@@ -73,7 +75,9 @@ const TeamManageButtonGroup = (props: TeamManageButtonGroupProps) => {
           </button>
           <button
             className="bg-blue-500 text-white text-sm font-medium py-1 px-3 rounded-full"
-            onClick={setToggleModal}>
+            onClick={() => {
+              openTeamMatch(teamIdx);
+            }}>
             매치 생성
           </button>
         </div>
