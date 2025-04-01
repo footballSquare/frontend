@@ -39,7 +39,9 @@ const TeamAndMatchTab = (props: TeamAndMatchTabProps) => {
   return (
     <div>
       <div className="flex justify-end">
-        <button onClick={handleToggleModal}>팀 상세보기</button>
+        <button className="border p-4 rounded-2xl" onClick={handleToggleModal}>
+          팀 상세보기
+        </button>
       </div>
       {/* 팀 목록 탭 */}
       <div className={activeTab === ACTIVE_TAB.TEAMS ? "block" : "hidden"}>
