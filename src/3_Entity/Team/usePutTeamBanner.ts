@@ -1,18 +1,18 @@
 import React from "react";
-import { useFetch } from "../../4_Shared/util/apiUtil";
+import { useFetchData } from "../../4_Shared/util/apiUtil";
 
 const usePutTeamBanner = (
   teamListIdx: number
 ): [
-  putTeamBanner: (img: File | null) => void,
+  putTeamBanner: (img: File) => void,
   serverState: unknown,
   loading: boolean
 ] => {
-  const [serverState, request, loading] = useFetch();
+  const [serverState, request, loading] = useFetchData();
 
-  const putTeamBanner = (img: File | null) => {
-    request({ img, teamListIdx });
-    console.log("팀 정보 수정", teamListIdx, img);
+  const putTeamBanner = (img: File) => {
+    const endPoint = `/team/${teamListIdx}/banner`;
+    request("PUT", endPoint, { file: img }, true);
   };
 
   React.useEffect(() => {

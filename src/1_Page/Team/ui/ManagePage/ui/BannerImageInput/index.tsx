@@ -38,6 +38,7 @@ const BannerImageInput = (props: BannerImageInputProps) => {
 
   const onSubmit: SubmitHandler<ImageForm> = (props) => {
     handleSave();
+    if (!props.img) return;
     putTeamBanner(props.img);
   };
 

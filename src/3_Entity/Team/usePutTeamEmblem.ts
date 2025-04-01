@@ -1,18 +1,18 @@
 import React from "react";
-import { useFetch } from "../../4_Shared/util/apiUtil";
+import { useFetchData } from "../../4_Shared/util/apiUtil";
 
 const usePutTeamEmblem = (
   teamListIdx: number
 ): [
-  putTeamEmblem: (img: File | null) => void,
+  putTeamEmblem: (img: File) => void,
   serverState: unknown,
   loading: boolean
 ] => {
-  const [serverState, request, loading] = useFetch();
+  const [serverState, request, loading] = useFetchData();
 
-  const putTeamEmblem = (img: File | null) => {
-    request({ img, teamListIdx });
-    console.log("엠블렘 정보 수정", teamListIdx, img);
+  const putTeamEmblem = (img: File) => {
+    const endPoint = `/team/${teamListIdx}/emblem`;
+    request("PUT", endPoint, { file: img }, true);
   };
 
   React.useEffect(() => {
