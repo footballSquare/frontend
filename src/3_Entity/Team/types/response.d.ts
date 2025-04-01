@@ -1,5 +1,3 @@
-import { RESULT_STATE } from "../../../4_Shared/constant/result";
-
 type TeamInfo = {
   community_list_idx?: number | null;
   team_list_idx: number;
@@ -44,5 +42,3 @@ type TeamMembers = {
   player_list_nickname: string;
   team_role_idx: number;
 };
-
-type ResultStateType = (typeof RESULT_STATE)[keyof typeof RESULT_STATE];
