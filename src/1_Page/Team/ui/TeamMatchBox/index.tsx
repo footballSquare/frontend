@@ -1,11 +1,11 @@
 import React from "react";
-import MatchCard from "./ui/MatchCrad";
+import TeamMatchCard from "./ui/TeamMatchCard";
 import useGetTeamMatchList from "../../../../3_Entity/Match/useGetTeamMatchList";
 import useInfiniteScrollPaging from "../../../../4_Shared/model/useInfiniteScrollPaging";
 import useParamInteger from "../../../../4_Shared/model/useParamInteger";
 import useDisplayMatchInfoStore from "../../../../4_Shared/zustand/useDisplayMatchInfoStore";
 
-const PresentMatchBox = () => {
+const TeamMatchBox = () => {
   const teamIdx = useParamInteger("teamIdx");
   const [page, setPage] = React.useState<number>(1);
   const [teamMatchList, hasMoreContent, loading] = useGetTeamMatchList({
@@ -39,7 +39,7 @@ const PresentMatchBox = () => {
         <div>진행중인 경기가 없습니다.</div>
       ) : (
         displayData.map((elem, index) => (
-          <MatchCard
+          <TeamMatchCard
             {...elem}
             index={index}
             observeRef={
@@ -52,4 +52,4 @@ const PresentMatchBox = () => {
   );
 };
 
-export default PresentMatchBox;
+export default TeamMatchBox;

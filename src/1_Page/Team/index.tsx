@@ -1,6 +1,6 @@
 import useGetTeamInfo from "../../3_Entity/Team/useGetTeamInfo";
 import HistoryListBox from "./ui/HistoryListBox";
-import PresentMatchBox from "./ui/PresentMatchBox";
+import TeamMatchBox from "./ui/TeamMatchBox";
 import TeamMemberListBox from "./ui/TeamMemberListBox";
 import TeamAwards from "./ui/TeamAwards";
 import TeamManageButtonGroupProps from "./ui/TeamManageButtonGroupProps";
@@ -89,7 +89,7 @@ const Team = () => {
 
             <div className="space-y-3 sm:col-span-3">
               <h2 className="text-base font-semibold">현재 경기</h2>
-              <PresentMatchBox />
+              <TeamMatchBox />
             </div>
           </article>
         </div>

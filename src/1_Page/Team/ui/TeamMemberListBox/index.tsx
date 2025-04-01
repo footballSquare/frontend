@@ -4,6 +4,7 @@ import MemberCard from "./ui/MemberCard";
 import useGetTeamMembers from "../../../../3_Entity/Team/useGetTeamMembers";
 import useInfiniteScrollPaging from "../../../../4_Shared/model/useInfiniteScrollPaging";
 import useParamInteger from "../../../../4_Shared/model/useParamInteger";
+import useManageMemberList from "./model/useManageMemberList";
 
 const TeamMemberListBox = () => {
   const teamIdx = useParamInteger("teamIdx");
@@ -19,11 +20,14 @@ const TeamMemberListBox = () => {
     hasMoreContent
   );
 
+  const [displayMemberList, handleDelete] = useManageMemberList(teamMember);
+
   return (
     <div className=" h-[200px] overflow-scroll">
-      {teamMember.map((elem, index) => (
+      {displayMemberList.map((elem, index) => (
         <MemberCard
           {...elem}
+          handleDelete={handleDelete}
           index={index}
           observeRef={teamMember.length === index + 1 ? observeRef : undefined}
         />

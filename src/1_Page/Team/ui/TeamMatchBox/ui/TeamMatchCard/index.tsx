@@ -1,7 +1,6 @@
-import { MatchCardProps } from "./type";
 import useMatchModalStore from "../../../../../../4_Shared/zustand/useMatchModal";
 
-const MatchCard = (props: MatchCardProps) => {
+const TeamMatchCard = (props: TeamMatchCardProps) => {
   const {
     match_match_attribute,
     player_list_nickname,
@@ -91,4 +90,4 @@ const MatchCard = (props: MatchCardProps) => {
   );
 };
 
-export default MatchCard;
+export default TeamMatchCard;
