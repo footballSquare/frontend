@@ -30,11 +30,14 @@ const DashBoard = (props: DashBoardProps) => {
         <div className={activeTab === ACTIVE_TAB.PLAYERS ? "block" : "hidden"}>
           <PlayerTab />
         </div>
+
         {/* 팀 and 매치 목록 */}
-        <TeamAndMatchTab
-          championship_type_idx={championship_type_idx}
-          activeTab={activeTab}
-        />
+        <div className={activeTab === ACTIVE_TAB.PLAYERS ? "hidden" : "block"}>
+          <TeamAndMatchTab
+            championship_type_idx={championship_type_idx}
+            activeTab={activeTab}
+          />
+        </div>
       </main>
     </div>
   );
