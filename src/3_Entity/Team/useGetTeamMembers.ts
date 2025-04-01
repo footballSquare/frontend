@@ -12,7 +12,7 @@ const useGetTeamMembers = (
   const [hasMoreContent, setHasMoreContent] = React.useState<boolean>(true);
 
   React.useEffect(() => {
-    const endPoint = `/team/${teamIdx}/member?page=%${page}`;
+    const endPoint = `/team/${teamIdx}/member?page=${page}`;
     request("GET", endPoint, null, true);
   }, [page]);
 
