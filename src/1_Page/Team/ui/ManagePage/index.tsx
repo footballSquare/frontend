@@ -19,6 +19,7 @@ const ManagePage = (props: ManagePageProps) => {
       common_status_idx,
     },
     handleTogglePage,
+    handlers,
   } = props;
 
   const textInputFormProps = {

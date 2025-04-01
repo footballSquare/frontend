@@ -78,9 +78,9 @@ export const useFetchData = (): [
           : undefined,
         data: body ?? undefined,
       });
-
       setServerState({ ...response.data, status: response.status });
     } catch (error: unknown) {
+      console.log(error);
       if (error instanceof AxiosError) {
         const { status, data } = error.response ?? {};
         setServerState({ status });

@@ -4,5 +4,5 @@ type BannerImageInputProps = {
 };
 
 type ImageForm = {
-  img: File;
+  file: File;
 };
