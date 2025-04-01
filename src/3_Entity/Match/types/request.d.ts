@@ -36,7 +36,7 @@ type PostTeamMatchProps = {
   match_match_participation_type: number;
   match_type_idx: number;
   match_match_start_time: string;
-  match_match_duration: string;
+  match_match_duration: { hours: number; minutes: number };
 };
 
 type PostOpenMatchProps = {
@@ -44,7 +44,7 @@ type PostOpenMatchProps = {
   match_match_participation_type: number;
   match_type_idx: number;
   match_match_start_time: string;
-  match_match_duration: string;
+  match_match_duration: { hours: number; minutes: number };
 };
 
 type PutMatchEndProps = {

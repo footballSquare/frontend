@@ -35,11 +35,11 @@ const MatchCard = (props: MatchCardProps) => {
           </p>
           <span
             className={`text-xs font-medium ${
-              match_match_participation_type === 1
+              match_match_participation_type === 0
                 ? "text-red-500"
                 : "text-green-500"
             }`}>
-            {match_match_participation_type === 1 ? "#승인 필요" : "#자유 참여"}
+            {match_match_participation_type === 0 ? "#승인 필요" : "#자유 참여"}
           </span>
           <span className="text-xs text-gray-400">
             경기 ID: {match_match_idx}
@@ -60,7 +60,20 @@ const MatchCard = (props: MatchCardProps) => {
           </p>
           <p className="text-gray-500 text-xs">
             예상 플레이 타임:{" "}
-            <span className="font-medium">{match_match_duration}</span>
+            <span className="font-medium">
+              {`
+                ${
+                  match_match_duration.hours
+                    ? `${match_match_duration.hours}h`
+                    : ""
+                }
+                ${
+                  match_match_duration.minutes
+                    ? `${match_match_duration.minutes}m`
+                    : ""
+                }
+              `.trim()}
+            </span>
           </p>
         </div>
 

@@ -20,7 +20,7 @@ export const convertToPostMatchProps = (
     match_match_participation_type: Number(
       match_match_participation_type_radio
     ),
-    match_match_duration,
+    match_match_duration: parseDuration(match_match_duration),
     match_match_start_time: `${match_match_start_date} ${match_match_start_hour}:${match_match_start_min}`,
   };
 };
@@ -44,7 +44,7 @@ export const convertToPostOpenMatchProps = (
     ),
     match_type_idx: Number(match_type_idx_radio),
     match_match_start_time: `${match_match_start_date} ${match_match_start_hour}:${match_match_start_min}`,
-    match_match_duration,
+    match_match_duration: parseDuration(match_match_duration),
   };
 };
 
@@ -74,7 +74,7 @@ export const convertToMatchInfo = (props: MatchDataFormWithIdx): MatchInfo => {
     player_list_profile_image: null,
     match_match_start_time: `${match_match_start_date} ${match_match_start_hour}:${match_match_start_min}`,
     common_status_idx: 0,
-    match_match_duration,
+    match_match_duration: parseDuration(match_match_duration),
   };
 };
 
@@ -90,7 +90,23 @@ export const convertToMatchDataForm = (
     match_match_start_min: min,
     match_type_idx_radio: "0",
     match_match_participation_type_radio: "1",
-    match_match_duration: matchDuration[1],
+    match_match_duration: matchDuration[0],
     match_formation_idx: 0,
   };
+};
+
+const parseDuration = (
+  duration: string
+): { hours: number; minutes: number } => {
+  let hours = 0;
+  let minutes = 0;
+  const parts = duration.split(" ");
+  const value = parseInt(parts[0], 10);
+  if (duration.includes("hour")) {
+    hours = value;
+  }
+  if (duration.includes("min")) {
+    minutes = value;
+  }
+  return { hours, minutes };
 };

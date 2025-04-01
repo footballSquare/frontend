@@ -9,6 +9,7 @@ import { teamRole } from "../../../../../../4_Shared/constant/teamRole";
 import useDeleteTeamPlayer from "../../../../../../3_Entity/Team/useDeleteTeamPlayer";
 import usePostChangeTeamRole from "../../../../../../3_Entity/Team/usePostChangeTeamRole";
 import { modalReducer } from "./model/reducer";
+import useParamInteger from "../../../../../../4_Shared/model/useParamInteger";
 
 const MemberCard = (props: MemberProps) => {
   const {
@@ -18,9 +19,10 @@ const MemberCard = (props: MemberProps) => {
     team_role_idx,
     player_list_platform,
     observeRef,
-    teamIdx,
     isTeamReader,
   } = props;
+
+  const teamIdx = useParamInteger("teamIdx");
 
   const initialRoleRef = React.useRef<number>(team_role_idx); // 저장용 Ref
   const [isDelete, setIsDelete] = React.useState<boolean>(false); // 삭제 상태

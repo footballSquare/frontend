@@ -5,17 +5,14 @@ export const schema = yup.object().shape({
   match_match_start_date: yup
     .string()
     .required("날짜를 선택해야 합니다.")
-    .test(
-      "is-not-past-date",
-      "과거 날짜는 선택할 수 없습니다.",
-      function (match_match_start_date) {
-        if (!match_match_start_date) {
-          return false;
-        }
-        const givenTime = `${match_match_start_date} 00:00`;
-        return !isPastTime(givenTime);
-      }
-    ),
+    .test("is-valid-date", "과거 날짜는 선택할 수 없습니다.", function (value) {
+      if (!value) return false;
+      const selectedDate = new Date(value);
+      const today = new Date();
+      // 오늘 날짜의 00:00:00으로 세팅
+      today.setHours(0, 0, 0, 0);
+      return selectedDate >= today;
+    }),
 
   match_match_start_hour: yup.string().required("시간을 선택해야 합니다."),
 
