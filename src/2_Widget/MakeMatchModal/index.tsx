@@ -1,6 +1,4 @@
-import React from "react";
-
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { schema } from "./lib/schema";
 
@@ -9,9 +7,6 @@ import {
   convertToPostMatchProps,
   convertToMatchDataForm,
 } from "./util/convert";
-// 엔티티
-import usePostTeamMatch from "../../3_Entity/Match/usePostTeamMatch";
-import usePostOpenMatch from "../../3_Entity/Match/usePostOpenMatch";
 
 import { findNearDate } from "../../4_Shared/lib/nearDateHandler";
 
@@ -22,36 +17,13 @@ import { matchType } from "../../4_Shared/constant/matchType";
 import { matchDuration } from "../../4_Shared/constant/matchDuration";
 // state
 import useMakeMatchModalStore from "../../4_Shared/zustand/useMakeMatchModalStore";
-import useDisplayMatchInfoStore from "../../4_Shared/zustand/useDisplayMatchInfoStore";
+import usePostMatch from "./model/usePostMatch";
 
 const MakeMatchModal = () => {
   const today = new Date();
   const { hour, min } = findNearDate(today);
-  const { isOpenMatch, teamIdx, toggleMakeMatchModal } =
-    useMakeMatchModalStore();
-
-  // 오픈 매치 관련
-  const [postOpenMatch] = usePostOpenMatch();
-  const [postTeamMatch, serverState] = usePostTeamMatch({
-    teamIdx,
-  });
-
-  // 팀 매치 데이터가 생성되면, 새로운 팀 매치 데이터를 상태에 추가
-  const { insertDataAtStart } = useDisplayMatchInfoStore();
-
-  React.useEffect(() => {
-    if (serverState) {
-      console.log("서버 상태", serverState);
-      if (serverState.status === 200 && serverState.matchData) {
-        insertDataAtStart(serverState.matchData as MatchInfo);
-        alert("매치 생성 완료");
-        toggleMakeMatchModal();
-      } else {
-        alert("매치 생성 실패");
-        toggleMakeMatchModal();
-      }
-    }
-  }, [serverState]);
+  const { toggleMakeMatchModal } = useMakeMatchModalStore();
+  const [postMatch, postMatchType] = usePostMatch();
 
   const {
     register,
@@ -65,32 +37,31 @@ const MakeMatchModal = () => {
   // 포메이션 변경 조건
   const isCanFormationChange = watch("match_type_idx_radio") === "0";
 
-  const onSubmit: SubmitHandler<MatchDataForm> = (data) => {
-    if (confirm("생성하시겠습니까?")) {
-      if (isOpenMatch) {
-        postOpenMatch(convertToPostMatchProps(data));
-      } else {
-        postTeamMatch(convertToPostMatchProps(data));
-      }
-    }
-  };
-
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-10">
       <div className="bg-white rounded-2xl shadow-xl w-[500px] p-6">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-xl font-semibold">
-            {isOpenMatch ? "공방" : "팀"} 매치 생성
+            {postMatchType === "OPEN" ? "공방" : "팀"} 매치 생성
           </h2>
           <button
             type="button"
             className="text-gray-400 hover:text-gray-600"
-            onClick={toggleMakeMatchModal}>
+            onClick={toggleMakeMatchModal}
+          >
             ✖
           </button>
         </div>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        <form
+          onSubmit={handleSubmit((data) => {
+            if (confirm("생성하시겠습니까?")) {
+              postMatch(convertToPostMatchProps(data));
+              console.log(convertToPostMatchProps(data))
+            }
+          })}
+          className="space-y-4"
+        >
           {/* 매치 종류 선택 */}
           <div>
             <label className="block text-gray-700">매치 종류 선택</label>
@@ -158,7 +129,8 @@ const MakeMatchModal = () => {
                 </label>
                 <select
                   {...register("match_match_start_hour")}
-                  className="w-full border border-gray-300 rounded-lg p-3 text-center text-gray-800 focus:ring-2 focus:ring-blue-400 focus:outline-none">
+                  className="w-full border border-gray-300 rounded-lg p-3 text-center text-gray-800 focus:ring-2 focus:ring-blue-400 focus:outline-none"
+                >
                   {Array.from({ length: 24 }, (_, index) => {
                     const hours = index.toString().padStart(2, "0");
                     return (
@@ -176,7 +148,8 @@ const MakeMatchModal = () => {
                 </label>
                 <select
                   {...register("match_match_start_min")}
-                  className="w-full border border-gray-300 rounded-lg p-3 text-center text-gray-800 focus:ring-2 focus:ring-blue-400 focus:outline-none">
+                  className="w-full border border-gray-300 rounded-lg p-3 text-center text-gray-800 focus:ring-2 focus:ring-blue-400 focus:outline-none"
+                >
                   <option value="00">00</option>
                   <option value="30">30</option>
                 </select>
@@ -221,7 +194,8 @@ const MakeMatchModal = () => {
                 !isCanFormationChange
                   ? "bg-gray-200 cursor-not-allowed opacity-50"
                   : "bg-white"
-              }`}>
+              }`}
+            >
               {matchFormation.map((item, index) => (
                 <option key={index} value={index}>
                   {item}
@@ -235,12 +209,14 @@ const MakeMatchModal = () => {
             <button
               onClick={toggleMakeMatchModal}
               type="button"
-              className="px-4 py-2 rounded-lg border border-gray-300">
+              className="px-4 py-2 rounded-lg border border-gray-300"
+            >
               취소
             </button>
             <button
               type="submit"
-              className="px-4 py-2 rounded-lg bg-blue-600 text-white">
+              className="px-4 py-2 rounded-lg bg-blue-600 text-white"
+            >
               저장
             </button>
           </div>
