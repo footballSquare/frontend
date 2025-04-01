@@ -13,7 +13,6 @@ const usePutTeamInfo = (
   const putTeamInfo = (props: UsePutTeamInfoProps) => {
     const endPoint = `/team/${team_list_idx}`;
     request("PUT", endPoint, props, true);
-    console.log("팀 정보 수정", team_list_idx);
   };
 
   React.useEffect(() => {
