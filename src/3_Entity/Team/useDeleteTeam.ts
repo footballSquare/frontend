@@ -1,14 +1,14 @@
 import React from "react";
-import { useFetch } from "../../4_Shared/util/apiUtil";
+import { useFetchData } from "../../4_Shared/util/apiUtil";
 
 const useDeleteTeam = (
   teamListIdx: number
 ): [deleteTeam: () => void, serverState: unknown, loading: boolean] => {
-  const [serverState, request, loading] = useFetch();
+  const [serverState, request, loading] = useFetchData();
 
   const deleteTeam = () => {
-    request({ teamListIdx });
-    console.log("삭제된 데이터:", teamListIdx);
+    const endPoint = `/team/${teamListIdx}`;
+    request("DELETE", endPoint, null, true);
   };
 
   React.useEffect(() => {
