@@ -24,11 +24,19 @@ const Login = () => {
           })}
           className="flex flex-col gap-4"
         >
-          <LoginInput register={register} registerType={"id"} errors={errors} />
+          <LoginInput
+            register={register}
+            registerType={"id"}
+            errors={errors}
+            type="text"
+            placeholder="Enter your ID"
+          />
           <LoginInput
             register={register}
             registerType={"password"}
             errors={errors}
+            type="password"
+            placeholder="Enter your Password"
           />
           <button
             type="submit"
