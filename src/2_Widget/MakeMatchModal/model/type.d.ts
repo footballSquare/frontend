@@ -1,1 +1,1 @@
-type postMatchProps = PostOpenMatchProps & {};
+type PostMatchProps = PostOpenMatchProps & {};
