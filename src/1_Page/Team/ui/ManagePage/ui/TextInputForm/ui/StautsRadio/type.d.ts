@@ -1,1 +1,1 @@
-export type StatusRadioProps = { modifyMode: boolean };
+type StatusRadioProps = { modifyMode: boolean };

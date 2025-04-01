@@ -1,6 +1,6 @@
+import { TeamInfo } from "../../../../3_Entity/Team/types/response";
+
 export type TeamManageButtonGroupProps = {
-  isTeamPlayer: boolean;
-  teamListIdx: number;
-  isTeamReader: boolean;
+  teamInfo: TeamInfo;
   handleTogglePage: () => void;
 };

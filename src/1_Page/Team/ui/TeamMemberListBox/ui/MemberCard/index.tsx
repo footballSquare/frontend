@@ -1,16 +1,15 @@
 import React from "react";
 
-import { MemberProps } from "./type";
-import pc_icon from "../../../../../../4_Shared/assets/svg/pc-desktop.svg";
-import ps_icon from "../../../../../../4_Shared/assets/svg/platform-playstation.svg";
-import xbox_icon from "../../../../../../4_Shared/assets/svg/platform-xbox.svg";
-import { platform } from "../../../../../../4_Shared/constant/platform";
+import { getPlatformIcon } from "../../../../../../4_Shared/lib/getPlatformIcon";
+
 import { teamRole } from "../../../../../../4_Shared/constant/teamRole";
 import useDeleteTeamPlayer from "../../../../../../3_Entity/Team/useDeleteTeamPlayer";
 import usePostChangeTeamRole from "../../../../../../3_Entity/Team/usePostChangeTeamRole";
 import { modalReducer } from "./model/reducer";
+import useParamInteger from "../../../../../../4_Shared/model/useParamInteger";
+import { useCookies } from "react-cookie";
 
-const MemberCard = (props: MemberProps) => {
+const TeamMemberCard = (props: TeamMemberCardProps) => {
   const {
     player_list_idx,
     player_list_profile_img,
@@ -18,12 +17,16 @@ const MemberCard = (props: MemberProps) => {
     team_role_idx,
     player_list_platform,
     observeRef,
-    teamIdx,
-    isTeamReader,
+    handleDelete,
+    index,
   } = props;
+  const teamIdx = useParamInteger("teamIdx");
+
+  const [cookies] = useCookies(["team_role_idx", "team_idx"]);
+  const isTeamReader =
+    cookies.team_idx === teamIdx && cookies.team_role_idx === 0;
 
   const initialRoleRef = React.useRef<number>(team_role_idx); // 저장용 Ref
-  const [isDelete, setIsDelete] = React.useState<boolean>(false); // 삭제 상태
   const [memberRole, setMemberRole] = React.useState<number>(team_role_idx); // 멤버 상태
   const [modalState, dispatch] = React.useReducer(modalReducer, {
     detail: false,
@@ -33,9 +36,8 @@ const MemberCard = (props: MemberProps) => {
   const [deleteTeamPlayer] = useDeleteTeamPlayer(teamIdx);
   const [postChangeTeamRole] = usePostChangeTeamRole(teamIdx);
 
-  if (isDelete) return <div></div>;
   return (
-    <div>
+    <div key={`member_card_${index}`}>
       {/* 멤버 정보 카드*/}
       <div
         className="flex items-center space-x-2 border-b border-gray-200 pb-2 mb-2 cursor-pointer"
@@ -58,13 +60,7 @@ const MemberCard = (props: MemberProps) => {
                 className="w-[40px]  rounded-full"
               />
               <img
-                src={`${
-                  platform[player_list_platform] === "PC"
-                    ? pc_icon
-                    : platform[player_list_platform] === "PS4"
-                    ? ps_icon
-                    : platform[player_list_platform] === "XBOX" && xbox_icon
-                }`}
+                src={getPlatformIcon(player_list_platform)}
                 className="w-[40px]  rounded-full"
               />
             </div>
@@ -126,7 +122,7 @@ const MemberCard = (props: MemberProps) => {
                 if (confirm("방출하시겠습니까?")) {
                   dispatch({ type: "CLOSE_ALL" });
                   deleteTeamPlayer(memberRole);
-                  setIsDelete(true);
+                  handleDelete(player_list_idx);
                   alert("방출되었습니다");
                 }
               }}>
@@ -161,4 +157,4 @@ const MemberCard = (props: MemberProps) => {
   );
 };
 
-export default MemberCard;
+export default TeamMemberCard;

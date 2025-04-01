@@ -1,31 +1,58 @@
+import React from "react";
+
 import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import usePostTeamMatch from "../../../../../../3_Entity/Match/usePostTeamMatch";
-
-// 타입
-import { MakeTeamMatchModalProps } from "./type";
-import { MatchDataForm } from "./type";
-
-import { findNearDate } from "./util/nearDateHandler";
 import { schema } from "./lib/schema";
+
+// 유틸
 import {
   convertToPostMatchProps,
   convertToMatchDataForm,
 } from "./util/convert";
+// 엔티티
+import usePostTeamMatch from "../../3_Entity/Match/usePostTeamMatch";
+import usePostOpenMatch from "../../3_Entity/Match/usePostOpenMatch";
+
+import { findNearDate } from "../../4_Shared/lib/nearDateHandler";
 
 // 상수
-import { teamMatchAttribute } from "../../../../../../4_Shared/constant/teamMatchAttribute";
-import { matchType } from "../../../../../../4_Shared/constant/matchType";
-import { matchParticipation } from "../../../../../../4_Shared/constant/matchParticipation";
-import { formation } from "../../../../../../4_Shared/constant/formation";
-import { matchDuration } from "../../../../../../4_Shared/constant/matchDuration";
+import { matchFormation } from "../../4_Shared/constant/matchFormation";
+import { matchParticipation } from "../../4_Shared/constant/matchParticipation";
+import { matchType } from "../../4_Shared/constant/matchType";
+import { matchDuration } from "../../4_Shared/constant/matchDuration";
+// state
+import useMakeMatchModalStore from "../../4_Shared/zustand/useMakeMatchModalStore";
+import useDisplayMatchInfoStore from "../../4_Shared/zustand/useDisplayMatchInfoStore";
 
-const MakeTeamMatchModal = (props: MakeTeamMatchModalProps) => {
-  const { team_list_idx, onClose, refetch } = props;
+const MakeMatchModal = () => {
   const today = new Date();
   const { hour, min } = findNearDate(today);
+  const { isOpenMatch, teamIdx, toggleMakeMatchModal } =
+    useMakeMatchModalStore();
 
-  const [postEvent] = usePostTeamMatch(team_list_idx);
+  // 오픈 매치 관련
+  const [postOpenMatch] = usePostOpenMatch();
+  const [postTeamMatch, serverState] = usePostTeamMatch({
+    teamIdx,
+  });
+
+  // 팀 매치 데이터가 생성되면, 새로운 팀 매치 데이터를 상태에 추가
+  const { insertDataAtStart } = useDisplayMatchInfoStore();
+
+  React.useEffect(() => {
+    if (serverState) {
+      console.log("서버 상태", serverState);
+      if (serverState.status === 200 && serverState.matchData) {
+        insertDataAtStart(serverState.matchData as MatchInfo);
+        alert("매치 생성 완료");
+        toggleMakeMatchModal();
+      } else {
+        alert("매치 생성 실패");
+        toggleMakeMatchModal();
+      }
+    }
+  }, [serverState]);
+
   const {
     register,
     watch,
@@ -35,52 +62,46 @@ const MakeTeamMatchModal = (props: MakeTeamMatchModalProps) => {
     resolver: yupResolver(schema),
     defaultValues: convertToMatchDataForm(today, hour, min),
   });
-
-  const onSubmit: SubmitHandler<MatchDataForm> = async (data) => {
-    if (confirm("생성하시겠습니까?")) {
-      await postEvent(convertToPostMatchProps(data)); // post가 실행된 이후 리펫치 통해 데이터 불러옴
-      refetch();
-      onClose();
-    }
-  };
-
   // 포메이션 변경 조건
   const isCanFormationChange = watch("match_type_idx_radio") === "0";
 
+  const onSubmit: SubmitHandler<MatchDataForm> = (data) => {
+    if (confirm("생성하시겠습니까?")) {
+      if (isOpenMatch) {
+        postOpenMatch(convertToPostMatchProps(data));
+      } else {
+        postTeamMatch(convertToPostMatchProps(data));
+      }
+    }
+  };
+
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-1">
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-10">
       <div className="bg-white rounded-2xl shadow-xl w-[500px] p-6">
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-xl font-semibold">팀 매치 생성</h2>
+          <h2 className="text-xl font-semibold">
+            {isOpenMatch ? "공방" : "팀"} 매치 생성
+          </h2>
           <button
+            type="button"
             className="text-gray-400 hover:text-gray-600"
-            onClick={onClose}>
+            onClick={toggleMakeMatchModal}>
             ✖
           </button>
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          {/* 매치 속성 선택 */}
-          <div>
-            <label className="block text-gray-700">매치 속성 선택</label>
-            <select
-              {...register("match_match_attribute")}
-              className="w-full border border-gray-300 rounded-lg p-2 mt-1">
-              {teamMatchAttribute.map((item, index) => (
-                <option key={index} value={index}>
-                  {item}
-                </option>
-              ))}
-            </select>
-          </div>
-
           {/* 매치 종류 선택 */}
           <div>
             <label className="block text-gray-700">매치 종류 선택</label>
+            <p className="text-sm text-gray-400">
+              현재 11:11 만 지원가능합니다
+            </p>
             <div className="flex gap-4 mt-1">
               {matchType.map((item, index) => (
                 <label key={index} className="flex items-center gap-2">
                   <input
+                    disabled
                     type="radio"
                     value={index}
                     {...register("match_type_idx_radio")}
@@ -201,7 +222,7 @@ const MakeTeamMatchModal = (props: MakeTeamMatchModalProps) => {
                   ? "bg-gray-200 cursor-not-allowed opacity-50"
                   : "bg-white"
               }`}>
-              {formation.map((item, index) => (
+              {matchFormation.map((item, index) => (
                 <option key={index} value={index}>
                   {item}
                 </option>
@@ -212,7 +233,7 @@ const MakeTeamMatchModal = (props: MakeTeamMatchModalProps) => {
           {/* 버튼 */}
           <div className="flex justify-end gap-4 mt-6">
             <button
-              onClick={onClose}
+              onClick={toggleMakeMatchModal}
               type="button"
               className="px-4 py-2 rounded-lg border border-gray-300">
               취소
@@ -229,4 +250,4 @@ const MakeTeamMatchModal = (props: MakeTeamMatchModalProps) => {
   );
 };
 
-export default MakeTeamMatchModal;
+export default MakeMatchModal;

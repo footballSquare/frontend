@@ -1,4 +1,4 @@
-export type TextInputFormProps = {
+type TextInputFormProps = {
   team_list_name: string;
   team_list_short_name: string;
   team_list_color: string;
@@ -7,7 +7,7 @@ export type TextInputFormProps = {
   common_status_idx: number;
 };
 
-export type TeamInfoForm = Omit<
+type TeamInfoForm = Omit<
   TextInputFormProps,
   "team_list_idx" | "common_status_idx"
 > & {

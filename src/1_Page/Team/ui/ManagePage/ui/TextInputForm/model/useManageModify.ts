@@ -1,6 +1,5 @@
 import React from "react";
 
-import { TeamInfoForm } from "../type";
 import { UseManageModifyProps } from "./type";
 
 const useManageModify = (
