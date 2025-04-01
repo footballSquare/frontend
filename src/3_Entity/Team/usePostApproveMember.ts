@@ -1,4 +1,4 @@
-import { useFetch } from "../../4_Shared/util/apiUtil";
+import { useFetchData } from "../../4_Shared/util/apiUtil";
 const usePostApproveMember = (
   teamListIdx: number
 ): [
@@ -6,11 +6,11 @@ const usePostApproveMember = (
   serverState: unknown,
   loading: boolean
 ] => {
-  const [serverState, request, loading] = useFetch();
+  const [serverState, request, loading] = useFetchData();
 
   const postApproveMember = (userIdx: number) => {
-    request({ userIdx });
-    console.log("확인 요청:", teamListIdx, userIdx);
+    const endPoint = `/team/${teamListIdx}/member/${userIdx}/access`;
+    request("POST", endPoint, null, true);
   };
 
   return [postApproveMember, serverState, loading];
