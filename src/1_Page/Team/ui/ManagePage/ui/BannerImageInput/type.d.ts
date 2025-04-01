@@ -1,8 +1,8 @@
-export type BannerImageInputProps = {
+type BannerImageInputProps = {
   imgSrc: string;
   team_list_idx: number;
 };
 
-export type ImageForm = {
-  img: File | null;
+type ImageForm = {
+  img: File;
 };

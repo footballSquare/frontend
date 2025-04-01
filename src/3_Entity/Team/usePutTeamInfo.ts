@@ -1,20 +1,18 @@
 import React from "react";
-import { useFetch } from "../../4_Shared/util/apiUtil";
-import { PutTeamInfoProps } from "./types/request";
+import { useFetchData } from "../../4_Shared/util/apiUtil";
 
 const usePutTeamInfo = (
   team_list_idx: number
 ): [
-  putTeamInfo: (props: PutTeamInfoProps) => void,
+  putTeamInfo: (props: UsePutTeamInfoProps) => void,
   serverState: unknown,
   loading: boolean
 ] => {
-  const [serverState, request, loading] = useFetch();
+  const [serverState, request, loading] = useFetchData();
 
-  const putTeamInfo = (props: PutTeamInfoProps) => {
-    const { ...data } = props;
-    request({ ...data, team_list_idx });
-    console.log("팀 정보 수정", team_list_idx);
+  const putTeamInfo = (props: UsePutTeamInfoProps) => {
+    const endPoint = `/team/${team_list_idx}`;
+    request("PUT", endPoint, props, true);
   };
 
   React.useEffect(() => {

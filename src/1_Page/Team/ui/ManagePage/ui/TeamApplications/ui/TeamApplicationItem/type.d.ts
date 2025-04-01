@@ -1,8 +1,6 @@
-import { TeamSignMember } from "../../../../../../../../3_Entity/Team/types/response";
-
-interface TeamApplicationItemProps {
+type TeamApplicationItemProps = {
   player: TeamSignMember;
   postApproveMember: (playerId: number) => void;
   deleteApproveMember: (playerId: number) => void;
-  addToArray: (playerId: number) => void;
-}
+  addDisplayPlayer: (playerId: number) => void;
+};

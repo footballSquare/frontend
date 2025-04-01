@@ -1,17 +1,17 @@
 import React from "react";
-import { useFetch } from "../../4_Shared/util/apiUtil";
+import { useFetchData } from "../../4_Shared/util/apiUtil";
 
 const useGetRepeatShortTeam = (): [
   boolean,
   boolean,
   (teamName: string) => void
 ] => {
-  const [serverState, request, loading] = useFetch();
+  const [serverState, request, loading] = useFetchData();
   const [isRepeat, setIsRepeat] = React.useState<boolean>(false);
 
   const getRepeatShortTeam = (teamName: string) => {
-    request({ teamName });
-    setIsRepeat(false);
+    const endPoint = `/team/check_short_name`;
+    request("GET", endPoint, { team_list_short_name: teamName }, true);
   };
 
   React.useEffect(() => {

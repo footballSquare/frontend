@@ -1,18 +1,18 @@
 import * as yup from "yup";
-import { isPastTimeValidation } from "../../../../../../../4_Shared/util/inputValidator";
+import { isPastTime } from "../../../4_Shared/lib/timeChecker";
 
 export const schema = yup.object().shape({
   match_match_start_date: yup
     .string()
     .required("날짜를 선택해야 합니다.")
-    .test("is-not-past-date", "과거 날짜는 선택할 수 없습니다.", (date) =>
-      date
-        ? isPastTimeValidation({
-            key: "match_match_start_date",
-            value: date,
-          }) === null
-        : false
-    ),
+    .test("is-valid-date", "과거 날짜는 선택할 수 없습니다.", function (value) {
+      if (!value) return false;
+      const selectedDate = new Date(value);
+      const today = new Date();
+      // 오늘 날짜의 00:00:00으로 세팅
+      today.setHours(0, 0, 0, 0);
+      return selectedDate >= today;
+    }),
 
   match_match_start_hour: yup.string().required("시간을 선택해야 합니다."),
 
@@ -34,22 +34,13 @@ export const schema = yup.object().shape({
           !match_match_start_date ||
           !match_match_start_hour ||
           !match_match_start_min
-        )
+        ) {
           return false;
-
-        return (
-          isPastTimeValidation(
-            { key: "match_match_start_date", value: match_match_start_date },
-            {
-              key: "match_match_start_time",
-              value: `${match_match_start_hour}:${match_match_start_min}`,
-            }
-          ) === null
-        );
+        }
+        const givenTime = `${match_match_start_date} ${match_match_start_hour}:${match_match_start_min}`;
+        return !isPastTime(givenTime);
       }
     ),
-
-  match_match_attribute: yup.number().required("매치 속성을 선택해야 합니다."),
 
   match_type_idx_radio: yup.string().required("매치 종류를 선택해야 합니다."),
 
