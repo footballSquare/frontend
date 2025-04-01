@@ -2,18 +2,23 @@ import { create } from "zustand";
 
 type MakeMatchModal = {
   isOpenMatch: boolean;
+  teamIdx: number | null;
   isMakeMatchModalOpen: boolean;
-  setToggleModal: () => void;
-  setIsOpenMatch: (isOpenMatch: boolean) => void;
+  toggleMakeMatchModal: () => void;
+  openMatchModal: () => void;
+  openTeamMatch: (teamIdx: number) => void;
 };
 
 const useMakeMatchModalStore = create<MakeMatchModal>((set) => ({
   isOpenMatch: false,
+  teamIdx: null,
   isMakeMatchModalOpen: false,
-  setToggleModal: () =>
+  toggleMakeMatchModal: () =>
     set((state) => ({ isMakeMatchModalOpen: !state.isMakeMatchModalOpen })),
-  setIsOpenMatch: (isOpenMatch: boolean) =>
-    set(() => ({ isOpenMatch, isMakeMatchModalOpen: true })),
+  openMatchModal: () =>
+    set(() => ({ isOpenMatch: true, isMakeMatchModalOpen: true })),
+  openTeamMatch: (teamIdx: number) =>
+    set(() => ({ teamIdx, isMakeMatchModalOpen: true })),
 }));
 
 export default useMakeMatchModalStore;

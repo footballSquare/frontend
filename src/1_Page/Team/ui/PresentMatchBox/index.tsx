@@ -6,14 +6,22 @@ import useParamInteger from "../../../../4_Shared/model/useParamInteger";
 import useDisplayMatchInfoStore from "../../../../4_Shared/zustand/useDisplayMatchInfoStore";
 
 const PresentMatchBox = () => {
-  const team_list_idx = useParamInteger("team_list_idx");
+  const teamIdx = useParamInteger("teamIdx");
   const [page, setPage] = React.useState<number>(1);
   const [teamMatchList, hasMoreContent, loading] = useGetTeamMatchList({
     page,
-    teamIdx: team_list_idx,
+    teamIdx,
   });
 
-  const { displayData, insertDisplayData } = useDisplayMatchInfoStore();
+  const { displayData, insertDisplayData, clearDisplayData } =
+    useDisplayMatchInfoStore();
+
+  React.useEffect(() => {
+    clearDisplayData();
+    return () => {
+      clearDisplayData();
+    };
+  }, []);
 
   React.useEffect(() => {
     insertDisplayData(teamMatchList);
