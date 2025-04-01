@@ -1,18 +1,17 @@
 import React from "react";
-import { useFetch } from "../../4_Shared/util/apiUtil";
-import { signTeamMember } from "../../4_Shared/mock/teamInfo";
+import { useFetchData } from "../../4_Shared/util/apiUtil";
 
 const useGetSignMemberList = (
   teamListIdx: number
 ): [TeamSignMember[], boolean] => {
-  const [serverState, request, loading] = useFetch();
+  const [serverState, request, loading] = useFetchData();
   const [signMemberList, setSignMemberList] = React.useState<TeamSignMember[]>(
     []
   );
 
   React.useEffect(() => {
-    request(signTeamMember);
-    console.log(teamListIdx);
+    const endPoint = `/team/${teamListIdx}/application/list`;
+    request("GET", endPoint, null, true);
   }, []);
 
   React.useEffect(() => {

@@ -1,14 +1,13 @@
 import React from "react";
-import { useFetch } from "../../4_Shared/util/apiUtil";
-import { teamAwardsData } from "../../4_Shared/mock/teamInfo";
+import { useFetchData } from "../../4_Shared/util/apiUtil";
 
 const useGetTeamAwards = (teamListIdx: number): [TeamAwards[], boolean] => {
-  const [serverState, request, loading] = useFetch();
+  const [serverState, request, loading] = useFetchData();
   const [teamAwards, setTeamAwards] = React.useState<TeamAwards[]>([]);
 
   React.useEffect(() => {
-    request(teamAwardsData);
-    console.log(teamListIdx);
+    const endPoint = `/team/${teamListIdx}/award`;
+    request("GET", endPoint, null, true);
   }, []);
 
   React.useEffect(() => {
