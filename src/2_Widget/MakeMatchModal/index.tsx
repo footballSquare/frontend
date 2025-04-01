@@ -57,7 +57,7 @@ const MakeMatchModal = () => {
           onSubmit={handleSubmit((data) => {
             if (confirm("생성하시겠습니까?")) {
               postMatch(convertToPostMatchProps(data));
-              console.log(convertToPostMatchProps(data))
+              console.log(convertToPostMatchProps(data));
             }
           })}
           className="space-y-4"
