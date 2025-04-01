@@ -12,7 +12,7 @@ import {
 } from "./util/convert";
 import usePostTeamMatch from "../../3_Entity/Match/usePostTeamMatch";
 // 상수
-import { formation } from "../../4_Shared/constant/formation";
+import { matchFormation } from "../../4_Shared/constant/matchFormation";
 import { matchParticipation } from "../../4_Shared/constant/matchParticipation";
 import { matchType } from "../../4_Shared/constant/matchType";
 import { matchDuration } from "../../4_Shared/constant/matchDuration";
@@ -61,7 +61,7 @@ const MakeMatchModal = () => {
       <div className="bg-white rounded-2xl shadow-xl w-[500px] p-6">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-xl font-semibold">
-            {isOpenMatch ? "팀" : "공방"} 매치 생성
+            {isOpenMatch ? "공방" : "팀"} 매치 생성
           </h2>
           <button
             className="text-gray-400 hover:text-gray-600"
@@ -171,8 +171,6 @@ const MakeMatchModal = () => {
             </div>
           </div>
 
-          {/* matchDurtaion 부터 하기  */}
-
           {/* 매치 지속 시간 선택 */}
           <div>
             <label className="block text-gray-700">매치 지속 시간 선택</label>
@@ -204,7 +202,7 @@ const MakeMatchModal = () => {
                   ? "bg-gray-200 cursor-not-allowed opacity-50"
                   : "bg-white"
               }`}>
-              {formation.map((item, index) => (
+              {matchFormation.map((item, index) => (
                 <option key={index} value={index}>
                   {item}
                 </option>

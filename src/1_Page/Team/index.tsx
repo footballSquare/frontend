@@ -10,10 +10,6 @@ import ManagePage from "./ui/ManagePage";
 import useManagePage from "./model/useManagePage";
 
 const Team = () => {
-  const TEST_ROLE = 0; // 테스트 role  0: 팀장 1: 팀원 2: 그외
-  const isTeamPlayer = TEST_ROLE === 0 || TEST_ROLE === 1;
-  const isTeamReader = TEST_ROLE === 0;
-
   const [teamIdx] = useValidParamInteger("teamIdx");
   const [teamInfo, loading] = useGetTeamInfo(teamIdx);
   const [isManagePage, handleTogglePage] = useManagePage();
@@ -24,7 +20,6 @@ const Team = () => {
     team_list_color,
     team_list_name,
     team_list_short_name,
-    team_list_idx,
     team_list_announcement,
   } = teamInfo;
 
@@ -68,15 +63,13 @@ const Team = () => {
 
                     <TeamManageButtonGroupProps
                       handleTogglePage={handleTogglePage}
-                      isTeamPlayer={isTeamPlayer}
-                      isTeamReader={isTeamReader}
-                      teamListIdx={team_list_idx}
+                      teamInfo={teamInfo}
                     />
                   </section>
                 </div>
                 <section className="flex flex-col items-start w-full">
                   <h2 className="text-base font-semibold">팀 연혁</h2>
-                  <HistoryListBox team_list_idx={team_list_idx} />
+                  <HistoryListBox />
                 </section>
               </div>
 
@@ -88,10 +81,7 @@ const Team = () => {
                   </p>
                   <div>
                     <h2 className="text-base font-semibold">팀 현황</h2>
-                    <TeamMemberListBox
-                      isTeamReader={isTeamReader}
-                      teamIdx={teamIdx}
-                    />
+                    <TeamMemberListBox />
                   </div>
                 </div>
               </section>
@@ -99,7 +89,7 @@ const Team = () => {
 
             <div className="space-y-3 sm:col-span-3">
               <h2 className="text-base font-semibold">현재 경기</h2>
-              <PresentMatchBox team_list_idx={team_list_idx} />
+              <PresentMatchBox />
             </div>
           </article>
         </div>

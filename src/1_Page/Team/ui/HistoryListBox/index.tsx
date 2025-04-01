@@ -1,9 +1,9 @@
-import { HistoryListBoxProps } from "./type";
 import useGetTeamHistory from "../../../../3_Entity/Team/useGetTeamHistory";
+import useParamInteger from "../../../../4_Shared/model/useParamInteger";
 
-const HistoryListBox = (props: HistoryListBoxProps) => {
-  const { team_list_idx } = props;
-  const [teamHistory] = useGetTeamHistory(team_list_idx);
+const HistoryListBox = () => {
+  const teamIdx = useParamInteger("teamIdx");
+  const [teamHistory] = useGetTeamHistory(teamIdx);
   return (
     <ul className="text-gray-600 text-xs">
       {teamHistory.slice(0, 5).map((history, index) => (

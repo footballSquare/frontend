@@ -12,7 +12,8 @@ const useMakeMatchModalStore = create<MakeMatchModal>((set) => ({
   isMakeMatchModalOpen: false,
   setToggleModal: () =>
     set((state) => ({ isMakeMatchModalOpen: !state.isMakeMatchModalOpen })),
-  setIsOpenMatch: (isOpenMatch: boolean) => set(() => ({ isOpenMatch })),
+  setIsOpenMatch: (isOpenMatch: boolean) =>
+    set(() => ({ isOpenMatch, isMakeMatchModalOpen: true })),
 }));
 
 export default useMakeMatchModalStore;
