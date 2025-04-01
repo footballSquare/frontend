@@ -1,4 +1,4 @@
-import useSlicePlayer from "./model/useSlicePlayer";
+import useManagePlayers from "./model/useManagePlayers";
 
 import useGetSignMemberList from "../../../../../../3_Entity/Team/useGetSignMemberList";
 import usePostApproveMember from "../../../../../../3_Entity/Team/usePostApproveMember";
@@ -9,7 +9,7 @@ import TeamApplicationItem from "./ui/TeamApplicationItem";
 const TeamApplications = (props: TeamApplicationsProps) => {
   const { team_list_idx } = props;
   const [signMemberList] = useGetSignMemberList(team_list_idx);
-  const [disPlayPlayer, addDisplayPlayer] = useSlicePlayer(signMemberList);
+  const [disPlayPlayer, addDisplayPlayer] = useManagePlayers(signMemberList);
 
   const [postApproveMember] = usePostApproveMember(team_list_idx);
   const [deleteApproveMember] = useDeleteApproveMember(team_list_idx);
