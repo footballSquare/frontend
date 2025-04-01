@@ -3,7 +3,7 @@ import useGetTeamAwards from "../../../../3_Entity/Team/useGetTeamAwards";
 import useParamInteger from "../../../../4_Shared/model/useParamInteger";
 
 const TeamAwards = () => {
-  const teamIdx = useParamInteger("team_list_idx");
+  const teamIdx = useParamInteger("teamIdx");
   const [teamAwards] = useGetTeamAwards(teamIdx);
 
   return (

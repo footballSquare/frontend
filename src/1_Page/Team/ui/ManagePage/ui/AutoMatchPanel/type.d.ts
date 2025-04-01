@@ -1,4 +1,4 @@
-export type AutoMatchForm = {
+type AutoMatchForm = {
   autoMatch: number;
   matchAttribute: number;
   gameType: string;
@@ -6,8 +6,4 @@ export type AutoMatchForm = {
   duration: string;
   participationMode: number;
   formation: number;
-};
-
-export type AutoMatchModalProps = {
-  onClose: () => void;
 };

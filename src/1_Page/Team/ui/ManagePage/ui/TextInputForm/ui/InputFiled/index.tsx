@@ -1,5 +1,4 @@
 import { useFormContext } from "react-hook-form";
-import { InputFieldProps } from "./type";
 
 const InputField = (props: InputFieldProps) => {
   const { label, modifyMode, type = "text", name, placeholder = "" } = props;

@@ -41,7 +41,7 @@ const Team = () => {
           </section>
 
           {/* 트로피 */}
-          <TeamAwards teamIdx={teamIdx} />
+          <TeamAwards />
 
           {/* 내용 */}
           <article className="flex flex-col gap-5 sm:grid grid-cols-5 w-full ">
