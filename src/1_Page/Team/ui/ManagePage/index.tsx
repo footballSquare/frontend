@@ -1,10 +1,8 @@
-import { ManagePageProps } from "./type";
-
 import EmblemImageInput from "./ui/EmblemImageInput";
 import BannerImageInput from "./ui/BannerImageInput";
 import TextInputForm from "./ui/TextInputForm";
 import TeamApplications from "./ui/TeamApplications";
-import AutoMatchModalBtn from "./ui/AutoMatchModalBtn";
+import AutoMatchPanel from "./ui/AutoMatchPanel";
 
 import useDeleteTeam from "../../../../3_Entity/Team/useDeleteTeam";
 
@@ -53,7 +51,7 @@ const ManagePage = (props: ManagePageProps) => {
             team_list_idx={team_list_idx}
             imgSrc={team_list_emblem}
           />
-          <AutoMatchModalBtn />
+          <AutoMatchPanel />
         </section>
 
         <section className="flex flex-wrap w-full gap-3">

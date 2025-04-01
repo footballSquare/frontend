@@ -1,7 +1,4 @@
-import { PutTeamInfoProps } from "../../../../../../../3_Entity/Team/types/request";
-import { TeamInfoForm, TextInputFormProps } from "../type";
-
-export const convertToPutData = (data: TeamInfoForm): PutTeamInfoProps => {
+export const convertToPutData = (data: TeamInfoForm): UsePutTeamInfoProps => {
   const {
     common_status_idx,
     team_repeat_checked,

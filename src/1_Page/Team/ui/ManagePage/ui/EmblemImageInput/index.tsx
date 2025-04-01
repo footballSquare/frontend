@@ -1,7 +1,6 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 
-import { ImageInputProps, ImageForm } from "./type";
 import { schema } from "../../../../../../4_Shared/lib/imgSchema";
 import useImageHandler from "./model/useImageHandler";
 import usePutTeamEmblem from "../../../../../../3_Entity/Team/usePutTeamEmblem";

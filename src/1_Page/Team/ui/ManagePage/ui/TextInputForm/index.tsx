@@ -1,8 +1,6 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, SubmitHandler, FormProvider } from "react-hook-form";
 
-import { TextInputFormProps, TeamInfoForm } from "./type";
-
 import InputField from "./ui/InputFiled";
 import TeamNameInput from "./ui/TeamNameInput";
 import StatusRadio from "./ui/StautsRadio";
@@ -20,6 +18,7 @@ const TextInputForm = (props: TextInputFormProps) => {
     () => convertToTeamInfoForm(props),
     [props]
   );
+
   const forms = useForm<TeamInfoForm>({
     resolver: yupResolver(schema),
     mode: "onChange",

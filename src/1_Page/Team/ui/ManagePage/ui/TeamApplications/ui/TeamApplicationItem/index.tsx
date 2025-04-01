@@ -1,9 +1,9 @@
 import { platform } from "../../../../../../../../4_Shared/constant/platform";
-import { TeamApplicationItemProps } from "./type";
 import { getPlatformIcon } from "./util/getPlatformIcon";
 
 const TeamApplicationItem = (props: TeamApplicationItemProps) => {
-  const { player, postApproveMember, deleteApproveMember, addToArray } = props;
+  const { player, postApproveMember, deleteApproveMember, addDisplayPlayer } =
+    props;
 
   return (
     <div className="flex items-center justify-between bg-gray-50 p-4 rounded-lg hover:bg-gray-100 transition-colors">
@@ -30,7 +30,7 @@ const TeamApplicationItem = (props: TeamApplicationItemProps) => {
         <button
           onClick={() => {
             postApproveMember(player.player_list_idx);
-            addToArray(player.player_list_idx);
+            addDisplayPlayer(player.player_list_idx);
           }}
           className="px-3 py-1 text-sm bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors">
           수락
@@ -38,7 +38,7 @@ const TeamApplicationItem = (props: TeamApplicationItemProps) => {
         <button
           onClick={() => {
             deleteApproveMember(player.player_list_idx);
-            addToArray(player.player_list_idx);
+            addDisplayPlayer(player.player_list_idx);
           }}
           className="px-3 py-1 text-sm bg-white text-red-500 border border-red-300 rounded-md hover:bg-red-50 transition-colors">
           거절
