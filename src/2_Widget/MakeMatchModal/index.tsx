@@ -22,36 +22,32 @@ import { matchType } from "../../4_Shared/constant/matchType";
 import { matchDuration } from "../../4_Shared/constant/matchDuration";
 // state
 import useMakeMatchModalStore from "../../4_Shared/zustand/useMakeMatchModalStore";
-import useDisplayMatchInfoStore from "../../4_Shared/zustand/useDisplayMatchInfoStore";
+import usePostMatchInfoStore from "../../4_Shared/zustand/usePostMatchInfoStore";
+import useManageServerState from "./model/useManageServerState";
 
 const MakeMatchModal = () => {
   const today = new Date();
   const { hour, min } = findNearDate(today);
   const { isOpenMatch, teamIdx, toggleMakeMatchModal } =
-    useMakeMatchModalStore();
+    useMakeMatchModalStore(); // 전역모달 관리
+  const { insertPostData } = usePostMatchInfoStore(); // 전역 data 관리
 
   // 오픈 매치 관련
-  const [postOpenMatch] = usePostOpenMatch();
-  const [postTeamMatch, serverState] = usePostTeamMatch({
+  const [postOpenMatch, openMatchServerState] = usePostOpenMatch();
+  const [postTeamMatch, teamMatchServerState] = usePostTeamMatch({
     teamIdx,
   });
 
+  // 오픈 매치인지 팀 매치인지에 따라 서버 상태를 가져옴
+  const serverState = isOpenMatch ? openMatchServerState : teamMatchServerState;
   // 팀 매치 데이터가 생성되면, 새로운 팀 매치 데이터를 상태에 추가
-  const { insertDataAtStart } = useDisplayMatchInfoStore();
 
-  React.useEffect(() => {
-    if (serverState) {
-      console.log("서버 상태", serverState);
-      if (serverState.status === 200 && serverState.matchData) {
-        insertDataAtStart(serverState.matchData as MatchInfo);
-        alert("매치 생성 완료");
-        toggleMakeMatchModal();
-      } else {
-        alert("매치 생성 실패");
-        toggleMakeMatchModal();
-      }
-    }
-  }, [serverState]);
+  // serverState에 따른 관리
+  useManageServerState({
+    serverState,
+    insertPostData,
+    toggleMakeMatchModal,
+  });
 
   const {
     register,

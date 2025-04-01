@@ -1,7 +1,10 @@
 import React from "react";
 import { useFetchData } from "../../4_Shared/util/apiUtil";
 
-const usePostOpenMatch = (): [(props: PostOpenMatchProps) => void] => {
+const usePostOpenMatch = (): [
+  (props: PostOpenMatchProps) => void,
+  serverState: Record<string, unknown> | null
+] => {
   const [serverState, request, loading] = useFetchData();
   const postOpenMatch = (props: PostOpenMatchProps) => {
     const {
@@ -35,6 +38,6 @@ const usePostOpenMatch = (): [(props: PostOpenMatchProps) => void] => {
     }
   }, [loading, serverState]);
 
-  return [postOpenMatch];
+  return [postOpenMatch, serverState];
 };
 export default usePostOpenMatch;
