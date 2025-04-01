@@ -13,7 +13,7 @@ import {
 import usePostTeamMatch from "../../3_Entity/Match/usePostTeamMatch";
 import usePostOpenMatch from "../../3_Entity/Match/usePostOpenMatch";
 
-import { findNearDate } from "../../4_Shared/lib/findNearDate";
+import { findNearDate } from "../../4_Shared/lib/nearDateHandler";
 
 // 상수
 import { matchFormation } from "../../4_Shared/constant/matchFormation";
@@ -32,17 +32,26 @@ const MakeMatchModal = () => {
 
   // 오픈 매치 관련
   const [postOpenMatch] = usePostOpenMatch();
-  const [postTeamMatch, newTeamMatchData] = usePostTeamMatch({
+  const [postTeamMatch, serverState] = usePostTeamMatch({
     teamIdx,
   });
 
   // 팀 매치 데이터가 생성되면, 새로운 팀 매치 데이터를 상태에 추가
   const { insertDataAtStart } = useDisplayMatchInfoStore();
+
   React.useEffect(() => {
-    if (newTeamMatchData) {
-      insertDataAtStart(newTeamMatchData);
+    if (serverState) {
+      console.log("서버 상태", serverState);
+      if (serverState.status === 200 && serverState.matchData) {
+        insertDataAtStart(serverState.matchData as MatchInfo);
+        alert("매치 생성 완료");
+        toggleMakeMatchModal();
+      } else {
+        alert("매치 생성 실패");
+        toggleMakeMatchModal();
+      }
     }
-  }, [newTeamMatchData]);
+  }, [serverState]);
 
   const {
     register,
@@ -63,7 +72,6 @@ const MakeMatchModal = () => {
       } else {
         postTeamMatch(convertToPostMatchProps(data));
       }
-      setToggleModal();
     }
   };
 
@@ -75,6 +83,7 @@ const MakeMatchModal = () => {
             {isOpenMatch ? "공방" : "팀"} 매치 생성
           </h2>
           <button
+            type="button"
             className="text-gray-400 hover:text-gray-600"
             onClick={toggleMakeMatchModal}>
             ✖

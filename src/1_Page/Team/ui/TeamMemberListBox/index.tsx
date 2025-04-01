@@ -24,14 +24,20 @@ const TeamMemberListBox = () => {
 
   return (
     <div className=" h-[200px] overflow-scroll">
-      {displayMemberList.map((elem, index) => (
-        <MemberCard
-          {...elem}
-          handleDelete={handleDelete}
-          index={index}
-          observeRef={teamMember.length === index + 1 ? observeRef : undefined}
-        />
-      ))}
+      {displayMemberList.length === 0 ? (
+        <p className=" text-gray-500">현재 팀원이 없습니다.</p>
+      ) : (
+        displayMemberList.map((elem, index) => (
+          <MemberCard
+            {...elem}
+            handleDelete={handleDelete}
+            index={index}
+            observeRef={
+              teamMember.length === index + 1 ? observeRef : undefined
+            }
+          />
+        ))
+      )}
     </div>
   );
 };

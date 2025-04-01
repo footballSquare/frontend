@@ -1,6 +1,5 @@
 import React from "react";
-import { useFetch } from "../../4_Shared/util/apiUtil";
-import { matchList } from "../../4_Shared/mock/matchList";
+import { useFetchData } from "../../4_Shared/util/apiUtil";
 
 const ITEMS_PER_PAGE = 10;
 
@@ -8,13 +7,13 @@ const useGetTeamMatchList = (
   props: useGetTeamMatchListProps
 ): [MatchInfo[], boolean, boolean] => {
   const { page, teamIdx } = props;
-  const [serverState, request, loading] = useFetch();
+  const [serverState, request, loading] = useFetchData();
   const [openMatchList, setOpenMatchList] = React.useState<MatchInfo[]>([]);
   const [hasMoreContent, setHasMoreContent] = React.useState<boolean>(true);
 
   React.useEffect(() => {
-    request(matchList);
-    console.log(teamIdx);
+    const endPoint = `/match/team/${teamIdx}?page=${page}`;
+    request("GET", endPoint, null, false);
   }, [page]);
 
   React.useEffect(() => {

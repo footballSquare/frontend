@@ -4,10 +4,8 @@ import useManageAction from "./model/useManageAction";
 import useDeleteLeaveTeam from "../../../../3_Entity/Team/useDeleteLeaveTeam";
 import usePutSignTeam from "../../../../3_Entity/Team/usePutSignTeam";
 import useMakeTeamMatchModalStore from "../../../../4_Shared/zustand/useMakeMatchModalStore";
-import useDisplayMatchInfoStore from "../../../../4_Shared/zustand/useDisplayMatchInfoStore";
 import { useCookies } from "react-cookie";
 import useParamInteger from "../../../../4_Shared/model/useParamInteger";
-import React from "react";
 
 const TeamManageButtonGroup = (props: TeamManageButtonGroupProps) => {
   const { handleTogglePage } = props;
@@ -20,8 +18,9 @@ const TeamManageButtonGroup = (props: TeamManageButtonGroupProps) => {
   // 팀 권한과 가입여부
   const [cookies] = useCookies(["team_role_idx", "team_idx"]);
   const teamRoleIdx = cookies.team_role_idx;
-  const isTeamPlayer = cookies.team_idx !== teamIdx;
-  const isTeamReader = cookies.team_idx === teamIdx && teamRoleIdx === 0;
+  const isTeamPlayer = cookies.team_idx === teamIdx;
+  const isTeamReader =
+    (cookies.team_idx === teamIdx && teamRoleIdx === 0) || teamRoleIdx == 1;
   const {
     isLeaving,
     isPending,
@@ -66,7 +65,7 @@ const TeamManageButtonGroup = (props: TeamManageButtonGroupProps) => {
       </div>
 
       {/* 팀 리더일 경우에만 팀 관리 및 매치 생성 버튼 */}
-      {!isTeamReader && isLeaving && !isPending && (
+      {isTeamReader && isLeaving && !isPending && (
         <div className="flex gap-2 mt-2">
           <button
             className="bg-blue-500 text-white text-sm font-medium py-1 px-3 rounded-full"

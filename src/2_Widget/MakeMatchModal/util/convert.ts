@@ -21,7 +21,7 @@ export const convertToPostMatchProps = (
       match_match_participation_type_radio
     ),
     match_match_duration: parseDuration(match_match_duration),
-    match_match_start_time: `${match_match_start_date} ${match_match_start_hour}:${match_match_start_min}`,
+    match_match_start_time: `${match_match_start_date} ${match_match_start_hour}:${match_match_start_min}:00`,
   };
 };
 
