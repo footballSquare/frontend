@@ -1,27 +1,25 @@
-import React from "react";
 import PAGE_URI from "../../../4_Shared/constant/pageUri";
 import usePostOpenMatch from "../../../3_Entity/Match/usePostOpenMatch";
 import usePostTeamMatch from "../../../3_Entity/Match/usePostTeamMatch";
 import { useMyTeamIdx } from "../../../4_Shared/lib/useMyInfo";
 
-const usePostMatch = (): [(props: postMatchProps) => void, string] => {
+const usePostMatch = (): [(props: PostMatchProps) => void, string] => {
   const pageUri = `/${window.location.pathname.split("/")[1]}`;
   const postMatchType = pageUri === PAGE_URI.FREEMATCH ? "OPEN" : "TEAM";
   const [teamIdx] = useMyTeamIdx();
-  const [postOpenMatch, postOpenMatchResponse] = usePostOpenMatch();
-  const [postTeamMatch, postTeamMatchResponse] = usePostTeamMatch({ teamIdx });
+  const [postOpenMatch] = usePostOpenMatch();
+  const [postTeamMatch] = usePostTeamMatch({ teamIdx });
 
-  const postMatch = (props: postMatchProps) => {
+  const postMatch = (props: PostMatchProps) => {
     if (postMatchType === "OPEN") {
       postOpenMatch(props);
     } else {
       postTeamMatch(props);
     }
+    window.location.reload();
   };
 
-  React.useEffect(() => {
-    // match list 갱신
-  }, [postOpenMatchResponse, postTeamMatchResponse]);
+
 
   return [postMatch, postMatchType];
 };
