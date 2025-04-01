@@ -1,5 +1,5 @@
 import { platform } from "../../../../../../../../4_Shared/constant/platform";
-import { getPlatformIcon } from "./util/getPlatformIcon";
+import { getPlatformIcon } from "../../../../../../../../4_Shared/lib/getPlatformIcon";
 
 const TeamApplicationItem = (props: TeamApplicationItemProps) => {
   const { player, postApproveMember, deleteApproveMember, addDisplayPlayer } =

@@ -1,9 +1,7 @@
 import React from "react";
 
-import pc_icon from "../../../../../../4_Shared/assets/svg/pc-desktop.svg";
-import ps_icon from "../../../../../../4_Shared/assets/svg/platform-playstation.svg";
-import xbox_icon from "../../../../../../4_Shared/assets/svg/platform-xbox.svg";
-import { platform } from "../../../../../../4_Shared/constant/platform";
+import { getPlatformIcon } from "../../../../../../4_Shared/lib/getPlatformIcon";
+
 import { teamRole } from "../../../../../../4_Shared/constant/teamRole";
 import useDeleteTeamPlayer from "../../../../../../3_Entity/Team/useDeleteTeamPlayer";
 import usePostChangeTeamRole from "../../../../../../3_Entity/Team/usePostChangeTeamRole";
@@ -62,13 +60,7 @@ const TeamMemberCard = (props: TeamMemberCardProps) => {
                 className="w-[40px]  rounded-full"
               />
               <img
-                src={`${
-                  platform[player_list_platform] === "PC"
-                    ? pc_icon
-                    : platform[player_list_platform] === "PS4"
-                    ? ps_icon
-                    : platform[player_list_platform] === "XBOX" && xbox_icon
-                }`}
+                src={getPlatformIcon(player_list_platform)}
                 className="w-[40px]  rounded-full"
               />
             </div>
