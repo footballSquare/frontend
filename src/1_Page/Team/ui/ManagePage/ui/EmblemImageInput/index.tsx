@@ -7,7 +7,7 @@ import usePutTeamEmblem from "../../../../../../3_Entity/Team/usePutTeamEmblem";
 
 const EmblemImageInput = (props: ImageInputProps) => {
   const { imgSrc, team_list_idx } = props;
-  const key = "img";
+  const key = "file";
 
   const {
     register,
@@ -33,7 +33,7 @@ const EmblemImageInput = (props: ImageInputProps) => {
 
   const onSubmit: SubmitHandler<ImageForm> = (data) => {
     handleSave();
-    putEvent(data.img);
+    putEvent(data.file);
   };
 
   return (

@@ -11,7 +11,7 @@ const useManageTeamInfo = (teamInfo: TeamInfo): UseManageTeamInfoReturn => {
         team_list_banner: banner,
       }));
     },
-    handlesetTeamEmblem: (emblem: string) => {
+    handleSetTeamEmblem: (emblem: string) => {
       setDisplayTeamInfo((prev) => ({
         ...prev,
         team_list_emblem: emblem,

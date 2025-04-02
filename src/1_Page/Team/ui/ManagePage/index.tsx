@@ -44,6 +44,7 @@ const ManagePage = (props: ManagePageProps) => {
         <BannerImageInput
           team_list_idx={team_list_idx}
           imgSrc={team_list_banner}
+          handleSetBanner={handlers.handleSetTeamBanner}
         />
 
         {/* Team Emblem */}
@@ -51,12 +52,16 @@ const ManagePage = (props: ManagePageProps) => {
           <EmblemImageInput
             team_list_idx={team_list_idx}
             imgSrc={team_list_emblem}
+            handleSetTeamEmblem={handlers.handleSetTeamEmblem}
           />
           <AutoMatchPanel />
         </section>
 
         <section className="flex flex-wrap w-full gap-3">
-          <TextInputForm {...textInputFormProps} />
+          <TextInputForm
+            {...textInputFormProps}
+            handleSetWithoutImg={handlers.handleSetWithoutImg}
+          />
           <TeamApplications team_list_idx={team_list_idx} />
         </section>
 
