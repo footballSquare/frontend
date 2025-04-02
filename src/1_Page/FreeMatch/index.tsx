@@ -20,13 +20,6 @@ const FreeMatch = () => {
               bold={true}
               onClickHandler={toggleMakeMatchModal}
             />
-            {/* <Button
-              text="선호 포지션 참여"
-              bg="blue"
-              textColor="white"
-              bold={true}
-            />
-            <Button text="랜덤 참여" bg="blue" textColor="white" bold={true} /> */}
           </div>
         </div>
         <h4 className=" text-blue">현재 경기</h4>
