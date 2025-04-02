@@ -7,7 +7,7 @@ type Awards = {
   championship_list_color: string;
 };
 
-export type UserInfo = {
+type UserInfo = {
   is_mine: boolean;
   user_idx: number;
   profile_img: string;
