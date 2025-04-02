@@ -11,7 +11,7 @@ const useGetStandbyList = (props: UseGetStandbyListProps): [StandbyPlayerInfo[],
 
   React.useEffect(() => {
     request("GET", `/match/standbylist?page=${page}`, null, false);
-  }, [page]);
+  }, [page, request]);
 
   React.useEffect(() => {
     if (!loading && serverState && "access_list" in serverState) {
