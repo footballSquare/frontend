@@ -14,7 +14,7 @@ const useGetTeamMatchList = (
   React.useEffect(() => {
     const endPoint = `/match/team/${teamIdx}?page=${page}`;
     request("GET", endPoint, null, false);
-  }, [page]);
+  }, [page, request]);
 
   React.useEffect(() => {
     if (!loading && serverState && "match" in serverState) {
