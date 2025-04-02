@@ -3,6 +3,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import LoginInput from "../../4_Shared/hookForm/LoginInput";
 import loginInputSchema from "../../4_Shared/hookForm/LoginInput/schema";
 import useGetSignIn from "../../3_Entity/Account/useGetSignIn";
+import discord_icon from "../../4_Shared/assets/svg/discord.svg";
+import useGetDiscordOAuthUrl from "../../3_Entity/Account/useGetDiscordOAuthUrl";
 
 const Login = () => {
   const {
@@ -13,9 +15,10 @@ const Login = () => {
     resolver: yupResolver(loginInputSchema),
   });
   const [signInEvent] = useGetSignIn();
+  const [discordOAuthUrl, discordLoading] = useGetDiscordOAuthUrl();
 
   return (
-    <div className="flex items-center justify-center min-h-screen">
+    <div className="flex flex-col gap-4 items-center justify-center min-h-screen">
       <div className="bg-white p-8 rounded shadow-md w-full max-w-md">
         <h1 className="text-2xl font-bold mb-6 text-center">Login</h1>
         <form
@@ -46,6 +49,17 @@ const Login = () => {
           </button>
         </form>
       </div>
+      <button
+        className=" flex flex-col justify-center items-center border border-gray rounded w-full"
+        onClick={() => {
+          if (!discordLoading) {
+            window.location.href = discordOAuthUrl.url;
+          }
+        }}
+      >
+        <img className="w-[48px]" src={discord_icon} alt="discord" />
+        디스코드로 시작하기
+      </button>
     </div>
   );
 };
