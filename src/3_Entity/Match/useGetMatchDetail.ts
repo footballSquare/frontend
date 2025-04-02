@@ -17,7 +17,7 @@ const useGetMatchDetail = (
 
   React.useEffect(() => {
     request("GET", `/match/${matchIdx}`, null, false);
-  }, [matchIdx]);
+  }, [matchIdx, request]);
 
   React.useEffect(() => {
     if (!loading && serverState) {
