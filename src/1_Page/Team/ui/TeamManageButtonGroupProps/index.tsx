@@ -30,7 +30,7 @@ const TeamManageButtonGroup = (props: TeamManageButtonGroupProps) => {
   } = useManageAction(isTeamPlayer);
 
   // 팀매치 생성 모달 전역으로 관리
-  const { openTeamMatch } = useMakeTeamMatchModalStore(); // 팀매치 생성 모달 전역으로 관리
+  const { toggleMakeMatchModal } = useMakeTeamMatchModalStore(); // 팀매치 생성 모달 전역으로 관리
 
   return (
     <div className="flex flex-col items-center gap-2 mt-2">
@@ -74,9 +74,7 @@ const TeamManageButtonGroup = (props: TeamManageButtonGroupProps) => {
           </button>
           <button
             className="bg-blue-500 text-white text-sm font-medium py-1 px-3 rounded-full"
-            onClick={() => {
-              openTeamMatch(teamIdx);
-            }}>
+            onClick={toggleMakeMatchModal}>
             매치 생성
           </button>
         </div>
