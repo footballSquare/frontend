@@ -21,13 +21,14 @@ const useGetChampionshipList = (
       null,
       false
     );
-  }, [communityIdx]);
+  }, [communityIdx, page, request]);
 
   React.useEffect(() => {
     if (!loading && serverState) {
-      setChampionshipList(
-        (serverState as { championship: Championship[] }).championship
-      );
+      setChampionshipList((prev: Championship[]) => [
+        ...prev,
+        ...(serverState as { championship: Championship[] }).championship,
+      ]);
       setHasMoreContent(
         (serverState as { championship: Championship[] }).championship.length >=
           ITEMS_PER_PAGE
