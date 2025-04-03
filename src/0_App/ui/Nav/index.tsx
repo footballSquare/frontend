@@ -31,12 +31,34 @@ const Nav = () => {
               navigate(PAGE_URI.FREEMATCH);
             }}
           />
-          <NavigationBtn
-            text={"COMMUNITY"}
-            navigationHandler={() => {
-              navigate(`${PAGE_URI.COMMUNITY}/${tempIdx}`);
-            }}
-          />
+          <div className="relative group">
+            <NavigationBtn
+              text={"COMMUNITY"}
+              navigationHandler={() => {
+                navigate(`${PAGE_URI.COMMUNITY}/0`);
+              }}
+            />
+            <div className="absolute left-0 hidden group-hover:flex flex-col gap-2 bg-white shadow-md border border-gray w-min-full p-2">
+              <NavigationBtn
+                text={"KFPL"}
+                navigationHandler={() => {
+                  navigate(`${PAGE_URI.COMMUNITY}/0`);
+                }}
+              />
+              <NavigationBtn
+                text={"unknownCoummunity"}
+                navigationHandler={() => {
+                  navigate(`${PAGE_URI.COMMUNITY}/0`);
+                }}
+              />
+              <NavigationBtn
+                text={"asdfCommu"}
+                navigationHandler={() => {
+                  navigate(`${PAGE_URI.COMMUNITY}/0`);
+                }}
+              />
+            </div>
+          </div>
           <NavigationBtn
             text={"RANKING"}
             navigationHandler={() => {

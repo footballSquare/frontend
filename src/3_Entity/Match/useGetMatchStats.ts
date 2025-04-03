@@ -20,7 +20,7 @@ const useGetMatchStats = (
       team_stats: mockMatchStats.team_stats,
       player_stats: mockMatchStats.player_stats,
     });
-  }, [matchIdx]);
+  }, [matchIdx, request]);
 
   React.useEffect(() => {
     if (!loading && serverState) {

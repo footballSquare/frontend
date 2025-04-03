@@ -6,10 +6,16 @@ const useDeleteMatch = (): [(props: DeleteMatchProps) => void] => {
     const { matchIdx } = props;
     request("DELETE", `/match/${matchIdx}`, null, true);
   };
-
   React.useEffect(() => {
     if (!loading && serverState) {
       switch (serverState.status) {
+        case 200:
+          alert("삭제 되었습니다.");
+          window.location.reload();
+          break;
+        case 403:
+          alert("매치가 이미 시작되었습니다.");
+          break;
         case 404:
           alert("이미 삭제된 매치입니다.");
           break;
