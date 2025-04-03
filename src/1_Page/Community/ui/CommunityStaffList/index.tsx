@@ -1,4 +1,5 @@
 import useGetCommunityStaffList from "../../../../3_Entity/Community/useGetCommunityStaffList";
+import usePostApplyCommunityStaff from "../../../../3_Entity/Community/usePostApplyCommunityStaff";
 import { teamRole } from "../../../../4_Shared/constant/teamRole";
 import useIsCommunityStaff from "./model/useIsCommunityStaff";
 
@@ -6,6 +7,7 @@ const CommunityStaffListPanel = (props: CommunityStaffListPanelProps) => {
   const { communityIdx } = props;
   const [communityStaffList] = useGetCommunityStaffList({ communityIdx });
   const [isCommunityStaff] = useIsCommunityStaff(communityStaffList);
+  const [postApplyCommunityStaff] = usePostApplyCommunityStaff();
 
   return (
     <div className="flex flex-col gap-4">
@@ -33,7 +35,12 @@ const CommunityStaffListPanel = (props: CommunityStaffListPanelProps) => {
       </div>
 
       {!isCommunityStaff && (
-        <button className="p-3 border border-gray-300 shadow-md rounded-lg text-sm bg-green-500 text-white hover:bg-green-600 transition">
+        <button
+          onClick={() => {
+            postApplyCommunityStaff({ communityIdx });
+          }}
+          className="p-3 border border-gray-300 shadow-md rounded-lg text-sm bg-green-500 text-white hover:bg-green-600 transition"
+        >
           커뮤니티 운영진 지원하기
         </button>
       )}

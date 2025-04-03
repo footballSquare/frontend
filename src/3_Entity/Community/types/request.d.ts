@@ -15,3 +15,7 @@ type UseGetCommunitySTeamListProps = {
   communityIdx: number;
   page: number;
 };
+
+type PostApplyCommunityStaffProps = {
+  communityIdx: number;
+};
