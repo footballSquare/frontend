@@ -6,7 +6,6 @@ import TeamAwards from "./ui/TeamAwards";
 import TeamManageButtonGroupProps from "./ui/TeamManageButtonGroupProps";
 
 import default_banner from "../../4_Shared/assets/img/banner_soccer.jpg";
-import dfeault_emblem from "../../4_Shared/assets/svg/default_profile.svg";
 
 import useValidParamInteger from "../../4_Shared/model/useValidParamInteger";
 import ManagePage from "./ui/ManagePage";
@@ -58,7 +57,7 @@ const Team = () => {
               <div className="flex flex-col items-center ">
                 <div className="flex items-center ">
                   <img
-                    src={team_list_emblem || dfeault_emblem}
+                    src={team_list_emblem || default_banner}
                     alt="Team Emblem"
                     className="w-16 h-16 rounded-full object-cover border border-gray-200"
                   />

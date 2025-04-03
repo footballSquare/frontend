@@ -33,9 +33,9 @@ const AutoMatchPanel = () => {
 
   return (
     <div className="flex flex-col">
-      <h2 className="text-lg font-semibold text-gray-700">Team Info</h2>
+      <h2 className="text-lg font-semibold text-gray-700">자동 매치</h2>
       <p className="text-sm text-gray-500">
-        Edit or update team details below.
+        자동 매치 설정 하려면 버튼을 클릭하세요.
       </p>
       <button
         type="button"
