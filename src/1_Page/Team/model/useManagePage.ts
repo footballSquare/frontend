@@ -1,8 +1,12 @@
 import React from "react";
 
 const useManageTeamInfo = (teamInfo: TeamInfo): UseManageTeamInfoReturn => {
-  const [displayTeamInfo, setDisplayTeamInfo] =
-    React.useState<TeamInfo>(teamInfo);
+  const [displayTeamInfo, setDisplayTeamInfo] = React.useState<TeamInfo>(
+    {} as TeamInfo
+  );
+  React.useEffect(() => {
+    setDisplayTeamInfo(teamInfo);
+  }, [teamInfo]);
 
   const handlers = {
     handleSetTeamBanner: (banner: string) => {
@@ -17,18 +21,13 @@ const useManageTeamInfo = (teamInfo: TeamInfo): UseManageTeamInfoReturn => {
         team_list_emblem: emblem,
       }));
     },
-    handleSetWithoutImg: (
-      team_list_name: string,
-      team_list_short_name: string,
-      team_list_color: string,
-      team_list_announcement: string
-    ) => {
+    handleSetTeamInfoWithoutImg: (data: TeamInfoForm) => {
       setDisplayTeamInfo((prev) => ({
         ...prev,
-        team_list_name,
-        team_list_short_name,
-        team_list_color,
-        team_list_announcement,
+        team_list_name: data.team_list_name,
+        team_list_short_name: data.team_list_short_name,
+        team_list_color: data.team_list_color,
+        team_list_announcement: data.team_list_announcement,
       }));
     },
   };
