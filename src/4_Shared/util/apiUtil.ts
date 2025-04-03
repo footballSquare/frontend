@@ -84,11 +84,11 @@ export const useFetchData = (): [
         setServerState({ ...response.data, status: response.status });
       } catch (error: unknown) {
         if (error instanceof AxiosError) {
+          console.log("error", error.response?.data.message);
           const { status, data } = error.response ?? {};
           setServerState({ status });
           if (status === 500) {
-            console.log(error.message);
-            console.error("Internal Server Error:", status, data);
+            console.error("Internal Server Error:", status, data.message);
             alert("알 수 없는 오류.");
           }
         }

@@ -2,7 +2,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, SubmitHandler, FormProvider } from "react-hook-form";
 
 import InputField from "./ui/InputFiled";
-import TeamNameInput from "./ui/TeamNameInput";
+import TeamNameCheckInput from "./ui/TeamNameCheckInput";
 import StatusRadio from "./ui/StautsRadio";
 import useManageModify from "./model/useManageModify";
 import { schema } from "./lib/schema";
@@ -11,12 +11,12 @@ import usePutTeamInfo from "../../../../../../3_Entity/Team/usePutTeamInfo";
 import React from "react";
 
 const TextInputForm = (props: TextInputFormProps) => {
-  const { team_list_idx } = props;
+  const { team_list_idx, teamInfo } = props;
 
   // props가 변경되지 않는 한, 기존 teamInfoForm 값을 재사용하여 불필요한 input form 재생성을 방지
   const teamInfoForm = React.useMemo(
-    () => convertToTeamInfoForm(props),
-    [props]
+    () => convertToTeamInfoForm(teamInfo),
+    [teamInfo]
   );
 
   const forms = useForm<TeamInfoForm>({
@@ -48,9 +48,9 @@ const TextInputForm = (props: TextInputFormProps) => {
         onSubmit={handleSubmit(onSubmit)}
         className="flex-1 min-w-[300px] bg-white rounded-lg shadow-md p-4">
         {/* 팀명 입력 */}
-        <TeamNameInput modifyMode={modifyMode} isShort={false} />
+        <TeamNameCheckInput modifyMode={modifyMode} isShort={false} />
         {/* 짧은 태그 입력 */}
-        <TeamNameInput modifyMode={modifyMode} isShort={true} />
+        <TeamNameCheckInput modifyMode={modifyMode} isShort={true} />
         {/* 팀원 모집상태 */}
         <StatusRadio modifyMode={modifyMode} />
 

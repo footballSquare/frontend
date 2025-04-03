@@ -6,6 +6,7 @@ const TeamAwards = () => {
   const teamIdx = useParamInteger("teamIdx");
   const [teamAwards] = useGetTeamAwards(teamIdx);
 
+  if (teamAwards.length === 0) return <div className="h-[50px]"></div>;
   return (
     <div className="flex flex-col justify-center items-center w-full h-[130px]">
       <AutoMoveAwardList awards={teamAwards} />

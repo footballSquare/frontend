@@ -13,7 +13,7 @@ const useManageModify = (
   const { reset, setValue, teamInfoForm } = props;
   const [modifyMode, setModifyMode] = React.useState<boolean>(false);
 
-  const inputBackupDataRef = React.useRef<TeamInfoForm>(teamInfoForm);
+  const inputBackupDataRef = React.useRef<TeamInfoForm>({} as TeamInfoForm);
 
   // 초기값 설정
   React.useEffect(() => {
