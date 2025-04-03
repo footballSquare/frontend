@@ -30,6 +30,7 @@ const MatchModal = () => {
     match_match_start_time,
     match_match_duration,
     common_status_idx,
+    match_match_attribute,
   } = matchDetail;
   const [matchParticipants, setMatchParticipants] = useGetMatchParticipants({
     matchIdx,
@@ -73,7 +74,9 @@ const MatchModal = () => {
             예상 플레이 타임
             {/* 아래의 select 태그 Select 컴포넌트로 적용 */}
             <p className="flex justify-center items-center w-[164px] h-[32px] rounded-[4px] border border-blue">
-              {`${match_match_duration.hours}.${match_match_duration.minutes || 0} 시간`}
+              {`${match_match_duration.hours}.${
+                match_match_duration.minutes || 0
+              } 시간`}
             </p>
           </label>
           <label className="flex flex-col text-xs font-semibold">
@@ -155,9 +158,10 @@ const MatchModal = () => {
                 </div>
               )
             )
+          ) : // 매치 라인업 마감 & 대회
+          match_match_attribute !== 2 ? (
+            <p className=" m-auto">참가가 마감된 경기입니다</p>
           ) : (
-            // 매치 라인업 마감 & 대회
-            common_status_idx !== 2 &&
             isLogin && <StatPanel matchParticipants={matchParticipants} />
           )}
         </div>
