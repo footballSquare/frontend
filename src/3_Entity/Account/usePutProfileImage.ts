@@ -16,7 +16,6 @@ const usePutProfileImage = (
       formData.append("profile_img", profileImg);
     }
     request({ userIdx, formData });
-    console.log("전송된 이미지 파일:", profileImg);
   };
 
   return [putEvent, serverState, loading];

@@ -16,7 +16,7 @@ const useGetMatchWaitlist = (
 
   React.useEffect(() => {
     request("GET", `/match/${matchIdx}/waitlist`, null, false);
-  }, [matchIdx]);
+  }, [matchIdx, request]);
 
   React.useEffect(() => {
     if (!loading && serverState) {

@@ -177,8 +177,6 @@ const MatchModal = () => {
               onClick={() => {
                 if (confirm("매치를 삭제하시겠습니까?")) {
                   deleteMatch({ matchIdx });
-                  toggleMatchModal();
-                  window.location.reload();
                 }
               }}
             >

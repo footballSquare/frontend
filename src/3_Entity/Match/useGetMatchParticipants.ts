@@ -17,7 +17,7 @@ const useGetMatchParticipants = (
 
   React.useEffect(() => {
     request("GET", `/match/${matchIdx}/participant`, null, false);
-  }, [matchIdx]);
+  }, [matchIdx, request]);
 
   React.useEffect(() => {
     if (!loading && serverState) {

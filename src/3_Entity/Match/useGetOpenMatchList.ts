@@ -13,10 +13,10 @@ const useGetOpenMatchList = (
 
   React.useEffect(() => {
     request("GET", `/match/open?page=${page}`, null, false);
-  }, [page]);
+  }, [page, request]);
 
   React.useEffect(() => {
-    if (!loading && serverState && "match" in serverState) {
+    if (serverState) {
       setOpenMatchList((prev) => [
         ...prev,
         ...(serverState as { match: MatchInfo[] }).match,

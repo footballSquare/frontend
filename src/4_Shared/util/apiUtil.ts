@@ -58,6 +58,7 @@ export const useFetchData = (): [
   const [loading, setLoading] = React.useState<boolean>(true);
   const [cookies] = useCookies(["access_token"]);
 
+<<<<<<< HEAD
   const request = async (
     method: string,
     endpoint: string,
@@ -87,12 +88,46 @@ export const useFetchData = (): [
         if (status === 500) {
           console.error("Internal Server Error:", status, data);
           alert("알 수 없는 오류.");
+=======
+  const request = React.useCallback(
+    async (
+      method: string,
+      endpoint: string,
+      body: Record<string, unknown> | null,
+      authorization: boolean = false
+    ) => {
+      try {
+        setLoading(true);
+        // API 호출
+        const response = await axios({
+          method: method,
+          url: `${SERVER_URL}${endpoint}`,
+          params: {},
+          headers: authorization
+            ? {
+                Authorization: `${cookies.access_token}`,
+              }
+            : undefined,
+          data: body ?? undefined,
+        });
+
+        setServerState({ ...response.data, status: response.status });
+      } catch (error: unknown) {
+        if (error instanceof AxiosError) {
+          const { status, data } = error.response ?? {};
+          setServerState({ status });
+          if (status === 500) {
+            console.error("Internal Server Error:", status, data);
+            alert("알 수 없는 오류.");
+          }
+>>>>>>> develop
         }
+      } finally {
+        setLoading(false);
       }
-    } finally {
-      setLoading(false);
-    }
-  };
+    },
+    [cookies.access_token]
+  );
 
   return [serverState, request, loading];
 };
