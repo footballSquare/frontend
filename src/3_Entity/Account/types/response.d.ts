@@ -35,3 +35,7 @@ type SignInData = {
   team_role_idx: number | null;
   community_role_idx: number | null;
 };
+
+type DiscordOAuthUrl = {
+  url: string
+}
