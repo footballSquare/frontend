@@ -5,7 +5,7 @@ type TextInputFormProps = {
   team_list_announcement: string;
   team_list_idx: number;
   common_status_idx: number;
-  handleSetWithoutImg: (data: TeamInfoForm) => void;
+  handleSetTeamInfoWithoutImg: (data: TeamInfoForm) => void;
 };
 
 type TeamInfoForm = {

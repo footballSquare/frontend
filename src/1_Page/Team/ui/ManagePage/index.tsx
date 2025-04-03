@@ -60,7 +60,7 @@ const ManagePage = (props: ManagePageProps) => {
         <section className="flex flex-wrap w-full gap-3">
           <TextInputForm
             {...textInputFormProps}
-            handleSetWithoutImg={handlers.handleSetWithoutImg}
+            handleSetTeamInfoWithoutImg={handlers.handleSetTeamInfoWithoutImg}
           />
           <TeamApplications team_list_idx={team_list_idx} />
         </section>
