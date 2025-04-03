@@ -3,11 +3,7 @@ import { useFetchData } from "../../4_Shared/util/apiUtil";
 
 const usePostOpenMatch = (): [
   (props: PostOpenMatchProps) => void,
-<<<<<<< HEAD
-  serverState: Record<string, unknown> | null
-=======
   Record<string, unknown> | null
->>>>>>> develop
 ] => {
   const [serverState, request, loading] = useFetchData();
   const postOpenMatch = (props: PostOpenMatchProps) => {
@@ -30,7 +26,6 @@ const usePostOpenMatch = (): [
       },
       true
     );
-    
   };
 
   React.useEffect(() => {

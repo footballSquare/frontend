@@ -17,41 +17,13 @@ import { matchType } from "../../4_Shared/constant/matchType";
 import { matchDuration } from "../../4_Shared/constant/matchDuration";
 // state
 import useMakeMatchModalStore from "../../4_Shared/zustand/useMakeMatchModalStore";
-<<<<<<< HEAD
-import usePostMatchInfoStore from "../../4_Shared/zustand/usePostMatchInfoStore";
-import useManageServerState from "./model/useManageServerState";
-=======
 import usePostMatch from "./model/usePostMatch";
->>>>>>> develop
 
 const MakeMatchModal = () => {
   const today = new Date();
   const { hour, min } = findNearDate(today);
-<<<<<<< HEAD
-  const { isOpenMatch, teamIdx, toggleMakeMatchModal } =
-    useMakeMatchModalStore(); // 전역모달 관리
-  const { insertPostData } = usePostMatchInfoStore(); // 전역 data 관리
-
-  // 오픈 매치 관련
-  const [postOpenMatch, openMatchServerState] = usePostOpenMatch();
-  const [postTeamMatch, teamMatchServerState] = usePostTeamMatch({
-    teamIdx,
-  });
-
-  // 오픈 매치인지 팀 매치인지에 따라 서버 상태를 가져옴
-  const serverState = isOpenMatch ? openMatchServerState : teamMatchServerState;
-  // 팀 매치 데이터가 생성되면, 새로운 팀 매치 데이터를 상태에 추가
-
-  // serverState에 따른 관리
-  useManageServerState({
-    serverState,
-    insertPostData,
-    toggleMakeMatchModal,
-  });
-=======
   const { toggleMakeMatchModal } = useMakeMatchModalStore();
   const [postMatch, postMatchType] = usePostMatch();
->>>>>>> develop
 
   const {
     register,
@@ -75,8 +47,7 @@ const MakeMatchModal = () => {
           <button
             type="button"
             className="text-gray-400 hover:text-gray-600"
-            onClick={toggleMakeMatchModal}
-          >
+            onClick={toggleMakeMatchModal}>
             ✖
           </button>
         </div>
@@ -87,8 +58,7 @@ const MakeMatchModal = () => {
               postMatch(convertToPostMatchProps(data));
             }
           })}
-          className="space-y-4"
-        >
+          className="space-y-4">
           {/* 매치 종류 선택 */}
           <div>
             <label className="block text-gray-700">매치 종류 선택</label>
@@ -156,8 +126,7 @@ const MakeMatchModal = () => {
                 </label>
                 <select
                   {...register("match_match_start_hour")}
-                  className="w-full border border-gray-300 rounded-lg p-3 text-center text-gray-800 focus:ring-2 focus:ring-blue-400 focus:outline-none"
-                >
+                  className="w-full border border-gray-300 rounded-lg p-3 text-center text-gray-800 focus:ring-2 focus:ring-blue-400 focus:outline-none">
                   {Array.from({ length: 24 }, (_, index) => {
                     const hours = index.toString().padStart(2, "0");
                     return (
@@ -175,8 +144,7 @@ const MakeMatchModal = () => {
                 </label>
                 <select
                   {...register("match_match_start_min")}
-                  className="w-full border border-gray-300 rounded-lg p-3 text-center text-gray-800 focus:ring-2 focus:ring-blue-400 focus:outline-none"
-                >
+                  className="w-full border border-gray-300 rounded-lg p-3 text-center text-gray-800 focus:ring-2 focus:ring-blue-400 focus:outline-none">
                   <option value="00">00</option>
                   <option value="30">30</option>
                 </select>
@@ -221,8 +189,7 @@ const MakeMatchModal = () => {
                 !isCanFormationChange
                   ? "bg-gray-200 cursor-not-allowed opacity-50"
                   : "bg-white"
-              }`}
-            >
+              }`}>
               {matchFormation.map((item, index) => (
                 <option key={index} value={index}>
                   {item}
@@ -236,14 +203,12 @@ const MakeMatchModal = () => {
             <button
               onClick={toggleMakeMatchModal}
               type="button"
-              className="px-4 py-2 rounded-lg border border-gray-300"
-            >
+              className="px-4 py-2 rounded-lg border border-gray-300">
               취소
             </button>
             <button
               type="submit"
-              className="px-4 py-2 rounded-lg bg-blue-600 text-white"
-            >
+              className="px-4 py-2 rounded-lg bg-blue-600 text-white">
               저장
             </button>
           </div>
