@@ -1,8 +1,7 @@
 import Welcome from "./Welcome";
 import Main from "./Main";
 import Team from "./Team";
-import { Routes, Route, Navigate } from "react-router-dom";
-import { useCookies } from "react-cookie";
+import { Routes, Route } from "react-router-dom";
 import PAGE_URI from "../4_Shared/constant/pageUri";
 import FreeMatch from "./FreeMatch";
 import Profile from "./Profile";
@@ -10,19 +9,21 @@ import Community from "./Community";
 import CommunityManaging from "./CommunityManaging";
 import Login from "./Login";
 import Championship from "./Championship";
+import { useIsLogin } from "../4_Shared/lib/useMyInfo";
 
 const Page = () => {
-  const [cookies] = useCookies(["accessToken"]);
-  const hasAccessToken = !!cookies.accessToken; // accessToken 존재 여부 확인
+  const [isLogin] = useIsLogin()// accessToken 존재 여부 확인
   return (
-    <div className="w-full h-full flex justify-center bg-light-blue">
+    <div className="w-full h-full flex justify-center">
       <Routes>
         <Route
           path="/"
           element={
-            hasAccessToken ? <Navigate to={PAGE_URI.MAIN} /> : <Welcome />
+            isLogin ? <Welcome /> : <Welcome />
+            // <Navigate to={PAGE_URI.Main} />
           }
         />
+        
         <Route path={PAGE_URI.MAIN} element={<Main />} />
         <Route path={PAGE_URI.TEAMLIST} element={<Main />} />
         <Route path={`${PAGE_URI.TEAM}/:teamIdx`} element={<Team />} />

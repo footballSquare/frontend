@@ -1,3 +1,3 @@
-type CommunityStaffListProps = {
+type CommunityStaffListPanelProps = {
   communityIdx: number;
 };
