@@ -65,6 +65,7 @@ export const useFetchData = (): [
       body: Record<string, unknown> | null,
       authorization: boolean = false
     ) => {
+      console.log("request", endpoint);
       try {
         setLoading(true);
         // API 호출
@@ -86,6 +87,7 @@ export const useFetchData = (): [
           const { status, data } = error.response ?? {};
           setServerState({ status });
           if (status === 500) {
+            console.log(error.message);
             console.error("Internal Server Error:", status, data);
             alert("알 수 없는 오류.");
           }
