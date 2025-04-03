@@ -5,8 +5,8 @@ import App from "./0_App";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-      <CookiesProvider>
-        <App />
-      </CookiesProvider>
+    <CookiesProvider>
+      <App />
+    </CookiesProvider>
   </StrictMode>
 );

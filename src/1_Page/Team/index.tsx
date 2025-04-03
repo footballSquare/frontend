@@ -72,7 +72,6 @@ const Team = () => {
 
                     <TeamManageButtonGroupProps
                       handleTogglePage={handleTogglePage}
-                      teamInfo={displayTeamInfo}
                     />
                   </section>
                 </div>

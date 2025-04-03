@@ -1,4 +1,3 @@
-import { TeamManageButtonGroupProps } from "./type";
 import useManageAction from "./model/useManageAction";
 
 import useDeleteLeaveTeam from "../../../../3_Entity/Team/useDeleteLeaveTeam";
