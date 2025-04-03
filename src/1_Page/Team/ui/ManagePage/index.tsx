@@ -3,69 +3,29 @@ import BannerImageInput from "./ui/BannerImageInput";
 import TextInputForm from "./ui/TextInputForm";
 import TeamApplications from "./ui/TeamApplications";
 import AutoMatchPanel from "./ui/AutoMatchPanel";
+import default_banner from "../../../../4_Shared/assets/img/banner_soccer.jpg";
 
 import useDeleteTeam from "../../../../3_Entity/Team/useDeleteTeam";
 
 const ManagePage = (props: ManagePageProps) => {
-  const {
-    teamInfo: {
-      team_list_idx,
-      team_list_name,
-      team_list_short_name,
-      team_list_color,
-      team_list_emblem,
-      team_list_banner,
-      team_list_announcement,
-      common_status_idx,
-    },
-    handleTogglePage,
-    handlers,
-  } = props;
+  const { teamInfo, handleTogglePage, handlers } = props;
 
-  const textInputFormProps = {
-    team_list_idx,
-    team_list_name,
-    team_list_short_name,
-    team_list_color,
-    team_list_announcement,
-    common_status_idx,
-  };
-
-  const [deleteTeam] = useDeleteTeam(team_list_idx);
+  const [deleteTeam] = useDeleteTeam(teamInfo.team_list_idx);
 
   return (
-    <main className="w-full p-4 bg-white shadow-md rounded-lg">
-      <h2 className="text-blue-600 font-semibold text-center text-sm">
-        TEAM MANAGEMENT
-      </h2>
-      <h1 className="text-lg font-bold text-center mt-1">TEAM DETAILS</h1>
-      <div className="space-y-6">
-        {/* Team Banner */}
-        <BannerImageInput
-          team_list_idx={team_list_idx}
-          imgSrc={team_list_banner}
-          handleSetBanner={handlers.handleSetTeamBanner}
-        />
+    <main className="w-full p-4 bg-white  rounded-lg">
+      <div className="flex flex-row justify-between items-center bg-white border-b mb-6 ">
+        {/* 좌측: 타이틀과 버튼 그룹 */}
+        {/* 타이틀 영역 */}
+        <div className="mr-6">
+          <h2 className="text-blue-600 font-semibold tracking-wider">
+            TEAM MANAGEMENT
+          </h2>
+          <h1 className="text-gray-800 font-bold ">TEAM DETAILS</h1>
+        </div>
 
-        {/* Team Emblem */}
-        <section className="flex justify-start items-center space-x-4">
-          <EmblemImageInput
-            team_list_idx={team_list_idx}
-            imgSrc={team_list_emblem}
-            handleSetTeamEmblem={handlers.handleSetTeamEmblem}
-          />
-          <AutoMatchPanel />
-        </section>
-
-        <section className="flex flex-wrap w-full gap-3">
-          <TextInputForm
-            {...textInputFormProps}
-            handleSetTeamInfoWithoutImg={handlers.handleSetTeamInfoWithoutImg}
-          />
-          <TeamApplications team_list_idx={team_list_idx} />
-        </section>
-
-        <footer className="flex justify-end gap-4 mt-6">
+        {/* 버튼 그룹 */}
+        <div className="flex space-x-2">
           <button
             onClick={() => {
               if (confirm("정말로 해체하시겠습니까?")) {
@@ -73,17 +33,47 @@ const ManagePage = (props: ManagePageProps) => {
               }
             }}
             type="button"
-            className="py-2 px-6 bg-red-500 text-white rounded-md shadow-md hover:bg-red-600 transition duration-300 focus:outline-none focus:ring-2 focus:ring-red-500">
-            팀 해체
+            aria-label="팀 해체"
+            className="flex items-center py-1.5 px-3 bg-white border border-red-500 text-red-500 rounded hover:bg-red-50 transition duration-200 focus:outline-none focus:ring-2 focus:ring-red-200 text-sm font-medium">
+            <i className="fas fa-trash-alt mr-1.5 text-xs"></i>팀 해체
           </button>
 
           <button
             onClick={handleTogglePage}
             type="button"
-            className="py-2 px-6 bg-gray-300 text-gray-700 rounded-md shadow-md hover:bg-gray-400 transition duration-300 focus:outline-none focus:ring-2 focus:ring-gray-500">
-            뒤로가기
+            aria-label="뒤로가기"
+            className="flex items-center py-1.5 px-3 bg-white border border-gray-300 text-gray-700 rounded hover:bg-gray-50 transition duration-200 focus:outline-none focus:ring-2 focus:ring-gray-200 text-sm font-medium">
+            <i className="fas fa-arrow-left mr-1.5 text-xs"></i>뒤로가기
           </button>
-        </footer>
+        </div>
+      </div>
+
+      <div className="space-y-6">
+        {/* Team Banner */}
+        <BannerImageInput
+          team_list_idx={teamInfo.team_list_idx}
+          imgSrc={teamInfo.team_list_banner || default_banner}
+          handleSetBanner={handlers.handleSetTeamBanner}
+        />
+
+        {/* Team Emblem */}
+        <section className="flex justify-start items-center space-x-4">
+          <EmblemImageInput
+            team_list_idx={teamInfo.team_list_idx}
+            imgSrc={teamInfo.team_list_emblem || default_banner}
+            handleSetTeamEmblem={handlers.handleSetTeamEmblem}
+          />
+          <AutoMatchPanel />
+        </section>
+
+        <section className="flex flex-wrap w-full gap-3">
+          <TextInputForm
+            team_list_idx={teamInfo.team_list_idx}
+            teamInfo={teamInfo}
+            handleSetTeamInfoWithoutImg={handlers.handleSetTeamInfoWithoutImg}
+          />
+          <TeamApplications team_list_idx={teamInfo.team_list_idx} />
+        </section>
       </div>
     </main>
   );

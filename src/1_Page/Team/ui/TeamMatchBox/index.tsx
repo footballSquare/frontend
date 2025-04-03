@@ -8,7 +8,7 @@ import { mergeMatchLists } from "../../../../4_Shared/lib/mergeMatchLists";
 
 const TeamMatchBox = () => {
   const teamIdx = useParamInteger("teamIdx");
-  const [page, setPage] = React.useState<number>(1);
+  const [page, setPage] = React.useState<number>(0);
   const [teamMatchList, hasMoreContent, loading] = useGetTeamMatchList({
     page,
     teamIdx,

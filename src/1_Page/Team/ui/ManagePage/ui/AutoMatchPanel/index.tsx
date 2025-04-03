@@ -11,6 +11,7 @@ import { matchDuration } from "../../../../../../4_Shared/constant/matchDuration
 import useToggleState from "../../../../../../4_Shared/model/useToggleState";
 
 const AutoMatchPanel = () => {
+  const disableFlag = true;
   const [isModalOpen, handleToggle] = useToggleState();
 
   const { register, handleSubmit, watch } = useForm<AutoMatchForm>({
@@ -24,13 +25,11 @@ const AutoMatchPanel = () => {
       formation: 1,
     },
   });
-
+  const watchGameType = watch("gameType");
+  const isCanFormation = watchGameType === "0";
   const onSubmit = (data: AutoMatchForm) => {
     console.log(data);
   };
-
-  const watchGameType = watch("gameType");
-  const isCanFormation = watchGameType === "0";
 
   return (
     <div className="flex flex-col">
@@ -51,6 +50,7 @@ const AutoMatchPanel = () => {
             <h2 className="text-2xl font-bold text-center mb-6 text-indigo-700">
               자동 매치 생성
             </h2>
+            <p>현재 지원되지 않는 기능입니다</p>
 
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
               {/* Auto Match Toggle */}
@@ -171,9 +171,16 @@ const AutoMatchPanel = () => {
                   className="py-2.5 px-6 bg-gray-100 text-gray-700 font-medium rounded-xl hover:bg-gray-200 transition-colors duration-200">
                   모달 닫기
                 </button>
+
                 <button
+                  disabled={disableFlag}
                   type="submit"
-                  className="py-2.5 px-6 bg-indigo-600 text-white font-medium rounded-xl hover:bg-indigo-700 transition-colors duration-200 shadow-md">
+                  className={`py-2.5 px-6 font-medium rounded-xl transition-colors duration-200 shadow-md
+                    ${
+                      disableFlag
+                        ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                        : "bg-indigo-600 text-white hover:bg-indigo-700"
+                    }`}>
                   자동 매치 설정 저장
                 </button>
               </div>

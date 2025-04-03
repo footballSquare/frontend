@@ -4,15 +4,17 @@ import { useFetchData } from "../../4_Shared/util/apiUtil";
 const usePutTeamEmblem = (
   teamListIdx: number
 ): [
-  putTeamEmblem: (img: File) => void,
+  putTeamEmblem: (file: File) => void,
   serverState: unknown,
   loading: boolean
 ] => {
   const [serverState, request, loading] = useFetchData();
 
-  const putTeamEmblem = (img: File) => {
+  const putTeamEmblem = (file: File) => {
     const endPoint = `/team/${teamListIdx}/emblem`;
-    request("PUT", endPoint, { file: img }, true);
+    const formData = new FormData();
+    formData.append("file", file);
+    request("PUT", endPoint, formData, true);
   };
 
   React.useEffect(() => {

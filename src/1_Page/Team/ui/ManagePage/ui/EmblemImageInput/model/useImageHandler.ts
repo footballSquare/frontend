@@ -49,7 +49,7 @@ const useImageHandler = ({
         setModifyMode(true);
       };
       reader.readAsDataURL(file);
-      setValue("img", file);
+      setValue("file", file);
     }
   };
 

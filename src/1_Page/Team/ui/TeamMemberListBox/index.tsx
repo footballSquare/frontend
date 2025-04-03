@@ -9,7 +9,7 @@ import useManageMemberList from "./model/useManageMemberList";
 const TeamMemberListBox = () => {
   const teamIdx = useParamInteger("teamIdx");
 
-  const [page, setPage] = React.useState<number>(1);
+  const [page, setPage] = React.useState<number>(0);
   const [teamMember, hasMoreContent, loading] = useGetTeamMembers(
     teamIdx,
     page
