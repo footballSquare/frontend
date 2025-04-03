@@ -6,7 +6,6 @@ import PAGE_URI from "../4_Shared/constant/pageUri";
 import FreeMatch from "./FreeMatch";
 import Profile from "./Profile";
 import Community from "./Community";
-import CommunityManaging from "./CommunityManaging";
 import Login from "./Login";
 import Championship from "./Championship";
 import { useIsLogin } from "../4_Shared/lib/useMyInfo";
@@ -30,10 +29,6 @@ const Page = () => {
         <Route
           path={`${PAGE_URI.COMMUNITY}/:communityIdx`}
           element={<Community />}
-        />
-        <Route
-          path={`${PAGE_URI.COMMUNITYMANAGING}/:communityIdx`}
-          element={<CommunityManaging />}
         />
         <Route path={PAGE_URI.RANKING} element={<Main />} />
         <Route path={`${PAGE_URI.PROFILE}/:userIdx`} element={<Profile />} />
