@@ -1,13 +1,10 @@
-import React from "react";
-import { MatchWaitList, MatchParticipant } from "../../../3_Entity/Match/types/response";
-
-export type UseMatchApproveProps = {
+type UseMatchApproveProps = {
   setMatchWaitList: React.Dispatch<React.SetStateAction<MatchWaitList>>;
   setMatchParticipants: React.Dispatch<
     React.SetStateAction<MatchParticipant[]>
   >;
 };
-export type MatchApproveHandlerProps = {
+type MatchApproveHandlerProps = {
   player: Pick<
     MatchParticipant,
     "player_list_idx" | "player_list_nickname" | "player_list_url"
@@ -16,10 +13,10 @@ export type MatchApproveHandlerProps = {
   matchParticipants: MatchParticipant[];
 };
 
-export type UseMatchApplyProps = {
+type UseMatchApplyProps = {
   setMatchWaitList: React.Dispatch<React.SetStateAction<MatchWaitList>>;
 };
-export type MatchApplyHandlerProps = {
+type MatchApplyHandlerProps = {
   player: Pick<
     MatchParticipant,
     "player_list_idx" | "player_list_nickname" | "player_list_url"

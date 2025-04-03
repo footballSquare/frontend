@@ -18,9 +18,10 @@ const useGetCommunityTeamList = (
     request(
       "GET",
       `/community/${communityIdx}/participation_team?page=${page}`,
-      null
+      null,
+      false
     );
-  }, [communityIdx]);
+  }, [communityIdx, request, page]);
 
   React.useEffect(() => {
     if (!loading && serverState) {
