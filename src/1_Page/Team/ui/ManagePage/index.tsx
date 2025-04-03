@@ -15,13 +15,12 @@ const ManagePage = (props: ManagePageProps) => {
   return (
     <main className="w-full p-4 bg-white  rounded-lg">
       <div className="flex flex-row justify-between items-center bg-white border-b mb-6 ">
-        {/* 좌측: 타이틀과 버튼 그룹 */}
         {/* 타이틀 영역 */}
         <div className="mr-6">
-          <h2 className="text-blue-600 font-semibold tracking-wider">
+          <h2 className="text-blue-600 font-semibold tracking-wider text-2xl">
             TEAM MANAGEMENT
           </h2>
-          <h1 className="text-gray-800 font-bold ">TEAM DETAILS</h1>
+          <h1 className="text-gray-800 font-bold text-4xl">TEAM DETAILS</h1>
         </div>
 
         {/* 버튼 그룹 */}

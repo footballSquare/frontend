@@ -3,23 +3,26 @@ import useManageAction from "./model/useManageAction";
 import useDeleteLeaveTeam from "../../../../3_Entity/Team/useDeleteLeaveTeam";
 import usePutSignTeam from "../../../../3_Entity/Team/usePutSignTeam";
 import useMakeTeamMatchModalStore from "../../../../4_Shared/zustand/useMakeMatchModalStore";
-import { useCookies } from "react-cookie";
 import useParamInteger from "../../../../4_Shared/model/useParamInteger";
+import {
+  useMyTeamIdx,
+  useMyTeamRoleIdx,
+} from "../../../../4_Shared/lib/useMyInfo";
 
 const TeamManageButtonGroup = (props: TeamManageButtonGroupProps) => {
   const { handleTogglePage } = props;
 
   const teamIdx = useParamInteger("teamIdx");
-
   const [deleteLeaveTeam] = useDeleteLeaveTeam(teamIdx);
   const [putSignTeam] = usePutSignTeam(teamIdx);
 
   // 팀 권한과 가입여부
-  const [cookies] = useCookies(["team_role_idx", "team_idx"]);
-  const teamRoleIdx = cookies.team_role_idx;
-  const isTeamPlayer = cookies.team_idx === teamIdx;
+
+  const [myTeamIDx] = useMyTeamIdx();
+  const [myTeamRoleIdx] = useMyTeamRoleIdx();
+  const isTeamPlayer = myTeamIDx === teamIdx;
   const isTeamReader =
-    (cookies.team_idx === teamIdx && teamRoleIdx === 0) || teamRoleIdx == 1;
+    isTeamPlayer && (myTeamRoleIdx === 0 || myTeamRoleIdx == 1);
   const {
     isLeaving,
     isPending,

@@ -21,7 +21,9 @@ const TeamMatchCard = (props: TeamMatchCardProps) => {
       ref={observeRef}
       key={"mathcard-" + index}
       className={`flex flex-row items-center rounded-lg shadow min-h-[100px] 
-        ${match_match_attribute === 1 ? "bg-gray-100" : "bg-gray-300"}`}
+        ${
+          match_match_attribute === 1 ? "bg-gray-100" : "bg-gray-300"
+        } cursor-pointer`}
       onClick={() => {
         setMatchIdx(match_match_idx);
         toggleMatchModal();
