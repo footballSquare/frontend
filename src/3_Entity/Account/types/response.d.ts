@@ -8,19 +8,24 @@ type Awards = {
 };
 
 type UserInfo = {
-  is_mine: boolean;
   user_idx: number;
-  profile_img: string;
-  short_team_name: string;
   nickname: string;
+  team_idx: number;
+  profile_image: string | null;
+  platform: "pc" | "xbox" | "playstation";
+  state: number;
+  message: string;
+  discord_tag: string;
+  MMR: number;
+  player_status: "pending" | "active" | "deleted";
+  is_mine: boolean;
+  // 첫 번째 타입에만 존재하는 속성 추가
+  short_team_name: string;
   state_message: string;
-  platform: number;
   team: string;
   team_emblem: string;
   common_status_idx: number;
   position: number;
-  tag_discord: string;
-  mmr: number;
   match_count: number;
   winning_rate: number;
   trophies: Awards[];
@@ -37,5 +42,5 @@ type SignInData = {
 };
 
 type DiscordOAuthUrl = {
-  url: string
-}
+  url: string;
+};
