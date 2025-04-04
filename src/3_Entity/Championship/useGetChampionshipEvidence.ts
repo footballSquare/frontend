@@ -3,10 +3,10 @@ import { useFetchData } from "../../4_Shared/util/apiUtil.ts";
 
 const useGetChampionshipEvidence = (
   championshipMatchIdx: number
-): [EvidenceImage[], boolean] => {
+): [EvidenceImage, boolean] => {
   const [serverState, request, loading] = useFetchData();
-  const [evidenceImage, setEvidenceImage] = React.useState<EvidenceImage[]>(
-    {} as EvidenceImage[]
+  const [evidenceImage, setEvidenceImage] = React.useState<EvidenceImage>(
+    {} as EvidenceImage
   );
 
   React.useEffect(() => {
@@ -17,7 +17,7 @@ const useGetChampionshipEvidence = (
   React.useEffect(() => {
     if (!loading && serverState && "evidance_img" in serverState) {
       setEvidenceImage(
-        (serverState as { evidance_img: EvidenceImage[] }).evidance_img
+        (serverState as { evidance_img: EvidenceImage }).evidance_img
       );
     }
   }, [loading, serverState]);
