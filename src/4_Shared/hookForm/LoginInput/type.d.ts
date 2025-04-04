@@ -8,4 +8,6 @@ type LoginInputProps = {
     id: string;
     password: string;
   }>;
+  type: string;
+  placeholder?: string;
 };

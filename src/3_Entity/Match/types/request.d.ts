@@ -28,16 +28,15 @@ type useGetTeamMatchListProps = {
 };
 
 type UsePostTeamMatchProps = {
-  teamIdx: number;
+  teamIdx: number | null;
 };
 
 type PostTeamMatchProps = {
   match_formation_idx: number;
   match_match_participation_type: number;
   match_type_idx: number;
-  match_match_attribute: number;
   match_match_start_time: string;
-  match_match_duration: string;
+  match_match_duration: { hours: number; minutes: number };
 };
 
 type PostOpenMatchProps = {
@@ -45,7 +44,7 @@ type PostOpenMatchProps = {
   match_match_participation_type: number;
   match_type_idx: number;
   match_match_start_time: string;
-  match_match_duration: string;
+  match_match_duration: { hours: number; minutes: number };
 };
 
 type PutMatchEndProps = {
@@ -54,14 +53,14 @@ type PutMatchEndProps = {
 
 type DeleteMatchProps = {
   matchIdx: number;
-}; 
+};
 
 type PutOpenMatchJoinProps = {
   matchIdx: number;
   matchPositionIdx: number;
-}
+};
 
 type DeleteMatchJoinProps = {
   matchIdx: number;
   userIdx: number;
-}
+};

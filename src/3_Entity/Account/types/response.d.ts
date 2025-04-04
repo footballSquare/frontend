@@ -7,7 +7,7 @@ type Awards = {
   championship_list_color: string;
 };
 
-export type UserInfo = {
+type UserInfo = {
   is_mine: boolean;
   user_idx: number;
   profile_img: string;
@@ -35,3 +35,7 @@ type SignInData = {
   team_role_idx: number | null;
   community_role_idx: number | null;
 };
+
+type DiscordOAuthUrl = {
+  url: string
+}

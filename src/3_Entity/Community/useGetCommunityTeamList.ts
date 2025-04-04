@@ -18,16 +18,18 @@ const useGetCommunityTeamList = (
     request(
       "GET",
       `/community/${communityIdx}/participation_team?page=${page}`,
-      null
+      null,
+      false
     );
-  }, [communityIdx]);
+  }, [communityIdx, request, page]);
 
   React.useEffect(() => {
     if (!loading && serverState) {
-      setCommunityTeamList(
-        (serverState as { participation_team: CommunityTeam[] })
-          .participation_team
-      );
+      setCommunityTeamList((prev: CommunityTeam[]) => [
+        ...prev,
+        ...(serverState as { participation_team: CommunityTeam[] })
+          .participation_team,
+      ]);
       setHasMoreContent(
         (serverState as { participation_team: CommunityTeam[] })
           .participation_team.length >= ITEMS_PER_PAGE

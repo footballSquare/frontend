@@ -1,7 +1,6 @@
 import React from "react";
 import { useCookies } from "react-cookie";
 import { useFetchData } from "../../4_Shared/util/apiUtil";
-import { SignInEventProps } from "./types/request";
 
 const useGetSignIn = (): [(props: SignInEventProps) => void] => {
   const [serverState, request, loading] = useFetchData();
@@ -16,13 +15,18 @@ const useGetSignIn = (): [(props: SignInEventProps) => void] => {
   ]);
 
   const signInEvent = (props: SignInEventProps) => {
-    const {id, password} = props;
-    request("GET", `/account/signin?id=${id}&password=${password}`, null);
+    const { id, password } = props;
+    request(
+      "GET",
+      `/account/signin?id=${id}&password=${password}`,
+      null,
+      false
+    );
   };
 
   React.useEffect(() => {
     if (!loading && serverState) {
-      if(serverState.status === 200){
+      if (serverState.status === 200) {
         const {
           player_status,
           access_token,
@@ -31,10 +35,9 @@ const useGetSignIn = (): [(props: SignInEventProps) => void] => {
           team_idx,
           team_role_idx,
           community_role_idx,
-        } = serverState;
-  
+        } = serverState.data as SignInData;
         const options = { path: "/", maxAge: 86400 };
-  
+
         setCookie("player_status", player_status, options);
         setCookie("access_token", access_token, options);
         setCookie("user_idx", user_idx, options);
@@ -42,9 +45,9 @@ const useGetSignIn = (): [(props: SignInEventProps) => void] => {
         setCookie("team_idx", team_idx, options);
         setCookie("team_role_idx", team_role_idx, options);
         setCookie("community_role_idx", community_role_idx, options);
-  
+
         window.history.back();
-      } else if(serverState.status === 400 || serverState.status === 404){
+      } else if (serverState.status === 400 || serverState.status === 404) {
         alert("아이디 또는 비밀번호를 확인해주세요.");
       }
     }

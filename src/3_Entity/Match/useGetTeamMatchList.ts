@@ -1,27 +1,20 @@
 import React from "react";
-import { useFetch } from "../../4_Shared/util/apiUtil";
-import { matchList } from "../../4_Shared/mock/matchList";
+import { useFetchData } from "../../4_Shared/util/apiUtil";
 
 const ITEMS_PER_PAGE = 10;
 
 const useGetTeamMatchList = (
   props: useGetTeamMatchListProps
-): [MatchInfo[], boolean, boolean, () => void] => {
+): [MatchInfo[], boolean, boolean] => {
   const { page, teamIdx } = props;
-  const [serverState, request, loading] = useFetch();
+  const [serverState, request, loading] = useFetchData();
   const [openMatchList, setOpenMatchList] = React.useState<MatchInfo[]>([]);
   const [hasMoreContent, setHasMoreContent] = React.useState<boolean>(true);
 
-  const refetch = React.useCallback(() => {
-    setOpenMatchList([]);
-    setHasMoreContent(true);
-    request(matchList);
-  }, [request]);
-
   React.useEffect(() => {
-    request(matchList);
-    console.log(teamIdx);
-  }, [page]);
+    const endPoint = `/match/team/${teamIdx}?page=${page}`;
+    request("GET", endPoint, null, false);
+  }, [page, request]);
 
   React.useEffect(() => {
     if (!loading && serverState && "match" in serverState) {
@@ -35,7 +28,7 @@ const useGetTeamMatchList = (
     }
   }, [loading, serverState]);
 
-  return [openMatchList, hasMoreContent, loading, refetch];
+  return [openMatchList, hasMoreContent, loading];
 };
 
 export default useGetTeamMatchList;

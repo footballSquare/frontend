@@ -3,16 +3,24 @@ import useManageAction from "./model/useManageAction";
 
 import useDeleteLeaveTeam from "../../../../3_Entity/Team/useDeleteLeaveTeam";
 import usePutSignTeam from "../../../../3_Entity/Team/usePutSignTeam";
-import useMakeTeamMatchModalStore from "../../../../4_Shared/zustand/useMakeTeamMatchModal";
+import useMakeTeamMatchModalStore from "../../../../4_Shared/zustand/useMakeMatchModalStore";
+import { useCookies } from "react-cookie";
+import useParamInteger from "../../../../4_Shared/model/useParamInteger";
 
 const TeamManageButtonGroup = (props: TeamManageButtonGroupProps) => {
-  const { isTeamReader, isTeamPlayer, teamListIdx, handleTogglePage } = props;
+  const { handleTogglePage } = props;
 
-  const [deleteLeaveTeam] = useDeleteLeaveTeam(teamListIdx);
-  const [putSignTeam] = usePutSignTeam(teamListIdx);
+  const teamIdx = useParamInteger("teamIdx");
 
-  const { setToggleModal } = useMakeTeamMatchModalStore(); // 팀매치 생성 모달 전역으로 관리
+  const [deleteLeaveTeam] = useDeleteLeaveTeam(teamIdx);
+  const [putSignTeam] = usePutSignTeam(teamIdx);
 
+  // 팀 권한과 가입여부
+  const [cookies] = useCookies(["team_role_idx", "team_idx"]);
+  const teamRoleIdx = cookies.team_role_idx;
+  const isTeamPlayer = cookies.team_idx === teamIdx;
+  const isTeamReader =
+    (cookies.team_idx === teamIdx && teamRoleIdx === 0) || teamRoleIdx == 1;
   const {
     isLeaving,
     isPending,
@@ -20,6 +28,9 @@ const TeamManageButtonGroup = (props: TeamManageButtonGroupProps) => {
     updateToLeave,
     updateToSignPending,
   } = useManageAction(isTeamPlayer);
+
+  // 팀매치 생성 모달 전역으로 관리
+  const { openTeamMatch } = useMakeTeamMatchModalStore(); // 팀매치 생성 모달 전역으로 관리
 
   return (
     <div className="flex flex-col items-center gap-2 mt-2">
@@ -63,7 +74,9 @@ const TeamManageButtonGroup = (props: TeamManageButtonGroupProps) => {
           </button>
           <button
             className="bg-blue-500 text-white text-sm font-medium py-1 px-3 rounded-full"
-            onClick={setToggleModal}>
+            onClick={() => {
+              openTeamMatch(teamIdx);
+            }}>
             매치 생성
           </button>
         </div>
