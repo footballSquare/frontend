@@ -26,6 +26,5 @@ dist-ssr
 .env
 *.tsbuildinfo
 
-./src/4_sahred/utils/apiUtil.ts
 
 ./src/main.tsx
