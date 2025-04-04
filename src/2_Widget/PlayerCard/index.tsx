@@ -1,7 +1,6 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 
-import { PlayerCardProps, ImageForm } from "./type";
 import useImageHandler from "./model/useImageHandler";
 import usePutProfileImage from "../../3_Entity/Account/usePutProfileImage";
 
@@ -12,7 +11,7 @@ import camera from "../../4_Shared/assets/svg/camera.svg";
 
 const PlayerCard = (props: PlayerCardProps) => {
   // is_mine  = true : 수정가능 / = false 수정 불가능
-  const { is_mine, user_idx, nickname, position, profile_img, team } = props;
+  const { is_mine, user_idx, nickname, position, profile_image, team } = props;
 
   const {
     register,
@@ -31,13 +30,13 @@ const PlayerCard = (props: PlayerCardProps) => {
     handleCancel,
     handleSave,
     handleSetDefaultImage,
-  } = useImageHandler({ profile_img, setValue, clearErrors });
+  } = useImageHandler({ profile_image, setValue, clearErrors });
 
-  const [putEvent] = usePutProfileImage(user_idx);
+  const [putEvent] = usePutProfileImage();
 
   const onSubmit: SubmitHandler<ImageForm> = (data) => {
     handleSave();
-    putEvent(data.img);
+    putEvent(data.file);
   };
 
   return (
@@ -58,7 +57,7 @@ const PlayerCard = (props: PlayerCardProps) => {
               type="file"
               accept="image/*"
               className="hidden"
-              {...register("img")}
+              {...register("file")}
               onChange={is_mine ? handleImageChange : undefined}
               disabled={!is_mine}
             />
@@ -129,9 +128,9 @@ const PlayerCard = (props: PlayerCardProps) => {
         )}
 
         {/* Error message */}
-        {errors.img && (
+        {errors.file && (
           <div className="bg-red-900 bg-opacity-30 px-4 py-2 text-red-300 text-xs">
-            {errors.img.message}
+            {errors.file.message}
           </div>
         )}
 

@@ -7,8 +7,8 @@ import PlayerCard from "../../2_Widget/PlayerCard";
 const Profile = () => {
   const [userIdx] = useValidParamInteger("userIdx");
   const [userInfo] = useGetMyInfo(userIdx);
-  const { winning_rate, trophies, match_count, mmr, ...playerProps } = userInfo;
-  const awardProps = { winning_rate, trophies, match_count, mmr };
+  const { winning_rate, trophies, match_count, MMR, ...playerProps } = userInfo;
+  const awardProps = { winning_rate, trophies, match_count, MMR };
 
   return (
     <main className="flex flex-wrap gap-1 w-full justify-center">

@@ -1,4 +1,3 @@
-import { AwardDashBoardProps } from "./type";
 import AutoMoveAwardList from "../../../../2_Widget/AutoMoveAwardList";
 
 const AwardDashBoard = (props: AwardDashBoardProps) => {
