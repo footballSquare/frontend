@@ -16,9 +16,6 @@ const TeamMatchCard = (props: TeamMatchCardProps) => {
     index,
     common_status_idx,
   } = props;
-  console.log(match_match_attribute);
-
-  console.log(common_status_idx);
 
   const { toggleMatchModal, setMatchIdx } = useMatchModalStore();
 

@@ -8,12 +8,15 @@ import {
   useMyTeamIdx,
   useMyTeamRoleIdx,
 } from "../../../../4_Shared/lib/useMyInfo";
+import useManageServerState from "./model/useManageServerState";
 
 const TeamManageButtonGroup = (props: TeamManageButtonGroupProps) => {
   const { handleToggleManageModal } = props;
 
   const teamIdx = useParamInteger("teamIdx");
-  const [deleteLeaveTeam] = useDeleteLeaveTeam(teamIdx);
+  const [deleteLeaveTeam, serverState] = useDeleteLeaveTeam(teamIdx);
+  useManageServerState(serverState);
+
   const [putSignTeam] = usePutSignTeam(teamIdx);
 
   // 팀 권한과

@@ -41,7 +41,17 @@ export const useLogout = (): [() => void] => {
       removeCookie("team_role_idx");
       removeCookie("team_idx");
       removeCookie("user_idx");
-      window.location.reload()
+      window.location.reload();
+    },
+  ];
+};
+
+export const useRemoveTeamCookie = (): [() => void] => {
+  const [, , removeCookie] = useCookies(["team_role_idx", "team_idx"]);
+  return [
+    () => {
+      removeCookie("team_role_idx", { path: "/" });
+      removeCookie("team_idx", { path: "/" });
     },
   ];
 };
