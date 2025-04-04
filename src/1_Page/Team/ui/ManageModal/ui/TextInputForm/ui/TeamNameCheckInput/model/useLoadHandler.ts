@@ -1,14 +1,9 @@
 import React from "react";
-import { useLoadHandlerProps } from "./type";
 
-const useLoadHandler = ({
-  loading,
-  modifyMode,
-  isRepeat,
-  setValue,
-  trigger,
-  repeatFormKey,
-}: useLoadHandlerProps) => {
+const useLoadHandler = (props: UseLoadHandlerProps) => {
+  const { loading, repeatFormKey, isRepeat, modifyMode, setValue, trigger } =
+    props;
+
   const [loadState, setLoadState] = React.useState<boolean>(true);
   React.useEffect(() => {
     setLoadState(loading);
