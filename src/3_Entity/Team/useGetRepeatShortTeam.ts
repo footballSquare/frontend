@@ -11,7 +11,8 @@ const useGetRepeatShortTeam = (): [
 
   const getRepeatShortTeam = (teamName: string) => {
     const endPoint = `/team/check_short_name`;
-    request("GET", endPoint, { team_list_short_name: teamName }, true);
+    const body = { team_list_short_name: teamName };
+    request("GET", endPoint, body, true);
   };
 
   React.useEffect(() => {
@@ -27,6 +28,7 @@ const useGetRepeatShortTeam = (): [
         console.log("중복");
         return;
       default:
+        setIsRepeat(true);
         return;
     }
   }, [serverState]);

@@ -2,7 +2,7 @@ import * as yup from "yup";
 import { isFileExtension } from "../util/inputValidator";
 
 export const schema = yup.object().shape({
-  img: yup
+  file: yup
     .mixed<File>()
     .required("이미지를 선택해주세요.")
     .test("fileType", "JPG, PNG, SVG 형식만 가능합니다.", (value) => {
