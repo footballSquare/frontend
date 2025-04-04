@@ -3,5 +3,5 @@ type FootballGroundSectionProps = {
   players: PlayerStats[];
   isFirstTeam: boolean;
   isFormationView: boolean;
-  momPlayerIdx: number;
+  momPlayerIdx: number | null;
 };

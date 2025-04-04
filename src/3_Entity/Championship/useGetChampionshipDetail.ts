@@ -3,20 +3,21 @@ import { useFetchData } from "../../4_Shared/util/apiUtil.ts";
 
 const useGetChampionshipDetail = (
   championshipMatchIdx: number
-): [ChampionshipDetail, boolean] => {
+): [ChampionshipMatchDetail, boolean] => {
   const [serverState, request, loading] = useFetchData();
   const [championshipDetail, setChampionshipDetail] =
-    React.useState<ChampionshipDetail>({} as ChampionshipDetail);
+    React.useState<ChampionshipMatchDetail>({} as ChampionshipMatchDetail);
 
   React.useEffect(() => {
+    if (championshipMatchIdx === 0) return;
     const endPoint = `/championship/championship_match/${championshipMatchIdx}/detail`;
     request("GET", endPoint, null, true);
-  }, []);
+  }, [championshipMatchIdx]);
 
   React.useEffect(() => {
     if (!loading && serverState && "championship_match" in serverState) {
       setChampionshipDetail(
-        (serverState as { championship_match: ChampionshipDetail })
+        (serverState as { championship_match: ChampionshipMatchDetail })
           .championship_match
       );
     }
