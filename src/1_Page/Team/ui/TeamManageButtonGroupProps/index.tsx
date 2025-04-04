@@ -10,7 +10,7 @@ import {
 } from "../../../../4_Shared/lib/useMyInfo";
 
 const TeamManageButtonGroup = (props: TeamManageButtonGroupProps) => {
-  const { handleTogglePage } = props;
+  const { handleToggleManageModal } = props;
 
   const teamIdx = useParamInteger("teamIdx");
   const [deleteLeaveTeam] = useDeleteLeaveTeam(teamIdx);
@@ -71,7 +71,7 @@ const TeamManageButtonGroup = (props: TeamManageButtonGroupProps) => {
         <div className="flex gap-2 mt-2">
           <button
             className="bg-blue-500 text-white text-sm font-medium py-1 px-3 rounded-full"
-            onClick={handleTogglePage}>
+            onClick={handleToggleManageModal}>
             팀관리
           </button>
           <button

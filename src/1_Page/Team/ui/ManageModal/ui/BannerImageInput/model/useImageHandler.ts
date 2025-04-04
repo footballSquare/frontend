@@ -1,19 +1,10 @@
 import React from "react";
-import { UseImageHandlerProps } from "./type";
 
-const useImageHandler = ({
-  imgSrc,
-  setValue,
-  clearErrors,
-}: UseImageHandlerProps): {
-  imagePreview: string;
-  inputFileRef: React.RefObject<HTMLInputElement>;
-  modifyMode: boolean;
-  handleImageClick: () => void;
-  handleImageChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  handleCancle: () => void;
-  handleSave: () => void;
-} => {
+const useImageHandler = (
+  props: UseImageHandlerProps
+): UseImageHandlerReturn => {
+  const { imgSrc, setValue, clearErrors } = props;
+
   const inputFileRef = React.useRef<HTMLInputElement>(null);
   const [modifyMode, setModifyMode] = React.useState<boolean>(false);
   const [imagePreview, setImagePreview] = React.useState<string>(imgSrc);

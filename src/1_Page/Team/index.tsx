@@ -8,7 +8,7 @@ import TeamManageButtonGroupProps from "./ui/TeamManageButtonGroupProps";
 import default_banner from "../../4_Shared/assets/img/banner_soccer.jpg";
 
 import useValidParamInteger from "../../4_Shared/model/useValidParamInteger";
-import ManagePage from "./ui/ManagePage";
+import ManageModal from "./ui/ManageModal";
 import useToggleState from "../../4_Shared/model/useToggleState";
 import useManageTeamInfo from "./model/useManagePage";
 
@@ -16,7 +16,7 @@ const Team = () => {
   const [teamIdx] = useValidParamInteger("teamIdx");
   const [teamInfo, loading] = useGetTeamInfo(teamIdx);
   const { displayTeamInfo, handlers } = useManageTeamInfo(teamInfo);
-  const [isManagePage, handleTogglePage] = useToggleState();
+  const [isManageModal, handleToggleManageModal] = useToggleState();
 
   const {
     team_list_banner,
@@ -27,13 +27,7 @@ const Team = () => {
     team_list_announcement,
   } = displayTeamInfo;
 
-  return isManagePage ? (
-    <ManagePage
-      handlers={handlers}
-      teamInfo={displayTeamInfo}
-      handleTogglePage={handleTogglePage}
-    />
-  ) : (
+  return (
     <main className="flex flex-col w-[90%] text-sm pt-5">
       {loading ? (
         <div>로딩중</div>
@@ -70,7 +64,7 @@ const Team = () => {
                     </h1>
 
                     <TeamManageButtonGroupProps
-                      handleTogglePage={handleTogglePage}
+                      handleToggleManageModal={handleToggleManageModal}
                     />
                   </section>
                 </div>
@@ -100,6 +94,13 @@ const Team = () => {
             </div>
           </article>
         </div>
+      )}
+      {isManageModal && (
+        <ManageModal
+          handlers={handlers}
+          teamInfo={displayTeamInfo}
+          handleToggleManageModal={handleToggleManageModal}
+        />
       )}
     </main>
   );
