@@ -1,26 +1,28 @@
-import { TeamManageButtonGroupProps } from "./type";
 import useManageAction from "./model/useManageAction";
 
 import useDeleteLeaveTeam from "../../../../3_Entity/Team/useDeleteLeaveTeam";
 import usePutSignTeam from "../../../../3_Entity/Team/usePutSignTeam";
 import useMakeTeamMatchModalStore from "../../../../4_Shared/zustand/useMakeMatchModalStore";
-import { useCookies } from "react-cookie";
 import useParamInteger from "../../../../4_Shared/model/useParamInteger";
+import {
+  useMyTeamIdx,
+  useMyTeamRoleIdx,
+} from "../../../../4_Shared/lib/useMyInfo";
 
 const TeamManageButtonGroup = (props: TeamManageButtonGroupProps) => {
-  const { handleTogglePage } = props;
+  const { handleToggleManageModal } = props;
 
   const teamIdx = useParamInteger("teamIdx");
-
   const [deleteLeaveTeam] = useDeleteLeaveTeam(teamIdx);
   const [putSignTeam] = usePutSignTeam(teamIdx);
 
   // 팀 권한과 가입여부
-  const [cookies] = useCookies(["team_role_idx", "team_idx"]);
-  const teamRoleIdx = cookies.team_role_idx;
-  const isTeamPlayer = cookies.team_idx === teamIdx;
+
+  const [myTeamIDx] = useMyTeamIdx();
+  const [myTeamRoleIdx] = useMyTeamRoleIdx();
+  const isTeamPlayer = myTeamIDx === teamIdx;
   const isTeamReader =
-    (cookies.team_idx === teamIdx && teamRoleIdx === 0) || teamRoleIdx == 1;
+    isTeamPlayer && (myTeamRoleIdx === 0 || myTeamRoleIdx == 1);
   const {
     isLeaving,
     isPending,
@@ -30,7 +32,7 @@ const TeamManageButtonGroup = (props: TeamManageButtonGroupProps) => {
   } = useManageAction(isTeamPlayer);
 
   // 팀매치 생성 모달 전역으로 관리
-  const { openTeamMatch } = useMakeTeamMatchModalStore(); // 팀매치 생성 모달 전역으로 관리
+  const { toggleMakeMatchModal } = useMakeTeamMatchModalStore(); // 팀매치 생성 모달 전역으로 관리
 
   return (
     <div className="flex flex-col items-center gap-2 mt-2">
@@ -69,14 +71,12 @@ const TeamManageButtonGroup = (props: TeamManageButtonGroupProps) => {
         <div className="flex gap-2 mt-2">
           <button
             className="bg-blue-500 text-white text-sm font-medium py-1 px-3 rounded-full"
-            onClick={handleTogglePage}>
+            onClick={handleToggleManageModal}>
             팀관리
           </button>
           <button
             className="bg-blue-500 text-white text-sm font-medium py-1 px-3 rounded-full"
-            onClick={() => {
-              openTeamMatch(teamIdx);
-            }}>
+            onClick={toggleMakeMatchModal}>
             매치 생성
           </button>
         </div>
