@@ -3,8 +3,8 @@ import * as Yup from "yup";
 export const schema = Yup.object().shape({
   team_list_name: Yup.string()
     .required("팀 이름을 입력해주세요.")
-    .max(10, "팀 이름은 최대 10글자까지 가능합니다.")
-    .matches(/^[가-힣a-zA-Z0-9]+$/, "특수 문자는 사용할 수 없습니다."),
+    .max(20, "팀 이름은 최대 20글자까지 가능합니다.")
+    .matches(/^[가-힣a-zA-Z]+$/, "팀 이름은 한글과 영어만 사용할 수 있습니다."),
 
   team_list_short_name: Yup.string()
     .required("팀 약칭을 입력해주세요.")

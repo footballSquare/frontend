@@ -1,8 +1,7 @@
 import { useFormContext } from "react-hook-form";
 
 import useLoadHandler from "./model/useLoadHandler";
-import useGetRepeatTeam from "../../../../../../../../3_Entity/Team/useGetRepeatTeam";
-import useGetRepeatShortTeam from "../../../../../../../../3_Entity/Team/useGetRepeatShortTeam";
+import useGetRepeat from "./model/useGetRepeat";
 
 const TeamNameCheckInput = (props: TeamNameCheckInputProps) => {
   const { modifyMode, isShort } = props;
@@ -15,37 +14,33 @@ const TeamNameCheckInput = (props: TeamNameCheckInputProps) => {
     setValue,
   } = useFormContext();
 
-  // isShort 값에 따라 다른 필드 사용
-  const formKey = isShort ? "team_list_short_name" : "team_list_name";
-  const repeatFormKey = isShort
-    ? "short_team_repeat_checked"
-    : "team_repeat_checked";
+  const { isRepeat, loading, getRepeatEvent, formKey, repeatFormKey } =
+    useGetRepeat(isShort);
 
-  const [isRepeatShort, shortLoading, getRepeatShortTeam] =
-    useGetRepeatShortTeam();
-  const [isRepeatTeam, teamLoading, getRepeatTeam] = useGetRepeatTeam();
-
-  // 훅 동적 적용
-  const isRepeat = isShort ? isRepeatShort : isRepeatTeam;
-  const loading = isShort ? shortLoading : teamLoading;
-  const getRepeatEvent = isShort ? getRepeatShortTeam : getRepeatTeam;
-  const [loadState] = useLoadHandler({
+  const { loadState, isNotChange, handleSetAllow, backupRef } = useLoadHandler({
     loading,
     modifyMode,
     isRepeat,
     setValue,
     trigger,
     repeatFormKey,
+    formKey,
+    getValues,
   });
 
-  const disable = !modifyMode || (!loadState && !isRepeat);
   const handleClick = async () => {
+    //변견사항이 없을떄
+    if (backupRef.current != getValues(formKey)) {
+      handleSetAllow();
+      return;
+    }
     const isValid = await trigger(formKey); // 유효성 검증
     if (isValid) {
       getRepeatEvent(getValues(formKey)); // 증복검사
     }
   };
 
+  const disable = !modifyMode || (!loadState && !isRepeat) || isNotChange;
   return (
     <div>
       <p className="text-sm font-medium text-gray-600">
