@@ -7,6 +7,6 @@ type AwardType = {
   championship_list_color: string;
 };
 
-export type AutoMoveAwardListProps = {
+type AutoMoveAwardListProps = {
   awards: AwardType[];
 };

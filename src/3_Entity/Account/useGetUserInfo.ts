@@ -1,14 +1,13 @@
 import React from "react";
-import { useFetch } from "../../4_Shared/util/apiUtil.ts";
-import { mockUserInfo } from "../../4_Shared/mock/userInfo.ts";
+import { useFetchData } from "../../4_Shared/util/apiUtil.ts";
 
 const useGetUserInfo = (userIdx: number): [UserInfo, boolean] => {
-  const [serverState, request, loading] = useFetch();
+  const [serverState, request, loading] = useFetchData();
   const [userInfo, setUserInfo] = React.useState<UserInfo>({} as UserInfo);
 
   React.useEffect(() => {
-    request(mockUserInfo);
-    console.log(userIdx);
+    const endPoint = `/account/info/${userIdx}`;
+    request("GET", endPoint, null, true);
   }, []);
 
   React.useEffect(() => {
