@@ -16,13 +16,14 @@ const TeamManageButtonGroup = (props: TeamManageButtonGroupProps) => {
   const [deleteLeaveTeam] = useDeleteLeaveTeam(teamIdx);
   const [putSignTeam] = usePutSignTeam(teamIdx);
 
-  // 팀 권한과 가입여부
-
+  // 팀 권한과
   const [myTeamIDx] = useMyTeamIdx();
   const [myTeamRoleIdx] = useMyTeamRoleIdx();
   const isTeamPlayer = myTeamIDx === teamIdx;
   const isTeamReader =
     isTeamPlayer && (myTeamRoleIdx === 0 || myTeamRoleIdx == 1);
+
+  // 팀 가입 신청 상태
   const {
     isLeaving,
     isPending,

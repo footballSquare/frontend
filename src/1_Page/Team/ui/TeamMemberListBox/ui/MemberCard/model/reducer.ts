@@ -1,5 +1,3 @@
-import { ModalState, ModalAction } from "./type";
-
 export const modalReducer = (
   state: ModalState,
   action: ModalAction
