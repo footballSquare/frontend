@@ -5,11 +5,12 @@ import { schema } from "./lib/schema";
 import { convertCreateChampionMatchForm } from "./util/convert";
 import usePostCreateChampionshipMatch from "../../../../../../../../../../../../3_Entity/Championship/usePostCreateChampionshipMatch";
 import useParamInteger from "../../../../../../../../../../../../4_Shared/model/useParamInteger";
+import React from "react";
 
 const CreateChampionMatchModal = (props: CreateChampionMatchModalProps) => {
   const { onClose, filteredTeamList, handleAddMatch } = props;
   const championshipIdx = useParamInteger("championshipIdx");
-  const [postCreateChampionshipMatch] =
+  const [postCreateChampionshipMatch, postCreateChampionshipMatchData] =
     usePostCreateChampionshipMatch(championshipIdx);
 
   const {
@@ -30,11 +31,15 @@ const CreateChampionMatchModal = (props: CreateChampionMatchModalProps) => {
 
   const onSubmit = (data: CreateChampionMatchFormValues) => {
     const convertFormData = convertCreateChampionMatchForm(data);
-    console.log(convertFormData);
     postCreateChampionshipMatch(convertFormData);
-    handleAddMatch(convertFormData);
     onClose();
   };
+
+  // Post로 요청된 데이터 처리
+  React.useEffect(() => {
+    if (!postCreateChampionshipMatchData) return;
+    handleAddMatch(postCreateChampionshipMatchData);
+  }, [postCreateChampionshipMatchData]);
 
   return (
     <div className="fixed inset-0 z-10 bg-black/50 flex items-center justify-center">
