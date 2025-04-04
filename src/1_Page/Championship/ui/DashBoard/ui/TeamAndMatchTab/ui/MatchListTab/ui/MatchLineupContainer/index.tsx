@@ -1,20 +1,20 @@
 import React from "react";
-import { useCookies } from "react-cookie";
-
 import FootballGroundSection from "./ui/FootballGroundSection";
 import VerticalTeamStatCards from "./ui/VerticalTeamStatCards";
 import EvidenceDetailModal from "./ui/EvidenceDetailModal";
 
 import useGetChampionshipDetail from "../../../../../../../../../../3_Entity/Championship/useGetChampionshipDetail";
 import useToggleState from "../../../../../../../../../../4_Shared/model/useToggleState";
+import { useMyCommunityRoleIdx } from "../../../../../../../../../../4_Shared/lib/useMyInfo";
 
 const MatchLineupContainer = (props: MatchLineupContainerProps) => {
   const { matchIdx, selectedTeams } = props;
   // admin
-  const [cookies] = useCookies(["community_role_idx"]);
-  const isAdmin = cookies.community_role_idx === 0;
+  const [community_role_idx] = useMyCommunityRoleIdx();
+  const isAdmin = community_role_idx === 0;
   // api
   const [championshipDetail] = useGetChampionshipDetail(matchIdx);
+  console.log(championshipDetail);
   // state
   const [isModalOpen, handleToggleModal] = useToggleState();
   const [isFormationView, setIsFormationView] = React.useState<boolean>(true);
@@ -104,7 +104,9 @@ const MatchLineupContainer = (props: MatchLineupContainerProps) => {
           <div className="flex flex-col md:flex-row flex-wrap justify-center gap-4">
             {/* 첫 번째 팀 (왼쪽) */}
             <FootballGroundSection
-              teamFormation={championshipDetail?.first_team?.team_formation_idx}
+              teamFormation={
+                championshipDetail?.match_info?.first_match_formation_idx || 0
+              }
               momPlayerIdx={
                 championshipDetail?.first_team?.stats?.mom_player_idx
               }
@@ -116,7 +118,7 @@ const MatchLineupContainer = (props: MatchLineupContainerProps) => {
             {/* 두 번째 팀 (오른쪽) */}
             <FootballGroundSection
               teamFormation={
-                championshipDetail?.second_team?.team_formation_idx
+                championshipDetail?.match_info?.second_match_formation_idx || 0
               }
               momPlayerIdx={
                 championshipDetail?.second_team?.stats?.mom_player_idx

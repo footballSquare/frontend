@@ -38,7 +38,7 @@ const FootballGroundSection = (props: FootballGroundSectionProps) => {
                     : ""
                 }`}>
                 {player.player_list_idx === momPlayerIdx ? "MOM " : ""}
-                {matchPosition[player.match_player_stats_possition]}
+                {matchPosition[player.match_position_idx]}
                 {" : "}
                 {player.player_list_nickname}
               </div>
@@ -58,8 +58,7 @@ const FootballGroundSection = (props: FootballGroundSectionProps) => {
         <div className="absolute bottom-0 left-1/2 w-[100px] h-[40px] border-t border-l border-r border-white transform -translate-x-1/2"></div>
         {players?.map((player) => {
           const location = formations[teamFormation].filter(
-            (formation) =>
-              formation.positionIdx === player.match_player_stats_possition
+            (formation) => formation.positionIdx === player.match_position_idx
           )[0] || { top: 0, left: 0 };
 
           return (
@@ -95,27 +94,29 @@ const FootballGroundSection = (props: FootballGroundSectionProps) => {
                       : "bg-white"
                   }`}>
                   {/* 골 아이콘 표시 */}
-                  {player.match_player_stats_goal > 0 && (
-                    <div className="absolute -bottom-1 -left-1 text-[10px] bg-black text-white px-1 rounded-full flex items-center gap-0.5">
-                      ⚽
-                      {player.match_player_stats_goal > 1 && (
-                        <span className="ml-0.5">
-                          +{player.match_player_stats_goal}
-                        </span>
-                      )}
-                    </div>
-                  )}
+                  {player.match_player_stats_goal &&
+                    player.match_player_stats_goal > 0 && (
+                      <div className="absolute -bottom-1 -left-1 text-[10px] bg-black text-white px-1 rounded-full flex items-center gap-0.5">
+                        ⚽
+                        {player.match_player_stats_goal > 1 && (
+                          <span className="ml-0.5">
+                            +{player.match_player_stats_goal}
+                          </span>
+                        )}
+                      </div>
+                    )}
                   {/* 어시스트 아이콘 표시 */}
-                  {player.match_player_stats_assist > 0 && (
-                    <div className="absolute -bottom-1 -right-1 text-[10px] bg-black text-white px-1 rounded-full flex items-center gap-0.5">
-                      🎯
-                      {player.match_player_stats_assist > 1 && (
-                        <span className="ml-0.5">
-                          +{player.match_player_stats_assist}
-                        </span>
-                      )}
-                    </div>
-                  )}
+                  {player.match_player_stats_assist &&
+                    player.match_player_stats_assist > 0 && (
+                      <div className="absolute -bottom-1 -right-1 text-[10px] bg-black text-white px-1 rounded-full flex items-center gap-0.5">
+                        🎯
+                        {player.match_player_stats_assist > 1 && (
+                          <span className="ml-0.5">
+                            +{player.match_player_stats_assist}
+                          </span>
+                        )}
+                      </div>
+                    )}
                 </div>
                 <div
                   className={`absolute left-1/2 -translate-x-1/2 top-[calc(100%+8px)] p-2 bg-gray-800 text-white text-xs rounded-md shadow-lg border border-gray-600 whitespace-nowrap transition-opacity duration-200  ${
@@ -131,8 +132,7 @@ const FootballGroundSection = (props: FootballGroundSectionProps) => {
                   </p>
                   <div>Name: {player.player_list_nickname}</div>
                   <div>
-                    Position:{" "}
-                    {matchPosition[player.match_player_stats_possition]}
+                    Position: {matchPosition[player.match_position_idx]}
                   </div>
                   <div>Goal: {player.match_player_stats_goal}</div>
                   <div>Assist: {player.match_player_stats_assist}</div>
@@ -173,7 +173,7 @@ const FootballGroundSection = (props: FootballGroundSectionProps) => {
                     : ""
                 }`}>
                 {player.player_list_idx === momPlayerIdx ? "MOM " : ""}
-                {matchPosition[player.match_player_stats_possition]}
+                {matchPosition[player.match_position_idx]}
                 {" : "}
                 {player.player_list_nickname}
               </div>
