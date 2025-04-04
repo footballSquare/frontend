@@ -1,8 +1,8 @@
 import ChampionshipMatchCard from "./ui/ChampionshipMatchCard";
 import CreateChaipionMatchModal from "./ui/CreateChaipionMatchModal";
 import useSortHandler from "./model/useSortHandler";
-import { useCookies } from "react-cookie";
 import useToggleState from "../../../../../../../../../../4_Shared/model/useToggleState";
+import { useMyCommunityRoleIdx } from "../../../../../../../../../../4_Shared/lib/useMyInfo";
 
 const ChampionshipMatchCardContainer = (
   props: ChampionshipMatchCardContainerProps
@@ -16,8 +16,9 @@ const ChampionshipMatchCardContainer = (
   } = props;
 
   const [isModalOpen, handleToggleModal] = useToggleState();
-  const [cookies] = useCookies(["community_role_idx"]);
-  const isAdmin = cookies.community_role_idx === 0;
+
+  const [community_role_idx] = useMyCommunityRoleIdx();
+  const isAdmin = community_role_idx === 0;
 
   const {
     searchTerm,

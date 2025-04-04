@@ -9,9 +9,7 @@ const useGetChampionshipDetail = (
     React.useState<ChampionshipDetail>({} as ChampionshipDetail);
 
   React.useEffect(() => {
-    const endPoint =
-      import.meta.env.VITE_SERVER_URL +
-      `/championship/championship_match/${championshipMatchIdx}/detail`;
+    const endPoint = `/championship/championship_match/${championshipMatchIdx}/detail`;
     request("GET", endPoint, null, true);
   }, []);
 

@@ -8,6 +8,7 @@ import { getTextColorFromBackground } from "../../../../4_Shared/lib/colorChecke
 import { matchType } from "../../../../4_Shared/constant/matchType";
 import { championshipTypes } from "../../../../4_Shared/constant/championshipTypes";
 import { formatDateKoreanDate } from "../../../../4_Shared/lib/dateFormatter";
+import defaultTrophyImg from "../../../../4_Shared/assets/svg/rank.svg";
 
 const InfoHeader = (props: InfoHeaderProps) => {
   const { championshipInfo } = props;
@@ -46,7 +47,10 @@ const InfoHeader = (props: InfoHeaderProps) => {
           <div className="flex items-center space-x-2 mb-4 md:mb-0">
             <img
               className="w-[40px] h-[40px] object-cover"
-              src={championshipInfo.championship_list_throphy_img}
+              src={
+                championshipInfo.championship_list_throphy_img ||
+                defaultTrophyImg
+              }
               alt="Trophy"
             />
             <h1 className="text-2xl font-bold">

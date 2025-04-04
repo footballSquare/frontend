@@ -149,9 +149,12 @@ export const useFetchData = (): [
         if (error instanceof AxiosError) {
           const { status, data } = error.response ?? {};
           setServerState({ status });
+          console.log("endpoint", endpoint);
+          console.log("body", body);
+          console.log("서버 오류:", status, data);
+
           if (status === 500) {
             console.error("Internal Server Error:", status, data.message);
-            console.error("서버 오류:", data.message);
             alert("알 수 없는 오류.");
           }
         }

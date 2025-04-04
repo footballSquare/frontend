@@ -3,7 +3,7 @@ type ChampionshipInfo = {
   championship_list_name: string;
   championship_list_description: string;
   match_type_idx: number;
-  championship_list_throphy_img: string;
+  championship_list_throphy_img: string | null;
   championship_list_start_date: string;
   championship_list_end_date: string;
   common_status_idx: number;
@@ -31,8 +31,8 @@ type ChampionshipMatchList = {
     team_list_short_name: string;
     team_list_color: string;
     team_list_emblem: string;
-    match_team_stats_our_score: number;
-    match_team_stats_other_score: number;
+    match_team_stats_our_score: number | null;
+    match_team_stats_other_score: number | null;
     common_status_idx: number;
   };
   championship_match_second: {
@@ -42,8 +42,8 @@ type ChampionshipMatchList = {
     team_list_short_name: string;
     team_list_color: string;
     team_list_emblem: string;
-    match_team_stats_our_score: number;
-    match_team_stats_other_score: number;
+    match_team_stats_our_score: number | null;
+    match_team_stats_other_score: number | null;
     common_status_idx: number;
   };
 };

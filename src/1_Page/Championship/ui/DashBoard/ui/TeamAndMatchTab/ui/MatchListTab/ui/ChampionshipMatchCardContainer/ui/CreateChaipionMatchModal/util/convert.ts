@@ -4,6 +4,6 @@ export const convertCreateChampionMatchForm = (
   return {
     first_team_idx: data.teams[0],
     second_team_idx: data.teams[1],
-    match_match_start_time: `${data.matchDate}T${data.startTime}:00`,
+    match_match_start_time: `${data.matchDate} ${data.startTime}:00`,
   };
 };

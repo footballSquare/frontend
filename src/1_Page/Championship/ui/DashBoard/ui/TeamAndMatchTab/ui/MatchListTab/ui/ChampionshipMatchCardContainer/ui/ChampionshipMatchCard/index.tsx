@@ -1,7 +1,7 @@
-import { useCookies } from "react-cookie";
 import useDeleteChampionshipMatch from "../../../../../../../../../../../../3_Entity/Championship/useDeleteChampionshipMatch";
 import usePutChampionshipMatchEnd from "../../../../../../../../../../../../3_Entity/Championship/usePutChampionshipMatchEnd";
 import { matchState } from "../../../../../../../../../../../../4_Shared/constant/matchState";
+import { useMyCommunityRoleIdx } from "../../../../../../../../../../../../4_Shared/lib/useMyInfo";
 
 const ChampionshipMatchCard = (props: ChampionshipMatchCardProps) => {
   const {
@@ -12,8 +12,9 @@ const ChampionshipMatchCard = (props: ChampionshipMatchCardProps) => {
     handleDeleteMatch,
     handleEndMatch,
   } = props;
-  const [cookies] = useCookies(["community_role_idx"]);
-  const isAdmin = cookies.community_role_idx === 0;
+
+  const [community_role_idx] = useMyCommunityRoleIdx();
+  const isAdmin = community_role_idx === 0;
 
   const home = match.championship_match_first;
   const away = match.championship_match_second;
