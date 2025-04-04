@@ -3,9 +3,7 @@ type SignInEventProps = {
   password: string;
 };
 
-type PutUserInfoProps = {
-  id: string;
-  password: string;
+type UsePutUserInfoProps = {
   nickname: string;
   team_idx: number;
   platform: "pc" | "xbox" | "playstation";

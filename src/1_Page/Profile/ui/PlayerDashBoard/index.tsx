@@ -6,8 +6,6 @@ import { schema } from "./lib/schema";
 import { hasChanges } from "./util/validate";
 import { convertToPostData, convertToInfoForm } from "./util/convert";
 import useModifyHandler from "./model/useModifyHandler";
-// 타입
-import { PlayerDashBoardProps, UserInfoForm } from "./type";
 // 상수
 import { platform } from "../../../../4_Shared/constant/platform";
 import { matchPosition } from "../../../../4_Shared/constant/matchPosition";
@@ -57,7 +55,7 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
       </h1>
       <form onSubmit={handleSubmit(onSubmit)}>
         <input
-          {...register("state_message")}
+          {...register("message")}
           disabled={!modifyMode}
           className={`w-full p-2 text-sm text-center rounded-md ${
             modifyMode
@@ -83,7 +81,7 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
             </div>
           ) : (
             <select
-              {...register("common_status_idx")}
+              {...register("state")}
               disabled={!modifyMode}
               className={`w-full p-2 text-xs rounded-md ${
                 modifyMode
@@ -172,7 +170,7 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
               Discord Tag
             </label>
             <input
-              {...register("tag_discord")}
+              {...register("discord_tag")}
               disabled={!modifyMode}
               className={`w-full p-2 text-xs ${
                 modifyMode
