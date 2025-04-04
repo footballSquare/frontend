@@ -11,10 +11,7 @@ import { matchDuration } from "../../../../../../4_Shared/constant/matchDuration
 import useToggleState from "../../../../../../4_Shared/model/useToggleState";
 
 const AutoMatchPanel = () => {
-<<<<<<< HEAD
   const disableFlag = true;
-=======
->>>>>>> develop
   const [isModalOpen, handleToggle] = useToggleState();
 
   const { register, handleSubmit, watch } = useForm<AutoMatchForm>({
@@ -28,32 +25,17 @@ const AutoMatchPanel = () => {
       formation: 1,
     },
   });
-<<<<<<< HEAD
   const watchGameType = watch("gameType");
   const isCanFormation = watchGameType === "0";
-=======
-
->>>>>>> develop
   const onSubmit = (data: AutoMatchForm) => {
     console.log(data);
   };
 
-<<<<<<< HEAD
   return (
     <div className="flex flex-col">
       <h2 className="text-lg font-semibold text-gray-700">자동 매치</h2>
       <p className="text-sm text-gray-500">
         자동 매치 설정 하려면 버튼을 클릭하세요.
-=======
-  const watchGameType = watch("gameType");
-  const isCanFormation = watchGameType === "0";
-
-  return (
-    <div className="flex flex-col">
-      <h2 className="text-lg font-semibold text-gray-700">Team Info</h2>
-      <p className="text-sm text-gray-500">
-        Edit or update team details below.
->>>>>>> develop
       </p>
       <button
         type="button"
@@ -68,10 +50,7 @@ const AutoMatchPanel = () => {
             <h2 className="text-2xl font-bold text-center mb-6 text-indigo-700">
               자동 매치 생성
             </h2>
-<<<<<<< HEAD
             <p>현재 지원되지 않는 기능입니다</p>
-=======
->>>>>>> develop
 
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
               {/* Auto Match Toggle */}
@@ -192,7 +171,6 @@ const AutoMatchPanel = () => {
                   className="py-2.5 px-6 bg-gray-100 text-gray-700 font-medium rounded-xl hover:bg-gray-200 transition-colors duration-200">
                   모달 닫기
                 </button>
-<<<<<<< HEAD
 
                 <button
                   disabled={disableFlag}
@@ -203,11 +181,6 @@ const AutoMatchPanel = () => {
                         ? "bg-gray-300 text-gray-500 cursor-not-allowed"
                         : "bg-indigo-600 text-white hover:bg-indigo-700"
                     }`}>
-=======
-                <button
-                  type="submit"
-                  className="py-2.5 px-6 bg-indigo-600 text-white font-medium rounded-xl hover:bg-indigo-700 transition-colors duration-200 shadow-md">
->>>>>>> develop
                   자동 매치 설정 저장
                 </button>
               </div>
