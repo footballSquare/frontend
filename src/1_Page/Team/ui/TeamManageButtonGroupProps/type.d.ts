@@ -1,3 +1,3 @@
 type TeamManageButtonGroupProps = {
-  handleTogglePage: () => void;
+  handleToggleManageModal: () => void;
 };
