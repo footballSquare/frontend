@@ -12,7 +12,7 @@ import useParamInteger from "../../../../../../4_Shared/model/useParamInteger";
 const EndChampionshipModal = (props: EndChampionshipModalProps) => {
   const { handleToggleModal } = props;
 
-  const championshipListIdx = useParamInteger("championshipListIdx");
+  const championshipListIdx = useParamInteger("championshipIdx");
   // api
   const [championshipTeam] = useGetChampionshipTeams(championshipListIdx);
   const [playerStats] = useGetPlayerStats(championshipListIdx);

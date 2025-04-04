@@ -30,6 +30,7 @@ const CreateChampionMatchModal = (props: CreateChampionMatchModalProps) => {
 
   const onSubmit = (data: CreateChampionMatchFormValues) => {
     const convertFormData = convertCreateChampionMatchForm(data);
+    console.log(convertFormData);
     postCreateChampionshipMatch(convertFormData);
     handleAddMatch(convertFormData);
     onClose();

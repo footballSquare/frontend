@@ -40,13 +40,20 @@ const convertToFilterMatchList = (
   const eliminatedTeams: number[] = [];
   const teams = getHighestRoundTeamIndices(tournamentData);
 
-  // 종료된 매치 및 패배팀을 찾기
   matchList.forEach((match) => {
+    // 종료되지 않은 경기라면 제거해야할 팀에 두팀 모두 추가
     if (match.championship_match_first.common_status_idx !== 4) {
       eliminatedTeams.push(match.championship_match_second.team_list_idx);
       eliminatedTeams.push(match.championship_match_first.team_list_idx);
+    } else if (
+      match.championship_match_first.match_team_stats_our_score === null ||
+      match.championship_match_second.match_team_stats_our_score === null
+    ) {
+      eliminatedTeams.push(match.championship_match_second.team_list_idx);
+      eliminatedTeams.push(match.championship_match_first.team_list_idx);
     }
-    if (
+    // 승자 결정 후 진팀만 제거해야할 리스트에 추가
+    else if (
       match.championship_match_first.match_team_stats_our_score >
       match.championship_match_second.match_team_stats_our_score
     ) {
@@ -101,10 +108,14 @@ const convertToLeague = (
 
     // 매치의 팀1의 데이터 업데이트
     statsMap[team1.team_list_idx].matchesPlayed += 1;
-    statsMap[team1.team_list_idx].goalsFor += team1.match_team_stats_our_score;
+    statsMap[team1.team_list_idx].goalsFor +=
+      team1.match_team_stats_our_score || 0;
     statsMap[team1.team_list_idx].goalsAgainst +=
-      team1.match_team_stats_other_score;
-    if (team1.match_team_stats_our_score > team1.match_team_stats_other_score) {
+      team1.match_team_stats_other_score || 0;
+    if (
+      team1.match_team_stats_our_score ||
+      0 > (team1.match_team_stats_other_score || 0)
+    ) {
       statsMap[team1.team_list_idx].wins += 1;
       statsMap[team1.team_list_idx].points += 3;
     } else if (
@@ -118,10 +129,14 @@ const convertToLeague = (
 
     // 매치의 팀2의 데이터 업데이트
     statsMap[team2.team_list_idx].matchesPlayed += 1;
-    statsMap[team2.team_list_idx].goalsFor += team2.match_team_stats_our_score;
+    statsMap[team2.team_list_idx].goalsFor +=
+      team2.match_team_stats_our_score || 0;
     statsMap[team2.team_list_idx].goalsAgainst +=
-      team2.match_team_stats_other_score;
-    if (team2.match_team_stats_our_score > team2.match_team_stats_other_score) {
+      team2.match_team_stats_other_score || 0;
+    if (
+      team2.match_team_stats_our_score ||
+      0 > (team2.match_team_stats_other_score || 0)
+    ) {
       statsMap[team2.team_list_idx].wins += 1;
       statsMap[team2.team_list_idx].points += 3;
     } else if (
