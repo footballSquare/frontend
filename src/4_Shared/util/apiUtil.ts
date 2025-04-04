@@ -150,7 +150,8 @@ export const useFetchData = (): [
           const { status, data } = error.response ?? {};
           setServerState({ status });
           if (status === 500) {
-            console.error("Internal Server Error:", status, data);
+            console.error("Internal Server Error:", status, data.message);
+            console.error("서버 오류:", data.message);
             alert("알 수 없는 오류.");
           }
         }
