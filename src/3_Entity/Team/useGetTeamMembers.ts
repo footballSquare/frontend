@@ -17,13 +17,13 @@ const useGetTeamMembers = (
   }, [page]);
 
   React.useEffect(() => {
-    if (!loading && serverState && "team_member" in serverState) {
+    if (!loading && serverState && "member" in serverState) {
       setTeamMembers((prev) => [
         ...prev,
-        ...(serverState as { team_member: TeamMembers[] }).team_member,
+        ...(serverState as { member: TeamMembers[] }).member,
       ]);
       setHasMoreContent(
-        (serverState as { team_member: TeamMembers[] }).team_member.length >=
+        (serverState as { member: TeamMembers[] }).member.length >=
           ITEMS_PER_PAGE
       );
     }

@@ -4,15 +4,17 @@ import { useFetchData } from "../../4_Shared/util/apiUtil";
 const usePutTeamBanner = (
   teamListIdx: number
 ): [
-  putTeamBanner: (img: File) => void,
+  putTeamBanner: (file: File) => void,
   serverState: unknown,
   loading: boolean
 ] => {
   const [serverState, request, loading] = useFetchData();
 
-  const putTeamBanner = (img: File) => {
+  const putTeamBanner = (file: File) => {
     const endPoint = `/team/${teamListIdx}/banner`;
-    request("PUT", endPoint, { file: img }, true);
+    const formData = new FormData();
+    formData.append("file", file);
+    request("PUT", endPoint, formData, true);
   };
 
   React.useEffect(() => {
