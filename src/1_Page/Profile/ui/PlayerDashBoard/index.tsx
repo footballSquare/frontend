@@ -13,11 +13,11 @@ import { platform } from "../../../../4_Shared/constant/platform";
 import { matchPosition } from "../../../../4_Shared/constant/matchPosition";
 import { commonStatusIdx } from "../../../../4_Shared/constant/commonStatusIdx";
 
-import usePostUserInfo from "../../../../3_Entity/Account/usePutUserInfo";
-import useDeleteUserInfo from "../../../../3_Entity/Account/useDeleteUserInfo";
+import usePutUserInfo from "../../../../3_Entity/Account/usePutUserInfo";
+import useDeleteUser from "../../../../3_Entity/Account/useDeleteUser";
 
 const PlayerDashBoard = (props: PlayerDashBoardProps) => {
-  const { is_mine, user_idx, short_team_name, team, team_emblem } = props;
+  const { is_mine, short_team_name, team, team_emblem } = props;
 
   const {
     reset,
@@ -38,13 +38,13 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
       inputBackupDataRef,
     });
 
-  const [postEvent] = usePostUserInfo(user_idx);
-  const [deleteEvent] = useDeleteUserInfo(user_idx);
+  const [putUserInfo] = usePutUserInfo();
+  const [deleteUser] = useDeleteUser();
 
   const onSubmit: SubmitHandler<UserInfoForm> = (data) => {
     handleModifyFalse();
     if (!hasChanges(data, inputBackupDataRef.current)) return;
-    postEvent(convertToPostData(data));
+    putUserInfo(convertToPostData(data));
   };
 
   return (
@@ -217,7 +217,7 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
                 onClick={() => {
                   if (confirm("정말로 삭제하시겠습니까?")) {
                     alert("삭제되었습니다.");
-                    deleteEvent();
+                    deleteUser();
                   }
                 }}>
                 탈퇴

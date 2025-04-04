@@ -40,6 +40,7 @@ const AwardDashBoard = (props: AwardDashBoardProps) => {
           </p>
         </div>
       </div>
+      {/* 현재 MMR 은 노출 X  */}
       {/* <div>
         <label className="text-xs font-medium text-gray-600">mmr</label>
         <p className="border-b border-gray-400 py-1 text-center text-sm">

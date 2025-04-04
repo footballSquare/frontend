@@ -1,18 +1,18 @@
 import { useFetchData } from "../../4_Shared/util/apiUtil";
 
-const useDeleteUserInfo = (): [
+const useDeleteUser = (): [
   deleteEvent: () => void,
   serverState: unknown,
   loading: boolean
 ] => {
   const [serverState, request, loading] = useFetchData();
 
-  const deleteEvent = () => {
+  const deleteUser = () => {
     const endPoint = `/account/user/delete`;
     request("DELETE", endPoint, null, true);
   };
 
-  return [deleteEvent, serverState, loading];
+  return [deleteUser, serverState, loading];
 };
 
-export default useDeleteUserInfo;
+export default useDeleteUser;
