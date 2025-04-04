@@ -1,11 +1,5 @@
 import React from "react";
-const useHover = (): [
-  boolean,
-  { x: number; y: number },
-  () => void,
-  (event: React.MouseEvent) => void,
-  () => void
-] => {
+const useHover = (): UseHoverReturn => {
   const [isHovered, setIsHovered] = React.useState<boolean>(false);
   const [hoverPosition, setHoverPosition] = React.useState<{
     x: number;
@@ -35,12 +29,12 @@ const useHover = (): [
   const handleMouseLeave = () => {
     setIsHovered(false);
   };
-  return [
+  return {
     isHovered,
     hoverPosition,
     handleHover,
     handleMouseEnter,
     handleMouseLeave,
-  ];
+  };
 };
 export default useHover;

@@ -1,12 +1,8 @@
-export type PlayerCardProps = {
-  profile_img: string;
-  position: number;
-  nickname: string;
-  is_mine: boolean;
-  user_idx: number;
-  team: string;
-};
+type PlayerCardProps = Omit<
+  UserInfo,
+  "winning_rate" | "trophies" | "match_count" | "MMR"
+>;
 
-export type ImageForm = {
-  img: File | null;
+type ImageForm = {
+  file: File | null;
 };
