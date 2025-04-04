@@ -5,14 +5,18 @@ import TeamMemberListBox from "./ui/TeamMemberListBox";
 import TeamAwards from "./ui/TeamAwards";
 import TeamManageButtonGroupProps from "./ui/TeamManageButtonGroupProps";
 
+import default_banner from "../../4_Shared/assets/img/banner_soccer.jpg";
+
 import useValidParamInteger from "../../4_Shared/model/useValidParamInteger";
-import ManagePage from "./ui/ManagePage";
-import useManagePage from "./model/useManagePage";
+import ManageModal from "./ui/ManageModal";
+import useToggleState from "../../4_Shared/model/useToggleState";
+import useManageTeamInfo from "./model/useManagePage";
 
 const Team = () => {
   const [teamIdx] = useValidParamInteger("teamIdx");
   const [teamInfo, loading] = useGetTeamInfo(teamIdx);
-  const [isManagePage, handleTogglePage] = useManagePage();
+  const { displayTeamInfo, handlers } = useManageTeamInfo(teamInfo);
+  const [isManageModal, handleToggleManageModal] = useToggleState();
 
   const {
     team_list_banner,
@@ -21,11 +25,9 @@ const Team = () => {
     team_list_name,
     team_list_short_name,
     team_list_announcement,
-  } = teamInfo;
+  } = displayTeamInfo;
 
-  return isManagePage ? (
-    <ManagePage teamInfo={teamInfo} handleTogglePage={handleTogglePage} />
-  ) : (
+  return (
     <main className="flex flex-col w-[90%] text-sm pt-5">
       {loading ? (
         <div>로딩중</div>
@@ -35,8 +37,8 @@ const Team = () => {
           <section className="flex justify-center">
             <img
               className="w-full h-[200px] object-cover rounded-lg"
-              src={team_list_banner}
-              alt="팀 배너"
+              src={team_list_banner || default_banner}
+              alt="Team Banner"
             />
           </section>
 
@@ -49,7 +51,7 @@ const Team = () => {
               <div className="flex flex-col items-center ">
                 <div className="flex items-center ">
                   <img
-                    src={team_list_emblem}
+                    src={team_list_emblem || default_banner}
                     alt="Team Emblem"
                     className="w-16 h-16 rounded-full object-cover border border-gray-200"
                   />
@@ -62,8 +64,7 @@ const Team = () => {
                     </h1>
 
                     <TeamManageButtonGroupProps
-                      handleTogglePage={handleTogglePage}
-                      teamInfo={teamInfo}
+                      handleToggleManageModal={handleToggleManageModal}
                     />
                   </section>
                 </div>
@@ -93,6 +94,13 @@ const Team = () => {
             </div>
           </article>
         </div>
+      )}
+      {isManageModal && (
+        <ManageModal
+          handlers={handlers}
+          teamInfo={displayTeamInfo}
+          handleToggleManageModal={handleToggleManageModal}
+        />
       )}
     </main>
   );

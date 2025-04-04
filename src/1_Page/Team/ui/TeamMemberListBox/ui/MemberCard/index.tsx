@@ -7,7 +7,11 @@ import useDeleteTeamPlayer from "../../../../../../3_Entity/Team/useDeleteTeamPl
 import usePostChangeTeamRole from "../../../../../../3_Entity/Team/usePostChangeTeamRole";
 import { modalReducer } from "./model/reducer";
 import useParamInteger from "../../../../../../4_Shared/model/useParamInteger";
-import { useCookies } from "react-cookie";
+import defaultProfile from "../../../../../../4_Shared/assets/svg/profile.svg";
+import {
+  useMyTeamIdx,
+  useMyTeamRoleIdx,
+} from "../../../../../../4_Shared/lib/useMyInfo";
 
 const TeamMemberCard = (props: TeamMemberCardProps) => {
   const {
@@ -20,11 +24,11 @@ const TeamMemberCard = (props: TeamMemberCardProps) => {
     handleDelete,
     index,
   } = props;
-  const teamIdx = useParamInteger("teamIdx");
 
-  const [cookies] = useCookies(["team_role_idx", "team_idx"]);
-  const isTeamReader =
-    cookies.team_idx === teamIdx && cookies.team_role_idx === 0;
+  const teamIdx = useParamInteger("teamIdx");
+  const [myTeamIdx] = useMyTeamIdx();
+  const [myTeamRoleIdx] = useMyTeamRoleIdx();
+  const isTeamReader = myTeamIdx === teamIdx && myTeamRoleIdx === 0;
 
   const initialRoleRef = React.useRef<number>(team_role_idx); // 저장용 Ref
   const [memberRole, setMemberRole] = React.useState<number>(team_role_idx); // 멤버 상태
@@ -43,7 +47,10 @@ const TeamMemberCard = (props: TeamMemberCardProps) => {
         className="flex items-center space-x-2 border-b border-gray-200 pb-2 mb-2 cursor-pointer"
         ref={observeRef}
         onClick={() => dispatch({ type: "OPEN_DETAIL" })}>
-        <img src={player_list_profile_img} className="w-8 h-8 rounded-full" />
+        <img
+          src={player_list_profile_img || defaultProfile}
+          className="w-8 h-8 rounded-full"
+        />
         <span className="text-xs">
           {player_list_nickname} {teamRole[memberRole]}
         </span>
@@ -56,7 +63,7 @@ const TeamMemberCard = (props: TeamMemberCardProps) => {
           <div className="bg-white rounded-lg w-[300px] p-6 text-center shadow-lg">
             <div className="flex justify-center gap-4 mb-4">
               <img
-                src={player_list_profile_img}
+                src={player_list_profile_img || defaultProfile}
                 className="w-[40px]  rounded-full"
               />
               <img
