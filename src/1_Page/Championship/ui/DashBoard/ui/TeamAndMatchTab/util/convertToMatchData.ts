@@ -40,6 +40,7 @@ const convertToFilterMatchList = (
   const eliminatedTeams: number[] = [];
   const teams = getHighestRoundTeamIndices(tournamentData);
 
+  // 종료된 매치 및 패배팀을 찾기
   matchList.forEach((match) => {
     if (match.championship_match_first.common_status_idx !== 4) {
       eliminatedTeams.push(match.championship_match_second.team_list_idx);
@@ -381,13 +382,21 @@ const getHighestRoundTeamIndices = (
 
   // 그렇지 않으면, 해당 라운드의 경기들 중 더미 데이터(-1)가 아닌 팀 idx들을 모음
   const teamIndices = validRound.matchList.reduce((acc: Set<number>, match) => {
-    const { championship_match_first, championship_match_second } = match;
+    const {
+      championship_match_first,
+      championship_match_second,
+      championship_match_idx,
+    } = match;
+    if (championship_match_idx === 0) {
+      return acc; // dummy 경기라면 현재 누적값 반환
+    }
     if (championship_match_first.team_list_idx !== -1) {
       acc.add(championship_match_first.team_list_idx);
     }
     if (championship_match_second.team_list_idx !== -1) {
       acc.add(championship_match_second.team_list_idx);
     }
+
     return acc;
   }, new Set<number>());
 
