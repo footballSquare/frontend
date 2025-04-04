@@ -1,5 +1,4 @@
 import { useFormContext } from "react-hook-form";
-import { TeamNameCheckInputProps } from "./type";
 
 import useLoadHandler from "./model/useLoadHandler";
 import useGetRepeatTeam from "../../../../../../../../3_Entity/Team/useGetRepeatTeam";
@@ -29,7 +28,7 @@ const TeamNameCheckInput = (props: TeamNameCheckInputProps) => {
   // 훅 동적 적용
   const isRepeat = isShort ? isRepeatShort : isRepeatTeam;
   const loading = isShort ? shortLoading : teamLoading;
-  const selectGetEvent = isShort ? getRepeatShortTeam : getRepeatTeam;
+  const getRepeatEvent = isShort ? getRepeatShortTeam : getRepeatTeam;
   const [loadState] = useLoadHandler({
     loading,
     modifyMode,
@@ -43,7 +42,7 @@ const TeamNameCheckInput = (props: TeamNameCheckInputProps) => {
   const handleClick = async () => {
     const isValid = await trigger(formKey); // 유효성 검증
     if (isValid) {
-      selectGetEvent(getValues(formKey)); // 증복검사
+      getRepeatEvent(getValues(formKey)); // 증복검사
     }
   };
 

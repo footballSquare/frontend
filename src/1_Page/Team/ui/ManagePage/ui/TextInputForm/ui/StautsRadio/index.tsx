@@ -1,5 +1,4 @@
 import { useFormContext } from "react-hook-form";
-import { StatusRadioProps } from "./type";
 
 const StatusRadio = (props: StatusRadioProps) => {
   const { modifyMode } = props;

@@ -1,4 +1,4 @@
-export type InputFieldProps = {
+type InputFieldProps = {
   label: string;
   name: string;
   modifyMode: boolean;

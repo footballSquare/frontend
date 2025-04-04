@@ -1,6 +1,5 @@
 import { teamAwardsData } from "./teamInfo";
 import profile_img from "../assets/img/profile_img.jpg";
-import { UserInfo } from "../../3_Entity/Account/types/response";
 
 export const mockUserInfo: { user: UserInfo } = {
   user: {
