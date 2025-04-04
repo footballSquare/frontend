@@ -14,7 +14,6 @@ const MatchLineupContainer = (props: MatchLineupContainerProps) => {
   const isAdmin = community_role_idx === 0;
   // api
   const [championshipDetail] = useGetChampionshipDetail(matchIdx);
-  console.log(championshipDetail);
   // state
   const [isModalOpen, handleToggleModal] = useToggleState();
   const [isFormationView, setIsFormationView] = React.useState<boolean>(true);
