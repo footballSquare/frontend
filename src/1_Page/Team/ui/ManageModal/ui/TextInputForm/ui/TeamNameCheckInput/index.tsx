@@ -30,7 +30,7 @@ const TeamNameCheckInput = (props: TeamNameCheckInputProps) => {
 
   const handleClick = async () => {
     //변견사항이 없을떄
-    if (backupRef.current != getValues(formKey)) {
+    if (backupRef.current === getValues(formKey)) {
       handleSetAllow();
       return;
     }
