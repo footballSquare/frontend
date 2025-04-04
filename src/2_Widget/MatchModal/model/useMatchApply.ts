@@ -1,5 +1,5 @@
 import React from "react";
-import { MatchApplyHandlerProps, UseMatchApplyProps } from "./type";
+
 const useMatchApply = (
   props: UseMatchApplyProps
 ): [(props: MatchApplyHandlerProps) => void] => {

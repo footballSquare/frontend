@@ -10,6 +10,9 @@ const usePutMatchEnd = (): [(props: PutMatchEndProps) => void] => {
   React.useEffect(() => {
     if (!loading && serverState) {
       switch (serverState.status) {
+        case 200:
+          alert("매치가 마감되었습니다.");
+          break;
         case 403:
           alert("매치가 아직 종료되지 않았습니다.");
           break;

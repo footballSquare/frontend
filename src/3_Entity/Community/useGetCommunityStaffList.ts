@@ -12,8 +12,8 @@ const useGetCommunityStaffList = (
   >(mockCommunityStaffList.community_staff);
 
   React.useEffect(() => {
-    request("GET", `/community/${communityIdx}/staff`, null);
-  }, [communityIdx]);
+    request("GET", `/community/${communityIdx}/staff`, null, false);
+  }, [communityIdx, request]);
 
   React.useEffect(() => {
     if (!loading && serverState) {
