@@ -65,7 +65,6 @@ export const useFetchData = (): [
       body: Record<string, unknown> | null,
       authorization: boolean = false
     ) => {
-      console.log("request", endpoint);
       try {
         setLoading(true);
         // API 호출
@@ -84,11 +83,10 @@ export const useFetchData = (): [
         setServerState({ ...response.data, status: response.status });
       } catch (error: unknown) {
         if (error instanceof AxiosError) {
-          console.log("error", error.response?.data.message);
           const { status, data } = error.response ?? {};
           setServerState({ status });
           if (status === 500) {
-            console.error("Internal Server Error:", status, data.message);
+            console.error("Internal Server Error:", status, data);
             alert("알 수 없는 오류.");
           }
         }
