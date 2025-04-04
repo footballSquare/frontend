@@ -2,7 +2,13 @@ import * as yup from "yup";
 
 // 입력 예외처리 yup
 export const schema = yup.object().shape({
-  state_message: yup
+  state: yup
+    .number()
+    .required("상태메시지는 필수 입력 항목입니다.")
+    .min(2, "상태메시지는 최소 2글자 이상이어야 합니다.")
+    .max(20, "상태메시지는 최대 20글자를 초과할 수 없습니다."),
+
+  message: yup
     .string()
     .required("상태메시지는 필수 입력 항목입니다.")
     .min(2, "상태메시지는 최소 2글자 이상이어야 합니다.")
@@ -32,7 +38,5 @@ export const schema = yup.object().shape({
     .min(2, "포지션은 최소 2글자 이상이어야 합니다.")
     .max(20, "포지션은 최대 20글자를 초과할 수 없습니다."),
 
-  common_status_idx: yup.string().required("상태는 필수값"),
-
-  tag_discord: yup.string().required("디스코드 태그는 필수값입니다."),
+  discord_tag: yup.string().required("디스코드 태그는 필수값입니다."),
 });

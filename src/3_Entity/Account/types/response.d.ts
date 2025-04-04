@@ -16,10 +16,9 @@ type UserInfo = {
   state: number;
   message: string;
   discord_tag: string;
-  MMR: number;
+  mmr: number;
   player_status: "pending" | "active" | "deleted";
   is_mine: boolean;
-  // 첫 번째 타입에만 존재하는 속성 추가
   short_team_name: string;
   state_message: string;
   team: string;
