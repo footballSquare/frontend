@@ -46,7 +46,7 @@ export const useFetchData = (): [
   (
     method: string,
     endpoint: string,
-    body: Record<string, unknown> | null,
+    body: Record<string, unknown> | null | FormData,
     authorization: boolean
   ) => Promise<void>,
   boolean
@@ -62,7 +62,7 @@ export const useFetchData = (): [
     async (
       method: string,
       endpoint: string,
-      body: Record<string, unknown> | null,
+      body: Record<string, unknown> | null | FormData,
       authorization: boolean = false
     ) => {
       try {
