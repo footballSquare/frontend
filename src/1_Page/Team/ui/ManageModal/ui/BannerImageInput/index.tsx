@@ -5,8 +5,8 @@ import useImageHandler from "./model/useImageHandler";
 import usePutTeamBanner from "../../../../../../3_Entity/Team/usePutTeamBanner";
 
 const BannerImageInput = (props: BannerImageInputProps) => {
-  const { imgSrc, team_list_idx } = props;
-  const key = "img";
+  const { imgSrc, team_list_idx, handleSetBanner } = props;
+  const key = "file";
   const {
     register,
     handleSubmit,
@@ -35,7 +35,8 @@ const BannerImageInput = (props: BannerImageInputProps) => {
 
   const onSubmit: SubmitHandler<ImageForm> = (props) => {
     handleSave();
-    putTeamBanner(props.img);
+    handleSetBanner(imagePreview);
+    putTeamBanner(props.file);
   };
 
   return (

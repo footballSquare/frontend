@@ -6,8 +6,8 @@ import useImageHandler from "./model/useImageHandler";
 import usePutTeamEmblem from "../../../../../../3_Entity/Team/usePutTeamEmblem";
 
 const EmblemImageInput = (props: ImageInputProps) => {
-  const { imgSrc, team_list_idx } = props;
-  const key = "img";
+  const { imgSrc, team_list_idx, handleSetTeamEmblem } = props;
+  const key = "file";
 
   const {
     register,
@@ -29,11 +29,12 @@ const EmblemImageInput = (props: ImageInputProps) => {
     handleSave,
   } = useImageHandler({ imgSrc, setValue, clearErrors });
 
-  const [putEvent] = usePutTeamEmblem(team_list_idx);
+  const [putTeamEmblem] = usePutTeamEmblem(team_list_idx);
 
   const onSubmit: SubmitHandler<ImageForm> = (data) => {
     handleSave();
-    putEvent(data.img);
+    handleSetTeamEmblem(imagePreview);
+    putTeamEmblem(data.file);
   };
 
   return (
