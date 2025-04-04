@@ -11,8 +11,8 @@ const useGetUserInfo = (userIdx: number): [UserInfo, boolean] => {
   }, []);
 
   React.useEffect(() => {
-    if (!loading && serverState && "user" in serverState) {
-      setUserInfo((serverState as { user: UserInfo }).user);
+    if (!loading && serverState && "data" in serverState) {
+      setUserInfo((serverState as { data: UserInfo }).data);
     }
   }, [loading, serverState]);
 
