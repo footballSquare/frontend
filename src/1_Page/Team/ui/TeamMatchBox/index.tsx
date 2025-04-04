@@ -3,29 +3,30 @@ import TeamMatchCard from "./ui/TeamMatchCard";
 import useGetTeamMatchList from "../../../../3_Entity/Match/useGetTeamMatchList";
 import useInfiniteScrollPaging from "../../../../4_Shared/model/useInfiniteScrollPaging";
 import useParamInteger from "../../../../4_Shared/model/useParamInteger";
-import useDisplayMatchInfoStore from "../../../../4_Shared/zustand/useDisplayMatchInfoStore";
+import usePostMatchInfoStore from "../../../../4_Shared/zustand/usePostMatchInfoStore";
+import { mergeMatchLists } from "../../../../4_Shared/lib/mergeMatchLists";
 
 const TeamMatchBox = () => {
   const teamIdx = useParamInteger("teamIdx");
-  const [page, setPage] = React.useState<number>(1);
+  const [page, setPage] = React.useState<number>(0);
   const [teamMatchList, hasMoreContent, loading] = useGetTeamMatchList({
     page,
     teamIdx,
   });
 
-  const { displayData, insertDisplayData, clearDisplayData } =
-    useDisplayMatchInfoStore();
+  const { postDataList, clearPostData } = usePostMatchInfoStore();
+
+  const displayData = React.useMemo(
+    () => mergeMatchLists(postDataList, teamMatchList),
+    [postDataList, teamMatchList]
+  );
 
   React.useEffect(() => {
-    clearDisplayData();
+    clearPostData();
     return () => {
-      clearDisplayData();
+      clearPostData();
     };
   }, []);
-
-  React.useEffect(() => {
-    insertDisplayData(teamMatchList);
-  }, [teamMatchList]);
 
   const [observeRef] = useInfiniteScrollPaging(
     setPage,
