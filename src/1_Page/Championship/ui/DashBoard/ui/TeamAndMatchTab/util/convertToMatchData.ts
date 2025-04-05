@@ -171,19 +171,26 @@ const convertToTournamentFormat = (
   teamList: ChampionshipTeamInfo[],
   championshipTypeIdx: number
 ): TournamentData[] => {
-  // championship_type 기반 bracket 크기 결정 (없으면 teamList.length 사용)
+  /*********************************************
+   * championship_typeIdx에 따른 기본 라운드 크기 설정
+   * 예: 1=16강, 2=8강, 3=4강
+   *********************************************/
   const roundSizeMap: Record<number, number> = {
-    1: 16,
-    2: 8,
-    3: 4,
+    1: 16, // 16강
+    2: 8, // 8강
+    3: 4, // 4강
   };
 
-  // 대회 타입에 따른 라운드 사이즈
+  // 대회 시작 라운드 (16,8,4)
   const startingRoundSize = roundSizeMap[championshipTypeIdx];
-  //round 개수 계산 ex 16강:4개 8강:3
+
+  // 예) 16강 -> 전체 라운드는 4번 (16->8->4->2->1)
   const totalRounds = Math.log2(startingRoundSize);
 
-  // 1) 팀 등장 횟수로 라운드를 분류 → Flat 배열 만들기
+  /********************************************************
+   * 1) 각 팀이 몇 번 등장했는지 계산하여, 경기의 라운드를 분류
+   *    (minAppearances = 1 -> 가장 하위 라운드)
+   ********************************************************/
   const rounds: { [key: number]: ChampionshipMatchList[] } = {
     16: [],
     8: [],
@@ -192,7 +199,7 @@ const convertToTournamentFormat = (
     1: [],
   };
 
-  // (1-1) 팀 등장 횟수 계산
+  // 팀별 등장 횟수
   const teamAppearanceCount: { [teamId: number]: number } = {};
   matchList.forEach((match) => {
     const fId = match.championship_match_first.team_list_idx;
@@ -201,32 +208,90 @@ const convertToTournamentFormat = (
     teamAppearanceCount[sId] = (teamAppearanceCount[sId] || 0) + 1;
   });
 
-  // (1-2) minAppearances로 해당 경기가 16/8/4/2/결승 중 어디인지 결정
+  // minAppearances 기준으로 라운드 분류
   matchList.forEach((match) => {
     const fId = match.championship_match_first.team_list_idx;
     const sId = match.championship_match_second.team_list_idx;
-    // 두 팀 중 진 팀의 발현횟수를 기준으로 라운드 결정:
-    // 진팀의 발현횟숙가 1이면 가장 하위 라운드
-    const minAppearances = Math.min(
+    const minAppear = Math.min(
       teamAppearanceCount[fId] || 0,
       teamAppearanceCount[sId] || 0
     );
-    // 동적으로 round key 계산: startingRoundSize에 따라
-    const roundKey = startingRoundSize / Math.pow(2, minAppearances - 1);
+    // minAppear=1 -> 16강, 2->8강, 3->4강, 4->2강, 5->결승
+    const roundKey = startingRoundSize / Math.pow(2, minAppear - 1);
     if (roundKey >= 1) {
       rounds[roundKey].push(match);
     }
   });
 
-  // (1-3) 각 라운드별 경기 정렬 매치 idx로 정렬
-  Object.keys(rounds).forEach((key) => {
-    const r = parseInt(key, 10);
-    rounds[r].sort(
+  // 각 라운드별 idx 오름차순 정렬
+  Object.keys(rounds).forEach((k) => {
+    const numKey = parseInt(k, 10);
+    rounds[numKey].sort(
       (a, b) => a.championship_match_idx - b.championship_match_idx
     );
   });
 
-  // (1-4) 객체 -> flat 배열 생성 (16→8→4→2→1 순서)
+  /*********************************************************
+   * 2) 라운드별로 필요한 경기 수보다 부족하면 해당 라운드 안에서 더미 추가
+   *    16강 -> 16/2=8경기, 8강->4경기, 4강->2경기, 2->1경기, 1->? (결승)
+   *********************************************************/
+  const roundOrder = [16, 8, 4, 2, 1]; // 내림차순
+
+  roundOrder.forEach((rKey) => {
+    // 라운드별 예상 경기 수 (16강 -> 8, 8강 ->4, 4강->2, 2강->1, 1강->??(0.5?)
+    // 결승(1)을 1경기로 가정
+    // 만약 1이라면 1/2=0.5인데, 정수로 올림
+    let expectedMatches = Math.floor(rKey / 2);
+    if (rKey === 1) {
+      expectedMatches = 1; // 결승
+    }
+
+    const currentMatches = rounds[rKey];
+    if (currentMatches.length < expectedMatches) {
+      const missing = expectedMatches - currentMatches.length;
+      for (let i = 0; i < missing; i++) {
+        // 더미 매치 생성
+        const dummyMatch: ChampionshipMatchList = {
+          championship_match_idx: 0, // 가짜 idx
+          championship_match_first: {
+            team_list_idx: -1,
+            championship_match_first_idx: 0,
+            team_list_name: `매치 A(${rKey})`,
+            team_list_short_name: "",
+            team_list_color: "#cccccc",
+            team_list_emblem: "",
+            match_team_stats_our_score: 0,
+            match_team_stats_other_score: 0,
+            common_status_idx: 0,
+          },
+          championship_match_second: {
+            team_list_idx: -1,
+            championship_match_second_idx: 0,
+            team_list_name: `매치 A(${rKey})`,
+            team_list_short_name: "",
+            team_list_color: "#cccccc",
+            team_list_emblem: "",
+            match_team_stats_our_score: 0,
+            match_team_stats_other_score: 0,
+            common_status_idx: 0,
+          },
+        };
+        currentMatches.push(dummyMatch);
+      }
+    }
+  });
+
+  // (2-1) 라운드별 매치가 늘었을 수 있으므로 다시 정렬
+  Object.keys(rounds).forEach((k) => {
+    const numKey = parseInt(k, 10);
+    rounds[numKey].sort(
+      (a, b) => a.championship_match_idx - b.championship_match_idx
+    );
+  });
+
+  /*********************************************************
+   * 3) 모든 라운드를 평탄화하여 순서대로 나열 (16 -> 8 -> 4 -> 2 -> 1)
+   *********************************************************/
   const flatMatches = [
     ...rounds[16],
     ...rounds[8],
@@ -235,10 +300,13 @@ const convertToTournamentFormat = (
     ...rounds[1],
   ];
 
-  // 경기가 매치가 생성되지 않았고 팀만 있는경우 dummy 경기 생성
+  /********************************************************************
+   * 4) flat 배열이 없으면 (경기가 없고 팀만 존재한다면) 더미 생성
+   ********************************************************************/
   let flatMatchesFinal = flatMatches;
   if (flatMatches.length === 0) {
     const dummyMatches: ChampionshipMatchList[] = [];
+    // 팀들을 2개씩 묶어 가짜 경기 생성
     for (let i = 0; i < teamList.length; i += 2) {
       dummyMatches.push({
         championship_match_idx: 0,
@@ -257,104 +325,155 @@ const convertToTournamentFormat = (
     flatMatchesFinal = dummyMatches;
   }
 
-  // 2) Flat 배열을 라운드별로 잘라서 { round, label, matchList } 형태로 만들기
-  // 시각화를 위해서 형태 변형
-
-  // 총 팀 수는 championship_type에 따른 bracket 크기를 사용 (예: 16강이면 16)
+  /*************************************************************************
+   * 5) flatMatchesFinal을 라운드별로 잘라 { round, label, matchList } 형태로 반환
+   *************************************************************************/
   const teamCount = startingRoundSize;
-  const result: {
-    round: number;
-    label: string;
-    matchList: ChampionshipMatchList[];
-  }[] = [];
+  const result: TournamentData[] = [];
   let startIndex = 0;
-
-  // prevRoundMatches는 이전 라운드의 경기들을 보관 (dummy 경기 생성 시 활용)
-
-  // 첫 라운드(예: 16강)는 flatMatchesFinal에서 가져옴
   let prevRoundMatches: ChampionshipMatchList[] = flatMatchesFinal;
 
   for (let r = 0; r < totalRounds; r++) {
-    // 각 라운드에서 필요한 경기 수 계산
     const expectedMatches = teamCount / Math.pow(2, r + 1);
 
-    // 현재 라운드에 해당하는 경기만 잘라냄
     const roundMatches = flatMatchesFinal.slice(
       startIndex,
       startIndex + expectedMatches
     );
     startIndex += expectedMatches;
 
-    // 만약 해당 라운드의 실제 경기 수가 예상 경기수 보다 적다면 더미데이터 추가
+    // 부족분 더미 생성
     if (roundMatches.length < expectedMatches) {
       const missing = expectedMatches - roundMatches.length;
+
+      // 간단한 getWinner 함수: 점수가 있는 경우 점수가 높은 쪽을 winner.
+      // 무승부거나 점수가 없으면 first를 winner로 가정.
+      const getWinner = (
+        match: ChampionshipMatchList
+      ): ChampionshipTeamInfo => {
+        const first = match.championship_match_first;
+        const second = match.championship_match_second;
+
+        // 예) '경기 종료'를 가리키는 common_status_idx===4 인 경우만 점수 비교
+        if (first.common_status_idx === 4) {
+          const fScore = first.match_team_stats_our_score || 0;
+          const sScore = second.match_team_stats_our_score || 0;
+          if (fScore > sScore) {
+            return { ...first };
+          } else if (fScore < sScore) {
+            return { ...second };
+          } else {
+            // 동점이면 임의로 first
+            return { ...first };
+          }
+        } else {
+          // 미완료인 경우 임의로 first팀을 승자로 가정
+          return { ...first };
+        }
+      };
+
       for (let i = 0; i < missing; i++) {
-        let dummyFirst, dummySecond;
+        // 이전 라운드에서 2경기씩 가져와 승자를 만들어야 함
+        let winnerA: ChampionshipTeamInfo | null = null;
+        let winnerB: ChampionshipTeamInfo | null = null;
+
+        // prevRoundMatches에 충분히 경기(2개) 존재하는지 검사
         if (prevRoundMatches.length >= i * 2 + 2) {
           const matchA = prevRoundMatches[i * 2];
           const matchB = prevRoundMatches[i * 2 + 1];
-          dummyFirst = {
-            team_list_idx: -1,
-            team_list_name: `매치(${matchA.championship_match_idx})승자`,
-            team_list_short_name: `매치 ${matchA.championship_match_idx} 승자`,
-            team_list_color: "#cccccc",
-            team_list_emblem: "",
-            match_team_stats_our_score: 0,
-            match_team_stats_other_score: 0,
-          };
-          dummySecond = {
-            team_list_idx: -1,
-            team_list_name: `매치 (${matchB.championship_match_idx}) 승자`,
-            team_list_short_name: `매치 ${matchB.championship_match_idx} 승자`,
-            team_list_color: "#cccccc",
-            team_list_emblem: "",
-            match_team_stats_our_score: 0,
-            match_team_stats_other_score: 0,
-          };
-        } else {
-          dummyFirst = {
-            team_list_idx: -1,
-            team_list_name: `Dummy 승자1`,
-            team_list_short_name: "",
-            team_list_color: "#cccccc",
-            team_list_emblem: "",
-            match_team_stats_our_score: 0,
-            match_team_stats_other_score: 0,
-          };
-          dummySecond = {
-            team_list_idx: -1,
-            team_list_name: `Dummy 승자2`,
-            team_list_short_name: "",
-            team_list_color: "#cccccc",
-            team_list_emblem: "",
-            match_team_stats_our_score: 0,
-            match_team_stats_other_score: 0,
-          };
+          winnerA = getWinner(matchA);
+          winnerB = getWinner(matchB);
         }
-        // 더미 데이터 완성
+
+        // winnerA/B가 없는 경우는 완전히 dummy 처리
+        const dummyFirst = winnerA
+          ? {
+              ...winnerA,
+              // 혹시 색상이나 엠블렘이 null일 수 있으면 기본값 처리
+              team_list_color: winnerA.team_list_color || "#cccccc",
+              team_list_emblem: winnerA.team_list_emblem || "",
+              championship_match_first_idx: 0,
+              match_team_stats_our_score: 0,
+              match_team_stats_other_score: 0,
+              common_status_idx: 0,
+            }
+          : {
+              team_list_idx: -1,
+              team_list_name: "매치 승자1",
+              team_list_short_name: "",
+              team_list_color: "#cccccc",
+              team_list_emblem: "",
+              match_team_stats_our_score: 0,
+              match_team_stats_other_score: 0,
+              championship_match_first_idx: 0,
+              common_status_idx: 0,
+            };
+
+        const dummySecond = winnerB
+          ? {
+              ...winnerB,
+              team_list_color: winnerB.team_list_color || "#cccccc",
+              team_list_emblem: winnerB.team_list_emblem || "",
+              championship_match_second_idx: 0,
+              match_team_stats_our_score: 0,
+              match_team_stats_other_score: 0,
+              common_status_idx: 0,
+            }
+          : {
+              team_list_idx: -1,
+              team_list_name: "매치 승자2",
+              team_list_short_name: "",
+              team_list_color: "#cccccc",
+              team_list_emblem: "",
+              match_team_stats_our_score: 0,
+              match_team_stats_other_score: 0,
+              championship_match_second_idx: 0,
+              common_status_idx: 0,
+            };
+
         const dummyMatch: ChampionshipMatchList = {
           championship_match_idx: 0,
           championship_match_first: dummyFirst,
           championship_match_second: dummySecond,
-        } as ChampionshipMatchList;
+        };
+
         roundMatches.push(dummyMatch);
       }
     }
 
-    // 현재 라운드의 경기들을 다음 라운드 dummy 생성용으로 저장
-    // 다음 경기에 match 승자들을 가져오기 위해
+    roundMatches.sort((a, b) => {
+      // 둘 다 idx=0 (둘 다 더미)이면 순서 변경 없이 유지
+      if (a.championship_match_idx === 0 && b.championship_match_idx === 0) {
+        return 0;
+      }
+
+      // a만 idx=0 → a를 뒤로 보냄
+      if (a.championship_match_idx === 0) {
+        return 1;
+      }
+
+      // b만 idx=0 → b를 뒤로 보냄
+      if (b.championship_match_idx === 0) {
+        return -1;
+      }
+
+      // 둘 다 실제 경기라면 그대로 idx 기준 정렬
+      return a.championship_match_idx - b.championship_match_idx;
+    });
+
     prevRoundMatches = roundMatches;
 
-    // 라운드 라벨 설정 (예: 16강, 8강, 4강, 결승)
+    // 라벨 결정
     const roundIndex = r + 1;
     let label = "";
-    const remainingTeams = Math.pow(2, totalRounds - roundIndex + 1);
-    if (remainingTeams === 2) {
+    const remainTeams = Math.pow(2, totalRounds - roundIndex + 1);
+
+    if (remainTeams === 2) {
       label = "결승";
-    } else if (remainingTeams === 4) {
+    } else if (remainTeams === 4) {
       label = "준결승";
     } else {
-      label = `${remainingTeams}강`;
+      label = `${remainTeams}강`;
     }
 
     result.push({

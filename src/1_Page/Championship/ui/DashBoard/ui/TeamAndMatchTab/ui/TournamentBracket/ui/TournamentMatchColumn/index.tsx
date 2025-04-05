@@ -3,8 +3,10 @@ import defaultTeamImg from "../../../../../../../../../../4_Shared/assets/svg/te
 const TournamentMatchColumn = (props: TournamentMatchColumnProps) => {
   const { match, index } = props;
 
-  const team1Score = match.championship_match_first.match_team_stats_our_score;
-  const team2Score = match.championship_match_second.match_team_stats_our_score;
+  const team1Score =
+    match.championship_match_first.match_team_stats_our_score || 0;
+  const team2Score =
+    match.championship_match_second.match_team_stats_our_score || 0;
   const team1Won = team1Score > team2Score;
   const team2Won = team2Score > team1Score;
 
@@ -57,7 +59,7 @@ const TournamentMatchColumn = (props: TournamentMatchColumnProps) => {
                 color:
                   match.championship_match_first.team_list_color || "inherit",
               }}>
-              {match.championship_match_first.team_list_short_name}
+              {match.championship_match_first.team_list_name}
             </span>
           </div>
           <div
@@ -97,7 +99,7 @@ const TournamentMatchColumn = (props: TournamentMatchColumnProps) => {
                 color:
                   match.championship_match_second.team_list_color || "inherit",
               }}>
-              {match.championship_match_second.team_list_short_name}
+              {match.championship_match_second.team_list_name}
             </span>
           </div>
           <div
