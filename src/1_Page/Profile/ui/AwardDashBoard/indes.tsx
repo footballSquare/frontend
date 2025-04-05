@@ -15,7 +15,7 @@ const AwardDashBoard = (props: AwardDashBoardProps) => {
       </p>
 
       {/* 트로피 리스트 */}
-      {trophies.length !== 0 && (
+      {trophies && trophies.length !== 0 && (
         <div className="w-full mt-3">
           <AutoMoveAwardList awards={trophies} />
         </div>
@@ -51,7 +51,8 @@ const AwardDashBoard = (props: AwardDashBoardProps) => {
       <div className="mt-4">
         <h3 className="text-blue-600 font-semibold text-xs mb-2">AWARD LIST</h3>
         <div className="max-h-[150px] overflow-y-auto space-y-2">
-          {trophies.length !== 0 &&
+          {trophies &&
+            trophies.length !== 0 &&
             trophies.map((award, index) => (
               <div
                 key={index}

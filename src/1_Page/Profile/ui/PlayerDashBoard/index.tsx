@@ -22,16 +22,10 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
     register,
     handleSubmit,
     getValues,
-    watch,
     formState: { errors },
   } = useForm<UserInfoForm>({
     resolver: yupResolver(schema),
   });
-
-  const watchAll = watch();
-  React.useEffect(() => {
-    console.log("🔍 watchAll form values:", watchAll);
-  }, [watchAll]);
 
   const userInfoForm = React.useMemo(() => convertToInfoForm(props), [props]);
   const inputBackupDataRef = React.useRef<UserInfoForm>(userInfoForm);
@@ -74,6 +68,11 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
           }`}
           placeholder="상태 메시지 입력"
         />
+        {errors.state_message && (
+          <p className="text-red-500 text-xs mt-1">
+            {errors.state_message.message}
+          </p>
+        )}
 
         {/* 팀 & 플랫폼 */}
         <div className="mt-3">
@@ -101,11 +100,16 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
                   : "bg-transparent text-gray-500"
               }`}>
               {commonStatusIdx.slice(6, 9).map((commontStatusIdx, index) => (
-                <option key={index} value={commontStatusIdx}>
+                <option key={index} value={6 + index}>
                   {commontStatusIdx}
                 </option>
               ))}
             </select>
+          )}
+          {errors.common_status_idx && (
+            <p className="text-red-500 text-xs mt-1">
+              {errors.common_status_idx.message}
+            </p>
           )}
         </div>
 
@@ -132,7 +136,9 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
               />
             </div>
             {errors.nickname && (
-              <p className="text-red-500 text-xs">{errors.nickname.message}</p>
+              <p className="text-red-500 text-xs mt-1">
+                {errors.nickname.message}
+              </p>
             )}
           </div>
 
@@ -155,6 +161,11 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
                 </option>
               ))}
             </select>
+            {errors.platform && (
+              <p className="text-red-500 text-xs mt-1">
+                {errors.platform.message}
+              </p>
+            )}
           </div>
 
           {/* 포지션 */}
@@ -171,11 +182,18 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
                   : "border-b bg-transparent text-gray-500"
               }`}>
               {matchPosition.map((position) => (
-                <option key={`match-position-${position}`} value={position}>
+                <option
+                  key={`match-position-${position}`}
+                  value={position.indexOf(position)}>
                   {position}
                 </option>
               ))}
             </select>
+            {errors.position && (
+              <p className="text-red-500 text-xs mt-1">
+                {errors.position.message}
+              </p>
+            )}
           </div>
 
           {/* Discord 태그 */}
@@ -193,6 +211,11 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
               }`}
               placeholder="Discord Tag"
             />
+            {errors.discord_tag && (
+              <p className="text-red-500 text-xs mt-1">
+                {errors.discord_tag.message}
+              </p>
+            )}
           </div>
 
           {/* 버튼 */}
