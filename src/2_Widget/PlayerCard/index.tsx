@@ -4,7 +4,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import useImageHandler from "./model/useImageHandler";
 import usePutProfileImage from "../../3_Entity/Account/usePutProfileImage";
 
-import { schema } from "../../4_Shared/lib/imgSchema";
+import { optionalFileSchema } from "../../4_Shared/lib/imgSchema";
 import { matchPosition } from "../../4_Shared/constant/matchPosition";
 import profile from "../../4_Shared/assets/svg/profile.svg";
 import camera from "../../4_Shared/assets/svg/camera.svg";
@@ -21,7 +21,7 @@ const PlayerCard = (props: PlayerCardProps) => {
     formState: { errors },
     clearErrors,
   } = useForm<ProfileImageForm>({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(optionalFileSchema),
   });
 
   const {
