@@ -11,7 +11,7 @@ import usePutTeamInfo from "../../../../../../3_Entity/Team/usePutTeamInfo";
 import React from "react";
 
 const TextInputForm = (props: TextInputFormProps) => {
-  const { team_list_idx, teamInfo } = props;
+  const { team_list_idx, teamInfo, handleSetTeamInfoWithoutImg } = props;
 
   // props가 변경되지 않는 한, 기존 teamInfoForm 값을 재사용하여 불필요한 input form 재생성을 방지
   const teamInfoForm = React.useMemo(
@@ -39,6 +39,7 @@ const TextInputForm = (props: TextInputFormProps) => {
 
   const onSubmit: SubmitHandler<TeamInfoForm> = (data) => {
     putTeamInfo(convertToPutData(data));
+    handleSetTeamInfoWithoutImg(data);
     handleModifyFalse();
   };
 
@@ -92,7 +93,7 @@ const TextInputForm = (props: TextInputFormProps) => {
               </button>
               <button
                 type="submit"
-                disabled={isValid}
+                disabled={!isValid}
                 className={`py-2 px-4 rounded-md text-white font-semibold shadow-md transition duration-300
               ${
                 isValid
