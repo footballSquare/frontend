@@ -3,17 +3,15 @@ import FootballGroundSection from "./ui/FootballGroundSection";
 import VerticalTeamStatCards from "./ui/VerticalTeamStatCards";
 import EvidenceDetailModal from "./ui/EvidenceDetailModal";
 
-import useGetChampionshipDetail from "../../../../../../../../../../3_Entity/Championship/useGetChampionshipDetail";
 import useToggleState from "../../../../../../../../../../4_Shared/model/useToggleState";
 import { useMyCommunityRoleIdx } from "../../../../../../../../../../4_Shared/lib/useMyInfo";
 
 const MatchLineupContainer = (props: MatchLineupContainerProps) => {
-  const { matchIdx, selectedTeams } = props;
+  const { matchIdx, selectedTeams, championshipDetail } = props;
   // admin
   const [community_role_idx] = useMyCommunityRoleIdx();
   const isAdmin = community_role_idx === 0;
   // api
-  const [championshipDetail] = useGetChampionshipDetail(matchIdx);
   // state
   const [isModalOpen, handleToggleModal] = useToggleState();
   const [isFormationView, setIsFormationView] = React.useState<boolean>(true);

@@ -1,8 +1,9 @@
 import React from "react";
+import { getSelectedMatchTeams } from "../util/getSelectedMatchTeams";
 
 const useSelectHandler = (
   matchList: ChampionshipMatchList[]
-): [number, (idx: number) => void] => {
+): [number, SelectTeamMatchInfo, (idx: number) => void] => {
   const [selectedIdx, setSelectedIdx] = React.useState<number>(0);
 
   React.useEffect(() => {
@@ -12,7 +13,12 @@ const useSelectHandler = (
 
   const handleSelect = (idx: number) => setSelectedIdx(idx);
 
-  return [selectedIdx, handleSelect];
+  const selectedTeams = React.useMemo(
+    () => getSelectedMatchTeams(matchList, selectedIdx),
+    [matchList, selectedIdx]
+  );
+
+  return [selectedIdx, selectedTeams, handleSelect];
 };
 
 export default useSelectHandler;
