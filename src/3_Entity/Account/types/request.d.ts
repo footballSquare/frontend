@@ -5,9 +5,9 @@ type SignInEventProps = {
 
 type UsePutUserInfoProps = {
   nickname: string;
-  team_idx: number;
-  platform: "pc" | "xbox" | "playstation";
-  state: number;
-  message: string;
+  platform: Platform;
   discord_tag: string;
+  common_status_idx: number;
+  state_message: string;
+  position: number;
 };

@@ -15,20 +15,27 @@ import usePutUserInfo from "../../../../3_Entity/Account/usePutUserInfo";
 import useDeleteUser from "../../../../3_Entity/Account/useDeleteUser";
 
 const PlayerDashBoard = (props: PlayerDashBoardProps) => {
-  const { is_mine, short_team_name, team, team_emblem } = props;
+  const { is_mine, short_team_name, team_name, team_emblem } = props;
 
   const {
     reset,
     register,
     handleSubmit,
     getValues,
+    watch,
     formState: { errors },
   } = useForm<UserInfoForm>({
     resolver: yupResolver(schema),
   });
 
+  const watchAll = watch();
+  React.useEffect(() => {
+    console.log("🔍 watchAll form values:", watchAll);
+  }, [watchAll]);
+
   const userInfoForm = React.useMemo(() => convertToInfoForm(props), [props]);
   const inputBackupDataRef = React.useRef<UserInfoForm>(userInfoForm);
+
   const { modifyMode, handleCancle, handleModifyFalse, handleModifyTrue } =
     useModifyHandler({
       userInfoForm,
@@ -53,9 +60,12 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
       <h1 className="text-lg font-bold text-center mt-1 text-blue-800">
         BEST PLAYER
       </h1>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form
+        onSubmit={handleSubmit(onSubmit, (errors) => {
+          console.log("폼 에러!", errors);
+        })}>
         <input
-          {...register("message")}
+          {...register("state_message")}
           disabled={!modifyMode}
           className={`w-full p-2 text-sm text-center rounded-md ${
             modifyMode
@@ -67,8 +77,10 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
 
         {/* 팀 & 플랫폼 */}
         <div className="mt-3">
-          <label className="text-xs font-medium text-gray-600">Team</label>
-          {team ? (
+          <label className="text-xs font-medium text-gray-600">
+            {team_name ? "팀" : "팀구직상태"}
+          </label>
+          {team_name ? (
             <div className="flex items-center w-full p-2 text-xs gap-2 border-b bg-transparent text-gray-500">
               {team_emblem && (
                 <img
@@ -77,18 +89,18 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
                   alt="Team Emblem"
                 />
               )}
-              <p className="text-blue-700 font-semibold">{team}</p>
+              <p className="text-blue-700 font-semibold">{team_name}</p>
             </div>
           ) : (
             <select
-              {...register("state")}
+              {...register("common_status_idx")}
               disabled={!modifyMode}
               className={`w-full p-2 text-xs rounded-md ${
                 modifyMode
                   ? "border border-blue-400 bg-blue-50 text-blue-700"
                   : "bg-transparent text-gray-500"
               }`}>
-              {commonStatusIdx.map((commontStatusIdx, index) => (
+              {commonStatusIdx.slice(6, 9).map((commontStatusIdx, index) => (
                 <option key={index} value={commontStatusIdx}>
                   {commontStatusIdx}
                 </option>
@@ -109,7 +121,9 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
                   ? "border rounded-md border-blue-400 bg-blue-50 text-blue-700"
                   : "border-b bg-transparent text-gray-500"
               }`}>
-              <p className="whitespace-nowrap text-blue-700">{`#${short_team_name} - `}</p>
+              {short_team_name && (
+                <p className="whitespace-nowrap text-blue-700">{`#${short_team_name} - `}</p>
+              )}
               <input
                 {...register("nickname")}
                 disabled={!modifyMode}
@@ -136,8 +150,8 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
                   : "border-b bg-transparent text-gray-500"
               }`}>
               {platform.map((plat, index) => (
-                <option key={index} value={plat}>
-                  {plat}
+                <option key={index} value={plat === null ? "X" : plat}>
+                  {plat === null ? "X" : plat.toUpperCase()}
                 </option>
               ))}
             </select>

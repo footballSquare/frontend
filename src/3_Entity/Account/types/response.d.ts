@@ -7,27 +7,33 @@ type Awards = {
   championship_list_color: string;
 };
 
+type Platform = "pc" | "xbox" | "playstation" | null;
+
 type UserInfo = {
-  user_idx: number;
-  nickname: string;
-  team_idx: number;
-  profile_image: string | null;
-  platform: "pc" | "xbox" | "playstation";
-  state: number;
-  message: string;
-  discord_tag: string;
-  mmr: number;
-  player_status: "pending" | "active" | "deleted";
+  // 본인확인
   is_mine: boolean;
-  short_team_name: string;
+  // idx
+  user_idx: number;
+  team_idx: number;
+  // 유저 데이터
+  nickname: string;
+  profile_image: string | null;
+  platform: Platform;
+  discord_tag: string;
+  player_status: "pending" | "active" | "deleted";
   state_message: string;
-  team: string;
-  team_emblem: string;
-  common_status_idx: number;
   position: number;
+  // 팀데이터
+  team_name: string | null;
+  short_team_name: string | null;
+  team_emblem: string | null;
+  // 구직상태
+  common_status_idx: number;
+  // 유저 스펙
   match_count: number;
   winning_rate: number;
-  trophies: Awards[];
+  trophies: Awards[] | null;
+  mmr: number;
 };
 
 type SignInData = {

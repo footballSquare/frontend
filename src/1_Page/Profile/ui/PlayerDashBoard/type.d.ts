@@ -5,10 +5,9 @@ type PlayerDashBoardProps = Omit<
 
 type UserInfoForm = {
   nickname: string;
-  platform: string;
-  team: string;
-  position: string;
-  state: number;
-  message: string;
+  platform: "pc" | "xbox" | "playstation" | "X";
   discord_tag: string;
+  common_status_idx: number;
+  state_message: string;
+  position: number;
 };
