@@ -6,18 +6,17 @@ import { schema } from "./lib/schema";
 import { hasChanges } from "./util/validate";
 import { convertToPostData, convertToInfoForm } from "./util/convert";
 import useModifyHandler from "./model/useModifyHandler";
-// 타입
-import { PlayerDashBoardProps, UserInfoForm } from "./type";
 // 상수
 import { platform } from "../../../../4_Shared/constant/platform";
 import { matchPosition } from "../../../../4_Shared/constant/matchPosition";
 import { commonStatusIdx } from "../../../../4_Shared/constant/commonStatusIdx";
 
-import usePostUserInfo from "../../../../3_Entity/Account/usePutUserInfo";
-import useDeleteUserInfo from "../../../../3_Entity/Account/useDeleteUserInfo";
+import usePutUserInfo from "../../../../3_Entity/Account/usePutUserInfo";
+import useDeleteUser from "../../../../3_Entity/Account/useDeleteUser";
+import { useLogout } from "../../../../4_Shared/lib/useMyInfo";
 
 const PlayerDashBoard = (props: PlayerDashBoardProps) => {
-  const { is_mine, user_idx, short_team_name, team, team_emblem } = props;
+  const { is_mine, short_team_name, team_name, team_emblem } = props;
 
   const {
     reset,
@@ -31,6 +30,8 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
 
   const userInfoForm = React.useMemo(() => convertToInfoForm(props), [props]);
   const inputBackupDataRef = React.useRef<UserInfoForm>(userInfoForm);
+  const [logOut] = useLogout();
+
   const { modifyMode, handleCancle, handleModifyFalse, handleModifyTrue } =
     useModifyHandler({
       userInfoForm,
@@ -38,13 +39,13 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
       inputBackupDataRef,
     });
 
-  const [postEvent] = usePostUserInfo(user_idx);
-  const [deleteEvent] = useDeleteUserInfo(user_idx);
+  const [putUserInfo] = usePutUserInfo();
+  const [deleteUser] = useDeleteUser();
 
   const onSubmit: SubmitHandler<UserInfoForm> = (data) => {
     handleModifyFalse();
     if (!hasChanges(data, inputBackupDataRef.current)) return;
-    postEvent(convertToPostData(data));
+    putUserInfo(convertToPostData(data));
   };
 
   return (
@@ -55,7 +56,10 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
       <h1 className="text-lg font-bold text-center mt-1 text-blue-800">
         BEST PLAYER
       </h1>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form
+        onSubmit={handleSubmit(onSubmit, (errors) => {
+          console.log("폼 에러!", errors);
+        })}>
         <input
           {...register("state_message")}
           disabled={!modifyMode}
@@ -66,11 +70,18 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
           }`}
           placeholder="상태 메시지 입력"
         />
+        {errors.state_message && (
+          <p className="text-red-500 text-xs mt-1">
+            {errors.state_message.message}
+          </p>
+        )}
 
         {/* 팀 & 플랫폼 */}
         <div className="mt-3">
-          <label className="text-xs font-medium text-gray-600">Team</label>
-          {team ? (
+          <label className="text-xs font-medium text-gray-600">
+            {team_name ? "팀" : "팀구직상태"}
+          </label>
+          {team_name ? (
             <div className="flex items-center w-full p-2 text-xs gap-2 border-b bg-transparent text-gray-500">
               {team_emblem && (
                 <img
@@ -79,7 +90,7 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
                   alt="Team Emblem"
                 />
               )}
-              <p className="text-blue-700 font-semibold">{team}</p>
+              <p className="text-blue-700 font-semibold">{team_name}</p>
             </div>
           ) : (
             <select
@@ -90,12 +101,17 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
                   ? "border border-blue-400 bg-blue-50 text-blue-700"
                   : "bg-transparent text-gray-500"
               }`}>
-              {commonStatusIdx.map((commontStatusIdx, index) => (
-                <option key={index} value={commontStatusIdx}>
+              {commonStatusIdx.slice(6, 9).map((commontStatusIdx, index) => (
+                <option key={index} value={6 + index}>
                   {commontStatusIdx}
                 </option>
               ))}
             </select>
+          )}
+          {errors.common_status_idx && (
+            <p className="text-red-500 text-xs mt-1">
+              {errors.common_status_idx.message}
+            </p>
           )}
         </div>
 
@@ -111,7 +127,9 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
                   ? "border rounded-md border-blue-400 bg-blue-50 text-blue-700"
                   : "border-b bg-transparent text-gray-500"
               }`}>
-              <p className="whitespace-nowrap text-blue-700">{`#${short_team_name} - `}</p>
+              {short_team_name && (
+                <p className="whitespace-nowrap text-blue-700">{`#${short_team_name} - `}</p>
+              )}
               <input
                 {...register("nickname")}
                 disabled={!modifyMode}
@@ -120,7 +138,9 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
               />
             </div>
             {errors.nickname && (
-              <p className="text-red-500 text-xs">{errors.nickname.message}</p>
+              <p className="text-red-500 text-xs mt-1">
+                {errors.nickname.message}
+              </p>
             )}
           </div>
 
@@ -138,11 +158,16 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
                   : "border-b bg-transparent text-gray-500"
               }`}>
               {platform.map((plat, index) => (
-                <option key={index} value={plat}>
-                  {plat}
+                <option key={index} value={plat === null ? "X" : plat}>
+                  {plat === null ? "X" : plat.toUpperCase()}
                 </option>
               ))}
             </select>
+            {errors.platform && (
+              <p className="text-red-500 text-xs mt-1">
+                {errors.platform.message}
+              </p>
+            )}
           </div>
 
           {/* 포지션 */}
@@ -159,11 +184,18 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
                   : "border-b bg-transparent text-gray-500"
               }`}>
               {matchPosition.map((position) => (
-                <option key={`match-position-${position}`} value={position}>
+                <option
+                  key={`match-position-${position}`}
+                  value={position.indexOf(position)}>
                   {position}
                 </option>
               ))}
             </select>
+            {errors.position && (
+              <p className="text-red-500 text-xs mt-1">
+                {errors.position.message}
+              </p>
+            )}
           </div>
 
           {/* Discord 태그 */}
@@ -172,7 +204,7 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
               Discord Tag
             </label>
             <input
-              {...register("tag_discord")}
+              {...register("discord_tag")}
               disabled={!modifyMode}
               className={`w-full p-2 text-xs ${
                 modifyMode
@@ -181,6 +213,11 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
               }`}
               placeholder="Discord Tag"
             />
+            {errors.discord_tag && (
+              <p className="text-red-500 text-xs mt-1">
+                {errors.discord_tag.message}
+              </p>
+            )}
           </div>
 
           {/* 버튼 */}
@@ -209,33 +246,33 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
                 </button>
               </div>
             ))}
-
-          {is_mine && !modifyMode && (
-            <div className="flex w-full py-1 text-xs rounded-md font-bold mt-1 justify-end gap-2">
-              <button
-                className="w-full h-6 border border-red-600 text-red-600 font-semibold px-2 py-0.5 text-[10px] rounded shadow-sm transition-all duration-200 hover:bg-red-600 hover:text-white"
-                onClick={() => {
-                  if (confirm("정말로 삭제하시겠습니까?")) {
-                    alert("삭제되었습니다.");
-                    deleteEvent();
-                  }
-                }}>
-                탈퇴
-              </button>
-
-              <button
-                className="w-full h-6 border border-blue-600 text-blue-600 font-semibold px-2 py-0.5 text-[10px] rounded shadow-sm transition-all duration-200 hover:bg-blue-600 hover:text-white"
-                onClick={() => {
-                  if (confirm("로그아웃 하시겠습니까?")) {
-                    alert("로그아웃되었습니다");
-                  }
-                }}>
-                로그아웃
-              </button>
-            </div>
-          )}
         </div>
       </form>
+
+      {is_mine && !modifyMode && (
+        <div className="flex w-full py-1 text-xs rounded-md font-bold mt-1 justify-end gap-2">
+          <button
+            className="w-full h-6 border border-red-600 text-red-600 font-semibold px-2 py-0.5 text-[10px] rounded shadow-sm transition-all duration-200 hover:bg-red-600 hover:text-white"
+            onClick={() => {
+              if (confirm("정말로 삭제하시겠습니까?")) {
+                alert("삭제되었습니다.");
+                deleteUser();
+              }
+            }}>
+            탈퇴
+          </button>
+
+          <button
+            className="w-full h-6 border border-blue-600 text-blue-600 font-semibold px-2 py-0.5 text-[10px] rounded shadow-sm transition-all duration-200 hover:bg-blue-600 hover:text-white"
+            onClick={() => {
+              if (confirm("로그아웃 하시겠습니까?")) {
+                logOut();
+              }
+            }}>
+            로그아웃
+          </button>
+        </div>
+      )}
     </div>
   );
 };

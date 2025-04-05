@@ -1,14 +1,14 @@
 import React from "react";
-import { useFetch } from "../../4_Shared/util/apiUtil";
+import { useFetchData } from "../../4_Shared/util/apiUtil";
 
 const usePutSignTeam = (
   teamListIdx: number
 ): [putSignTeam: () => void, serverState: unknown, loading: boolean] => {
-  const [serverState, request, loading] = useFetch();
+  const [serverState, request, loading] = useFetchData();
 
   const putSignTeam = () => {
-    request({ teamListIdx });
-    console.log("팀 가입신청", teamListIdx);
+    const endPoint = `/team/${teamListIdx}/application`;
+    request("PUT", endPoint, null, true);
   };
 
   React.useEffect(() => {

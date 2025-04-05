@@ -7,7 +7,7 @@ const NavigationBtn = (props: NavigationBtnProps) => {
 
   return (
     <button
-      className="flex items-center justify-center"
+      className="flex items-center justify-center hover:text-blue"
       onClick={() => {
         setPage(text);
         navigationHandler();

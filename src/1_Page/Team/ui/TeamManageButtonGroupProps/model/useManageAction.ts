@@ -1,6 +1,5 @@
 import React from "react";
 import { RESULT_STATE } from "../../../../../4_Shared/constant/result";
-import { ResultStateType } from "../../../../../3_Entity/Team/types/response";
 
 const useManageAction = (
   isTeamPlayer: boolean
@@ -12,7 +11,9 @@ const useManageAction = (
   updateToSignPending: () => void;
 } => {
   const [isTeamMember, setIsTeamMember] = React.useState<ResultStateType>(
-    isTeamPlayer ? RESULT_STATE.AVAILABLE : RESULT_STATE.UNAVAILABLE
+    isTeamPlayer
+      ? (RESULT_STATE.AVAILABLE as ResultStateType)
+      : (RESULT_STATE.UNAVAILABLE as ResultStateType)
   );
 
   const isPending = isTeamMember === RESULT_STATE.PENDING;
@@ -24,11 +25,11 @@ const useManageAction = (
   };
 
   const updateToLeave = () => {
-    setIsTeamMember(RESULT_STATE.UNAVAILABLE);
+    setIsTeamMember(RESULT_STATE.UNAVAILABLE as ResultStateType);
   };
 
   const updateToSignPending = () => {
-    setIsTeamMember(RESULT_STATE.PENDING);
+    setIsTeamMember(RESULT_STATE.PENDING as ResultStateType);
   };
 
   return {

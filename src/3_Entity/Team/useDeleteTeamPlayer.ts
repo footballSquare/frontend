@@ -1,5 +1,5 @@
 import React from "react";
-import { useFetch } from "../../4_Shared/util/apiUtil";
+import { useFetchData } from "../../4_Shared/util/apiUtil";
 
 const useDeleteTeamPlayer = (
   teamListIdx: number
@@ -8,11 +8,11 @@ const useDeleteTeamPlayer = (
   serverState: unknown,
   loading: boolean
 ] => {
-  const [serverState, request, loading] = useFetch();
+  const [serverState, request, loading] = useFetchData();
 
   const deleteTeamPlayer = (userIdx: number) => {
-    request({ userIdx });
-    console.log("삭제된 데이터:", userIdx, teamListIdx);
+    const endPoint = `/team/${teamListIdx}/member/${userIdx}/kick`;
+    request("DELETE", endPoint, null, true);
   };
 
   React.useEffect(() => {

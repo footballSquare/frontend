@@ -1,4 +1,4 @@
-export type PutTeamInfoProps = {
+type UsePutTeamInfoProps = {
   team_list_name: string;
   team_list_short_name: string;
   team_list_color: string;

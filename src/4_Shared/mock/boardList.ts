@@ -15,7 +15,7 @@ export const mockBoardList = [
     board_list_updated_at: "2025-02-26",
     board_list_likecount: 12,
   },
-  {
+{
     board_list_idx: 2,
     board_list_title: "새로운 이벤트 시작",
     player_list_idx: 1,

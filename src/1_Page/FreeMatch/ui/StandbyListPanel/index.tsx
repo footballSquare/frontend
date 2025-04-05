@@ -1,6 +1,5 @@
 import Button from "../../../../4_Shared/components/Button";
 import StandbyList from "../../../../2_Widget/StandbyList";
-import footballPlayer from "../../../../4_Shared/assets/img/footballPlayer.png";
 import useStandbyList from "./model/useStandbyList";
 const StandbyListPanel = () => {
   const [isStandbyListOpen, toggleStandbyList] = useStandbyList();
@@ -21,7 +20,7 @@ const StandbyListPanel = () => {
           />
         ) : (
           <Button
-            text="매치 대기 인원 보기"
+            text="오늘의 매치 대기 인원 보기"
             bg="blue"
             textColor="white"
             bold={true}
@@ -35,11 +34,7 @@ const StandbyListPanel = () => {
       {isStandbyListOpen ? (
         <StandbyList />
       ) : (
-        <img
-          src={footballPlayer}
-          alt="footballPlayer"
-          className="w-full h-[70vh]"
-        />
+        <p></p>
       )}
     </div>
   );

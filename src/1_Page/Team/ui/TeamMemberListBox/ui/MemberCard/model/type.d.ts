@@ -1,9 +1,9 @@
-export type ModalState = {
+type ModalState = {
   detail: boolean;
   manage: boolean;
 };
 
-export type ModalAction =
+type ModalAction =
   | { type: "OPEN_DETAIL" }
   | { type: "OPEN_MANAGE" }
   | { type: "CLOSE_ALL" };

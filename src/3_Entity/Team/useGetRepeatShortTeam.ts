@@ -1,17 +1,17 @@
 import React from "react";
-import { useFetch } from "../../4_Shared/util/apiUtil";
+import { useFetchData } from "../../4_Shared/util/apiUtil";
 
 const useGetRepeatShortTeam = (): [
   boolean,
   boolean,
-  (teamName: string) => void
+  (teamShortName: string) => void
 ] => {
-  const [serverState, request, loading] = useFetch();
+  const [serverState, request, loading] = useFetchData();
   const [isRepeat, setIsRepeat] = React.useState<boolean>(false);
 
-  const getRepeatShortTeam = (teamName: string) => {
-    request({ teamName });
-    setIsRepeat(false);
+  const getRepeatShortTeam = (teamShortName: string) => {
+    const endPoint = `/team/check_short_name/${teamShortName}`;
+    request("GET", endPoint, null, true);
   };
 
   React.useEffect(() => {
@@ -27,6 +27,7 @@ const useGetRepeatShortTeam = (): [
         console.log("중복");
         return;
       default:
+        setIsRepeat(true);
         return;
     }
   }, [serverState]);

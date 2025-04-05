@@ -1,24 +1,46 @@
 import useGetChampionshipList from "../../../../3_Entity/Community/useGetChampionshipList";
+import React from "react";
+import useInfiniteScrollPaging from "../../../../4_Shared/model/useInfiniteScrollPaging";
+import { useNavigate } from "react-router-dom";
+import PAGE_URI from "../../../../4_Shared/constant/pageUri";
+
 const ChampionshipList = (props: ChampionshipListProps) => {
   const { communityIdx } = props;
-  const [championshipList] = useGetChampionshipList({ communityIdx });
+  const [page, setPage] = React.useState<number>(0);
+  const [championshipList, hasMoreContent, loading] = useGetChampionshipList({
+    communityIdx,
+    page,
+  });
+  const [observeRef] = useInfiniteScrollPaging(
+    setPage,
+    loading,
+    hasMoreContent
+  );
+  const navigate = useNavigate();
+
   return (
-    <div className="bg-white rounded-lg shadow w-full flex flex-col gap-4 overflow-y-auto">
-      {championshipList.map((elem) => {
+    <div className="bg-gray-50 rounded-xl shadow-md w-full flex flex-col gap-4 overflow-y-auto p-4 max-h-[90%]">
+      {championshipList.map((elem, index) => {
         return (
-          <div className=" border border-gray shadow-lg rounded-lg p-2">
-            {/* {elem.championship_list_idx} */}
-            <h3>{elem.championship_list_name}</h3>
+          <div
+            onClick={() => {
+              navigate(`${PAGE_URI.CHAMPIONSHIP}/${elem.championship_list_idx}`);
+            }}
+            key={index}
+            className="border flex flex-col gap-4 border-gray-300 shadow-md rounded-lg p-4 min-h-[120px] cursor-pointer hover:bg-blue-100 transition-all duration-300"
+            ref={championshipList.length === index + 1 ? observeRef : undefined}
+          >
+            <h3 className="text-lg font-semibold text-gray-800">
+              {elem.championship_list_name}
+            </h3>
             <img
               src={elem.championship_list_throphy_img}
-              className=" w-[32px] border-1"
+              className="w-12 h-12 border border-gray-300 rounded-lg"
               alt="throphy"
             />
-            {/* {elem.championship_list_color} */}
-            <p className=" text-sm">{elem.championship_type_name}</p>
-            <p className=" text-xs">
-              {`${elem.championship_list_start_date} ~ 
-              ${elem.championship_list_end_date}`}
+            <p className="text-sm text-gray-600">{elem.championship_type_name}</p>
+            <p className="text-xs text-gray-500">
+              {`${elem.championship_list_start_date} ~ ${elem.championship_list_end_date}`}
             </p>
           </div>
         );

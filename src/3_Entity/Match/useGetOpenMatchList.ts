@@ -1,21 +1,22 @@
 import React from "react";
-import { useFetch } from "../../4_Shared/util/apiUtil";
-import { matchList } from "../../4_Shared/mock/matchList";
-import { MatchInfo } from "./types/response";
+import { useFetchData } from "../../4_Shared/util/apiUtil";
 
 const ITEMS_PER_PAGE = 10;
 
-const useGetOpenMatchList = (page: number): [MatchInfo[], boolean, boolean] => {
-  const [serverState, request, loading] = useFetch();
+const useGetOpenMatchList = (
+  props: UseGetOpenMatchListProps
+): [MatchInfo[], boolean, boolean] => {
+  const { page } = props;
+  const [serverState, request, loading] = useFetchData();
   const [openMatchList, setOpenMatchList] = React.useState<MatchInfo[]>([]);
   const [hasMoreContent, setHasMoreContent] = React.useState<boolean>(true);
 
   React.useEffect(() => {
-    request(matchList);
-  }, [page]);
+    request("GET", `/match/open?page=${page}`, null, false);
+  }, [page, request]);
 
   React.useEffect(() => {
-    if (!loading && serverState && "match" in serverState) {
+    if (serverState) {
       setOpenMatchList((prev) => [
         ...prev,
         ...(serverState as { match: MatchInfo[] }).match,

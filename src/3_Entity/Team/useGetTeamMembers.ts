@@ -1,7 +1,5 @@
 import React from "react";
-import { useFetch } from "../../4_Shared/util/apiUtil";
-import { teamMemberData } from "../../4_Shared/mock/teamInfo";
-import { TeamMembers } from "./types/response";
+import { useFetchData } from "../../4_Shared/util/apiUtil";
 
 const ITEMS_PER_PAGE = 10;
 
@@ -9,23 +7,23 @@ const useGetTeamMembers = (
   teamIdx: number,
   page: number
 ): [TeamMembers[], boolean, boolean] => {
-  const [serverState, request, loading] = useFetch();
+  const [serverState, request, loading] = useFetchData();
   const [teamMembers, setTeamMembers] = React.useState<TeamMembers[]>([]);
   const [hasMoreContent, setHasMoreContent] = React.useState<boolean>(true);
 
   React.useEffect(() => {
-    console.log("팀멤버 다시가져오기", page, teamIdx);
-    request(teamMemberData);
+    const endPoint = `/team/${teamIdx}/member?page=${page}`;
+    request("GET", endPoint, null, true);
   }, [page]);
 
   React.useEffect(() => {
-    if (!loading && serverState && "team_member" in serverState) {
+    if (!loading && serverState && "member" in serverState) {
       setTeamMembers((prev) => [
         ...prev,
-        ...(serverState as { team_member: TeamMembers[] }).team_member,
+        ...(serverState as { member: TeamMembers[] }).member,
       ]);
       setHasMoreContent(
-        (serverState as { team_member: TeamMembers[] }).team_member.length >=
+        (serverState as { member: TeamMembers[] }).member.length >=
           ITEMS_PER_PAGE
       );
     }

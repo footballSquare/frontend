@@ -1,4 +1,3 @@
-import { MatchParticipant, MatchWaitList } from "../../3_Entity/Match/types/response";
 const usePlayerCheck = (): [
   (userIdx: number, matchParticipants: MatchParticipant[]) => boolean,
   (userIdx: number, matchWaitList: MatchWaitList) => boolean

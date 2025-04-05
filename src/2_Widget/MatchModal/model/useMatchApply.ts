@@ -1,5 +1,5 @@
 import React from "react";
-import { MatchApplyHandlerProps, UseMatchApplyProps } from "./type";
+
 const useMatchApply = (
   props: UseMatchApplyProps
 ): [(props: MatchApplyHandlerProps) => void] => {
@@ -8,7 +8,7 @@ const useMatchApply = (
   const matchApplyHandler = React.useCallback(
     (props: MatchApplyHandlerProps): void => {
       const { player, matchPosition } = props;
-      setMatchWaitList((prev) => ({
+      setMatchWaitList((prev: MatchWaitList) => ({
         match_waitlist: {
           ...prev.match_waitlist,
           [matchPosition]: [

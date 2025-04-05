@@ -8,7 +8,7 @@ export const matchList = {
       match_match_participation_type: 0,
       player_list_nickname: "호날두",
       match_match_start_time: "2026-02-18 10:00:00",
-      match_match_duration: "2 hours",
+      match_match_duration: { hours: 2, minutes: 0 },
       common_status_idx: 0,
     },
     {
@@ -19,7 +19,8 @@ export const matchList = {
       match_match_participation_type: 0,
       player_list_nickname: "바르샤주장",
       match_match_start_time: "2026-02-18 10:00:00",
-      match_match_duration: "2 hours",
+      match_match_duration: { hours: 2, minutes: 0 },
+
       common_status_idx: 1,
     },
     {
@@ -41,7 +42,8 @@ export const matchList = {
       match_match_participation_type: 0,
       player_list_nickname: "네이마르",
       match_match_start_time: "2026-02-18 14:00:00",
-      match_match_duration: "2 hours",
+      match_match_duration: { hours: 2, minutes: 0 },
+
       common_status_idx: 1,
     },
     {
@@ -63,7 +65,8 @@ export const matchList = {
       match_match_participation_type: 0,
       player_list_nickname: "레반도프스키",
       match_match_start_time: "2026-02-18 18:00:00",
-      match_match_duration: "2 hours",
+      match_match_duration: { hours: 2, minutes: 0 },
+
       common_status_idx: 1,
     },
     {
@@ -85,7 +88,8 @@ export const matchList = {
       match_match_participation_type: 0,
       player_list_nickname: "살라",
       match_match_start_time: "2025-02-18 22:00:00",
-      match_match_duration: "2 hours",
+      match_match_duration: { hours: 2, minutes: 0 },
+
       common_status_idx: 1,
     },
     {
@@ -107,7 +111,8 @@ export const matchList = {
       match_match_participation_type: 0,
       player_list_nickname: "모드리치",
       match_match_start_time: "2025-02-19 12:00:00",
-      match_match_duration: "2 hours",
+      match_match_duration: { hours: 2, minutes: 0 },
+
       common_status_idx: 1,
     },
   ],

@@ -2,7 +2,6 @@ import HoverTrophy from "./ui/HoverTrophy";
 import React from "react";
 import useIndexAutoAnimate from "./model/useIndexAutoAnimate";
 import useIndicator from "./model/useIndicator";
-import { AutoMoveAwardListProps } from "./type";
 
 const AutoMoveAwardList = (props: AutoMoveAwardListProps) => {
   const { awards } = props;

@@ -1,16 +1,13 @@
-import { UserInfo } from "../../../../3_Entity/Account/types/response";
-
-export type PlayerDashBoardProps = Omit<
+type PlayerDashBoardProps = Omit<
   UserInfo,
   "match_count" | "winning_rate" | "trophies" | "mmr"
 >;
 
-export type UserInfoForm = {
+type UserInfoForm = {
   nickname: string;
-  platform: string;
-  team: string;
-  position: string;
+  platform: "pc" | "xbox" | "playstation" | "X";
+  discord_tag: string;
+  common_status_idx: number;
   state_message: string;
-  common_status_idx: string;
-  tag_discord: string;
+  position: number;
 };

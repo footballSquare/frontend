@@ -1,3 +1,0 @@
-type CommunityAdminListProps = {
-  communityIdx: number;
-};

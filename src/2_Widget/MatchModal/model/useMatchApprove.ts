@@ -1,7 +1,6 @@
 import React from "react";
 import usePostMatchApproval from "../../../3_Entity/Match/usePostMatchApproval";
 import useDeleteMatchApproval from "../../../3_Entity/Match/useDeleteMatchApproval";
-import { UseMatchApproveProps, MatchApproveHandlerProps } from "./type";
 
 const useMatchApprove = (
   props: UseMatchApproveProps
@@ -47,7 +46,7 @@ const useMatchApprove = (
               ]),
         ]);
         // set MatchWaitList state
-        setMatchWaitList((prev) => ({
+        setMatchWaitList((prev: MatchWaitList) => ({
           match_waitlist: {
             ...prev.match_waitlist,
             [matchPosition]: (
@@ -90,7 +89,7 @@ const useMatchApprove = (
           )
         );
         // set MatchWaitList state
-        setMatchWaitList((prev) => ({
+        setMatchWaitList((prev: MatchWaitList) => ({
           match_waitlist: {
             ...prev.match_waitlist,
             [matchPosition]: [

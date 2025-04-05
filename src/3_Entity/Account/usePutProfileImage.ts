@@ -1,25 +1,21 @@
-import { useFetch } from "../../4_Shared/util/apiUtil";
+import { useFetchData } from "../../4_Shared/util/apiUtil";
 
-const usePutProfileImage = (
-  userIdx: number
-): [
-  putEvent: (profileImg: File | null) => void,
+const usePutProfileImage = (): [
+  putProfileImage: (file: File | null) => void,
   serverState: unknown,
   loading: boolean
 ] => {
-  const [serverState, request, loading] = useFetch();
+  const [serverState, request, loading] = useFetchData();
 
-  const putEvent = (profileImg: File | null) => {
-    let formData = null;
-    if (profileImg) {
-      formData = new FormData();
-      formData.append("profile_img", profileImg);
-    }
-    request({ userIdx, formData });
-    console.log("전송된 이미지 파일:", profileImg);
+  const putProfileImage = (file: File | null) => {
+    if (!file) return;
+    const formData = new FormData();
+    formData.append("file", file);
+    const endPoint = "/account/profileimage ";
+    request("PUT", endPoint, formData, true);
   };
 
-  return [putEvent, serverState, loading];
+  return [putProfileImage, serverState, loading];
 };
 
 export default usePutProfileImage;
