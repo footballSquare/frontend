@@ -8,21 +8,25 @@ import {
   useMyTeamIdx,
   useMyTeamRoleIdx,
 } from "../../../../4_Shared/lib/useMyInfo";
+import useManageServerState from "./model/useManageServerState";
 
 const TeamManageButtonGroup = (props: TeamManageButtonGroupProps) => {
   const { handleToggleManageModal } = props;
 
   const teamIdx = useParamInteger("teamIdx");
-  const [deleteLeaveTeam] = useDeleteLeaveTeam(teamIdx);
+  const [deleteLeaveTeam, serverState] = useDeleteLeaveTeam(teamIdx);
+  useManageServerState(serverState); // deleteLeaveTeam 서버 상태 관리
+
   const [putSignTeam] = usePutSignTeam(teamIdx);
 
-  // 팀 권한과 가입여부
-
+  // 팀 권한과
   const [myTeamIDx] = useMyTeamIdx();
   const [myTeamRoleIdx] = useMyTeamRoleIdx();
   const isTeamPlayer = myTeamIDx === teamIdx;
   const isTeamReader =
     isTeamPlayer && (myTeamRoleIdx === 0 || myTeamRoleIdx == 1);
+
+  // 팀 가입 신청 상태
   const {
     isLeaving,
     isPending,

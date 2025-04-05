@@ -1,10 +1,12 @@
+import { matchAttribute } from "../../../../../../4_Shared/constant/matchAttribute";
+import { matchParticipation } from "../../../../../../4_Shared/constant/matchParticipation";
 import useMatchModalStore from "../../../../../../4_Shared/zustand/useMatchModal";
 
 const TeamMatchCard = (props: TeamMatchCardProps) => {
   const {
     match_match_attribute,
     player_list_nickname,
-    team_list_idx,
+    team_list_name,
     match_match_participation_type,
     match_match_idx,
     match_type_idx,
@@ -12,6 +14,7 @@ const TeamMatchCard = (props: TeamMatchCardProps) => {
     match_match_duration,
     observeRef,
     index,
+    common_status_idx,
   } = props;
 
   const { toggleMatchModal, setMatchIdx } = useMatchModalStore();
@@ -22,9 +25,10 @@ const TeamMatchCard = (props: TeamMatchCardProps) => {
       key={"mathcard-" + index}
       className={`flex flex-row items-center rounded-lg shadow min-h-[100px] 
         ${
-          match_match_attribute === 1 ? "bg-gray-100" : "bg-gray-300"
-        } cursor-pointer`}
+          common_status_idx === 0 ? "bg-gray-100 cursor-pointer" : "bg-gray-300"
+        }`}
       onClick={() => {
+        if (common_status_idx !== 0) return;
         setMatchIdx(match_match_idx);
         toggleMatchModal();
       }}>
@@ -32,15 +36,20 @@ const TeamMatchCard = (props: TeamMatchCardProps) => {
         {/* Header Section */}
         <div className="col-span-1 flex flex-col justify-between items-center">
           <p className="text-gray-800 text-sm font-semibold">
-            {player_list_nickname} #{team_list_idx}
+            {team_list_name}
           </p>
+
+          <p className="text-gray-800 text-sm font-semibold">
+            #{matchAttribute[match_match_attribute]}#{player_list_nickname}
+          </p>
+
           <span
             className={`text-xs font-medium ${
               match_match_participation_type === 0
                 ? "text-red-500"
                 : "text-green-500"
             }`}>
-            {match_match_participation_type === 0 ? "#승인 필요" : "#자유 참여"}
+            {matchParticipation[match_match_participation_type]}
           </span>
           <span className="text-xs text-gray-400">
             경기 ID: {match_match_idx}
@@ -82,9 +91,9 @@ const TeamMatchCard = (props: TeamMatchCardProps) => {
         <div className="flex justify-end items-center">
           <span
             className={`w-5 h-5 text-white text-xs flex items-center justify-center rounded-full ${
-              match_match_attribute === 1 ? "bg-red-500" : "bg-green-500"
+              common_status_idx === 1 ? "bg-red-500" : "bg-green-500"
             }`}>
-            {match_match_attribute === 1 ? "✗" : "✓"}
+            {common_status_idx === 1 ? "✗" : "✓"}
           </span>
         </div>
       </div>
