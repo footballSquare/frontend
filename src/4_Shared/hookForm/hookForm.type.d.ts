@@ -15,4 +15,16 @@ type UseFormSetValue<TFieldValues extends FieldValues> = <
   options?: SetValueConfig
 ) => void;
 
-export type FieldValues = Record<string, unknown>;
+type FieldValues = Record<string, unknown>;
+
+type UseFormGetValues<TFieldValues extends FieldValues> = {
+  (): TFieldValues;
+
+  <TFieldName extends FieldPath<TFieldValues>>(
+    name: TFieldName
+  ): FieldPathValue<TFieldValues, TFieldName>;
+
+  <TFieldNames extends FieldPath<TFieldValues>[]>(
+    names: readonly [...TFieldNames]
+  ): [...FieldPathValues<TFieldValues, TFieldNames>];
+};
