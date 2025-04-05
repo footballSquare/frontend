@@ -13,6 +13,7 @@ import { commonStatusIdx } from "../../../../4_Shared/constant/commonStatusIdx";
 
 import usePutUserInfo from "../../../../3_Entity/Account/usePutUserInfo";
 import useDeleteUser from "../../../../3_Entity/Account/useDeleteUser";
+import { useLogout } from "../../../../4_Shared/lib/useMyInfo";
 
 const PlayerDashBoard = (props: PlayerDashBoardProps) => {
   const { is_mine, short_team_name, team_name, team_emblem } = props;
@@ -29,6 +30,7 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
 
   const userInfoForm = React.useMemo(() => convertToInfoForm(props), [props]);
   const inputBackupDataRef = React.useRef<UserInfoForm>(userInfoForm);
+  const [logOut] = useLogout();
 
   const { modifyMode, handleCancle, handleModifyFalse, handleModifyTrue } =
     useModifyHandler({
@@ -244,33 +246,33 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
                 </button>
               </div>
             ))}
-
-          {is_mine && !modifyMode && (
-            <div className="flex w-full py-1 text-xs rounded-md font-bold mt-1 justify-end gap-2">
-              <button
-                className="w-full h-6 border border-red-600 text-red-600 font-semibold px-2 py-0.5 text-[10px] rounded shadow-sm transition-all duration-200 hover:bg-red-600 hover:text-white"
-                onClick={() => {
-                  if (confirm("정말로 삭제하시겠습니까?")) {
-                    alert("삭제되었습니다.");
-                    deleteUser();
-                  }
-                }}>
-                탈퇴
-              </button>
-
-              <button
-                className="w-full h-6 border border-blue-600 text-blue-600 font-semibold px-2 py-0.5 text-[10px] rounded shadow-sm transition-all duration-200 hover:bg-blue-600 hover:text-white"
-                onClick={() => {
-                  if (confirm("로그아웃 하시겠습니까?")) {
-                    alert("로그아웃되었습니다");
-                  }
-                }}>
-                로그아웃
-              </button>
-            </div>
-          )}
         </div>
       </form>
+
+      {is_mine && !modifyMode && (
+        <div className="flex w-full py-1 text-xs rounded-md font-bold mt-1 justify-end gap-2">
+          <button
+            className="w-full h-6 border border-red-600 text-red-600 font-semibold px-2 py-0.5 text-[10px] rounded shadow-sm transition-all duration-200 hover:bg-red-600 hover:text-white"
+            onClick={() => {
+              if (confirm("정말로 삭제하시겠습니까?")) {
+                alert("삭제되었습니다.");
+                deleteUser();
+              }
+            }}>
+            탈퇴
+          </button>
+
+          <button
+            className="w-full h-6 border border-blue-600 text-blue-600 font-semibold px-2 py-0.5 text-[10px] rounded shadow-sm transition-all duration-200 hover:bg-blue-600 hover:text-white"
+            onClick={() => {
+              if (confirm("로그아웃 하시겠습니까?")) {
+                logOut();
+              }
+            }}>
+            로그아웃
+          </button>
+        </div>
+      )}
     </div>
   );
 };
