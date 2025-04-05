@@ -1,7 +1,7 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 
-import useImageHandler from "./model/useImageHandler";
+import useProfileImageHandler from "./model/useProfileImageHandler";
 import usePutProfileImage from "../../3_Entity/Account/usePutProfileImage";
 
 import { optionalFileSchema } from "../../4_Shared/lib/imgSchema";
@@ -31,7 +31,7 @@ const PlayerCard = (props: PlayerCardProps) => {
     handleCancel,
     handleSave,
     handleSetDefaultImage,
-  } = useImageHandler({ profile_image, setValue, clearErrors });
+  } = useProfileImageHandler({ profile_image, setValue, clearErrors });
 
   const [putProfileImage] = usePutProfileImage();
 
