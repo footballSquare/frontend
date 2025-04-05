@@ -19,7 +19,7 @@ const ChampionshipList = (props: ChampionshipListProps) => {
   const navigate = useNavigate();
 
   return (
-    <div className="bg-gray-50 rounded-xl shadow-md w-full flex flex-col gap-4 overflow-y-auto p-4 max-h-[90%]">
+    <div className="bg-gray-50 rounded-xl shadow-md w-full flex flex-col gap-4 p-4">
       {championshipList.map((elem, index) => {
         return (
           <div

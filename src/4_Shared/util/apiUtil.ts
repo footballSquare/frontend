@@ -131,7 +131,7 @@ export const useFetchData = (): [
       try {
         setLoading(true);
         // API 호출
-        console.log("request");
+        console.log("request", endpoint);
         const response = await axiosInstance({
           method: method,
           url: `${SERVER_URL}${endpoint}`,

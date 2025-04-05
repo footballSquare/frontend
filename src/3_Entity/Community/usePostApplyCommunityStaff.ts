@@ -17,9 +17,6 @@ const usePostApplyCommunityStaff = (): [
         case 200:
           alert("운영진에 지원완료 되었습니다.");
           break;
-        case 401:
-          alert("로그인이 필요합니다.");
-          break;
         default:
           alert("운영진 지원에 실패했습니다.");
           break;

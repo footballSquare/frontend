@@ -19,3 +19,17 @@ type UseGetCommunitySTeamListProps = {
 type PostApplyCommunityStaffProps = {
   communityIdx: number;
 };
+
+type UseGetCommunityStaffAplicationListProps = {
+  communityIdx: number;
+}
+
+type PostApproveCommunityStaffApplicationProps = {
+  communityIdx: number;
+  userIdx: number;
+}
+
+type DeleteCommunityStaffApplicationProps = {
+  communityIdx: number;
+  userIdx: number;
+}
