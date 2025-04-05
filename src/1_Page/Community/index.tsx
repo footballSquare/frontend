@@ -56,7 +56,10 @@ const Community = () => {
         )}
 
         {/* 커뮤니티 운영진 목록 & 운영진 지원 */}
-        <CommunityStaffList communityIdx={Number(communityIdx)} />
+        <CommunityStaffList
+          communityIdx={Number(communityIdx)}
+          modifyMode={modifyMode}
+        />
 
         {/* 커뮤니티 수정 버튼 */}
         {isCommunityStaff && (
@@ -102,7 +105,9 @@ const Community = () => {
                 <h3 className="font-semibold text-lg text-gray-800 mb-4">
                   Staff Join Requests
                 </h3>
-                <CommunityStaffApplicationList communityIdx={Number(communityIdx)} />
+                <CommunityStaffApplicationList
+                  communityIdx={Number(communityIdx)}
+                />
               </div>
             </>
           ) : (
