@@ -1,9 +1,13 @@
+import useDeleteApproveMember from "../../../../../../../../3_Entity/Team/useDeleteApproveMember";
+import usePostApproveMember from "../../../../../../../../3_Entity/Team/usePostApproveMember";
 import { platform } from "../../../../../../../../4_Shared/constant/platform";
 import { getPlatformIcon } from "../../../../../../../../4_Shared/lib/getPlatformIcon";
 
 const TeamApplicationItem = (props: TeamApplicationItemProps) => {
-  const { player, postApproveMember, deleteApproveMember, addDisplayPlayer } =
-    props;
+  const { player, team_list_idx, addDisplayPlayer } = props;
+
+  const [postApproveMember] = usePostApproveMember(team_list_idx);
+  const [deleteApproveMember] = useDeleteApproveMember(team_list_idx);
 
   return (
     <div className="flex items-center justify-between bg-gray-50 p-4 rounded-lg hover:bg-gray-100 transition-colors">

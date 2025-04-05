@@ -20,7 +20,7 @@ const useManageModify = (
     reset(teamInfoForm);
   }, [teamInfoForm]);
 
-  // 수정상태 취소
+  //  수정 완료
   const handleModifyFalse = () => {
     setModifyMode(false);
     setValue("team_repeat_checked", false);

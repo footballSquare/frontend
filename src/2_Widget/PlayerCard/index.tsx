@@ -1,18 +1,18 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 
-import { PlayerCardProps, ImageForm } from "./type";
-import useImageHandler from "./model/useImageHandler";
+import useProfileImageHandler from "./model/useProfileImageHandler";
 import usePutProfileImage from "../../3_Entity/Account/usePutProfileImage";
 
-import { schema } from "../../4_Shared/lib/imgSchema";
+import { optionalFileSchema } from "../../4_Shared/lib/imgSchema";
 import { matchPosition } from "../../4_Shared/constant/matchPosition";
 import profile from "../../4_Shared/assets/svg/profile.svg";
 import camera from "../../4_Shared/assets/svg/camera.svg";
 
 const PlayerCard = (props: PlayerCardProps) => {
   // is_mine  = true : 수정가능 / = false 수정 불가능
-  const { is_mine, user_idx, nickname, position, profile_img, team } = props;
+  const { is_mine, user_idx, nickname, position, profile_image, team_name } =
+    props;
 
   const {
     register,
@@ -20,8 +20,8 @@ const PlayerCard = (props: PlayerCardProps) => {
     handleSubmit,
     formState: { errors },
     clearErrors,
-  } = useForm<ImageForm>({
-    resolver: yupResolver(schema),
+  } = useForm<ProfileImageForm>({
+    resolver: yupResolver(optionalFileSchema),
   });
 
   const {
@@ -31,13 +31,13 @@ const PlayerCard = (props: PlayerCardProps) => {
     handleCancel,
     handleSave,
     handleSetDefaultImage,
-  } = useImageHandler({ profile_img, setValue, clearErrors });
+  } = useProfileImageHandler({ profile_image, setValue, clearErrors });
 
-  const [putEvent] = usePutProfileImage(user_idx);
+  const [putProfileImage] = usePutProfileImage();
 
-  const onSubmit: SubmitHandler<ImageForm> = (data) => {
+  const onSubmit: SubmitHandler<ProfileImageForm> = (data) => {
     handleSave();
-    putEvent(data.img);
+    putProfileImage(data.file);
   };
 
   return (
@@ -58,7 +58,7 @@ const PlayerCard = (props: PlayerCardProps) => {
               type="file"
               accept="image/*"
               className="hidden"
-              {...register("img")}
+              {...register("file")}
               onChange={is_mine ? handleImageChange : undefined}
               disabled={!is_mine}
             />
@@ -129,16 +129,16 @@ const PlayerCard = (props: PlayerCardProps) => {
         )}
 
         {/* Error message */}
-        {errors.img && (
+        {errors.file && (
           <div className="bg-red-900 bg-opacity-30 px-4 py-2 text-red-300 text-xs">
-            {errors.img.message}
+            {errors.file.message}
           </div>
         )}
 
         {/* Status indicator */}
         <div className="flex items-center bg-gray-900 px-4 py-2 border-t border-gray-700">
           <div className="w-3 h-3 rounded-full bg-green-500 mr-2"></div>
-          <span className="text-xs text-gray-300">{team}</span>
+          <span className="text-xs text-gray-300">{team_name}</span>
         </div>
       </div>
     </form>

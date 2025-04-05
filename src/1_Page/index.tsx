@@ -10,8 +10,16 @@ import Login from "./Login";
 import Championship from "./Championship";
 import { useIsLogin } from "../4_Shared/lib/useMyInfo";
 
+const TEST = import.meta.env.VITE_TEST;
+
+
 const Page = () => {
+<<<<<<< HEAD
   const [isLogin] = useIsLogin(); // accessToken 존재 여부 확인
+=======
+  console.log(TEST)
+  const [isLogin] = useIsLogin()// accessToken 존재 여부 확인
+>>>>>>> develop
   return (
     <div className="w-full h-full flex justify-center">
       <Routes>
