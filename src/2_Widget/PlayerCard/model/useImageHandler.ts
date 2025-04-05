@@ -20,7 +20,7 @@ const useImageHandler = (
     if (file) {
       const objectUrl = URL.createObjectURL(file);
       setPreview(objectUrl);
-      setValue("profile_image", file);
+      setValue("file", file);
       setModifyMode(true); // 변경되었으므로 버튼 표시
     }
   };
@@ -40,6 +40,7 @@ const useImageHandler = (
 
   const handleSetDefaultImage = () => {
     setPreview(null);
+    setValue("file", null);
     setModifyMode(true);
   };
   return {

@@ -11,7 +11,8 @@ import camera from "../../4_Shared/assets/svg/camera.svg";
 
 const PlayerCard = (props: PlayerCardProps) => {
   // is_mine  = true : 수정가능 / = false 수정 불가능
-  const { is_mine, user_idx, nickname, position, profile_image, team } = props;
+  const { is_mine, user_idx, nickname, position, profile_image, team_name } =
+    props;
 
   const {
     register,
@@ -32,11 +33,11 @@ const PlayerCard = (props: PlayerCardProps) => {
     handleSetDefaultImage,
   } = useImageHandler({ profile_image, setValue, clearErrors });
 
-  const [putEvent] = usePutProfileImage();
+  const [putProfileImage] = usePutProfileImage();
 
   const onSubmit: SubmitHandler<ImageForm> = (data) => {
     handleSave();
-    putEvent(data.file);
+    putProfileImage(data.file);
   };
 
   return (
@@ -137,7 +138,7 @@ const PlayerCard = (props: PlayerCardProps) => {
         {/* Status indicator */}
         <div className="flex items-center bg-gray-900 px-4 py-2 border-t border-gray-700">
           <div className="w-3 h-3 rounded-full bg-green-500 mr-2"></div>
-          <span className="text-xs text-gray-300">{team}</span>
+          <span className="text-xs text-gray-300">{team_name}</span>
         </div>
       </div>
     </form>
