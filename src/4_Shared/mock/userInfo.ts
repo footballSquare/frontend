@@ -1,7 +1,7 @@
 import { teamAwardsData } from "./teamInfo";
 import profile_img from "../assets/img/profile_img.jpg";
 
-export const mockUserInfo: { user: UserInfo } = {
+export const mockUserInfo = {
   user: {
     is_mine: true,
     short_team_name: "CFC",

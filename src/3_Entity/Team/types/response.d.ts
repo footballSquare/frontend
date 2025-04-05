@@ -28,11 +28,10 @@ type TeamAwards = {
 };
 
 type TeamHistory = {
-  championship_list_idx: number;
-  championship_list_name: string;
-  championship_list_start_date: string;
-  championship_list_end_date: string;
-  championship_list_color: string;
+  team_history_idx: number;
+  team_list_idx: number;
+  team_history_created_at: string;
+  team_list_name: string;
 };
 
 type TeamMembers = {

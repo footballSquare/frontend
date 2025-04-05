@@ -1,6 +1,5 @@
 type TeamApplicationItemProps = {
   player: TeamSignMember;
-  postApproveMember: (playerId: number) => void;
-  deleteApproveMember: (playerId: number) => void;
+  team_list_idx: number;
   addDisplayPlayer: (playerId: number) => void;
 };
