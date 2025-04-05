@@ -1,0 +1,3 @@
+type CommunityStaffApplicationListProps = {
+  communityIdx: number;
+}
