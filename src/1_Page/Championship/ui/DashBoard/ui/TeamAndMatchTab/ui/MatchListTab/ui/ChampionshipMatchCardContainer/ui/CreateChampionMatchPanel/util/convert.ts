@@ -1,6 +1,6 @@
 export const convertCreateChampionMatchForm = (
   data: CreateChampionMatchFormValues
-) => {
+): UsePostCreateChampionshipMatchProps => {
   return {
     first_team_idx: data.teams[0],
     second_team_idx: data.teams[1],

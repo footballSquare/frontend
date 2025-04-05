@@ -4,7 +4,7 @@ import useSelectHandler from "./model/useSelectHandler";
 import useGetChampionshipDetail from "../../../../../../../../3_Entity/Championship/useGetChampionshipDetail";
 
 const MatchListTab = (props: MatchListTabProps) => {
-  const { matchList, filteredTeamList, matchHandlers } = props;
+  const { matchList, filteredTeamList, matchHandlers, fetchMatchList } = props;
   const [selectedIdx, selectedTeams, handleSelect] =
     useSelectHandler(matchList);
   const [championshipDetail] = useGetChampionshipDetail(selectedIdx);
@@ -14,6 +14,7 @@ const MatchListTab = (props: MatchListTabProps) => {
       {/* 매치 결과 리스트 (좌측) */}
       <ChampionshipMatchCardContainer
         matchHandlers={matchHandlers}
+        fetchMatchList={fetchMatchList}
         filteredTeamList={filteredTeamList}
         matchList={matchList}
         selectedIdx={selectedIdx}

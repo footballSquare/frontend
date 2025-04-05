@@ -1,7 +1,6 @@
-type CreateChampionMatchModalProps = {
-  onClose: () => void;
+type CreateChampionMatchPanelProps = {
   filteredTeamList: ChampionshipTeamInfo[];
-  handleAddMatch: (match: ChampionshipMatchInfo) => void;
+  fetchMatchList: () => void;
 };
 
 type CreateChampionMatchFormValues = {

@@ -7,12 +7,9 @@ const usePostCreateChampionshipMatch = (
   postCreateChampionshipMatch: (
     championshipMatchForm: UsePostCreateChampionshipMatchProps
   ) => void,
-  postCreateChampionshipMatchData: ChampionshipMatchList | null,
-  loading: boolean
+  serverState: Record<string, unknown> | null
 ] => {
-  const [serverState, request, loading] = useFetchData();
-  const [postCreateChampionshipMatchData, setPostCreateChampionshipMatchData] =
-    React.useState<ChampionshipMatchList | null>(null);
+  const [serverState, request] = useFetchData();
 
   const postCreateChampionshipMatch = (
     championshipMatchForm: UsePostCreateChampionshipMatchProps
@@ -26,19 +23,12 @@ const usePostCreateChampionshipMatch = (
     console.log("serverState", serverState.data);
     switch (serverState.status) {
       case 200:
-        setPostCreateChampionshipMatchData(
-          serverState.data as ChampionshipMatchList
-        );
         break;
       case "403":
     }
   }, [serverState]);
 
-  return [
-    postCreateChampionshipMatch,
-    postCreateChampionshipMatchData,
-    loading,
-  ];
+  return [postCreateChampionshipMatch, serverState];
 };
 
 export default usePostCreateChampionshipMatch;
