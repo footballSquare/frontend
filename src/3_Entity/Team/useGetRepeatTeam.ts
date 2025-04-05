@@ -6,10 +6,8 @@ const useGetRepeatTeam = (): [boolean, boolean, (teamName: string) => void] => {
   const [isRepeat, setIsRepeat] = React.useState<boolean>(false);
 
   const getRepeatTeam = (teamName: string) => {
-    const endPoint = `/team/check_name`;
-    console.log(teamName);
-    const body = { team_list_name: teamName };
-    request("GET", endPoint, body, true);
+    const endPoint = `/team/check_name/${teamName}`;
+    request("GET", endPoint, null, true);
   };
 
   React.useEffect(() => {

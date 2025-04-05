@@ -4,15 +4,14 @@ import { useFetchData } from "../../4_Shared/util/apiUtil";
 const useGetRepeatShortTeam = (): [
   boolean,
   boolean,
-  (teamName: string) => void
+  (teamShortName: string) => void
 ] => {
   const [serverState, request, loading] = useFetchData();
   const [isRepeat, setIsRepeat] = React.useState<boolean>(false);
 
-  const getRepeatShortTeam = (teamName: string) => {
-    const endPoint = `/team/check_short_name`;
-    const body = { team_list_short_name: teamName };
-    request("GET", endPoint, body, true);
+  const getRepeatShortTeam = (teamShortName: string) => {
+    const endPoint = `/team/check_short_name/${teamShortName}`;
+    request("GET", endPoint, null, true);
   };
 
   React.useEffect(() => {
