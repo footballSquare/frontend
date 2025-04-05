@@ -1,7 +1,6 @@
 import ChampionshipMatchCard from "./ui/ChampionshipMatchCard";
-import CreateChaipionMatchModal from "./ui/CreateChaipionMatchModal";
+import CreateChampionMatchPanel from "./ui/CreateChampionMatchPanel";
 import useSortHandler from "./model/useSortHandler";
-import useToggleState from "../../../../../../../../../../4_Shared/model/useToggleState";
 import { useMyCommunityRoleIdx } from "../../../../../../../../../../4_Shared/lib/useMyInfo";
 
 const ChampionshipMatchCardContainer = (
@@ -13,9 +12,8 @@ const ChampionshipMatchCardContainer = (
     selectedIdx,
     handleSelect,
     matchHandlers,
+    fetchMatchList,
   } = props;
-
-  const [isModalOpen, handleToggleModal] = useToggleState();
 
   const [community_role_idx] = useMyCommunityRoleIdx();
   const isAdmin = community_role_idx === 0;
@@ -34,11 +32,10 @@ const ChampionshipMatchCardContainer = (
       {/* 검색 및 정렬 옵션 UI */}
       <div className="flex justify-end">
         {isAdmin && (
-          <button
-            onClick={handleToggleModal}
-            className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">
-            매치 생성
-          </button>
+          <CreateChampionMatchPanel
+            filteredTeamList={filteredTeamList}
+            fetchMatchList={fetchMatchList}
+          />
         )}
       </div>
       <div className="flex gap-4 mb-6 bg-white p-4 rounded-lg shadow-md">
@@ -76,14 +73,6 @@ const ChampionshipMatchCardContainer = (
           />
         ))}
       </ul>
-
-      {isModalOpen && (
-        <CreateChaipionMatchModal
-          onClose={handleToggleModal}
-          filteredTeamList={filteredTeamList}
-          handleAddMatch={matchHandlers.handleAddMatch}
-        />
-      )}
     </div>
   );
 };

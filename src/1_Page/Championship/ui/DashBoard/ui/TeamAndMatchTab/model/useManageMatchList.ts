@@ -1,9 +1,7 @@
 import React from "react";
-import { createDummyMatch } from "../util/createDummyMatch";
 
 const useManageMatchList = (
-  matchList: ChampionshipMatchList[],
-  teamList: ChampionshipTeamInfo[]
+  matchList: ChampionshipMatchList[]
 ): [ChampionshipMatchList[], MatchHandlerReturn] => {
   const [displayMatchList, setDisplayMatchList] = React.useState<
     ChampionshipMatchList[]
@@ -18,19 +16,6 @@ const useManageMatchList = (
       prev.filter((match) => match.championship_match_idx !== matchIdx)
     );
   }, []);
-
-  const handleAddMatch = React.useCallback(
-    (newMatch: UsePostCreateChampionshipMatchProps) => {
-      const newMatchTeams = teamList.filter(
-        (team) =>
-          team.team_list_idx === newMatch.first_team_idx ||
-          team.team_list_idx === newMatch.second_team_idx
-      );
-      const dummyMatch = createDummyMatch(newMatchTeams);
-      setDisplayMatchList((prev) => [...prev, dummyMatch]);
-    },
-    [teamList]
-  );
 
   const handleEndMatch = React.useCallback((matchIdx: number) => {
     setDisplayMatchList((prev) =>
@@ -56,10 +41,9 @@ const useManageMatchList = (
   const matchHandlers = React.useMemo(
     () => ({
       handleDeleteMatch,
-      handleAddMatch,
       handleEndMatch,
     }),
-    [handleDeleteMatch, handleAddMatch, handleEndMatch]
+    [handleDeleteMatch, handleEndMatch]
   );
 
   return [displayMatchList, matchHandlers];
