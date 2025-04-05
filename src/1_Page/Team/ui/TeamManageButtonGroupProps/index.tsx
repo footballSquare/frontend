@@ -15,7 +15,7 @@ const TeamManageButtonGroup = (props: TeamManageButtonGroupProps) => {
 
   const teamIdx = useParamInteger("teamIdx");
   const [deleteLeaveTeam, serverState] = useDeleteLeaveTeam(teamIdx);
-  useManageServerState(serverState);
+  useManageServerState(serverState); // deleteLeaveTeam 서버 상태 관리
 
   const [putSignTeam] = usePutSignTeam(teamIdx);
 
