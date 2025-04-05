@@ -1,10 +1,10 @@
-type UseImageHandlerProps = {
+type UseProfileImageHandlerProps = {
   profile_image: string | null;
   setValue: UseFormSetValue<ImageInput>;
   clearErrors: UseFormClearErrors<ImageInput>;
 };
 
-type UseImageHandlerReturn = {
+type UseProfileImageHandlerReturn = {
   preview: string | null;
   modifyMode: boolean;
   handleImageChange: (event: React.ChangeEvent<HTMLInputElement>) => void;

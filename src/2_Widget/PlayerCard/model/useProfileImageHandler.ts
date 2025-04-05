@@ -1,8 +1,8 @@
 import React from "react";
 
-const useImageHandler = (
-  props: UseImageHandlerProps
-): UseImageHandlerReturn => {
+const useProfileImageHandler = (
+  props: UseProfileImageHandlerProps
+): UseProfileImageHandlerReturn => {
   const { profile_image, setValue, clearErrors } = props;
   const backupImageRef = React.useRef<string | null>(null); // 초기 이미지 저장
   const [preview, setPreview] = React.useState<string | null>(null);
@@ -53,4 +53,4 @@ const useImageHandler = (
   };
 };
 
-export default useImageHandler;
+export default useProfileImageHandler;
