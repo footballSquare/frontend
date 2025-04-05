@@ -12,8 +12,8 @@ const HistoryListBox = () => {
         <li>팀의 대회 이력이 없습니다.</li>
       ) : (
         teamHistory.slice(0, 5).map((history, index) => (
-          <div className="" key={index}>
-            <li key={"history-" + index}>{history.team_list_name}</li>
+          <div className="" key={"team-list-ul" + index}>
+            <li key={"history-list" + index}>{history.team_list_name}</li>
             <li key={"history-" + index}>
               {formatDateKoreanDate(new Date(history.team_history_created_at))}
             </li>
