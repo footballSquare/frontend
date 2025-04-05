@@ -1,7 +1,9 @@
 import TournamentMatchColumn from "./ui/TournamentMatchColumn";
+import useScale from "./model/useScale";
 
-export const TournamentBracket = (props: TournamentBracketProps) => {
+const TournamentBracket = (props: TournamentBracketProps) => {
   const { tournamentData } = props;
+  const { scale, increaseScale, decreaseScale } = useScale();
 
   return (
     <div className="p-6 bg-gradient-to-r from-blue-50 to-slate-50 rounded-lg overflow-x-auto">
@@ -9,8 +11,22 @@ export const TournamentBracket = (props: TournamentBracketProps) => {
         토너먼트 대진표
       </h1>
 
-      {/* 반응형 크기 조정 */}
-      <div className="flex min-w-max justify-center md:scale-100 sm:scale-90 xs:scale-75 transition-all overflow-x-auto">
+      <div className="flex justify-end mb-4 gap-2">
+        <button
+          onClick={decreaseScale}
+          className="px-3 py-1 bg-blue-200 hover:bg-blue-300 text-sm rounded">
+          -
+        </button>
+        <button
+          onClick={increaseScale}
+          className="px-3 py-1 bg-blue-200 hover:bg-blue-300 text-sm rounded">
+          +
+        </button>
+      </div>
+
+      <div
+        className="flex min-w-max justify-center transition-all overflow-x-auto"
+        style={{ transform: `scale(${scale})`, transformOrigin: "top left" }}>
         {tournamentData.map((roundContnet, index) => (
           <div
             key={index + "_match_" + roundContnet.round}
