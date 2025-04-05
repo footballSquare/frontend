@@ -66,6 +66,7 @@ export const useFetchData = (): [
       authorization: boolean = false
     ) => {
       try {
+        console.log("request:", endpoint);
         setLoading(true);
         // API 호출
         const response = await axios({

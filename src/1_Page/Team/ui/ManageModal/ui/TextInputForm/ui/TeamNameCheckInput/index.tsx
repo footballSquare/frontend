@@ -17,7 +17,7 @@ const TeamNameCheckInput = (props: TeamNameCheckInputProps) => {
   const { isRepeat, loading, getRepeatEvent, formKey, repeatFormKey } =
     useGetRepeat(isShort);
 
-  const { loadState, isNotChange, handleSetAllow, backupRef } = useLoadHandler({
+  const { loadState, isNotChange, handleClick } = useLoadHandler({
     loading,
     modifyMode,
     isRepeat,
@@ -26,19 +26,8 @@ const TeamNameCheckInput = (props: TeamNameCheckInputProps) => {
     repeatFormKey,
     formKey,
     getValues,
+    getRepeatEvent,
   });
-
-  const handleClick = async () => {
-    //변견사항이 없을떄
-    if (backupRef.current === getValues(formKey)) {
-      handleSetAllow();
-      return;
-    }
-    const isValid = await trigger(formKey); // 유효성 검증
-    if (isValid) {
-      getRepeatEvent(getValues(formKey)); // 증복검사
-    }
-  };
 
   const disable = !modifyMode || (!loadState && !isRepeat) || isNotChange;
   return (
