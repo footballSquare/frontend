@@ -23,7 +23,7 @@ const PlayerRow = (props: PlayerRowProps) => {
           }}>
           <div className="relative">
             <img
-              src={player.match_player_stats_evidence_img}
+              src={player.match_player_stats_evidence_img || ""}
               alt="Player"
               className="w-8 h-8 md:w-10 md:h-10 rounded-full object-cover border-2 border-blue-400 shadow-md group-hover:border-blue-600 group-hover:shadow-lg transition-all duration-300"
             />
@@ -89,13 +89,17 @@ const PlayerRow = (props: PlayerRowProps) => {
                   50 +
                   50 *
                     Math.cos(
-                      Math.PI * 2 * (player.match_player_stats_possession / 100)
+                      Math.PI *
+                        2 *
+                        (player.match_player_stats_possession || 0 / 100)
                     )
                 }% ${
                   50 -
                   50 *
                     Math.sin(
-                      Math.PI * 2 * (player.match_player_stats_possession / 100)
+                      Math.PI *
+                        2 *
+                        (player.match_player_stats_possession || 0 / 100)
                     )
                 }%, 100% 0%, 100% 0%, 100% 100%, 0% 100%, 0% 0%)`,
               }}
@@ -117,7 +121,7 @@ const PlayerRow = (props: PlayerRowProps) => {
               handleToogleModal();
             }}>
             <img
-              src={player.match_player_stats_evidence_img}
+              src={player.match_player_stats_evidence_img || ""}
               alt="증거 이미지"
               className="w-10 h-10 md:w-14 md:h-14 rounded-lg object-cover shadow-sm border-2 border-blue-400 group-hover:border-blue-600 group-hover:shadow-md transition-all duration-300"
             />
@@ -138,7 +142,7 @@ const PlayerRow = (props: PlayerRowProps) => {
               onClick={(e) => e.stopPropagation()}>
               <div className="relative">
                 <img
-                  src={player.match_player_stats_evidence_img}
+                  src={player.match_player_stats_evidence_img || ""}
                   alt="증거 이미지 확대"
                   className="max-h-[80vh] max-w-full object-contain"
                 />
