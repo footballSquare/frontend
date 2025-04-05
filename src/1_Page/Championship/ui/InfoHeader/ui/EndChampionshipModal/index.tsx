@@ -6,7 +6,6 @@ import usePutChampionshipEnd from "../../../../../../3_Entity/Championship/usePu
 import useGetChampionshipTeams from "../../../../../../3_Entity/Championship/useGetChampionshipTeams";
 import useGetPlayerStats from "../../../../../../3_Entity/Championship/useGetPlayerStats";
 
-import { matchPosition } from "../../../../../../4_Shared/constant/matchPosition";
 import useParamInteger from "../../../../../../4_Shared/model/useParamInteger";
 
 const EndChampionshipModal = (props: EndChampionshipModalProps) => {
@@ -192,7 +191,6 @@ const EndChampionshipModal = (props: EndChampionshipModalProps) => {
                         : "bg-white hover:bg-green-50"
                     }`}>
                     <div className="font-medium">
-                      {matchPosition[player.match_player_stats_possition]}
                       {player.player_list_nickname}
                     </div>
                     <div className="text-sm text-gray-600 flex justify-between">
@@ -213,19 +211,7 @@ const EndChampionshipModal = (props: EndChampionshipModalProps) => {
               <div className="flex items-center justify-between">
                 <div>
                   <div className="font-bold text-md">
-                    {
-                      matchPosition[
-                        selectedPlayerAwards.match_player_stats_possition
-                      ]
-                    }
                     {selectedPlayerAwards.player_list_nickname}
-                  </div>
-                  <div className="text-xs text-gray-600">
-                    {
-                      matchPosition[
-                        selectedPlayerAwards.match_player_stats_possition
-                      ]
-                    }
                   </div>
                 </div>
                 <div className="text-right">

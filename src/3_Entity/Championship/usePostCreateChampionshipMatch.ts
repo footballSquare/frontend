@@ -7,7 +7,7 @@ const usePostCreateChampionshipMatch = (
   postCreateChampionshipMatch: (
     championshipMatchForm: UsePostCreateChampionshipMatchProps
   ) => void,
-  postCreateChampionshipMatchData: ChampionshipMatchList,
+  postCreateChampionshipMatchData: ChampionshipMatchList | null,
   loading: boolean
 ] => {
   const [serverState, request, loading] = useFetchData();

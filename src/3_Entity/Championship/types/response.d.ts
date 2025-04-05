@@ -111,10 +111,14 @@ type TeamStats = {
 };
 
 type PlayerStats = {
+  championship_match_idx: number;
+  championship_list_idx: number;
+  match_player_stats_idx: number;
   match_match_idx: number;
   player_list_idx: number;
   player_list_nickname: string;
   match_position_idx: number;
+  match_player_stats_evidence_img: string | null;
   match_player_stats_goal: number | null;
   match_player_stats_assist: number | null;
   match_player_stats_successrate_pass: number | null;
