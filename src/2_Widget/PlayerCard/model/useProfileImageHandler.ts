@@ -1,26 +1,18 @@
 import React from "react";
-import { UseImageHandlerProps } from "./type";
 
-const useImageHandler = (
-  props: UseImageHandlerProps
-): {
-  preview: string | null;
-  modifyMode: boolean;
-  handleImageChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  handleCancel: () => void;
-  handleSave: () => void;
-  handleSetDefaultImage: () => void;
-} => {
-  const { profile_img, setValue, clearErrors } = props;
-  const backupImageRef = React.useRef<string | null>(profile_img); // 초기 이미지 저장
-  const [preview, setPreview] = React.useState<string | null>(profile_img);
+const useProfileImageHandler = (
+  props: UseProfileImageHandlerProps
+): UseProfileImageHandlerReturn => {
+  const { profile_image, setValue, clearErrors } = props;
+  const backupImageRef = React.useRef<string | null>(null); // 초기 이미지 저장
+  const [preview, setPreview] = React.useState<string | null>(null);
   const [modifyMode, setModifyMode] = React.useState<boolean>(false); // 수정 모드 상태
 
   // userInfo 변경 시 초기화
   React.useEffect(() => {
-    setPreview(profile_img);
-    backupImageRef.current = profile_img;
-  }, [profile_img]);
+    setPreview(profile_image);
+    backupImageRef.current = profile_image;
+  }, [profile_image]);
 
   // 이미지 변경 핸들러
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -28,7 +20,7 @@ const useImageHandler = (
     if (file) {
       const objectUrl = URL.createObjectURL(file);
       setPreview(objectUrl);
-      setValue("profile_img", file);
+      setValue("file", file);
       setModifyMode(true); // 변경되었으므로 버튼 표시
     }
   };
@@ -48,6 +40,7 @@ const useImageHandler = (
 
   const handleSetDefaultImage = () => {
     setPreview(null);
+    setValue("file", null);
     setModifyMode(true);
   };
   return {
@@ -60,4 +53,4 @@ const useImageHandler = (
   };
 };
 
-export default useImageHandler;
+export default useProfileImageHandler;

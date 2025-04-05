@@ -1,9 +1,10 @@
 import React from "react";
-import { UseModifyHandlerProps } from "./type";
 
 const useModifyHandler = (props: UseModifyHandlerProps) => {
   const { userInfoForm, reset, inputBackupDataRef } = props;
+
   const [modifyMode, setModifyMode] = React.useState<boolean>(false);
+
   React.useEffect(() => {
     reset(userInfoForm);
   }, [userInfoForm]); // 초기값 설정
