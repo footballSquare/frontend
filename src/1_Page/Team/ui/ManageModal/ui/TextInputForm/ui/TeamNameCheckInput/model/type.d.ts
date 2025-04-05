@@ -7,13 +7,13 @@ type UseLoadHandlerProps = {
   setValue: UseFormSetValue<FieldValues>;
   trigger: UseFormTrigger<FieldValues>;
   getValues: UseFormGetValues<FieldValues>;
+  getRepeatEvent: (text: string) => void;
 };
 
 type UseLoadHandlerReturn = {
   loadState: boolean;
   isNotChange: boolean;
-  backupRef: React.MutableRefObject<string | undefined>;
-  handleSetAllow: () => void;
+  handleClick: () => void;
 };
 
 type UseGetRepeatReturn = {
