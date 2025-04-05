@@ -20,7 +20,7 @@ const PlayerCard = (props: PlayerCardProps) => {
     handleSubmit,
     formState: { errors },
     clearErrors,
-  } = useForm<ImageForm>({
+  } = useForm<ProfileImageForm>({
     resolver: yupResolver(schema),
   });
 
@@ -35,7 +35,7 @@ const PlayerCard = (props: PlayerCardProps) => {
 
   const [putProfileImage] = usePutProfileImage();
 
-  const onSubmit: SubmitHandler<ImageForm> = (data) => {
+  const onSubmit: SubmitHandler<ProfileImageForm> = (data) => {
     handleSave();
     putProfileImage(data.file);
   };

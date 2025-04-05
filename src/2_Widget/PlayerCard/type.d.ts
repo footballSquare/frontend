@@ -3,6 +3,6 @@ type PlayerCardProps = Omit<
   "winning_rate" | "trophies" | "match_count" | "mmr"
 >;
 
-type ImageForm = {
+type ProfileImageForm = {
   file: File | null;
 };

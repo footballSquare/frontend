@@ -7,7 +7,6 @@ import PlayerCard from "../../2_Widget/PlayerCard";
 const Profile = () => {
   const [userIdx] = useValidParamInteger("userIdx");
   const [userInfo] = useGetMyInfo(userIdx);
-  console.log(userInfo);
   const { winning_rate, trophies, match_count, mmr, ...playerProps } = userInfo;
   const awardProps = { winning_rate, trophies, match_count, mmr };
 

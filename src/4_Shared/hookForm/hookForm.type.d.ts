@@ -15,4 +15,4 @@ type UseFormSetValue<TFieldValues extends FieldValues> = <
   options?: SetValueConfig
 ) => void;
 
-export type FieldValues = Record<string, unknown>;
+type FieldValues = Record<string, unknown>;
