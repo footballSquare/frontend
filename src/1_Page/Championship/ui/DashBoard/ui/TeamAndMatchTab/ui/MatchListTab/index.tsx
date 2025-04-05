@@ -1,16 +1,14 @@
 import ChampionshipMatchCardContainer from "./ui/ChampionshipMatchCardContainer";
 import MatchLineupContainer from "./ui/MatchLineupContainer";
-import { getSelectedMatchTeams } from "./util/getSelectedMatchTeams";
 import useSelectHandler from "./model/useSelectHandler";
-import React from "react";
+import useGetChampionshipDetail from "../../../../../../../../3_Entity/Championship/useGetChampionshipDetail";
 
 const MatchListTab = (props: MatchListTabProps) => {
   const { matchList, filteredTeamList, matchHandlers } = props;
-  const [selectedIdx, handleSelect] = useSelectHandler(matchList);
-  const selectedTeams = React.useMemo(
-    () => getSelectedMatchTeams(matchList, selectedIdx),
-    [matchList, selectedIdx]
-  );
+  const [selectedIdx, selectedTeams, handleSelect] =
+    useSelectHandler(matchList);
+  const [championshipDetail] = useGetChampionshipDetail(selectedIdx);
+
   return (
     <div className="w-full mx-auto flex flex-col md:flex-row gap-4">
       {/* 매치 결과 리스트 (좌측) */}
@@ -27,6 +25,7 @@ const MatchListTab = (props: MatchListTabProps) => {
         <MatchLineupContainer
           matchIdx={selectedIdx}
           selectedTeams={selectedTeams}
+          championshipDetail={championshipDetail}
         />
       </div>
     </div>

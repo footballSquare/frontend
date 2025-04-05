@@ -1,6 +1,7 @@
 type MatchLineupContainerProps = {
   matchIdx: number;
   selectedTeams: SelectTeamMatchInfo;
+  championshipDetail: ChampionshipDetail;
 };
 
 type AssignFormation = {
