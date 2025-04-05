@@ -93,7 +93,7 @@ const TextInputForm = (props: TextInputFormProps) => {
               </button>
               <button
                 type="submit"
-                disabled={isValid}
+                disabled={!isValid}
                 className={`py-2 px-4 rounded-md text-white font-semibold shadow-md transition duration-300
               ${
                 isValid
