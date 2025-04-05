@@ -1,22 +1,22 @@
 import useGetTeamInfo from "../../3_Entity/Team/useGetTeamInfo";
 import HistoryListBox from "./ui/HistoryListBox";
-import PresentMatchBox from "./ui/PresentMatchBox";
+import TeamMatchBox from "./ui/TeamMatchBox";
 import TeamMemberListBox from "./ui/TeamMemberListBox";
 import TeamAwards from "./ui/TeamAwards";
 import TeamManageButtonGroupProps from "./ui/TeamManageButtonGroupProps";
 
+import default_banner from "../../4_Shared/assets/img/banner_soccer.jpg";
+
 import useValidParamInteger from "../../4_Shared/model/useValidParamInteger";
-import ManagePage from "./ui/ManagePage";
-import useManagePage from "./model/useManagePage";
+import ManageModal from "./ui/ManageModal";
+import useToggleState from "../../4_Shared/model/useToggleState";
+import useManageTeamInfo from "./model/useManagePage";
 
 const Team = () => {
-  const TEST_ROLE = 0; // 테스트 role  0: 팀장 1: 팀원 2: 그외
-  const isTeamPlayer = TEST_ROLE === 0 || TEST_ROLE === 1;
-  const isTeamReader = TEST_ROLE === 0;
-
   const [teamIdx] = useValidParamInteger("teamIdx");
   const [teamInfo, loading] = useGetTeamInfo(teamIdx);
-  const [isManagePage, handleTogglePage] = useManagePage();
+  const { displayTeamInfo, handlers } = useManageTeamInfo(teamInfo);
+  const [isManageModal, handleToggleManageModal] = useToggleState();
 
   const {
     team_list_banner,
@@ -24,13 +24,10 @@ const Team = () => {
     team_list_color,
     team_list_name,
     team_list_short_name,
-    team_list_idx,
     team_list_announcement,
-  } = teamInfo;
+  } = displayTeamInfo;
 
-  return isManagePage ? (
-    <ManagePage teamInfo={teamInfo} handleTogglePage={handleTogglePage} />
-  ) : (
+  return (
     <main className="flex flex-col w-[90%] text-sm pt-5">
       {loading ? (
         <div>로딩중</div>
@@ -40,13 +37,13 @@ const Team = () => {
           <section className="flex justify-center">
             <img
               className="w-full h-[200px] object-cover rounded-lg"
-              src={team_list_banner}
-              alt="팀 배너"
+              src={team_list_banner || default_banner}
+              alt="Team Banner"
             />
           </section>
 
           {/* 트로피 */}
-          <TeamAwards teamIdx={teamIdx} />
+          <TeamAwards />
 
           {/* 내용 */}
           <article className="flex flex-col gap-5 sm:grid grid-cols-5 w-full ">
@@ -54,7 +51,7 @@ const Team = () => {
               <div className="flex flex-col items-center ">
                 <div className="flex items-center ">
                   <img
-                    src={team_list_emblem}
+                    src={team_list_emblem || default_banner}
                     alt="Team Emblem"
                     className="w-16 h-16 rounded-full object-cover border border-gray-200"
                   />
@@ -67,16 +64,13 @@ const Team = () => {
                     </h1>
 
                     <TeamManageButtonGroupProps
-                      handleTogglePage={handleTogglePage}
-                      isTeamPlayer={isTeamPlayer}
-                      isTeamReader={isTeamReader}
-                      teamListIdx={team_list_idx}
+                      handleToggleManageModal={handleToggleManageModal}
                     />
                   </section>
                 </div>
                 <section className="flex flex-col items-start w-full">
                   <h2 className="text-base font-semibold">팀 연혁</h2>
-                  <HistoryListBox team_list_idx={team_list_idx} />
+                  <HistoryListBox />
                 </section>
               </div>
 
@@ -88,10 +82,7 @@ const Team = () => {
                   </p>
                   <div>
                     <h2 className="text-base font-semibold">팀 현황</h2>
-                    <TeamMemberListBox
-                      isTeamReader={isTeamReader}
-                      teamIdx={teamIdx}
-                    />
+                    <TeamMemberListBox />
                   </div>
                 </div>
               </section>
@@ -99,10 +90,17 @@ const Team = () => {
 
             <div className="space-y-3 sm:col-span-3">
               <h2 className="text-base font-semibold">현재 경기</h2>
-              <PresentMatchBox team_list_idx={team_list_idx} />
+              <TeamMatchBox />
             </div>
           </article>
         </div>
+      )}
+      {isManageModal && (
+        <ManageModal
+          handlers={handlers}
+          teamInfo={displayTeamInfo}
+          handleToggleManageModal={handleToggleManageModal}
+        />
       )}
     </main>
   );

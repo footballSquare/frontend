@@ -1,0 +1,3 @@
+type CommunityStaffListPanelProps = {
+  communityIdx: number;
+};

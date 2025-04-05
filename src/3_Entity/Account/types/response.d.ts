@@ -7,21 +7,45 @@ type Awards = {
   championship_list_color: string;
 };
 
-export type UserInfo = {
+type Platform = "pc" | "xbox" | "playstation" | null;
+
+type UserInfo = {
+  // 본인확인
   is_mine: boolean;
+  // idx
   user_idx: number;
-  profile_img: string;
-  short_team_name: string;
+  team_idx: number;
+  // 유저 데이터
   nickname: string;
+  profile_image: string | null;
+  platform: Platform;
+  discord_tag: string;
+  player_status: "pending" | "active" | "deleted";
   state_message: string;
-  platform: number;
-  team: string;
-  team_emblem: string;
-  common_status_idx: number;
   position: number;
-  tag_discord: string;
-  mmr: number;
+  // 팀데이터
+  team_name: string | null;
+  short_team_name: string | null;
+  team_emblem: string | null;
+  // 구직상태
+  common_status_idx: number;
+  // 유저 스펙
   match_count: number;
   winning_rate: number;
-  trophies: Awards[];
+  trophies: Awards[] | null;
+  mmr: number;
+};
+
+type SignInData = {
+  player_status: string;
+  access_token: string;
+  user_idx: number;
+  profile_image: string | null;
+  team_idx: number | null;
+  team_role_idx: number | null;
+  community_role_idx: number | null;
+};
+
+type DiscordOAuthUrl = {
+  url: string;
 };

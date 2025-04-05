@@ -1,23 +1,23 @@
 import React from "react";
-import { useFetch } from "../../4_Shared/util/apiUtil";
-import { MatchParticipant } from "./types/response";
+import { useFetchData } from "../../4_Shared/util/apiUtil";
 import { mockMatchParticipants } from "../../4_Shared/mock/matchParticipants";
 
 const useGetMatchParticipants = (
-  matchIdx: number
+  porps: useGetMatchParticipantsProps
 ): [
   MatchParticipant[],
   React.Dispatch<React.SetStateAction<MatchParticipant[]>>,
   boolean
 ] => {
-  const [serverState, request, loading] = useFetch();
+  const { matchIdx } = porps;
+  const [serverState, request, loading] = useFetchData();
   const [matchPaticipants, setMatchPaticipants] = React.useState<
     MatchParticipant[]
   >(mockMatchParticipants.match_participant);
 
   React.useEffect(() => {
-    request(mockMatchParticipants);
-  }, [matchIdx]);
+    request("GET", `/match/${matchIdx}/participant`, null, false);
+  }, [matchIdx, request]);
 
   React.useEffect(() => {
     if (!loading && serverState) {

@@ -1,19 +1,16 @@
 import React from "react";
-import { useFetch } from "../../4_Shared/util/apiUtil";
-import { UserInfoPost } from "./types/request";
+import { useFetchData } from "../../4_Shared/util/apiUtil";
 
-const usePutUserInfo = (
-  userIdx: number
-): [
-  postEvent: (userInfo: UserInfoPost) => void,
+const usePutUserInfo = (): [
+  postEvent: (userInfo: UsePutUserInfoProps) => void,
   serverState: unknown,
   loading: boolean
 ] => {
-  const [serverState, request, loading] = useFetch();
+  const [serverState, request, loading] = useFetchData();
 
-  const postEvent = (userInfo: UserInfoPost) => {
-    request({ userIdx, userInfo });
-    console.log("전송된 데이터:", userInfo);
+  const putUserInfo = (userInfo: UsePutUserInfoProps) => {
+    const endPoint = "/account/user/update";
+    request("PUT", endPoint, userInfo, true);
   };
 
   React.useEffect(() => {
@@ -23,7 +20,7 @@ const usePutUserInfo = (
     }
   }, [serverState]);
 
-  return [postEvent, serverState, loading];
+  return [putUserInfo, serverState, loading];
 };
 
 export default usePutUserInfo;

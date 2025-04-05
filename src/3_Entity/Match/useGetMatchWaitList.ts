@@ -1,22 +1,22 @@
 import React from "react";
-import { useFetch } from "../../4_Shared/util/apiUtil";
-import { MatchWaitList } from "./types/response";
+import { useFetchData } from "../../4_Shared/util/apiUtil";
 import { mockMatchWaitList } from "../../4_Shared/mock/matchWaitList";
 
 const useGetMatchWaitlist = (
-  matchIdx: number
+  props: uesGetMatchWaitListProps
 ): [
   MatchWaitList,
   React.Dispatch<React.SetStateAction<MatchWaitList>>,
   boolean
 ] => {
-  const [serverState, request, loading] = useFetch();
+  const { matchIdx } = props;
+  const [serverState, request, loading] = useFetchData();
   const [matchWaitList, setMatchWaitList] =
     React.useState<MatchWaitList>(mockMatchWaitList);
 
   React.useEffect(() => {
-    request(mockMatchWaitList);
-  }, [matchIdx]);
+    request("GET", `/match/${matchIdx}/waitlist`, null, false);
+  }, [matchIdx, request]);
 
   React.useEffect(() => {
     if (!loading && serverState) {

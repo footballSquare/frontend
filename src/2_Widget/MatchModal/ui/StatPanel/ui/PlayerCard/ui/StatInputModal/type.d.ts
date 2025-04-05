@@ -1,3 +1,3 @@
-export type StatInputModalProps = {
+type StatInputModalProps = {
   toggleStatInputModal: () => void;
 };

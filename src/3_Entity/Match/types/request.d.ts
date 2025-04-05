@@ -1,20 +1,66 @@
-export type useGetMatchDetailProps = {
+type useGetMatchDetailProps = {
   matchIdx: number;
 };
 
-export type useGetMatchParticipantsProps = {
+type useGetMatchParticipantsProps = {
   matchIdx: number;
 };
 
-export type uesGetMatchWaitListProps = {
+type uesGetMatchWaitListProps = {
   matchIdx: number;
 };
 
-export type PostTeamMatchProps = {
+type UseGetOpenMatchListProps = {
+  page: number;
+};
+
+type UseGetMatchStatsProps = {
+  matchIdx: number;
+};
+
+type UseGetStandbyListProps = {
+  page: number;
+};
+
+type useGetTeamMatchListProps = {
+  page: number;
+  teamIdx: number;
+};
+
+type UsePostTeamMatchProps = {
+  teamIdx: number | null;
+};
+
+type PostTeamMatchProps = {
   match_formation_idx: number;
   match_match_participation_type: number;
   match_type_idx: number;
-  match_match_attribute: number;
   match_match_start_time: string;
-  match_match_duration: string;
+  match_match_duration: { hours: number; minutes: number };
+};
+
+type PostOpenMatchProps = {
+  match_formation_idx: number;
+  match_match_participation_type: number;
+  match_type_idx: number;
+  match_match_start_time: string;
+  match_match_duration: { hours: number; minutes: number };
+};
+
+type PutMatchEndProps = {
+  matchIdx: number;
+};
+
+type DeleteMatchProps = {
+  matchIdx: number;
+};
+
+type PutOpenMatchJoinProps = {
+  matchIdx: number;
+  matchPositionIdx: number;
+};
+
+type DeleteMatchJoinProps = {
+  matchIdx: number;
+  userIdx: number;
 };

@@ -1,14 +1,15 @@
 import React from "react";
-import { TeamMemberListBoxProps } from "./type";
 import MemberCard from "./ui/MemberCard";
 
 import useGetTeamMembers from "../../../../3_Entity/Team/useGetTeamMembers";
 import useInfiniteScrollPaging from "../../../../4_Shared/model/useInfiniteScrollPaging";
+import useParamInteger from "../../../../4_Shared/model/useParamInteger";
+import useManageMemberList from "./model/useManageMemberList";
 
-const TeamMemberListBox = (props: TeamMemberListBoxProps) => {
-  const { teamIdx, isTeamReader } = props;
+const TeamMemberListBox = () => {
+  const teamIdx = useParamInteger("teamIdx");
 
-  const [page, setPage] = React.useState<number>(1);
+  const [page, setPage] = React.useState<number>(0);
   const [teamMember, hasMoreContent, loading] = useGetTeamMembers(
     teamIdx,
     page
@@ -19,17 +20,24 @@ const TeamMemberListBox = (props: TeamMemberListBoxProps) => {
     hasMoreContent
   );
 
+  const [displayMemberList, handleDelete] = useManageMemberList(teamMember);
+
   return (
     <div className=" h-[200px] overflow-scroll">
-      {teamMember.map((elem, index) => (
-        <MemberCard
-          {...elem}
-          index={index}
-          observeRef={teamMember.length === index + 1 ? observeRef : undefined}
-          teamIdx={teamIdx}
-          isTeamReader={isTeamReader}
-        />
-      ))}
+      {displayMemberList.length === 0 ? (
+        <p className=" text-gray-500">현재 팀원이 없습니다.</p>
+      ) : (
+        displayMemberList.map((elem, index) => (
+          <MemberCard
+            {...elem}
+            handleDelete={handleDelete}
+            index={index}
+            observeRef={
+              teamMember.length === index + 1 ? observeRef : undefined
+            }
+          />
+        ))
+      )}
     </div>
   );
 };

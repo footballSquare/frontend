@@ -5,6 +5,8 @@ import { FormationPanelProps } from "./type";
 import { formations } from "./constant/formation";
 import { matchFormation } from "../../../../4_Shared/constant/matchFormation";
 import { matchPosition } from "../../../../4_Shared/constant/matchPosition";
+import useDeleteMatchJoin from "../../../../3_Entity/Match/useDeleteMatchJoin";
+import useMatchModalStore from "../../../../4_Shared/zustand/useMatchModal";
 
 const FormationPanel = React.memo((props: FormationPanelProps) => {
   const {
@@ -13,6 +15,8 @@ const FormationPanel = React.memo((props: FormationPanelProps) => {
     matchDisApproveHandler,
     isMatchLeader,
   } = props;
+  const [deleteMatchJoin] = useDeleteMatchJoin();
+  const { matchIdx } = useMatchModalStore();
   return (
     <div className="relative flex gap-6 h-full min-w-[35%]">
       {/* 필드 & 포메이션 선택기 */}
@@ -35,7 +39,7 @@ const FormationPanel = React.memo((props: FormationPanelProps) => {
         {formations[matchFormationIdx].map((pos, index) => (
           <div
             key={index}
-            className=" absolute translate-x-[-50%] translate-y-[-50%] flex flex-col justify-center p-1 text-sm items-center gap-1"
+            className=" absolute translate-x-[-50%] translate-y-[-50%] flex flex-col justify-center p-1 text-sm items-center gap-1 border"
             style={{ top: pos.top, left: pos.left }} // 동적 스타일
           >
             <div className=" bg-white rounded-[32px] w-[36px] flex flex-col items-center">
@@ -44,22 +48,26 @@ const FormationPanel = React.memo((props: FormationPanelProps) => {
               <span className="text-xs">{matchPosition[pos.positionIdx]}</span>
             </div>
             {/* 참가자 이름 */}
-            {matchParticipants.map((elem) => {
+            {matchParticipants.map((elem, index) => {
               if (elem.match_position_idx === pos.positionIdx) {
                 return (
-                  <div className=" flex gap-4 px-2 items-center  bg-gray rounded-lg w-fit text-xs">
+                  <div
+                    className=" flex border gap-4 px-2 items-center bg-gray rounded-lg w-[80px] text-xs"
+                    key={index}
+                  >
                     {isMatchLeader && (
                       <button
                         onClick={() => {
-                          matchDisApproveHandler(
-                            {player: {
+                          matchDisApproveHandler({
+                            player: {
                               player_list_idx: elem.player_list_idx,
                               player_list_nickname: elem.player_list_nickname,
                               player_list_url: elem.player_list_url,
                             },
                             matchPosition: elem.match_position_idx,
-                            matchParticipants}
-                          );
+                            matchParticipants,
+                          });
+                          deleteMatchJoin({matchIdx,  userIdx: elem.player_list_idx});
                         }}
                       >
                         X

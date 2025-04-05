@@ -1,5 +1,6 @@
 type UseGetChampionshipListProps = {
   communityIdx: number;
+  page: number;
 };
 
 type UseGetCommunityInfoProps = {
@@ -11,5 +12,10 @@ type UseGetCommunityStaffListProps = {
 };
 
 type UseGetCommunitySTeamListProps = {
+  communityIdx: number;
+  page: number;
+};
+
+type PostApplyCommunityStaffProps = {
   communityIdx: number;
 };

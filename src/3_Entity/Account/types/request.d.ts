@@ -1,7 +1,13 @@
-export type UserInfoPost = {
+type SignInEventProps = {
+  id: string;
+  password: string;
+};
+
+type UsePutUserInfoProps = {
   nickname: string;
-  platform: number;
+  platform: Platform;
+  discord_tag: string;
   common_status_idx: number;
-  position: number;
   state_message: string;
+  position: number;
 };

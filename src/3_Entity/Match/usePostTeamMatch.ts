@@ -1,20 +1,21 @@
-import { useFetch } from "../../4_Shared/util/apiUtil";
-import { PostTeamMatchProps } from "./types/request";
+import { useFetchData } from "../../4_Shared/util/apiUtil";
 
 const usePostTeamMatch = (
-  teamIdx: number
+  props: UsePostTeamMatchProps
 ): [
-  postEvent: (props: PostTeamMatchProps) => void,
-  serverState: unknown,
+  postTeamMatch: (props: PostTeamMatchProps) => void,
+  serverState: Record<string, unknown> | null,
   loading: boolean
 ] => {
-  const [serverState, request, loading] = useFetch();
+  const { teamIdx } = props;
+  const [serverState, request, loading] = useFetchData();
 
   const postTeamMatch = (props: PostTeamMatchProps) => {
-    request(props);
-    console.log(props, teamIdx);
+    const endPoint = `/match/team/${teamIdx}`;
+    request("POST", endPoint, props, true);
   };
 
   return [postTeamMatch, serverState, loading];
 };
+
 export default usePostTeamMatch;
