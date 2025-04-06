@@ -35,11 +35,15 @@ const TeamAndMatchTab = (props: TeamAndMatchTabProps) => {
     );
   }, [displayMatchList, teamList, championship_type_idx]);
 
+  console.log("convertedData", convertedData);
+
   return (
     <div>
       <div className="flex justify-end">
-        <button className="border p-4 rounded-2xl" onClick={handleToggleModal}>
-          팀 상세보기
+        <button
+          onClick={handleToggleModal}
+          className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white font-semibold px-6 py-3 rounded-full shadow-lg hover:scale-105 active:scale-95 transition-all duration-200">
+          🏆 참가 팀 목록 보기
         </button>
       </div>
       {/* 팀 목록 탭 */}
