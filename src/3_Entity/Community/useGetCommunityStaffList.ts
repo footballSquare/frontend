@@ -4,7 +4,11 @@ import { useFetchData } from "../../4_Shared/util/apiUtil";
 
 const useGetCommunityStaffList = (
   props: UseGetCommunityStaffListProps
-): [CommunityStaff[], boolean] => {
+): [
+  CommunityStaff[],
+  React.Dispatch<React.SetStateAction<CommunityStaff[]>>,
+  boolean
+] => {
   const { communityIdx } = props;
   const [serverState, request, loading] = useFetchData();
   const [communityStaffList, setCommunityStaffList] = React.useState<
@@ -23,7 +27,7 @@ const useGetCommunityStaffList = (
     }
   }, [loading, serverState]);
 
-  return [communityStaffList, loading];
+  return [communityStaffList, setCommunityStaffList, loading];
 };
 
 export default useGetCommunityStaffList;
