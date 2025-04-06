@@ -1,4 +1,1 @@
-type AwardDashBoardProps = Pick<
-  UserInfo,
-  "winning_rate" | "trophies" | "match_count" | "mmr"
->;
+type AwardDashBoardProps = Pick<UserInfo, "Awards" | "mmr">;

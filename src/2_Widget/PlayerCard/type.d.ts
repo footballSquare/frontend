@@ -1,7 +1,4 @@
-type PlayerCardProps = Omit<
-  UserInfo,
-  "winning_rate" | "trophies" | "match_count" | "mmr"
->;
+type PlayerCardProps = Omit<UserInfo, "Awards" | "mmr">;
 
 type ProfileImageForm = {
   file: File | null;

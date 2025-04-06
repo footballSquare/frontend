@@ -1,7 +1,7 @@
 import AutoMoveAwardList from "../../../../2_Widget/AutoMoveAwardList";
 
 const AwardDashBoard = (props: AwardDashBoardProps) => {
-  const { match_count, winning_rate, trophies = [] } = props;
+  const { Awards = [] } = props;
 
   return (
     <div className="w-full bg-white shadow-md rounded-lg p-4 border border-blue-300">
@@ -15,31 +15,12 @@ const AwardDashBoard = (props: AwardDashBoardProps) => {
       </p>
 
       {/* 트로피 리스트 */}
-      {trophies && trophies.length !== 0 && (
+      {Awards.length !== 0 && (
         <div className="w-full mt-3">
-          <AutoMoveAwardList awards={trophies} />
+          <AutoMoveAwardList awards={Awards} />
         </div>
       )}
 
-      {/* 매치 정보 */}
-      <div className="flex justify-between items-center mt-3 space-x-2">
-        <div className="flex flex-col w-1/2">
-          <label className="text-xs font-medium text-gray-600">
-            Match Count
-          </label>
-          <p className="border-b border-gray-400 py-1 text-center text-sm">
-            {match_count}
-          </p>
-        </div>
-        <div className="flex flex-col w-1/2">
-          <label className="text-xs font-medium text-gray-600">
-            Winning Rate
-          </label>
-          <p className="border-b border-gray-400 py-1 text-center text-sm">
-            {winning_rate}%
-          </p>
-        </div>
-      </div>
       {/* 현재 MMR 은 노출 X  */}
       {/* <div>
         <label className="text-xs font-medium text-gray-600">mmr</label>
@@ -48,24 +29,29 @@ const AwardDashBoard = (props: AwardDashBoardProps) => {
         </p>
       </div> */}
       {/* 어워드 리스트 */}
-      <div className="mt-4">
-        <h3 className="text-blue-600 font-semibold text-xs mb-2">AWARD LIST</h3>
-        <div className="max-h-[150px] overflow-y-auto space-y-2">
-          {trophies &&
-            trophies.length !== 0 &&
-            trophies.map((award, index) => (
+      <div className="mt-6">
+        <h3 className="text-blue-600 font-semibold text-sm mb-3 border-b border-blue-200 pb-1">
+          🎖 AWARD LIST
+        </h3>
+        {Awards.length === 0 ? (
+          <div className="flex items-center justify-center text-gray-400 text-sm py-6">
+            <p>수상 기록이 없습니다</p>
+          </div>
+        ) : (
+          <div className="max-h-[200px] overflow-y-auto space-y-3 px-2">
+            {Awards.map((award, index) => (
               <div
                 key={index}
-                className="cursor-pointer text-xs text-gray-500 hover:text-gray-700">
-                {/* 텍스트 정보 */}
-                <div className="text-left">
-                  <h3 className="font-medium underline">
+                className="cursor-pointer text-sm text-gray-600 hover:text-blue-600 transition-colors duration-200">
+                <div className="bg-gray-50 p-2 rounded-md shadow-sm hover:shadow-md">
+                  <h4 className="font-semibold underline truncate">
                     {award.championship_list_name}
-                  </h3>
+                  </h4>
                 </div>
               </div>
             ))}
-        </div>
+          </div>
+        )}
       </div>
     </div>
   );

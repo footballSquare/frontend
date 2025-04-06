@@ -1,7 +1,4 @@
-type PlayerDashBoardProps = Omit<
-  UserInfo,
-  "match_count" | "winning_rate" | "trophies" | "mmr"
->;
+type PlayerDashBoardProps = Omit<UserInfo, "Awards" | "mmr">;
 
 type UserInfoForm = {
   nickname: string;
