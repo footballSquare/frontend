@@ -10,16 +10,13 @@ export const schema = yup.object().shape({
   platform: yup
     .string()
     .required("플랫폼은 필수 입력 항목입니다.")
-    .oneOf(
-      ["pc", "xbox", "playstation", "X"] as const,
-      "유효하지 않은 플랫폼입니다."
-    ),
+    .oneOf(["PC", "XBOX", "PS4", "X"] as const, "유효하지 않은 플랫폼입니다."),
   discord_tag: yup.string().required("디스코드 태그는 필수값입니다."),
   common_status_idx: yup.number().required("common_status_idx는 필수값입니다."),
-  state_message: yup
+  message: yup
     .string()
     .required("상태메시지는 필수 입력 항목입니다.")
-    .min(2, "상태메시지는 최소 2글자 이상이어야 합니다.")
+    .min(0, "상태메시지는 최소 글자 이상이어야 합니다.")
     .max(20, "상태메시지는 최대 20글자를 초과할 수 없습니다."),
-  position: yup.number().required("포지션은 필수값입니다."),
+  match_position_idx: yup.number().required("포지션은 필수값입니다."),
 });

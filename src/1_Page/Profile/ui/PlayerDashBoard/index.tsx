@@ -18,16 +18,23 @@ import { useLogout } from "../../../../4_Shared/lib/useMyInfo";
 import { getPositionColor } from "../../../../4_Shared/lib/getPositionColor";
 
 const PlayerDashBoard = (props: PlayerDashBoardProps) => {
-  const { is_mine, team_short_name, team_name, team_emblem, position } = props;
+  const {
+    is_mine,
+    team_short_name,
+    team_name,
+    team_emblem,
+    match_position_idx,
+  } = props;
 
   const {
     reset,
     register,
     handleSubmit,
     getValues,
-    formState: { errors },
+    formState: { errors, isValid },
   } = useForm<UserInfoForm>({
     resolver: yupResolver(schema),
+    mode: "onChange",
   });
 
   const userInfoForm = React.useMemo(() => convertToInfoForm(props), [props]);
@@ -73,7 +80,7 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
           {/* 상태 메시지 */}
           <div className="mb-6">
             <input
-              {...register("state_message")}
+              {...register("message")}
               disabled={!modifyMode}
               className={`w-full p-3 text-sm text-center rounded-lg transition-all duration-200 ${
                 modifyMode
@@ -82,9 +89,9 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
               }`}
               placeholder="상태 메시지 입력"
             />
-            {errors.state_message && (
+            {errors.message && (
               <p className="text-red-500 text-xs mt-1 pl-2">
-                {errors.state_message.message}
+                {errors.message.message}
               </p>
             )}
           </div>
@@ -174,7 +181,7 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
                 }`}>
                 {platform.map((plat, index) => (
                   <option key={index} value={plat === null ? "X" : plat}>
-                    {plat === null ? "X" : plat.toUpperCase()}
+                    {plat === null ? "X" : plat}
                   </option>
                 ))}
               </select>
@@ -192,13 +199,14 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
               </label>
               <div className="relative">
                 <select
-                  {...register("position")}
+                  {...register("match_position_idx")}
                   disabled={!modifyMode}
                   className={`w-full p-3 text-sm rounded-lg transition-all duration-200 ${
                     modifyMode
                       ? "border border-blue-400 bg-blue-50 text-blue-700 shadow-sm"
                       : "bg-white border border-gray-100 shadow-sm hover:shadow group-hover:border-blue-200 text-gray-700"
-                  }`}>
+                  }`}
+                  style={{ color: getPositionColor(match_position_idx) }}>
                   {matchPosition.map((position, idx) => (
                     <option key={`match-position-${position}`} value={idx}>
                       {position}
@@ -208,14 +216,14 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
                 {!modifyMode && (
                   <div
                     className="absolute right-3 top-1/2 transform -translate-y-1/2 px-2 py-1 rounded-full text-xs font-bold"
-                    style={{ color: getPositionColor(position) }}>
-                    {matchPosition[position]}
+                    style={{ color: getPositionColor(match_position_idx) }}>
+                    {matchPosition[match_position_idx]}
                   </div>
                 )}
               </div>
-              {errors.position && (
+              {errors.match_position_idx && (
                 <p className="text-red-500 text-xs mt-1 pl-2">
-                  {errors.position.message}
+                  {errors.match_position_idx.message}
                 </p>
               )}
             </div>
@@ -272,8 +280,13 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
                     취소
                   </button>
                   <button
+                    disabled={!isValid}
                     type="submit"
-                    className="w-1/2 py-2.5 bg-gradient-to-r from-blue-500 to-indigo-500 text-white rounded-lg text-sm font-bold hover:from-blue-600 hover:to-indigo-600 transition-all shadow-md">
+                    className={`w-1/2 py-2.5 text-white rounded-lg text-sm font-bold transition-all shadow-md ${
+                      isValid
+                        ? "bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600"
+                        : "bg-gray-300 cursor-not-allowed"
+                    }`}>
                     저장
                   </button>
                 </div>

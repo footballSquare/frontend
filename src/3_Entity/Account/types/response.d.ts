@@ -7,7 +7,7 @@ type Awards = {
   championship_list_color: string;
 };
 
-type Platform = "pc" | "xbox" | "playstation" | null;
+type Platform = "PC" | "XBOX" | "PS4" | null;
 
 type UserInfo = {
   is_mine: boolean;
@@ -17,7 +17,7 @@ type UserInfo = {
   message: string | null;
   mmr: number;
   nickname: string;
-  platform: "pc" | "xbox" | "playstation" | null;
+  platform: Platform;
   player_status: "pending" | "active" | "deleted";
   common_status_idx: number;
   profile_image: string | null;
@@ -26,7 +26,7 @@ type UserInfo = {
   team_idx: number | null;
   team_name: string | null;
   team_short_name: string | null;
-  position: number;
+  match_position_idx: number;
 };
 
 type SignInData = {
