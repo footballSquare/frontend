@@ -31,7 +31,7 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
     register,
     handleSubmit,
     getValues,
-    formState: { errors, isValid },
+    formState: { errors },
   } = useForm<UserInfoForm>({
     resolver: yupResolver(schema),
     mode: "onChange",
@@ -280,13 +280,8 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
                     취소
                   </button>
                   <button
-                    disabled={!isValid}
                     type="submit"
-                    className={`w-1/2 py-2.5 text-white rounded-lg text-sm font-bold transition-all shadow-md ${
-                      isValid
-                        ? "bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600"
-                        : "bg-gray-300 cursor-not-allowed"
-                    }`}>
+                    className={`w-1/2 py-2.5 text-white rounded-lg text-sm font-bold transition-all shadow-md ${"bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600"}`}>
                     저장
                   </button>
                 </div>
