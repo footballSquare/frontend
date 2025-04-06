@@ -128,15 +128,17 @@ const PlayerCard = (props: PlayerCardProps) => {
             )}
           </div>
         ) : (
-          <button
-            type="button"
-            className="w-full text-xs py-2 font-medium bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 rounded-md mx-4 transition-colors shadow-md"
-            onClick={(e) => {
-              e.preventDefault();
-              navigate(`/profile/${user_idx}`);
-            }}>
-            프로필 상세보기
-          </button>
+          <div className="flex justify-center">
+            <button
+              type="button"
+              className="w-full text-xs py-2 font-medium bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 rounded-md mx-4 transition-colors shadow-md"
+              onClick={(e) => {
+                e.preventDefault();
+                navigate(`/profile/${user_idx}`);
+              }}>
+              프로필 상세보기
+            </button>
+          </div>
         )}
 
         {/* Error message */}
