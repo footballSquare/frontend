@@ -1,25 +1,13 @@
-export const getPositionColor = (position: number) => {
-  const positionColors: { [key: string]: string } = {
-    GK: "bg-yellow-500",
-    DF: "bg-blue-500",
-    MF: "bg-green-500",
-    FW: "bg-red-500",
-    default: "bg-purple-500",
-  };
-
-  let mainPos: string;
-
+export const getPositionColor = (position: number): string => {
   if (position === 0) {
-    mainPos = "GK";
+    return "#F59E0B"; // yellow
   } else if (position >= 1 && position <= 7) {
-    mainPos = "DF";
+    return "#3B82F6"; // blue
   } else if (position >= 8 && position <= 18) {
-    mainPos = "MF";
+    return "#10B981"; // green
   } else if (position >= 19 && position <= 23) {
-    mainPos = "FW";
+    return "#EF4444"; // red
   } else {
-    mainPos = "default";
+    return "#8B5CF6"; // purple
   }
-
-  return positionColors[mainPos];
 };

@@ -207,9 +207,8 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
                 </select>
                 {!modifyMode && (
                   <div
-                    className={`absolute right-3 top-1/2 transform -translate-y-1/2 px-2 py-1 rounded-full text-xs font-bold ${getPositionColor(
-                      position
-                    )}`}>
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 px-2 py-1 rounded-full text-xs font-bold"
+                    style={{ color: getPositionColor(position) }}>
                     {matchPosition[position]}
                   </div>
                 )}
