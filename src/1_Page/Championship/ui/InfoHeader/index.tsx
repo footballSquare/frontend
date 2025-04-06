@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
-import EndChampionshipModal from "./ui/EndChampionshipModal";
+import EndChampionshipPanel from "./ui/EndChampionshipPanel";
 // state
 import useToggleState from "../../../../4_Shared/model/useToggleState";
 import useParamInteger from "../../../../4_Shared/model/useParamInteger";
@@ -19,8 +19,6 @@ const InfoHeader = (props: InfoHeaderProps) => {
   const [cookies] = useCookies(["community_role_idx"]);
   const isAdmin = cookies.community_role_idx === 0;
 
-  // state
-  const [isModalOpen, handleToggleModal] = useToggleState();
   const [isHeaderCollapsed, toggleHeader] = useToggleState();
   const [isEndModalOpen, toggleEndModal] = useToggleState(true);
 
@@ -88,11 +86,7 @@ const InfoHeader = (props: InfoHeaderProps) => {
                     }}>
                     대회 수정
                   </button>
-                  <button
-                    onClick={handleToggleModal}
-                    className="px-3 py-2 border border-gray-300 rounded hover:bg-gray-100">
-                    대회 종료
-                  </button>
+                  <EndChampionshipPanel />
                 </div>
               </div>
             )}
@@ -167,9 +161,6 @@ const InfoHeader = (props: InfoHeaderProps) => {
             </button>
           </div>
         </div>
-      )}
-      {isModalOpen && (
-        <EndChampionshipModal handleToggleModal={handleToggleModal} />
       )}
     </header>
   );
