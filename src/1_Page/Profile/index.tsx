@@ -7,7 +7,6 @@ import AutoMoveAwardList from "../../2_Widget/AutoMoveAwardList";
 const Profile = () => {
   const [userIdx] = useValidParamInteger("userIdx");
   const [userInfo] = useGetMyInfo(userIdx);
-  console.log(userInfo);
   const { Awards = [], ...playerProps } = userInfo;
 
   return (
