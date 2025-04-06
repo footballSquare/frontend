@@ -9,6 +9,7 @@ import Community from "./Community";
 import Login from "./Login";
 import Championship from "./Championship";
 import { useIsLogin } from "../4_Shared/lib/useMyInfo";
+import ChampionshipEdit from "./ChampionshipEdit";
 
 const TEST = import.meta.env.VITE_TEST;
 
@@ -41,7 +42,10 @@ const Page = () => {
           path={`${PAGE_URI.CHAMPIONSHIP}/:championshipIdx`}
           element={<Championship />}
         />
-        <Route path={PAGE_URI.CHAMPIONSHIPEDIT} element={<Championship />} />
+        <Route
+          path={`${PAGE_URI.CHAMPIONSHIPEDIT}/:communityIdx`}
+          element={<ChampionshipEdit />}
+        />
       </Routes>
     </div>
   );

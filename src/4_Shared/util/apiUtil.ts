@@ -148,6 +148,9 @@ export const useFetchData = (): [
       } catch (error: unknown) {
         if (error instanceof AxiosError) {
           const { status, data } = error.response ?? {};
+          console.log("endpoint", endpoint);
+          console.log("body", body);
+          console.log("error", status, data);
           setServerState({ status });
           if (status === 500) {
             console.error("Internal Server Error:", status, data);
