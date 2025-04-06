@@ -22,6 +22,10 @@ const useGetCommunityStaffApplicationList = (
       setCommunityStaffApplicationList(
         serverState.access_list as CommunityStaffApplication[]
       );
+      console.log(
+        serverState.access_list as CommunityStaffApplication[],
+        "staff application list"
+      );
     }
   }, [loading, serverState]);
 

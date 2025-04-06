@@ -37,3 +37,7 @@ type DeleteCommunityStaffApplicationProps = {
 type DeleteCommunityStaffProps = {
   userIdx: number;
 };
+
+type UseGetCommunityTeamApplicationListProps = {
+  communityIdx: number;
+}
