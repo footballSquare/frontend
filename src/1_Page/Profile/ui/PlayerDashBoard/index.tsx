@@ -16,7 +16,7 @@ import useDeleteUser from "../../../../3_Entity/Account/useDeleteUser";
 import { useLogout } from "../../../../4_Shared/lib/useMyInfo";
 
 const PlayerDashBoard = (props: PlayerDashBoardProps) => {
-  const { is_mine, short_team_name, team_name, team_emblem } = props;
+  const { is_mine, team_short_name, team_name, team_emblem } = props;
 
   const {
     reset,
@@ -127,8 +127,8 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
                   ? "border rounded-md border-blue-400 bg-blue-50 text-blue-700"
                   : "border-b bg-transparent text-gray-500"
               }`}>
-              {short_team_name && (
-                <p className="whitespace-nowrap text-blue-700">{`#${short_team_name} - `}</p>
+              {team_short_name && (
+                <p className="whitespace-nowrap text-blue-700">{`#${team_short_name} - `}</p>
               )}
               <input
                 {...register("nickname")}

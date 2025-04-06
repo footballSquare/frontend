@@ -11,7 +11,7 @@ import camera from "../../4_Shared/assets/svg/camera.svg";
 
 const PlayerCard = (props: PlayerCardProps) => {
   // is_mine  = true : 수정가능 / = false 수정 불가능
-  const { is_mine, user_idx, nickname, position, profile_image, team_name } =
+  const { is_mine, user_idx, nickname, profile_image, team_name, position } =
     props;
 
   const {
@@ -46,7 +46,7 @@ const PlayerCard = (props: PlayerCardProps) => {
         {/* Header with position badge */}
         <div className="relative h-12 bg-blue-600 flex items-center px-3">
           <div className="absolute top-2 right-2 bg-gray-900 text-xs font-medium px-2 py-1 rounded-full">
-            {matchPosition[position]}
+            {position && matchPosition[position]}
           </div>
         </div>
 
