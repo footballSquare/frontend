@@ -7,6 +7,7 @@ import AutoMoveAwardList from "../../2_Widget/AutoMoveAwardList";
 const Profile = () => {
   const [userIdx] = useValidParamInteger("userIdx");
   const [userInfo] = useGetMyInfo(userIdx);
+  console.log(userInfo);
   const { Awards = [], ...playerProps } = userInfo;
   return (
     <main className="flex flex-wrap gap-1 w-full justify-center">
@@ -35,7 +36,7 @@ const Profile = () => {
             </div>
           )}
           {/* 현재 MMR 은 노출 X  */}
-          <div className="w-[100%] max-w-[240px]">
+          <div className="w-[100%] max-w-[280px]">
             <PlayerCard {...playerProps} />
           </div>
           {/* 어워드 리스트 */}
