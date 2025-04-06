@@ -28,4 +28,5 @@ dist-ssr
 
 *.pem
 
-./src/main.tsx
+src/main.tsx
+src/4_Shared/util
