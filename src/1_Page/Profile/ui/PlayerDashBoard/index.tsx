@@ -14,7 +14,10 @@ import { commonStatusIdx } from "../../../../4_Shared/constant/commonStatusIdx";
 
 import usePutUserInfo from "../../../../3_Entity/Account/usePutUserInfo";
 import useDeleteUser from "../../../../3_Entity/Account/useDeleteUser";
-import { useLogout } from "../../../../4_Shared/lib/useMyInfo";
+import {
+  useLogout,
+  useRemoveAllCookie,
+} from "../../../../4_Shared/lib/useMyInfo";
 import { getPositionColor } from "../../../../4_Shared/lib/getPositionColor";
 
 const PlayerDashBoard = (props: PlayerDashBoardProps) => {
@@ -50,6 +53,7 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
 
   const [putUserInfo] = usePutUserInfo();
   const [deleteUser] = useDeleteUser();
+  const [removeAllCookie] = useRemoveAllCookie();
 
   const onSubmit: SubmitHandler<UserInfoForm> = (data) => {
     handleModifyFalse();
@@ -104,7 +108,7 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
             {team_name ? (
               <div className="flex items-center w-full p-2 text-sm gap-3 bg-transparent text-gray-700">
                 {team_emblem && (
-                  <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-blue-400 shadow-md">
+                  <div className="w-10 h-10  overflow-hidden border-2 border-blue-400 shadow-md">
                     <img
                       className="w-full h-full object-cover"
                       src={team_emblem}
@@ -295,8 +299,8 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
               className="w-1/2 h-8 border-2 border-red-500 text-red-600 font-bold px-2 py-1 text-xs rounded-lg shadow-sm transition-all duration-200 hover:bg-red-500 hover:text-white"
               onClick={() => {
                 if (confirm("정말로 삭제하시겠습니까?")) {
-                  alert("삭제되었습니다.");
                   deleteUser();
+                  removeAllCookie();
                 }
               }}>
               탈퇴
