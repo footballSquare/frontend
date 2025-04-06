@@ -3,6 +3,7 @@ import useGetMyInfo from "../../3_Entity/Account/useGetUserInfo";
 import useValidParamInteger from "../../4_Shared/model/useValidParamInteger";
 import PlayerCard from "../../2_Widget/PlayerCard";
 import AutoMoveAwardList from "../../2_Widget/AutoMoveAwardList";
+import empty from "../../4_Shared/assets/svg/empty-note.svg";
 
 const Profile = () => {
   const [userIdx] = useValidParamInteger("userIdx");
@@ -59,18 +60,7 @@ const Profile = () => {
 
             {Awards.length === 0 ? (
               <div className="flex flex-col items-center justify-center text-gray-400 py-8 bg-gray-50 rounded-lg">
-                <svg
-                  className="w-10 h-10 mb-2 text-gray-300"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-                </svg>
+                <img src={empty} className="w-[30px] h-[30px] object-cover" />
                 <p>수상 기록이 없습니다</p>
               </div>
             ) : (

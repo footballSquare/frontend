@@ -149,6 +149,7 @@ export const useFetchData = (): [
         if (error instanceof AxiosError) {
           const { status, data } = error.response ?? {};
           console.log("endpoint", endpoint);
+          console.log("body", body);
           console.log("status", status);
           console.log("message", data.message);
           setServerState({ status });
