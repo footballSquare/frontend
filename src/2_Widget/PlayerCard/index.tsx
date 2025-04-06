@@ -9,11 +9,13 @@ import { matchPosition } from "../../4_Shared/constant/matchPosition";
 import profile from "../../4_Shared/assets/svg/profile.svg";
 import camera from "../../4_Shared/assets/svg/camera.svg";
 import { getPositionColor } from "../../4_Shared/lib/getPositionColor";
+import { useNavigate } from "react-router-dom";
 
 const PlayerCard = (props: PlayerCardProps) => {
   // is_mine = true : 수정가능 / = false 수정 불가능
   const { is_mine, user_idx, nickname, profile_image, team_name, position } =
     props;
+  const navigate = useNavigate();
 
   const {
     register,
@@ -112,15 +114,17 @@ const PlayerCard = (props: PlayerCardProps) => {
                 </button>
               </div>
             ) : (
-              <button
-                type="button"
-                className="w-full text-xs py-2 font-medium bg-gray-700 hover:bg-gray-600 rounded-md transition-colors shadow-md"
-                onClick={(e) => {
-                  e.preventDefault();
-                  handleSetDefaultImage();
-                }}>
-                기본 이미지 설정
-              </button>
+              <div className="flex justify-center ">
+                <button
+                  type="button"
+                  className="w-full text-xs py-2 font-medium bg-gray-700 hover:bg-gray-600 rounded-md transition-colors shadow-md"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleSetDefaultImage();
+                  }}>
+                  기본 이미지 설정
+                </button>
+              </div>
             )}
           </div>
         ) : (
@@ -129,6 +133,7 @@ const PlayerCard = (props: PlayerCardProps) => {
             className="w-full text-xs py-2 font-medium bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 rounded-md mx-4 transition-colors shadow-md"
             onClick={(e) => {
               e.preventDefault();
+              navigate(`/profile/${user_idx}`);
             }}>
             프로필 상세보기
           </button>
