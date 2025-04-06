@@ -13,5 +13,7 @@ export const convertToInfoForm = (
   return {
     ...userInfo,
     platform: userInfo.platform === null ? "X" : userInfo.platform,
+    discord_tag: userInfo.discord_tag ?? "",
+    message: userInfo.message ?? "",
   };
 };
