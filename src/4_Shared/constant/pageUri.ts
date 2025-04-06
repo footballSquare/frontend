@@ -11,6 +11,7 @@ const PAGE_URI = {
   LOGIN: "/login",
   SIGNUP: "/signup",
   CHAMPIONSHIP: "/championship",
+  CHAMPIONSHIPEDIT: "/championship-edit",
 };
 
 export default PAGE_URI;
