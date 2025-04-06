@@ -1,13 +1,17 @@
+import useDeleteCommunityStaff from "../../../../3_Entity/Community/useDeleteCommunityStaff";
 import useGetCommunityStaffList from "../../../../3_Entity/Community/useGetCommunityStaffList";
 import usePostApplyCommunityStaff from "../../../../3_Entity/Community/usePostApplyCommunityStaff";
-import { teamRole } from "../../../../4_Shared/constant/teamRole";
+import { communityRole } from "../../../../4_Shared/constant/communityRole";
 import useIsCommunityStaff from "./model/useIsCommunityStaff";
 
 const CommunityStaffListPanel = (props: CommunityStaffListPanelProps) => {
-  const { communityIdx } = props;
-  const [communityStaffList] = useGetCommunityStaffList({ communityIdx });
+  const { communityIdx, modifyMode } = props;
+  const [communityStaffList, setCommunityStaffList] = useGetCommunityStaffList({
+    communityIdx,
+  });
   const [isCommunityStaff] = useIsCommunityStaff(communityStaffList);
   const [postApplyCommunityStaff] = usePostApplyCommunityStaff();
+  const [kickCommunityStaff] = useDeleteCommunityStaff();
 
   return (
     <div className="flex flex-col gap-4">
@@ -27,8 +31,23 @@ const CommunityStaffListPanel = (props: CommunityStaffListPanelProps) => {
                 <p className="text-sm">@{staff.player_list_nickname}</p>
               </div>
               <p className="text-xs text-gray-500">
-                {teamRole[staff.community_role_idx]}
+                {communityRole[staff.community_role_idx]}
               </p>
+              {modifyMode && staff.community_role_idx !== 0 && (
+                <button
+                  onClick={() => {
+                    kickCommunityStaff({ userIdx: staff.player_list_idx });
+                    setCommunityStaffList((prev) =>
+                      prev.filter(
+                        (elem) => elem.player_list_idx !== staff.player_list_idx
+                      )
+                    );
+                  }}
+                  className="text-xs text-red-500 hover:text-red-700"
+                >
+                  추방
+                </button>
+              )}
             </div>
           );
         })}

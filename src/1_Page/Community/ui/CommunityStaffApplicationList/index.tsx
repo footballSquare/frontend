@@ -8,14 +8,15 @@ const CommunityStaffApplicationList = (
   const { communityIdx } = props;
   const [communityStaffApplicationList, setCommunityStaffApplicationList] =
     useGetCommunityStaffApplicationList({
-      communityIdx,
+      communityIdx
     });
   const [postApproveCommunityStaffApplication] =
     usePostApproveCommunityStaffAppication();
   const [deleteCommunityStaffApplication] =
     useDeleteCommunityStaffApplication();
+
   return (
-    <div className="flex flex-col gap-4">
+    <div className="bg-gray-50 rounded-xl shadow-md w-full flex flex-col gap-4 p-4">
       {communityStaffApplicationList.map((application, index) => {
         return (
           <div
