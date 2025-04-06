@@ -24,12 +24,12 @@ const CommunityStaffApplicationList = (
             className="flex items-center space-x-2 border border-gray p-2"
           >
             <img
-              src={undefined}
+              src={application.player_list_profile_img ?? undefined}
               alt="Profile"
               className=" object-cover w-8 h-8 rounded-full overflow-hidden"
             />
             <div className="flex-1">
-              <p className="text-sm">@{application?.player_list_nickname}</p>
+              <p className="text-sm">@{application.player_list_nickname}</p>
             </div>
             <button
               onClick={() => {
