@@ -26,5 +26,6 @@ dist-ssr
 .env
 *.tsbuildinfo
 
+*.pem
 
 ./src/main.tsx
