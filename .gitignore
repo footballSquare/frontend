@@ -31,3 +31,4 @@ dist-ssr
 src/main.tsx
 src/4_Shared/util
 vite.config.ts
+.gitignore
