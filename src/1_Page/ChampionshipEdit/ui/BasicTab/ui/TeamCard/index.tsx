@@ -2,9 +2,9 @@ import { useFormContext } from "react-hook-form";
 import { getTextColorFromBackground } from "../../../../../../4_Shared/lib/colorChecker";
 
 const TeamCard = (props: TeamCardProps) => {
+  const { teamInfo, handleTeamClick } = props;
   const { watch } = useFormContext();
   const selectedTeams = watch("participation_team_idxs");
-  const { teamInfo, handleTeamClick } = props;
   const isSelected = selectedTeams.includes(teamInfo.team_list_idx);
 
   // 팀 색상 처리 - 색상이 없는 경우 기본값 제공
