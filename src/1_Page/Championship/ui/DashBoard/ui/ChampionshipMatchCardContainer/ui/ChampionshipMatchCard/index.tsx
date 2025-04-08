@@ -2,6 +2,7 @@ import useDeleteChampionshipMatch from "../../../../../../../../3_Entity/Champio
 import usePutChampionshipMatchEnd from "../../../../../../../../3_Entity/Championship/usePutChampionshipMatchEnd";
 import { matchState } from "../../../../../../../../4_Shared/constant/matchState";
 import { useMyCommunityRoleIdx } from "../../../../../../../../4_Shared/lib/useMyInfo";
+import { getStatusColors, getTeamStyle } from "./lib/getStatusColor";
 
 const ChampionshipMatchCard = (props: ChampionshipMatchCardProps) => {
   const {
@@ -32,6 +33,7 @@ const ChampionshipMatchCard = (props: ChampionshipMatchCardProps) => {
       handleDeleteMatch(match.championship_match_idx);
     }
   };
+
   const handlePutEndMatch = () => {
     if (confirm("정말 종료하시겠습니까?")) {
       putChampionshipMatchEnd(match.championship_match_idx);
@@ -39,72 +41,126 @@ const ChampionshipMatchCard = (props: ChampionshipMatchCardProps) => {
     }
   };
 
+  const colors = getStatusColors(isFinished, home.common_status_idx);
+
   return (
     <li
       onClick={() => handleSelect(match.championship_match_idx)}
       key={`match-list-${index}`}
-      className={`flex flex-col min-w-[200px] w-auto sm:w-[95%] sm:p-2 p-2 rounded-lg shadow-lg transition-transform transform hover:scale-[1.03]
-    ${
-      isFinished
-        ? "bg-gray-600 text-white hover:bg-gray-700"
-        : "bg-gray-200 text-gray-800 hover:bg-gray-300"
-    }
-    ${isSelected ? "border-4 border-blue-600 bg-blue-100 shadow-xl" : ""}`}>
-      {/* 팀 명 및 점수 */}
+      className={`relative flex flex-col w-full rounded-xl overflow-hidden shadow-md backdrop-blur-sm
+        ${colors.bgColor} ${colors.textColor}
+        transform transition-all duration-300 hover:scale-105 hover:shadow-lg
+        ${isSelected ? `ring-2 ring-offset-2 ring-blue-500 shadow-lg` : ""}`}>
+      {/* 상태 표시 배지 */}
+      <div
+        className="absolute top-2 right-2 px-2 py-0.5 rounded-full text-xs font-medium z-10"
+        style={{
+          backgroundColor: isFinished
+            ? "#374151"
+            : home.common_status_idx === 3
+            ? "#1d4ed8"
+            : home.common_status_idx === 0
+            ? "#059669"
+            : "#6b7280",
+          color: "#ffffff",
+        }}>
+        {status}
+      </div>
+
+      {/* 메인 콘텐츠 */}
+      <div className="p-3 sm:p-4">
+        {/* VS 영역 */}
+        <div className="flex items-center justify-between mb-3 relative">
+          {/* 홈팀 */}
+          <div className="flex flex-col items-center w-2/5">
+            <div className="w-8 h-8 sm:w-10 sm:h-10 bg-white rounded-full shadow-md flex items-center justify-center mb-1">
+              {home.team_list_emblem ? (
+                <img
+                  src={home.team_list_emblem}
+                  alt={`${home.team_list_name} 엠블럼`}
+                  className="w-6 h-6 sm:w-8 sm:h-8 object-cover rounded-full"
+                />
+              ) : (
+                <span className="text-xs font-bold text-gray-800">
+                  {home.team_list_short_name?.charAt(0) || "H"}
+                </span>
+              )}
+            </div>
+            <span
+              className={`text-xs sm:text-sm font-medium truncate max-w-full text-center ${getTeamStyle(
+                true,
+                isFinished,
+                home
+              )}`}>
+              <span className="hidden sm:inline">{home.team_list_name}</span>
+              <span className="inline sm:hidden">
+                {home.team_list_short_name}
+              </span>
+            </span>
+          </div>
+
+          {/* 점수 */}
+          <div
+            className={`flex items-center justify-center px-2 py-1 sm:py-2 rounded-lg ${colors.scoreBoxBg} text-white font-bold`}>
+            <span className="text-lg sm:text-xl">
+              {home.match_team_stats_our_score}
+            </span>
+            <span className="mx-1 sm:mx-2 opacity-70">:</span>
+            <span className="text-lg sm:text-xl">
+              {away.match_team_stats_our_score}
+            </span>
+          </div>
+
+          {/* 어웨이팀 */}
+          <div className="flex flex-col items-center w-2/5">
+            <div className="w-8 h-8 sm:w-10 sm:h-10 bg-white rounded-full shadow-md flex items-center justify-center mb-1">
+              {away.team_list_emblem ? (
+                <img
+                  src={away.team_list_emblem}
+                  alt={`${away.team_list_name} 엠블럼`}
+                  className="w-6 h-6 sm:w-8 sm:h-8 object-cover rounded-full"
+                />
+              ) : (
+                <span className="text-xs font-bold text-gray-800">
+                  {away.team_list_short_name?.charAt(0) || "A"}
+                </span>
+              )}
+            </div>
+            <span
+              className={`text-xs sm:text-sm font-medium truncate max-w-full text-center ${getTeamStyle(
+                false,
+                isFinished,
+                home
+              )}`}>
+              <span className="hidden sm:inline">{away.team_list_name}</span>
+              <span className="inline sm:hidden">
+                {away.team_list_short_name}
+              </span>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      {/* 관리자 버튼 영역 */}
       {isAdmin && !isFinished && (
-        <div className="flex w-full justify-end space-x-2">
+        <div className="flex justify-end gap-2 p-2 bg-black/5 backdrop-blur-sm">
           <button
             onClick={handleDelete}
-            className="px-3 py-1 flex items-center justify-center text-sm text-red-500 hover:text-red-900 transition-colors border border-red-500 rounded"
-            aria-label="Delete Match">
-            삭제하기
+            className="text-xs px-2 py-1 rounded bg-red-500/90 text-white hover:bg-red-600 transition-colors">
+            삭제
           </button>
           <button
             onClick={handlePutEndMatch}
-            className="px-3 py-1 flex items-center justify-center text-sm text-red-500 hover:text-red-900 transition-colors border border-red-500 rounded"
-            aria-label="End Match">
-            경기종료하기
+            className="text-xs px-2 py-1 rounded bg-gray-700/90 text-white hover:bg-gray-800 transition-colors">
+            경기종료
           </button>
         </div>
       )}
-      <div className="flex items-center justify-between w-full">
-        <span className="font-medium w-[40%] overflow-hidden text-ellipsis whitespace-nowrap text-left hidden sm:inline sm:text-xs text-[10px]">
-          {home.team_list_name}
-        </span>
-        <span className="font-medium w-[40%] overflow-hidden text-ellipsis whitespace-nowrap text-left inline sm:hidden sm:text-xs text-[10px]">
-          {home.team_list_short_name}
-        </span>
-        <span
-          className={`mx-2 px-2 py-1 rounded-full font-bold border flex-grow-0 flex-shrink-0 text-center w-[50px] sm:w-[50px] sm:px-1 sm:py-0.5 text-xs sm:text-[10px]
-    ${
-      isFinished
-        ? "border-white bg-gray-700 text-white"
-        : "border-gray-400 bg-gray-100 text-black"
-    }`}>
-          {home.match_team_stats_our_score} - {away.match_team_stats_our_score}
-        </span>
-        <span className="font-medium w-[40%] overflow-hidden text-ellipsis whitespace-nowrap text-right hidden sm:inline sm:text-xs text-[10px]">
-          {away.team_list_name}
-        </span>
-        <span className="font-medium w-[40%] overflow-hidden text-ellipsis whitespace-nowrap text-right inline sm:hidden sm:text-xs text-[10px]">
-          {away.team_list_short_name}
-        </span>
-      </div>
 
-      {/* 상태 표시 */}
-      <p
-        className={`mt-1 text-xs sm:text-[10px] font-semibold text-center
-          ${
-            home.common_status_idx === 0
-              ? "text-green-600"
-              : home.common_status_idx === 3
-              ? "text-blue-600"
-              : home.common_status_idx === 4
-              ? "text-red-500"
-              : "text-gray-600"
-          }`}>
-        {status}
-      </p>
+      {/* 선택 표시기 */}
+      {isSelected && (
+        <div className="absolute inset-0 border-2 border-blue-500 rounded-xl pointer-events-none"></div>
+      )}
     </li>
   );
 };
