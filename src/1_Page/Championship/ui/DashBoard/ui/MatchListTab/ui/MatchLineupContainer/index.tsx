@@ -3,8 +3,8 @@ import FootballGroundSection from "./ui/FootballGroundSection";
 import VerticalTeamStatCards from "./ui/VerticalTeamStatCards";
 import EvidenceDetailModal from "./ui/EvidenceDetailModal";
 
-import useToggleState from "../../../../../../../../../../4_Shared/model/useToggleState";
-import { useMyCommunityRoleIdx } from "../../../../../../../../../../4_Shared/lib/useMyInfo";
+import useToggleState from "../../../../../../../../4_Shared/model/useToggleState";
+import { useMyCommunityRoleIdx } from "../../../../../../../../4_Shared/lib/useMyInfo";
 
 const MatchLineupContainer = (props: MatchLineupContainerProps) => {
   const { matchIdx, selectedTeams, championshipDetail } = props;

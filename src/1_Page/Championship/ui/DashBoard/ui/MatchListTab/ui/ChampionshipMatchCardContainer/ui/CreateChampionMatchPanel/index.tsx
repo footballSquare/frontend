@@ -5,9 +5,9 @@ import { convertCreateChampionMatchForm } from "./util/convert";
 import useSetValueHandler from "./model/useTeamListHandler";
 import useMakeMatchServerState from "./model/useMakeMatchServerState";
 
-import usePostCreateChampionshipMatch from "../../../../../../../../../../../../3_Entity/Championship/usePostCreateChampionshipMatch";
-import useParamInteger from "../../../../../../../../../../../../4_Shared/model/useParamInteger";
-import useToggleState from "../../../../../../../../../../../../4_Shared/model/useToggleState";
+import usePostCreateChampionshipMatch from "../../../../../../../../../../3_Entity/Championship/usePostCreateChampionshipMatch";
+import useParamInteger from "../../../../../../../../../../4_Shared/model/useParamInteger";
+import useToggleState from "../../../../../../../../../../4_Shared/model/useToggleState";
 
 const CreateChampionMatchPanel = (props: CreateChampionMatchPanelProps) => {
   const { filteredTeamList, fetchMatchList } = props;

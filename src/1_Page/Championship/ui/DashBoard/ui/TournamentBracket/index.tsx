@@ -39,9 +39,11 @@ const TournamentBracket = (props: TournamentBracketProps) => {
 
             {/* 매치 컨테이너 */}
             <div className="space-y-12 relative mt-4">
-              {roundContnet.matchList.map((match, index) => (
-                <TournamentMatchColumn match={match} index={index} />
-              ))}
+              {roundContnet.matchList.map(
+                (match: ChampionshipMatchList, index: number) => (
+                  <TournamentMatchColumn match={match} index={index} />
+                )
+              )}
             </div>
           </div>
         ))}
