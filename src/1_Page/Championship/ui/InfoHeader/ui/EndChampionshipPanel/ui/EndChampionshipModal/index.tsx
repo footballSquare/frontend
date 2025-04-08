@@ -1,69 +1,48 @@
-import useParamInteger from "../../../../../../../../4_Shared/model/useParamInteger";
-import usePutChampionshipEnd from "../../../../../../../../3_Entity/Championship/usePutChampionshipEnd";
+import { isInvalidEnd } from "./util/valid";
+import { convertToPutAwardData } from "./util/convert";
+import usePlayerSearch from "./model/usePlayerSearch";
+import useTeamSelect from "./model/useTeamSelect";
+import useAwardPlayers from "./model/useAwardPlayers";
 
-import React from "react";
-import useGetChampionshipEndData from "../../../../../../../../3_Entity/Championship/useGetChampionshipEndData";
+import usePutChampionshipEnd from "../../../../../../../../3_Entity/Championship/usePutChampionshipEnd";
+import useManageChampionshipEndData from "./model/useManageChampionshipEndData";
+import useParamInteger from "../../../../../../../../4_Shared/model/useParamInteger";
+import check_white from "../../../../../../../../4_Shared/assets/svg/check_white.svg";
+import closeBtn from "../../../../../../../../4_Shared/assets/svg/closeBtn.svg";
+import down_blue from "../../../../../../../../4_Shared/assets/svg/down_blue.svg";
 
 const EndChampionshipModal = (props: EndChampionshipModalProps) => {
-  const { onClose } = props;
+  const { onClose, cachedChampionshipEndDataRef } = props;
   const championshipListIdx = useParamInteger("championshipIdx");
-
-  const [championshipEndData] = useGetChampionshipEndData(championshipListIdx);
+  const championshipEndData = useManageChampionshipEndData(
+    championshipListIdx,
+    cachedChampionshipEndDataRef
+  ); // 부모 ref를 이용해 캐싱해서 값이 있을때만 호출
   const [putChampionshipEnd] = usePutChampionshipEnd(championshipListIdx);
 
-  // State hooks
-  const [selectTeam, setSelectTeam] = React.useState<EndTeamInfo | null>(null);
-
-  const initialAwards = championshipEndData.awards ?? [];
-  const [selectedAwardPlayers, setSelectedAwardPlayers] = React.useState<
-    (EndPlayerStatas | null)[]
-  >(() => initialAwards.map(() => null));
-
-  // Player name search term
-  const [playerSearchTerm, setPlayerSearchTerm] = React.useState<string>("");
-
-  const filteredPlayers = React.useMemo(() => {
-    if (!playerSearchTerm) return championshipEndData.players;
-    return championshipEndData.players.filter((player) =>
-      player.player_list_nickname
-        .toLowerCase()
-        .includes(playerSearchTerm.toLowerCase())
-    );
-  }, [championshipEndData, playerSearchTerm]);
-
-  const handlePlayerSelectForAward = (
-    awardIndex: number,
-    player: EndPlayerStatas
-  ) => {
-    const newSelectedAwardPlayers = [...selectedAwardPlayers];
-    newSelectedAwardPlayers[awardIndex] = player;
-    setSelectedAwardPlayers(newSelectedAwardPlayers);
-  };
-
-  const handlePutEnd = () => {
-    const teamIdx = selectTeam?.team_list_idx;
-    const allAwardsSelected = selectedAwardPlayers.every(
-      (player) => player !== null
-    );
-    if (!teamIdx || !allAwardsSelected) return;
-
-    const awardsPayload = championshipEndData.awards.map((award, index) => ({
-      championship_award_idx: award.championship_award_idx,
-      championship_winner_idxs: [
-        selectedAwardPlayers[index]?.player_list_idx,
-      ].filter((id): id is number => id !== undefined),
-    }));
-
-    putChampionshipEnd({
-      winner_team_idx: teamIdx,
-      awards: awardsPayload,
-    });
-    onClose();
-  };
+  // 선택 및 필터링
+  const { playerSearchTerm, filteredPlayers, handleSetPlayerSearchTerm } =
+    usePlayerSearch(championshipEndData.players);
+  const { selectTeam, handleSetSelectTeam } = useTeamSelect();
+  const { selectedAwardPlayers, handlePlayerSelectForAward } =
+    useAwardPlayers();
 
   // 모든 수상이 선택되었는지 확인
   const isFormComplete =
     selectTeam && selectedAwardPlayers.every((player) => player !== null);
+
+  const handlePutEnd = () => {
+    if (isInvalidEnd({ selectTeam, selectedAwardPlayers })) return;
+    putChampionshipEnd({
+      winner_team_idx: selectTeam!.team_list_idx,
+      awards: convertToPutAwardData({
+        selectTeam,
+        selectedAwardPlayers,
+        championshipEndData,
+      }),
+    });
+    onClose();
+  };
 
   return (
     <div className="fixed inset-0 z-10 bg-black/75 backdrop-blur-sm flex items-center justify-center overflow-y-auto py-8">
@@ -77,18 +56,7 @@ const EndChampionshipModal = (props: EndChampionshipModalProps) => {
           <button
             onClick={onClose}
             className="p-1.5 text-blue-500 rounded-full hover:bg-blue-100 transition">
-            <svg
-              className="w-5 h-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24">
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M6 18L18 6M6 6l12 12"
-              />
-            </svg>
+            <img src={closeBtn} />
           </button>
         </div>
 
@@ -111,7 +79,7 @@ const EndChampionshipModal = (props: EndChampionshipModalProps) => {
                     return (
                       <div
                         key={"team_card_" + team.team_list_idx}
-                        onClick={() => setSelectTeam(team)}
+                        onClick={() => handleSetSelectTeam(team)}
                         style={{
                           background:
                             selectTeam?.team_list_idx === team.team_list_idx
@@ -146,16 +114,7 @@ const EndChampionshipModal = (props: EndChampionshipModalProps) => {
                           {/* 선택 표시 아이콘 */}
                           {selectTeam?.team_list_idx === team.team_list_idx && (
                             <div className="absolute top-1 right-1 w-4 h-4 bg-blue-500 rounded-full flex items-center justify-center shadow-sm">
-                              <svg
-                                className="w-2.5 h-2.5 text-white"
-                                fill="currentColor"
-                                viewBox="0 0 20 20">
-                                <path
-                                  fillRule="evenodd"
-                                  d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                  clipRule="evenodd"
-                                />
-                              </svg>
+                              <img src={check_white} />
                             </div>
                           )}
                         </div>
@@ -170,16 +129,7 @@ const EndChampionshipModal = (props: EndChampionshipModalProps) => {
             <div className="mt-2 p-2 border rounded-md bg-gradient-to-r from-blue-50 to-blue-100 shadow-sm flex items-center border-blue-200">
               <div className="flex-shrink-0 mr-2">
                 <div className="w-6 h-6 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full flex items-center justify-center text-white text-xs shadow-sm">
-                  <svg
-                    className="w-3 h-3"
-                    fill="currentColor"
-                    viewBox="0 0 20 20">
-                    <path
-                      fillRule="evenodd"
-                      d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
+                  <img src={check_white} />
                 </div>
               </div>
               <div className="flex-1 min-w-0">
@@ -216,18 +166,7 @@ const EndChampionshipModal = (props: EndChampionshipModalProps) => {
                         선택됨
                       </span>
                     )}
-                    <svg
-                      className="w-4 h-4 text-blue-400"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24">
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M19 9l-7 7-7-7"
-                      />
-                    </svg>
+                    <img className="w-3 h-3" src={down_blue} />
                   </div>
                 </div>
 
@@ -239,39 +178,19 @@ const EndChampionshipModal = (props: EndChampionshipModalProps) => {
                       type="text"
                       placeholder="선수 이름으로 검색..."
                       value={playerSearchTerm}
-                      onChange={(e) => setPlayerSearchTerm(e.target.value)}
+                      onChange={(e) =>
+                        handleSetPlayerSearchTerm(e.target.value)
+                      }
                       className="w-full pl-8 pr-3 py-1.5 text-sm border border-blue-200 rounded-md focus:ring-1 focus:ring-blue-200 focus:border-blue-400 focus:outline-none"
                     />
                     <div className="absolute inset-y-0 left-0 pl-2.5 flex items-center pointer-events-none">
-                      <svg
-                        className="w-3.5 h-3.5 text-blue-400"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24">
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                        />
-                      </svg>
+                      <img className="w-3 h-3" src={down_blue} />
                     </div>
                     {playerSearchTerm && (
                       <button
-                        onClick={() => setPlayerSearchTerm("")}
+                        onClick={() => handleSetPlayerSearchTerm("")}
                         className="absolute inset-y-0 right-0 pr-2.5 flex items-center text-blue-400 hover:text-blue-600">
-                        <svg
-                          className="w-3.5 h-3.5"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24">
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            d="M6 18L18 6M6 6l12 12"
-                          />
-                        </svg>
+                        <img className="w-3 h-3" src={down_blue} />
                       </button>
                     )}
                   </div>
@@ -315,16 +234,7 @@ const EndChampionshipModal = (props: EndChampionshipModalProps) => {
                             {selectedAwardPlayers[index]?.player_list_idx ===
                               player.player_list_idx && (
                               <div className="absolute top-1 right-1 w-4 h-4 bg-blue-500 rounded-full flex items-center justify-center shadow-sm">
-                                <svg
-                                  className="w-2.5 h-2.5 text-white"
-                                  fill="currentColor"
-                                  viewBox="0 0 20 20">
-                                  <path
-                                    fillRule="evenodd"
-                                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                    clipRule="evenodd"
-                                  />
-                                </svg>
+                                <img className="w-3 h-3" src={down_blue} />
                               </div>
                             )}
                           </div>
@@ -338,16 +248,7 @@ const EndChampionshipModal = (props: EndChampionshipModalProps) => {
                     <div className="mt-2 p-2 border rounded-md bg-gradient-to-r from-blue-50 to-blue-100 border-blue-200 text-xs flex items-center shadow-sm">
                       <div className="flex-shrink-0 mr-2">
                         <div className="w-5 h-5 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full flex items-center justify-center text-white shadow-sm">
-                          <svg
-                            className="w-3 h-3"
-                            fill="currentColor"
-                            viewBox="0 0 20 20">
-                            <path
-                              fillRule="evenodd"
-                              d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                              clipRule="evenodd"
-                            />
-                          </svg>
+                          <img className="w-3 h-3" src={down_blue} />
                         </div>
                       </div>
                       <div className="flex-1">
@@ -402,18 +303,6 @@ const EndChampionshipModal = (props: EndChampionshipModalProps) => {
             ) : (
               <div className="flex items-center">
                 <span>대회 종료 확정</span>
-                <svg
-                  className="w-4 h-4 ml-1"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M13 5l7 7-7 7M5 5l7 7-7 7"
-                  />
-                </svg>
               </div>
             )}
           </button>
