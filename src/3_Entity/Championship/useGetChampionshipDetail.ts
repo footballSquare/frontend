@@ -38,7 +38,6 @@ const useGetChampionshipDetail = (
         serverState as { championship_match: ChampionshipMatchDetail }
       ).championship_match;
       cacheRef.current[championshipMatchIdx] = detail;
-      console.log("서버 응답 데이터 사용", championshipMatchIdx, detail);
       setChampionshipDetail(detail);
       return;
     }

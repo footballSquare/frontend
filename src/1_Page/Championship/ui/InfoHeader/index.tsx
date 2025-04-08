@@ -101,33 +101,39 @@ const InfoHeader = (props: InfoHeaderProps) => {
           </div>
 
           {isChampionshipEnd && (
-            <div
-              className="w-full mt-2 p-3 rounded-md border border-white/20"
-              style={{
-                backgroundColor: championshipInfo.winner_team_color || "white",
-                color: getTextColorFromBackground(
-                  championshipInfo.winner_team_color || "#ffffff"
-                ),
-              }}>
-              <div className="flex items-center">
-                <div className="relative mr-3">
-                  <span className="absolute -top-2 -left-1 text-lg">👑</span>
-                  <img
-                    className="w-10 h-10 object-cover rounded-full border border-white/50 ml-1"
-                    src={
-                      championshipInfo.winner_team_emblem || "placeholder.png"
-                    }
-                    alt={`${championshipInfo.winner_team_name} 엠블럼`}
-                  />
+            <div>
+              <div
+                className="w-full mt-2 p-3 rounded-md border border-white/20"
+                style={{
+                  backgroundColor:
+                    championshipInfo.winner_team_color || "white",
+                  color: getTextColorFromBackground(
+                    championshipInfo.winner_team_color || "#ffffff"
+                  ),
+                }}>
+                <div className="flex items-center">
+                  <div className="relative mr-3">
+                    <span className="absolute -top-2 -left-1 text-lg">👑</span>
+                    <img
+                      className="w-10 h-10 object-cover rounded-full border border-white/50 ml-1"
+                      src={
+                        championshipInfo.winner_team_emblem || "placeholder.png"
+                      }
+                      alt={`${championshipInfo.winner_team_name} 엠블럼`}
+                    />
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="text-xs font-medium uppercase tracking-wider opacity-70">
+                      WINNER
+                    </span>
+                    <span className="font-bold">
+                      {championshipInfo.winner_team_name}
+                    </span>
+                  </div>
                 </div>
-                <div className="flex flex-col">
-                  <span className="text-xs font-medium uppercase tracking-wider opacity-70">
-                    WINNER
-                  </span>
-                  <span className="font-bold">
-                    {championshipInfo.winner_team_name}
-                  </span>
-                </div>
+              </div>
+              <div className="w-full py-1 text-center bg-black/40 text-white text-xs font-medium">
+                대회 종료
               </div>
             </div>
           )}
@@ -135,19 +141,14 @@ const InfoHeader = (props: InfoHeaderProps) => {
       )}
 
       {/* 중앙 하단에 위치한 접기/펼치기 버튼 */}
-      {/* 중앙 하단에 위치한 접기/펼치기 버튼 */}
-      <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/3">
-        <button
-          onClick={toggleHeader}
-          className="w-10 h-10 flex items-center justify-center text-sm rounded-full bg-white shadow-lg hover:bg-gray-100 text-black"
-          aria-label={isHeaderCollapsed ? "펼치기" : "접기"}>
-          {isHeaderCollapsed ? "▼" : "▲"}
-        </button>
-      </div>
-
-      {isChampionshipEnd && (
-        <div className="absolute bottom-0 left-0 w-full py-1 text-center bg-black/40 text-white text-xs font-medium">
-          대회 종료
+      {!isChampionshipEnd && (
+        <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/3">
+          <button
+            onClick={toggleHeader}
+            className="w-10 h-10 flex items-center justify-center text-sm rounded-full bg-white shadow-lg hover:bg-gray-100 text-black"
+            aria-label={isHeaderCollapsed ? "펼치기" : "접기"}>
+            {isHeaderCollapsed ? "▼" : "▲"}
+          </button>
         </div>
       )}
 
