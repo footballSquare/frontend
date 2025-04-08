@@ -1,18 +1,12 @@
-import useManagePlayers from "./model/useManagePlayers";
-
-import useGetSignMemberList from "../../../../../../3_Entity/Team/useGetSignMemberList";
-import usePostApproveMember from "../../../../../../3_Entity/Team/usePostApproveMember";
-import useDeleteApproveMember from "../../../../../../3_Entity/Team/useDeleteApproveMember";
-
 import TeamApplicationItem from "./ui/TeamApplicationItem";
+import useManagePlayers from "./model/useManagePlayers";
+import useGetSignMemberList from "../../../../../../3_Entity/Team/useGetSignMemberList";
 
 const TeamApplications = (props: TeamApplicationsProps) => {
   const { team_list_idx } = props;
   const [signMemberList] = useGetSignMemberList(team_list_idx);
   const [disPlayPlayer, addDisplayPlayer] = useManagePlayers(signMemberList);
 
-  const [postApproveMember] = usePostApproveMember(team_list_idx);
-  const [deleteApproveMember] = useDeleteApproveMember(team_list_idx);
   return (
     <div className="flex-1 min-w-[300px] bg-white rounded-lg shadow-md p-4">
       <h2 className="text-2xl font-bold mb-6 text-gray-800 border-b pb-3">
@@ -29,9 +23,8 @@ const TeamApplications = (props: TeamApplicationsProps) => {
             <TeamApplicationItem
               key={`approve_card_${player.player_list_idx}`}
               player={player}
-              postApproveMember={postApproveMember}
-              deleteApproveMember={deleteApproveMember}
               addDisplayPlayer={addDisplayPlayer}
+              team_list_idx={team_list_idx}
             />
           ))}
         </div>

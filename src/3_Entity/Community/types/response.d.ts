@@ -30,5 +30,12 @@ type CommunityTeam = {
   team_list_name: string;
   team_list_short_name: string;
   team_list_color: string;
-  team_list_emblem: string;
+  team_list_emblem: string | null;
+};
+
+type CommunityStaffApplication = { 
+  player_list_idx: number;
+  player_list_nickname: string;
+  player_list_platform: string | null;
+  player_list_profile_img: string | null;
 };

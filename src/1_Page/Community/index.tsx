@@ -5,6 +5,8 @@ import CommunityTeamList from "../../2_Widget/CommunityTeamList";
 import useModifyMode from "./model/useModifyMode";
 import useGetCommunityInfo from "../../3_Entity/Community/useGetCommunityInfo";
 import useIsCommunityStaffStore from "../../4_Shared/zustand/useIsCommunityStaffStore";
+import CommunityStaffApplicationList from "./ui/CommunityStaffApplicationList";
+import CommunityTeamApplicationList from "./ui/CommunityTeamApplicationList";
 
 const Community = () => {
   const { communityIdx } = useParams();
@@ -55,7 +57,10 @@ const Community = () => {
         )}
 
         {/* 커뮤니티 운영진 목록 & 운영진 지원 */}
-        <CommunityStaffList communityIdx={Number(communityIdx)} />
+        <CommunityStaffList
+          communityIdx={Number(communityIdx)}
+          modifyMode={modifyMode}
+        />
 
         {/* 커뮤니티 수정 버튼 */}
         {isCommunityStaff && (
@@ -63,7 +68,7 @@ const Community = () => {
             className="p-3 border border-gray-300 shadow-md rounded-lg text-sm bg-blue-500 text-white hover:bg-blue-600 transition"
             onClick={toggleModifyMode}
           >
-            {modifyMode ? "수정 취소" : "커뮤니티 정보 수정하기"}
+            {modifyMode ? "뒤로 가기" : "커뮤니티 관리"}
           </button>
         )}
       </div>
@@ -84,13 +89,29 @@ const Community = () => {
                 </h3>
                 <CommunityTeamList
                   communityIdx={Number(communityIdx)}
-                  modifyMode={modifyMode}
+                  modifyMode={true}
                 />
               </div>
 
               {/* 가입 신청 팀 목록 */}
+              <div className="w-full">
+                <h3 className="font-semibold text-lg text-gray-800 mb-4">
+                  Join Requests
+                </h3>
+                <CommunityTeamApplicationList
+                  communityIdx={Number(communityIdx)}
+                />
+              </div>
 
               {/* 운영진 가입 신청 유저 목록 */}
+              <div className="w-full">
+                <h3 className="font-semibold text-lg text-gray-800 mb-4">
+                  Staff Join Requests
+                </h3>
+                <CommunityStaffApplicationList
+                  communityIdx={Number(communityIdx)}
+                />
+              </div>
             </>
           ) : (
             <>
@@ -111,7 +132,7 @@ const Community = () => {
                 </h3>
                 <CommunityTeamList
                   communityIdx={Number(communityIdx)}
-                  modifyMode={modifyMode}
+                  modifyMode={false}
                 />
               </div>
             </>

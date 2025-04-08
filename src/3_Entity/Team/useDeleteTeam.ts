@@ -13,8 +13,10 @@ const useDeleteTeam = (
 
   React.useEffect(() => {
     if (!serverState) return;
+    console.log(serverState);
     switch (serverState.status) {
       case 403:
+        alert("마지막 매치 생성일이 2주가 지나지 않았습니다.");
         return;
     }
   }, [serverState]);
