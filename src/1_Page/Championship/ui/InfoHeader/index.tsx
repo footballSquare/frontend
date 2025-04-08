@@ -21,137 +21,135 @@ const InfoHeader = (props: InfoHeaderProps) => {
   const [isEndModalOpen, toggleEndModal] = useToggleState(true);
 
   return (
-    <header
-      className={`relative rounded-lg shadow-md transition-all duration-300 overflow-hidden mb-4 ${
-        isHeaderCollapsed ? "h-14" : ""
-      }`}
-      style={{
-        backgroundColor: championshipInfo.championship_list_color,
-        color: getTextColorFromBackground(
-          championshipInfo.championship_list_color
-        ),
-      }}>
-      {/* 장식용 원 요소들 (중앙 원 제거) */}
-      <div className="absolute top-0 left-0 w-24 h-24 border-2 border-current rounded-full transform -translate-x-1/2 -translate-y-1/2 opacity-20"></div>
-      <div className="absolute bottom-0 right-0 w-24 h-24 border-2 border-current rounded-full transform translate-x-1/2 translate-y-1/2 opacity-20"></div>
+    <div>
+      <header
+        className={`relative rounded-lg shadow-md transition-all duration-300 overflow-hidden mb-4 ${
+          isHeaderCollapsed ? "h-14" : ""
+        }`}
+        style={{
+          backgroundColor: championshipInfo.championship_list_color,
+          color: getTextColorFromBackground(
+            championshipInfo.championship_list_color
+          ),
+        }}>
+        {/* 장식용 원 요소들 (중앙 원 제거) */}
+        <div className="absolute top-0 left-0 w-24 h-24 border-2 border-current rounded-full transform -translate-x-1/2 -translate-y-1/2 opacity-20"></div>
+        <div className="absolute bottom-0 right-0 w-24 h-24 border-2 border-current rounded-full transform translate-x-1/2 translate-y-1/2 opacity-20"></div>
 
-      {isHeaderCollapsed ? (
-        <div className="h-full flex items-center px-4">
-          <img
-            className="w-6 h-6 mr-2"
-            src={
-              championshipInfo.championship_list_throphy_img || defaultTrophyImg
-            }
-            alt="Trophy"
-          />
-          <h1 className="text-lg font-medium truncate">
-            {championshipInfo.championship_list_name}
-          </h1>
-        </div>
-      ) : (
-        <div className="flex flex-col items-center w-full gap-3 p-4">
-          <div className="flex items-center space-x-2 mb-2">
+        {isHeaderCollapsed ? (
+          <div className="h-full flex items-center px-4">
             <img
-              className="w-8 h-8 object-cover"
+              className="w-6 h-6 mr-2"
               src={
                 championshipInfo.championship_list_throphy_img ||
                 defaultTrophyImg
               }
               alt="Trophy"
             />
-            <h1 className="text-xl font-bold">
+            <h1 className="text-lg font-medium truncate">
               {championshipInfo.championship_list_name}
             </h1>
           </div>
+        ) : (
+          <div className="flex flex-col items-center w-full gap-3 p-4">
+            <div className="flex items-center space-x-2 mb-2">
+              <img
+                className="w-8 h-8 object-cover"
+                src={
+                  championshipInfo.championship_list_throphy_img ||
+                  defaultTrophyImg
+                }
+                alt="Trophy"
+              />
+              <h1 className="text-xl font-bold">
+                {championshipInfo.championship_list_name}
+              </h1>
+            </div>
 
-          <div className="w-full flex flex-wrap justify-center gap-2">
-            <span className="px-3 py-1 text-sm rounded-full border border-current bg-white/10 text-inherit">
-              {`${formatDateKoreanDate(
-                new Date(championshipInfo.championship_list_start_date)
-              )} ~ ${formatDateKoreanDate(
-                new Date(championshipInfo.championship_list_end_date)
-              )}`}
-            </span>
-            <span className="px-3 py-1 text-sm rounded-full border border-current bg-white/10 text-inherit">
-              {championshipTypes[championshipInfo.championship_type_idx]}
-            </span>
-            <span className="px-3 py-1 text-sm rounded-full border border-current bg-white/10 text-inherit">
-              {matchType[championshipInfo.match_type_idx]}
-            </span>
-          </div>
+            <div className="w-full flex flex-wrap justify-center gap-2">
+              <span className="px-3 py-1 text-sm rounded-full border border-current bg-white/10 text-inherit">
+                {`${formatDateKoreanDate(
+                  new Date(championshipInfo.championship_list_start_date)
+                )} ~ ${formatDateKoreanDate(
+                  new Date(championshipInfo.championship_list_end_date)
+                )}`}
+              </span>
+              <span className="px-3 py-1 text-sm rounded-full border border-current bg-white/10 text-inherit">
+                {championshipTypes[championshipInfo.championship_type_idx]}
+              </span>
+              <span className="px-3 py-1 text-sm rounded-full border border-current bg-white/10 text-inherit">
+                {matchType[championshipInfo.match_type_idx]}
+              </span>
+            </div>
 
-          <div className="w-full flex flex-col sm:flex-row gap-3 mt-1">
-            <p className="text-sm text-inherit flex-1 bg-white/5 p-3 rounded-md max-h-20 overflow-y-auto">
-              {championshipInfo.championship_list_description}
-            </p>
-            {isAdmin && !isChampionshipEnd && (
-              <div className="flex gap-2 items-center justify-center">
-                <button
-                  className="px-3 py-1 text-sm border border-current rounded-md hover:bg-white/10 transition-colors"
-                  onClick={() => {
-                    navigate(
-                      `/championship-edit/${championshipInfo.community_list_idx}`
-                    );
-                  }}>
-                  수정
-                </button>
-                <EndChampionshipPanel />
-              </div>
-            )}
-          </div>
-
-          {isChampionshipEnd && (
-            <div>
-              <div
-                className="w-full mt-2 p-3 rounded-md border border-white/20"
-                style={{
-                  backgroundColor:
-                    championshipInfo.winner_team_color || "white",
-                  color: getTextColorFromBackground(
-                    championshipInfo.winner_team_color || "#ffffff"
-                  ),
-                }}>
-                <div className="flex items-center">
-                  <div className="relative mr-3">
-                    <span className="absolute -top-2 -left-1 text-lg">👑</span>
-                    <img
-                      className="w-10 h-10 object-cover rounded-full border border-white/50 ml-1"
-                      src={
-                        championshipInfo.winner_team_emblem || "placeholder.png"
-                      }
-                      alt={`${championshipInfo.winner_team_name} 엠블럼`}
-                    />
-                  </div>
-                  <div className="flex flex-col">
-                    <span className="text-xs font-medium uppercase tracking-wider opacity-70">
-                      WINNER
-                    </span>
-                    <span className="font-bold">
-                      {championshipInfo.winner_team_name}
-                    </span>
-                  </div>
+            <div className="w-full flex flex-col sm:flex-row gap-3 mt-1">
+              <p className="text-sm text-inherit flex-1 bg-white/5 p-3 rounded-md max-h-20 overflow-y-auto">
+                {championshipInfo.championship_list_description}
+              </p>
+              {isAdmin && !isChampionshipEnd && (
+                <div className="flex gap-2 items-center justify-center">
+                  <button
+                    className="px-3 py-1 text-sm border border-current rounded-md hover:bg-white/10 transition-colors"
+                    onClick={() => {
+                      navigate(
+                        `/championship-edit/${championshipInfo.community_list_idx}`
+                      );
+                    }}>
+                    수정
+                  </button>
+                  <EndChampionshipPanel />
                 </div>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* 중앙 하단에 위치한 접기/펼치기 버튼 */}
+        {!isChampionshipEnd && (
+          <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/3">
+            <button
+              onClick={toggleHeader}
+              className="w-10 h-10 flex items-center justify-center text-sm rounded-full bg-white shadow-lg hover:bg-gray-100 text-black"
+              aria-label={isHeaderCollapsed ? "펼치기" : "접기"}>
+              {isHeaderCollapsed ? "▼" : "▲"}
+            </button>
+          </div>
+        )}
+      </header>
+      {isChampionshipEnd && (
+        <div className="w-full p-3">
+          <div
+            className="w-full mt-2 p-3 rounded-md border border-white/20"
+            style={{
+              backgroundColor: championshipInfo.winner_team_color || "white",
+              color: getTextColorFromBackground(
+                championshipInfo.winner_team_color || "#ffffff"
+              ),
+            }}>
+            <div className="flex items-center">
+              <div className="relative mr-3">
+                <span className="absolute -top-2 -left-1 text-lg">👑</span>
+                <img
+                  className="w-10 h-10 object-cover rounded-full border border-white/50 ml-1"
+                  src={championshipInfo.winner_team_emblem || "placeholder.png"}
+                  alt={`${championshipInfo.winner_team_name} 엠블럼`}
+                />
               </div>
-              <div className="w-full py-1 text-center bg-black/40 text-white text-xs font-medium">
-                대회 종료
+              <div className="flex flex-col">
+                <span className="text-xs font-medium uppercase tracking-wider opacity-70">
+                  WINNER
+                </span>
+                <span className="font-bold">
+                  {championshipInfo.winner_team_name}
+                </span>
               </div>
             </div>
-          )}
+          </div>
+          <div className="w-full py-1 text-center bg-black/40 text-white text-xs font-medium">
+            대회 종료
+          </div>
         </div>
       )}
-
-      {/* 중앙 하단에 위치한 접기/펼치기 버튼 */}
-      {!isChampionshipEnd && (
-        <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/3">
-          <button
-            onClick={toggleHeader}
-            className="w-10 h-10 flex items-center justify-center text-sm rounded-full bg-white shadow-lg hover:bg-gray-100 text-black"
-            aria-label={isHeaderCollapsed ? "펼치기" : "접기"}>
-            {isHeaderCollapsed ? "▼" : "▲"}
-          </button>
-        </div>
-      )}
-
       {/* 승자 모달 */}
       {isChampionshipEnd && isEndModalOpen && (
         <div className="fixed inset-0 z-10 bg-black/60 backdrop-blur-sm flex items-center justify-center">
@@ -196,7 +194,7 @@ const InfoHeader = (props: InfoHeaderProps) => {
           </div>
         </div>
       )}
-    </header>
+    </div>
   );
 };
 
