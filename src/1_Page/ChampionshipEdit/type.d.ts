@@ -17,3 +17,5 @@ type ChampionshipFormValues = {
   }[];
   community_list_idx: number;
 };
+
+type ChampionshipEditTab = "basic" | "teams" | "awards" | "dates";
