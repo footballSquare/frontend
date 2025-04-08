@@ -13,8 +13,14 @@ import { useNavigate } from "react-router-dom";
 
 const PlayerCard = (props: PlayerCardProps) => {
   // is_mine = true : 수정가능 / = false 수정 불가능
-  const { is_mine, user_idx, nickname, profile_image, team_name, position } =
-    props;
+  const {
+    is_mine,
+    user_idx,
+    nickname,
+    profile_image,
+    team_name,
+    match_position_idx,
+  } = props;
   const navigate = useNavigate();
 
   const {
@@ -50,9 +56,9 @@ const PlayerCard = (props: PlayerCardProps) => {
         <div className="relative h-16 bg-gradient-to-r from-blue-700 to-indigo-800 flex items-center px-4">
           <div
             className={`absolute top-3 right-3 ${getPositionColor(
-              position
+              match_position_idx
             )} text-xs font-bold px-3 py-1 rounded-full shadow-md`}>
-            {position && matchPosition[position]}
+            {match_position_idx && matchPosition[match_position_idx]}
           </div>
         </div>
 
