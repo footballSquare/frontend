@@ -1,3 +1,0 @@
-type EndChampionshipModalProps = {
-  onClose: () => void;
-};
