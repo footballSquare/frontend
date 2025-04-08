@@ -20,7 +20,9 @@ const useDeleteUser = (): [
           alert("탈퇴 되었습니다");
           break;
         default:
-          alert("An error occurred");
+          alert("잘못된 접근");
+          window.location.reload();
+          break;
       }
     }
   }, [loading, serverState]);
