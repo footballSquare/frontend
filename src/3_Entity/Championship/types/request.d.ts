@@ -5,20 +5,9 @@ type UsePostCreateChampionshipMatchProps = {
 };
 
 type UsePutChampionshipEndProps = {
-  team_list_idx: number;
-  player_list_idx: number;
-};
-
-type ee = {
-  winner_team_idx: STRING;
-  award: [
-    {
-      championship_award_idx: INT;
-      championship_winner_idxs: ARRAY;
-    },
-    {
-      championship_award_idx: INT;
-      championship_winner_idxs: ARRAY;
-    }
-  ];
+  winner_team_idx: number;
+  awards: {
+    championship_award_idx: number;
+    championship_winner_idxs: number[];
+  }[];
 };

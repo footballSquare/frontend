@@ -8,7 +8,7 @@ const EndChampionshipPanel = () => {
     <div>
       <button
         onClick={handleToggleModal}
-        className="px-3 py-2 border border-gray-300 rounded hover:bg-gray-100">
+        className="px-3 py-1 text-sm border border-current rounded-md hover:bg-white/10 transition-colors">
         대회 종료
       </button>
       {isModalOpen && <EndChampionshipModal onClose={handleToggleModal} />}

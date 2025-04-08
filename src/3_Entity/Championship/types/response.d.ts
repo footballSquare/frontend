@@ -1,4 +1,5 @@
 type ChampionshipInfo = {
+  community_list_idx: number;
   championship_type_idx: number;
   championship_list_name: string;
   championship_list_description: string;
@@ -133,10 +134,19 @@ type PlayerStats = {
 };
 
 type ChampionshipEndData = {
-  playerStats: PlayerStats[];
-  awardStats: {
-    url: string;
-    name: string;
+  teams: EndTeamInfo[];
+  players: EndPlayerStatas[];
+  awards: {
+    championship_award_idx: number;
+    championship_award_name: string;
+    championship_award_throphy_image: string;
   }[];
-  teams: ChampionshipTeamInfo[];
 };
+
+type EndPlayerStatas = {
+  team_list_idx: number;
+  player_list_idx: number;
+  player_list_nickname: string;
+};
+
+type EndTeamInfo = { team_list_idx: number; team_list_name: string };

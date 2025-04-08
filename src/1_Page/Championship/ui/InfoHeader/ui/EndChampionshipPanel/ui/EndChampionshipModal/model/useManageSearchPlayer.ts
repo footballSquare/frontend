@@ -1,11 +1,11 @@
 import React from "react";
 
-const useManageSearchPlayer = (playerStats: PlayerStats[]) => {
+const useManageSearchPlayer = (playerStats: EndPlayerStatas[]) => {
   // State hooks
   const [selectTeam, setSelectTeam] =
     React.useState<ChampionshipTeamInfo | null>(null);
   const [selectedPlayerAwards, setSelectedPlayerAwards] =
-    React.useState<PlayerStats | null>(null);
+    React.useState<EndPlayerStatas | null>(null);
   const [searchTerm, setSearchTerm] = React.useState<string>("");
 
   // Memoized filtered players using searchTerm from state
