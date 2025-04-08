@@ -131,3 +131,12 @@ type PlayerStats = {
   match_player_stats_saved: number | null;
   match_player_stats_successrate_saved: number | null;
 };
+
+type ChampionshipEndData = {
+  playerStats: PlayerStats[];
+  awardStats: {
+    url: string;
+    name: string;
+  }[];
+  teams: ChampionshipTeamInfo[];
+};

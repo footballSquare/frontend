@@ -1,0 +1,28 @@
+import React from "react";
+import { useFetchData } from "../../4_Shared/util/apiUtil.ts";
+
+const useGetChampionshipEndData = (
+  championshipListIdx: number
+): [ChampionshipEndData, boolean] => {
+  const [serverState, request, loading] = useFetchData();
+  const [championshipEndData, setChampionshipEndData] =
+    React.useState<ChampionshipEndData>({} as ChampionshipEndData);
+
+  React.useEffect(() => {
+    if (championshipListIdx === 0) return;
+    const endPoint = `/championship/${championshipListIdx}/done`;
+    request("GET", endPoint, null, true);
+  }, []);
+
+  React.useEffect(() => {
+    if (!loading && serverState && "data" in serverState) {
+      setChampionshipEndData(
+        (serverState as { data: ChampionshipEndData }).data
+      );
+    }
+  }, [loading, serverState]);
+
+  return [championshipEndData, loading];
+};
+
+export default useGetChampionshipEndData;

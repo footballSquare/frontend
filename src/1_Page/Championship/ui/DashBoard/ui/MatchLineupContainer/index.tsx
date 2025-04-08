@@ -10,7 +10,7 @@ const MatchLineupContainer = (props: MatchLineupContainerProps) => {
   const { matchIdx, selectedTeams, championshipDetail } = props;
   // admin
   const [community_role_idx] = useMyCommunityRoleIdx();
-  const isAdmin = community_role_idx === 0;
+  const isAdmin = community_role_idx === 1;
   // api
   // state
   const [isModalOpen, handleToggleModal] = useToggleState();

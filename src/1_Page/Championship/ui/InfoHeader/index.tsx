@@ -1,23 +1,21 @@
 import { useNavigate } from "react-router-dom";
-import { useCookies } from "react-cookie";
 import EndChampionshipPanel from "./ui/EndChampionshipPanel";
 // state
 import useToggleState from "../../../../4_Shared/model/useToggleState";
-import useParamInteger from "../../../../4_Shared/model/useParamInteger";
 import { getTextColorFromBackground } from "../../../../4_Shared/lib/colorChecker";
 import { matchType } from "../../../../4_Shared/constant/matchType";
 import { championshipTypes } from "../../../../4_Shared/constant/championshipTypes";
 import { formatDateKoreanDate } from "../../../../4_Shared/lib/dateFormatter";
 import defaultTrophyImg from "../../../../4_Shared/assets/svg/rank.svg";
+import { useMyCommunityRoleIdx } from "../../../../4_Shared/lib/useMyInfo";
 
 const InfoHeader = (props: InfoHeaderProps) => {
   const { championshipInfo } = props;
   const navigate = useNavigate();
-  const championshipIdx = useParamInteger("championshipIdx");
   const isChampionshipEnd = championshipInfo.common_status_idx === 4;
   // 어드민
-  const [cookies] = useCookies(["community_role_idx"]);
-  const isAdmin = cookies.community_role_idx === 0;
+  const [community_role_idx] = useMyCommunityRoleIdx();
+  const isAdmin = community_role_idx === 0;
 
   const [isHeaderCollapsed, toggleHeader] = useToggleState();
   const [isEndModalOpen, toggleEndModal] = useToggleState(true);
@@ -82,7 +80,7 @@ const InfoHeader = (props: InfoHeaderProps) => {
                   <button
                     className="px-3 py-2 border border-gray-300 rounded hover:bg-gray-100"
                     onClick={() => {
-                      navigate(`/championship/${championshipIdx}/edit`);
+                      navigate(`/championship/edit`);
                     }}>
                     대회 수정
                   </button>
