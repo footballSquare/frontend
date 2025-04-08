@@ -14,6 +14,7 @@ import useParamInteger from "../../../../4_Shared/model/useParamInteger";
 import useSelectHandler from "./model/useSelectHandler";
 import useGetChampionshipDetail from "../../../../3_Entity/Championship/useGetChampionshipDetail";
 import ChampionshipMatchCardContainer from "./ui/ChampionshipMatchCardContainer";
+import TeamListPanel from "./ui/TeamListPanel";
 
 const DashBoard = (props: DashBoardProps) => {
   const { championship_type_idx } = props;
@@ -27,10 +28,6 @@ const DashBoard = (props: DashBoardProps) => {
   const [matchList, fetchMatchList] =
     useGetChampionshipMatchList(championshipIdx); // 대회 생성된 매치 리스트
   const [teamList] = useGetChampionshipTeams(championshipIdx); // 대회 참가 팀리스트
-  const [selectedIdx, selectedTeams, handleSelect] =
-    useSelectHandler(matchList);
-
-  const [championshipDetail] = useGetChampionshipDetail(selectedIdx);
 
   const [displayMatchList, matchHandlers] = useManageMatchList(matchList); // 매치 리스트 관리
   const convertedData = React.useMemo(() => {
@@ -41,22 +38,30 @@ const DashBoard = (props: DashBoardProps) => {
     );
   }, [displayMatchList, teamList, championship_type_idx]);
 
+  const [selectedIdx, selectedTeams, handleSelect] =
+    useSelectHandler(matchList);
+  const [championshipDetail] = useGetChampionshipDetail(selectedIdx);
+
   return (
     <div className="w-full p-4">
-      <nav className="flex overflow-x-auto space-x-2 bg-white p-2 rounded-md scrollbar-hide">
-        {activeTabList.map(({ id, label }) => (
-          <button
-            key={id}
-            onClick={() => setActiveTab(id)}
-            className={`flex-shrink-0 px-4 py-2 rounded-full text-sm font-medium transition ${
-              activeTab === id
-                ? "bg-blue-600 text-white"
-                : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-            }`}>
-            {label}
-          </button>
-        ))}
+      <nav className="flex justify-between items-center mb-4">
+        <div className="flex overflow-x-auto space-x-2 bg-white p-2 rounded-md scrollbar-hide">
+          {activeTabList.map(({ id, label }) => (
+            <button
+              key={id}
+              onClick={() => setActiveTab(id)}
+              className={`flex-shrink-0 px-4 py-2 rounded-full text-sm font-medium transition ${
+                activeTab === id
+                  ? "bg-blue-600 text-white"
+                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+              }`}>
+              {label}
+            </button>
+          ))}
+        </div>
+        <TeamListPanel teamList={teamList} />
       </nav>
+
       <main className="pt-2">
         {/* 출전선수 목록 */}
         {activeTab === ACTIVE_TAB.PLAYERS && (
@@ -104,7 +109,7 @@ const DashBoard = (props: DashBoardProps) => {
         )}
 
         {/* 팀 and 매치 목록 */}
-        {activeTab === ACTIVE_TAB.PLAYERS && (
+        {activeTab === ACTIVE_TAB.TEAMS && (
           <section>
             {isLeague ? (
               <LeagueBracket leagueData={convertedData.leagueData} />
@@ -117,14 +122,14 @@ const DashBoard = (props: DashBoardProps) => {
         )}
 
         {/* 매치 목록 탭  */}
-        {activeTab === ACTIVE_TAB.TEAMS && (
+        {activeTab === ACTIVE_TAB.MATCHES && (
           <section className="w-full mx-auto flex flex-col md:flex-row gap-4">
             {/* 매치 결과 리스트 (좌측) */}
             <ChampionshipMatchCardContainer
               matchHandlers={matchHandlers}
               fetchMatchList={fetchMatchList}
               filteredTeamList={convertedData.filteredTeamList}
-              matchList={matchList}
+              matchList={displayMatchList}
               selectedIdx={selectedIdx}
               handleSelect={handleSelect}
             />
