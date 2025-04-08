@@ -8,6 +8,7 @@ import empty from "../../4_Shared/assets/svg/empty-note.svg";
 const Profile = () => {
   const [userIdx] = useValidParamInteger("userIdx");
   const [userInfo] = useGetMyInfo(userIdx);
+  console.log("userInfo", userInfo);
   const { Awards = [], ...playerProps } = userInfo;
 
   return (
