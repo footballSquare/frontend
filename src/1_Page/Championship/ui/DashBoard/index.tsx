@@ -2,15 +2,18 @@ import React from "react";
 import PlayerRow from "./ui/PlayerRow";
 import LeagueBracket from "./ui/LeagueBracket";
 import TournamentBracket from "./ui/TournamentBracket";
-import MatchListTab from "./ui/MatchListTab";
 import useManageMatchList from "./model/useManageMatchList";
 import { convertToMatchData } from "./util/convertToMatchData";
+import MatchLineupContainer from "./ui/MatchLineupContainer";
 
 import { ACTIVE_TAB, activeTabList } from "./constant/activeTab";
 import useGetChampionshipTeams from "../../../../3_Entity/Championship/useGetChampionshipTeams";
 import useGetChampionshipMatchList from "../../../../3_Entity/Championship/useGetChampionshipMatchList";
 import useGetPlayerStats from "../../../../3_Entity/Championship/useGetPlayerStats";
 import useParamInteger from "../../../../4_Shared/model/useParamInteger";
+import useSelectHandler from "./model/useSelectHandler";
+import useGetChampionshipDetail from "../../../../3_Entity/Championship/useGetChampionshipDetail";
+import ChampionshipMatchCardContainer from "./ui/ChampionshipMatchCardContainer";
 
 const DashBoard = (props: DashBoardProps) => {
   const { championship_type_idx } = props;
@@ -24,6 +27,10 @@ const DashBoard = (props: DashBoardProps) => {
   const [matchList, fetchMatchList] =
     useGetChampionshipMatchList(championshipIdx); // 대회 생성된 매치 리스트
   const [teamList] = useGetChampionshipTeams(championshipIdx); // 대회 참가 팀리스트
+  const [selectedIdx, selectedTeams, handleSelect] =
+    useSelectHandler(matchList);
+
+  const [championshipDetail] = useGetChampionshipDetail(selectedIdx);
 
   const [displayMatchList, matchHandlers] = useManageMatchList(matchList); // 매치 리스트 관리
   const convertedData = React.useMemo(() => {
@@ -112,12 +119,24 @@ const DashBoard = (props: DashBoardProps) => {
         {/* 매치 목록 탭  */}
         {activeTab === ACTIVE_TAB.TEAMS && (
           <section className="w-full mx-auto flex flex-col md:flex-row gap-4">
-            <MatchListTab
-              matchList={displayMatchList}
-              filteredTeamList={convertedData.filteredTeamList}
+            {/* 매치 결과 리스트 (좌측) */}
+            <ChampionshipMatchCardContainer
               matchHandlers={matchHandlers}
               fetchMatchList={fetchMatchList}
+              filteredTeamList={convertedData.filteredTeamList}
+              matchList={matchList}
+              selectedIdx={selectedIdx}
+              handleSelect={handleSelect}
             />
+
+            {/* MatchLineup (반응형 적용) */}
+            <div className="flex-1 min-h-[500px] bg-gray-100 p-4 overflow-x-auto md:overflow-visible">
+              <MatchLineupContainer
+                matchIdx={selectedIdx}
+                selectedTeams={selectedTeams}
+                championshipDetail={championshipDetail}
+              />
+            </div>
           </section>
         )}
       </main>
