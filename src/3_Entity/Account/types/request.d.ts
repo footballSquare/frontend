@@ -11,12 +11,3 @@ type UsePutUserInfoProps = {
   message: string | null;
   match_position_idx: number;
 };
-
-type UserProfileProps = {
-  nickname: string;
-  platform: "pc" | "xbox" | "playstation";
-  common_status_idx: number;
-  message: string;
-  discord_tag: string;
-  match_position_idx: number;
-};

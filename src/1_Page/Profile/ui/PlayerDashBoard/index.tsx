@@ -5,7 +5,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import discord from "../../../../4_Shared/assets/svg/discord.svg";
 import { schema } from "./lib/schema";
 import { hasChanges } from "./util/validate";
-import { convertToPostData, convertToInfoForm } from "./util/convert";
+import { convertToInfoForm } from "./util/convert";
 import useModifyHandler from "./model/useModifyHandler";
 // 상수
 import { platform } from "../../../../4_Shared/constant/platform";
@@ -58,7 +58,7 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
   const onSubmit: SubmitHandler<UserInfoForm> = (data) => {
     handleModifyFalse();
     if (!hasChanges(data, inputBackupDataRef.current)) return;
-    putUserInfo(convertToPostData(data));
+    putUserInfo(data);
   };
 
   return (

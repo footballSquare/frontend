@@ -9,7 +9,6 @@ export default () => {
         "/api": {
           target: "https://api.footballsquare.co.kr",
           changeOrigin: true,
-          secure: false,
           rewrite: (path) => path.replace(/^\/api/, ""),
         },
       },
