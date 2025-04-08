@@ -43,16 +43,11 @@ export const useLogout = (): [() => void] => {
       removeCookie("team_role_idx");
       removeCookie("team_idx");
       removeCookie("user_idx");
-<<<<<<< HEAD
-      window.location.reload();
-=======
-      navigate('/')
->>>>>>> develop
+      navigate("/");
     },
   ];
 };
 
-<<<<<<< HEAD
 export const useRemoveAllCookie = () => {
   const [, , removeCookie] = useCookies([
     "access_token",
@@ -73,14 +68,16 @@ export const useRemoveAllCookie = () => {
       removeCookie("user_idx", { path: "/" });
       removeCookie("profile_image", { path: "/" });
       removeCookie("player_status", { path: "/" });
-=======
+    },
+  ];
+};
+
 export const useRemoveTeamCookie = (): [() => void] => {
   const [, , removeCookie] = useCookies(["team_role_idx", "team_idx"]);
   return [
     () => {
       removeCookie("team_role_idx", { path: "/" });
       removeCookie("team_idx", { path: "/" });
->>>>>>> develop
     },
   ];
 };
