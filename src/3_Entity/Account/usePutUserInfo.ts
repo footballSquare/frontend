@@ -16,7 +16,13 @@ const usePutUserInfo = (): [
   React.useEffect(() => {
     if (!serverState) return;
     switch (serverState.status) {
-      case "403":
+      case "200":
+        alert("변경 되었습니다");
+        break;
+      default:
+        alert("변경 실패했습니다");
+        window.location.reload();
+        break;
     }
   }, [serverState]);
 
