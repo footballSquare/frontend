@@ -1,4 +1,5 @@
 import { useCookies } from "react-cookie";
+import { useNavigate } from "react-router-dom";
 
 export const useIsLogin = (): [boolean] => {
   const [cookies] = useCookies(["access_token"]);
@@ -26,6 +27,7 @@ export const useMyUserIdx = (): [number | null] => {
 };
 
 export const useLogout = (): [() => void] => {
+  const navigate = useNavigate();
   const [, , removeCookie] = useCookies([
     "access_token",
     "community_role_idx",
@@ -41,11 +43,16 @@ export const useLogout = (): [() => void] => {
       removeCookie("team_role_idx");
       removeCookie("team_idx");
       removeCookie("user_idx");
+<<<<<<< HEAD
       window.location.reload();
+=======
+      navigate('/')
+>>>>>>> develop
     },
   ];
 };
 
+<<<<<<< HEAD
 export const useRemoveAllCookie = () => {
   const [, , removeCookie] = useCookies([
     "access_token",
@@ -66,6 +73,14 @@ export const useRemoveAllCookie = () => {
       removeCookie("user_idx", { path: "/" });
       removeCookie("profile_image", { path: "/" });
       removeCookie("player_status", { path: "/" });
+=======
+export const useRemoveTeamCookie = (): [() => void] => {
+  const [, , removeCookie] = useCookies(["team_role_idx", "team_idx"]);
+  return [
+    () => {
+      removeCookie("team_role_idx", { path: "/" });
+      removeCookie("team_idx", { path: "/" });
+>>>>>>> develop
     },
   ];
 };
