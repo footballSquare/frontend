@@ -1,3 +1,0 @@
-type LeagueBracketProps = {
-  leagueData: LeagueData[];
-};
