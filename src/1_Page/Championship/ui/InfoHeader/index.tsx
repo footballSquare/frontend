@@ -8,29 +8,7 @@ import { championshipTypes } from "../../../../4_Shared/constant/championshipTyp
 import { formatDateKoreanDate } from "../../../../4_Shared/lib/dateFormatter";
 import defaultTrophyImg from "../../../../4_Shared/assets/svg/rank.svg";
 import { useMyCommunityRoleIdx } from "../../../../4_Shared/lib/useMyInfo";
-// 보색을 계산하는 예시 함수 (단순한 알고리즘, 상황에 따라 개선 가능)
-const getComplementaryColor = (hexColor: string): string => {
-  // '#' 제거
-  let color = hexColor.replace("#", "");
-  // 3자리 수이면 6자리 수로 변환
-  if (color.length === 3) {
-    color = color
-      .split("")
-      .map((c) => c + c)
-      .join("");
-  }
-  const r = 255 - parseInt(color.substring(0, 2), 16);
-  const g = 255 - parseInt(color.substring(2, 4), 16);
-  const b = 255 - parseInt(color.substring(4, 6), 16);
-  return `rgb(${r}, ${g}, ${b})`;
-};
 
-// 그라데이션 배경을 반환하는 함수
-const getGradientBackground = (baseColor: string): string => {
-  const secondaryColor = getComplementaryColor(baseColor);
-  // 135도 각도로 두 색상을 사용한 그라데이션
-  return `linear-gradient(135deg, ${baseColor}, ${secondaryColor})`;
-};
 const InfoHeader = (props: InfoHeaderProps) => {
   const { championshipInfo } = props;
   const navigate = useNavigate();
@@ -111,7 +89,9 @@ const InfoHeader = (props: InfoHeaderProps) => {
                 <button
                   className="px-3 py-1 text-sm border border-current rounded-md hover:bg-white/10 transition-colors"
                   onClick={() => {
-                    navigate(`/championship/edit`);
+                    navigate(
+                      `/championship-edit/${championshipInfo.community_list_idx}`
+                    );
                   }}>
                   수정
                 </button>

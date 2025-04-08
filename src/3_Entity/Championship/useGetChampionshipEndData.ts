@@ -15,10 +15,9 @@ const useGetChampionshipEndData = (
   }, []);
 
   React.useEffect(() => {
-    if (!loading && serverState && "data" in serverState) {
-      setChampionshipEndData(
-        (serverState as { data: ChampionshipEndData }).data
-      );
+    if (!loading && serverState) {
+      console.log(serverState);
+      setChampionshipEndData(serverState as ChampionshipEndData);
     }
   }, [loading, serverState]);
 
