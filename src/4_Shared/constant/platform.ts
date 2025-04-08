@@ -1,1 +1,1 @@
-export const platform = ["PC", "PS4", "XBOX", null];
+export const platform = ["PC", "PS4", "XBOX"];
