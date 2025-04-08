@@ -14,7 +14,7 @@ const ChampionshipMatchCard = (props: ChampionshipMatchCardProps) => {
   } = props;
 
   const [community_role_idx] = useMyCommunityRoleIdx();
-  const isAdmin = community_role_idx === 0;
+  const isAdmin = community_role_idx === 1;
 
   const home = match.championship_match_first;
   const away = match.championship_match_second;
