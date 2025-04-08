@@ -15,9 +15,9 @@ const TeamListPanel = (props: TeamListPanelProps) => {
     <div>
       <button
         onClick={handleToggleModal}
-        className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white font-semibold px-6 py-3 rounded-full shadow-lg hover:scale-105 active:scale-95 transition-all duration-200">
+        className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white font-semibold px-4 py-2 rounded-full shadow-lg hover:scale-105 active:scale-95 transition-all duration-200">
         🏆 참가 팀 목록 보기
-      </button>{" "}
+      </button>
       {isModalOpen && (
         <div className="fixed inset-0 z-10 bg-black/50 flex items-center justify-center">
           <div className="bg-white rounded-lg">

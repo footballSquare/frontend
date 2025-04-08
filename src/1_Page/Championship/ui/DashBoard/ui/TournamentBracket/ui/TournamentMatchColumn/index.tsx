@@ -1,4 +1,4 @@
-import defaultTeamImg from "../../../../../../../../../../4_Shared/assets/svg/team.svg";
+import defaultTeamImg from "../../../../../../../../4_Shared/assets/svg/team.svg";
 
 const TournamentMatchColumn = (props: TournamentMatchColumnProps) => {
   const { match, index } = props;
