@@ -1,7 +1,7 @@
-import useDeleteChampionshipMatch from "../../../../../../../../../../../../3_Entity/Championship/useDeleteChampionshipMatch";
-import usePutChampionshipMatchEnd from "../../../../../../../../../../../../3_Entity/Championship/usePutChampionshipMatchEnd";
-import { matchState } from "../../../../../../../../../../../../4_Shared/constant/matchState";
-import { useMyCommunityRoleIdx } from "../../../../../../../../../../../../4_Shared/lib/useMyInfo";
+import useDeleteChampionshipMatch from "../../../../../../../../../../3_Entity/Championship/useDeleteChampionshipMatch";
+import usePutChampionshipMatchEnd from "../../../../../../../../../../3_Entity/Championship/usePutChampionshipMatchEnd";
+import { matchState } from "../../../../../../../../../../4_Shared/constant/matchState";
+import { useMyCommunityRoleIdx } from "../../../../../../../../../../4_Shared/lib/useMyInfo";
 
 const ChampionshipMatchCard = (props: ChampionshipMatchCardProps) => {
   const {

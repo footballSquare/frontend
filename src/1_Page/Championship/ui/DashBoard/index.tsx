@@ -1,5 +1,5 @@
 import React from "react";
-import PlayerRow from "./ui/PlayerTab/ui/PlayerRow";
+import PlayerRow from "./ui/PlayerRow";
 import LeagueBracket from "./ui/LeagueBracket";
 import TournamentBracket from "./ui/TournamentBracket";
 import MatchListTab from "./ui/MatchListTab";

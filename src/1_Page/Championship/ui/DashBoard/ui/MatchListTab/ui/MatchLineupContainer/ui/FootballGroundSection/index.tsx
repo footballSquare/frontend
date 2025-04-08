@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { matchPosition } from "../../../../../../../../../../../../4_Shared/constant/matchPosition";
-import { formations } from "../../../../../../../../../../../../2_Widget/MatchModal/ui/FormationPanel/constant/formation";
+import { formations } from "../../../../../../../../../../2_Widget/MatchModal/ui/FormationPanel/constant/formation";
+import { matchPosition } from "../../../../../../../../../../4_Shared/constant/matchPosition";
 
 const FootballGroundSection = (props: FootballGroundSectionProps) => {
   const { players, teamFormation, isFirstTeam, isFormationView, momPlayerIdx } =
