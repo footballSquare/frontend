@@ -12,6 +12,7 @@ export default ({ mode }: { mode: string }) => {
           changeOrigin: true,
           rewrite: (path) => path.replace(/^\/api/, ""),
         },
+        
       },
     },
     plugins: [react(), tailwindcss()],
