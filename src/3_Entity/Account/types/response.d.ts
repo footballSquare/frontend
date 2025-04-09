@@ -42,3 +42,24 @@ type SignInData = {
 type DiscordOAuthUrl = {
   url: string;
 };
+
+type MyInfo = {
+  user_idx: number;
+  phone: string;
+  id: string;
+  discord_id: string;
+  nickname: string;
+  profile_image: string | null;
+  platform: string | null;
+  common_status_idx: number;
+  message: string | null;
+  discord_tag: string | null;
+  mmr: number;
+  player_status: string;
+  match_position_idx: number;
+  team_idx: number | null;
+  team_name: string | null;
+  team_short_name: string | null;
+  team_color: string | null;
+  team_emblem: string | null;
+}
