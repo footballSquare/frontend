@@ -7,7 +7,7 @@ type Awards = {
   championship_list_color: string;
 };
 
-type Platform = "PC" | "XBOX" | "PS4";
+type Platform = "pc" | "xbox" | "playstation";
 
 type UserInfo = {
   is_mine: boolean;

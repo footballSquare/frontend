@@ -6,12 +6,10 @@ import discord from "../../../../4_Shared/assets/svg/discord.svg";
 import { schema } from "./lib/schema";
 import { hasChanges } from "./util/validate";
 import { convertToInfoForm } from "./util/convert";
-import useModifyHandler from "./model/useModifyHandler";
 // 상수
 import { platform } from "../../../../4_Shared/constant/platform";
 import { matchPosition } from "../../../../4_Shared/constant/matchPosition";
 import { commonStatusIdx } from "../../../../4_Shared/constant/commonStatusIdx";
-
 import usePutUserInfo from "../../../../3_Entity/Account/usePutUserInfo";
 import useDeleteUser from "../../../../3_Entity/Account/useDeleteUser";
 import {
@@ -19,15 +17,10 @@ import {
   useRemoveAllCookie,
 } from "../../../../4_Shared/lib/useMyInfo";
 import { getPositionColor } from "../../../../4_Shared/lib/getPositionColor";
+import useManageModifyAndServerState from "./model/useManageModifyAndServerState";
 
 const PlayerDashBoard = (props: PlayerDashBoardProps) => {
-  const {
-    is_mine,
-    team_short_name,
-    team_name,
-    team_emblem,
-    match_position_idx,
-  } = props;
+  const { is_mine, team_short_name, team_name, team_emblem } = props; // 뷸변값들
 
   const {
     reset,
@@ -35,25 +28,29 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
     handleSubmit,
     getValues,
     formState: { errors },
+    watch,
   } = useForm<UserInfoForm>({
     resolver: yupResolver(schema),
     mode: "onChange",
   });
 
+  const match_position_idx = watch("match_position_idx");
   const userInfoForm = React.useMemo(() => convertToInfoForm(props), [props]);
-  const inputBackupDataRef = React.useRef<UserInfoForm>(userInfoForm);
-  const [logOut] = useLogout();
+  React.useEffect(() => {
+    reset(userInfoForm);
+  }, [userInfoForm]); // 초기값 설정
 
-  const { modifyMode, handleCancle, handleModifyFalse, handleModifyTrue } =
-    useModifyHandler({
-      userInfoForm,
-      reset,
-      inputBackupDataRef,
-    });
-
-  const [putUserInfo] = usePutUserInfo();
+  const [putUserInfo, serverState] = usePutUserInfo();
   const [deleteUser] = useDeleteUser();
   const [removeAllCookie] = useRemoveAllCookie();
+  const [logOut] = useLogout();
+
+  const {
+    inputBackupDataRef,
+    modifyMode,
+    handleModifyFalse,
+    handleModifyTrue,
+  } = useManageModifyAndServerState({ serverState, reset });
 
   const onSubmit: SubmitHandler<UserInfoForm> = (data) => {
     handleModifyFalse();
@@ -184,8 +181,8 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
                     : "bg-white border border-gray-100 shadow-sm hover:shadow group-hover:border-blue-200 text-gray-700"
                 }`}>
                 {platform.map((plat, index) => (
-                  <option key={index} value={plat === null ? "X" : plat}>
-                    {plat === null ? "X" : plat}
+                  <option key={index} value={plat?.toLowerCase()}>
+                    {plat}
                   </option>
                 ))}
               </select>
@@ -205,25 +202,21 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
                 <select
                   {...register("match_position_idx")}
                   disabled={!modifyMode}
+                  style={{ color: getPositionColor(match_position_idx) }}
                   className={`w-full p-3 text-sm rounded-lg transition-all duration-200 ${
                     modifyMode
                       ? "border border-blue-400 bg-blue-50 text-blue-700 shadow-sm"
                       : "bg-white border border-gray-100 shadow-sm hover:shadow group-hover:border-blue-200 text-gray-700"
-                  }`}
-                  style={{ color: getPositionColor(match_position_idx) }}>
+                  }`}>
                   {matchPosition.map((position, idx) => (
-                    <option key={`match-position-${position}`} value={idx}>
+                    <option
+                      key={`match-position-${position}`}
+                      value={idx}
+                      style={{ color: getPositionColor(idx) }}>
                       {position}
                     </option>
                   ))}
                 </select>
-                {!modifyMode && (
-                  <div
-                    className="absolute right-3 top-1/2 transform -translate-y-1/2 px-2 py-1 rounded-full text-xs font-bold"
-                    style={{ color: getPositionColor(match_position_idx) }}>
-                    {matchPosition[match_position_idx]}
-                  </div>
-                )}
               </div>
               {errors.match_position_idx && (
                 <p className="text-red-500 text-xs mt-1 pl-2">
@@ -280,7 +273,10 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
                   <button
                     type="button"
                     className="w-1/2 py-2.5 border-2 border-red-500 text-red-500 rounded-lg text-sm font-bold hover:bg-red-500 hover:text-white transition-all shadow-sm"
-                    onClick={handleCancle}>
+                    onClick={() => {
+                      handleModifyFalse();
+                      reset(inputBackupDataRef.current);
+                    }}>
                     취소
                   </button>
                   <button

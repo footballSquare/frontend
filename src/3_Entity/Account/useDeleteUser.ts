@@ -2,8 +2,8 @@ import React from "react";
 import { useFetchData } from "../../4_Shared/util/apiUtil";
 
 const useDeleteUser = (): [
-  deleteEvent: () => void,
-  serverState: unknown,
+  deleteUser: () => void,
+  Record<string, unknown> | null,
   loading: boolean
 ] => {
   const [serverState, request, loading] = useFetchData();

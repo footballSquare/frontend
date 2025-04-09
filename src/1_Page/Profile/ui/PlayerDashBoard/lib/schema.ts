@@ -11,7 +11,10 @@ export const schema = yup.object().shape({
   platform: yup
     .string()
     .required("플랫폼은 필수 입력 항목입니다.")
-    .oneOf(["PC", "XBOX", "PS4"] as const, "유효하지 않은 플랫폼입니다."),
+    .oneOf(
+      ["pc", "xbox", "playstation"] as const,
+      "유효하지 않은 플랫폼입니다."
+    ),
   common_status_idx: yup.number().required("common_status_idx는 필수값입니다."),
 
   message: yup
