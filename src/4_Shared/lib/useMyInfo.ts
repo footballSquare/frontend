@@ -43,7 +43,31 @@ export const useLogout = (): [() => void] => {
       removeCookie("team_role_idx");
       removeCookie("team_idx");
       removeCookie("user_idx");
-      navigate('/')
+      navigate("/");
+    },
+  ];
+};
+
+export const useRemoveAllCookie = () => {
+  const [, , removeCookie] = useCookies([
+    "access_token",
+    "community_role_idx",
+    "team_role_idx",
+    "team_idx",
+    "user_idx",
+    "profile_image",
+    "player_status",
+  ]);
+
+  return [
+    () => {
+      removeCookie("access_token", { path: "/" });
+      removeCookie("community_role_idx", { path: "/" });
+      removeCookie("team_role_idx", { path: "/" });
+      removeCookie("team_idx", { path: "/" });
+      removeCookie("user_idx", { path: "/" });
+      removeCookie("profile_image", { path: "/" });
+      removeCookie("player_status", { path: "/" });
     },
   ];
 };
