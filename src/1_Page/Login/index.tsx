@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import LoginInput from "../../4_Shared/hookForm/LoginInput";
 import loginInputSchema from "../../4_Shared/hookForm/LoginInput/schema";
-import useGetSignIn from "../../3_Entity/Account/useGetSignIn";
+import usePostSignIn from "../../3_Entity/Account/usePostSignIn";
 import discord_icon from "../../4_Shared/assets/svg/discord.svg";
 import useGetDiscordOAuthUrl from "../../3_Entity/Account/useGetDiscordOAuthUrl";
 
@@ -14,7 +14,7 @@ const Login = () => {
   } = useForm({
     resolver: yupResolver(loginInputSchema),
   });
-  const [signInEvent] = useGetSignIn();
+  const [postSignIn] = usePostSignIn();
   const [discordOAuthUrl, discordLoading] = useGetDiscordOAuthUrl();
 
   return (
@@ -23,7 +23,7 @@ const Login = () => {
         <h1 className="text-2xl font-bold mb-6 text-center">Login</h1>
         <form
           onSubmit={handleSubmit((data) => {
-            signInEvent({ id: data.id, password: data.password });
+            postSignIn({ id: data.id, password: data.password });
           })}
           className="flex flex-col gap-4"
         >
