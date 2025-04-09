@@ -27,8 +27,3 @@ dist-ssr
 *.tsbuildinfo
 
 *.pem
-
-src/main.tsx
-.gitignore
-vite.config.ts
-src/4_Shared/util
