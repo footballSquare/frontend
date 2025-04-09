@@ -3,19 +3,22 @@ import { useFetchData } from "../../4_Shared/util/apiUtil";
 
 const useGetChampionshipMatchList = (
   championshipListIdx: number
-): [ChampionshipMatchList[], boolean] => {
+): [ChampionshipMatchList[], () => void, boolean] => {
   const [serverState, request, loading] = useFetchData();
   const [matchList, setMatchList] = React.useState<ChampionshipMatchList[]>([]);
 
-  React.useEffect(() => {
+  const fetchMatchList = React.useCallback(() => {
     const endPoint = `/championship/${championshipListIdx}/championship_match`;
     request("GET", endPoint, null, true);
-  }, []);
+  }, [championshipListIdx, request]);
+
+  React.useEffect(() => {
+    fetchMatchList();
+  }, [fetchMatchList]);
 
   React.useEffect(() => {
     if (!loading && serverState) {
       if (
-        serverState &&
         "championship_match" in serverState &&
         Array.isArray(serverState.championship_match)
       ) {
@@ -26,7 +29,6 @@ const useGetChampionshipMatchList = (
     }
   }, [loading, serverState]);
 
-  return [matchList, loading];
+  return [matchList, fetchMatchList, loading];
 };
-
 export default useGetChampionshipMatchList;
