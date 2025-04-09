@@ -34,13 +34,13 @@ const ChampionshipForm = () => {
     handleSubmit,
     control,
     watch,
-    formState: { isSubmitting },
+    formState: { isSubmitting, errors },
   } = method;
 
   // useFieldArray로 championship_award 필드 동적 제어
-  const { fields } = useFieldArray({
+  const { fields, append, remove } = useFieldArray({
+    name: "championship_award_name",
     control,
-    name: "championship_award",
   });
 
   // 현재 선택된 값들
@@ -55,7 +55,7 @@ const ChampionshipForm = () => {
 
   // 대회
   return (
-    <div className="max-w-4xl mx-auto h-fit min-h-full bg-white shadow-lg rounded-xl ">
+    <div className="w-[80%] h-fit min-h-full bg-white shadow-lg rounded-xl ">
       {/* 헤더 */}
       <div
         className="p-6 text-white relative"
@@ -142,8 +142,12 @@ const ChampionshipForm = () => {
           )}
 
           {/* 팀 선택 탭 */}
-
-          {activeTab === CHAMPIONSHIP_EDIT_TAB.TEAMS && (
+          {/* 팀 선택 탭의 무한스크롤 로직이 초기화 되는것 방지 위해 hidden 사용*/}
+          <div
+            className={
+              activeTab === CHAMPIONSHIP_EDIT_TAB.TEAMS ? "space-y-6" : "hidden"
+            }
+            aria-hidden={activeTab !== CHAMPIONSHIP_EDIT_TAB.TEAMS}>
             <div className="space-y-6">
               <TeamTab />
               <div className="pt-4 flex justify-between">
@@ -161,12 +165,12 @@ const ChampionshipForm = () => {
                 </button>
               </div>
             </div>
-          )}
+          </div>
 
           {/* 수상 항목 탭 */}
           {activeTab === CHAMPIONSHIP_EDIT_TAB.AWARDS && (
             <div className="space-y-6">
-              <AwardTab />
+              <AwardTab fields={fields} append={append} remove={remove} />
               <div className="pt-4 flex justify-between">
                 <button
                   type="button"
@@ -191,7 +195,10 @@ const ChampionshipForm = () => {
               <div className="pt-6 flex justify-between">
                 <button
                   type="button"
-                  onClick={() => setActiveTab(CHAMPIONSHIP_EDIT_TAB.AWARDS)}
+                  // onClick={() => setActiveTab(CHAMPIONSHIP_EDIT_TAB.AWARDS)}
+                  onClick={() => {
+                    console.log(errors);
+                  }}
                   className="px-6 py-2.5 border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition">
                   이전: 수상 항목
                 </button>

@@ -1,4 +1,5 @@
 import { useFieldArray, useFormContext } from "react-hook-form";
+import { championshipTypes } from "../../../../4_Shared/constant/championshipTypes";
 
 const DateTab = () => {
   const {
@@ -11,6 +12,9 @@ const DateTab = () => {
     control,
     name: "championship_award",
   });
+
+  const championshipType = watch("championship_type_idx");
+
   return (
     <div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -24,7 +28,7 @@ const DateTab = () => {
           />
           {errors.championship_list_start_date && (
             <p className="text-red-500 text-sm mt-1">
-              {errors.championship_list_start_date.message}
+              {errors.championship_list_start_date.message as string}
             </p>
           )}
         </div>
@@ -38,7 +42,7 @@ const DateTab = () => {
           />
           {errors.championship_list_end_date && (
             <p className="text-red-500 text-sm mt-1">
-              {errors.championship_list_end_date.message}
+              {errors.championship_list_end_date.message as string}
             </p>
           )}
         </div>

@@ -2,7 +2,7 @@ import { useFormContext } from "react-hook-form";
 import { getTextColorFromBackground } from "../../../../../../4_Shared/lib/colorChecker";
 
 const TeamCard = (props: TeamCardProps) => {
-  const { teamInfo, handleTeamClick } = props;
+  const { teamInfo, handleTeamClick, observeRef } = props;
   const { watch } = useFormContext();
   const selectedTeams = watch("participation_team_idxs");
   const isSelected = selectedTeams.includes(teamInfo.team_list_idx);
@@ -12,6 +12,7 @@ const TeamCard = (props: TeamCardProps) => {
 
   return (
     <div
+      ref={observeRef}
       onClick={() => handleTeamClick(teamInfo.team_list_idx)}
       className={`relative flex items-center p-4 rounded-lg shadow-sm cursor-pointer transition-all duration-200 overflow-hidden ${
         isSelected
