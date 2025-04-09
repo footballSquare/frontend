@@ -1,6 +1,5 @@
 import React from "react";
 import { useFetchData } from "../../4_Shared/util/apiUtil";
-import { mockCommunityInfo } from "../../4_Shared/mock/communityInfo";
 
 const useGetCommunityInfo = (
   props: UseGetCommunityInfoProps
@@ -8,11 +7,11 @@ const useGetCommunityInfo = (
   const { communityIdx } = props;
   const [serverState, request, loading] = useFetchData();
   const [communityInfo, setCommunityInfo] =
-    React.useState<Community>(mockCommunityInfo);
+    React.useState<Community>({} as Community);
 
   React.useEffect(() => {
     request("GET", `/community/${communityIdx}`, null, false);
-  }, [communityIdx]);
+  }, [communityIdx, request]);
 
   React.useEffect(() => {
     if (!loading && serverState) {

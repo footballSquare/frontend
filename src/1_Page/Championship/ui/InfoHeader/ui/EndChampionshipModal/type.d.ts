@@ -1,3 +1,0 @@
-type EndChampionshipModalProps = {
-  handleToggleModal: () => void;
-};

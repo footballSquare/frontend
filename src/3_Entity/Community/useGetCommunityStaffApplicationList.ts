@@ -14,7 +14,7 @@ const useGetCommunityStaffApplicationList = (
     React.useState<CommunityStaffApplication[]>([]);
 
   React.useEffect(() => {
-    request("GET", `/community/${communityIdx}/staff/application`, null, true);
+    request("GET", `/community/${communityIdx}/staff/application`, null, false);
   }, [communityIdx, request]);
 
   React.useEffect(() => {

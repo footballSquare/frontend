@@ -1,13 +1,10 @@
-type PlayerDashBoardProps = Omit<
-  UserInfo,
-  "match_count" | "winning_rate" | "trophies" | "mmr"
->;
+type PlayerDashBoardProps = Omit<UserInfo, "Awards" | "mmr">;
 
 type UserInfoForm = {
   nickname: string;
-  platform: "pc" | "xbox" | "playstation" | "X";
+  platform: Platform;
   discord_tag: string;
   common_status_idx: number;
-  state_message: string;
-  position: number;
+  message: string | null;
+  match_position_idx: number;
 };

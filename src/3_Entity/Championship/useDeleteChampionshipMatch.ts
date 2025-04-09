@@ -8,14 +8,15 @@ const useDeleteChampionshipMatch = (): [
   const [serverState, request, loading] = useFetchData();
 
   const deleteChampionshipMatch = (championshipMatchIdx: number) => {
-    const endPoint =
-      import.meta.env.VITE_SERVER_URL +
-      `/championship/championship_match/${championshipMatchIdx}`;
+    const endPoint = `/championship/championship_match/${championshipMatchIdx}`;
     request("DELETE", endPoint, null, true);
   };
   React.useEffect(() => {
     if (!loading && serverState) {
       switch (serverState.status) {
+        case 200:
+          alert("삭제되었습니다.");
+          break;
         case 403:
           console.log(serverState.message);
           break;

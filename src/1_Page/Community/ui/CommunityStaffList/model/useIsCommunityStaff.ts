@@ -10,7 +10,10 @@ const useIsCommunityStaff = (
 
   React.useEffect(() => {
     setIsCommunityStaff(
-      communityStaffList.some((elem) => elem.player_list_idx === userIdx)
+      communityStaffList.some(
+        (elem) =>
+          elem.player_list_idx === userIdx && elem.community_role_idx === 0
+      )
     );
   }, [communityStaffList, setIsCommunityStaff, userIdx]);
 

@@ -8,11 +8,16 @@ const usePutProfileImage = (): [
   const [serverState, request, loading] = useFetchData();
 
   const putProfileImage = (file: File | null) => {
-    if (!file) return;
-    const formData = new FormData();
-    formData.append("file", file);
-    const endPoint = "/account/profileimage ";
-    request("PUT", endPoint, formData, true);
+    const endPoint = "/account/profileimage";
+    let payload: FormData | null = null;
+
+    if (file) {
+      const formData = new FormData();
+      formData.append("file", file);
+      payload = formData;
+    }
+
+    request("PUT", endPoint, payload, true);
   };
 
   return [putProfileImage, serverState, loading];

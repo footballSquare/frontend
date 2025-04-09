@@ -5,6 +5,11 @@ type UsePostCreateChampionshipMatchProps = {
 };
 
 type UsePutChampionshipEndProps = {
-  team_list_idx: number;
-  player_list_idx: number;
+  winner_team_idx: number;
+  awards: PutChampionshipEndAward[];
+};
+
+type PutChampionshipEndAward = {
+  championship_award_idx: number;
+  championship_winner_idxs: number[];
 };

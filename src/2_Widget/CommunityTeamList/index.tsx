@@ -1,6 +1,7 @@
 import useGetCommunityTeamList from "../../3_Entity/Community/useGetCommunityTeamList";
 import React from "react";
 import useInfiniteScrollPaging from "../../4_Shared/model/useInfiniteScrollPaging";
+import { useNavigate } from "react-router-dom";
 const CommunityTeamList = (props: CommunityTeamListProps) => {
   const { communityIdx, modifyMode } = props;
   const [page, setPage] = React.useState<number>(0);
@@ -13,6 +14,8 @@ const CommunityTeamList = (props: CommunityTeamListProps) => {
     loading,
     hasMoreContent
   );
+  const navigate = useNavigate();
+
   return (
     <div className="bg-gray-50 rounded-xl shadow-md w-full flex flex-col gap-4 overflow-y-auto p-4">
       {communityTeamList.map((team, index) => {
@@ -27,7 +30,12 @@ const CommunityTeamList = (props: CommunityTeamListProps) => {
             <h3 className="text-lg font-semibold text-gray-800">
               TEAM - {team.team_list_name}
             </h3>
-            <button className="border bg-white border-gray-300 p-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-100 transition">
+            <button
+              onClick={() => {
+                navigate(`/team/${team.team_list_idx}`);
+              }}
+              className="border bg-white border-gray-300 p-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-100 transition"
+            >
               팀 페이지로 이동하기
             </button>
             {modifyMode && (

@@ -7,33 +7,26 @@ type Awards = {
   championship_list_color: string;
 };
 
-type Platform = "pc" | "xbox" | "playstation" | null;
+type Platform = "pc" | "xbox" | "playstation";
 
 type UserInfo = {
-  // 본인확인
   is_mine: boolean;
-  // idx
   user_idx: number;
-  team_idx: number;
-  // 유저 데이터
-  nickname: string;
-  profile_image: string | null;
-  platform: Platform;
+  Awards: Awards[];
   discord_tag: string;
-  player_status: "pending" | "active" | "deleted";
-  state_message: string;
-  position: number;
-  // 팀데이터
-  team_name: string | null;
-  short_team_name: string | null;
-  team_emblem: string | null;
-  // 구직상태
-  common_status_idx: number;
-  // 유저 스펙
-  match_count: number;
-  winning_rate: number;
-  trophies: Awards[] | null;
+  message: string | null;
   mmr: number;
+  nickname: string;
+  platform: Platform;
+  player_status: "pending" | "active" | "deleted";
+  common_status_idx: number;
+  profile_image: string | null;
+  team_color: string;
+  team_emblem: string | null;
+  team_idx: number | null;
+  team_name: string | null;
+  team_short_name: string | null;
+  match_position_idx: number;
 };
 
 type SignInData = {
@@ -49,3 +42,24 @@ type SignInData = {
 type DiscordOAuthUrl = {
   url: string;
 };
+
+type MyInfo = {
+  user_idx: number;
+  phone: string;
+  id: string;
+  discord_id: string;
+  nickname: string;
+  profile_image: string | null;
+  platform: string | null;
+  common_status_idx: number;
+  message: string | null;
+  discord_tag: string | null;
+  mmr: number;
+  player_status: string;
+  match_position_idx: number;
+  team_idx: number | null;
+  team_name: string | null;
+  team_short_name: string | null;
+  team_color: string | null;
+  team_emblem: string | null;
+}

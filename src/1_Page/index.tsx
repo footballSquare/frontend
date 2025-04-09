@@ -10,12 +10,8 @@ import Login from "./Login";
 import Championship from "./Championship";
 import { useIsLogin } from "../4_Shared/lib/useMyInfo";
 
-const TEST = import.meta.env.VITE_TEST;
-
-
 const Page = () => {
-  console.log(TEST)
-  const [isLogin] = useIsLogin()// accessToken 존재 여부 확인
+  const [isLogin] = useIsLogin(); // accessToken 존재 여부 확인
   return (
     <div className="w-full h-full flex justify-center">
       <Routes>
@@ -26,7 +22,7 @@ const Page = () => {
             // <Navigate to={PAGE_URI.Main} />
           }
         />
-        
+
         <Route path={PAGE_URI.MAIN} element={<Main />} />
         <Route path={PAGE_URI.TEAMLIST} element={<Main />} />
         <Route path={`${PAGE_URI.TEAM}/:teamIdx`} element={<Team />} />

@@ -10,6 +10,7 @@ const useGetChampionshipTeams = (
   >([]);
 
   React.useEffect(() => {
+    if (championshipListIdx === 0) return;
     const endPoint = `/championship/${championshipListIdx}/participation_team`;
     request("GET", endPoint, null, true);
   }, []);

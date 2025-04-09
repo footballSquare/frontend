@@ -16,7 +16,7 @@ const useGetOpenMatchList = (
   }, [page, request]);
 
   React.useEffect(() => {
-    if (serverState) {
+    if (!loading && serverState) {
       setOpenMatchList((prev) => [
         ...prev,
         ...(serverState as { match: MatchInfo[] }).match,
