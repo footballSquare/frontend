@@ -18,9 +18,11 @@ import {
 } from "../../../../4_Shared/lib/useMyInfo";
 import { getPositionColor } from "../../../../4_Shared/lib/getPositionColor";
 import useManageModifyAndServerState from "./model/useManageModifyAndServerState";
+import { useNavigate } from "react-router-dom";
 
 const PlayerDashBoard = (props: PlayerDashBoardProps) => {
   const { is_mine, team_short_name, team_name, team_emblem } = props; // 뷸변값들
+  const navigate = useNavigate();
 
   const {
     reset,
@@ -296,6 +298,7 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
                 if (confirm("정말로 삭제하시겠습니까?")) {
                   deleteUser();
                   removeAllCookie();
+                  navigate("/");
                 }
               }}>
               탈퇴
