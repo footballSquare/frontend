@@ -6,7 +6,7 @@ const AwardTab = (props: AwartTabProps) => {
   const { fields, append, remove } = props;
   const {
     formState: { errors },
-  } = useFormContext();
+  } = useFormContext<ChampionshipFormValues>();
 
   return (
     <div>
@@ -35,10 +35,22 @@ const AwardTab = (props: AwartTabProps) => {
         )}
       </div>
 
-      {errors.championship_award && (
-        <p className="text-red-500 text-sm mt-2">
-          {errors.championship_award.message as string}
-        </p>
+      {Array.isArray(errors?.championship_award) && (
+        <div>
+          {errors.championship_award[0]?.championship_award_name && (
+            <p className="text-red-500 text-sm mt-1">
+              {
+                errors.championship_award[0].championship_award_name
+                  ?.message as string
+              }
+            </p>
+          )}
+          {errors.championship_award[0]?.file && (
+            <p className="text-red-500 text-sm mt-1">
+              {errors.championship_award[0].file?.message as string}
+            </p>
+          )}
+        </div>
       )}
     </div>
   );

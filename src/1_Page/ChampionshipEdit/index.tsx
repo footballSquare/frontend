@@ -3,6 +3,8 @@ import {
   SubmitHandler,
   useFieldArray,
   FormProvider,
+  SubmitErrorHandler,
+  useWatch,
 } from "react-hook-form";
 import React from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -14,15 +16,14 @@ import { championshipTypes } from "../../4_Shared/constant/championshipTypes";
 import TeamTab from "./ui/TeamTab";
 import { CHAMPIONSHIP_EDIT_TAB } from "./constant/tab";
 import AwardTab from "./ui/AwardTab";
-import useImageHandler from "./model/useImageHandler";
 import BasicTab from "./ui/BasicTab";
 import DateTab from "./ui/DateTab";
+import { errorLocationDetector } from "./lib/errors";
 
 const ChampionshipForm = () => {
   const [activeTab, setActiveTab] = React.useState<ChampionshipEditTab>(
     CHAMPIONSHIP_EDIT_TAB.BASIC
   );
-  const [previewImage, handleImageChange] = useImageHandler();
 
   const method = useForm<ChampionshipFormValues>({
     resolver: yupResolver(schema),
@@ -39,18 +40,40 @@ const ChampionshipForm = () => {
 
   // useFieldArray로 championship_award 필드 동적 제어
   const { fields, append, remove } = useFieldArray({
-    name: "championship_award_name",
+    name: "championship_award",
     control,
   });
 
   // 현재 선택된 값들
   const championshipType = watch("championship_type_idx");
   const championshipColor = watch("championship_list_color");
+  // const [previewImage, handleImageChange] = useImageHandler(setValue);
 
-  // 폼 제출
-  const onSubmit: SubmitHandler<ChampionshipFormValues> = (data) => {
+  const selectedFile = useWatch({
+    control,
+    name: `championship_trophy_img`,
+  });
+
+  const filePreview = React.useMemo(() => {
+    if (selectedFile instanceof File) {
+      return URL.createObjectURL(selectedFile);
+    }
+    return null;
+  }, [selectedFile]);
+
+  // 성공 시 처리
+  const onValid: SubmitHandler<ChampionshipFormValues> = (data) => {
     console.log("폼 전송 데이터:", data);
     alert("대회 생성/수정이 완료되었습니다!");
+  };
+
+  // 에러 발생 시 처리
+  const onInvalid: SubmitErrorHandler<ChampionshipFormValues> = (errors) => {
+    // errors 객체 검사 → 탭 위치 찾기
+    const errorLocation = errorLocationDetector(errors);
+    if (errorLocation) {
+      setActiveTab(errorLocation);
+    }
   };
 
   // 대회
@@ -68,7 +91,7 @@ const ChampionshipForm = () => {
         </p>
         <div className="absolute right-6 bottom-6 w-16 h-16 rounded-full bg-white bg-opacity-20 flex items-center justify-center">
           <img
-            src={previewImage || uploadSvg}
+            src={filePreview || uploadSvg}
             alt="Trophy"
             className="w-10 h-10 object-contain"
           />
@@ -122,14 +145,11 @@ const ChampionshipForm = () => {
 
       {/* 폼 컨텐츠 */}
       <FormProvider {...method}>
-        <form onSubmit={handleSubmit(onSubmit)} className="p-6">
+        <form onSubmit={handleSubmit(onValid, onInvalid)} className="p-6">
           {/* 기본 정보 탭 */}
           {activeTab === CHAMPIONSHIP_EDIT_TAB.BASIC && (
             <div className="space-y-6">
-              <BasicTab
-                previewImage={previewImage}
-                handleImageChange={handleImageChange}
-              />
+              <BasicTab />
               <div className="pt-4 flex justify-end">
                 <button
                   type="button"

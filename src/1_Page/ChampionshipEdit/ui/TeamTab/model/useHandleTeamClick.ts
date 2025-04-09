@@ -1,9 +1,3 @@
-type UseHandleTeamClickProps = {
-  championshipType: number;
-  watch: (name: string) => number[];
-  setValue: (name: string, value: number[]) => void;
-};
-
 const useHandleTeamClick = (props: UseHandleTeamClickProps) => {
   const { championshipType, watch, setValue } = props;
   const handleTeamClick = (teamIdx: number) => {
