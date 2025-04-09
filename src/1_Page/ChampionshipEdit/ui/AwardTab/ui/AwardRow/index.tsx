@@ -2,22 +2,21 @@ import React from "react";
 import { useFormContext, useWatch } from "react-hook-form";
 import garbage from "../../../../../../4_Shared/assets/svg/garbage.svg";
 import placeholder from "../../../../../../4_Shared/assets/svg/placeholder.svg";
+import { imgConverter } from "../../../../../../4_Shared/lib/imgConverter";
 
 const AwardRow = (props: AwardRowProps) => {
   const { index, field, remove } = props;
-  const { control, register } = useFormContext<ChampionshipFormValues>();
+  const { control, register, setValue } =
+    useFormContext<ChampionshipFormValues>();
 
   const selectedFile = useWatch({
     control,
     name: `championship_award.${index}.file`,
   });
-
-  const filePreview = React.useMemo(() => {
-    if (selectedFile instanceof FileList && selectedFile.length > 0) {
-      return URL.createObjectURL(selectedFile[0]);
-    }
-    return null;
-  }, [selectedFile]);
+  const filePreview = React.useMemo(
+    () => imgConverter(selectedFile),
+    [selectedFile]
+  );
 
   return (
     <div
@@ -50,10 +49,18 @@ const AwardRow = (props: AwardRowProps) => {
         사진 추가
         <input
           type="file"
-          accept="image/png, image/jpeg"
+          accept="image/*"
           className="hidden"
           {...register(`championship_award.${index}.file` as const, {
-            setValueAs: (v) => v[0], // FileList에서 첫번째 File 추출
+            onChange: (e) => {
+              const file = e.target.files?.[0];
+              if (file) {
+                console.log(file);
+                setValue(`championship_award.${index}.file`, file, {
+                  shouldValidate: true,
+                });
+              }
+            },
           })}
         />
       </label>

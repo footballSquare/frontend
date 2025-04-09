@@ -63,6 +63,16 @@ export const schema = Yup.object().shape({
   participation_team_idxs: Yup.array()
     .of(Yup.number().required("참여 팀 인덱스가 누락되었습니다."))
     .required("참여 팀 목록 인덱스를 입력해주세요."),
+
+  team_all_success: Yup.bool()
+    .required()
+    .test(
+      "all team Success",
+      "토너먼트에 알맞은 팀 수를 입력하세요",
+      (value) => {
+        return value;
+      }
+    ),
 });
 
 export const defaultValues = {
@@ -76,4 +86,5 @@ export const defaultValues = {
   community_list_idx: 0,
   championship_trophy_img: undefined,
   championship_award: [],
+  team_all_success: false,
 };

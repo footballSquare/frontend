@@ -1,5 +1,5 @@
 type UseHandleTeamClickProps = {
   championshipType: number;
-  watch: (name: string) => number[];
-  setValue: (name: string, value: number[]) => void;
+  participation_team_idxs: number[];
+  setValue: UseFornSetValue<ChampionshipFormValues>;
 };

@@ -3,6 +3,7 @@ import uploadSvg from "../../../../4_Shared/assets/svg/upload.svg";
 import emptySvg from "../../../../4_Shared/assets/svg/empty-img.svg";
 import { championshipTypes } from "../../../../4_Shared/constant/championshipTypes";
 import React from "react";
+import { imgConverter } from "../../../../4_Shared/lib/imgConverter";
 
 const BasicTab = () => {
   const {
@@ -19,12 +20,10 @@ const BasicTab = () => {
     name: `championship_trophy_img`,
   });
 
-  const filePreview = React.useMemo(() => {
-    if (selectedFile instanceof File) {
-      return URL.createObjectURL(selectedFile);
-    }
-    return null;
-  }, [selectedFile]);
+  const filePreview = React.useMemo(
+    () => imgConverter(selectedFile),
+    [selectedFile]
+  );
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

@@ -19,6 +19,7 @@ import AwardTab from "./ui/AwardTab";
 import BasicTab from "./ui/BasicTab";
 import DateTab from "./ui/DateTab";
 import { errorLocationDetector } from "./lib/errors";
+import { imgConverter } from "../../4_Shared/lib/imgConverter";
 
 const ChampionshipForm = () => {
   const [activeTab, setActiveTab] = React.useState<ChampionshipEditTab>(
@@ -30,36 +31,28 @@ const ChampionshipForm = () => {
     defaultValues,
   });
 
-  // useForm 훅 초기화 (타입: ChampionshipFormValues)
   const {
     handleSubmit,
     control,
     watch,
     formState: { isSubmitting, errors },
   } = method;
-
-  // useFieldArray로 championship_award 필드 동적 제어
   const { fields, append, remove } = useFieldArray({
     name: "championship_award",
     control,
   });
-
-  // 현재 선택된 값들
-  const championshipType = watch("championship_type_idx");
-  const championshipColor = watch("championship_list_color");
-  // const [previewImage, handleImageChange] = useImageHandler(setValue);
-
   const selectedFile = useWatch({
     control,
     name: `championship_trophy_img`,
   });
-
-  const filePreview = React.useMemo(() => {
-    if (selectedFile instanceof File) {
-      return URL.createObjectURL(selectedFile);
-    }
-    return null;
-  }, [selectedFile]);
+  const filePreview = React.useMemo(
+    () => imgConverter(selectedFile),
+    [selectedFile]
+  );
+  // 현재 선택된 값들
+  const championshipType = watch("championship_type_idx");
+  const championshipColor = watch("championship_list_color");
+  // const [previewImage, handleImageChange] = useImageHandler(setValue);
 
   // 성공 시 처리
   const onValid: SubmitHandler<ChampionshipFormValues> = (data) => {

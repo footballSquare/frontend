@@ -1,7 +1,22 @@
+import React from "react";
+import { matchCount } from "../../../../../4_Shared/constant/matchCount";
+
 const useHandleTeamClick = (props: UseHandleTeamClickProps) => {
-  const { championshipType, watch, setValue } = props;
+  const { championshipType, participation_team_idxs, setValue } = props;
+
+  React.useEffect(() => {
+    if (championshipType === 0) {
+      setValue("team_all_success", true);
+    } else if (
+      participation_team_idxs?.length === matchCount[championshipType]
+    ) {
+      setValue("team_all_success", true);
+    } else {
+      setValue("team_all_success", false);
+    }
+  }, [championshipType, participation_team_idxs, setValue]);
+
   const handleTeamClick = (teamIdx: number) => {
-    const currentTeams = watch("participation_team_idxs");
     // 토너먼트라면 최대 팀 수 제한
     let maxTeams = 9999;
     if (championshipType === 2) {
@@ -15,15 +30,18 @@ const useHandleTeamClick = (props: UseHandleTeamClickProps) => {
       maxTeams = 4;
     }
     // 이미 선택된 상태라면 해제
-    if (currentTeams.includes(teamIdx)) {
+    if (participation_team_idxs.includes(teamIdx)) {
       setValue(
         "participation_team_idxs",
-        currentTeams.filter((id: number) => id !== teamIdx)
+        participation_team_idxs.filter((id: number) => id !== teamIdx)
       );
     } else {
       // 아직 선택되지 않았고, 최대 수 미만이면 추가
-      if (currentTeams.length < maxTeams) {
-        setValue("participation_team_idxs", [...currentTeams, teamIdx]);
+      if (participation_team_idxs.length < maxTeams) {
+        setValue("participation_team_idxs", [
+          ...participation_team_idxs,
+          teamIdx,
+        ]);
       } else {
         alert(
           `${

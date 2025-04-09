@@ -21,6 +21,7 @@ type ChampionshipFormValues = {
 
   // 팀 탭
   participation_team_idxs: number[];
+  team_all_success: boolean;
 
   // 데이트 탭
   championship_list_start_date: string;

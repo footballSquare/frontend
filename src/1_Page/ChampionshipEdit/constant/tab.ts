@@ -10,14 +10,15 @@ export const fieldTabMap: Record<
   ChampionshipEditTab
 > = {
   // -- 기본 정보 (basic)
-  community_list_idx: "basic",
   championship_type_idx: "basic",
   championship_list_name: "basic",
   championship_list_description: "basic",
   championship_list_color: "basic",
+  championship_trophy_img: "basic",
 
   // -- 팀 선택 (teams)
   participation_team_idxs: "teams",
+  team_all_success: "teams",
 
   // -- 수상 항목 (awards)
   championship_award: "awards",
