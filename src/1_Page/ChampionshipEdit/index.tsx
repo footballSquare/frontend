@@ -30,8 +30,8 @@ const ChampionshipForm = () => {
   const { mode } = useParams();
   const isEditMode = mode === "edit";
   const isAddmode = mode === "add";
-
   const communityIdx = useParamInteger("communityIdx");
+
   const [postChampionship] = usePostChampionship(communityIdx);
   const [putChampionship] = usePutChampionship(communityIdx);
 
@@ -43,7 +43,6 @@ const ChampionshipForm = () => {
     resolver: yupResolver(schema),
     defaultValues,
   });
-
   const {
     handleSubmit,
     control,
@@ -62,10 +61,8 @@ const ChampionshipForm = () => {
     () => imgConverter(selectedFile),
     [selectedFile]
   );
-  // 현재 선택된 값들
   const championshipType = watch("championship_type_idx");
   const championshipColor = watch("championship_list_color");
-  // const [previewImage, handleImageChange] = useImageHandler(setValue);
 
   // 성공 시 처리
   const onValid: SubmitHandler<ChampionshipFormValues> = (data) => {
@@ -78,9 +75,8 @@ const ChampionshipForm = () => {
     }
   };
 
-  // 에러 발생 시 처리
+  // 에러 발생 시 해당 애러 탭으로 이동
   const onInvalid: SubmitErrorHandler<ChampionshipFormValues> = (errors) => {
-    // errors 객체 검사 → 탭 위치 찾기
     const errorLocation = errorLocationDetector(errors);
     if (errorLocation) {
       setActiveTab(errorLocation);
