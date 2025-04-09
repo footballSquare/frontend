@@ -1,4 +1,8 @@
 import { useFormContext } from "react-hook-form";
+import uploadSvg from "../../../../4_Shared/assets/svg/upload.svg";
+import emptySvg from "../../../../4_Shared/assets/svg/empty-img.svg";
+import { championshipTypes } from "../../../../4_Shared/constant/championshipTypes";
+
 type BasicTabProps = {
   previewImage: string | null;
   handleImageChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -27,7 +31,7 @@ const BasicTab = (props: BasicTabProps) => {
         />
         {errors.championship_list_name && (
           <p className="text-red-500 text-sm mt-1">
-            {errors.championship_list_name.message}
+            {errors.championship_list_name.message as string}
           </p>
         )}
       </div>
@@ -40,14 +44,15 @@ const BasicTab = (props: BasicTabProps) => {
         <select
           className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none bg-white transition"
           {...register("championship_type_idx")}>
-          <option value={1}>리그</option>
-          <option value={2}>16강 토너먼트</option>
-          <option value={3}>8강 토너먼트</option>
+          {championshipTypes.map((select, index) => (
+            <option value={index}>{select}</option>
+          ))}
+
           {/* 필요시 추가 옵션 */}
         </select>
         {errors.championship_type_idx && (
           <p className="text-red-500 text-sm mt-1">
-            {errors.championship_type_idx.message}
+            {errors.championship_type_idx.message as string}
           </p>
         )}
       </div>
@@ -75,7 +80,7 @@ const BasicTab = (props: BasicTabProps) => {
         </div>
         {errors.championship_list_color && (
           <p className="text-red-500 text-sm mt-1">
-            {errors.championship_list_color.message}
+            {errors.championship_list_color.message as string}
           </p>
         )}
       </div>
@@ -92,7 +97,7 @@ const BasicTab = (props: BasicTabProps) => {
                 type="file"
                 accept="image/png, image/jpeg"
                 className="hidden"
-                {...register("championship_list_throphy_img")}
+                {...register("file.0")}
                 onChange={handleImageChange}
               />
               <div className="text-center">
@@ -106,9 +111,9 @@ const BasicTab = (props: BasicTabProps) => {
                 <p className="text-xs text-gray-400">PNG, JPG (최대 2MB)</p>
               </div>
             </label>
-            {errors.championship_list_throphy_img && (
+            {errors.file && (
               <p className="text-red-500 text-sm mt-1">
-                {errors.championship_list_throphy_img.message as string}
+                {errors.file.message as string}
               </p>
             )}
           </div>
@@ -138,7 +143,7 @@ const BasicTab = (props: BasicTabProps) => {
         />
         {errors.championship_list_description && (
           <p className="text-red-500 text-sm mt-1">
-            {errors.championship_list_description.message}
+            {errors.championship_list_description.message as string}
           </p>
         )}
       </div>
