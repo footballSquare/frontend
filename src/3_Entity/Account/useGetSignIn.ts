@@ -16,12 +16,7 @@ const useGetSignIn = (): [(props: SignInEventProps) => void] => {
 
   const signInEvent = (props: SignInEventProps) => {
     const { id, password } = props;
-    request(
-      "GET",
-      `/account/signin?id=${id}&password=${password}`,
-      null,
-      false
-    );
+    request("POST", `/account/signin`, { id, password }, false);
   };
 
   React.useEffect(() => {

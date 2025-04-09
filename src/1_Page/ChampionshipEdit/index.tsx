@@ -20,8 +20,21 @@ import BasicTab from "./ui/BasicTab";
 import DateTab from "./ui/DateTab";
 import { errorLocationDetector } from "./lib/errors";
 import { imgConverter } from "../../4_Shared/lib/imgConverter";
+import useParamInteger from "../../4_Shared/model/useParamInteger";
+import { useParams } from "react-router-dom";
+import usePostChampionship from "../../3_Entity/Community/usePostChampionship";
+import usePutChampionship from "../../3_Entity/Community/usePutChampionship";
+import { convertToAPIChampionship } from "./util/convert";
 
 const ChampionshipForm = () => {
+  const { mode } = useParams();
+  const isEditMode = mode === "edit";
+  const isAddmode = mode === "add";
+
+  const communityIdx = useParamInteger("communityIdx");
+  const [postChampionship] = usePostChampionship(communityIdx);
+  const [putChampionship] = usePutChampionship(communityIdx);
+
   const [activeTab, setActiveTab] = React.useState<ChampionshipEditTab>(
     CHAMPIONSHIP_EDIT_TAB.BASIC
   );
@@ -56,8 +69,13 @@ const ChampionshipForm = () => {
 
   // 성공 시 처리
   const onValid: SubmitHandler<ChampionshipFormValues> = (data) => {
-    console.log("폼 전송 데이터:", data);
-    alert("대회 생성/수정이 완료되었습니다!");
+    const body = convertToAPIChampionship(data);
+    if (isEditMode) {
+      putChampionship(body);
+    }
+    if (isAddmode) {
+      postChampionship(body);
+    }
   };
 
   // 에러 발생 시 처리
@@ -77,7 +95,9 @@ const ChampionshipForm = () => {
         className="p-6 text-white relative"
         style={{ backgroundColor: championshipColor }}>
         <h1 className="text-2xl font-bold">
-          {watch("championship_list_name") || "새로운 대회 생성"}
+          {watch("championship_list_name") || isAddmode
+            ? "새로운 대회 생성"
+            : "대회 수정"}
         </h1>
         <p className="text-white text-opacity-80">
           {championshipTypes[championshipType]}
