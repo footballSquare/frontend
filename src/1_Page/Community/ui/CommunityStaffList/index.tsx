@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import useDeleteCommunityStaff from "../../../../3_Entity/Community/useDeleteCommunityStaff";
 import useGetCommunityStaffList from "../../../../3_Entity/Community/useGetCommunityStaffList";
 import usePostApplyCommunityStaff from "../../../../3_Entity/Community/usePostApplyCommunityStaff";
@@ -12,6 +13,7 @@ const CommunityStaffListPanel = (props: CommunityStaffListPanelProps) => {
   const [isCommunityStaff] = useIsCommunityStaff(communityStaffList);
   const [postApplyCommunityStaff] = usePostApplyCommunityStaff();
   const [kickCommunityStaff] = useDeleteCommunityStaff();
+  const navigate = useNavigate();
 
   return (
     <div className="flex flex-col gap-4">
@@ -20,7 +22,10 @@ const CommunityStaffListPanel = (props: CommunityStaffListPanelProps) => {
           return (
             <div
               key={index}
-              className="flex items-center space-x-2 border border-gray p-2"
+              className="flex items-center space-x-2 border border-gray p-2 cursor-pointer hover:bg-gray-100 rounded-lg"
+              onClick={() => {
+                navigate(`/profile/${staff.player_list_idx}`);
+              }}
             >
               <img
                 src={staff.player_list_profile_img ?? undefined}
