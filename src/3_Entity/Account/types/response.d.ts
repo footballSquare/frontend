@@ -13,7 +13,7 @@ type UserInfo = {
   is_mine: boolean;
   user_idx: number;
   Awards: Awards[];
-  discord_tag: string | null;
+  discord_tag: string;
   message: string | null;
   mmr: number;
   nickname: string;
