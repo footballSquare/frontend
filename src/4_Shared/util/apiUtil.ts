@@ -153,8 +153,12 @@ export const useFetchData = (): [
           console.log("status", status);
           console.log("message", data.message);
           setServerState({ status });
+          console.log("endpoint", endpoint);
+          console.log("body", body);
+          console.log("서버 오류:", status, data);
+
           if (status === 500) {
-            console.error("Internal Server Error:", status, data);
+            console.error("Internal Server Error:", status, data.message);
             alert("알 수 없는 오류.");
           }
         }
