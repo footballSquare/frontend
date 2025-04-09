@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import useGetCommunityTeamApplicationList from "../../../../3_Entity/Community/useGetCommunityTeamApplicationList";
 
 const CommunityTeamApplicationList = (
@@ -10,6 +11,7 @@ const CommunityTeamApplicationList = (
   ] = useGetCommunityTeamApplicationList({
     communityIdx,
   });
+  const navigate = useNavigate();
 
   return (
     <div className="bg-gray-50 rounded-xl shadow-md w-full flex flex-col gap-4 p-4">
@@ -22,7 +24,12 @@ const CommunityTeamApplicationList = (
             <h3 className="text-lg font-semibold text-gray-800">
               TEAM - {application.team_list_name}
             </h3>
-            <button className="border bg-white border-gray-300 p-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-100 transition">
+            <button
+              onClick={() => {
+                navigate(`/team/${application.team_list_idx}`);
+              }}
+              className="border bg-white border-gray-300 p-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-100 transition"
+            >
               팀 페이지로 이동하기
             </button>
 

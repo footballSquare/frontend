@@ -2,7 +2,7 @@ import React from "react";
 import { useCookies } from "react-cookie";
 import { useFetchData } from "../../4_Shared/util/apiUtil";
 
-const useGetSignIn = (): [(props: SignInEventProps) => void] => {
+const usePostSignIn = (): [(props: PostSignInProps) => void] => {
   const [serverState, request, loading] = useFetchData();
   const [, setCookie] = useCookies([
     "player_status",
@@ -14,9 +14,17 @@ const useGetSignIn = (): [(props: SignInEventProps) => void] => {
     "community_role_idx",
   ]);
 
-  const signInEvent = (props: SignInEventProps) => {
+  const postSignIn = (props: PostSignInProps) => {
     const { id, password } = props;
-    request("POST", `/account/signin`, { id, password }, false);
+    request(
+      "POST",
+      `/account/signin`,
+      {
+        id: id,
+        password: password,
+      },
+      false
+    );
   };
 
   React.useEffect(() => {
@@ -48,7 +56,7 @@ const useGetSignIn = (): [(props: SignInEventProps) => void] => {
     }
   }, [loading, serverState, setCookie]);
 
-  return [signInEvent];
+  return [postSignIn];
 };
 
-export default useGetSignIn;
+export default usePostSignIn;

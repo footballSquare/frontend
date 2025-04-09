@@ -1,4 +1,4 @@
-type SignInEventProps = {
+type PostSignInProps = {
   id: string;
   password: string;
 };
