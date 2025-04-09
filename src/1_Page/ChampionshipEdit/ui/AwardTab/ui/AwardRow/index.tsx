@@ -5,11 +5,7 @@ import placeholder from "../../../../../../4_Shared/assets/svg/placeholder.svg";
 
 const AwardRow = (props: AwardRowProps) => {
   const { index, field, remove } = props;
-  const {
-    control,
-    register,
-    formState: { errors },
-  } = useFormContext();
+  const { control, register } = useFormContext<ChampionshipFormValues>();
 
   const selectedFile = useWatch({
     control,
@@ -56,7 +52,9 @@ const AwardRow = (props: AwardRowProps) => {
           type="file"
           accept="image/png, image/jpeg"
           className="hidden"
-          {...register(`championship_award.${index}.file` as const)}
+          {...register(`championship_award.${index}.file` as const, {
+            setValueAs: (v) => v[0], // FileList에서 첫번째 File 추출
+          })}
         />
       </label>
       <button
@@ -65,12 +63,6 @@ const AwardRow = (props: AwardRowProps) => {
         className="ml-2 w-8 h-8 flex items-center justify-center text-gray-500 hover:text-red-500 transition">
         <img src={garbage} />
       </button>
-      {Array.isArray(errors?.championship_award) &&
-        errors.championship_award[index]?.file && (
-          <p className="text-red-500 text-sm mt-1">
-            {errors.championship_award[index].file?.message as string}
-          </p>
-        )}
     </div>
   );
 };

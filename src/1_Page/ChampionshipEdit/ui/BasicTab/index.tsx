@@ -1,23 +1,31 @@
-import { useFormContext } from "react-hook-form";
+import { useFormContext, useWatch } from "react-hook-form";
 import uploadSvg from "../../../../4_Shared/assets/svg/upload.svg";
 import emptySvg from "../../../../4_Shared/assets/svg/empty-img.svg";
 import { championshipTypes } from "../../../../4_Shared/constant/championshipTypes";
+import React from "react";
 
-type BasicTabProps = {
-  previewImage: string | null;
-  handleImageChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-};
-const BasicTab = (props: BasicTabProps) => {
-  const { previewImage, handleImageChange } = props;
-
+const BasicTab = () => {
   const {
     register,
     formState: { errors },
-    watch,
     setValue,
-  } = useFormContext();
+    control,
+    watch,
+  } = useFormContext<ChampionshipFormValues>();
 
   const championshipColor = watch("championship_list_color");
+  const selectedFile = useWatch({
+    control,
+    name: `championship_trophy_img`,
+  });
+
+  const filePreview = React.useMemo(() => {
+    if (selectedFile instanceof File) {
+      return URL.createObjectURL(selectedFile);
+    }
+    return null;
+  }, [selectedFile]);
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
       {/* 대회명 */}
@@ -91,14 +99,22 @@ const BasicTab = (props: BasicTabProps) => {
           트로피 이미지
         </label>
         <div className="flex flex-col md:flex-row items-start gap-4">
-          <div className="w-full md:w-2/3">
+          <div className="w-full flex md:w-2/3">
             <label className="flex items-center justify-center w-full h-32 px-4 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50 transition">
               <input
                 type="file"
-                accept="image/png, image/jpeg"
+                accept="image/*"
                 className="hidden"
-                {...register("file.0")}
-                onChange={handleImageChange}
+                {...register("championship_trophy_img", {
+                  onChange: (e) => {
+                    const file = e.target.files?.[0];
+                    if (file) {
+                      setValue("championship_trophy_img", file, {
+                        shouldValidate: true,
+                      });
+                    }
+                  },
+                })}
               />
               <div className="text-center">
                 <div className="flex items-center justify-center ">
@@ -111,23 +127,22 @@ const BasicTab = (props: BasicTabProps) => {
                 <p className="text-xs text-gray-400">PNG, JPG (최대 2MB)</p>
               </div>
             </label>
-            {errors.file && (
-              <p className="text-red-500 text-sm mt-1">
-                {errors.file.message as string}
-              </p>
-            )}
-          </div>
-
-          {/* 이미지 미리보기 */}
-          <div className="w-full md:w-1/3 flex items-center justify-center">
-            <div className="w-24 h-24 border rounded-lg overflow-hidden flex items-center justify-center bg-gray-50">
-              <img
-                src={previewImage || emptySvg}
-                alt="Trophy Preview"
-                className="max-w-full max-h-full object-contain"
-              />
+            {/* 이미지 미리보기 */}
+            <div className="w-full md:w-1/3 flex items-center justify-center">
+              <div className="w-24 h-24 border rounded-lg overflow-hidden flex items-center justify-center bg-gray-50">
+                <img
+                  src={filePreview || emptySvg}
+                  alt="Trophy Preview"
+                  className="max-w-full max-h-full object-contain"
+                />
+              </div>
             </div>
           </div>
+          {errors.championship_trophy_img && (
+            <p className="text-red-500 text-sm mt-1">
+              {errors.championship_trophy_img.message as string}
+            </p>
+          )}
         </div>
       </div>
 

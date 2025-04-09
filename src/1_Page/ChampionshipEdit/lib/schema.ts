@@ -11,36 +11,6 @@ export const schema = Yup.object().shape({
     .max(500, "대회 설명은 최대 500글자까지 입력 가능합니다.")
     .required("대회 설명을 입력해주세요."),
 
-  file: Yup.array()
-    .of(
-      Yup.mixed<File>()
-        .required("이미지를 선택해주세요.")
-        .test("fileType", "JPG, JPEG, PNG 형식만 가능합니다.", (value) => {
-          if (value && value instanceof File) {
-            return isFileExtension(value);
-          }
-          return false;
-        })
-        .test("fileSize", "1MB를 초과할 수 없습니다.", (value) => {
-          if (value && value instanceof File) {
-            return value.size < 1 * 1024 * 1024;
-          }
-          return true;
-        })
-    )
-    .test(
-      "fileCount",
-      "파일 개수가 올바르지 않습니다. 트로피 이미지와 개인 수상 이미지 갯수가 일치해야 합니다.",
-      function (files) {
-        const { championship_award_name } = this.parent;
-        const awardsCount = Array.isArray(championship_award_name)
-          ? championship_award_name.length
-          : 0;
-        // 전체 파일 수는 트로피 이미지 1개와 개인 수상 이미지 awardsCount 개여야 함
-        return files && files.length === 1 + awardsCount;
-      }
-    )
-    .required("이미지를 선택해주세요."),
   championship_list_color: Yup.string().required("대회 색깔을 선택해주세요."),
   championship_list_start_date:
     Yup.string().required("대회 시작일을 선택해주세요."),
@@ -55,30 +25,55 @@ export const schema = Yup.object().shape({
         return new Date(championship_list_start_date) <= new Date(value);
       }
     ),
-  championship_award_name: Yup.array()
+  championship_trophy_img: Yup.mixed<File>()
+    .required("이미지를 선택해주세요.")
+    .test("fileType", "JPG, PNG, SVG 형식만 가능합니다.", (value) => {
+      return isFileExtension(value);
+    })
+    .test("fileType", "1MB를 초과할 수 없습니다.", (value) => {
+      if (value && value instanceof File) {
+        if (value.size >= 1 * 1024 * 1024) {
+          return false;
+        }
+      }
+      return true;
+    }),
+  championship_award: Yup.array()
     .of(
       Yup.object().shape({
-        value: Yup.string()
+        championship_award_name: Yup.string()
           .max(50, "수상명은 최대 50글자까지 입력 가능합니다.")
           .required("수상명을 입력해주세요."),
+        file: Yup.mixed<File>()
+          .required("이미지를 선택해주세요.")
+          .test("fileType", "JPG, PNG, SVG 형식만 가능합니다.", (value) => {
+            return isFileExtension(value);
+          })
+          .test("fileType", "1MB를 초과할 수 없습니다.", (value) => {
+            if (value && value instanceof File) {
+              if (value.size >= 1 * 1024 * 1024) {
+                return false;
+              }
+            }
+            return true;
+          }),
       })
     )
     .required("개인 수상 목록을 입력해주세요."),
   participation_team_idxs: Yup.array()
     .of(Yup.number().required("참여 팀 인덱스가 누락되었습니다."))
     .required("참여 팀 목록 인덱스를 입력해주세요."),
-  community_list_idx: Yup.number().required("커뮤니티 인덱스를 입력해주세요."),
 });
 
 export const defaultValues = {
-  championship_type_idx: 0,
+  championship_type_idx: 1,
   championship_list_name: "",
   championship_list_description: "",
-  file: [undefined],
-  championship_list_color: "#4f46e5", // 기본 색상: 인디고
+  championship_list_color: "#4f46e5", // 기본 색상
   championship_list_start_date: "",
   championship_list_end_date: "",
   participation_team_idxs: [],
-  championship_award_name: [],
   community_list_idx: 0,
+  championship_trophy_img: undefined,
+  championship_award: [],
 };
