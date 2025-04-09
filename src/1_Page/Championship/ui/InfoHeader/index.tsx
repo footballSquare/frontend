@@ -163,7 +163,9 @@ const InfoHeader = (props: InfoHeaderProps) => {
                 ✨
               </div>
             </div>
-            <h2 className="text-2xl font-bold text-center">축하합니다!</h2>
+            <h2 className="text-2xl font-bold text-center text-gray-600 dark:text-gray-300">
+              축하합니다!
+            </h2>
             {championshipInfo.winner_team_idx &&
               championshipInfo.winner_team_name &&
               championshipInfo.winner_team_emblem && (
