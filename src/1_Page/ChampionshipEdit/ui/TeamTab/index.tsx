@@ -9,8 +9,7 @@ import useHandleTeamClick from "./model/useHandleTeamClick";
 import { championshipTypes } from "../../../../4_Shared/constant/championshipTypes";
 
 const TeamTab = () => {
-  const { watch, setValue } = useFormContext();
-
+  const { watch, setValue } = useFormContext<ChampionshipFormValues>();
   const communityIdx = useParamInteger("communityIdx");
   const [page, setPage] = React.useState<number>(0);
   const [communityTeamList, hasMoreContent, loading] = useGetCommunityTeamList({
@@ -23,11 +22,11 @@ const TeamTab = () => {
     hasMoreContent
   );
   const championshipType = watch("championship_type_idx");
-
+  const participation_team_idxs = watch("participation_team_idxs");
   const handleTeamClick = useHandleTeamClick({
-    watch,
     setValue,
     championshipType,
+    participation_team_idxs,
   });
 
   return (
@@ -35,8 +34,8 @@ const TeamTab = () => {
       <div className="flex items-center justify-between mb-3">
         <label className="font-medium text-gray-700">참가 팀 선택</label>
         <span className="text-sm text-gray-500">
-          {watch("participation_team_idxs")?.length || 0}/
-          {matchCount[championshipType]} 팀 선택됨
+          {participation_team_idxs?.length || 0}/{matchCount[championshipType]}{" "}
+          팀 선택됨
         </span>
       </div>
 
