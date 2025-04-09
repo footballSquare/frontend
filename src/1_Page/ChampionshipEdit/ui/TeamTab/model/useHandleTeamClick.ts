@@ -5,7 +5,7 @@ const useHandleTeamClick = (props: UseHandleTeamClickProps) => {
   const { championshipType, participation_team_idxs, setValue } = props;
 
   React.useEffect(() => {
-    if (championshipType === 0) {
+    if (championshipType == 0) {
       setValue("team_all_success", true);
     } else if (
       participation_team_idxs?.length === matchCount[championshipType]
