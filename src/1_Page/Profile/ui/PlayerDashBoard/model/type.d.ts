@@ -1,5 +1,11 @@
-type UseModifyHandlerProps = {
-  userInfoForm: UserInfoForm;
+type UseManageServerStateProps = {
+  serverState: Record<string, unknown> | null;
   reset: UseFormReset<UserInfoForm>;
-  inputBackupDataRef: RefObject<UserInfoForm>;
+};
+
+type UseManageServerStateReturn = {
+  modifyMode: boolean;
+  inputBackupDataRef: MutableRefObject<UserInfoForm>;
+  handleModifyFalse: () => void;
+  handleModifyTrue: () => void;
 };

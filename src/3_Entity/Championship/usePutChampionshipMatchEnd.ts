@@ -16,7 +16,7 @@ const usePutChampionshipMatchEnd = (): [
     if (!loading && serverState) {
       switch (serverState.status) {
         case 403:
-          console.log(serverState.message);
+          alert("대회 매치에 포함된 모든 매치가 마감되지 않았습니다.");
           break;
         case 429:
           alert("요청이 너무 많습니다! 잠시 기다려주세요.");
