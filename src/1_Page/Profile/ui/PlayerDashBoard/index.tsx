@@ -33,12 +33,11 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
     resolver: yupResolver(schema),
     mode: "onChange",
   });
-
-  const match_position_idx = watch("match_position_idx");
   const userInfoForm = React.useMemo(() => convertToInfoForm(props), [props]);
   React.useEffect(() => {
     reset(userInfoForm);
   }, [userInfoForm]); // 초기값 설정
+  const match_position_idx = watch("match_position_idx");
 
   const [putUserInfo, serverState] = usePutUserInfo();
   const [deleteUser] = useDeleteUser();
