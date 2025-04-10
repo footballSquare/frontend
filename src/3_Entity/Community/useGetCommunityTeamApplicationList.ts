@@ -22,7 +22,6 @@ const useGetCommunityTeamApplicationList = (
       setCommunityTeamApplicationList(
         (serverState as { team_list: CommunityTeam[] }).team_list
       );
-      console.log(serverState)
     }
   }, [loading, serverState]);
 
