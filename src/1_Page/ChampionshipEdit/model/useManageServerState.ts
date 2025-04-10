@@ -25,6 +25,7 @@ const useManageServerState = (
               }`
         );
         break;
+
       case 409:
         alert("이미 존재하는 대회명입니다");
         break;

@@ -59,6 +59,7 @@ export const schema = Yup.object().shape({
           }),
       })
     )
+    .min(1, "개인 수상 항목을 1개 이상 입력해주세요.")
     .required("개인 수상 목록을 입력해주세요."),
   participation_team_idxs: Yup.array()
     .of(Yup.number().required("참여 팀 인덱스가 누락되었습니다."))
