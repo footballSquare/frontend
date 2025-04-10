@@ -3,10 +3,12 @@ import { useFetchData } from "../../4_Shared/util/apiUtil";
 
 const usePostChampionship = (
   communityIdx: number
-): [postChampionship: (props: PostChampionshipProps) => void] => {
+): [postChampionship: (props: FormData) => void] => {
   const [serverState, request, loading] = useFetchData();
 
-  const postChampionship = (props: PostChampionshipProps) => {
+  const postChampionship = (props: FormData) => {
+    console.log(Array.from(props.entries()));
+
     request("POST", `/community/${communityIdx}/championship`, props, true);
   };
 
