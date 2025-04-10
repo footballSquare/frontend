@@ -1,0 +1,3 @@
+type EndChampionshipPanelProps = {
+  championshipInfo: ChampionshipInfo;
+};
