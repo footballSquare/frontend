@@ -18,9 +18,8 @@ const AdminBtnPanel = (props: EndChampionshipPanelProps) => {
       <button
         className="px-3 py-1 text-sm border border-current rounded-md hover:bg-white/10 transition-colors"
         onClick={() => {
-          setChampionshipListIdx(championshipListIdx);
           navigate(
-            `/championship-edit/edit/${championshipInfo.community_list_idx}`
+            `/championship-edit/edit/${championshipInfo.community_list_idx}?championshipIdx=${championshipListIdx}`
           );
         }}>
         수정
