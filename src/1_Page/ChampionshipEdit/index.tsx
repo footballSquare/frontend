@@ -9,28 +9,25 @@ import {
 import React from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { matchCount } from "../../4_Shared/constant/matchCount";
-
-import { defaultValues, schema } from "./lib/schema";
-import uploadSvg from "../../4_Shared/assets/svg/upload.svg";
-import { championshipTypes } from "../../4_Shared/constant/championshipTypes";
-import TeamTab from "./ui/TeamTab";
 import { CHAMPIONSHIP_EDIT_TAB } from "./constant/tab";
+import { defaultValues, schema } from "./lib/schema";
+import { errorTabDetector } from "./lib/errors";
+import useManageSearchParam from "./lib/useManageSearchParam";
+import { convertToAPIChampionship } from "./util/convert";
+
+import TeamTab from "./ui/TeamTab";
 import AwardTab from "./ui/AwardTab";
 import BasicTab from "./ui/BasicTab";
 import DateTab from "./ui/DateTab";
-import { errorLocationDetector } from "./lib/errors";
-import { imgConverter } from "../../4_Shared/lib/imgConverter";
-import useParamInteger from "../../4_Shared/model/useParamInteger";
-import { useParams } from "react-router-dom";
+
 import usePostChampionship from "../../3_Entity/Community/usePostChampionship";
 import usePutChampionship from "../../3_Entity/Community/usePutChampionship";
-import { convertToAPIChampionship } from "./util/convert";
+import { championshipTypes } from "../../4_Shared/constant/championshipTypes";
+import { imgConverter } from "../../4_Shared/lib/imgConverter";
+import uploadSvg from "../../4_Shared/assets/svg/upload.svg";
 
 const ChampionshipForm = () => {
-  const { mode } = useParams();
-  const isEditMode = mode === "edit";
-  const isAddmode = mode === "add";
-  const communityIdx = useParamInteger("communityIdx");
+  const { isEditMode, communityIdx } = useManageSearchParam();
 
   const [postChampionship] = usePostChampionship(communityIdx);
   const [putChampionship] = usePutChampionship(communityIdx);
@@ -49,6 +46,7 @@ const ChampionshipForm = () => {
     watch,
     formState: { isSubmitting, errors },
   } = method;
+
   const { fields, append, remove } = useFieldArray({
     name: "championship_award",
     control,
@@ -69,15 +67,14 @@ const ChampionshipForm = () => {
     const body = convertToAPIChampionship(data);
     if (isEditMode) {
       putChampionship(body);
-    }
-    if (isAddmode) {
+    } else {
       postChampionship(body);
     }
   };
 
   // 에러 발생 시 해당 애러 탭으로 이동
   const onInvalid: SubmitErrorHandler<ChampionshipFormValues> = (errors) => {
-    const errorLocation = errorLocationDetector(errors);
+    const errorLocation = errorTabDetector(errors);
     if (errorLocation) {
       setActiveTab(errorLocation);
     }
@@ -91,7 +88,7 @@ const ChampionshipForm = () => {
         className="p-6 text-white relative"
         style={{ backgroundColor: championshipColor }}>
         <h1 className="text-2xl font-bold">
-          {watch("championship_list_name") || isAddmode
+          {watch("championship_list_name") || !isEditMode
             ? "새로운 대회 생성"
             : "대회 수정"}
         </h1>
