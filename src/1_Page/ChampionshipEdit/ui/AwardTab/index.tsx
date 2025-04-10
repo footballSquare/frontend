@@ -35,6 +35,11 @@ const AwardTab = (props: AwartTabProps) => {
         )}
       </div>
 
+      {errors.championship_award?.root?.message && (
+        <p className="text-red-500 text-sm mt-1">
+          {errors.championship_award.root.message}
+        </p>
+      )}
       {Array.isArray(errors?.championship_award) && (
         <div>
           {errors.championship_award[0]?.championship_award_name && (
