@@ -7,7 +7,7 @@ const useManageServerState = (
 ) => {
   const sucessMessage = isEditMode
     ? "수정에 성공했습니다"
-    : "수정에 실패했습니다";
+    : "생성에 성공했습니다";
   const navigate = useNavigate();
   const naviateUrl = "/championship";
 
