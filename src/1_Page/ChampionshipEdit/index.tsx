@@ -25,12 +25,15 @@ import usePutChampionship from "../../3_Entity/Community/usePutChampionship";
 import { championshipTypes } from "../../4_Shared/constant/championshipTypes";
 import { imgConverter } from "../../4_Shared/lib/imgConverter";
 import uploadSvg from "../../4_Shared/assets/svg/upload.svg";
+import useManageServerState from "./model/useManageServerState";
 
 const ChampionshipForm = () => {
   const { isEditMode, communityIdx } = useManageSearchParam();
 
-  const [postChampionship] = usePostChampionship(communityIdx);
-  const [putChampionship] = usePutChampionship(communityIdx);
+  const [postChampionship, postServerState] = usePostChampionship(communityIdx);
+  const [putChampionship, putServerState] = usePutChampionship(communityIdx);
+  const serverState = isEditMode ? putServerState : postServerState;
+  useManageServerState(serverState, isEditMode);
 
   const [activeTab, setActiveTab] = React.useState<ChampionshipEditTab>(
     CHAMPIONSHIP_EDIT_TAB.BASIC

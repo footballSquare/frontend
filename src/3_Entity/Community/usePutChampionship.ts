@@ -1,29 +1,18 @@
-import React from "react";
 import { useFetchData } from "../../4_Shared/util/apiUtil";
 
 const usePutChampionship = (
   communityIdx: number
-): [putChampionship: (formData: FormData) => void] => {
-  const [serverState, request, loading] = useFetchData();
+): [
+  putChampionship: (formData: FormData) => void,
+  serverState: Record<string, unknown> | null
+] => {
+  const [serverState, request] = useFetchData();
 
   const putChampionship = (formData: FormData) => {
     request("POST", `/community/${communityIdx}/championship`, formData, true);
   };
 
-  React.useEffect(() => {
-    if (!loading && serverState) {
-      switch (serverState.status) {
-        case 200:
-          alert("수정 완료");
-          break;
-        default:
-          alert("수정 실패했습니다.");
-          break;
-      }
-    }
-  }, [loading, serverState]);
-
-  return [putChampionship];
+  return [putChampionship, serverState];
 };
 
 export default usePutChampionship;
