@@ -17,10 +17,12 @@ const useManageServerState = (
       case 200:
         alert(sucessMessage);
         navigate(
-          `${naviateUrl}/${
-            (serverState.data as { championship_list_idx: number })
-              .championship_list_idx
-          }`
+          isEditMode
+            ? "/"
+            : `${naviateUrl}/${
+                (serverState.data as { championship_list_idx: number })
+                  .championship_list_idx
+              }`
         );
         break;
       case 409:
