@@ -52,14 +52,14 @@ const ChampionshipForm = () => {
   const { fields, append, remove } = useFieldArray({
     name: "championship_award",
     control,
-  });
+  }); // array 요소 훅폼 관리
   const selectedFile = useWatch({
     control,
     name: `championship_trophy_img`,
-  });
+  }); // img 구독
   const filePreview = React.useMemo(
     () => imgConverter(selectedFile),
-    [selectedFile]
+    [selectedFile] // 구독된 이미지 url로 변경
   );
   const championshipType = watch("championship_type_idx");
   const championshipColor = watch("championship_list_color");

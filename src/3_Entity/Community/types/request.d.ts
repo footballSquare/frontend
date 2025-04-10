@@ -51,7 +51,7 @@ type PostChampionshipProps = {
   championship_list_start_date: string;
   championship_list_end_date: string;
   championship_award_name: string[];
-  file: File[];
+  file: FormData;
 };
 
 type PutChampionshipProps = {
@@ -63,5 +63,5 @@ type PutChampionshipProps = {
   championship_list_start_date: string;
   championship_list_end_date: string;
   championship_award_name: string[];
-  file: File[];
+  file: FormData;
 };
