@@ -43,7 +43,7 @@ const Page = () => {
           element={<Championship />}
         />
         <Route
-          path={`${PAGE_URI.CHAMPIONSHIPEDIT}/:mode/:communityIdx`}
+          path={`${PAGE_URI.CHAMPIONSHIPEDIT}/:mode/:championshipIdx`}
           element={<ChampionshipEdit />}
         />
       </Routes>

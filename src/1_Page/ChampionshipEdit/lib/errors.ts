@@ -1,6 +1,6 @@
 import { FieldErrors } from "react-hook-form";
 
-export const errorLocationDetector = (
+export const errorTabDetector = (
   errors: FieldErrors<ChampionshipFormValues>
 ) => {
   const errorKeys = Object.keys(errors);
