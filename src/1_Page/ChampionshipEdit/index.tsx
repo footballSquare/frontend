@@ -26,12 +26,14 @@ import { championshipTypes } from "../../4_Shared/constant/championshipTypes";
 import { imgConverter } from "../../4_Shared/lib/imgConverter";
 import uploadSvg from "../../4_Shared/assets/svg/upload.svg";
 import useManageServerState from "./model/useManageServerState";
+import EditRequest from "./ui/EditRequest";
 
 const ChampionshipForm = () => {
   const { isEditMode, communityIdx } = useManageSearchParam();
 
   const [postChampionship, postServerState] = usePostChampionship(communityIdx);
   const [putChampionship, putServerState] = usePutChampionship(communityIdx);
+
   const serverState = isEditMode ? putServerState : postServerState;
   useManageServerState(serverState, isEditMode);
 
@@ -48,6 +50,7 @@ const ChampionshipForm = () => {
     control,
     watch,
     formState: { isSubmitting, errors },
+    reset,
   } = method;
 
   const { fields, append, remove } = useFieldArray({
@@ -86,6 +89,7 @@ const ChampionshipForm = () => {
   // 대회
   return (
     <div className="w-[80%] h-fit min-h-full bg-white shadow-lg rounded-xl ">
+      {isEditMode && <EditRequest reset={reset} />}
       {/* 헤더 */}
       <div
         className="p-6 text-white relative"

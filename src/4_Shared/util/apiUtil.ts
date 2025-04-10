@@ -150,12 +150,8 @@ export const useFetchData = (): [
           const { status, data } = error.response ?? {};
           console.log("endpoint", endpoint);
           console.log("body", body);
-<<<<<<< HEAD
-          console.log("error", status, data);
-=======
           console.log("status", status);
           console.log("message", data.message);
->>>>>>> develop
           setServerState({ status });
           console.log("endpoint", endpoint);
           console.log("body", body);
