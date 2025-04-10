@@ -10,8 +10,7 @@ const EndChampionshipPanel = (props: EndChampionshipPanelProps) => {
   const navigate = useNavigate();
   const championshipListIdx = useParamInteger("championshipIdx");
   const [isModalOpen, handleToggleModal] = useToggleState();
-  const { setChampionshipInfo, setChampionshipListIdx } =
-    useEditChampionshipStore();
+  const { setChampionshipListIdx } = useEditChampionshipStore();
 
   const cachedChampionshipEndDataRef = React.useRef<ChampionshipEndData>(
     {} as ChampionshipEndData
@@ -22,7 +21,6 @@ const EndChampionshipPanel = (props: EndChampionshipPanelProps) => {
         className="px-3 py-1 text-sm border border-current rounded-md hover:bg-white/10 transition-colors"
         onClick={() => {
           setChampionshipListIdx(championshipListIdx);
-          setChampionshipInfo(championshipInfo);
           navigate(
             `/championship-edit/edit/${championshipInfo.community_list_idx}`
           );
