@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 const useManageServerState = (
   serverState: Record<string, unknown> | null,
@@ -11,24 +11,29 @@ const useManageServerState = (
   const navigate = useNavigate();
   const naviateUrl = "/championship";
 
+  const [searchParams] = useSearchParams();
+  const championshipIdx = Number(searchParams.get("championshipIdx") ?? 0);
+  const editUrl = `/championship/${championshipIdx}`;
+
   React.useEffect(() => {
     if (!serverState) return;
     switch (serverState.status) {
-      case 200:
+      case 200: {
         alert(sucessMessage);
-        navigate(
-          isEditMode
-            ? "/"
-            : `${naviateUrl}/${
-                (serverState.data as { championship_list_idx: number })
-                  .championship_list_idx
-              }`
-        );
+        const targetUrl = isEditMode
+          ? editUrl
+          : `${naviateUrl}/${
+              (serverState.data as { championship_list_idx: number })
+                .championship_list_idx
+            }`;
+        navigate(targetUrl);
         break;
+      }
 
       case 409:
         alert("이미 존재하는 대회명입니다");
         break;
+
       default:
         console.log("실패");
     }
