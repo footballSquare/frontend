@@ -40,4 +40,28 @@ type DeleteCommunityStaffProps = {
 
 type UseGetCommunityTeamApplicationListProps = {
   communityIdx: number;
-}
+};
+
+type PostChampionshipProps = {
+  championship_list_name: string;
+  championship_type_idx: number;
+  championship_list_color: string;
+  championship_list_description: string;
+  participation_team_idxs: number[];
+  championship_list_start_date: string;
+  championship_list_end_date: string;
+  championship_award_name: string[];
+  file: FormData;
+};
+
+type PutChampionshipProps = {
+  championship_list_name: string;
+  championship_type_idx: number;
+  championship_list_color: string;
+  championship_list_description: string;
+  participation_team_idxs: number[];
+  championship_list_start_date: string;
+  championship_list_end_date: string;
+  championship_award_name: string[];
+  file: FormData;
+};
