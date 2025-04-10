@@ -42,6 +42,16 @@ type UseGetCommunityTeamApplicationListProps = {
   communityIdx: number;
 };
 
+type PutCommunityEmblemProps = {
+  communityIdx: number;
+  emblem: File | null;
+};
+
+type PutCommunityBannerProps = {
+  communityIdx: number;
+  banner: File | null;
+};
+
 type PostChampionshipProps = {
   championship_list_name: string;
   championship_type_idx: number;

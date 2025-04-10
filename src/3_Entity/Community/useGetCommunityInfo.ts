@@ -3,11 +3,12 @@ import { useFetchData } from "../../4_Shared/util/apiUtil";
 
 const useGetCommunityInfo = (
   props: UseGetCommunityInfoProps
-): [Community, boolean] => {
+): [Community, boolean, React.Dispatch<React.SetStateAction<Community>>] => {
   const { communityIdx } = props;
   const [serverState, request, loading] = useFetchData();
-  const [communityInfo, setCommunityInfo] =
-    React.useState<Community>({} as Community);
+  const [communityInfo, setCommunityInfo] = React.useState<Community>(
+    {} as Community
+  );
 
   React.useEffect(() => {
     request("GET", `/community/${communityIdx}`, null, false);
@@ -17,13 +18,13 @@ const useGetCommunityInfo = (
     if (!loading && serverState) {
       if (serverState?.community && Array.isArray(serverState.community)) {
         setCommunityInfo(serverState.community[0] as Community);
-      } else{
+      } else {
         setCommunityInfo(serverState.community as Community);
       }
     }
   }, [loading, serverState]);
 
-  return [communityInfo, loading];
+  return [communityInfo, loading, setCommunityInfo];
 };
 
 export default useGetCommunityInfo;
