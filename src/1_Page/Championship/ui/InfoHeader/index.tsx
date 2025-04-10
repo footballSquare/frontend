@@ -8,6 +8,7 @@ import { championshipTypes } from "../../../../4_Shared/constant/championshipTyp
 import { formatDateKoreanDate } from "../../../../4_Shared/lib/dateFormatter";
 import defaultTrophyImg from "../../../../4_Shared/assets/svg/rank.svg";
 import { useMyCommunityRoleIdx } from "../../../../4_Shared/lib/useMyInfo";
+import useEditChampionshipStore from "../../../../4_Shared/zustand/useEditChampionshipStore";
 
 const InfoHeader = (props: InfoHeaderProps) => {
   const { championshipInfo } = props;
@@ -16,7 +17,7 @@ const InfoHeader = (props: InfoHeaderProps) => {
   // 어드민
   const [community_role_idx] = useMyCommunityRoleIdx();
   const isAdmin = community_role_idx === 0;
-
+  const { setChampionshipInfo } = useEditChampionshipStore();
   const [isHeaderCollapsed, toggleHeader] = useToggleState();
   const [isEndModalOpen, toggleEndModal] = useToggleState(true);
 
@@ -91,8 +92,9 @@ const InfoHeader = (props: InfoHeaderProps) => {
                   <button
                     className="px-3 py-1 text-sm border border-current rounded-md hover:bg-white/10 transition-colors"
                     onClick={() => {
+                      setChampionshipInfo(championshipInfo);
                       navigate(
-                        `/championship-edit/${championshipInfo.community_list_idx}`
+                        `/championship-edit/edit/${championshipInfo.community_list_idx}`
                       );
                     }}>
                     수정
