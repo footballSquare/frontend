@@ -37,7 +37,8 @@ const CommunityStaffApplicationList = (
               <p className="text-sm">@{application.player_list_nickname}</p>
             </div>
             <button
-              onClick={() => {
+              onClick={(e) => {
+                e.stopPropagation();
                 postApproveCommunityStaffApplication({
                   communityIdx,
                   userIdx: application.player_list_idx,
@@ -54,7 +55,8 @@ const CommunityStaffApplicationList = (
               수락
             </button>
             <button
-              onClick={() => {
+              onClick={(e) => {
+                e.stopPropagation();
                 deleteCommunityStaffApplication({
                   communityIdx,
                   userIdx: application.player_list_idx,

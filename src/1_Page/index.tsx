@@ -9,6 +9,7 @@ import Community from "./Community";
 import Login from "./Login";
 import Championship from "./Championship";
 import { useIsLogin } from "../4_Shared/lib/useMyInfo";
+import ChampionshipEdit from "./ChampionshipEdit";
 
 const Page = () => {
   const [isLogin] = useIsLogin(); // accessToken 존재 여부 확인
@@ -37,6 +38,10 @@ const Page = () => {
         <Route
           path={`${PAGE_URI.CHAMPIONSHIP}/:championshipIdx`}
           element={<Championship />}
+        />
+        <Route
+          path={`${PAGE_URI.CHAMPIONSHIPEDIT}/:mode/:communityIdx`}
+          element={<ChampionshipEdit />}
         />
       </Routes>
     </div>

@@ -27,3 +27,5 @@ dist-ssr
 *.tsbuildinfo
 
 *.pem
+vite.config.ts
+.gitignore

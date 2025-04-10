@@ -10,13 +10,13 @@ const useLoadMyInfo = (): [MyInfo] => {
 
   React.useEffect(() => {
     if (!loading && myInfo) {
-      const { player_status, user_idx, profile_image, team_idx } = myInfo;
+      const { player_status, user_idx, profile_image, team_idx, community_role_idx, team_role_idx } = myInfo;
       login({
         playerStatus: player_status,
         accessToken: cookies.access_token,
         userIdx: user_idx,
-        communityRoleIdx: 0,
-        teamRoleIdx: 0,
+        communityRoleIdx: community_role_idx,
+        teamRoleIdx: team_role_idx,
         teamIdx: team_idx,
         profileImg: profile_image,
       });

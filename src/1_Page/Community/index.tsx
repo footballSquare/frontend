@@ -1,24 +1,36 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import ChampionshipList from "./ui/ChampionShipList";
 import CommunityStaffList from "./ui/CommunityStaffList";
 import CommunityTeamList from "../../2_Widget/CommunityTeamList";
 import useModifyMode from "./model/useModifyMode";
 import useGetCommunityInfo from "../../3_Entity/Community/useGetCommunityInfo";
-import useIsCommunityStaffStore from "../../4_Shared/zustand/useIsCommunityStaffStore";
 import CommunityStaffApplicationList from "./ui/CommunityStaffApplicationList";
 import CommunityTeamApplicationList from "./ui/CommunityTeamApplicationList";
+import useChangeEmblem from "./model/useChangeEmblem";
+import useChangeBanner from "./model/useChangeBanner";
+import { useMyCommunityRoleIdx } from "../../4_Shared/lib/useMyInfo";
+import useIsCommunityStaffStore from "../../4_Shared/zustand/useIsCommunityStaffStore";
 
 const Community = () => {
   const { communityIdx } = useParams();
   const [modifyMode, toggleModifyMode] = useModifyMode();
-  const [communityInfo] = useGetCommunityInfo({
+  const [communityInfo, , setCommunityInfo] = useGetCommunityInfo({
     communityIdx: Number(communityIdx),
   });
+  const [changeEmblem] = useChangeEmblem({
+    setCommunityInfo,
+  });
+  const [changeBanner] = useChangeBanner({
+    setCommunityInfo,
+  });
   const { isCommunityStaff } = useIsCommunityStaffStore();
+  const [communityRoleIdx] = useMyCommunityRoleIdx();
+  const navigate = useNavigate();
+
   return (
     <div className="h-full w-full p-6 flex gap-6">
       {/* Left Sidebar */}
-      <div className="flex flex-col gap-6 bg-white rounded-xl shadow-md p-6 w-full max-w-[360px]">
+      <div className="flex flex-col gap-6 bg-white rounded-xl shadow-md p-6 w-full max-w-[320px]">
         {/* 커뮤니티 앰블럼, 커뮤니티 명 */}
         <div className="flex flex-col items-center">
           <img
@@ -35,21 +47,39 @@ const Community = () => {
           <div className="flex flex-col gap-4 mx-auto">
             <div className="flex flex-col items-center">
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                배너 이미지 변경
+                커뮤니티 엠블럼 변경 하기
               </label>
               <input
                 type="file"
                 accept="image/*"
                 className="block w-full text-sm border border-gray-300 rounded-lg cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500"
+                onChange={(e) => {
+                  if (e.target.files && e.target.files[0]) {
+                    const file = e.target.files[0];
+                    changeEmblem({
+                      communityIdx: Number(communityIdx),
+                      emblem: file,
+                    });
+                  }
+                }}
               />
             </div>
             <div className="flex flex-col items-center">
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                엠블럼 이미지 변경
+                커뮤니티 배너 변경 하기
               </label>
               <input
                 type="file"
                 accept="image/*"
+                onChange={(e) => {
+                  if (e.target.files && e.target.files[0]) {
+                    const file = e.target.files[0];
+                    changeBanner({
+                      communityIdx: Number(communityIdx),
+                      banner: file,
+                    });
+                  }
+                }}
                 className="block w-full text-sm border border-gray-300 rounded-lg cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
@@ -63,7 +93,7 @@ const Community = () => {
         />
 
         {/* 커뮤니티 수정 버튼 */}
-        {isCommunityStaff && (
+        {communityRoleIdx === 0 && (
           <button
             className="p-3 border border-gray-300 shadow-md rounded-lg text-sm bg-blue-500 text-white hover:bg-blue-600 transition"
             onClick={toggleModifyMode}
@@ -71,13 +101,26 @@ const Community = () => {
             {modifyMode ? "뒤로 가기" : "커뮤니티 관리"}
           </button>
         )}
+        {/* 대회 생성 버튼 */}
+        {isCommunityStaff && (
+          <button
+            onClick={() => {
+              navigate(`/championship-edit/add/${communityIdx}`);
+            }}
+            className="p-3 border border-gray-300 shadow-md rounded-lg text-sm bg-blue-500 text-white hover:bg-blue-600 transition"
+          >
+            대회 생성하기
+          </button>
+        )}
       </div>
 
       <div className="flex flex-col gap-6 w-full">
         {/* 배너 */}
-        <div className="w-full min-h-[160px] bg-blue-500 flex items-center justify-center text-white text-2xl font-semibold rounded-lg shadow-md">
-          배너 이미지
-        </div>
+        <img
+          src={communityInfo.community_list_banner}
+          alt="배너"
+          className="w-full min-h-[190px] bg-blue-500 flex items-center justify-center text-white text-2xl font-semibold rounded-lg shadow-md"
+        />
 
         <div className="flex gap-6 overflow-auto max-h-[80%]">
           {modifyMode ? (

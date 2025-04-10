@@ -1,5 +1,4 @@
-import { useNavigate } from "react-router-dom";
-import EndChampionshipPanel from "./ui/EndChampionshipPanel";
+import AdminBtnPanel from "./ui/AdminBtnPanel";
 // state
 import useToggleState from "../../../../4_Shared/model/useToggleState";
 import { getTextColorFromBackground } from "../../../../4_Shared/lib/colorChecker";
@@ -11,7 +10,7 @@ import { useMyCommunityRoleIdx } from "../../../../4_Shared/lib/useMyInfo";
 
 const InfoHeader = (props: InfoHeaderProps) => {
   const { championshipInfo } = props;
-  const navigate = useNavigate();
+
   const isChampionshipEnd = championshipInfo.common_status_idx === 4;
   // 어드민
   const [community_role_idx] = useMyCommunityRoleIdx();
@@ -88,16 +87,7 @@ const InfoHeader = (props: InfoHeaderProps) => {
               </p>
               {isAdmin && !isChampionshipEnd && (
                 <div className="flex gap-2 items-center justify-center">
-                  <button
-                    className="px-3 py-1 text-sm border border-current rounded-md hover:bg-white/10 transition-colors"
-                    onClick={() => {
-                      navigate(
-                        `/championship-edit/${championshipInfo.community_list_idx}`
-                      );
-                    }}>
-                    수정
-                  </button>
-                  <EndChampionshipPanel />
+                  <AdminBtnPanel championshipInfo={championshipInfo} />
                 </div>
               )}
             </div>
