@@ -6,7 +6,14 @@ import { convertToChampionshipForm } from "./util/conver";
 
 const EditRequest = (props: EditRequestProps) => {
   const { reset } = props;
-  const { championshipListIdx } = useEditChampionshipStore();
+  const { championshipListIdx, setChampionshipListIdx } =
+    useEditChampionshipStore();
+
+  React.useEffect(() => {
+    return () => {
+      setChampionshipListIdx(null);
+    };
+  }, []);
 
   // 항상 숫자를 전달하기 위해 기본값 0 사용
   const idx = championshipListIdx || 0;
