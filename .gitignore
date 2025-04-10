@@ -26,7 +26,11 @@ dist-ssr
 .env
 *.tsbuildinfo
 
+<<<<<<< HEAD
 *.pem
 
 src/main.tsx
 src/4_Shared/util
+=======
+*.pem
+>>>>>>> develop

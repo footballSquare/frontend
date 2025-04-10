@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import useDeleteCommunityStaffApplication from "../../../../3_Entity/Community/useDeleteCommunityStaffApplication";
 import useGetCommunityStaffApplicationList from "../../../../3_Entity/Community/useGetCommunityStaffApplicationList";
 import usePostApproveCommunityStaffAppication from "../../../../3_Entity/Community/usePostApproveCommunityStaffAppication";
@@ -8,12 +9,13 @@ const CommunityStaffApplicationList = (
   const { communityIdx } = props;
   const [communityStaffApplicationList, setCommunityStaffApplicationList] =
     useGetCommunityStaffApplicationList({
-      communityIdx
+      communityIdx,
     });
   const [postApproveCommunityStaffApplication] =
     usePostApproveCommunityStaffAppication();
   const [deleteCommunityStaffApplication] =
     useDeleteCommunityStaffApplication();
+  const navigate = useNavigate();
 
   return (
     <div className="bg-gray-50 rounded-xl shadow-md w-full flex flex-col gap-4 p-4">
@@ -21,7 +23,10 @@ const CommunityStaffApplicationList = (
         return (
           <div
             key={index}
-            className="flex items-center space-x-2 border border-gray p-2"
+            className="flex items-center space-x-2 border border-gray p-2 cursor-pointer hover:bg-gray-100 rounded-lg"
+            onClick={() => {
+              navigate(`/profile/${application.player_list_idx}`);
+            }}
           >
             <img
               src={application.player_list_profile_img ?? undefined}
