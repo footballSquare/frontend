@@ -16,7 +16,13 @@ const EditRequest = (props: EditRequestProps) => {
   const [championshipInfo] = useGetChampionshipInfo(idx);
 
   React.useEffect(() => {
-    if (!championshipInfo || !championshipEndData) return;
+    if (
+      !championshipInfo ||
+      Object.keys(championshipInfo).length === 0 ||
+      !championshipEndData ||
+      Object.keys(championshipEndData).length === 0
+    )
+      return;
     reset(convertToChampionshipForm(championshipInfo, championshipEndData));
   }, [championshipEndData, championshipInfo, reset]);
 
