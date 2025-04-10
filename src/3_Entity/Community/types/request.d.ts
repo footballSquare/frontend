@@ -41,3 +41,13 @@ type DeleteCommunityStaffProps = {
 type UseGetCommunityTeamApplicationListProps = {
   communityIdx: number;
 }
+
+type PutCommunityEmblemProps = {
+  communityIdx: number;
+  emblem: File | null;
+}
+
+type PutCommunityBannerProps = {
+  communityIdx: number;
+  banner: File | null;
+}
