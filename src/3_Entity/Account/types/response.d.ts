@@ -62,4 +62,6 @@ type MyInfo = {
   team_short_name: string | null;
   team_color: string | null;
   team_emblem: string | null;
+  community_role_idx: number | null;
+  team_role_idx: number | null;
 }
