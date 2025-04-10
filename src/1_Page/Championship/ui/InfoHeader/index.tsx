@@ -1,4 +1,4 @@
-import EndChampionshipPanel from "./ui/EndChampionshipPanel";
+import AdminBtnPanel from "./ui/AdminBtnPanel";
 // state
 import useToggleState from "../../../../4_Shared/model/useToggleState";
 import { getTextColorFromBackground } from "../../../../4_Shared/lib/colorChecker";
@@ -87,7 +87,7 @@ const InfoHeader = (props: InfoHeaderProps) => {
               </p>
               {isAdmin && !isChampionshipEnd && (
                 <div className="flex gap-2 items-center justify-center">
-                  <EndChampionshipPanel championshipInfo={championshipInfo} />
+                  <AdminBtnPanel championshipInfo={championshipInfo} />
                 </div>
               )}
             </div>
