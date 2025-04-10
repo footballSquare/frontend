@@ -1,7 +1,6 @@
 import React from "react";
 import useToggleState from "../../../../../../4_Shared/model/useToggleState";
 import EndChampionshipModal from "./ui/EndChampionshipModal";
-import useEditChampionshipStore from "../../../../../../4_Shared/zustand/useEditChampionshipStore";
 import useParamInteger from "../../../../../../4_Shared/model/useParamInteger";
 import { useNavigate } from "react-router-dom";
 
@@ -10,7 +9,6 @@ const AdminBtnPanel = (props: EndChampionshipPanelProps) => {
   const navigate = useNavigate();
   const championshipListIdx = useParamInteger("championshipIdx");
   const [isModalOpen, handleToggleModal] = useToggleState();
-  const { setChampionshipListIdx } = useEditChampionshipStore();
 
   const cachedChampionshipEndDataRef = React.useRef<ChampionshipEndData>(
     {} as ChampionshipEndData
@@ -42,4 +40,4 @@ const AdminBtnPanel = (props: EndChampionshipPanelProps) => {
   );
 };
 
-export default EndChampionshipPanel;
+export default AdminBtnPanel;
