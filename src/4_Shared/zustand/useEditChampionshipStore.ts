@@ -1,16 +1,13 @@
 import { create } from "zustand";
 
 type EditChampionshipStore = {
-  championshipInfo: ChampionshipInfo | null;
-  setChampionshipInfo: (info: ChampionshipInfo) => void;
-  clearSetChampionshipInfo: () => void;
+  championshipListIdx: number | null;
+  setChampionshipListIdx: (idx: number) => void;
 };
 
 const useEditChampionshipStore = create<EditChampionshipStore>((set) => ({
-  championshipInfo: null,
-  setChampionshipInfo: (info: ChampionshipInfo) =>
-    set({ championshipInfo: info }),
-  clearSetChampionshipInfo: () => set({ championshipInfo: null }),
+  championshipListIdx: null,
+  setChampionshipListIdx: (idx: number) => set({ championshipListIdx: idx }),
 }));
 
 export default useEditChampionshipStore;

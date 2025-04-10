@@ -12,10 +12,6 @@ export default ({ mode }: { mode: string }) => {
           changeOrigin: true,
           rewrite: (path) => path.replace(/^\/api/, ""),
         },
-<<<<<<< HEAD
-=======
-        
->>>>>>> develop
       },
     },
     plugins: [react(), tailwindcss()],

@@ -8,9 +8,6 @@ const usePostSignIn = (): [(props: PostSignInProps) => void] => {
   const { login } = useAuthStore();
   const postSignIn = (props: PostSignInProps) => {
     const { id, password } = props;
-<<<<<<< HEAD:src/3_Entity/Account/useGetSignIn.ts
-    request("POST", `/account/signin`, { id, password }, false);
-=======
     request(
       "POST",
       `/account/signin`,
@@ -20,7 +17,6 @@ const usePostSignIn = (): [(props: PostSignInProps) => void] => {
       },
       false
     );
->>>>>>> develop:src/3_Entity/Account/usePostSignIn.ts
   };
   const [, setCookie] = useCookies(["access_token"]);
 
