@@ -1,13 +1,17 @@
 import React from "react";
 import { useFetchData } from "../../4_Shared/util/apiUtil.ts";
+import { useIsLogin } from "../../4_Shared/lib/useMyInfo.ts";
 
 const useGetMyInfo = (): [MyInfo, boolean] => {
   const [serverState, request, loading] = useFetchData();
   const [myInfo, setMyInfo] = React.useState<MyInfo>({} as MyInfo);
+  const [isLogin] = useIsLogin();
 
   React.useEffect(() => {
-    request("GET", `/account/myinfo/`, null, true);
-  }, [request]);
+    if (isLogin) {
+      request("GET", `/account/myinfo/`, null, true);
+    }
+  }, [request, isLogin]);
 
   React.useEffect(() => {
     if (!loading && serverState) {
