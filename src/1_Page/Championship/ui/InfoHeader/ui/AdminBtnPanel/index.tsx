@@ -5,7 +5,7 @@ import useEditChampionshipStore from "../../../../../../4_Shared/zustand/useEdit
 import useParamInteger from "../../../../../../4_Shared/model/useParamInteger";
 import { useNavigate } from "react-router-dom";
 
-const EndChampionshipPanel = (props: EndChampionshipPanelProps) => {
+const AdminBtnPanel = (props: EndChampionshipPanelProps) => {
   const { championshipInfo } = props;
   const navigate = useNavigate();
   const championshipListIdx = useParamInteger("championshipIdx");
