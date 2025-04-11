@@ -1,0 +1,3 @@
+type UseNoticeProps = {
+  content: string;
+}
