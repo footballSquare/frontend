@@ -8,13 +8,18 @@ import CommunityStaffApplicationList from "./ui/CommunityStaffApplicationList";
 import CommunityTeamApplicationList from "./ui/CommunityTeamApplicationList";
 import useChangeEmblem from "./model/useChangeEmblem";
 import useChangeBanner from "./model/useChangeBanner";
-import { useMyCommunityRoleIdx } from "../../4_Shared/lib/useMyInfo";
+import {
+  useMyCommunityRoleIdx,
+  useMyTeamRoleIdx,
+} from "../../4_Shared/lib/useMyInfo";
 import useIsCommunityStaffStore from "../../4_Shared/zustand/useIsCommunityStaffStore";
+import CommunityNotice from "./ui/CommunityNotice";
+import usePostApplyCommunityTeam from "../../3_Entity/Community/usePostApplyCommunityTeam";
 
 const Community = () => {
   const { communityIdx } = useParams();
   const [modifyMode, toggleModifyMode] = useModifyMode();
-  const [communityInfo, , setCommunityInfo] = useGetCommunityInfo({
+  const [communityInfo, loading, setCommunityInfo] = useGetCommunityInfo({
     communityIdx: Number(communityIdx),
   });
   const [changeEmblem] = useChangeEmblem({
@@ -26,11 +31,16 @@ const Community = () => {
   const { isCommunityStaff } = useIsCommunityStaffStore();
   const [communityRoleIdx] = useMyCommunityRoleIdx();
   const navigate = useNavigate();
+  const [myTeamRoleIdx] = useMyTeamRoleIdx();
+  const [postApplyCommunityTeam] = usePostApplyCommunityTeam();
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="h-full w-full p-6 flex gap-6">
       {/* Left Sidebar */}
-      <div className="flex flex-col gap-6 bg-white rounded-xl shadow-md p-6 w-full max-w-[320px]">
+      <div className="flex flex-col h-[100vh] gap-6 bg-white rounded-xl shadow-md p-6 w-full max-w-[320px] overflow-auto">
         {/* 커뮤니티 앰블럼, 커뮤니티 명 */}
         <div className="flex flex-col items-center">
           <img
@@ -41,6 +51,12 @@ const Community = () => {
           <h2 className="text-2xl font-semibold text-gray-800">
             {communityInfo.community_list_name}
           </h2>
+
+          <CommunityNotice
+            communityIdx={Number(communityIdx)}
+            content={communityInfo.community_list_notice}
+            modifyMode={modifyMode}
+          />
         </div>
         {/* 배너&엠블럼 수정 버튼 */}
         {modifyMode && (
@@ -112,6 +128,17 @@ const Community = () => {
             대회 생성하기
           </button>
         )}
+        {/* 커뮤니티 팀 가입 신청 버튼 */}
+        {myTeamRoleIdx === 0 && (
+          <button
+            onClick={() => {
+              postApplyCommunityTeam({ communityIdx: Number(communityIdx) });
+            }}
+            className="p-3 border border-gray-300 shadow-md rounded-lg text-sm bg-green-500 text-white hover:bg-green-600 transition"
+          >
+            커뮤니티 팀 가입 신청하기
+          </button>
+        )}
       </div>
 
       <div className="flex flex-col gap-6 w-full">
@@ -122,7 +149,7 @@ const Community = () => {
           className="w-full min-h-[190px] bg-blue-500 flex items-center justify-center text-white text-2xl font-semibold rounded-lg shadow-md"
         />
 
-        <div className="flex gap-6 overflow-auto max-h-[80%]">
+        <div className="flex gap-6 max-h-[80%]">
           {modifyMode ? (
             <>
               {/* CommunityTeamList */}
