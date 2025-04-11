@@ -8,9 +8,14 @@ import CommunityStaffApplicationList from "./ui/CommunityStaffApplicationList";
 import CommunityTeamApplicationList from "./ui/CommunityTeamApplicationList";
 import useChangeEmblem from "./model/useChangeEmblem";
 import useChangeBanner from "./model/useChangeBanner";
-import { useMyCommunityRoleIdx } from "../../4_Shared/lib/useMyInfo";
+import {
+  useMyCommunityRoleIdx,
+  useMyTeamIdx,
+  useMyTeamRoleIdx,
+} from "../../4_Shared/lib/useMyInfo";
 import useIsCommunityStaffStore from "../../4_Shared/zustand/useIsCommunityStaffStore";
 import CommunityNotice from "./ui/CommunityNotice";
+import usePostApplyCommunityTeam from "../../3_Entity/Community/usePostApplyCommunityTeam";
 
 const Community = () => {
   const { communityIdx } = useParams();
@@ -27,7 +32,8 @@ const Community = () => {
   const { isCommunityStaff } = useIsCommunityStaffStore();
   const [communityRoleIdx] = useMyCommunityRoleIdx();
   const navigate = useNavigate();
-
+  const [myTeamRoleIdx] = useMyTeamRoleIdx();
+  const [postApplyCommunityTeam] = usePostApplyCommunityTeam();
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -121,6 +127,17 @@ const Community = () => {
             className="p-3 border border-gray-300 shadow-md rounded-lg text-sm bg-blue-500 text-white hover:bg-blue-600 transition"
           >
             대회 생성하기
+          </button>
+        )}
+        {/* 커뮤니티 팀 가입 신청 버튼 */}
+        {myTeamRoleIdx === 0 && (
+          <button
+            onClick={() => {
+              postApplyCommunityTeam({ communityIdx: Number(communityIdx) });
+            }}
+            className="p-3 border border-gray-300 shadow-md rounded-lg text-sm bg-green-500 text-white hover:bg-green-600 transition"
+          >
+            커뮤니티 팀 가입 신청하기
           </button>
         )}
       </div>

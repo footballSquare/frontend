@@ -2,19 +2,22 @@ import useGetCommunityTeamList from "../../3_Entity/Community/useGetCommunityTea
 import React from "react";
 import useInfiniteScrollPaging from "../../4_Shared/model/useInfiniteScrollPaging";
 import { useNavigate } from "react-router-dom";
+import useDeleteCommunityTeam from "../../3_Entity/Community/useDeleteCommunityTeam";
 const CommunityTeamList = (props: CommunityTeamListProps) => {
   const { communityIdx, modifyMode } = props;
   const [page, setPage] = React.useState<number>(0);
-  const [communityTeamList, hasMoreContent, loading] = useGetCommunityTeamList({
-    communityIdx,
-    page,
-  });
+  const [communityTeamList, hasMoreContent, loading, setCommunityTeamList] =
+    useGetCommunityTeamList({
+      communityIdx,
+      page,
+    });
   const [observeRef] = useInfiniteScrollPaging(
     setPage,
     loading,
     hasMoreContent
   );
   const navigate = useNavigate();
+  const [deleteCommunityTeam] = useDeleteCommunityTeam();
 
   return (
     <div className="bg-gray-50 rounded-xl shadow-md w-full flex flex-col gap-2 overflow-y-auto p-2 overflow-auto h-[100%]">
@@ -39,7 +42,20 @@ const CommunityTeamList = (props: CommunityTeamListProps) => {
               팀 페이지로 이동하기
             </button>
             {modifyMode && (
-              <button className="bg-red-500 p-2 rounded-lg text-white text-sm hover:bg-red-600 transition">
+              <button
+                onClick={() => {
+                  deleteCommunityTeam({
+                    communityIdx,
+                    teamIdx: team.team_list_idx,
+                  });
+                  setCommunityTeamList((prev) =>
+                    prev.filter(
+                      (elem) => elem.team_list_idx !== team.team_list_idx
+                    )
+                  );
+                }}
+                className="bg-red-500 p-2 rounded-lg text-white text-sm hover:bg-red-600 transition"
+              >
                 팀 방출하기
               </button>
             )}
