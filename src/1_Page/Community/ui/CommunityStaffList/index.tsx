@@ -16,7 +16,7 @@ const CommunityStaffListPanel = (props: CommunityStaffListPanelProps) => {
   const navigate = useNavigate();
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-2">
       <div>
         {communityStaffList.map((staff, index) => {
           return (
