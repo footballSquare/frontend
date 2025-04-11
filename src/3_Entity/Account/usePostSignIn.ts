@@ -40,6 +40,7 @@ const usePostSignIn = (): [(props: PostSignInProps) => void] => {
           teamRoleIdx: team_role_idx,
           teamIdx: team_idx,
           profileImg: profile_image,
+          nickname: null,
         });
         const options = { path: "/", maxAge: 86400 };
         setCookie("access_token", access_token, options);
