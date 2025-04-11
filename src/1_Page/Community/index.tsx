@@ -10,7 +10,6 @@ import useChangeEmblem from "./model/useChangeEmblem";
 import useChangeBanner from "./model/useChangeBanner";
 import {
   useMyCommunityRoleIdx,
-  useMyTeamIdx,
   useMyTeamRoleIdx,
 } from "../../4_Shared/lib/useMyInfo";
 import useIsCommunityStaffStore from "../../4_Shared/zustand/useIsCommunityStaffStore";
