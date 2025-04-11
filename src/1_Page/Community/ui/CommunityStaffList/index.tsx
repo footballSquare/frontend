@@ -16,7 +16,7 @@ const CommunityStaffListPanel = (props: CommunityStaffListPanelProps) => {
   const navigate = useNavigate();
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-2">
       <div>
         {communityStaffList.map((staff, index) => {
           return (
@@ -40,8 +40,12 @@ const CommunityStaffListPanel = (props: CommunityStaffListPanelProps) => {
               </p>
               {modifyMode && staff.community_role_idx !== 0 && (
                 <button
-                  onClick={() => {
-                    kickCommunityStaff({ userIdx: staff.player_list_idx });
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    kickCommunityStaff({
+                      communityIdx,
+                      userIdx: staff.player_list_idx,
+                    });
                     setCommunityStaffList((prev) =>
                       prev.filter(
                         (elem) => elem.player_list_idx !== staff.player_list_idx

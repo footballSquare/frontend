@@ -35,6 +35,7 @@ type DeleteCommunityStaffApplicationProps = {
 };
 
 type DeleteCommunityStaffProps = {
+  communityIdx: number;
   userIdx: number;
 };
 
@@ -74,4 +75,28 @@ type PutChampionshipProps = {
   championship_list_end_date: string;
   championship_award_name: string[];
   file: FormData;
+};
+
+type PutCommunityNoticeProps = {
+  communityIdx: number;
+  notice: string;
+};
+
+type DeleteCommunityTeamProps = {
+  teamIdx: number;
+  communityIdx: number;
+};
+
+type PostApproveCommunityTeamApplicationProps = {
+  communityIdx: number;
+  teamIdx: number;
+};
+
+type DeleteCommunityTeamApplicationProps = {
+  communityIdx: number;
+  teamIdx: number;
+};
+
+type PostApplyCommunityTeamProps = {
+  communityIdx: number;
 };

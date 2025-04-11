@@ -6,7 +6,12 @@ const ITEMS_PER_PAGE = 5;
 
 const useGetCommunityTeamList = (
   props: UseGetCommunitySTeamListProps
-): [CommunityTeam[], boolean, boolean] => {
+): [
+  CommunityTeam[],
+  boolean,
+  boolean,
+  React.Dispatch<React.SetStateAction<CommunityTeam[]>>
+] => {
   const { communityIdx, page } = props;
   const [serverState, request, loading] = useFetchData();
   const [communityTeamList, setCommunityTeamList] = React.useState<
@@ -38,7 +43,7 @@ const useGetCommunityTeamList = (
     }
   }, [loading, serverState]);
 
-  return [communityTeamList, hasMoreContent, loading];
+  return [communityTeamList, hasMoreContent, loading, setCommunityTeamList];
 };
 
 export default useGetCommunityTeamList;
