@@ -10,6 +10,7 @@ type AuthState = {
   teamRoleIdx: number | null;
   teamIdx: number | null;
   profileImg: string | null;
+  nickname: string | null;
   login: (data: {
     accessToken: string;
     userIdx: number;
@@ -18,6 +19,7 @@ type AuthState = {
     teamIdx: number | null;
     playerStatus: string;
     profileImg: string | null;
+    nickname: string | null;
   }) => void;
   logout: () => void;
 };
@@ -30,6 +32,7 @@ export const useAuthStore = create<AuthState>()((set) => ({
   teamIdx: null,
   playerStatus: null,
   profileImg: null,
+  nickname: null,
   login: (data) => set({ ...data }),
   logout: () =>
     set({
@@ -40,6 +43,7 @@ export const useAuthStore = create<AuthState>()((set) => ({
       teamIdx: null,
       profileImg: null,
       playerStatus: null,
+      nickname: null,
     }),
 }));
 
@@ -55,6 +59,12 @@ export const useIsLogin = (): [boolean] => {
 export const useMyUserIdx = (): [number | null] => {
   const userIdx = useAuthStore((state) => state.userIdx);
   return [userIdx];
+};
+
+// 유저 닉네임
+export const useMyNickname = (): [string | null] => {
+  const nickname = useAuthStore((state) => state.nickname);
+  return [nickname];
 };
 
 // 커뮤니티 역할 인덱스

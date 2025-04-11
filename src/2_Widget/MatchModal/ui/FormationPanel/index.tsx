@@ -7,6 +7,7 @@ import { matchFormation } from "../../../../4_Shared/constant/matchFormation";
 import { matchPosition } from "../../../../4_Shared/constant/matchPosition";
 import useDeleteMatchJoin from "../../../../3_Entity/Match/useDeleteMatchJoin";
 import useMatchModalStore from "../../../../4_Shared/zustand/useMatchModal";
+import { useNavigate } from "react-router-dom";
 
 const FormationPanel = React.memo((props: FormationPanelProps) => {
   const {
@@ -17,8 +18,10 @@ const FormationPanel = React.memo((props: FormationPanelProps) => {
   } = props;
   const [deleteMatchJoin] = useDeleteMatchJoin();
   const { matchIdx } = useMatchModalStore();
+  const navigate = useNavigate();
+  const { toggleMatchModal } = useMatchModalStore();
   return (
-    <div className="relative flex gap-6 h-full min-w-[35%]">
+    <div className="relative flex gap-6 h-full min-w-[38%]">
       {/* 필드 & 포메이션 선택기 */}
       <div
         className="w-full p-2 flex flex-col gap-6 items-center bg-cover bg-center"
@@ -29,7 +32,7 @@ const FormationPanel = React.memo((props: FormationPanelProps) => {
         {/* 포메이션 종류 */}
         <label className="flex flex-col text-xs font-semibold w-full">
           포메이션
-          <div className="w-[100px] h-[28px] rounded-[4px] flex justify-center items-center border-1 border-blue bg-white">
+          <div className="w-[100px] h-[28px] rounded-[4px] flex justify-center items-center border border-blue bg-white">
             {matchFormation[matchFormationIdx]}
           </div>
         </label>
@@ -39,12 +42,31 @@ const FormationPanel = React.memo((props: FormationPanelProps) => {
         {formations[matchFormationIdx].map((pos, index) => (
           <div
             key={index}
-            className=" absolute translate-x-[-50%] translate-y-[-50%] flex flex-col justify-center p-1 text-sm items-center gap-1 border"
+            className="hover:scale-[1.2] duration-300 absolute translate-x-[-50%] translate-y-[-50%] flex flex-col justify-center p-1 text-sm items-center gap-1"
             style={{ top: pos.top, left: pos.left }} // 동적 스타일
           >
             <div className=" bg-white rounded-[32px] w-[36px] flex flex-col items-center">
               {/* 프로필 이미지 */}
-              <img src={profile} alt="profile" className="w-full" />
+              <img
+                src={
+                  matchParticipants.find(
+                    (participant) =>
+                      participant.match_position_idx === pos.positionIdx
+                  )?.player_list_url || profile
+                }
+                alt="profile"
+                className="w-[36px] h-[36px] rounded-full cursor-pointer"
+                onClick={() => {
+                  const player = matchParticipants.find(
+                    (participant) =>
+                      participant.match_position_idx === pos.positionIdx
+                  );
+                  if (player) {
+                    toggleMatchModal();
+                    navigate(`/profile/${player.player_list_idx}`);
+                  }
+                }}
+              />
               <span className="text-xs">{matchPosition[pos.positionIdx]}</span>
             </div>
             {/* 참가자 이름 */}
@@ -67,7 +89,10 @@ const FormationPanel = React.memo((props: FormationPanelProps) => {
                             matchPosition: elem.match_position_idx,
                             matchParticipants,
                           });
-                          deleteMatchJoin({matchIdx,  userIdx: elem.player_list_idx});
+                          deleteMatchJoin({
+                            matchIdx,
+                            userIdx: elem.player_list_idx,
+                          });
                         }}
                       >
                         X
