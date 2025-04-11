@@ -10,6 +10,9 @@ import useChangeEmblem from "./model/useChangeEmblem";
 import useChangeBanner from "./model/useChangeBanner";
 import { useMyCommunityRoleIdx } from "../../4_Shared/lib/useMyInfo";
 import useIsCommunityStaffStore from "../../4_Shared/zustand/useIsCommunityStaffStore";
+import usePutCommunityNotice from "../../3_Entity/Community/usePutCommunityNotice";
+import { register } from "module";
+import { useForm } from "react-hook-form";
 
 const Community = () => {
   const { communityIdx } = useParams();
@@ -25,12 +28,17 @@ const Community = () => {
   });
   const { isCommunityStaff } = useIsCommunityStaffStore();
   const [communityRoleIdx] = useMyCommunityRoleIdx();
+  const [putCommunityNotice] = usePutCommunityNotice();
   const navigate = useNavigate();
+  const {
+    register,
+    handleSubmit,
+  } = useForm();
 
   return (
     <div className="h-full w-full p-6 flex gap-6">
       {/* Left Sidebar */}
-      <div className="flex flex-col gap-6 bg-white rounded-xl shadow-md p-6 w-full max-w-[320px]">
+      <div className="flex flex-col h-[100vh] gap-6 bg-white rounded-xl shadow-md p-6 w-full max-w-[320px] overflow-auto">
         {/* 커뮤니티 앰블럼, 커뮤니티 명 */}
         <div className="flex flex-col items-center">
           <img
@@ -41,6 +49,34 @@ const Community = () => {
           <h2 className="text-2xl font-semibold text-gray-800">
             {communityInfo.community_list_name}
           </h2>
+
+          <p className=" text-center flex flex-col gap-2 mt-2">
+            <h2>Notice</h2>
+            {modifyMode ? (
+              <form
+                onSubmit={handleSubmit((data) => {
+                  putCommunityNotice({
+                    communityIdx: Number(communityIdx),
+                    notice: data.notice,
+                  });
+                })}
+              >
+                <input
+                  {...register("notice", { required: true })}
+                  defaultValue={communityInfo.community_list_notice}
+                  className="border border-gray-300 rounded-lg p-2 w-full"
+                />
+                <button
+                  type="submit"
+                  className="mt-2 p-2 bg-blue-500 text-white rounded-lg"
+                >
+                  Save
+                </button>
+              </form>
+            ) : (
+              <p className="border rounded-lg text-center border-gray p-4">{communityInfo.community_list_notice}</p>
+            )}
+          </p>
         </div>
         {/* 배너&엠블럼 수정 버튼 */}
         {modifyMode && (
@@ -122,7 +158,7 @@ const Community = () => {
           className="w-full min-h-[190px] bg-blue-500 flex items-center justify-center text-white text-2xl font-semibold rounded-lg shadow-md"
         />
 
-        <div className="flex gap-6 overflow-auto max-h-[80%]">
+        <div className="flex gap-6 max-h-[80%]">
           {modifyMode ? (
             <>
               {/* CommunityTeamList */}

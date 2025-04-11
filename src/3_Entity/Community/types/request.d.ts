@@ -75,3 +75,8 @@ type PutChampionshipProps = {
   championship_award_name: string[];
   file: FormData;
 };
+
+type PutCommunityNoticeProps = {
+  communityIdx: number;
+  notice: string;
+};
