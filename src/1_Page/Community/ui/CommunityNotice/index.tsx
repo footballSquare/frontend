@@ -11,7 +11,7 @@ const CommunityNotice = (props: CommunityNoticeProps) => {
   return (
     <div className="flex flex-col items-center justify-center mt-2">
       <h1>커뮤니티 공지</h1>
-      <p>
+      <div>
         {modifyMode ? (
           <form
             className="flex flex-col items-center justify-center gap-2"
@@ -36,11 +36,11 @@ const CommunityNotice = (props: CommunityNoticeProps) => {
             </button>
           </form>
         ) : (
-          <p className="border rounded-lg text-center w-full border-gray p-4">
+          <div className="border rounded-lg text-center w-full border-gray p-4">
             {notice}
-          </p>
+          </div>
         )}
-      </p>
+      </div>
     </div>
   );
 };

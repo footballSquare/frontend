@@ -40,8 +40,12 @@ const CommunityStaffListPanel = (props: CommunityStaffListPanelProps) => {
               </p>
               {modifyMode && staff.community_role_idx !== 0 && (
                 <button
-                  onClick={() => {
-                    kickCommunityStaff({ userIdx: staff.player_list_idx });
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    kickCommunityStaff({
+                      communityIdx,
+                      userIdx: staff.player_list_idx,
+                    });
                     setCommunityStaffList((prev) =>
                       prev.filter(
                         (elem) => elem.player_list_idx !== staff.player_list_idx

@@ -1,17 +1,20 @@
 import { useNavigate } from "react-router-dom";
 import useGetCommunityTeamApplicationList from "../../../../3_Entity/Community/useGetCommunityTeamApplicationList";
+import usePostApproveCommunityTeamApplication from "../../../../3_Entity/Community/usePostApproveCommunityTeamApplication";
+import useDeleteCommunityTeamApplication from "../../../../3_Entity/Community/useDeleteCommunityTeamApplication";
 
 const CommunityTeamApplicationList = (
   props: CommunityTeamApplicationListProps
 ) => {
   const { communityIdx } = props;
-  const [
-    communityTeamApplicationList,
-    //setCommunityTeamApplicationList,
-  ] = useGetCommunityTeamApplicationList({
-    communityIdx,
-  });
+  const [communityTeamApplicationList, setCommunityTeamApplicationList] =
+    useGetCommunityTeamApplicationList({
+      communityIdx,
+    });
   const navigate = useNavigate();
+  const [postApproveCommunityTeamApplication] =
+    usePostApproveCommunityTeamApplication();
+  const [deleteCommunityTeamApplication] = useDeleteCommunityTeamApplication();
 
   return (
     <div className="bg-gray-50 rounded-xl shadow-md w-full flex flex-col gap-4 p-4">
@@ -34,11 +37,39 @@ const CommunityTeamApplicationList = (
             </button>
 
             {/* 수락버튼 */}
-            <button className="bg-blue-500 p-2 rounded-lg text-white text-sm font-medium hover:bg-blue-600 transition">
+            <button
+              onClick={() => {
+                postApproveCommunityTeamApplication({
+                  communityIdx,
+                  teamIdx: application.team_list_idx,
+                });
+                setCommunityTeamApplicationList((prev) =>
+                  prev.filter(
+                    (application) =>
+                      application.team_list_idx !== application.team_list_idx
+                  )
+                );
+              }}
+              className="bg-blue-500 p-2 rounded-lg text-white text-sm font-medium hover:bg-blue-600 transition"
+            >
               수락
             </button>
             {/* 거절버튼 */}
-            <button className="bg-red-500 p-2 rounded-lg text-white text-sm font-medium hover:bg-red-600 transition">
+            <button
+              onClick={() => {
+                deleteCommunityTeamApplication({
+                  communityIdx,
+                  teamIdx: application.team_list_idx,
+                });
+                setCommunityTeamApplicationList((prev) =>
+                  prev.filter(
+                    (application) =>
+                      application.team_list_idx !== application.team_list_idx
+                  )
+                );
+              }}
+              className="bg-red-500 p-2 rounded-lg text-white text-sm font-medium hover:bg-red-600 transition"
+            >
               거절
             </button>
           </div>
