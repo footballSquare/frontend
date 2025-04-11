@@ -10,14 +10,12 @@ import useChangeEmblem from "./model/useChangeEmblem";
 import useChangeBanner from "./model/useChangeBanner";
 import { useMyCommunityRoleIdx } from "../../4_Shared/lib/useMyInfo";
 import useIsCommunityStaffStore from "../../4_Shared/zustand/useIsCommunityStaffStore";
-import usePutCommunityNotice from "../../3_Entity/Community/usePutCommunityNotice";
-import { register } from "module";
-import { useForm } from "react-hook-form";
+import CommunityNotice from "./ui/CommunityNotice";
 
 const Community = () => {
   const { communityIdx } = useParams();
   const [modifyMode, toggleModifyMode] = useModifyMode();
-  const [communityInfo, , setCommunityInfo] = useGetCommunityInfo({
+  const [communityInfo, loading, setCommunityInfo] = useGetCommunityInfo({
     communityIdx: Number(communityIdx),
   });
   const [changeEmblem] = useChangeEmblem({
@@ -28,12 +26,11 @@ const Community = () => {
   });
   const { isCommunityStaff } = useIsCommunityStaffStore();
   const [communityRoleIdx] = useMyCommunityRoleIdx();
-  const [putCommunityNotice] = usePutCommunityNotice();
   const navigate = useNavigate();
-  const {
-    register,
-    handleSubmit,
-  } = useForm();
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="h-full w-full p-6 flex gap-6">
@@ -50,33 +47,11 @@ const Community = () => {
             {communityInfo.community_list_name}
           </h2>
 
-          <p className=" text-center flex flex-col gap-2 mt-2">
-            <h2>Notice</h2>
-            {modifyMode ? (
-              <form
-                onSubmit={handleSubmit((data) => {
-                  putCommunityNotice({
-                    communityIdx: Number(communityIdx),
-                    notice: data.notice,
-                  });
-                })}
-              >
-                <input
-                  {...register("notice", { required: true })}
-                  defaultValue={communityInfo.community_list_notice}
-                  className="border border-gray-300 rounded-lg p-2 w-full"
-                />
-                <button
-                  type="submit"
-                  className="mt-2 p-2 bg-blue-500 text-white rounded-lg"
-                >
-                  Save
-                </button>
-              </form>
-            ) : (
-              <p className="border rounded-lg text-center border-gray p-4">{communityInfo.community_list_notice}</p>
-            )}
-          </p>
+          <CommunityNotice
+            communityIdx={Number(communityIdx)}
+            content={communityInfo.community_list_notice}
+            modifyMode={modifyMode}
+          />
         </div>
         {/* 배너&엠블럼 수정 버튼 */}
         {modifyMode && (
