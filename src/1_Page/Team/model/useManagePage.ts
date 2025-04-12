@@ -9,13 +9,13 @@ const useManageTeamInfo = (teamInfo: TeamInfo): UseManageTeamInfoReturn => {
   }, [teamInfo]);
 
   const handlers = {
-    handleSetTeamBanner: (banner: string) => {
+    handleSetTeamBanner: (banner: string | null) => {
       setDisplayTeamInfo((prev) => ({
         ...prev,
         team_list_banner: banner,
       }));
     },
-    handleSetTeamEmblem: (emblem: string) => {
+    handleSetTeamEmblem: (emblem: string | null) => {
       setDisplayTeamInfo((prev) => ({
         ...prev,
         team_list_emblem: emblem,

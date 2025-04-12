@@ -1,3 +1,4 @@
+import React from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, SubmitHandler, FormProvider } from "react-hook-form";
 
@@ -7,8 +8,7 @@ import StatusRadio from "./ui/StautsRadio";
 import useManageModify from "./model/useManageModify";
 import { schema } from "./lib/schema";
 import { convertToPutData, convertToTeamInfoForm } from "./util/convet";
-import usePutTeamInfo from "../../../../../../3_Entity/Team/usePutTeamInfo";
-import React from "react";
+import usePutTeamInfo from "../../../../../../../../3_Entity/Team/usePutTeamInfo";
 
 const TextInputForm = (props: TextInputFormProps) => {
   const { team_list_idx, teamInfo, handleSetTeamInfoWithoutImg } = props;

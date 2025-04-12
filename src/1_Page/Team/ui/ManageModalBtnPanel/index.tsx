@@ -9,14 +9,16 @@ import {
   useMyTeamRoleIdx,
 } from "../../../../4_Shared/lib/useMyInfo";
 import useManageServerState from "./model/useManageServerState";
+import useToggleState from "../../../../4_Shared/model/useToggleState";
+import ManageModal from "./ui/ManageModal";
 
-const TeamManageButtonGroup = (props: TeamManageButtonGroupProps) => {
-  const { handleToggleManageModal } = props;
-
+const TeamManageButtonGroup = (props: ManageModalBtnPanelProps) => {
+  const { teamInfo, handlers } = props;
   const teamIdx = useParamInteger("teamIdx");
   const [deleteLeaveTeam, serverState] = useDeleteLeaveTeam(teamIdx);
   useManageServerState(serverState); // deleteLeaveTeam 서버 상태 관리
 
+  const [isModalOpen, handleToggleManageModal] = useToggleState();
   const [putSignTeam] = usePutSignTeam(teamIdx);
 
   // 팀 권한과
@@ -42,12 +44,12 @@ const TeamManageButtonGroup = (props: TeamManageButtonGroupProps) => {
     <div className="flex flex-col items-center gap-2 mt-2">
       <div>
         {isPending ? (
-          <button className="bg-black text-white text-sm font-medium py-1 px-3 rounded-full transition-all duration-300">
+          <button className="bg-black hover:bg-black/80 text-white text-sm font-medium py-2 px-4 rounded-full shadow transition transform hover:scale-105 duration-300">
             가입신청중
           </button>
         ) : isLeaving ? (
           <button
-            className="bg-red-500 text-white text-sm font-medium py-1 px-3 rounded-full transition-all duration-300"
+            className="bg-red-500 hover:bg-red-600 text-white text-sm font-medium py-2 px-4 rounded-full shadow transition transform hover:scale-105 duration-300"
             onClick={() => {
               if (confirmAction()) {
                 updateToLeave();
@@ -58,7 +60,7 @@ const TeamManageButtonGroup = (props: TeamManageButtonGroupProps) => {
           </button>
         ) : (
           <button
-            className="bg-blue-500 text-white text-sm font-medium py-1 px- rounded-full transition-all duration-300"
+            className="bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium py-2 px-4 rounded-full shadow transition transform hover:scale-105 duration-300"
             onClick={() => {
               if (confirmAction()) {
                 updateToSignPending();
@@ -84,6 +86,14 @@ const TeamManageButtonGroup = (props: TeamManageButtonGroupProps) => {
             매치 생성
           </button>
         </div>
+      )}
+
+      {isModalOpen && (
+        <ManageModal
+          handleToggleManageModal={handleToggleManageModal}
+          teamInfo={teamInfo}
+          handlers={handlers}
+        />
       )}
     </div>
   );

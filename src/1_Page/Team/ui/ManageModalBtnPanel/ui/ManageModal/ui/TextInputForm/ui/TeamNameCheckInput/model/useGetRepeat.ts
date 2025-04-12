@@ -1,5 +1,5 @@
-import useGetRepeatShortTeam from "../../../../../../../../../3_Entity/Team/useGetRepeatShortTeam";
-import useGetRepeatTeam from "../../../../../../../../../3_Entity/Team/useGetRepeatTeam";
+import useGetRepeatShortTeam from "../../../../../../../../../../../3_Entity/Team/useGetRepeatShortTeam";
+import useGetRepeatTeam from "../../../../../../../../../../../3_Entity/Team/useGetRepeatTeam";
 
 const useGetRepeat = (isShort: boolean): UseGetRepeatReturn => {
   // isShort 값에 따라 다른 필드 사용

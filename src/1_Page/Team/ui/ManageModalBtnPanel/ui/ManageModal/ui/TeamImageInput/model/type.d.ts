@@ -1,11 +1,11 @@
 type UseImageHandlerProps = {
-  imgSrc: string;
+  imgSrc: string | null;
   setValue: UseFormSetValue<{ file: File }>;
   clearErrors: UseFormClearErrors<{ file: string }>;
 };
 
 type UseImageHandlerReturn = {
-  imagePreview: string;
+  imagePreview: string | null;
   inputFileRef: React.RefObject<HTMLInputElement>;
   modifyMode: boolean;
   handleImageClick: () => void;
