@@ -14,8 +14,13 @@ const usePostMakeTeam = (): [
 
   React.useEffect(() => {
     if (!serverState) return;
+    console.log(serverState);
     switch (serverState.status) {
+      case 400:
+        alert("양식 오류입니다");
+        break;
       case 403:
+        alert("이미 소속팀이 존재합니다");
         return;
     }
   }, [serverState]);

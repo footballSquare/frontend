@@ -4,7 +4,7 @@ export const schema = yup.object().shape({
   team_list_name: yup
     .string()
     .max(20, "최대 20글자까지 가능합니다.")
-    .matches(/^[가-힣a-zA-Z\s]+$/, "한글과 영어만 입력 가능합니다. 숫자 불가")
+    .matches(/^[가-힣a-zA-Z]+$/, "한글과 영어만 입력 가능합니다. 숫자 불가")
     .required("팀명을 입력해주세요."),
   team_list_short_name: yup
     .string()
