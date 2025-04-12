@@ -20,7 +20,7 @@ const StandbyListPanel = () => {
           />
         ) : (
           <Button
-            text="오늘의 매치 대기 인원 보기"
+            text="매치 대기 인원 보기"
             bg="blue"
             textColor="white"
             bold={true}
