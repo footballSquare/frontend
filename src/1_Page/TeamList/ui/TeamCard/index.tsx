@@ -1,82 +1,86 @@
-import { useNavigate } from "react-router-dom";
-
-// 팀 색상 스타일 생성 함수
-const getTeamColorStyle = (colorCode: string) => {
-  return {
-    backgroundColor: colorCode,
-    width: "12px",
-    height: "12px",
-    borderRadius: "50%",
-    display: "inline-block",
-    marginRight: "6px",
-  };
-};
-
-const ChevronRightIcon = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="18"
-    height="18"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round">
-    <polyline points="9 18 15 12 9 6"></polyline>
-  </svg>
-);
+import userIcon from "../../../../4_Shared/assets/svg/user.svg";
+import calendarIcon from "../../../../4_Shared/assets/svg/calander.svg";
+import { formatDateKoreanDate } from "../../../../4_Shared/lib/dateFormatter";
 
 type TeamCardProps = {
   team: TeamListInfo;
-  showRecruitingTag?: boolean;
   observeRef?: (node?: Element | null) => void;
 };
-
+// 팀 카드 컴포넌트
 const TeamCard = (props: TeamCardProps) => {
-  const { team, showRecruitingTag = false, observeRef } = props;
-  const navigate = useNavigate();
-  const handleTeamClick = (teamIdx: number) => {
-    navigate(`/team/${teamIdx}`);
-  };
+  const { team, observeRef } = props;
   return (
     <div
       ref={observeRef}
-      className="bg-white rounded-xl p-4 shadow-sm active:bg-gray-50 transition-colors h-full"
-      onClick={() => handleTeamClick(team.team_list_idx)}>
-      <div className="flex items-center justify-between">
-        <div className="flex items-center space-x-3">
+      className="group w-full max-w-md rounded-xl overflow-hidden bg-white shadow-md transition-shadow duration-200 cursor-pointer hover:shadow-xl">
+      <div className="p-5">
+        <div className="flex items-center mb-4">
           {team.team_list_emblem ? (
             <img
               src={team.team_list_emblem}
-              alt="팀 엠블럼"
-              className="w-12 h-12 rounded-full bg-gray-100 object-cover border border-gray-200"
+              alt={`${team.team_list_name} 엠블럼`}
+              className="w-12 h-12 rounded-full mr-3 object-cover"
             />
           ) : (
-            <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center text-gray-400 font-bold text-lg">
+            <div
+              className="w-12 h-12 rounded-full mr-3 flex items-center justify-center text-white font-bold text-lg"
+              style={{ backgroundColor: team.team_list_color || "#3182f6" }}>
               {team.team_list_short_name?.slice(0, 2) || "팀"}
             </div>
           )}
-          <div>
+
+          <div className="flex-grow">
             <div className="flex items-center">
-              <span style={getTeamColorStyle(team.team_list_color)}></span>
-              <h3 className="font-bold text-base">{team.team_list_name}</h3>
+              <span
+                style={{ backgroundColor: team.team_list_color }}
+                className="w-[12px] h-[12px] rounded-full inline-block mr-[6px]"></span>
+              <h3 className="text-lg font-bold text-gray-800">
+                {team.team_list_name}
+              </h3>
             </div>
             <p className="text-sm text-gray-500">{team.team_list_short_name}</p>
           </div>
+
+          <div className="ml-auto">
+            {team.whole_member < 10 && (
+              <div className="bg-blue-50 text-blue-600 px-2 py-1 rounded-md text-xs font-medium">
+                모집중
+              </div>
+            )}
+          </div>
         </div>
-        <div className="flex items-center">
-          {showRecruitingTag && (
-            <span className="px-2 py-1 bg-blue-50 text-blue-600 text-xs rounded-full mr-2">
-              모집중
-            </span>
-          )}
-          <span className="text-gray-400">
-            <ChevronRightIcon />
-          </span>
+
+        {/* 데이터 시각화 섹션 */}
+        <div className="mt-4 pt-4 border-t border-gray-100">
+          <div className="grid grid-cols-2 gap-4">
+            <div className="flex items-center text-sm text-gray-600">
+              <img src={calendarIcon} className="w-5 h-5" />
+              <span className="ml-2 mr-1">생성일:</span>
+              <span className="font-medium">
+                {formatDateKoreanDate(new Date(team.team_list_created_at))}
+              </span>
+            </div>
+
+            <div className="flex items-center text-sm text-gray-600">
+              <img src={userIcon} className="w-5 h-5" />
+              <span className="ml-2 mr-1">멤버:</span>
+              <span className="font-medium">{team.whole_member}명</span>
+            </div>
+          </div>
         </div>
+      </div>
+
+      {/* 하단 액션 버튼 */}
+      <div className="flex items-center justify-center p-3 bg-gray-50 transition-colors group-hover:bg-blue-50">
+        <span className="text-sm font-medium text-gray-600 transition-colors group-hover:text-blue-600">
+          팀 상세보기
+        </span>
+        <span className="text-gray-400 transition-colors group-hover:text-blue-600">
+          ›
+        </span>
       </div>
     </div>
   );
 };
+
 export default TeamCard;
