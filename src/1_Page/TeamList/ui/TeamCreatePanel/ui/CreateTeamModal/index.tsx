@@ -3,6 +3,7 @@ import usePostMakeTeam from "../../../../../../3_Entity/Team/usePostMakeTeam";
 import { schema } from "./lib/schema";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { commonStatusIdx } from "../../../../../../4_Shared/constant/commonStatusIdx";
+import useManagePostTeamServerState from "./model/usePostTeamServerState";
 
 const CreateTeamModal = (props: CreateTeamModalProps) => {
   const { handleToggleModal } = props;
@@ -15,11 +16,11 @@ const CreateTeamModal = (props: CreateTeamModalProps) => {
   } = useForm<TeamCreateFormValues>({
     resolver: yupResolver(schema),
   });
-  const [postMakeTeam] = usePostMakeTeam();
+  const [postMakeTeam, serverState] = usePostMakeTeam();
+  useManagePostTeamServerState(serverState);
 
   const onSubmit = (data: TeamCreateFormValues) => {
     postMakeTeam(data);
-    handleToggleModal();
   };
 
   return (
