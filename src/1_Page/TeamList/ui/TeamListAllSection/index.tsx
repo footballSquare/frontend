@@ -6,15 +6,22 @@ import searchIcon from "../../../../4_Shared/assets/svg/search.svg";
 
 const TeamListAllSection = () => {
   const [page, setPage] = React.useState<number>(0);
-  const [teamLists, loading, hasMoreContent] = useGetTeamList(page);
-  const [ref] = useInfiniteScrollPaging(setPage, loading, hasMoreContent);
+  const [teamLists, hasMoreContent, loading] = useGetTeamList(page);
+  const [observeRef] = useInfiniteScrollPaging(
+    setPage,
+    loading,
+    hasMoreContent
+  );
 
   return (
     <section>
-      <h2 className="text-lg font-bold mb-3 px-1">모든 팀</h2>
-      <button className="p-2 rounded-full bg-gray-100">
-        <img src={searchIcon} alt="search" className="w-5 h-5" />
-      </button>
+      <div className="flex items-center justify-between px-2 ">
+        <h2 className="text-lg font-bold mb-3 px-1">모든 팀</h2>
+        <button className="p-2 rounded-full bg-gray-100">
+          <img src={searchIcon} alt="search" className="w-5 h-5" />
+        </button>
+      </div>
+
       <div className="bg-white rounded-2xl overflow-hidden shadow-sm p-4">
         <div className="space-y-3 overflow-y-auto max-h-96">
           {teamLists && teamLists.length === 0 ? (
@@ -25,7 +32,9 @@ const TeamListAllSection = () => {
             teamLists.map((team, index) => (
               <TeamCard
                 team={team}
-                observeRef={index === teamLists.length - 1 ? ref : undefined}
+                observeRef={
+                  teamLists.length === index + 1 ? observeRef : undefined
+                }
                 key={team.team_list_idx}
               />
             ))
