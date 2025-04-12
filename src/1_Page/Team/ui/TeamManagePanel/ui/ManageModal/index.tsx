@@ -1,19 +1,21 @@
-import EmblemImageInput from "./ui/EmblemImageInput";
-import BannerImageInput from "./ui/BannerImageInput";
+import TeamImageInput from "./ui/TeamImageInput";
 import TextInputForm from "./ui/TextInputForm";
 import TeamApplications from "./ui/TeamApplications";
 import AutoMatchPanel from "./ui/AutoMatchPanel";
 
 import useDeleteTeam from "../../../../../../3_Entity/Team/useDeleteTeam";
-import default_banner from "../../../../../../4_Shared/assets/img/banner_soccer.jpg";
+import usePutTeamBanner from "../../../../../../3_Entity/Team/usePutTeamBanner";
+import usePutTeamEmblem from "../../../../../../3_Entity/Team/usePutTeamEmblem";
 
 const ManageModal = (props: ManageModalProps) => {
   const { teamInfo, handleToggleManageModal, handlers } = props;
   const [deleteTeam] = useDeleteTeam(teamInfo.team_list_idx);
+  const [putTeamBanner] = usePutTeamBanner(teamInfo.team_list_idx);
+  const [putTeamEmblem] = usePutTeamEmblem(teamInfo.team_list_idx);
 
   return (
-    <div className="fixed w-full z-10 bg-black bg-opacity-50  top-0 left-0 h-screen flex justify-center items-center">
-      <main className="w-full p-4 bg-white  rounded-lg ">
+    <div className="fixed inset-0 z-10 bg-black/60 bg-opacity-50 flex justify-center items-center">
+      <main className="w-[95%] max-w-6xl max-h-[90%] overflow-auto p-4 bg-white rounded-lg">
         <div className="flex flex-row justify-between items-center bg-white border-b mb-6 ">
           {/* 타이틀 영역 */}
           <div className="mr-6">
@@ -49,18 +51,20 @@ const ManageModal = (props: ManageModalProps) => {
 
         <div className="space-y-6">
           {/* Team Banner */}
-          <BannerImageInput
-            team_list_idx={teamInfo.team_list_idx}
-            imgSrc={teamInfo.team_list_banner || default_banner}
-            handleSetBanner={handlers.handleSetTeamBanner}
+          <TeamImageInput
+            imgSrc={teamInfo.team_list_banner}
+            putImage={putTeamBanner}
+            handleSetTeamImg={handlers.handleSetTeamBanner}
+            isBanner={true}
           />
 
           {/* Team Emblem */}
           <section className="flex justify-start items-center space-x-4">
-            <EmblemImageInput
-              team_list_idx={teamInfo.team_list_idx}
-              imgSrc={teamInfo.team_list_emblem || default_banner}
-              handleSetTeamEmblem={handlers.handleSetTeamEmblem}
+            <TeamImageInput
+              imgSrc={teamInfo.team_list_emblem}
+              handleSetTeamImg={handlers.handleSetTeamEmblem}
+              putImage={putTeamEmblem}
+              isBanner={false}
             />
             <AutoMatchPanel />
           </section>
