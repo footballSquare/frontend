@@ -4,7 +4,7 @@ type UseManageTeamInfoReturn = {
 };
 
 type ManageHandlers = {
-  handleSetTeamEmblem: (emblem: string) => void;
-  handleSetTeamBanner: (banner: string) => void;
+  handleSetTeamEmblem: (emblem: string | null) => void;
+  handleSetTeamBanner: (banner: string | null) => void;
   handleSetTeamInfoWithoutImg: (data: TeamInfoForm) => void;
 };

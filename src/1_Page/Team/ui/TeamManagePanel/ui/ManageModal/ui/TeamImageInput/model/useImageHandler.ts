@@ -7,8 +7,8 @@ const useImageHandler = (
 
   const inputFileRef = React.useRef<HTMLInputElement>(null);
   const [modifyMode, setModifyMode] = React.useState<boolean>(false);
-  const [imagePreview, setImagePreview] = React.useState<string>(imgSrc);
-  const imageBackupRef = React.useRef<string>(imgSrc);
+  const [imagePreview, setImagePreview] = React.useState<string | null>(imgSrc);
+  const imageBackupRef = React.useRef<string | null>(imgSrc);
 
   const handleSave = () => {
     imageBackupRef.current = imagePreview;
