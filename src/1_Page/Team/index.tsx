@@ -35,11 +35,17 @@ const Team = () => {
         <div>
           {/* 배너 */}
           <section className="flex justify-center">
-            <img
-              className="w-full h-[200px] object-cover rounded-lg"
-              src={team_list_banner || default_banner}
-              alt="Team Banner"
-            />
+            {team_list_banner ? (
+              <img
+                className="w-full h-[200px] object-cover rounded-lg shadow-lg"
+                src={team_list_banner}
+                alt="Team Banner"
+              />
+            ) : (
+              <div className="w-full h-[200px] rounded-lg bg-gradient-to-r from-blue-500 to-green-500 flex items-center justify-center text-white text-3xl font-bold shadow-inner">
+                {team_list_name}
+              </div>
+            )}
           </section>
 
           {/* 트로피 */}
