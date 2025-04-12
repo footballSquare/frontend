@@ -41,3 +41,16 @@ type TeamMembers = {
   player_list_nickname: string;
   team_role_idx: number;
 };
+
+type TeamListInfo = {
+  community_list_idx: number;
+  team_list_idx: number;
+  team_list_name: string;
+  team_list_short_name: string;
+  team_list_color: string;
+  team_list_emblem: string | null;
+  team_list_created_at: string;
+  whole_member: number;
+  player_list_idx: number;
+  player_list_name: string;
+};
