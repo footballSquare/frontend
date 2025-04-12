@@ -16,6 +16,9 @@ const usePostMakeTeam = (): [
     if (!serverState) return;
     console.log(serverState);
     switch (serverState.status) {
+      case 200:
+        alert("팀 생성 완료");
+        break;
       case 400:
         alert("양식 오류입니다");
         break;
