@@ -1,14 +1,14 @@
 import { useForm } from "react-hook-form";
 
-import { formatTime30 } from "../../../../../../4_Shared/lib/dateFormatter";
+import { formatTime30 } from "../../../../../../../../4_Shared/lib/dateFormatter";
 // 상수
-import { teamMatchAttribute } from "../../../../../../4_Shared/constant/teamMatchAttribute";
-import { matchType } from "../../../../../../4_Shared/constant/matchType";
-import { matchParticipation } from "../../../../../../4_Shared/constant/matchParticipation";
-import { matchFormation } from "../../../../../../4_Shared/constant/matchFormation";
-import { matchDuration } from "../../../../../../4_Shared/constant/matchDuration";
+import { teamMatchAttribute } from "../../../../../../../../4_Shared/constant/teamMatchAttribute";
+import { matchType } from "../../../../../../../../4_Shared/constant/matchType";
+import { matchParticipation } from "../../../../../../../../4_Shared/constant/matchParticipation";
+import { matchFormation } from "../../../../../../../../4_Shared/constant/matchFormation";
+import { matchDuration } from "../../../../../../../../4_Shared/constant/matchDuration";
 // state
-import useToggleState from "../../../../../../4_Shared/model/useToggleState";
+import useToggleState from "../../../../../../../../4_Shared/model/useToggleState";
 
 const AutoMatchPanel = () => {
   const disableFlag = true;

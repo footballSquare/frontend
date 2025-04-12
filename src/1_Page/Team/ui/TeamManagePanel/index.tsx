@@ -9,14 +9,16 @@ import {
   useMyTeamRoleIdx,
 } from "../../../../4_Shared/lib/useMyInfo";
 import useManageServerState from "./model/useManageServerState";
+import useToggleState from "../../../../4_Shared/model/useToggleState";
+import ManageModal from "./ui/ManageModal";
 
 const TeamManageButtonGroup = (props: TeamManageButtonGroupProps) => {
-  const { handleToggleManageModal } = props;
-
+  const { teamInfo, handlers } = props;
   const teamIdx = useParamInteger("teamIdx");
   const [deleteLeaveTeam, serverState] = useDeleteLeaveTeam(teamIdx);
   useManageServerState(serverState); // deleteLeaveTeam 서버 상태 관리
 
+  const [isModalOpen, handleToggleManageModal] = useToggleState();
   const [putSignTeam] = usePutSignTeam(teamIdx);
 
   // 팀 권한과
@@ -84,6 +86,14 @@ const TeamManageButtonGroup = (props: TeamManageButtonGroupProps) => {
             매치 생성
           </button>
         </div>
+      )}
+
+      {isModalOpen && (
+        <ManageModal
+          handleToggleManageModal={handleToggleManageModal}
+          teamInfo={teamInfo}
+          handlers={handlers}
+        />
       )}
     </div>
   );
