@@ -1,5 +1,5 @@
-import userIcon from "../../../../4_Shared/assets/svg/user.svg";
-import calendarIcon from "../../../../4_Shared/assets/svg/calander.svg";
+import userIcon from "../../4_Shared/assets/svg/user.svg";
+import calendarIcon from "../../4_Shared/assets/svg/calander.svg";
 import { formatDateKoreanDate } from "../../4_Shared/lib/dateFormatter";
 import { useNavigate } from "react-router-dom";
 

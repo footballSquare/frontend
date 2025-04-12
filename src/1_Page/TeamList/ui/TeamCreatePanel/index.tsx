@@ -6,37 +6,8 @@ import useToggleState from "../../../../4_Shared/model/useToggleState";
 import { commonStatusIdx } from "../../../../4_Shared/constant/commonStatusIdx";
 import usePostMakeTeam from "../../../../3_Entity/Team/usePostMakeTeam";
 
-const PlusCircleIcon = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round">
-    <circle cx="12" cy="12" r="10"></circle>
-    <line x1="12" y1="8" x2="12" y2="16"></line>
-    <line x1="8" y1="12" x2="16" y2="12"></line>
-  </svg>
-);
+import plusCircleIcon from "../../../../4_Shared/assets/svg/plus_circle_blue.svg";
 
-const ChevronRightIcon = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="18"
-    height="18"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round">
-    <polyline points="9 18 15 12 9 6"></polyline>
-  </svg>
-);
 const TeamCreatePanel = () => {
   const [isModalOpen, handleToggleModal] = useToggleState();
   const {
@@ -55,12 +26,12 @@ const TeamCreatePanel = () => {
   return (
     <div>
       <div
-        className="bg-white rounded-xl p-4 shadow-sm flex items-center justify-between active:bg-gray-50 transition-colors"
+        className="bg-white rounded-xl p-4 flex items-center justify-between active:bg-gray-50 transition-colors"
         onClick={handleToggleModal}>
         <div className="flex items-center">
           <div className="w-12 h-12 rounded-full bg-blue-50 flex items-center justify-center mr-3">
             <span className="text-blue-500">
-              <PlusCircleIcon />
+              <img src={plusCircleIcon} className="w-full h-full" />
             </span>
           </div>
           <div>
@@ -68,9 +39,7 @@ const TeamCreatePanel = () => {
             <p className="text-sm text-gray-500">나만의 팀을 생성해보세요</p>
           </div>
         </div>
-        <span className="text-gray-400">
-          <ChevronRightIcon />
-        </span>
+        <span className="text-gray-400">›</span>
       </div>
 
       {isModalOpen && (

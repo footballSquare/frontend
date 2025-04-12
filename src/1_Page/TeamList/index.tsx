@@ -1,6 +1,8 @@
 import React from "react";
 import TeamListAllSection from "./ui/TeamListAllSection";
 import TeamRecruitListSection from "./ui/TeamRecruitListSection ";
+import TeamCreatePanel from "./ui/TeamCreatePanel";
+
 import { TEAM_TAB } from "./constant/TEAM_TAB";
 
 const TeamListPage = () => {
@@ -15,6 +17,7 @@ const TeamListPage = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
           <div className="flex items-center justify-between">
             <h1 className="text-xl font-bold">팀 둘러보기</h1>
+            <TeamCreatePanel />
           </div>
         </div>
       </header>
