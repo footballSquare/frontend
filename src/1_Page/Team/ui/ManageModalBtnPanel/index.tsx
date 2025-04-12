@@ -44,12 +44,12 @@ const TeamManageButtonGroup = (props: ManageModalBtnPanelProps) => {
     <div className="flex flex-col items-center gap-2 mt-2">
       <div>
         {isPending ? (
-          <button className="bg-black text-white text-sm font-medium py-1 px-3 rounded-full transition-all duration-300">
+          <button className="bg-black hover:bg-black/80 text-white text-sm font-medium py-2 px-4 rounded-full shadow transition transform hover:scale-105 duration-300">
             가입신청중
           </button>
         ) : isLeaving ? (
           <button
-            className="bg-red-500 text-white text-sm font-medium py-1 px-3 rounded-full transition-all duration-300"
+            className="bg-red-500 hover:bg-red-600 text-white text-sm font-medium py-2 px-4 rounded-full shadow transition transform hover:scale-105 duration-300"
             onClick={() => {
               if (confirmAction()) {
                 updateToLeave();
@@ -60,7 +60,7 @@ const TeamManageButtonGroup = (props: ManageModalBtnPanelProps) => {
           </button>
         ) : (
           <button
-            className="bg-blue-500 text-white text-sm font-medium py-1 px- rounded-full transition-all duration-300"
+            className="bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium py-2 px-4 rounded-full shadow transition transform hover:scale-105 duration-300"
             onClick={() => {
               if (confirmAction()) {
                 updateToSignPending();
