@@ -23,7 +23,7 @@ const CreateTeamModal = (props: CreateTeamModalProps) => {
 
   return (
     <div className="fixed inset-0 z-10 h-full bg-black/60 flex items-center justify-center p-4">
-      <div className="bg-white p-4 rounded-xl w-full overflow-auto max-h-[80%] max-w-md shadow-lg overscroll-contain">
+      <div className="bg-white p-4 rounded-xl w-full overflow-auto max-h-[90%] max-w-md shadow-lg overscroll-contain">
         <h2 className="text-xl font-bold text-gray-800 mb-5">팀 생성하기</h2>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="mb-4">
@@ -62,17 +62,18 @@ const CreateTeamModal = (props: CreateTeamModalProps) => {
             <label className="block text-sm font-medium text-gray-700 mb-1.5">
               팀 컬러 (헥사코드)
             </label>
-            <div className="flex items-center">
+            <div className="flex items-center space-x-4 p-4 bg-gray-50 rounded-lg border border-gray-200">
+              <p className="font-semibold text-gray-700">클릭해서 수정하세요</p>
               <input
                 type="color"
                 value={watch("team_list_color") || "#3182F6"}
                 onChange={(e) => setValue("team_list_color", e.target.value)}
-                className="w-10 h-10 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all mr-2"
+                className="w-10 h-10 rounded-full border border-gray-300 hover:shadow-md transition-all"
               />
               <input
                 type="text"
                 {...register("team_list_color")}
-                className="flex-1 px-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                className="flex-1 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all"
               />
             </div>
             {errors.team_list_color && (
