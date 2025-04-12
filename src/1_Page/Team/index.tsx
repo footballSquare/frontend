@@ -87,14 +87,21 @@ const Team = () => {
               </div>
 
               {/* 팀 설명 및 팀 현황 */}
-              <div className="space-y-3">
-                <h2 className="text-base font-semibold">팀 설명</h2>
-                <p className="text-gray-600 text-sm whitespace-pre-line leading-relaxed">
-                  {team_list_announcement}
-                </p>
-
-                <h2 className="text-base font-semibold">팀 현황</h2>
-                <TeamMemberListBox />
+              <div className="bg-white ">
+                <div className="rounded-lg shadow p-4">
+                  <h2 className="text-base font-semibold text-gray-800 mb-2">
+                    팀 설명
+                  </h2>
+                  <p className="text-gray-600 text-sm whitespace-pre-line leading-relaxed">
+                    {team_list_announcement}
+                  </p>
+                </div>
+                <div className="mt-4">
+                  <h2 className="text-base font-semibold text-gray-800 mb-2">
+                    팀 현황
+                  </h2>
+                  <TeamMemberListBox />
+                </div>
               </div>
             </div>
 
