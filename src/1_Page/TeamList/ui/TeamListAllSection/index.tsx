@@ -2,6 +2,8 @@ import React from "react";
 import useGetTeamList from "../../../../3_Entity/Team/useGetTeamList";
 import useInfiniteScrollPaging from "../../../../4_Shared/model/useInfiniteScrollPaging";
 import TeamSummaryCard from "../../../../2_Widget/TeamSummaryCard";
+import { findRecentTeam } from "./util/findRecent";
+import { useMyTeamIdx } from "../../../../4_Shared/lib/useMyInfo";
 
 const TeamListAllSection = () => {
   const [page, setPage] = React.useState<number>(0);
@@ -11,6 +13,7 @@ const TeamListAllSection = () => {
     loading,
     hasMoreContent
   );
+  const [myTeamIdx] = useMyTeamIdx();
 
   return (
     <div>
@@ -31,6 +34,8 @@ const TeamListAllSection = () => {
                 observeRef={
                   teamLists.length === index + 1 ? observeRef : undefined
                 }
+                isMyTeam={team.team_list_idx === myTeamIdx}
+                isRecent={findRecentTeam(teamLists) === team.team_list_idx}
                 key={team.team_list_idx}
               />
             ))
