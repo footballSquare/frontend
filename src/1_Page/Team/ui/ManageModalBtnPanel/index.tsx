@@ -12,7 +12,7 @@ import useManageServerState from "./model/useManageServerState";
 import useToggleState from "../../../../4_Shared/model/useToggleState";
 import ManageModal from "./ui/ManageModal";
 
-const TeamManageButtonGroup = (props: TeamManageButtonGroupProps) => {
+const TeamManageButtonGroup = (props: ManageModalBtnPanelProps) => {
   const { teamInfo, handlers } = props;
   const teamIdx = useParamInteger("teamIdx");
   const [deleteLeaveTeam, serverState] = useDeleteLeaveTeam(teamIdx);
