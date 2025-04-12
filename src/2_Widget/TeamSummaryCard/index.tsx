@@ -5,11 +5,12 @@ import { useNavigate } from "react-router-dom";
 
 // 팀 카드 컴포넌트
 const TeamSummaryCard = (props: TeamSummaryCardProps) => {
-  const { team, observeRef } = props;
+  const { team, observeRef, isRecent, isMyTeam } = props;
   const navigate = useNavigate();
 
   return (
     <div
+      id={isRecent ? "recent" : isMyTeam ? "myteam" : undefined}
       ref={observeRef}
       className="group w-full max-w-md rounded-xl overflow-hidden bg-white shadow-md transition-shadow duration-200 cursor-pointer hover:shadow-xl">
       <div className="p-5">

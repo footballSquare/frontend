@@ -1,14 +1,13 @@
 import React from "react";
 import TeamListAllSection from "./ui/TeamListAllSection";
-import TeamRecruitListSection from "./ui/TeamRecruitListSection ";
+import TeamRecruitListSection from "./ui/TeamRecruitListSection";
 import TeamCreatePanel from "./ui/TeamCreatePanel";
 
 import { TEAM_TAB } from "./constant/TEAM_TAB";
+import TeamBanner from "./ui/TeamSideBanner";
 
 const TeamListPage = () => {
-  const [activeTab, setActiveTab] = React.useState<TEAM_TAB>(
-    TEAM_TAB.ALL_TEAMS
-  );
+  const [activeTab, setActiveTab] = React.useState(TEAM_TAB.ALL_TEAMS);
 
   return (
     <div className="min-h-screen w-full bg-gray-50">
@@ -24,7 +23,7 @@ const TeamListPage = () => {
 
       <main className="py-6 pb-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="sm:hidden flex border-b mb-4">
+          <div className="lg:hidden flex border-b mb-4">
             <button
               className={`flex-1 text-center py-2 ${
                 activeTab === TEAM_TAB.RECRUITING_TEAMS
@@ -45,22 +44,32 @@ const TeamListPage = () => {
             </button>
           </div>
 
-          <div className="sm:flex sm:space-x-6">
-            {/* 팀 목록 섹션 */}
+          <div className="lg:flex lg:space-x-6">
+            {/* 좌측 배너 섹션 */}
+            <div className="hidden lg:block lg:w-1/4 mb-6 lg:mb-0">
+              <TeamBanner />
+            </div>
+
+            {/* 중앙 - 팀 목록 섹션 */}
             <section
               className={`${
                 activeTab === TEAM_TAB.ALL_TEAMS ? "block" : "hidden"
-              } sm:block sm:w-1/2`}>
+              } lg:block lg:w-3/8`}>
               <TeamListAllSection />
             </section>
 
-            {/* 모든 팀 섹션 */}
+            {/* 우측 - 모집 중 팀 섹션 */}
             <section
               className={`${
                 activeTab === TEAM_TAB.RECRUITING_TEAMS ? "block" : "hidden"
-              } sm:block sm:w-1/2 mt-4 sm:mt-0`}>
+              } lg:block lg:w-3/8 mt-4 lg:mt-0`}>
               <TeamRecruitListSection />
             </section>
+          </div>
+
+          {/* 모바일에서만 보이는 배너 */}
+          <div className="lg:hidden mt-8">
+            <TeamBanner />
           </div>
         </div>
       </main>
