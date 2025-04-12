@@ -56,11 +56,19 @@ const Team = () => {
             <div className="w-full flex flex-wrap gap-1 sm:col-span-2 ">
               <div className="flex flex-col items-center ">
                 <div className="flex items-center ">
-                  <img
-                    src={team_list_emblem || default_banner}
-                    alt="Team Emblem"
-                    className="w-16 h-16 rounded-full object-cover border border-gray-200"
-                  />
+                  <div className="w-20 h-20 rounded-full overflow-hidden border-2 border-gray-200 shadow-md flex items-center justify-center bg-gray-100">
+                    {team_list_emblem ? (
+                      <img
+                        src={team_list_emblem}
+                        alt="Team Emblem"
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <span className="text-gray-500 font-bold text-xl">
+                        {team_list_short_name}
+                      </span>
+                    )}
+                  </div>
                   <section className="flex flex-col items-center min-w-[120px]">
                     <h1
                       className={`text-xl font-bold text-center`}
