@@ -1,7 +1,7 @@
 import React from "react";
 import useGetRecruitTeamList from "../../../../3_Entity/Team/useGetRecruitTeamList";
 import useInfiniteScrollPaging from "../../../../4_Shared/model/useInfiniteScrollPaging";
-import TeamCard from "../TeamCard";
+import TeamCard from "../TeamSummaryCard";
 import searchIcon from "../../../../4_Shared/assets/svg/search.svg";
 
 const TeamRecruitListSection = () => {

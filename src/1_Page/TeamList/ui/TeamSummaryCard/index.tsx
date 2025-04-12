@@ -1,14 +1,13 @@
 import userIcon from "../../../../4_Shared/assets/svg/user.svg";
 import calendarIcon from "../../../../4_Shared/assets/svg/calander.svg";
 import { formatDateKoreanDate } from "../../../../4_Shared/lib/dateFormatter";
+import { useNavigate } from "react-router-dom";
 
-type TeamCardProps = {
-  team: TeamListInfo;
-  observeRef?: (node?: Element | null) => void;
-};
 // 팀 카드 컴포넌트
-const TeamCard = (props: TeamCardProps) => {
+const TeamSummaryCard = (props: TeamSummaryCardProps) => {
   const { team, observeRef } = props;
+  const navigate = useNavigate();
+
   return (
     <div
       ref={observeRef}
@@ -71,7 +70,11 @@ const TeamCard = (props: TeamCardProps) => {
       </div>
 
       {/* 하단 액션 버튼 */}
-      <div className="flex items-center justify-center p-3 bg-gray-50 transition-colors group-hover:bg-blue-50">
+      <div
+        onClick={() => {
+          navigate(`/team/${team.team_list_idx}`);
+        }}
+        className="flex items-center justify-center p-3 bg-gray-50 transition-colors group-hover:bg-blue-50">
         <span className="text-sm font-medium text-gray-600 transition-colors group-hover:text-blue-600">
           팀 상세보기
         </span>
@@ -83,4 +86,4 @@ const TeamCard = (props: TeamCardProps) => {
   );
 };
 
-export default TeamCard;
+export default TeamSummaryCard;

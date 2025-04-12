@@ -1,7 +1,7 @@
 import React from "react";
 import useGetTeamList from "../../../../3_Entity/Team/useGetTeamList";
 import useInfiniteScrollPaging from "../../../../4_Shared/model/useInfiniteScrollPaging";
-import TeamCard from "../TeamCard";
+import TeamSummaryCard from "../TeamSummaryCard";
 import searchIcon from "../../../../4_Shared/assets/svg/search.svg";
 
 const TeamListAllSection = () => {
@@ -30,7 +30,7 @@ const TeamListAllSection = () => {
             </div>
           ) : (
             teamLists.map((team, index) => (
-              <TeamCard
+              <TeamSummaryCard
                 team={team}
                 observeRef={
                   teamLists.length === index + 1 ? observeRef : undefined
