@@ -1,12 +1,14 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { schema } from "../../../../../../4_Shared/lib/imgSchema";
 import useImageHandler from "./model/useImageHandler";
-import usePutTeamBanner from "../../../../../../3_Entity/Team/usePutTeamBanner";
 
-const BannerImageInput = (props: BannerImageInputProps) => {
-  const { imgSrc, team_list_idx, handleSetBanner } = props;
+import { schema } from "../../../../../../../../4_Shared/lib/imgSchema";
+import usePutTeamEmblem from "../../../../../../../../3_Entity/Team/usePutTeamEmblem";
+
+const EmblemImageInput = (props: ImageInputProps) => {
+  const { imgSrc, team_list_idx, handleSetTeamEmblem } = props;
   const key = "file";
+
   const {
     register,
     handleSubmit,
@@ -17,8 +19,6 @@ const BannerImageInput = (props: BannerImageInputProps) => {
     resolver: yupResolver(schema),
   });
 
-  const [putTeamBanner] = usePutTeamBanner(team_list_idx);
-
   const {
     imagePreview,
     modifyMode,
@@ -27,16 +27,14 @@ const BannerImageInput = (props: BannerImageInputProps) => {
     handleImageChange,
     handleCancle,
     handleSave,
-  } = useImageHandler({
-    imgSrc,
-    setValue,
-    clearErrors,
-  });
+  } = useImageHandler({ imgSrc, setValue, clearErrors });
 
-  const onSubmit: SubmitHandler<ImageForm> = (props) => {
+  const [putTeamEmblem] = usePutTeamEmblem(team_list_idx);
+
+  const onSubmit: SubmitHandler<ImageForm> = (data) => {
     handleSave();
-    handleSetBanner(imagePreview);
-    putTeamBanner(props.file);
+    handleSetTeamEmblem(imagePreview);
+    putTeamEmblem(data.file);
   };
 
   return (
@@ -45,8 +43,9 @@ const BannerImageInput = (props: BannerImageInputProps) => {
       <div className="relative space-y-4 bg-gray-50 p-4 rounded-md shadow-md">
         <div className="flex gap-1">
           <img
-            className={`w-full h-[100px] object-cover `}
+            className={`h-[40px] w-[40px] object-cover `}
             src={imagePreview}
+            alt="Uploaded Emblem Preview"
           />
         </div>
 
@@ -91,4 +90,4 @@ const BannerImageInput = (props: BannerImageInputProps) => {
   );
 };
 
-export default BannerImageInput;
+export default EmblemImageInput;

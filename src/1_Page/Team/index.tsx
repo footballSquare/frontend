@@ -3,17 +3,15 @@ import HistoryListBox from "./ui/HistoryListBox";
 import TeamMatchBox from "./ui/TeamMatchBox";
 import TeamMemberListBox from "./ui/TeamMemberListBox";
 import TeamAwards from "./ui/TeamAwards";
-import TeamManageButtonGroupProps from "./ui/TeamManageButtonGroupProps";
+import TeamManagePanel from "./ui/TeamManagePanel";
 import useValidParamInteger from "../../4_Shared/model/useValidParamInteger";
-import ManageModal from "./ui/ManageModal";
-import useToggleState from "../../4_Shared/model/useToggleState";
+
 import useManageTeamInfo from "./model/useManagePage";
 
 const Team = () => {
   const [teamIdx] = useValidParamInteger("teamIdx");
   const [teamInfo, loading] = useGetTeamInfo(teamIdx);
   const { displayTeamInfo, handlers } = useManageTeamInfo(teamInfo);
-  const [isManageModal, handleToggleManageModal] = useToggleState();
 
   const {
     team_list_banner,
@@ -74,8 +72,9 @@ const Team = () => {
                       style={{ color: team_list_color }}>
                       {team_list_name} #{team_list_short_name}
                     </h1>
-                    <TeamManageButtonGroupProps
-                      handleToggleManageModal={handleToggleManageModal}
+                    <TeamManagePanel
+                      handlers={handlers}
+                      teamInfo={displayTeamInfo}
                     />
                   </div>
                 </div>
@@ -106,15 +105,6 @@ const Team = () => {
             </div>
           </article>
         </div>
-      )}
-
-      {/* 팀 관리 모달 */}
-      {isManageModal && (
-        <ManageModal
-          handlers={handlers}
-          teamInfo={displayTeamInfo}
-          handleToggleManageModal={handleToggleManageModal}
-        />
       )}
     </main>
   );

@@ -4,8 +4,8 @@ import TextInputForm from "./ui/TextInputForm";
 import TeamApplications from "./ui/TeamApplications";
 import AutoMatchPanel from "./ui/AutoMatchPanel";
 
-import useDeleteTeam from "../../../../3_Entity/Team/useDeleteTeam";
-import default_banner from "../../../../4_Shared/assets/img/banner_soccer.jpg";
+import useDeleteTeam from "../../../../../../3_Entity/Team/useDeleteTeam";
+import default_banner from "../../../../../../4_Shared/assets/img/banner_soccer.jpg";
 
 const ManageModal = (props: ManageModalProps) => {
   const { teamInfo, handleToggleManageModal, handlers } = props;

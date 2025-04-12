@@ -1,6 +1,6 @@
 import TeamApplicationItem from "./ui/TeamApplicationItem";
 import useManagePlayers from "./model/useManagePlayers";
-import useGetSignMemberList from "../../../../../../3_Entity/Team/useGetSignMemberList";
+import useGetSignMemberList from "../../../../../../../../3_Entity/Team/useGetSignMemberList";
 
 const TeamApplications = (props: TeamApplicationsProps) => {
   const { team_list_idx } = props;
