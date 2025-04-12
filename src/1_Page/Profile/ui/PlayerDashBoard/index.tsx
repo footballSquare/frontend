@@ -75,10 +75,7 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
       </div>
 
       <div className="p-6">
-        <form
-          onSubmit={handleSubmit(onSubmit, (errors) => {
-            console.log("폼 에러!", errors);
-          })}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           {/* 상태 메시지 */}
           <div className="mb-6">
             <input
