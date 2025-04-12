@@ -2,7 +2,6 @@ import React from "react";
 import useGetTeamList from "../../../../3_Entity/Team/useGetTeamList";
 import useInfiniteScrollPaging from "../../../../4_Shared/model/useInfiniteScrollPaging";
 import TeamSummaryCard from "../../../../2_Widget/TeamSummaryCard";
-import searchIcon from "../../../../4_Shared/assets/svg/search.svg";
 
 const TeamListAllSection = () => {
   const [page, setPage] = React.useState<number>(0);
@@ -17,9 +16,6 @@ const TeamListAllSection = () => {
     <div>
       <div className="flex items-center justify-between px-2 ">
         <h2 className="text-lg font-bold mb-3 px-1">모든 팀</h2>
-        <button className="p-2 rounded-full bg-gray-100">
-          <img src={searchIcon} alt="search" className="w-5 h-5" />
-        </button>
       </div>
 
       <div className="bg-white rounded-2xl overflow-hidden shadow-sm p-4">
