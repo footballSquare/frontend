@@ -18,7 +18,7 @@ const CommunityStaffApplicationList = (
   const navigate = useNavigate();
 
   return (
-    <div className="bg-gray-50 rounded-xl shadow-md w-full flex flex-col gap-4 p-4">
+    <div className="bg-gray-50 rounded-xl shadow-md w-full flex flex-col gap-2 p-2">
       {communityStaffApplicationList.map((application, index) => {
         return (
           <div

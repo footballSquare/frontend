@@ -1,4 +1,3 @@
-import StandbyListPanel from "./ui/StandbyListPanel";
 import MatchList from "./ui/MatchList";
 import Button from "../../4_Shared/components/Button";
 import useMakeMatchModalStore from "../../4_Shared/zustand/useMakeMatchModalStore";
@@ -25,8 +24,6 @@ const FreeMatch = () => {
         <h4 className=" text-blue">현재 경기</h4>
         <MatchList />
       </div>
-      {/* 대기 인원 목록 */}
-      <StandbyListPanel />
     </div>
   );
 };

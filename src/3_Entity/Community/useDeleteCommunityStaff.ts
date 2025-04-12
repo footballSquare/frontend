@@ -7,8 +7,13 @@ const useDeleteCommunityStaff = (): [
   const [serverState, request, loading] = useFetchData();
 
   const deleteCommunityStaff = (props: DeleteCommunityStaffProps) => {
-    const { userIdx } = props;
-    request("DELETE", `/community/staff/${userIdx}/kick`, null, true);
+    const { communityIdx, userIdx } = props;
+    request(
+      "DELETE",
+      `/community/${communityIdx}/staff/${userIdx}/kick`,
+      null,
+      true
+    );
   };
 
   React.useEffect(() => {

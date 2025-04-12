@@ -12,17 +12,22 @@ import useMatchApprove from "./model/useMatchApprove";
 import useMatchApply from "./model/useMatchApply";
 import { matchPosition } from "../../4_Shared/constant/matchPosition";
 import StatPanel from "./ui/StatPanel";
-import { useIsLogin, useMyUserIdx } from "../../4_Shared/lib/useMyInfo";
+import {
+  useIsLogin,
+  useMyNickname,
+  useMyUserIdx,
+} from "../../4_Shared/lib/useMyInfo";
 import usePutMatchEnd from "../../3_Entity/Match/usePutMatchEnd";
 import useDeleteMatch from "../../3_Entity/Match/useDeleteMatch";
 import usePutOpenMatchJoin from "../../3_Entity/Match/usePutOpenMatchJoin";
+import { useNavigate } from "react-router-dom";
 const MatchModal = () => {
   const { matchIdx, toggleMatchModal } = useMatchModalStore();
   const [matchDetail] = useGetMatchDetail({ matchIdx });
   const {
     player_list_idx,
-    //player_list_nickname,
-    //player_list_profile_image,
+    player_list_nickname,
+    player_list_profile_image,
     match_formation_idx,
     match_position_idxs,
     match_match_participation_type,
@@ -46,8 +51,10 @@ const MatchModal = () => {
   const [putOpenMatchJoin] = usePutOpenMatchJoin();
   const [isLogin] = useIsLogin();
   const [userIdx] = useMyUserIdx();
+  const [nickname] = useMyNickname();
   const isMatchLeader = userIdx === player_list_idx;
-
+  const navigate = useNavigate();
+  
   return (
     // 모달 커버
     <div className="absolute top-0 left-0 w-full h-full flex justify-center items-center">
@@ -99,6 +106,25 @@ const MatchModal = () => {
               {matchType[match_type_idx]}
             </p>
           </label>
+
+          {/* 매치 리더 프로필 이동 버튼 */}
+          <div className="flex flex-col text-xs font-semibold relative hover:scale-[1.2] duration-300">
+            매치 호스트
+            <div
+              onClick={() => {
+                toggleMatchModal();
+                navigate(`profile/${player_list_idx}`);
+              }}
+              className="flex justify-center items-center w-[164px] h-[32px] bg-blue-100 rounded-[4px] border cursor-pointer"
+            >
+              <h2>{player_list_nickname}</h2>
+              <img
+                src={player_list_profile_image || undefined}
+                alt="profile"
+                className="w-[32px] h-[32px] rounded-full absolute bottom-0 left-0 cursor-pointer"
+              />
+            </div>
+          </div>
         </div>
 
         {/* 포메이션 / 포지션 / 포지션별 대기 인원(승인 참가 전용) */}
@@ -133,7 +159,7 @@ const MatchModal = () => {
                       ) && (
                         <button
                           key={index}
-                          className=" border border-gray shadow-lg p-[2px] w-[128px] hover:bg-blue hover:text-white"
+                          className=" border border-gray shadow-lg p-[2px] w-[128px] hover:bg-blue hover:scale-[1.2] duration-300 hover:text-white"
                           onClick={() => {
                             putOpenMatchJoin({
                               matchIdx,
@@ -141,8 +167,8 @@ const MatchModal = () => {
                             });
                             matchApproveHandler({
                               player: {
-                                player_list_idx: 1,
-                                player_list_nickname: "master",
+                                player_list_idx: userIdx || 0,
+                                player_list_nickname: nickname || "error!",
                                 player_list_url: "url",
                               },
                               matchPosition: positionIdx,
