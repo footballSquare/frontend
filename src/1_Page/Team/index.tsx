@@ -4,9 +4,6 @@ import TeamMatchBox from "./ui/TeamMatchBox";
 import TeamMemberListBox from "./ui/TeamMemberListBox";
 import TeamAwards from "./ui/TeamAwards";
 import TeamManageButtonGroupProps from "./ui/TeamManageButtonGroupProps";
-
-import default_banner from "../../4_Shared/assets/img/banner_soccer.jpg";
-
 import useValidParamInteger from "../../4_Shared/model/useValidParamInteger";
 import ManageModal from "./ui/ManageModal";
 import useToggleState from "../../4_Shared/model/useToggleState";

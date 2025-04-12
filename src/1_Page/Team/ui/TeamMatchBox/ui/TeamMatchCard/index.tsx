@@ -19,79 +19,75 @@ const TeamMatchCard = (props: TeamMatchCardProps) => {
 
   const { toggleMatchModal, setMatchIdx } = useMatchModalStore();
 
+  const isClickable = common_status_idx === 0;
+
+  // 플레이타임 계산
+  const playTime =
+    `${match_match_duration.hours ? `${match_match_duration.hours}h ` : ""}${
+      match_match_duration.minutes ? `${match_match_duration.minutes}m` : ""
+    }`.trim() || "--";
+
+  // 클릭 이벤트
+  const handleClick = () => {
+    if (!isClickable) return;
+    setMatchIdx(match_match_idx);
+    toggleMatchModal();
+  };
+
   return (
     <div
       ref={observeRef}
-      key={"mathcard-" + index}
-      className={`flex flex-row items-center rounded-lg shadow min-h-[100px] 
-        ${
-          common_status_idx === 0 ? "bg-gray-100 cursor-pointer" : "bg-gray-300"
-        }`}
-      onClick={() => {
-        if (common_status_idx !== 0) return;
-        setMatchIdx(match_match_idx);
-        toggleMatchModal();
-      }}>
-      <div className="grid grid-cols-4 w-full gap-2 p-4">
-        {/* Header Section */}
-        <div className="col-span-1 flex flex-col justify-between items-center">
-          <p className="text-gray-800 text-sm font-semibold">
+      key={"matchcard-" + index}
+      onClick={handleClick}
+      style={isClickable ? {} : { cursor: "not-allowed" }}
+      className="w-full rounded-2xl shadow-sm border border-gray-100 bg-white transition-shadow hover:shadow-md">
+      <div className="p-5 grid gap-4 sm:grid-cols-4">
+        {/* 왼쪽(모바일 상단) 정보 */}
+        <div className="sm:col-span-1 flex flex-col justify-center items-start">
+          <p className="text-gray-900 text-base font-bold mb-1 break-words leading-snug">
             {team_list_name}
           </p>
-
-          <p className="text-gray-800 text-sm font-semibold">
+          <p className="text-gray-600 text-sm font-medium mb-1 leading-tight">
             #{matchAttribute[match_match_attribute]}#{player_list_nickname}
           </p>
-
           <span
-            className={`text-xs font-medium ${
+            className={`text-xs font-medium mb-1 ${
               match_match_participation_type === 0
                 ? "text-red-500"
                 : "text-green-500"
             }`}>
             {matchParticipation[match_match_participation_type]}
           </span>
-          <span className="text-xs text-gray-400">
+          <span className="text-[11px] text-gray-400">
             경기 ID: {match_match_idx}
           </span>
         </div>
 
-        {/* Info Section */}
-        <div className="flex flex-col col-span-2">
-          <p className="text-gray-500 text-xs">
+        {/* 중앙(모바일 두 번째) 정보 */}
+        <div className="sm:col-span-2 flex flex-col justify-center">
+          <p className="text-sm text-gray-500 mb-1">
             게임 모드:{" "}
-            <span className="font-medium">
+            <span className="font-semibold text-gray-900">
               {match_type_idx === 0 ? "일반 경기" : "특별 경기"}
             </span>
           </p>
-          <p className="text-gray-500 text-xs">
+          <p className="text-sm text-gray-500 mb-1">
             매치 진행:{" "}
-            <span className="font-medium">{match_match_start_time}</span>
-          </p>
-          <p className="text-gray-500 text-xs">
-            예상 플레이 타임:{" "}
-            <span className="font-medium">
-              {`
-                ${
-                  match_match_duration.hours
-                    ? `${match_match_duration.hours}h`
-                    : ""
-                }
-                ${
-                  match_match_duration.minutes
-                    ? `${match_match_duration.minutes}m`
-                    : ""
-                }
-              `.trim()}
+            <span className="font-semibold text-gray-900">
+              {match_match_start_time}
             </span>
+          </p>
+          <p className="text-sm text-gray-500">
+            예상 플레이 타임:{" "}
+            <span className="font-semibold text-gray-900">{playTime}</span>
           </p>
         </div>
 
-        {/* Status Icon */}
-        <div className="flex justify-end items-center">
+        {/* 오른쪽(모바일 맨 아래) 상태 아이콘 */}
+        <div className="sm:col-span-1 flex items-center justify-end">
           <span
-            className={`w-5 h-5 text-white text-xs flex items-center justify-center rounded-full ${
-              common_status_idx === 1 ? "bg-red-500" : "bg-green-500"
+            className={`w-6 h-6 text-white text-xs flex items-center justify-center rounded-full font-bold shadow-md ${
+              common_status_idx === 1 ? "bg-red-500" : "bg-blue-500"
             }`}>
             {common_status_idx === 1 ? "✗" : "✓"}
           </span>
