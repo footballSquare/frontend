@@ -25,35 +25,37 @@ const Team = () => {
   } = displayTeamInfo;
 
   return (
-    <main className="flex flex-col w-[90%] text-sm pt-5">
+    <main className="flex flex-col w-full sm:w-[90%] max-w-7xl mx-auto text-sm pt-5 px-4 sm:px-0">
       {loading ? (
-        <div>로딩중</div>
+        <div className="text-center py-10">로딩중...</div>
       ) : (
-        <div>
-          {/* 배너 */}
-          <section className="flex justify-center">
+        <div className="space-y-6">
+          {/* 배너 영역 */}
+          <section className="relative w-full">
             {team_list_banner ? (
               <img
-                className="w-full h-[200px] object-cover rounded-lg shadow-lg"
+                className="w-full h-[200px] object-cover rounded-xl shadow-md"
                 src={team_list_banner}
                 alt="Team Banner"
               />
             ) : (
-              <div className="w-full h-[200px] rounded-lg bg-gradient-to-r from-blue-500 to-green-500 flex items-center justify-center text-white text-3xl font-bold shadow-inner">
+              <div className="w-full h-[200px] rounded-xl bg-gradient-to-r from-blue-500 to-green-500 flex items-center justify-center text-white text-2xl sm:text-3xl font-bold shadow-md">
                 {team_list_name}
               </div>
             )}
           </section>
 
-          {/* 트로피 */}
+          {/* 트로피, 혹은 기타 상훈 정보 */}
           <TeamAwards />
 
-          {/* 내용 */}
-          <article className="flex flex-col gap-5 sm:grid grid-cols-5 w-full ">
-            <div className="w-full flex flex-wrap gap-1 sm:col-span-2 ">
-              <div className="flex flex-col items-center ">
-                <div className="flex items-center ">
-                  <div className="w-20 h-20 rounded-full overflow-hidden border-2 border-gray-200 shadow-md flex items-center justify-center bg-gray-100">
+          {/* 본문: 그리드 레이아웃 */}
+          <article className="grid grid-cols-1 sm:grid-cols-5 gap-6">
+            {/* 왼쪽 섹션: 팀 정보와 역사 */}
+            <div className="sm:col-span-2 space-y-6">
+              {/* 팀 기본 정보 */}
+              <div className="flex flex-col items-center sm:items-start space-y-4">
+                <div className="flex items-center space-x-3">
+                  <div className="w-20 h-20 rounded-full overflow-hidden border-2 border-gray-200 shadow-md bg-gray-100 flex items-center justify-center">
                     {team_list_emblem ? (
                       <img
                         src={team_list_emblem}
@@ -62,50 +64,51 @@ const Team = () => {
                       />
                     ) : (
                       <span className="text-gray-500 font-bold text-xl">
-                        {team_list_short_name}
+                        {team_list_short_name || "팀"}
                       </span>
                     )}
                   </div>
-                  <section className="flex flex-col items-center min-w-[120px]">
+                  <div className="flex flex-col items-center sm:items-start">
                     <h1
-                      className={`text-xl font-bold text-center`}
+                      className="text-xl font-bold text-center sm:text-left"
                       style={{ color: team_list_color }}>
-                      {team_list_name} {"#"}
-                      {team_list_short_name}
+                      {team_list_name} #{team_list_short_name}
                     </h1>
-
                     <TeamManageButtonGroupProps
                       handleToggleManageModal={handleToggleManageModal}
                     />
-                  </section>
-                </div>
-                <section className="flex flex-col items-start w-full">
-                  <h2 className="text-base font-semibold">팀 연혁</h2>
-                  <HistoryListBox />
-                </section>
-              </div>
-
-              <section className="space-y-3 w-full">
-                <div className="max-w-[400px]">
-                  <h2 className="text-base font-semibold">팀 설명</h2>
-                  <p className="text-gray-600 text-xs whitespace-pre-line">
-                    {team_list_announcement}
-                  </p>
-                  <div>
-                    <h2 className="text-base font-semibold">팀 현황</h2>
-                    <TeamMemberListBox />
                   </div>
                 </div>
-              </section>
+
+                {/* 팀 연혁 */}
+                <div className="w-full">
+                  <h2 className="text-base font-semibold mb-2">팀 연혁</h2>
+                  <HistoryListBox />
+                </div>
+              </div>
+
+              {/* 팀 설명 및 팀 현황 */}
+              <div className="space-y-3">
+                <h2 className="text-base font-semibold">팀 설명</h2>
+                <p className="text-gray-600 text-sm whitespace-pre-line leading-relaxed">
+                  {team_list_announcement}
+                </p>
+
+                <h2 className="text-base font-semibold">팀 현황</h2>
+                <TeamMemberListBox />
+              </div>
             </div>
 
-            <div className="space-y-3 sm:col-span-3">
+            {/* 오른쪽 섹션: 경기 정보 */}
+            <div className="sm:col-span-3 space-y-3">
               <h2 className="text-base font-semibold">현재 경기</h2>
               <TeamMatchBox />
             </div>
           </article>
         </div>
       )}
+
+      {/* 팀 관리 모달 */}
       {isManageModal && (
         <ManageModal
           handlers={handlers}
