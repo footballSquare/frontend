@@ -1,8 +1,16 @@
 import React from "react";
 import TeamListAllSection from "./ui/TeamListAllSection";
+import TeamRecruitListSection from "./ui/TeamRecruitListSection ";
+
+enum TEAEM_TAB {
+  ALL_TEAMS = "allTeams",
+  RECRUITING_TEAMS = "recruitingTeams",
+}
 
 const TeamListPage = () => {
-  const [activeTab, setActiveTab] = React.useState("teamList");
+  const [activeTab, setActiveTab] = React.useState<TEAEM_TAB>(
+    TEAEM_TAB.ALL_TEAMS
+  );
 
   return (
     <div className="min-h-screen w-full bg-gray-50">
@@ -21,21 +29,21 @@ const TeamListPage = () => {
           <div className="sm:hidden flex border-b mb-4">
             <button
               className={`flex-1 text-center py-2 ${
-                activeTab === "teamList"
+                activeTab === TEAEM_TAB.RECRUITING_TEAMS
                   ? "border-b-2 border-blue-500 text-blue-500 font-semibold"
                   : "text-gray-600"
               }`}
-              onClick={() => setActiveTab("teamList")}>
-              팀 목록
+              onClick={() => setActiveTab(TEAEM_TAB.RECRUITING_TEAMS)}>
+              모집 중인 팀
             </button>
             <button
               className={`flex-1 text-center py-2 ${
-                activeTab === "allTeams"
+                activeTab === TEAEM_TAB.ALL_TEAMS
                   ? "border-b-2 border-blue-500 text-blue-500 font-semibold"
                   : "text-gray-600"
               }`}
-              onClick={() => setActiveTab("allTeams")}>
-              모든 팀
+              onClick={() => setActiveTab(TEAEM_TAB.ALL_TEAMS)}>
+              전체 팀 목록
             </button>
           </div>
 
@@ -44,27 +52,17 @@ const TeamListPage = () => {
             {/* 팀 목록 섹션 */}
             <section
               className={`${
-                activeTab === "teamList" ? "block" : "hidden"
+                activeTab === TEAEM_TAB.ALL_TEAMS ? "block" : "hidden"
               } sm:block sm:w-1/2`}>
-              <h2 className="text-lg font-bold mb-3 px-1">팀 목록</h2>
-              <div className="bg-white rounded-2xl overflow-hidden shadow-sm">
-                <div className="p-4">
-                  <TeamListAllSection />
-                </div>
-              </div>
+              <TeamListAllSection />
             </section>
 
             {/* 모든 팀 섹션 */}
             <section
               className={`${
-                activeTab === "allTeams" ? "block" : "hidden"
+                activeTab === TEAEM_TAB.RECRUITING_TEAMS ? "block" : "hidden"
               } sm:block sm:w-1/2 mt-4 sm:mt-0`}>
-              <h2 className="text-lg font-bold mb-3 px-1">모든 팀</h2>
-              <div className="bg-white rounded-2xl overflow-hidden shadow-sm">
-                <div className="p-4">
-                  <p className="text-gray-600">모든 팀 목록 내용</p>
-                </div>
-              </div>
+              <TeamRecruitListSection />
             </section>
           </div>
         </div>

@@ -14,7 +14,7 @@ const TeamListAllSection = () => {
   );
 
   return (
-    <section>
+    <div>
       <div className="flex items-center justify-between px-2 ">
         <h2 className="text-lg font-bold mb-3 px-1">모든 팀</h2>
         <button className="p-2 rounded-full bg-gray-100">
@@ -47,7 +47,7 @@ const TeamListAllSection = () => {
           </div>
         )}
       </div>
-    </section>
+    </div>
   );
 };
 
