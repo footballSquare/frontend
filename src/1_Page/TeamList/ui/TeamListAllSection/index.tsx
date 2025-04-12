@@ -1,7 +1,7 @@
 import React from "react";
 import useGetTeamList from "../../../../3_Entity/Team/useGetTeamList";
 import useInfiniteScrollPaging from "../../../../4_Shared/model/useInfiniteScrollPaging";
-import TeamSummaryCard from "../TeamSummaryCard";
+import TeamSummaryCard from "../../../../2_Widget/TeamSummaryCard";
 import searchIcon from "../../../../4_Shared/assets/svg/search.svg";
 
 const TeamListAllSection = () => {
@@ -23,7 +23,7 @@ const TeamListAllSection = () => {
       </div>
 
       <div className="bg-white rounded-2xl overflow-hidden shadow-sm p-4">
-        <div className="space-y-3 overflow-y-auto max-h-96">
+        <div className="space-y-3 overflow-y-auto max-h-96 overscroll-contain">
           {teamLists && teamLists.length === 0 ? (
             <div className="text-center text-gray-500 py-4">
               등록된 팀이 없습니다
