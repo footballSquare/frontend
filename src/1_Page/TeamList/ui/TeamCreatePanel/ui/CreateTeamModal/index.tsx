@@ -19,6 +19,7 @@ const CreateTeamModal = (props: CreateTeamModalProps) => {
 
   const onSubmit = (data: TeamCreateFormValues) => {
     postMakeTeam(data);
+    handleToggleModal();
   };
 
   return (
