@@ -1,4 +1,4 @@
-type TeamManageButtonGroupProps = {
+type ManageModalBtnPanelProps = {
   teamInfo: TeamInfo;
   handlers: ManageHandlers;
 };
