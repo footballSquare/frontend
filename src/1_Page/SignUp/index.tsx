@@ -139,15 +139,27 @@ const SignUp = () => {
                 placeholder="인증번호 입력"
               />
               <button
+                type="button"
                 onClick={() => {
-                  postReceiveAuthSms({ phone: getSecondStepValues("phone") });
-                  setAuthPhone(getSecondStepValues("phone"));
+                  const phone = getSecondStepValues("phone");
+                  if (secondStepErrors.phone) {
+                    alert("핸드폰 번호 형식이 올바르지 않습니다.");
+                    return;
+                  }
+                  if (!phone) {
+                    alert("핸드폰 번호를 입력해주세요.");
+                    return;
+                  }
+                  postReceiveAuthSms({ phone });
+                  setAuthPhone(phone);
                 }}
                 className="mt-4 w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 인증번호 전송
               </button>
+
               <button
+                type="button"
                 onClick={() => {
                   postCheckAuthSms({
                     phone: authPhone,
@@ -162,6 +174,7 @@ const SignUp = () => {
               >
                 인증번호 확인
               </button>
+
               <button
                 type="submit"
                 className="mt-4 w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
