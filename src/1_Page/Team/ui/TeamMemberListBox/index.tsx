@@ -23,20 +23,21 @@ const TeamMemberListBox = () => {
   const [displayMemberList, handleDelete] = useManageMemberList(teamMember);
 
   return (
-    <div className=" h-[200px] overflow-scroll">
-      {displayMemberList.length === 0 ? (
-        <p className=" text-gray-500">현재 팀원이 없습니다.</p>
-      ) : (
-        displayMemberList.map((elem, index) => (
-          <MemberCard
-            {...elem}
-            handleDelete={handleDelete}
-            index={index}
-            observeRef={
-              teamMember.length === index + 1 ? observeRef : undefined
-            }
-          />
-        ))
+    <div className="bg-white border border-gray-100 rounded-xl shadow-sm p-3 h-64 overflow-y-auto space-y-3">
+      {displayMemberList.length === 0 && !loading && (
+        <p className="text-gray-500">현재 팀원이 없습니다.</p>
+      )}
+      {displayMemberList.map((elem, index) => (
+        <MemberCard
+          key={"member-" + index}
+          {...elem}
+          handleDelete={handleDelete}
+          index={index}
+          observeRef={teamMember.length === index + 1 ? observeRef : undefined}
+        />
+      ))}
+      {loading && (
+        <div className="text-center text-sm text-gray-400">로딩 중...</div>
       )}
     </div>
   );
