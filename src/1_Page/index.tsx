@@ -11,6 +11,7 @@ import Championship from "./Championship";
 import { useIsLogin } from "../4_Shared/lib/useMyInfo";
 import ChampionshipEdit from "./ChampionshipEdit";
 import SignUp from "./SignUp";
+import TeamList from "./TeamList";
 
 const Page = () => {
   const [isLogin] = useIsLogin(); // accessToken 존재 여부 확인
@@ -26,7 +27,7 @@ const Page = () => {
         />
 
         <Route path={PAGE_URI.MAIN} element={<Main />} />
-        <Route path={PAGE_URI.TEAMLIST} element={<Main />} />
+        <Route path={PAGE_URI.TEAMLIST} element={<TeamList />} />
         <Route path={`${PAGE_URI.TEAM}/:teamIdx`} element={<Team />} />
         <Route
           path={`${PAGE_URI.COMMUNITY}/:communityIdx`}

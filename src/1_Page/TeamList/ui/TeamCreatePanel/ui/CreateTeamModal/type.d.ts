@@ -1,0 +1,3 @@
+type CreateTeamModalProps = {
+  handleToggleModal: () => void;
+};
