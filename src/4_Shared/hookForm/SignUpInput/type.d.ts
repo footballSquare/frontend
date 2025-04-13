@@ -7,6 +7,9 @@ type SignUpInputProps = {
     statusMessage: string;
     discordTag: string;
     confirmPassword: string;
+    platform: "pc" | "xbox" | "playstation";
+    preferPosition: string;
+    sms: string;
   }>;
   registerType:
     | "id"
@@ -15,7 +18,10 @@ type SignUpInputProps = {
     | "phone"
     | "statusMessage"
     | "discordTag"
-    | "confirmPassword";
+    | "confirmPassword"
+    | "platform"
+    | "preferPosition"
+    | "sms";
   errors: FieldErrors<{
     id: string;
     password: string;
@@ -24,6 +30,9 @@ type SignUpInputProps = {
     statusMessage: string;
     discordTag: string;
     confirmPassword: string;
+    platform: "pc" | "xbox" | "playstation";
+    preferPosition: string;
+    sms: string;
   }>;
   type: string;
   placeholder?: string;

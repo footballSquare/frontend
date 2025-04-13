@@ -19,14 +19,19 @@ export const firstStepSignUpInputSchema = yup.object().shape({
 });
 
 export const secondStepSignUpInputSchema = yup.object().shape({
-  nickName: yup.string().required("Nickname is required"),
+  // nickName: yup.string().required("Nickname is required"),
   phone: yup
     .string()
     .required("Phone number is required")
     .matches(/^\d+$/, "Phone number must be numeric"),
-  statusMessage: yup.string().optional(),
-  discordTag: yup
-    .string()
-    .required("Discord tag is required")
-    .matches(/^.+#\d{4}$/, "Discord tag must be in the format username#1234"),
+  sms: yup.string().required("인증번호를 입력해 주세요"),
+  // statusMessage: yup.string().optional(),
+  // discordTag: yup
+  //   .string()
+  //   .required("Discord tag is required")
+  //   .matches(/^.+#\d{4}$/, "Discord tag must be in the format username#1234"),
+  // platform: yup.string().required("자주 사용하는 플랫폼을 선택해 주세요."),
+  // preferPosition: yup
+  //   .number()
+  //   .required("선호하는 포지션을 선택해 주세요."),
 });
