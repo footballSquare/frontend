@@ -30,13 +30,19 @@ type UserInfo = {
 };
 
 type SignInData = {
-  player_status: string;
-  access_token: string;
+  player_status: "pending" | "active" | "deleted";
   user_idx: number;
-  profile_image: string | null;
-  team_idx: number | null;
-  team_role_idx: number | null;
-  community_role_idx: number | null;
+  access_token_temporary?: string;
+  access_token?: string;
+  nickname?: string;
+  platform?: string;
+  commmon_status_idx?: number;
+  message?: string;
+  discord_tag?: string;
+  profile_image?: string | null;
+  team_idx?: number | null;
+  team_role_idx?: number | null;
+  community_role_idx?: number | null;
 };
 
 type DiscordOAuthUrl = {
@@ -64,4 +70,4 @@ type MyInfo = {
   team_emblem: string | null;
   community_role_idx: number | null;
   team_role_idx: number | null;
-}
+};
