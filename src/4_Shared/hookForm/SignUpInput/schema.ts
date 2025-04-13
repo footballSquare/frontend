@@ -19,12 +19,11 @@ export const firstStepSignUpInputSchema = yup.object().shape({
 });
 
 export const secondStepSignUpInputSchema = yup.object().shape({
-  // nickName: yup.string().required("Nickname is required"),
   phone: yup
     .string()
-    .required("Phone number is required")
-    .matches(/^\d+$/, "Phone number must be numeric"),
-  sms: yup.string().required("인증번호를 입력해 주세요"),
+    .required("핸드폰 번호를 입력해주세요.")
+    .matches(/^01[0|1]\d{7,8}$/, "핸드폰 번호는 010 또는 011로 시작하며 숫자만 입력 가능합니다."),
+  sms: yup.string().required("인증번호를 입력해주세요"),
   // statusMessage: yup.string().optional(),
   // discordTag: yup
   //   .string()
