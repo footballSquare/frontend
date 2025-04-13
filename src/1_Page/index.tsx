@@ -10,6 +10,7 @@ import Login from "./Login";
 import Championship from "./Championship";
 import { useIsLogin } from "../4_Shared/lib/useMyInfo";
 import ChampionshipEdit from "./ChampionshipEdit";
+import SignUp from "./SignUp";
 import TeamList from "./TeamList";
 
 const Page = () => {
@@ -44,6 +45,7 @@ const Page = () => {
           path={`${PAGE_URI.CHAMPIONSHIPEDIT}/:mode/:communityIdx`}
           element={<ChampionshipEdit />}
         />
+        <Route path={`${PAGE_URI.SIGNUP}`} element={<SignUp />}/>
       </Routes>
     </div>
   );

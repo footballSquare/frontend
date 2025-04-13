@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { create } from "zustand";
 
 type AuthState = {
-  playerStatus: string | null;
   accessToken: string | null;
   userIdx: number | null;
   communityRoleIdx: number | null;
@@ -12,7 +11,7 @@ type AuthState = {
   profileImg: string | null;
   nickname: string | null;
   login: (data: {
-    accessToken: string;
+    accessToken: string | null;
     userIdx: number;
     communityRoleIdx: number | null;
     teamRoleIdx: number | null;
@@ -30,7 +29,6 @@ export const useAuthStore = create<AuthState>()((set) => ({
   communityRoleIdx: null,
   teamRoleIdx: null,
   teamIdx: null,
-  playerStatus: null,
   profileImg: null,
   nickname: null,
   login: (data) => set({ ...data }),
@@ -42,17 +40,17 @@ export const useAuthStore = create<AuthState>()((set) => ({
       teamRoleIdx: null,
       teamIdx: null,
       profileImg: null,
-      playerStatus: null,
       nickname: null,
     }),
 }));
-
 
 // 로그인 여부 확인
 export const useIsLogin = (): [boolean] => {
   const [cookies] = useCookies(["access_token"]);
   const accessToken = cookies.access_token;
-  return [!!accessToken];
+  const isCookieValid = document.cookie.includes("access_token=");
+  if (location.pathname.startsWith("/signup")) return [false];
+  return [!!accessToken && isCookieValid];
 };
 
 // 유저 인덱스
@@ -98,7 +96,6 @@ export const useLogout = (): [() => void] => {
     },
   ];
 };
-
 
 export const useRemoveAllCookie = () => {
   const [, , removeCookie] = useCookies([

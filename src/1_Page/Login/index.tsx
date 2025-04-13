@@ -5,6 +5,7 @@ import loginInputSchema from "../../4_Shared/hookForm/LoginInput/schema";
 import usePostSignIn from "../../3_Entity/Account/usePostSignIn";
 import discord_icon from "../../4_Shared/assets/svg/discord.svg";
 import useGetDiscordOAuthUrl from "../../3_Entity/Account/useGetDiscordOAuthUrl";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const {
@@ -16,6 +17,7 @@ const Login = () => {
   });
   const [postSignIn] = usePostSignIn();
   const [discordOAuthUrl, discordLoading] = useGetDiscordOAuthUrl();
+  const navigate = useNavigate();
 
   return (
     <div className="flex flex-col gap-4 items-center justify-center min-h-screen">
@@ -49,6 +51,14 @@ const Login = () => {
           </button>
         </form>
       </div>
+      <button
+        className=" flex flex-col justify-center items-center border border-gray rounded w-full"
+        onClick={() => {
+          navigate('/signup')
+        }}
+      >
+        회원 가입 하기
+      </button>
       <button
         className=" flex flex-col justify-center items-center border border-gray rounded w-full"
         onClick={() => {
