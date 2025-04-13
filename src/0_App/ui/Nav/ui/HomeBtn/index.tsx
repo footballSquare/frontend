@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import logo from "../../../../../4_Shared/assets/svg/logo.svg";
+import logo from "../../../../../4_Shared/assets/img/logo.png";
 import usePageStore from "../../../../../4_Shared/zustand/usePageStore";
 
 const HomeBtn = () => {
@@ -14,7 +14,7 @@ const HomeBtn = () => {
       }}
     >
       <img
-        className="lg:min-w-[120px] w-[120px]"
+        className="lg:min-w-[140px] w-[140px]"
         src={logo}
         alt="home button"
       />

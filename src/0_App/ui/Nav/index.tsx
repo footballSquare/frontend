@@ -72,12 +72,12 @@ const Nav = () => {
               />
             </div>
           </div>
-          <NavigationBtn
+          {/* <NavigationBtn
             text={"RANKING"}
             navigationHandler={() => {
               navigate(PAGE_URI.RANKING);
             }}
-          />
+          /> */}
           <NavigationBtn
             text={"MY PROFILE"}
             navigationHandler={() => {
