@@ -1,10 +1,10 @@
 import useDeleteApproveMember from "../../../../../../../../../../3_Entity/Team/useDeleteApproveMember";
 import usePostApproveMember from "../../../../../../../../../../3_Entity/Team/usePostApproveMember";
 import { getPlatformIcon } from "../../../../../../../../../../4_Shared/lib/getPlatformIcon";
+import defaultProfileImage from "../../../../../../../../../../4_Shared/assets/svg/profile.svg";
 
 const TeamApplicationItem = (props: TeamApplicationItemProps) => {
   const { player, team_list_idx, addDisplayPlayer } = props;
-  console.log(player);
 
   const [postApproveMember] = usePostApproveMember(team_list_idx);
   const [deleteApproveMember] = useDeleteApproveMember(team_list_idx);
@@ -13,7 +13,7 @@ const TeamApplicationItem = (props: TeamApplicationItemProps) => {
     <div className="flex items-center justify-between bg-gray-50 p-4 rounded-lg hover:bg-gray-100 transition-colors">
       <div className="flex items-center space-x-4">
         <img
-          src={player.player_list_profile_img}
+          src={player.player_list_profile_image || defaultProfileImage}
           className="w-12 h-12 rounded-full object-cover border-2 border-blue-300"
         />
         <div>

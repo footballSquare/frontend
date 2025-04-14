@@ -25,7 +25,8 @@ const TeamManageButtonGroup = (props: ManageModalBtnPanelProps) => {
   const [myTeamIDx] = useMyTeamIdx();
   const [myTeamRoleIdx] = useMyTeamRoleIdx();
   const isTeamPlayer = myTeamIDx === teamIdx;
-  const isTeamReader = isTeamPlayer && myTeamRoleIdx === 0; // 팀장만 허용
+  const isTeamTopLeader = isTeamPlayer && myTeamRoleIdx === 0; // 팀장만 허용
+  const isTeamLeaders = isTeamTopLeader || myTeamRoleIdx === 1;
 
   // 팀 가입 신청 상태
   const {
@@ -42,7 +43,7 @@ const TeamManageButtonGroup = (props: ManageModalBtnPanelProps) => {
   return (
     <div className="flex flex-col items-center gap-2 mt-2">
       <div>
-        {isPending ? (
+        {!isTeamTopLeader && isPending ? (
           <button className="bg-black hover:bg-black/80 text-white text-sm font-medium py-2 px-4 rounded-full shadow transition transform hover:scale-105 duration-300">
             가입신청중
           </button>
@@ -72,19 +73,21 @@ const TeamManageButtonGroup = (props: ManageModalBtnPanelProps) => {
       </div>
 
       {/* 팀 리더일 경우에만 팀 관리 및 매치 생성 버튼 */}
-      {isTeamReader && isLeaving && !isPending && (
-        <div className="flex gap-2 mt-2">
-          <button
-            className="bg-blue-500 text-white text-sm font-medium py-1 px-3 rounded-full"
-            onClick={handleToggleManageModal}>
-            팀관리
-          </button>
-          <button
-            className="bg-blue-500 text-white text-sm font-medium py-1 px-3 rounded-full"
-            onClick={toggleMakeMatchModal}>
-            매치 생성
-          </button>
-        </div>
+      {isTeamTopLeader && isLeaving && (
+        <button
+          className="bg-blue-500 text-white text-sm font-medium py-1 px-3 rounded-full"
+          onClick={handleToggleManageModal}>
+          팀관리
+        </button>
+      )}
+
+      {/* 부팀장 또는 팀장의 경우만*/}
+      {isTeamLeaders && isLeaving && !isPending && (
+        <button
+          className="bg-blue-500 text-white text-sm font-medium py-1 px-3 rounded-full"
+          onClick={toggleMakeMatchModal}>
+          매치 생성
+        </button>
       )}
 
       {isModalOpen && (

@@ -14,7 +14,7 @@ type TeamInfo = {
 type TeamSignMember = {
   player_list_idx: number;
   player_list_platform: Platform;
-  player_list_profile_img: string;
+  player_list_profile_image: string | null;
   player_list_nickname: string;
 };
 
