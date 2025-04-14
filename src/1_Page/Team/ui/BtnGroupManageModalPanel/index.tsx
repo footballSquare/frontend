@@ -33,12 +33,14 @@ const BtnGroupManageModalPanel = (props: BtnGroupManageModalPanelProps) => {
     confirmAction,
     updateToLeave,
     updateToSignPending,
+    cancelUpdateToLeave,
+    cancelUpdateToSignPending,
   } = useManageAction(isTeamPlayer);
 
   const [deleteLeaveTeam, deleteServerState] = useDeleteLeaveTeam(teamIdx);
   const [putSignTeam, putServerState] = usePutSignTeam(teamIdx);
-  useManageDeleteServerState({ deleteServerState, deleteLeaveTeam }); // deleteLeaveTeam 서버 상태 관리
-  useManagePutServerState({ putServerState, updateToSignPending }); // deleteLeaveTeam 서버 상태 관리
+  useManageDeleteServerState({ deleteServerState, cancelUpdateToLeave }); // deleteLeaveTeam 서버 상태 관리
+  useManagePutServerState({ putServerState, cancelUpdateToSignPending }); // deleteLeaveTeam 서버 상태 관리
 
   // 팀매치 생성 모달 전역으로 관리
   const { toggleMakeMatchModal } = useMakeTeamMatchModalStore(); // 팀매치 생성 모달 전역으로 관리
@@ -55,6 +57,7 @@ const BtnGroupManageModalPanel = (props: BtnGroupManageModalPanelProps) => {
             className="bg-red-500 hover:bg-red-600 text-white text-sm font-medium py-2 px-4 rounded-full shadow transition transform hover:scale-105 duration-300"
             onClick={() => {
               if (confirmAction()) {
+                deleteLeaveTeam();
                 updateToLeave();
               }
             }}>
@@ -66,6 +69,7 @@ const BtnGroupManageModalPanel = (props: BtnGroupManageModalPanelProps) => {
             onClick={() => {
               if (confirmAction()) {
                 putSignTeam();
+                updateToSignPending();
               }
             }}>
             팀 가입

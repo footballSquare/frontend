@@ -1,15 +1,7 @@
 import React from "react";
 import { RESULT_STATE } from "../../../../../4_Shared/constant/result";
 
-const useManageAction = (
-  isTeamPlayer: boolean
-): {
-  isLeaving: boolean;
-  isPending: boolean;
-  confirmAction: () => boolean;
-  updateToLeave: () => void;
-  updateToSignPending: () => void;
-} => {
+const useManageAction = (isTeamPlayer: boolean): UseManageActionReturn => {
   const [isTeamMember, setIsTeamMember] = React.useState<ResultStateType>(
     isTeamPlayer
       ? (RESULT_STATE.AVAILABLE as ResultStateType)
@@ -28,8 +20,16 @@ const useManageAction = (
     setIsTeamMember(RESULT_STATE.UNAVAILABLE as ResultStateType);
   };
 
+  const cancelUpdateToLeave = () => {
+    setIsTeamMember(RESULT_STATE.AVAILABLE as ResultStateType);
+  };
+
   const updateToSignPending = () => {
     setIsTeamMember(RESULT_STATE.PENDING as ResultStateType);
+  };
+
+  const cancelUpdateToSignPending = () => {
+    setIsTeamMember(RESULT_STATE.UNAVAILABLE as ResultStateType);
   };
 
   return {
@@ -38,6 +38,8 @@ const useManageAction = (
     confirmAction,
     updateToLeave,
     updateToSignPending,
+    cancelUpdateToLeave,
+    cancelUpdateToSignPending,
   };
 };
 
