@@ -8,18 +8,16 @@ import {
   useMyTeamIdx,
   useMyTeamRoleIdx,
 } from "../../../../4_Shared/lib/useMyInfo";
-import useManageServerState from "./model/useManageServerState";
+import useManageDeleteServerState from "./model/useManageDeleteServerState";
 import useToggleState from "../../../../4_Shared/model/useToggleState";
 import ManageModal from "./ui/ManageModal";
+import useManagePutServerState from "./model/useManagePutServerState";
 
-const TeamManageButtonGroup = (props: ManageModalBtnPanelProps) => {
+const BtnGroupManageModalPanel = (props: BtnGroupManageModalPanelProps) => {
   const { teamInfo, handlers } = props;
   const teamIdx = useParamInteger("teamIdx");
-  const [deleteLeaveTeam, serverState] = useDeleteLeaveTeam(teamIdx);
-  useManageServerState(serverState); // deleteLeaveTeam 서버 상태 관리
 
   const [isModalOpen, handleToggleManageModal] = useToggleState();
-  const [putSignTeam] = usePutSignTeam(teamIdx);
 
   // 팀 권한과
   const [myTeamIDx] = useMyTeamIdx();
@@ -37,6 +35,11 @@ const TeamManageButtonGroup = (props: ManageModalBtnPanelProps) => {
     updateToSignPending,
   } = useManageAction(isTeamPlayer);
 
+  const [deleteLeaveTeam, deleteServerState] = useDeleteLeaveTeam(teamIdx);
+  const [putSignTeam, putServerState] = usePutSignTeam(teamIdx);
+  useManageDeleteServerState({ deleteServerState, deleteLeaveTeam }); // deleteLeaveTeam 서버 상태 관리
+  useManagePutServerState({ putServerState, updateToSignPending }); // deleteLeaveTeam 서버 상태 관리
+
   // 팀매치 생성 모달 전역으로 관리
   const { toggleMakeMatchModal } = useMakeTeamMatchModalStore(); // 팀매치 생성 모달 전역으로 관리
 
@@ -53,7 +56,6 @@ const TeamManageButtonGroup = (props: ManageModalBtnPanelProps) => {
             onClick={() => {
               if (confirmAction()) {
                 updateToLeave();
-                deleteLeaveTeam();
               }
             }}>
             팀 탈퇴
@@ -63,7 +65,6 @@ const TeamManageButtonGroup = (props: ManageModalBtnPanelProps) => {
             className="bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium py-2 px-4 rounded-full shadow transition transform hover:scale-105 duration-300"
             onClick={() => {
               if (confirmAction()) {
-                updateToSignPending();
                 putSignTeam();
               }
             }}>
@@ -101,4 +102,4 @@ const TeamManageButtonGroup = (props: ManageModalBtnPanelProps) => {
   );
 };
 
-export default TeamManageButtonGroup;
+export default BtnGroupManageModalPanel;
