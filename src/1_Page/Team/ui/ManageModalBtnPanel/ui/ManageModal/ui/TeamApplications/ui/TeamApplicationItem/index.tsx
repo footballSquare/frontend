@@ -1,10 +1,10 @@
 import useDeleteApproveMember from "../../../../../../../../../../3_Entity/Team/useDeleteApproveMember";
 import usePostApproveMember from "../../../../../../../../../../3_Entity/Team/usePostApproveMember";
-import { platform } from "../../../../../../../../../../4_Shared/constant/platform";
 import { getPlatformIcon } from "../../../../../../../../../../4_Shared/lib/getPlatformIcon";
 
 const TeamApplicationItem = (props: TeamApplicationItemProps) => {
   const { player, team_list_idx, addDisplayPlayer } = props;
+  console.log(player);
 
   const [postApproveMember] = usePostApproveMember(team_list_idx);
   const [deleteApproveMember] = useDeleteApproveMember(team_list_idx);
@@ -22,11 +22,10 @@ const TeamApplicationItem = (props: TeamApplicationItemProps) => {
           </p>
           <img
             src={getPlatformIcon(player.player_list_platform)}
+            alt={player.player_list_platform}
             className="w-12 h-12"
           />
-          <p className="text-sm text-gray-500">
-            {platform[player.player_list_platform]}
-          </p>
+          <p className="text-sm text-gray-500">{player.player_list_platform}</p>
         </div>
       </div>
 

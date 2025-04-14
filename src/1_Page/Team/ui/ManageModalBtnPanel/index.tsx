@@ -25,8 +25,7 @@ const TeamManageButtonGroup = (props: ManageModalBtnPanelProps) => {
   const [myTeamIDx] = useMyTeamIdx();
   const [myTeamRoleIdx] = useMyTeamRoleIdx();
   const isTeamPlayer = myTeamIDx === teamIdx;
-  const isTeamReader =
-    isTeamPlayer && (myTeamRoleIdx === 0 || myTeamRoleIdx == 1);
+  const isTeamReader = isTeamPlayer && myTeamRoleIdx === 0; // 팀장만 허용
 
   // 팀 가입 신청 상태
   const {
