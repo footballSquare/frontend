@@ -152,7 +152,7 @@ export const useFetchData = (): [
           console.log("body", body);
           console.log("status", status);
           console.log("message", data.message);
-          setServerState({ status });
+          setServerState({ status, message: data.message });
           console.log("endpoint", endpoint);
           console.log("body", body);
           console.log("서버 오류:", status, data);
