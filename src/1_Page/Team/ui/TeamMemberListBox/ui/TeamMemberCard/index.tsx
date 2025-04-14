@@ -11,6 +11,7 @@ import defaultProfile from "../../../../../../4_Shared/assets/svg/profile.svg";
 import {
   useMyTeamIdx,
   useMyTeamRoleIdx,
+  useMyUserIdx,
 } from "../../../../../../4_Shared/lib/useMyInfo";
 
 const TeamMemberCard = (props: TeamMemberCardProps) => {
@@ -24,6 +25,7 @@ const TeamMemberCard = (props: TeamMemberCardProps) => {
     handleDelete,
     index,
   } = props;
+  const [myIdx] = useMyUserIdx();
 
   const teamIdx = useParamInteger("teamIdx");
   const [myTeamIdx] = useMyTeamIdx();
@@ -77,7 +79,7 @@ const TeamMemberCard = (props: TeamMemberCardProps) => {
             <h3 className="text-lg font-semibold">{player_list_nickname}</h3>
             <p className="text-gray-500 text-sm mb-4">{teamRole[memberRole]}</p>
 
-            {isTeamReader && (
+            {isTeamReader && myIdx !== player_list_idx && (
               <button
                 className="w-full bg-blue-500 text-white text-sm font-medium py-2 rounded-full mb-2"
                 onClick={() => {
