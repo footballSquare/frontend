@@ -95,9 +95,8 @@ const ChampionshipForm = () => {
         className="p-6 text-white relative"
         style={{ backgroundColor: championshipColor }}>
         <h1 className="text-2xl font-bold">
-          {watch("championship_list_name") || !isEditMode
-            ? "새로운 대회 생성"
-            : "대회 수정"}
+          {watch("championship_list_name") ||
+            (!isEditMode ? "새로운 대회 생성" : "대회 수정")}
         </h1>
         <p className="text-white text-opacity-80">
           {championshipTypes[championshipType]}
