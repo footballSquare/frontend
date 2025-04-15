@@ -8,25 +8,23 @@ import {
   useMyTeamIdx,
   useMyTeamRoleIdx,
 } from "../../../../4_Shared/lib/useMyInfo";
-import useManageServerState from "./model/useManageServerState";
+import useManageDeleteServerState from "./model/useManageDeleteServerState";
 import useToggleState from "../../../../4_Shared/model/useToggleState";
 import ManageModal from "./ui/ManageModal";
+import useManagePutServerState from "./model/useManagePutServerState";
 
-const TeamManageButtonGroup = (props: ManageModalBtnPanelProps) => {
+const BtnGroupManageModalPanel = (props: BtnGroupManageModalPanelProps) => {
   const { teamInfo, handlers } = props;
   const teamIdx = useParamInteger("teamIdx");
-  const [deleteLeaveTeam, serverState] = useDeleteLeaveTeam(teamIdx);
-  useManageServerState(serverState); // deleteLeaveTeam 서버 상태 관리
 
   const [isModalOpen, handleToggleManageModal] = useToggleState();
-  const [putSignTeam] = usePutSignTeam(teamIdx);
 
   // 팀 권한과
   const [myTeamIDx] = useMyTeamIdx();
   const [myTeamRoleIdx] = useMyTeamRoleIdx();
   const isTeamPlayer = myTeamIDx === teamIdx;
-  const isTeamReader =
-    isTeamPlayer && (myTeamRoleIdx === 0 || myTeamRoleIdx == 1);
+  const isTeamTopLeader = isTeamPlayer && myTeamRoleIdx === 0; // 팀장만 허용
+  const isTeamLeaders = isTeamTopLeader || myTeamRoleIdx === 1;
 
   // 팀 가입 신청 상태
   const {
@@ -35,7 +33,14 @@ const TeamManageButtonGroup = (props: ManageModalBtnPanelProps) => {
     confirmAction,
     updateToLeave,
     updateToSignPending,
+    cancelUpdateToLeave,
+    cancelUpdateToSignPending,
   } = useManageAction(isTeamPlayer);
+
+  const [deleteLeaveTeam, deleteServerState] = useDeleteLeaveTeam(teamIdx);
+  const [putSignTeam, putServerState] = usePutSignTeam(teamIdx);
+  useManageDeleteServerState({ deleteServerState, cancelUpdateToLeave }); // deleteLeaveTeam 서버 상태 관리
+  useManagePutServerState({ putServerState, cancelUpdateToSignPending }); // deleteLeaveTeam 서버 상태 관리
 
   // 팀매치 생성 모달 전역으로 관리
   const { toggleMakeMatchModal } = useMakeTeamMatchModalStore(); // 팀매치 생성 모달 전역으로 관리
@@ -43,7 +48,7 @@ const TeamManageButtonGroup = (props: ManageModalBtnPanelProps) => {
   return (
     <div className="flex flex-col items-center gap-2 mt-2">
       <div>
-        {isPending ? (
+        {!isTeamTopLeader && isPending ? (
           <button className="bg-black hover:bg-black/80 text-white text-sm font-medium py-2 px-4 rounded-full shadow transition transform hover:scale-105 duration-300">
             가입신청중
           </button>
@@ -52,8 +57,8 @@ const TeamManageButtonGroup = (props: ManageModalBtnPanelProps) => {
             className="bg-red-500 hover:bg-red-600 text-white text-sm font-medium py-2 px-4 rounded-full shadow transition transform hover:scale-105 duration-300"
             onClick={() => {
               if (confirmAction()) {
-                updateToLeave();
                 deleteLeaveTeam();
+                updateToLeave();
               }
             }}>
             팀 탈퇴
@@ -63,8 +68,8 @@ const TeamManageButtonGroup = (props: ManageModalBtnPanelProps) => {
             className="bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium py-2 px-4 rounded-full shadow transition transform hover:scale-105 duration-300"
             onClick={() => {
               if (confirmAction()) {
-                updateToSignPending();
                 putSignTeam();
+                updateToSignPending();
               }
             }}>
             팀 가입
@@ -73,19 +78,21 @@ const TeamManageButtonGroup = (props: ManageModalBtnPanelProps) => {
       </div>
 
       {/* 팀 리더일 경우에만 팀 관리 및 매치 생성 버튼 */}
-      {isTeamReader && isLeaving && !isPending && (
-        <div className="flex gap-2 mt-2">
-          <button
-            className="bg-blue-500 text-white text-sm font-medium py-1 px-3 rounded-full"
-            onClick={handleToggleManageModal}>
-            팀관리
-          </button>
-          <button
-            className="bg-blue-500 text-white text-sm font-medium py-1 px-3 rounded-full"
-            onClick={toggleMakeMatchModal}>
-            매치 생성
-          </button>
-        </div>
+      {isTeamTopLeader && isLeaving && (
+        <button
+          className="bg-blue-500 text-white text-sm font-medium py-1 px-3 rounded-full"
+          onClick={handleToggleManageModal}>
+          팀관리
+        </button>
+      )}
+
+      {/* 부팀장 또는 팀장의 경우만*/}
+      {isTeamLeaders && isLeaving && !isPending && (
+        <button
+          className="bg-blue-500 text-white text-sm font-medium py-1 px-3 rounded-full"
+          onClick={toggleMakeMatchModal}>
+          매치 생성
+        </button>
       )}
 
       {isModalOpen && (
@@ -99,4 +106,4 @@ const TeamManageButtonGroup = (props: ManageModalBtnPanelProps) => {
   );
 };
 
-export default TeamManageButtonGroup;
+export default BtnGroupManageModalPanel;

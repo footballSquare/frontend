@@ -3,7 +3,7 @@ import HistoryListBox from "./ui/HistoryListBox";
 import TeamMatchBox from "./ui/TeamMatchBox";
 import TeamMemberListBox from "./ui/TeamMemberListBox";
 import TeamAwards from "./ui/TeamAwards";
-import ManageModalBtnPanel from "./ui/ManageModalBtnPanel";
+import BtnGroupManageModalPanel from "./ui/BtnGroupManageModalPanel";
 import useValidParamInteger from "../../4_Shared/model/useValidParamInteger";
 
 import useManageTeamInfo from "./model/useManagePage";
@@ -72,7 +72,7 @@ const Team = () => {
                       style={{ color: team_list_color }}>
                       {team_list_name} #{team_list_short_name}
                     </h1>
-                    <ManageModalBtnPanel
+                    <BtnGroupManageModalPanel
                       handlers={handlers}
                       teamInfo={displayTeamInfo}
                     />
