@@ -64,3 +64,9 @@ type DeleteMatchJoinProps = {
   matchIdx: number;
   userIdx: number;
 };
+
+type PutTeamMatchJoinProps = {
+  matchIdx: number;
+  matchPositionIdx: number;
+  teamIdx: number;
+}

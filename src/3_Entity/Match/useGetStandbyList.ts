@@ -1,31 +1,23 @@
 import React from "react";
 import { useFetchData } from "../../4_Shared/util/apiUtil";
 
-const ITEMS_PER_PAGE = 10;
-
-const useGetStandbyList = (props: UseGetStandbyListProps): [StandbyPlayerInfo[], boolean, boolean] => {
-  const { page } = props;
+const useGetStandbyList = (): [StandbyPlayerInfo[], boolean] => {
   const [serverState, request, loading] = useFetchData();
   const [standbyList, setStandbyList] = React.useState<StandbyPlayerInfo[]>([]);
-  const [hasMoreContent, setHasMoreContent] = React.useState<boolean>(true);
 
   React.useEffect(() => {
-    request("GET", `/match/standbylist?page=${page}`, null, false);
-  }, [page, request]);
+    request("GET", `/match/stanbylist`, null, false);
+  }, [request]);
 
   React.useEffect(() => {
-    if (!loading && serverState && "access_list" in serverState) {
-      setStandbyList((prev) => [
-        ...prev,
-        ...(serverState as { access_list: StandbyPlayerInfo[] }).access_list,
-      ]);
-      setHasMoreContent(
-        (serverState as { access_list: StandbyPlayerInfo[] }).access_list.length >= ITEMS_PER_PAGE
+    if (!loading && serverState) {
+      setStandbyList(
+        (serverState as { stanbylist: StandbyPlayerInfo[] }).stanbylist
       );
     }
   }, [loading, serverState]);
 
-  return [standbyList, hasMoreContent, loading];
+  return [standbyList, loading];
 };
 
 export default useGetStandbyList;
