@@ -16,10 +16,12 @@ type MatchInfo = {
 
 type StandbyPlayerInfo = {
   player_list_idx: number;
-  player_list_platform: number;
-  player_list_profile_img: string;
   player_list_nickname: string;
-  player_prefer_position: string;
+  player_list_profile_image: string | null;
+  match_position_idx: number;
+  team_list_idx: number;
+  team_list_short_name: string;
+  team_list_emblem: string | null;
 };
 
 type MatchDetail = {

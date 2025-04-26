@@ -70,3 +70,9 @@ type PostMatchApprovalProps = {
   userIdx: number;
   matchPositionIdx: number;
 };
+
+type PutTeamMatchJoinProps = {
+  matchIdx: number;
+  matchPositionIdx: number;
+  teamIdx: number;
+}
