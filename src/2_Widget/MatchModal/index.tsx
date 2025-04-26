@@ -15,6 +15,7 @@ import StatPanel from "./ui/StatPanel";
 import {
   useIsLogin,
   useMyNickname,
+  useMyProfileImg,
   useMyUserIdx,
 } from "../../4_Shared/lib/useMyInfo";
 import usePutMatchEnd from "../../3_Entity/Match/usePutMatchEnd";
@@ -52,6 +53,7 @@ const MatchModal = () => {
   const [isLogin] = useIsLogin();
   const [userIdx] = useMyUserIdx();
   const [nickname] = useMyNickname();
+  const [profileImg] = useMyProfileImg();
   const isMatchLeader = userIdx === player_list_idx;
   const navigate = useNavigate();
   
@@ -169,10 +171,11 @@ const MatchModal = () => {
                               player: {
                                 player_list_idx: userIdx || 0,
                                 player_list_nickname: nickname || "error!",
-                                player_list_url: "url",
+                                player_list_url: profileImg || "error!",
                               },
                               matchPosition: positionIdx,
                               matchParticipants: matchParticipants,
+                              isFree: true,
                             });
                           }}
                         >

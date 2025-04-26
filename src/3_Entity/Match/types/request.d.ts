@@ -64,3 +64,9 @@ type DeleteMatchJoinProps = {
   matchIdx: number;
   userIdx: number;
 };
+
+type PostMatchApprovalProps = {
+  matchIdx: number;
+  userIdx: number;
+  matchPositionIdx: number;
+};
