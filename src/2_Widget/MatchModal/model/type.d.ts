@@ -18,6 +18,7 @@ type UseMatchApplyProps = {
   setMatchWaitList: React.Dispatch<React.SetStateAction<MatchWaitList>>;
 };
 type MatchApplyHandlerProps = {
+  matchIdx: number;
   player: Pick<
     MatchParticipant,
     "player_list_idx" | "player_list_nickname" | "player_list_url"

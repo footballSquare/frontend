@@ -24,7 +24,7 @@ import usePutOpenMatchJoin from "../../3_Entity/Match/usePutOpenMatchJoin";
 import { useNavigate } from "react-router-dom";
 const MatchModal = () => {
   const { matchIdx, toggleMatchModal } = useMatchModalStore();
-  const [matchDetail] = useGetMatchDetail({ matchIdx });
+  const [matchDetail, setMatchDetail] = useGetMatchDetail({ matchIdx });
   const {
     player_list_idx,
     player_list_nickname,
@@ -56,7 +56,7 @@ const MatchModal = () => {
   const [profileImg] = useMyProfileImg();
   const isMatchLeader = userIdx === player_list_idx;
   const navigate = useNavigate();
-  
+
   return (
     // 모달 커버
     <div className="absolute top-0 left-0 w-full h-full flex justify-center items-center">
@@ -201,6 +201,10 @@ const MatchModal = () => {
               className="border border-gray shadow-lg p-[2px] hover:bg-blue hover:text-white"
               onClick={() => {
                 putMatchEnd({ matchIdx });
+                setMatchDetail((prev) => ({
+                  ...prev,
+                  common_status_idx: 1,
+                }));
               }}
             >
               매치 마감

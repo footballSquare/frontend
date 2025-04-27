@@ -1,13 +1,26 @@
 import React from "react";
-
+import usePutOpenMatchJoin from "../../../3_Entity/Match/usePutOpenMatchJoin";
 const useMatchApply = (
   props: UseMatchApplyProps
 ): [(props: MatchApplyHandlerProps) => void] => {
   const { setMatchWaitList } = props;
+  const [putOpenMatchJoin, serverState, loading] = usePutOpenMatchJoin();
+  const [player, setPlayer] =
+    React.useState<
+      Pick<
+        MatchParticipant,
+        "player_list_idx" | "player_list_nickname" | "player_list_url"
+      >
+    >();
+  const [matchPosition, setMatchPosition] = React.useState<number>(-1);
 
-  const matchApplyHandler = React.useCallback(
-    (props: MatchApplyHandlerProps): void => {
-      const { player, matchPosition } = props;
+  React.useEffect(() => {
+    if (
+      !loading &&
+      serverState?.status === 200 &&
+      player &&
+      matchPosition !== -1
+    ) {
       setMatchWaitList((prev: MatchWaitList) => ({
         match_waitlist: {
           ...prev.match_waitlist,
@@ -23,8 +36,20 @@ const useMatchApply = (
           ],
         },
       }));
+    }
+  }, [loading, serverState, player, matchPosition, setMatchWaitList]);
+
+  const matchApplyHandler = React.useCallback(
+    (props: MatchApplyHandlerProps): void => {
+      const { matchIdx, player, matchPosition } = props;
+      putOpenMatchJoin({
+        matchIdx,
+        matchPositionIdx: matchPosition,
+      });
+      setPlayer(player);
+      setMatchPosition(matchPosition);
     },
-    [setMatchWaitList]
+    [putOpenMatchJoin, setPlayer, setMatchPosition]
   );
 
   return [matchApplyHandler];
