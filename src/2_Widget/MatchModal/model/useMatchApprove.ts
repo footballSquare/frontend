@@ -19,7 +19,6 @@ const useMatchApprove = (
         player,
         matchPosition,
         matchParticipants,
-        isFree = false,
       } = props;
       if (
         // 포지션이 비어 있는 지 체크
@@ -33,13 +32,11 @@ const useMatchApprove = (
         )
       ) {
         // post api
-        if (!isFree) {
-          postMatchApproval({
-            matchIdx,
-            userIdx: player.player_list_idx,
-            matchPositionIdx: matchPosition,
-          });
-        }
+        postMatchApproval({
+          matchIdx,
+          userIdx: player.player_list_idx,
+          matchPositionIdx: matchPosition,
+        });
 
         // set MatchParticipants state
         setMatchParticipants((prev) => [
@@ -73,7 +70,7 @@ const useMatchApprove = (
         alert("참여자가 존재하는 포지션이거나, 이미 참여 확정된 유저 입니다.");
       }
     },
-    [setMatchParticipants, setMatchWaitList, postMatchApproval]
+    [setMatchParticipants, setMatchWaitList, postMatchApproval, matchIdx]
   );
 
   const matchDisApproveHandler = React.useCallback(
@@ -100,23 +97,9 @@ const useMatchApprove = (
               participant.player_list_idx !== player.player_list_idx
           )
         );
-        // set MatchWaitList state
-        setMatchWaitList((prev: MatchWaitList) => ({
-          match_waitlist: {
-            ...prev.match_waitlist,
-            [matchPosition]: [
-              ...(prev.match_waitlist?.[matchPosition] ?? []),
-              {
-                player_list_idx: player.player_list_idx,
-                player_list_nickname: player.player_list_nickname,
-                player_list_url: player.player_list_url,
-              },
-            ],
-          },
-        }));
       }
     },
-    [setMatchParticipants, setMatchWaitList, deleteMatchApproval]
+    [setMatchParticipants, deleteMatchApproval]
   );
 
   return [matchApproveHandler, matchDisApproveHandler];

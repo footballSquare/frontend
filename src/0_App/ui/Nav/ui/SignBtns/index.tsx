@@ -12,12 +12,17 @@ const SignBtns = () => {
       {!isLogin ? (
         <Button
           text={"Login"}
+          textColor="black"
           onClickHandler={() => {
             navigate(PAGE_URI.LOGIN);
           }}
         />
       ) : (
-        <Button text={"Logout"} onClickHandler={logout} />
+        <Button
+          textColor="black"
+          text={"Logout"}
+          onClickHandler={logout}
+        />
       )}
     </div>
   );
