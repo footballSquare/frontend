@@ -11,12 +11,13 @@ import defaultProfile from "../../../../../../4_Shared/assets/svg/profile.svg";
 import {
   useMyTeamIdx,
   useMyTeamRoleIdx,
+  useMyUserIdx,
 } from "../../../../../../4_Shared/lib/useMyInfo";
 
 const TeamMemberCard = (props: TeamMemberCardProps) => {
   const {
     player_list_idx,
-    player_list_profile_img,
+    player_list_profile_image,
     player_list_nickname,
     team_role_idx,
     player_list_platform,
@@ -24,6 +25,7 @@ const TeamMemberCard = (props: TeamMemberCardProps) => {
     handleDelete,
     index,
   } = props;
+  const [myIdx] = useMyUserIdx();
 
   const teamIdx = useParamInteger("teamIdx");
   const [myTeamIdx] = useMyTeamIdx();
@@ -37,6 +39,8 @@ const TeamMemberCard = (props: TeamMemberCardProps) => {
     manage: false,
   }); //모달 state
 
+  console.log(props, player_list_platform);
+
   const [deleteTeamPlayer] = useDeleteTeamPlayer(teamIdx);
   const [postChangeTeamRole] = usePostChangeTeamRole(teamIdx);
 
@@ -48,8 +52,8 @@ const TeamMemberCard = (props: TeamMemberCardProps) => {
         ref={observeRef}
         onClick={() => dispatch({ type: "OPEN_DETAIL" })}>
         <img
-          src={player_list_profile_img || defaultProfile}
-          className="w-8 h-8 rounded-full"
+          src={player_list_profile_image || defaultProfile}
+          className="w-8 h-8 rounded-full object-cover"
         />
         <span className="text-xs">
           {player_list_nickname} {teamRole[memberRole]}
@@ -63,8 +67,8 @@ const TeamMemberCard = (props: TeamMemberCardProps) => {
           <div className="bg-white rounded-lg w-[300px] p-6 text-center shadow-lg">
             <div className="flex justify-center gap-4 mb-4">
               <img
-                src={player_list_profile_img || defaultProfile}
-                className="w-[40px]  rounded-full"
+                src={player_list_profile_image || defaultProfile}
+                className="w-8 h-8 rounded-full object-cover"
               />
               <img
                 src={getPlatformIcon(player_list_platform)}
@@ -75,7 +79,7 @@ const TeamMemberCard = (props: TeamMemberCardProps) => {
             <h3 className="text-lg font-semibold">{player_list_nickname}</h3>
             <p className="text-gray-500 text-sm mb-4">{teamRole[memberRole]}</p>
 
-            {isTeamReader && (
+            {isTeamReader && myIdx !== player_list_idx && (
               <button
                 className="w-full bg-blue-500 text-white text-sm font-medium py-2 rounded-full mb-2"
                 onClick={() => {
