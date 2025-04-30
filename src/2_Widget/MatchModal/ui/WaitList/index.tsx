@@ -2,6 +2,12 @@ import React from "react";
 import { matchPosition } from "../../../../4_Shared/constant/matchPosition";
 import { WaitingListProps } from "./type";
 import applyBtn from "../../../../4_Shared/assets/svg/applyBtn.svg";
+import {
+  useMyNickname,
+  useMyProfileImg,
+  useMyUserIdx,
+} from "../../../../4_Shared/lib/useMyInfo";
+import useMatchModalStore from "../../../../4_Shared/zustand/useMatchModal";
 
 const WaitingList = React.memo((props: WaitingListProps) => {
   const [selectedPosition, setSelectedPosition] = React.useState<number>(0);
@@ -13,11 +19,11 @@ const WaitingList = React.memo((props: WaitingListProps) => {
     matchApplyHandler,
     isMatchLeader,
   } = props;
-  const [myInfo] = React.useState({
-    userIdx: 1,
-    nickName: "master",
-    profileUrl: "testing...",
-  });
+
+  const [userIdx] = useMyUserIdx();
+  const [nickName] = useMyNickname();
+  const [profileUrl] = useMyProfileImg();
+  const { matchIdx } = useMatchModalStore();
 
   return (
     <div className=" w-[60%]">
@@ -69,12 +75,14 @@ const WaitingList = React.memo((props: WaitingListProps) => {
             className=" border-1 rounded-lg border-gray shadow-lg bg-blue text-white hover:bg-light-blue hover:text-black duration-700"
             onClick={() => {
               matchApplyHandler({
+                matchIdx,
                 player: {
-                  player_list_idx: myInfo.userIdx,
-                  player_list_nickname: myInfo.nickName,
-                  player_list_url: myInfo.profileUrl,
+                  player_list_idx: userIdx,
+                  player_list_nickname: nickName,
+                  player_list_url: profileUrl,
                 },
                 matchPosition: selectedPosition,
+                matchParticipationType: 0, // 대기자 목록(WaitingList)는 항상 승인참여
               });
             }}
           >
