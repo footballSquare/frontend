@@ -82,6 +82,7 @@ const WaitingList = React.memo((props: WaitingListProps) => {
                   player_list_url: profileUrl,
                 },
                 matchPosition: selectedPosition,
+                matchParticipationType: 0, // 대기자 목록(WaitingList)는 항상 승인참여
               });
             }}
           >

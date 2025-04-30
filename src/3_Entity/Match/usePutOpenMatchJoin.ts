@@ -20,10 +20,9 @@ const usePutOpenMatchJoin = (): [
     if (!loading && serverState) {
       switch (serverState.status) {
         case 200:
-          alert("매치에 참가했습니다.");
+          // 2_Widget > MatchModal > model > useMatchApply 에서 관리
           break;
         default:
-          alert("매치 참가에 실패했습니다.");
           break;
       }
     }
