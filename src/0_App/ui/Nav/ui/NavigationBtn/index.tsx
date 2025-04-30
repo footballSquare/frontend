@@ -7,7 +7,7 @@ const NavigationBtn = (props: NavigationBtnProps) => {
 
   return (
     <button
-      className="flex items-center justify-center hover:text-blue"
+      className="flex items-center justify-center hover:text-grass"
       onClick={() => {
         setPage(text);
         navigationHandler();
@@ -15,7 +15,7 @@ const NavigationBtn = (props: NavigationBtnProps) => {
     >
       <h5
         className={`lg:text-bold lg:font-bold text-xs font-base ${
-          page === text && "text-blue"
+          page === text && "text-grass"
         }`}
       >
         {text}
