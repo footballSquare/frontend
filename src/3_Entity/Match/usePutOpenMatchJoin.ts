@@ -1,6 +1,10 @@
 import { useFetchData } from "../../4_Shared/util/apiUtil";
 import React from "react";
-const usePutOpenMatchJoin = (): [(props: PutOpenMatchJoinProps) => void] => {
+const usePutOpenMatchJoin = (): [
+  (props: PutOpenMatchJoinProps) => void,
+  Record<string, unknown> | null,
+  boolean
+] => {
   const [serverState, request, loading] = useFetchData();
   const putOpenMatchJoin = (props: PutOpenMatchJoinProps) => {
     const { matchIdx, matchPositionIdx } = props;
@@ -16,18 +20,14 @@ const usePutOpenMatchJoin = (): [(props: PutOpenMatchJoinProps) => void] => {
     if (!loading && serverState) {
       switch (serverState.status) {
         case 200:
-          alert("매치에 참가했습니다.");
-          break;
-        case 401:
-          alert("로그인이 필요합니다.");
+          // 2_Widget > MatchModal > model > useMatchApply 에서 관리
           break;
         default:
-          alert("매치 참가에 실패했습니다.");
           break;
       }
     }
   }, [loading, serverState]);
 
-  return [putOpenMatchJoin];
+  return [putOpenMatchJoin, serverState, loading];
 };
 export default usePutOpenMatchJoin;

@@ -4,11 +4,15 @@ type UseMatchApproveProps = {
     React.SetStateAction<MatchParticipant[]>
   >;
 };
+
+type Player = {
+  player_list_idx: number;
+  player_list_nickname: string;
+  player_list_url: string;
+};
+
 type MatchApproveHandlerProps = {
-  player: Pick<
-    MatchParticipant,
-    "player_list_idx" | "player_list_nickname" | "player_list_url"
-  >; // 승인할 대기자
+  player: Player; // 승인할 대기자
   matchPosition: number; // 포지션 넘버
   matchParticipants: MatchParticipant[];
   isFree: boolean;
@@ -16,11 +20,13 @@ type MatchApproveHandlerProps = {
 
 type UseMatchApplyProps = {
   setMatchWaitList: React.Dispatch<React.SetStateAction<MatchWaitList>>;
+  setMatchParticipants: React.Dispatch<
+    React.SetStateAction<MatchParticipant[]>
+  >;
 };
 type MatchApplyHandlerProps = {
-  player: Pick<
-    MatchParticipant,
-    "player_list_idx" | "player_list_nickname" | "player_list_url"
-  >;
+  matchIdx: number;
+  player: Player;
   matchPosition: number;
+  matchParticipationType: number;
 };
