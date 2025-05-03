@@ -1,5 +1,6 @@
 import { createPortal } from "react-dom";
 import useHover from "./model/useHover";
+import { formatDateKoreanDate } from "../../../../4_Shared/lib/dateFormatter";
 
 const HoverTrophy = (props: HoverTrophyProps) => {
   const { trophyData, index } = props;
@@ -52,8 +53,13 @@ const HoverTrophy = (props: HoverTrophyProps) => {
               {trophyData.championship_list_name}
             </h3>
             <p className="text-gray-500 text-sm">
-              {trophyData.championship_list_start_date} -{" "}
-              {trophyData.championship_list_end_date}
+              {formatDateKoreanDate(
+                new Date(trophyData.championship_list_start_date)
+              )}{" "}
+              -{" "}
+              {formatDateKoreanDate(
+                new Date(trophyData.championship_list_end_date)
+              )}
             </p>
           </div>,
           document.body
