@@ -14,16 +14,15 @@ import { matchPosition } from "../../4_Shared/constant/matchPosition";
 import StatPanel from "./ui/StatPanel";
 import {
   useIsLogin,
-  useMyNickname,
+  useMyProfileImg,
   useMyUserIdx,
 } from "../../4_Shared/lib/useMyInfo";
 import usePutMatchEnd from "../../3_Entity/Match/usePutMatchEnd";
 import useDeleteMatch from "../../3_Entity/Match/useDeleteMatch";
-import usePutOpenMatchJoin from "../../3_Entity/Match/usePutOpenMatchJoin";
 import { useNavigate } from "react-router-dom";
 const MatchModal = () => {
   const { matchIdx, toggleMatchModal } = useMatchModalStore();
-  const [matchDetail] = useGetMatchDetail({ matchIdx });
+  const [matchDetail, setMatchDetail] = useGetMatchDetail({ matchIdx });
   const {
     player_list_idx,
     player_list_nickname,
@@ -47,14 +46,16 @@ const MatchModal = () => {
   });
   const [putMatchEnd] = usePutMatchEnd();
   const [deleteMatch] = useDeleteMatch();
-  const [matchApplyHandler] = useMatchApply({ setMatchWaitList });
-  const [putOpenMatchJoin] = usePutOpenMatchJoin();
+  const [matchApplyHandler] = useMatchApply({
+    setMatchWaitList,
+    setMatchParticipants,
+  });
   const [isLogin] = useIsLogin();
   const [userIdx] = useMyUserIdx();
-  const [nickname] = useMyNickname();
+  const [profileImg] = useMyProfileImg();
   const isMatchLeader = userIdx === player_list_idx;
   const navigate = useNavigate();
-  
+
   return (
     // 모달 커버
     <div className="absolute top-0 left-0 w-full h-full flex justify-center items-center">
@@ -161,18 +162,16 @@ const MatchModal = () => {
                           key={index}
                           className=" border border-gray shadow-lg p-[2px] w-[128px] hover:bg-blue hover:scale-[1.2] duration-300 hover:text-white"
                           onClick={() => {
-                            putOpenMatchJoin({
+                            matchApplyHandler({
                               matchIdx,
-                              matchPositionIdx: positionIdx,
-                            });
-                            matchApproveHandler({
                               player: {
-                                player_list_idx: userIdx || 0,
-                                player_list_nickname: nickname || "error!",
-                                player_list_url: "url",
+                                player_list_nickname,
+                                player_list_idx,
+                                player_list_url: profileImg || "",
                               },
                               matchPosition: positionIdx,
-                              matchParticipants: matchParticipants,
+                              matchParticipationType:
+                                match_match_participation_type,
                             });
                           }}
                         >
@@ -186,7 +185,7 @@ const MatchModal = () => {
             )
           ) : // 매치 라인업 마감 & 대회
           match_match_attribute !== 2 ? (
-            <p className=" m-auto">참가가 마감된 경기입니다</p>
+            <div className=" m-auto">참가가 마감된 경기입니다</div>
           ) : (
             isLogin && <StatPanel matchParticipants={matchParticipants} />
           )}
@@ -198,6 +197,10 @@ const MatchModal = () => {
               className="border border-gray shadow-lg p-[2px] hover:bg-blue hover:text-white"
               onClick={() => {
                 putMatchEnd({ matchIdx });
+                setMatchDetail((prev) => ({
+                  ...prev,
+                  common_status_idx: 1,
+                }));
               }}
             >
               매치 마감

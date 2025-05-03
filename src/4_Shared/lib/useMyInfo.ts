@@ -83,6 +83,11 @@ export const useMyTeamIdx = (): [number | null] => {
   return [teamIdx];
 };
 
+export const useMyProfileImg = (): [string | null] => {
+  const profileImg = useAuthStore((state) => state.profileImg);
+  return [profileImg];
+};
+
 export const useLogout = (): [() => void] => {
   const logout = useAuthStore((state) => state.logout);
   const navigate = useNavigate();

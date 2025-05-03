@@ -1,7 +1,9 @@
-import welcomeBanner from "../../4_Shared/assets/img/welcomeBanner.png"
+import welcomeBanner from "../../4_Shared/assets/img/welcomeBanner.png";
 import { useNavigate } from "react-router-dom";
+import { useIsLogin } from "../../4_Shared/lib/useMyInfo";
 const Welcome = () => {
   const navigate = useNavigate();
+  const [isLogin] = useIsLogin();
   return (
     <div className="flex">
       <div className="flex flex-col">
@@ -17,14 +19,16 @@ const Welcome = () => {
             팀을 만들고, 대회에 참가하세요!
           </p>
         </p>
-        <button
-          className="border-1 w-[180px] h-[56px] rounded-2xl bg-black text-white font-bold"
-          onClick={() => {
-            navigate("/login");
-          }}
-        >
-          Get Start
-        </button>
+        {!isLogin && (
+          <button
+            className="border-1 w-[180px] h-[56px] rounded-2xl bg-black text-white text-sm font-bold"
+            onClick={() => {
+              navigate("/login");
+            }}
+          >
+            로그인 하러 가기
+          </button>
+        )}
       </div>
       <div className=" pt-2">
         <img

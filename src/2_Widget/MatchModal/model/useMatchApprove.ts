@@ -1,6 +1,7 @@
 import React from "react";
 import usePostMatchApproval from "../../../3_Entity/Match/usePostMatchApproval";
 import useDeleteMatchApproval from "../../../3_Entity/Match/useDeleteMatchApproval";
+import useMatchModalStore from "../../../4_Shared/zustand/useMatchModal";
 
 const useMatchApprove = (
   props: UseMatchApproveProps
@@ -11,10 +12,14 @@ const useMatchApprove = (
   const { setMatchParticipants, setMatchWaitList } = props;
   const [postMatchApproval] = usePostMatchApproval();
   const [deleteMatchApproval] = useDeleteMatchApproval();
-
+  const { matchIdx } = useMatchModalStore();
   const matchApproveHandler = React.useCallback(
     (props: MatchApproveHandlerProps): void => {
-      const { player, matchPosition, matchParticipants } = props;
+      const {
+        player,
+        matchPosition,
+        matchParticipants,
+      } = props;
       if (
         // 포지션이 비어 있는 지 체크
         !matchParticipants.some(
@@ -27,7 +32,12 @@ const useMatchApprove = (
         )
       ) {
         // post api
-        postMatchApproval(player.player_list_idx);
+        postMatchApproval({
+          matchIdx,
+          userIdx: player.player_list_idx,
+          matchPositionIdx: matchPosition,
+        });
+
         // set MatchParticipants state
         setMatchParticipants((prev) => [
           ...prev,
@@ -59,9 +69,8 @@ const useMatchApprove = (
       } else {
         alert("참여자가 존재하는 포지션이거나, 이미 참여 확정된 유저 입니다.");
       }
-      console.log(matchParticipants);
     },
-    [setMatchParticipants, setMatchWaitList, postMatchApproval]
+    [setMatchParticipants, setMatchWaitList, postMatchApproval, matchIdx]
   );
 
   const matchDisApproveHandler = React.useCallback(
@@ -88,23 +97,9 @@ const useMatchApprove = (
               participant.player_list_idx !== player.player_list_idx
           )
         );
-        // set MatchWaitList state
-        setMatchWaitList((prev: MatchWaitList) => ({
-          match_waitlist: {
-            ...prev.match_waitlist,
-            [matchPosition]: [
-              ...(prev.match_waitlist?.[matchPosition] ?? []),
-              {
-                player_list_idx: player.player_list_idx,
-                player_list_nickname: player.player_list_nickname,
-                player_list_url: player.player_list_url,
-              },
-            ],
-          },
-        }));
       }
     },
-    [setMatchParticipants, setMatchWaitList, deleteMatchApproval]
+    [setMatchParticipants, deleteMatchApproval]
   );
 
   return [matchApproveHandler, matchDisApproveHandler];

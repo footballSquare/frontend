@@ -14,7 +14,7 @@ const Nav = () => {
   const [teamIdx] = useMyTeamIdx();
   const [userIdx] = useMyUserIdx();
   return (
-    <nav className=" fixed top-0 left-0 flex h-[80px] w-full justify-center items-center bg-white shadow-md">
+    <nav className=" fixed top-0 left-0 flex h-[80px] w-full justify-center items-center bg-black text-white shadow-md">
       <div className="sm:justify-between flex justify-center max-w-[1280px] w-full items-center">
         {/* HomeBtn(Logo) */}
         <HomeBtn />
@@ -51,21 +51,9 @@ const Nav = () => {
                 navigate(`${PAGE_URI.COMMUNITY}/0`);
               }}
             />
-            <div className="absolute left-0 hidden group-hover:flex flex-col gap-2 bg-white shadow-md border border-gray w-min-full p-2">
+            <div className="absolute left-0 hidden group-hover:flex flex-col gap-2 bg-white text-black shadow-md border border-gray w-[132px] p-2">
               <NavigationBtn
                 text={"KFPL"}
-                navigationHandler={() => {
-                  navigate(`${PAGE_URI.COMMUNITY}/0`);
-                }}
-              />
-              <NavigationBtn
-                text={"unknownCoummunity"}
-                navigationHandler={() => {
-                  navigate(`${PAGE_URI.COMMUNITY}/0`);
-                }}
-              />
-              <NavigationBtn
-                text={"asdfCommu"}
                 navigationHandler={() => {
                   navigate(`${PAGE_URI.COMMUNITY}/0`);
                 }}

@@ -102,9 +102,10 @@ export const useFetchData = (): [
           );
 
           const newAccessToken = refreshResponse.data.access_token;
+          console.log(newAccessToken)
           setCookie("access_token", newAccessToken); // access_token을 쿠키에 저장
 
-          axiosInstance.defaults.headers.common["Authorization"] =
+          axiosInstance.defaults.headers["Authorization"] =
             newAccessToken;
           processQueue(newAccessToken);
           return axiosInstance(originalRequest);
