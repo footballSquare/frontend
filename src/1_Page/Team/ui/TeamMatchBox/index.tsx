@@ -3,8 +3,6 @@ import TeamMatchCard from "./ui/TeamMatchCard";
 import useGetTeamMatchList from "../../../../3_Entity/Match/useGetTeamMatchList";
 import useInfiniteScrollPaging from "../../../../4_Shared/model/useInfiniteScrollPaging";
 import useParamInteger from "../../../../4_Shared/model/useParamInteger";
-// import usePostMatchInfoStore from "../../../../4_Shared/zustand/usePostMatchInfoStore";
-// import { mergeMatchLists } from "../../../../4_Shared/lib/mergeMatchLists";
 
 const TeamMatchBox = () => {
   const teamIdx = useParamInteger("teamIdx");
@@ -13,20 +11,6 @@ const TeamMatchBox = () => {
     page,
     teamIdx,
   });
-
-  // const { postDataList, clearPostData } = usePostMatchInfoStore();
-
-  // const displayData = React.useMemo(
-  //   () => mergeMatchLists(postDataList, teamMatchList),
-  //   [postDataList, teamMatchList]
-  // );
-
-  // React.useEffect(() => {
-  //   clearPostData();
-  //   return () => {
-  //     clearPostData();
-  //   };
-  // }, []);
 
   const [observeRef] = useInfiniteScrollPaging(
     setPage,
