@@ -19,9 +19,8 @@ const TeamMatchCard = (props: TeamMatchCardProps) => {
 
   const { toggleMatchModal, setMatchIdx } = useMatchModalStore();
 
-  const isClickable = common_status_idx === 0;
+  const isEndMatch = common_status_idx === 0;
 
-  // 플레이타임 계산
   const playTime =
     `${match_match_duration.hours ? `${match_match_duration.hours}h ` : ""}${
       match_match_duration.minutes ? `${match_match_duration.minutes}m` : ""
@@ -29,7 +28,7 @@ const TeamMatchCard = (props: TeamMatchCardProps) => {
 
   // 클릭 이벤트
   const handleClick = () => {
-    if (!isClickable) return;
+    if (!isEndMatch) return;
     setMatchIdx(match_match_idx);
     toggleMatchModal();
   };
@@ -39,8 +38,8 @@ const TeamMatchCard = (props: TeamMatchCardProps) => {
       ref={observeRef}
       key={"matchcard-" + index}
       onClick={handleClick}
-      style={isClickable ? {} : { cursor: "not-allowed" }}
-      className="w-full rounded-2xl shadow-sm border border-gray-100 bg-white transition-shadow hover:shadow-md">
+      style={isEndMatch ? {} : { cursor: "not-allowed" }}
+      className="w-full rounded-2xl shadow-sm border border-gray-100 bg-white transition-all hover:shadow-lg hover:border-gray-300 hover:bg-gray-50">
       <div className="p-5 grid gap-4 sm:grid-cols-4">
         {/* 왼쪽(모바일 상단) 정보 */}
         <div className="sm:col-span-1 flex flex-col justify-center items-start">
