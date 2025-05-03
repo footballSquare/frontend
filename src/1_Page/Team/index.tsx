@@ -87,8 +87,8 @@ const Team = () => {
               </div>
 
               {/* 팀 설명 및 팀 현황 */}
-              <div className="bg-white ">
-                <div className="rounded-lg shadow p-4">
+              <div>
+                <div className="rounded-lg shadow p-4 bg-white">
                   <h2 className="text-base font-semibold text-gray-800 mb-2">
                     팀 설명
                   </h2>
@@ -96,7 +96,7 @@ const Team = () => {
                     {team_list_announcement}
                   </p>
                 </div>
-                <div className="mt-4">
+                <div className="mt-4 bg-white border border-gray-100 rounded-xl shadow-sm p-4">
                   <h2 className="text-base font-semibold text-gray-800 mb-2">
                     팀 현황
                   </h2>
