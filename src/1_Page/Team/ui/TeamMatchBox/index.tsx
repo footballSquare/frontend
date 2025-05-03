@@ -35,7 +35,7 @@ const TeamMatchBox = () => {
   );
 
   return (
-    <div className="flex flex-col space-y-2 h-[300px] overflow-scroll">
+    <div className="flex flex-col space-y-2 overflow-scroll  max-h-[800px]">
       {teamMatchList.length === 0 ? (
         <div>진행중인 경기가 없습니다.</div>
       ) : (

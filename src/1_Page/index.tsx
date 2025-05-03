@@ -45,7 +45,7 @@ const Page = () => {
           path={`${PAGE_URI.CHAMPIONSHIPEDIT}/:mode/:communityIdx`}
           element={<ChampionshipEdit />}
         />
-        <Route path={`${PAGE_URI.SIGNUP}`} element={<SignUp />}/>
+        <Route path={`${PAGE_URI.SIGNUP}`} element={<SignUp />} />
       </Routes>
     </div>
   );

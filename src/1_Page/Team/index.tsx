@@ -23,7 +23,7 @@ const Team = () => {
   } = displayTeamInfo;
 
   return (
-    <main className="flex flex-col w-full sm:w-[90%] max-w-7xl mx-auto text-sm pt-5 px-4 sm:px-0">
+    <main className="flex flex-col w-full h-auto sm:w-[90%] max-w-7xl mx-auto text-sm pt-5 px-4 sm:px-0">
       {loading ? (
         <div className="text-center py-10">로딩중...</div>
       ) : (
@@ -47,7 +47,7 @@ const Team = () => {
           <TeamAwards />
 
           {/* 본문: 그리드 레이아웃 */}
-          <article className="grid grid-cols-1 sm:grid-cols-5 gap-6">
+          <article className="grid grid-cols-1 sm:grid-cols-5 gap-6 pb-4">
             {/* 왼쪽 섹션: 팀 정보와 역사 */}
             <div className="sm:col-span-2 space-y-6">
               {/* 팀 기본 정보 */}
