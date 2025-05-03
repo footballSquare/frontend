@@ -19,26 +19,17 @@ const TeamMatchCard = (props: TeamMatchCardProps) => {
   } = props;
 
   const { toggleMatchModal, setMatchIdx } = useMatchModalStore();
-
   const isNotEndMatch = common_status_idx === 0;
-
-  const playTime =
-    `${match_match_duration.hours ? `${match_match_duration.hours}h ` : ""}${
-      match_match_duration.minutes ? `${match_match_duration.minutes}m` : ""
-    }`.trim() || "--";
-
-  // 클릭 이벤트
-  const handleClick = () => {
-    if (!isNotEndMatch) return;
-    setMatchIdx(match_match_idx);
-    toggleMatchModal();
-  };
 
   return (
     <div
       ref={observeRef}
       key={`matchcard-${index}`}
-      onClick={handleClick}
+      onClick={() => {
+        if (!isNotEndMatch) return;
+        setMatchIdx(match_match_idx);
+        toggleMatchModal();
+      }}
       className={`w-full border-l-4 ${
         isNotEndMatch
           ? "border-l-green-500 hover:bg-gray-50"
@@ -50,11 +41,21 @@ const TeamMatchCard = (props: TeamMatchCardProps) => {
           <div className="text-sm font-medium text-gray-500">
             {formatDateKoreanDate(new Date(match_match_start_time))}
           </div>
-          <div className="text-xs text-gray-500 mt-1">{playTime}</div>
+          <div className="text-xs text-gray-500 mt-1">
+            {`${
+              match_match_duration.hours
+                ? `${match_match_duration.hours}h `
+                : ""
+            }${
+              match_match_duration.minutes
+                ? `${match_match_duration.minutes}m`
+                : ""
+            }`.trim()}
+          </div>
         </div>
 
         {/* 중앙: 팀 및 게임 정보 */}
-        <div className="flex justify-center items-center md:w-2/6 flex-col  px-3">
+        <div className="flex justify-center items-center md:w-3/6 flex-col  px-3">
           <div className="flex items-center">
             <div className="font-bold text-gray-900">{team_list_name}</div>
             <div className="ml-2 text-xs bg-gray-100 px-2 py-1 rounded">
@@ -80,7 +81,7 @@ const TeamMatchCard = (props: TeamMatchCardProps) => {
         </div>
 
         {/* 오른쪽: 상태 및 ID 정보 */}
-        <div className="md:w-2/6 flex flex-col md:flex-row justify-between items-center">
+        <div className="md:w-1/6 flex flex-col md:flex-row justify-between items-center">
           <span className="text-xs text-gray-400 mb-1 md:mb-0">
             ID: {match_match_idx}
           </span>
