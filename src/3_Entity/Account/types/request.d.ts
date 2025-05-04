@@ -43,3 +43,8 @@ type PostCheckAuthSmsProps = {
   phone: string;
   code: string;
 };
+
+type GetDiscordSiginIn = {
+  code: string;
+  state: string;
+};
