@@ -7,7 +7,7 @@ const usePostCheckId = (): [boolean, (props: PostCheckIdProps) => void] => {
 
   const postCheckId = (props: PostCheckIdProps) => {
     const { id } = props;
-    request("POST", `account/check/id`, { id }, false);
+    request("POST", `/account/check/id`, { id }, false);
   };
 
   React.useEffect(() => {

@@ -16,7 +16,7 @@ const usePostSignUp = (): [(props: PostSignUpProps) => void] => {
     } = props;
     request(
       "POST",
-      `account/signup/playerinfo`,
+      `/account/signup/playerinfo`,
       {
         phone,
         nickname,
