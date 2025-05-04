@@ -8,7 +8,7 @@ const usePostReceiveAuthSms = (): [
 
   const postReceiveAuthSms = (props: PostReceiveAuthSmsProps) => {
     const { phone } = props;
-    request("POST", `account/sms/send`, { phone }, false);
+    request("POST", `/account/sms/send`, { phone }, false);
   };
 
   React.useEffect(() => {

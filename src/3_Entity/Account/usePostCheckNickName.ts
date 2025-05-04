@@ -10,7 +10,7 @@ const usePostCheckNickName = (): [
 
   const postCheckNickName = (props: PostCheckNickNameProps) => {
     const { nickname } = props;
-    request("POST", `account/check/nickname`, { nickname }, false);
+    request("POST", `/account/check/nickname`, { nickname }, false);
   };
 
   React.useEffect(() => {
