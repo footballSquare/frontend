@@ -1,11 +1,12 @@
-import useGetDiscordSiginIn from "../../3_Entity/Account/useGetDiscordSignIn";
+import useDiscord from "./model/useDiscord";
 
 const OAuthHub = () => {
   const queryParams = new URLSearchParams(window.location.search);
   const code = queryParams.get("code");
   const state = queryParams.get("state");
-  const [getDiscordSiginIn] = useGetDiscordSiginIn();
-  getDiscordSiginIn({ code: code || "", state: state || "" });
+  
+  useDiscord({ code, state });
+  
   return (
     <div>
       <p>Please Wait...</p>
