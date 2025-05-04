@@ -13,7 +13,6 @@ type UseManagePutServerStateProps = {
 type UseManageActionReturn = {
   isLeaving: boolean;
   isPending: boolean;
-  confirmAction: () => boolean;
   updateToLeave: () => void;
   updateToSignPending: () => void;
   cancelUpdateToLeave: () => void;

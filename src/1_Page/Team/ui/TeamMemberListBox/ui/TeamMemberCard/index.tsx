@@ -13,6 +13,7 @@ import {
   useMyTeamRoleIdx,
   useMyUserIdx,
 } from "../../../../../../4_Shared/lib/useMyInfo";
+import { useNavigate } from "react-router-dom";
 
 const TeamMemberCard = (props: TeamMemberCardProps) => {
   const {
@@ -26,6 +27,7 @@ const TeamMemberCard = (props: TeamMemberCardProps) => {
     index,
   } = props;
   const [myIdx] = useMyUserIdx();
+  const navigate = useNavigate();
 
   const teamIdx = useParamInteger("teamIdx");
   const [myTeamIdx] = useMyTeamIdx();
@@ -38,8 +40,6 @@ const TeamMemberCard = (props: TeamMemberCardProps) => {
     detail: false,
     manage: false,
   }); //모달 state
-
-  console.log(props, player_list_platform);
 
   const [deleteTeamPlayer] = useDeleteTeamPlayer(teamIdx);
   const [postChangeTeamRole] = usePostChangeTeamRole(teamIdx);
@@ -76,7 +76,13 @@ const TeamMemberCard = (props: TeamMemberCardProps) => {
               />
             </div>
 
-            <h3 className="text-lg font-semibold">{player_list_nickname}</h3>
+            <h3
+              className="text-lg font-semibold hover:underline cursor-pointer"
+              onClick={() => {
+                navigate(`/profile/${player_list_idx}`);
+              }}>
+              {player_list_nickname}
+            </h3>
             <p className="text-gray-500 text-sm mb-4">{teamRole[memberRole]}</p>
 
             {isTeamReader && myIdx !== player_list_idx && (
