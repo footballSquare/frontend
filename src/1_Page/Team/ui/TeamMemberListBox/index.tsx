@@ -1,5 +1,5 @@
 import React from "react";
-import MemberCard from "./ui/MemberCard";
+import TeamMemberCard from "./ui/TeamMemberCard";
 
 import useGetTeamMembers from "../../../../3_Entity/Team/useGetTeamMembers";
 import useInfiniteScrollPaging from "../../../../4_Shared/model/useInfiniteScrollPaging";
@@ -23,12 +23,12 @@ const TeamMemberListBox = () => {
   const [displayMemberList, handleDelete] = useManageMemberList(teamMember);
 
   return (
-    <div className="bg-white border border-gray-100 rounded-xl shadow-sm p-3 h-64 overflow-y-auto space-y-3">
+    <div className="h-64 overflow-y-auto space-y-3">
       {displayMemberList.length === 0 && !loading && (
         <p className="text-gray-500">현재 팀원이 없습니다.</p>
       )}
       {displayMemberList.map((elem, index) => (
-        <MemberCard
+        <TeamMemberCard
           key={"member-" + index}
           {...elem}
           handleDelete={handleDelete}

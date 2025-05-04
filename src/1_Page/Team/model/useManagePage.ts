@@ -4,6 +4,7 @@ const useManageTeamInfo = (teamInfo: TeamInfo): UseManageTeamInfoReturn => {
   const [displayTeamInfo, setDisplayTeamInfo] = React.useState<TeamInfo>(
     {} as TeamInfo
   );
+
   React.useEffect(() => {
     setDisplayTeamInfo(teamInfo);
   }, [teamInfo]);

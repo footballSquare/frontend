@@ -3,7 +3,7 @@ import HistoryListBox from "./ui/HistoryListBox";
 import TeamMatchBox from "./ui/TeamMatchBox";
 import TeamMemberListBox from "./ui/TeamMemberListBox";
 import TeamAwards from "./ui/TeamAwards";
-import ManageModalBtnPanel from "./ui/ManageModalBtnPanel";
+import BtnGroupManageModalPanel from "./ui/BtnGroupManageModalPanel";
 import useValidParamInteger from "../../4_Shared/model/useValidParamInteger";
 
 import useManageTeamInfo from "./model/useManagePage";
@@ -23,7 +23,7 @@ const Team = () => {
   } = displayTeamInfo;
 
   return (
-    <main className="flex flex-col w-full sm:w-[90%] max-w-7xl mx-auto text-sm pt-5 px-4 sm:px-0">
+    <main className="flex flex-col w-full h-auto sm:w-[90%] max-w-7xl mx-auto text-sm pt-5 px-4 sm:px-0">
       {loading ? (
         <div className="text-center py-10">로딩중...</div>
       ) : (
@@ -47,7 +47,7 @@ const Team = () => {
           <TeamAwards />
 
           {/* 본문: 그리드 레이아웃 */}
-          <article className="grid grid-cols-1 sm:grid-cols-5 gap-6">
+          <article className="grid grid-cols-1 sm:grid-cols-5 gap-6 pb-4">
             {/* 왼쪽 섹션: 팀 정보와 역사 */}
             <div className="sm:col-span-2 space-y-6">
               {/* 팀 기본 정보 */}
@@ -72,7 +72,7 @@ const Team = () => {
                       style={{ color: team_list_color }}>
                       {team_list_name} #{team_list_short_name}
                     </h1>
-                    <ManageModalBtnPanel
+                    <BtnGroupManageModalPanel
                       handlers={handlers}
                       teamInfo={displayTeamInfo}
                     />
@@ -87,8 +87,8 @@ const Team = () => {
               </div>
 
               {/* 팀 설명 및 팀 현황 */}
-              <div className="bg-white ">
-                <div className="rounded-lg shadow p-4">
+              <div>
+                <div className="rounded-lg shadow p-4 bg-white">
                   <h2 className="text-base font-semibold text-gray-800 mb-2">
                     팀 설명
                   </h2>
@@ -96,7 +96,7 @@ const Team = () => {
                     {team_list_announcement}
                   </p>
                 </div>
-                <div className="mt-4">
+                <div className="mt-4 bg-white border border-gray-100 rounded-xl shadow-sm p-4">
                   <h2 className="text-base font-semibold text-gray-800 mb-2">
                     팀 현황
                   </h2>

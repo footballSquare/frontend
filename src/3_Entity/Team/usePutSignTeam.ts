@@ -3,7 +3,11 @@ import { useFetchData } from "../../4_Shared/util/apiUtil";
 
 const usePutSignTeam = (
   teamListIdx: number
-): [putSignTeam: () => void, serverState: unknown, loading: boolean] => {
+): [
+  putSignTeam: () => void,
+  serverState: Record<string, unknown> | null,
+  loading: boolean
+] => {
   const [serverState, request, loading] = useFetchData();
 
   const putSignTeam = () => {

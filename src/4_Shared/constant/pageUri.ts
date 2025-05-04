@@ -12,6 +12,7 @@ const PAGE_URI = {
   SIGNUP: "/signup",
   CHAMPIONSHIP: "/championship",
   CHAMPIONSHIPEDIT: "/championship-edit",
+  OAUTH: "/oauth/redirect",
 };
 
 export default PAGE_URI;

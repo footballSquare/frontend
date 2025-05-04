@@ -1,15 +1,14 @@
 import xbox_icon from "../assets/svg/platform-xbox.svg";
 import ps_icon from "../assets/svg/platform-playstation.svg";
 import pc_icon from "../assets/svg/pc-desktop.svg";
-import { platform } from "../constant/platform";
 
-export const getPlatformIcon = (platformKey: number) => {
-  switch (platform[platformKey]) {
-    case "PC":
+export const getPlatformIcon = (platformString: Platform) => {
+  switch (platformString) {
+    case "pc":
       return pc_icon;
-    case "PS4":
+    case "playstation":
       return ps_icon;
-    case "XBOX":
+    case "xbox":
       return xbox_icon;
     default:
       return "";

@@ -10,7 +10,7 @@ const usePostTemporalSignUp = (): [
 
   const postTemporalSignUp = (props: PostTemporalSignUpProps) => {
     const { id, password } = props;
-    request("POST", `account/signup/logininfo`, { id, password }, false);
+    request("POST", `/account/signup/logininfo`, { id, password }, false);
   };
 
   const options = { path: "/signup", maxAge: 86400 / 24 / 6 };
