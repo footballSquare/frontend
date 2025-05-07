@@ -15,9 +15,11 @@ const ChampionshipMatchCardContainer = (
     handleSelect,
   } = props;
 
+  // admin
   const [community_role_idx] = useMyCommunityRoleIdx();
   const isAdmin = community_role_idx === 1;
 
+  // state
   const {
     searchTerm,
     sortOption,

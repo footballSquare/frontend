@@ -10,6 +10,7 @@ const ChampionshipMatchCard = (props: ChampionshipMatchCardProps) => {
   const home = match.championship_match_first;
   const away = match.championship_match_second;
 
+  // admin
   const [community_role_idx] = useMyCommunityRoleIdx();
   const isAdmin = community_role_idx === 1;
   // 경기 종료 여부 (common_status_idx === 4)
