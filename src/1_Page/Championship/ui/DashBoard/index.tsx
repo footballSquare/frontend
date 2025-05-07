@@ -19,18 +19,23 @@ import TeamListPanel from "./ui/TeamListPanel";
 const DashBoard = (props: DashBoardProps) => {
   const { championship_type_idx } = props;
   const isLeague = championship_type_idx === 0;
-  const [activeTab, setActiveTab] = React.useState<ACTIVE_TAB>(
-    ACTIVE_TAB.PLAYERS
-  );
-
   const championshipIdx = useParamInteger("championshipIdx");
 
+  // api
   const [playerStats] = useGetPlayerStats(championshipIdx);
   const [matchList, fetchMatchList] =
     useGetChampionshipMatchList(championshipIdx); // 대회 생성된 매치 리스트
   const [teamList] = useGetChampionshipTeams(championshipIdx); // 대회 참가 팀리스트
 
-  const [displayMatchList, matchHandlers] = useManageMatchList(matchList); // 매치 리스트 관리
+  // state
+  const [activeTab, setActiveTab] = React.useState<ACTIVE_TAB>(
+    ACTIVE_TAB.PLAYERS
+  );
+  const [selectedIdx, selectedTeams, handleSelect] =
+    useSelectHandler(matchList);
+
+  // optimistic state
+  const [displayMatchList, matchHandlers] = useManageMatchList(matchList);
   const convertedData = React.useMemo(() => {
     return convertToMatchData(
       displayMatchList,
@@ -40,8 +45,7 @@ const DashBoard = (props: DashBoardProps) => {
     );
   }, [displayMatchList, teamList, championship_type_idx, isLeague]);
 
-  const [selectedIdx, selectedTeams, handleSelect] =
-    useSelectHandler(matchList);
+  // api 이미 호출된 idx는 캐싱을 통해 데이터 최적화
   const [championshipDetail] = useGetChampionshipDetail(selectedIdx);
 
   return (
