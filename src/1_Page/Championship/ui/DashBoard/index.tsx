@@ -36,7 +36,7 @@ const DashBoard = (props: DashBoardProps) => {
 
   // optimistic state
   const [displayMatchList, matchHandlers] = useManageMatchList(matchList);
-  const convertedData = React.useMemo(() => {
+  const { tournamentData, filteredTeamList, leagueData } = React.useMemo(() => {
     return convertToMatchData(
       displayMatchList,
       teamList,
@@ -118,11 +118,9 @@ const DashBoard = (props: DashBoardProps) => {
         {activeTab === ACTIVE_TAB.TEAMS && (
           <section>
             {isLeague ? (
-              <LeagueBracket leagueData={convertedData.leagueData} />
+              <LeagueBracket leagueData={leagueData} />
             ) : (
-              <TournamentBracket
-                tournamentData={convertedData.tournamentData}
-              />
+              <TournamentBracket tournamentData={tournamentData} />
             )}
           </section>
         )}
@@ -132,11 +130,11 @@ const DashBoard = (props: DashBoardProps) => {
           <section className="w-full mx-auto flex flex-col md:flex-row gap-4">
             {/* 매치 결과 리스트 (좌측) */}
             <ChampionshipMatchCardContainer
+              selectedIdx={selectedIdx}
+              matchList={displayMatchList}
+              filteredTeamList={filteredTeamList}
               matchHandlers={matchHandlers}
               fetchMatchList={fetchMatchList}
-              filteredTeamList={convertedData.filteredTeamList}
-              matchList={displayMatchList}
-              selectedIdx={selectedIdx}
               handleSelect={handleSelect}
             />
 

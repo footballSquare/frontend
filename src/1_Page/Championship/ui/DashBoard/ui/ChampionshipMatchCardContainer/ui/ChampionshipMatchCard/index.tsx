@@ -5,14 +5,8 @@ import { useMyCommunityRoleIdx } from "../../../../../../../../4_Shared/lib/useM
 import { getStatusColors, getTeamStyle } from "./lib/getStatusColor";
 
 const ChampionshipMatchCard = (props: ChampionshipMatchCardProps) => {
-  const {
-    match,
-    index,
-    selectedIdx,
-    handleSelect,
-    handleDeleteMatch,
-    handleEndMatch,
-  } = props;
+  const { match, isSelected, handleSelect, handleDeleteMatch, handleEndMatch } =
+    props;
   const home = match.championship_match_first;
   const away = match.championship_match_second;
 
@@ -20,7 +14,6 @@ const ChampionshipMatchCard = (props: ChampionshipMatchCardProps) => {
   const isAdmin = community_role_idx === 1;
   // 경기 종료 여부 (common_status_idx === 4)
   const isFinished = home.common_status_idx === 4;
-  const isSelected = selectedIdx === match.championship_match_idx;
   // api
   const [deleteChampionshipMatch] = useDeleteChampionshipMatch();
   const [putChampionshipMatchEnd] = usePutChampionshipMatchEnd();
@@ -29,7 +22,6 @@ const ChampionshipMatchCard = (props: ChampionshipMatchCardProps) => {
   return (
     <li
       onClick={() => handleSelect(match.championship_match_idx)}
-      key={`match-list-${index}`}
       className={`relative flex flex-col w-full rounded-xl overflow-hidden shadow-md backdrop-blur-sm
         ${colors.bgColor} ${colors.textColor}
         transform transition-all duration-300 hover:scale-105 hover:shadow-lg

@@ -7,12 +7,12 @@ const ChampionshipMatchCardContainer = (
   props: ChampionshipMatchCardContainerProps
 ) => {
   const {
+    selectedIdx,
     matchList,
     filteredTeamList,
-    selectedIdx,
-    handleSelect,
     matchHandlers,
     fetchMatchList,
+    handleSelect,
   } = props;
 
   const [community_role_idx] = useMyCommunityRoleIdx();
@@ -64,12 +64,12 @@ const ChampionshipMatchCardContainer = (
         )}
         {sortedMatches.map((match, index) => (
           <ChampionshipMatchCard
+            key={`match-list-${index}`}
             handleEndMatch={matchHandlers.handleEndMatch}
             handleDeleteMatch={matchHandlers.handleDeleteMatch}
-            selectedIdx={selectedIdx}
+            isSelected={selectedIdx === match.championship_match_idx}
             handleSelect={handleSelect}
             match={match}
-            index={index}
           />
         ))}
       </ul>
