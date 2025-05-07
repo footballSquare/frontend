@@ -51,7 +51,7 @@ const CreateChampionMatchPanel = (props: CreateChampionMatchPanelProps) => {
       </button>
       {isModalOpen && (
         <div className="fixed inset-0 z-10 bg-black/50 flex items-center justify-center">
-          <div className="bg-white rounded-lg p-6 w-full max-w-md shadow-lg overflow-y-scroll">
+          <div className="rounded-lg p-6 w-full max-w-md shadow-lg overflow-y-scroll">
             <h2 className="text-center text-2xl mb-4">대회 매치 생성</h2>
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="mb-4">

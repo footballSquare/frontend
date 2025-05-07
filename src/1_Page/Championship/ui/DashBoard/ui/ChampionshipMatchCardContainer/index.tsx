@@ -38,7 +38,7 @@ const ChampionshipMatchCardContainer = (
           />
         )}
       </div>
-      <div className="flex gap-4 mb-6 bg-white p-4 rounded-lg shadow-md">
+      <div className="flex gap-4 mb-6  p-4 rounded-lg shadow-md">
         <input
           type="text"
           value={searchTerm}
@@ -49,7 +49,7 @@ const ChampionshipMatchCardContainer = (
         <select
           value={sortOption}
           onChange={handleSortChange}
-          className="border border-gray-300 rounded-lg px-4 py-2 bg-white cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all">
+          className="border border-gray-300 rounded-lg px-4 py-2 cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all">
           <option value="default">정렬 없음</option>
           <option value="asc">매치번호 ↑</option>
           <option value="desc">매치번호 ↓</option>

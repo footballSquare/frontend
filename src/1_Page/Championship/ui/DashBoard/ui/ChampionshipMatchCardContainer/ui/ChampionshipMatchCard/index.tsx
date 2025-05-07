@@ -13,36 +13,19 @@ const ChampionshipMatchCard = (props: ChampionshipMatchCardProps) => {
     handleDeleteMatch,
     handleEndMatch,
   } = props;
+  const home = match.championship_match_first;
+  const away = match.championship_match_second;
 
   const [community_role_idx] = useMyCommunityRoleIdx();
   const isAdmin = community_role_idx === 1;
-
-  const home = match.championship_match_first;
-  const away = match.championship_match_second;
-  const status = matchState[home.common_status_idx] || "";
   // 경기 종료 여부 (common_status_idx === 4)
   const isFinished = home.common_status_idx === 4;
   const isSelected = selectedIdx === match.championship_match_idx;
-
+  // api
   const [deleteChampionshipMatch] = useDeleteChampionshipMatch();
   const [putChampionshipMatchEnd] = usePutChampionshipMatchEnd();
 
-  const handleDelete = () => {
-    if (confirm("정말 삭제하시겠습니까?")) {
-      deleteChampionshipMatch(match.championship_match_idx);
-      handleDeleteMatch(match.championship_match_idx);
-    }
-  };
-
-  const handlePutEndMatch = () => {
-    if (confirm("정말 종료하시겠습니까?")) {
-      putChampionshipMatchEnd(match.championship_match_idx);
-      handleEndMatch(match.championship_match_idx);
-    }
-  };
-
   const colors = getStatusColors(isFinished, home.common_status_idx);
-
   return (
     <li
       onClick={() => handleSelect(match.championship_match_idx)}
@@ -64,7 +47,7 @@ const ChampionshipMatchCard = (props: ChampionshipMatchCardProps) => {
             : "#6b7280",
           color: "#ffffff",
         }}>
-        {status}
+        {matchState[home.common_status_idx] || ""}
       </div>
 
       {/* 메인 콘텐츠 */}
@@ -73,7 +56,7 @@ const ChampionshipMatchCard = (props: ChampionshipMatchCardProps) => {
         <div className="flex items-center justify-between mb-3 relative">
           {/* 홈팀 */}
           <div className="flex flex-col items-center w-2/5">
-            <div className="w-8 h-8 sm:w-10 sm:h-10 bg-white rounded-full shadow-md flex items-center justify-center mb-1">
+            <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full shadow-md flex items-center justify-center mb-1">
               {home.team_list_emblem ? (
                 <img
                   src={home.team_list_emblem}
@@ -113,7 +96,7 @@ const ChampionshipMatchCard = (props: ChampionshipMatchCardProps) => {
 
           {/* 어웨이팀 */}
           <div className="flex flex-col items-center w-2/5">
-            <div className="w-8 h-8 sm:w-10 sm:h-10 bg-white rounded-full shadow-md flex items-center justify-center mb-1">
+            <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full shadow-md flex items-center justify-center mb-1">
               {away.team_list_emblem ? (
                 <img
                   src={away.team_list_emblem}
@@ -145,12 +128,22 @@ const ChampionshipMatchCard = (props: ChampionshipMatchCardProps) => {
       {isAdmin && !isFinished && (
         <div className="flex justify-end gap-2 p-2 bg-black/5 backdrop-blur-sm">
           <button
-            onClick={handleDelete}
+            onClick={() => {
+              if (confirm("정말 삭제하시겠습니까?")) {
+                deleteChampionshipMatch(match.championship_match_idx);
+                handleDeleteMatch(match.championship_match_idx);
+              }
+            }}
             className="text-xs px-2 py-1 rounded bg-red-500/90 text-white hover:bg-red-600 transition-colors">
             삭제
           </button>
           <button
-            onClick={handlePutEndMatch}
+            onClick={() => {
+              if (confirm("정말 종료하시겠습니까?")) {
+                putChampionshipMatchEnd(match.championship_match_idx);
+                handleEndMatch(match.championship_match_idx);
+              }
+            }}
             className="text-xs px-2 py-1 rounded bg-gray-700/90 text-white hover:bg-gray-800 transition-colors">
             경기종료
           </button>

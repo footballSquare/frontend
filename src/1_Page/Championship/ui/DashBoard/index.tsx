@@ -24,6 +24,7 @@ const DashBoard = (props: DashBoardProps) => {
   );
 
   const championshipIdx = useParamInteger("championshipIdx");
+
   const [playerStats] = useGetPlayerStats(championshipIdx);
   const [matchList, fetchMatchList] =
     useGetChampionshipMatchList(championshipIdx); // 대회 생성된 매치 리스트
