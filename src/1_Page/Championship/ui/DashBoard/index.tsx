@@ -34,9 +34,10 @@ const DashBoard = (props: DashBoardProps) => {
     return convertToMatchData(
       displayMatchList,
       teamList,
-      championship_type_idx
+      championship_type_idx,
+      isLeague
     );
-  }, [displayMatchList, teamList, championship_type_idx]);
+  }, [displayMatchList, teamList, championship_type_idx, isLeague]);
 
   const [selectedIdx, selectedTeams, handleSelect] =
     useSelectHandler(matchList);

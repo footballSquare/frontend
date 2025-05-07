@@ -1,7 +1,8 @@
 export const convertToMatchData = (
   displayMatchList: ChampionshipMatchList[],
   teamList: ChampionshipTeamInfo[],
-  championshipTypeIdx: number
+  championshipTypeIdx: number,
+  isLeague: boolean
 ): {
   leagueData: LeagueData[];
   tournamentData: TournamentData[];
@@ -19,11 +20,9 @@ export const convertToMatchData = (
       teamList,
       championshipTypeIdx
     );
-    const filteredTeamList = convertToFilterMatchList(
-      displayMatchList,
-      teamList,
-      tournamentData
-    );
+    const filteredTeamList = isLeague
+      ? teamList
+      : convertToFilterMatchList(displayMatchList, teamList, tournamentData);
     return {
       tournamentData,
       filteredTeamList,
