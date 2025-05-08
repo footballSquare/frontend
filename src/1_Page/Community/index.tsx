@@ -15,6 +15,9 @@ import {
 import useIsCommunityStaffStore from "../../4_Shared/zustand/useIsCommunityStaffStore";
 import CommunityNotice from "./ui/CommunityNotice";
 import usePostApplyCommunityTeam from "../../3_Entity/Community/usePostApplyCommunityTeam";
+import usePostBoardModalStore from "../../4_Shared/zustand/usePostBoardModalStore";
+import CommunityBoardList from "./ui/CommunityBoardList";
+import useCommunityIdx from "./model/useCommunityIdx";
 
 const Community = () => {
   const { communityIdx } = useParams();
@@ -22,6 +25,7 @@ const Community = () => {
   const [communityInfo, loading, setCommunityInfo] = useGetCommunityInfo({
     communityIdx: Number(communityIdx),
   });
+
   const [changeEmblem] = useChangeEmblem({
     setCommunityInfo,
   });
@@ -29,10 +33,15 @@ const Community = () => {
     setCommunityInfo,
   });
   const { isCommunityStaff } = useIsCommunityStaffStore();
+  const { togglePostBoardModal } = usePostBoardModalStore();
   const [communityRoleIdx] = useMyCommunityRoleIdx();
   const navigate = useNavigate();
   const [myTeamRoleIdx] = useMyTeamRoleIdx();
   const [postApplyCommunityTeam] = usePostApplyCommunityTeam();
+  useCommunityIdx({
+    currentCommunityIdx: Number(communityIdx),
+  });
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -117,6 +126,15 @@ const Community = () => {
             {modifyMode ? "뒤로 가기" : "커뮤니티 관리"}
           </button>
         )}
+        {/* 커뮤니티 글 작성 버튼 */}
+        {communityRoleIdx === 0 && (
+          <button
+            className="p-3 border border-gray-300 shadow-md rounded-lg text-sm bg-blue-500 text-white hover:bg-blue-600 transition"
+            onClick={togglePostBoardModal}
+          >
+            커뮤니티 글 작성
+          </button>
+        )}
         {/* 대회 생성 버튼 */}
         {isCommunityStaff && (
           <button
@@ -194,6 +212,12 @@ const Community = () => {
               </div>
 
               {/* BoardList */}
+              <div className="w-full">
+                <h3 className="font-semibold text-lg text-gray-800 mb-4">
+                  Board
+                </h3>
+                <CommunityBoardList communityIdx={Number(communityIdx)} />
+              </div>
 
               {/* CommunityTeamList */}
               <div className="w-full">
