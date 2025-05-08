@@ -9,10 +9,10 @@ const useManageChampionshipEndData = (
     cachedChampionshipEndDataRef.current &&
     Object.keys(cachedChampionshipEndDataRef.current).length > 0
   );
-  console.log(isCached);
-  const realListIdx = isCached ? -1 : championshipListIdx;
 
-  const [apiData] = useGetChampionshipEndData(realListIdx);
+  const [apiData] = useGetChampionshipEndData(
+    isCached ? -1 : championshipListIdx
+  );
 
   React.useEffect(() => {
     cachedChampionshipEndDataRef.current = apiData;

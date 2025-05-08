@@ -19,33 +19,39 @@ import TeamListPanel from "./ui/TeamListPanel";
 const DashBoard = (props: DashBoardProps) => {
   const { championship_type_idx } = props;
   const isLeague = championship_type_idx === 0;
-  const [activeTab, setActiveTab] = React.useState<ACTIVE_TAB>(
-    ACTIVE_TAB.PLAYERS
-  );
-
   const championshipIdx = useParamInteger("championshipIdx");
+
+  // api
   const [playerStats] = useGetPlayerStats(championshipIdx);
   const [matchList, fetchMatchList] =
     useGetChampionshipMatchList(championshipIdx); // 대회 생성된 매치 리스트
   const [teamList] = useGetChampionshipTeams(championshipIdx); // 대회 참가 팀리스트
 
-  const [displayMatchList, matchHandlers] = useManageMatchList(matchList); // 매치 리스트 관리
-  const convertedData = React.useMemo(() => {
+  // state
+  const [activeTab, setActiveTab] = React.useState<ACTIVE_TAB>(
+    ACTIVE_TAB.PLAYERS
+  );
+  const [selectedIdx, selectedTeams, handleSelect] =
+    useSelectHandler(matchList);
+
+  // optimistic state
+  const [displayMatchList, matchHandlers] = useManageMatchList(matchList);
+  const { tournamentData, filteredTeamList, leagueData } = React.useMemo(() => {
     return convertToMatchData(
       displayMatchList,
       teamList,
-      championship_type_idx
+      championship_type_idx,
+      isLeague
     );
-  }, [displayMatchList, teamList, championship_type_idx]);
+  }, [displayMatchList, teamList, championship_type_idx, isLeague]);
 
-  const [selectedIdx, selectedTeams, handleSelect] =
-    useSelectHandler(matchList);
+  // api 이미 호출된 idx는 캐싱을 통해 데이터 최적화
   const [championshipDetail] = useGetChampionshipDetail(selectedIdx);
 
   return (
     <div className="w-full p-4">
       <nav className="flex justify-between items-center mb-4">
-        <div className="flex overflow-x-auto space-x-2 bg-white p-2 rounded-md scrollbar-hide">
+        <div className="flex overflow-x-auto space-x-2 p-2 rounded-md scrollbar-hide">
           {activeTabList.map(({ id, label }) => (
             <button
               key={id}
@@ -112,11 +118,9 @@ const DashBoard = (props: DashBoardProps) => {
         {activeTab === ACTIVE_TAB.TEAMS && (
           <section>
             {isLeague ? (
-              <LeagueBracket leagueData={convertedData.leagueData} />
+              <LeagueBracket leagueData={leagueData} />
             ) : (
-              <TournamentBracket
-                tournamentData={convertedData.tournamentData}
-              />
+              <TournamentBracket tournamentData={tournamentData} />
             )}
           </section>
         )}
@@ -126,11 +130,11 @@ const DashBoard = (props: DashBoardProps) => {
           <section className="w-full mx-auto flex flex-col md:flex-row gap-4">
             {/* 매치 결과 리스트 (좌측) */}
             <ChampionshipMatchCardContainer
+              selectedIdx={selectedIdx}
+              matchList={displayMatchList}
+              filteredTeamList={filteredTeamList}
               matchHandlers={matchHandlers}
               fetchMatchList={fetchMatchList}
-              filteredTeamList={convertedData.filteredTeamList}
-              matchList={displayMatchList}
-              selectedIdx={selectedIdx}
               handleSelect={handleSelect}
             />
 

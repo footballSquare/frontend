@@ -13,3 +13,7 @@ type ChangeBannerProps = {
   banner: File | null;
   communityIdx: number;
 };
+
+type UseCommunityIdxProps = {
+  currentCommunityIdx: number;
+};

@@ -17,7 +17,7 @@ const useGetChampionshipInfo = (
   }, []);
 
   React.useEffect(() => {
-    if (!loading && serverState && "championship_data" in serverState) {
+    if (!loading && serverState) {
       switch (serverState.status) {
         case 200:
           setChampionshipInfo(

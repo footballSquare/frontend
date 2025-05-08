@@ -10,7 +10,7 @@ const Championship = () => {
   const championship_type_idx = championshipInfo.championship_type_idx;
 
   return (
-    <div className="w-full min-h-full  text-gray-800">
+    <div className="w-full min-h-full">
       {/* 상단 배너 영역 */}
       <InfoHeader championshipInfo={championshipInfo} />
       {/* 하단 정보 영역 */}

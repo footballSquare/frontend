@@ -12,13 +12,14 @@ import AwardPlayerList from "./ui/AwardPlayerList";
 
 const EndChampionshipModal = (props: EndChampionshipModalProps) => {
   const { onClose, cachedChampionshipEndDataRef } = props;
+
   const championshipListIdx = useParamInteger("championshipIdx");
+  // api
   const championshipEndData = useManageChampionshipEndData(
     championshipListIdx,
     cachedChampionshipEndDataRef
   ); // 부모 ref를 이용해 캐싱해서 값이 있을때만 호출
   const [putChampionshipEnd] = usePutChampionshipEnd(championshipListIdx);
-
   // 선택 및 필터링
   const { selectTeam, handleSetSelectTeam } = useTeamSelect();
   const { selectedAwardPlayers, handlePlayerSelectForAward } =
@@ -26,19 +27,6 @@ const EndChampionshipModal = (props: EndChampionshipModalProps) => {
   // 모든 수상이 선택되었는지 확인
   const isFormComplete =
     selectTeam && selectedAwardPlayers.every((player) => player !== null);
-
-  const handlePutEnd = () => {
-    if (isInvalidEnd({ selectTeam, selectedAwardPlayers })) return;
-    putChampionshipEnd({
-      winner_team_idx: selectTeam!.team_list_idx,
-      awards: convertToPutAwardData({
-        selectTeam,
-        selectedAwardPlayers,
-        championshipEndData,
-      }),
-    });
-    onClose();
-  };
 
   return (
     <div className="fixed inset-0 z-10 bg-black/75 backdrop-blur-sm flex items-center justify-center overflow-y-auto py-8">
@@ -180,7 +168,18 @@ const EndChampionshipModal = (props: EndChampionshipModalProps) => {
           </button>
           <button
             disabled={!isFormComplete}
-            onClick={handlePutEnd}
+            onClick={() => {
+              if (isInvalidEnd({ selectTeam, selectedAwardPlayers })) return;
+              putChampionshipEnd({
+                winner_team_idx: selectTeam!.team_list_idx,
+                awards: convertToPutAwardData({
+                  selectTeam,
+                  selectedAwardPlayers,
+                  championshipEndData,
+                }),
+              });
+              onClose();
+            }}
             className={`px-4 py-1.5 rounded-md transition text-sm font-medium flex items-center shadow-sm ${
               !isFormComplete
                 ? "bg-blue-200 text-blue-400 cursor-not-allowed"

@@ -102,11 +102,10 @@ export const useFetchData = (): [
           );
 
           const newAccessToken = refreshResponse.data.access_token;
-          console.log(newAccessToken)
+          console.log(newAccessToken);
           setCookie("access_token", newAccessToken); // access_token을 쿠키에 저장
 
-          axiosInstance.defaults.headers["Authorization"] =
-            newAccessToken;
+          axiosInstance.defaults.headers["Authorization"] = newAccessToken;
           processQueue(newAccessToken);
           return axiosInstance(originalRequest);
         } catch (refreshError) {
@@ -137,11 +136,12 @@ export const useFetchData = (): [
           method: method,
           url: `${SERVER_URL}${endpoint}`,
           params: {},
-          headers: authorization
-            ? {
-                Authorization: `${cookies.access_token}`,
-              }
-            : undefined,
+          headers:
+            authorization && cookies.access_token
+              ? {
+                  Authorization: `${cookies.access_token}`,
+                }
+              : undefined,
           data: body ?? undefined,
         });
 
@@ -151,12 +151,11 @@ export const useFetchData = (): [
           const { status, data } = error.response ?? {};
           console.log("endpoint", endpoint);
           console.log("body", body);
+          console.log("authorization", authorization);
+          console.log(`auth ${cookies.access_token}`);
           console.log("status", status);
           console.log("message", data.message);
           setServerState({ status });
-          console.log("endpoint", endpoint);
-          console.log("body", body);
-          console.log("서버 오류:", status, data);
 
           if (status === 500) {
             console.error("Internal Server Error:", status, data.message);
