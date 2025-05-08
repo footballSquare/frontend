@@ -1,8 +1,5 @@
 type LoginInputProps = {
-  register: UseFormRegister<{
-    id: string;
-    password: string;
-  }>;
+  register: UseFormRegister<>;
   registerType: "id" | "password";
   errors: FieldErrors<{
     id: string;

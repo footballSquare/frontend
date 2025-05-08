@@ -1,16 +1,5 @@
 type SignUpInputProps = {
-  register: UseFormRegister<{
-    id: string;
-    password: string;
-    nickName: string;
-    phone: string;
-    statusMessage: string;
-    discordTag: string;
-    confirmPassword: string;
-    platform: "pc" | "xbox" | "playstation";
-    preferPosition: string;
-    sms: string;
-  }>;
+  register: UseFormRegister<>;
   registerType:
     | "id"
     | "password"
