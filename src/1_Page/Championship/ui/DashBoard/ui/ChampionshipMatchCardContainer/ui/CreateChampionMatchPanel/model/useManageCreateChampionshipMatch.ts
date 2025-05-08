@@ -1,11 +1,13 @@
 import React from "react";
 
-type UseMakeMatchServerState = {
+type UseManageCreateChampionshipMatchProps = {
   serverState: Record<string, unknown> | null;
   handleToggleModal: () => void;
   fetchMatchList: () => void;
 };
-const useMakeMatchServerState = (props: UseMakeMatchServerState) => {
+const useManageCreateChampionshipMatch = (
+  props: UseManageCreateChampionshipMatchProps
+) => {
   const { serverState, handleToggleModal, fetchMatchList } = props;
   React.useEffect(() => {
     if (!serverState) return;
@@ -24,4 +26,4 @@ const useMakeMatchServerState = (props: UseMakeMatchServerState) => {
   }, [serverState]);
 };
 
-export default useMakeMatchServerState;
+export default useManageCreateChampionshipMatch;

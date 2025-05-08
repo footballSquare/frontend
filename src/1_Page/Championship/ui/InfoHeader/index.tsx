@@ -135,8 +135,8 @@ const InfoHeader = (props: InfoHeaderProps) => {
               </div>
             </div>
           </div>
-          <div className="w-full py-1 text-center bg-black/40 text-white text-xs font-medium">
-            대회 종료
+          <div className="w-full py-2 text-center bg-gray-400 text-white text-sm font-semibold rounded-lg shadow-md flex items-center justify-center space-x-2 animate-pulse">
+            <span className="uppercase tracking-wide">대회 종료</span>
           </div>
         </div>
       )}

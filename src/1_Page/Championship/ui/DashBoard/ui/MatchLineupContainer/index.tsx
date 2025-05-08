@@ -1,4 +1,3 @@
-import React from "react";
 import FootballGroundSection from "./ui/FootballGroundSection";
 import VerticalTeamStatCards from "./ui/VerticalTeamStatCards";
 import EvidenceDetailModal from "./ui/EvidenceDetailModal";
@@ -8,15 +7,15 @@ import { useMyCommunityRoleIdx } from "../../../../../../4_Shared/lib/useMyInfo"
 
 const MatchLineupContainer = (props: MatchLineupContainerProps) => {
   const { matchIdx, selectedTeams, championshipDetail } = props;
+
   // admin
   const [community_role_idx] = useMyCommunityRoleIdx();
   const isAdmin = community_role_idx === 1;
-  // api
+
   // state
   const [isModalOpen, handleToggleModal] = useToggleState();
-  const [isFormationView, setIsFormationView] = React.useState<boolean>(true);
-  const [isTeamHistoryView, setIsTeamHistoryView] =
-    React.useState<boolean>(false);
+  const [isFormationView, toggleIsFormationView] = useToggleState();
+  const [isTeamHistoryView, toggleIsTeamHistoryView] = useToggleState();
 
   return (
     <div className="p-4">
@@ -32,7 +31,7 @@ const MatchLineupContainer = (props: MatchLineupContainerProps) => {
               ? "bg-blue-600 text-white border-blue-600"
               : "bg-white text-gray-800 border-gray-300 hover:bg-gray-100"
           }`}
-          onClick={() => setIsTeamHistoryView(true)}>
+          onClick={toggleIsTeamHistoryView}>
           팀 기록 보기
         </button>
         <button
@@ -41,7 +40,7 @@ const MatchLineupContainer = (props: MatchLineupContainerProps) => {
               ? "bg-blue-600 text-white border-blue-600"
               : "bg-white text-gray-800 border-gray-300 hover:bg-gray-100"
           }`}
-          onClick={() => setIsTeamHistoryView(false)}>
+          onClick={toggleIsTeamHistoryView}>
           라인업 보기
         </button>
       </div>
@@ -86,14 +85,14 @@ const MatchLineupContainer = (props: MatchLineupContainerProps) => {
               className={`px-4 py-2 border rounded ${
                 isFormationView ? "bg-blue-600 text-white" : "bg-gray-200"
               }`}
-              onClick={() => setIsFormationView(true)}>
+              onClick={toggleIsFormationView}>
               포메이션 보기
             </button>
             <button
               className={`px-4 py-2 border rounded ${
                 !isFormationView ? "bg-blue-600 text-white" : "bg-gray-200"
               }`}
-              onClick={() => setIsFormationView(false)}>
+              onClick={toggleIsFormationView}>
               라인업 보기
             </button>
           </div>

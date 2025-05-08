@@ -1,0 +1,3 @@
+type TeamListPanelProps = {
+  teamList: ChampionshipTeamInfo[];
+};

@@ -1,7 +1,6 @@
 type ChampionshipMatchCardProps = {
   match: ChampionshipMatchList;
-  selectedIdx: number;
-  index: number;
+  isSelected: boolean;
   handleSelect: (idx: number) => void;
   handleDeleteMatch: (idx: number) => void;
   handleEndMatch: (idx: number) => void;

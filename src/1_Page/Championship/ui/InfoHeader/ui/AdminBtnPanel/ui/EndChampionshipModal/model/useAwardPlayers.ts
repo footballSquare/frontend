@@ -3,6 +3,7 @@ const useAwardPlayers = (): UseAwardPlayersReturn => {
   const [selectedAwardPlayers, setSelectedAwardPlayers] = React.useState<
     (EndPlayerStatas | null)[]
   >([]);
+
   const handlePlayerSelectForAward = (
     awardIndex: number,
     player: EndPlayerStatas

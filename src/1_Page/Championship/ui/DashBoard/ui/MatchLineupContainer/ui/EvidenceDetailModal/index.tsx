@@ -3,8 +3,9 @@ import useGetChampionshipEvidence from "../../../../../../../../3_Entity/Champio
 
 const EvidenceDetailModal = (props: EvidenceDetailModalProps) => {
   const { matchIdx, selectTeamList, handleToggleModal } = props;
-  const [evidenceImage] = useGetChampionshipEvidence(matchIdx);
 
+  // api
+  const [evidenceImage] = useGetChampionshipEvidence(matchIdx);
   const [selectedImage, setSelectedImage] = React.useState<string | null>(null);
 
   return (

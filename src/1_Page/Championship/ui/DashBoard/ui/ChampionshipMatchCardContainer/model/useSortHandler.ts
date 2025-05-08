@@ -15,12 +15,11 @@ const useSortHandler = (
     setSearchTerm(e.target.value);
   };
 
-  // 3. handleSortChange에서 SORT_OPTION을 올바르게 사용
   const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSortOption(e.target.value as SORT_OPTION);
   };
 
-  // 1) 검색 필터 적용
+  // 검색 필터 적용
   const filteredMatches = React.useMemo(() => {
     const lowerSearch = searchTerm.toLowerCase();
 
