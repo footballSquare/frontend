@@ -10,7 +10,7 @@ const usePostCheckAuthSms = (): [
 
   const postCheckAuthSms = (props: PostCheckAuthSmsProps) => {
     const { phone, code } = props;
-    request("POST", `/account/sms/signup/verify`, { phone, code }, false);
+    request("POST", `/account/sms/signup/verify`, { phone, code }, true);
   };
 
   React.useEffect(() => {
