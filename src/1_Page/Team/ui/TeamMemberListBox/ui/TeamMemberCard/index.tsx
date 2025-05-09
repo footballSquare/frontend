@@ -6,14 +6,11 @@ import { teamRole } from "../../../../../../4_Shared/constant/teamRole";
 import useDeleteTeamPlayer from "../../../../../../3_Entity/Team/useDeleteTeamPlayer";
 import usePostChangeTeamRole from "../../../../../../3_Entity/Team/usePostChangeTeamRole";
 import { modalReducer } from "./model/reducer";
-import useParamInteger from "../../../../../../4_Shared/model/useParamInteger";
+
 import defaultProfile from "../../../../../../4_Shared/assets/svg/profile.svg";
-import {
-  useMyTeamIdx,
-  useMyTeamRoleIdx,
-  useMyUserIdx,
-} from "../../../../../../4_Shared/lib/useMyInfo";
+import { useAuthStore } from "../../../../../../4_Shared/lib/useMyInfo";
 import { useNavigate } from "react-router-dom";
+import useParamInteger from "../../../../../../4_Shared/model/useParamInteger";
 
 const TeamMemberCard = (props: TeamMemberCardProps) => {
   const {
@@ -22,30 +19,28 @@ const TeamMemberCard = (props: TeamMemberCardProps) => {
     player_list_nickname,
     team_role_idx,
     player_list_platform,
+    isTeamReader,
+    isMine,
     observeRef,
     handleDelete,
-    index,
+    handleChangeTeamRole,
   } = props;
-  const [myIdx] = useMyUserIdx();
   const navigate = useNavigate();
 
-  const teamIdx = useParamInteger("teamIdx");
-  const [myTeamIdx] = useMyTeamIdx();
-  const [myTeamRoleIdx] = useMyTeamRoleIdx();
-  const isTeamReader = myTeamIdx === teamIdx && myTeamRoleIdx === 0;
-
   const initialRoleRef = React.useRef<number>(team_role_idx); // 저장용 Ref
-  const [memberRole, setMemberRole] = React.useState<number>(team_role_idx); // 멤버 상태
   const [modalState, dispatch] = React.useReducer(modalReducer, {
     detail: false,
     manage: false,
   }); //모달 state
 
+  const { setTeamRoleIdx } = useAuthStore();
+
+  const teamIdx = useParamInteger("teamIdx");
   const [deleteTeamPlayer] = useDeleteTeamPlayer(teamIdx);
   const [postChangeTeamRole] = usePostChangeTeamRole(teamIdx);
 
   return (
-    <div key={`member_card_${index}`}>
+    <div>
       {/* 멤버 정보 카드*/}
       <div
         className="flex items-center space-x-2 border-b border-gray-200 pb-2 mb-2 cursor-pointer"
@@ -56,7 +51,7 @@ const TeamMemberCard = (props: TeamMemberCardProps) => {
           className="w-8 h-8 rounded-full object-cover"
         />
         <span className="text-xs">
-          {player_list_nickname} {teamRole[memberRole]}
+          {player_list_nickname} {teamRole[team_role_idx]}
         </span>
         <p className="ml-auto">🔎</p>
       </div>
@@ -83,9 +78,12 @@ const TeamMemberCard = (props: TeamMemberCardProps) => {
               }}>
               {player_list_nickname}
             </h3>
-            <p className="text-gray-500 text-sm mb-4">{teamRole[memberRole]}</p>
+            <p className="text-gray-500 text-sm mb-4">
+              {teamRole[team_role_idx]}
+            </p>
 
-            {isTeamReader && myIdx !== player_list_idx && (
+            {/* 자기 자신의 직위는 변경 불가 */}
+            {isTeamReader && !isMine && (
               <button
                 className="w-full bg-blue-500 text-white text-sm font-medium py-2 rounded-full mb-2"
                 onClick={() => {
@@ -125,9 +123,12 @@ const TeamMemberCard = (props: TeamMemberCardProps) => {
             </label>
             <select
               className="w-full border border-gray-300 rounded-md py-2 px-3 mb-4 text-sm"
-              defaultValue={memberRole}
+              defaultValue={team_role_idx}
               onChange={(event) => {
-                setMemberRole(Number(event.target.value)); // 문자열을 숫자로 변환
+                handleChangeTeamRole(
+                  player_list_idx,
+                  Number(event.target.value)
+                );
               }}>
               {teamRole.map((value, index) => (
                 <option value={index}>{value}</option>
@@ -138,7 +139,7 @@ const TeamMemberCard = (props: TeamMemberCardProps) => {
               onClick={() => {
                 if (confirm("방출하시겠습니까?")) {
                   dispatch({ type: "CLOSE_ALL" });
-                  deleteTeamPlayer(memberRole);
+                  deleteTeamPlayer(team_role_idx);
                   handleDelete(player_list_idx);
                   alert("방출되었습니다");
                 }
@@ -146,23 +147,34 @@ const TeamMemberCard = (props: TeamMemberCardProps) => {
               방출
             </button>
             <button
-              disabled={memberRole === initialRoleRef.current}
+              disabled={team_role_idx === initialRoleRef.current}
               className={`w-full text-white py-2 rounded-md mb-2 transition-all ${
-                memberRole === initialRoleRef.current
+                team_role_idx === initialRoleRef.current
                   ? "bg-gray-300 text-gray-400 cursor-not-allowed opacity-50"
                   : "bg-blue-500 hover:bg-blue-600"
               }`}
               onClick={() => {
+                if (
+                  team_role_idx === 0 &&
+                  !confirm("팀장을 양도하면 부팀장이 됩니다. 계속하시겠습니까?")
+                ) {
+                  return;
+                } else {
+                  setTeamRoleIdx(1);
+                }
                 dispatch({ type: "CLOSE_ALL" });
-                postChangeTeamRole(player_list_idx, memberRole);
-                initialRoleRef.current = memberRole;
+                postChangeTeamRole(player_list_idx, team_role_idx);
+                initialRoleRef.current = team_role_idx;
               }}>
               저장
             </button>
             <button
               onClick={() => {
                 dispatch({ type: "CLOSE_ALL" });
-                setMemberRole(initialRoleRef.current);
+                handleChangeTeamRole(
+                  player_list_idx,
+                  Number(initialRoleRef.current)
+                );
               }}
               className="w-full border border-gray-300 py-2 rounded-md text-gray-600">
               닫기

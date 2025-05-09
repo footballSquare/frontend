@@ -5,9 +5,18 @@ import useGetTeamMembers from "../../../../3_Entity/Team/useGetTeamMembers";
 import useInfiniteScrollPaging from "../../../../4_Shared/model/useInfiniteScrollPaging";
 import useParamInteger from "../../../../4_Shared/model/useParamInteger";
 import useManageMemberList from "./model/useManageMemberList";
+import {
+  useMyTeamIdx,
+  useMyTeamRoleIdx,
+  useMyUserIdx,
+} from "../../../../4_Shared/lib/useMyInfo";
 
 const TeamMemberListBox = () => {
   const teamIdx = useParamInteger("teamIdx");
+  const [myIdx] = useMyUserIdx();
+  const [myTeamIdx] = useMyTeamIdx();
+  const [myTeamRoleIdx] = useMyTeamRoleIdx();
+  const isTeamReader = myTeamIdx === teamIdx && myTeamRoleIdx === 0;
 
   // api
   const [page, setPage] = React.useState<number>(0);
@@ -22,7 +31,8 @@ const TeamMemberListBox = () => {
   );
 
   // optimistic state
-  const [displayMemberList, handleDelete] = useManageMemberList(teamMember);
+  const [displayMemberList, handleDelete, handleChangeTeamRole] =
+    useManageMemberList(teamMember);
 
   return (
     <div className="h-64 overflow-y-auto space-y-3">
@@ -33,8 +43,10 @@ const TeamMemberListBox = () => {
         <TeamMemberCard
           key={"member-" + index}
           {...elem}
+          isMine={elem.player_list_idx === myIdx}
+          isTeamReader={isTeamReader}
+          handleChangeTeamRole={handleChangeTeamRole}
           handleDelete={handleDelete}
-          index={index}
           observeRef={teamMember.length === index + 1 ? observeRef : undefined}
         />
       ))}

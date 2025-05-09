@@ -1,7 +1,11 @@
 import React from "react";
 const useManageMemberList = (
   teamMember: TeamMembers[]
-): [TeamMembers[], (memberIdx: number) => void] => {
+): [
+  TeamMembers[],
+  (memberIdx: number) => void,
+  (memberIdx: number, team_role_idx: number) => void
+] => {
   const [displayMemberList, setDisplayMemberList] = React.useState<
     TeamMembers[]
   >([] as TeamMembers[]);
@@ -15,6 +19,16 @@ const useManageMemberList = (
       prev.filter((member) => member.player_list_idx !== memberIdx)
     );
   };
-  return [displayMemberList, handleDelete];
+
+  const handleChangeTeamRole = (memberIdx: number, team_role_idx: number) => {
+    setDisplayMemberList((prev) =>
+      prev.map((member) =>
+        member.player_list_idx === memberIdx
+          ? { ...member, team_role_idx }
+          : member
+      )
+    );
+  };
+  return [displayMemberList, handleDelete, handleChangeTeamRole];
 };
 export default useManageMemberList;
