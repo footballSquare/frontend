@@ -1,6 +1,7 @@
 import React from "react";
 import useInfiniteScrollPaging from "../../../../4_Shared/model/useInfiniteScrollPaging";
 import useGetCommunityBoardList from "../../../../3_Entity/Community/useGetCommunityBoardList";
+import { utcFormatter } from "../../../../4_Shared/lib/utcFormatter";
 
 const CommunityBoardList = (props: ChampionshipListProps) => {
   const { communityIdx } = props;
@@ -33,7 +34,7 @@ const CommunityBoardList = (props: ChampionshipListProps) => {
               className="w-12 h-12 border border-gray-300 rounded-lg"
               alt="thumbnail"
             />
-            <p className="text-sm text-gray-600">{elem.player_list_nickname} {`${elem.board_list_updated_at}`}</p>
+            <p className="text-sm text-gray-600">{elem.player_list_nickname} {`${utcFormatter(elem.board_list_updated_at)}`}</p>
             
           </div>
         );
