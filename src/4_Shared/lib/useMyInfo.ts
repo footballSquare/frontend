@@ -21,6 +21,7 @@ type AuthState = {
     nickname: string | null;
   }) => void;
   logout: () => void;
+  leaveTeam: () => void;
 };
 
 export const useAuthStore = create<AuthState>()((set) => ({
@@ -41,6 +42,11 @@ export const useAuthStore = create<AuthState>()((set) => ({
       teamIdx: null,
       profileImg: null,
       nickname: null,
+    }),
+  leaveTeam: () =>
+    set({
+      teamRoleIdx: null,
+      teamIdx: null,
     }),
 }));
 
