@@ -100,3 +100,15 @@ type DeleteCommunityTeamApplicationProps = {
 type PostApplyCommunityTeamProps = {
   communityIdx: number;
 };
+
+type PostCommunityBoardProps = {
+  communityIdx: number;
+  title: string;
+  content: string;
+  image: File | null;
+}
+
+type UseGetCommunityBoardListProps = {
+  communityIdx: number;
+  page: number;
+}

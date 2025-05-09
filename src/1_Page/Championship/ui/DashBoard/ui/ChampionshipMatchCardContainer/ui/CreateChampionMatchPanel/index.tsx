@@ -1,9 +1,9 @@
-import { SubmitHandler, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { schema } from "./lib/schema";
 import { convertCreateChampionMatchForm } from "./util/convert";
 import useSetValueHandler from "./model/useTeamListHandler";
-import useMakeMatchServerState from "./model/useMakeMatchServerState";
+import useManageCreateChampionshipMatch from "./model/useManageCreateChampionshipMatch";
 
 import usePostCreateChampionshipMatch from "../../../../../../../../3_Entity/Championship/usePostCreateChampionshipMatch";
 import useParamInteger from "../../../../../../../../4_Shared/model/useParamInteger";
@@ -11,16 +11,7 @@ import useToggleState from "../../../../../../../../4_Shared/model/useToggleStat
 
 const CreateChampionMatchPanel = (props: CreateChampionMatchPanelProps) => {
   const { filteredTeamList, fetchMatchList } = props;
-  const championshipIdx = useParamInteger("championshipIdx");
-  const [isModalOpen, handleToggleModal] = useToggleState();
-  const [postCreateChampionshipMatch, serverState] =
-    usePostCreateChampionshipMatch(championshipIdx);
-  useMakeMatchServerState({
-    serverState,
-    handleToggleModal,
-    fetchMatchList,
-  });
-
+  // form
   const {
     register,
     handleSubmit,
@@ -34,12 +25,21 @@ const CreateChampionMatchPanel = (props: CreateChampionMatchPanelProps) => {
       startTime: "10:00",
     },
   });
+  // state
+  const [isModalOpen, handleToggleModal] = useToggleState();
   const { selectedTeams, handleAddTeam, handleRemoveTeam } =
     useSetValueHandler(setValue);
 
-  const onSubmit: SubmitHandler<CreateChampionMatchFormValues> = (data) => {
-    postCreateChampionshipMatch(convertCreateChampionMatchForm(data));
-  };
+  const championshipIdx = useParamInteger("championshipIdx");
+  // api
+  const [postCreateChampionshipMatch, serverState] =
+    usePostCreateChampionshipMatch(championshipIdx);
+  // api side effect
+  useManageCreateChampionshipMatch({
+    serverState,
+    handleToggleModal,
+    fetchMatchList,
+  });
 
   return (
     <div>
@@ -51,9 +51,14 @@ const CreateChampionMatchPanel = (props: CreateChampionMatchPanelProps) => {
       </button>
       {isModalOpen && (
         <div className="fixed inset-0 z-10 bg-black/50 flex items-center justify-center">
-          <div className="bg-white rounded-lg p-6 w-full max-w-md shadow-lg overflow-y-scroll">
+          <div className="rounded-lg p-6 w-full max-w-md shadow-lg overflow-y-scroll">
             <h2 className="text-center text-2xl mb-4">대회 매치 생성</h2>
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form
+              onSubmit={handleSubmit((data) => {
+                postCreateChampionshipMatch(
+                  convertCreateChampionMatchForm(data)
+                );
+              })}>
               <div className="mb-4">
                 <label>매치 참여 팀 선택</label>
                 <div className="flex flex-col gap-2 mt-1 overflow-y-scroll max-h-60">

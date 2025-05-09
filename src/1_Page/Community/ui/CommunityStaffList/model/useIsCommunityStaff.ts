@@ -9,6 +9,7 @@ const useIsCommunityStaff = (
   const { isCommunityStaff, setIsCommunityStaff } = useIsCommunityStaffStore();
 
   React.useEffect(() => {
+    console.log(userIdx, "asdasdasdasd");
     setIsCommunityStaff(
       communityStaffList.some(
         (elem) =>

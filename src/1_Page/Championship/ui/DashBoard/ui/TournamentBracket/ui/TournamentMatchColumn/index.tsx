@@ -7,6 +7,7 @@ const TournamentMatchColumn = (props: TournamentMatchColumnProps) => {
     match.championship_match_first.match_team_stats_our_score || 0;
   const team2Score =
     match.championship_match_second.match_team_stats_our_score || 0;
+
   const team1Won = team1Score > team2Score;
   const team2Won = team2Score > team1Score;
 

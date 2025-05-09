@@ -4,6 +4,7 @@ import apply_icon from "../../../../../../4_Shared/assets/svg/apply.svg";
 import denied_icon from "../../../../../../4_Shared/assets/svg/denied.svg";
 import { isPastTime } from "../../../../../../4_Shared/lib/timeChecker";
 import useMatchModalStore from "../../../../../../4_Shared/zustand/useMatchModal";
+import { utcFormatter } from "../../../../../../4_Shared/lib/utcFormatter";
 
 const MatchCard = (props: MatchCardProps) => {
   const {
@@ -52,7 +53,7 @@ const MatchCard = (props: MatchCardProps) => {
 
       <div className=" font-semibold">
         <h5 className="text-sm">{`게임모드: [${matchType[match_type_idx]}]`}</h5>
-        <h5 className="text-sm">{`매치시작시간: ${match_match_start_time}`}</h5>
+        <h5 className="text-sm">{`매치시작시간: ${utcFormatter(match_match_start_time)}`}</h5>
         <h5 className="text-sm">{`예상 플레이 타임: ${
           match_match_duration.hours
         }.${match_match_duration.minutes || 0}시간`}</h5>
