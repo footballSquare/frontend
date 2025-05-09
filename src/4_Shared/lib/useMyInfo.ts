@@ -133,13 +133,3 @@ export const useRemoveAllCookie = () => {
     },
   ];
 };
-
-export const useRemoveTeamCookie = (): [() => void] => {
-  const [, , removeCookie] = useCookies(["team_role_idx", "team_idx"]);
-  return [
-    () => {
-      removeCookie("team_role_idx", { path: "/" });
-      removeCookie("team_idx", { path: "/" });
-    },
-  ];
-};
