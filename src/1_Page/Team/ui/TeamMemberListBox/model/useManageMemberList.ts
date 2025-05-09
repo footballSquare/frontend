@@ -12,6 +12,10 @@ const useManageMemberList = (
     setDisplayMemberList(teamMember);
   }, [teamMember]);
 
+  React.useEffect(() => {
+    sortMemberList(displayMemberList);
+  }, [displayMemberList]);
+
   const handleDelete = (memberIdx: number) => {
     setDisplayMemberList((prev) =>
       prev.filter((member) => member.player_list_idx !== memberIdx)
@@ -35,6 +39,16 @@ const useManageMemberList = (
       )
     );
   };
+
+  const sortMemberList = (list: TeamMembers[]) => {
+    return list.sort((a, b) => {
+      if (a.team_role_idx === b.team_role_idx) {
+        return a.player_list_idx - b.player_list_idx;
+      }
+      return a.team_role_idx - b.team_role_idx;
+    });
+  };
+
   return {
     displayMemberList,
     handleDelete,
