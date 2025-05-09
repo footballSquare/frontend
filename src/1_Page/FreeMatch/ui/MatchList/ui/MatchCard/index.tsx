@@ -4,6 +4,7 @@ import apply_icon from "../../../../../../4_Shared/assets/svg/apply.svg";
 import denied_icon from "../../../../../../4_Shared/assets/svg/denied.svg";
 import { isPastTime } from "../../../../../../4_Shared/lib/timeChecker";
 import useMatchModalStore from "../../../../../../4_Shared/zustand/useMatchModal";
+import { utcFormatter } from "../../../../../../4_Shared/lib/utcFormatter";
 
 const MatchCard = (props: MatchCardProps) => {
   const {
@@ -28,8 +29,8 @@ const MatchCard = (props: MatchCardProps) => {
     <div
       ref={observeRef}
       className={`flex ${
-        !isPastTime(match_match_start_time) ? "bg-white" : "bg-gray"
-      }  hover:bg-blue hover:text-white cursor-pointer items-center justify-between gap-6 duration-500 shadow-lg px-4 py-2 p text-xs`}
+        !isPastTime(match_match_start_time) ? "bg-gray-300" : "bg-black text-white"
+      }  hover:bg-grass hover:text-black rounded cursor-pointer items-center justify-between gap-6 duration-500 shadow-lg px-4 py-2 p text-xs`}
       onClick={() => {
         toggleMatchModal();
         setMatchIdx(match_match_idx);
@@ -52,7 +53,7 @@ const MatchCard = (props: MatchCardProps) => {
 
       <div className=" font-semibold">
         <h5 className="text-sm">{`게임모드: [${matchType[match_type_idx]}]`}</h5>
-        <h5 className="text-sm">{`매치시작시간: ${match_match_start_time}`}</h5>
+        <h5 className="text-sm">{`매치시작시간: ${utcFormatter(match_match_start_time)}`}</h5>
         <h5 className="text-sm">{`예상 플레이 타임: ${
           match_match_duration.hours
         }.${match_match_duration.minutes || 0}시간`}</h5>

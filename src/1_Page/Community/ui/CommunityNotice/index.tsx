@@ -26,11 +26,11 @@ const CommunityNotice = (props: CommunityNoticeProps) => {
             <input
               {...register("notice", { required: true })}
               defaultValue={notice}
-              className="border border-gray-300 rounded-lg p-2 w-full"
+              className="border border-grass text-grass rounded-lg p-2 w-full"
             />
             <button
               type="submit"
-              className="text-sm p-2 bg-blue-500 text-white rounded-lg"
+              className="text-sm p-2 bg-gray hover:bg-grass text-black rounded-lg"
             >
               공지 수정하기
             </button>

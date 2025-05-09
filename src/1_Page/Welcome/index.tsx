@@ -7,7 +7,7 @@ const Welcome = () => {
   return (
     <div className="flex">
       <div className="flex flex-col">
-        <p className=" font-bold text-6xl mt-[100px]">
+        <p className=" font-bold text-6xl mt-[100px] text-white">
           MAKE ONLY
           <br />
           YOUR PLAY
@@ -21,7 +21,7 @@ const Welcome = () => {
         </p>
         {!isLogin && (
           <button
-            className="border-1 w-[180px] h-[56px] rounded-2xl bg-black text-white text-sm font-bold"
+            className="border border-white w-[180px] h-[56px] rounded-2xl bg-black text-white text-sm font-bold"
             onClick={() => {
               navigate("/login");
             }}

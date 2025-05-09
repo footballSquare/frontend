@@ -12,14 +12,14 @@ const SignBtns = () => {
       {!isLogin ? (
         <Button
           text={"Login"}
-          textColor="black"
+          textColor="white"
           onClickHandler={() => {
             navigate(PAGE_URI.LOGIN);
           }}
         />
       ) : (
         <Button
-          textColor="black"
+          textColor="white"
           text={"Logout"}
           onClickHandler={logout}
         />

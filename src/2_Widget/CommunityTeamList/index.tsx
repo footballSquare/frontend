@@ -20,17 +20,17 @@ const CommunityTeamList = (props: CommunityTeamListProps) => {
   const [deleteCommunityTeam] = useDeleteCommunityTeam();
 
   return (
-    <div className="bg-gray-50 rounded-xl shadow-md w-full flex flex-col gap-2 overflow-y-auto p-2 overflow-auto h-[100%]">
+    <div className="rounded-xl shadow-md w-full flex flex-col gap-2 overflow-y-auto p-2 overflow-auto h-[100%] text-gray">
       {communityTeamList.map((team, index) => {
         return (
           <div
             key={index}
-            className={`border flex flex-col gap-4 justify-between border-gray-300 shadow-md rounded-lg p-4 hover:bg-blue-100 transition-all duration-300`}
+            className={`border flex flex-col gap-4 justify-between border-gray shadow-md rounded-lg p-4 hover:bg-grass hover:text-black transition-all duration-300`}
             ref={
               communityTeamList.length === index + 1 ? observeRef : undefined
             }
           >
-            <h3 className="text-lg font-semibold text-gray-800">
+            <h3 className="text-lg font-semibold">
               TEAM - {team.team_list_name}
             </h3>
             <button

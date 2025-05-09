@@ -7,25 +7,23 @@ const usePostCommunityBoard = (): [
   const [serverState, request, loading] = useFetchData();
 
   const postCommunityBoard = (props: PostCommunityBoardProps) => {
-    const { communityIdx = 0, title, content, image } = props;
+    const { communityIdx, title, content, image } = props;
     let payload: FormData | null = null;
-    
+    const formData = new FormData();
+    formData.append("board_list_title", title);
+    formData.append("board_list_content", content);
+
     if (image) {
-      const formData = new FormData();
       formData.append("file", image);
       payload = formData;
     }
 
-    request(
-      "POST",
-      `/community/${communityIdx}/board`,
-      {
-        board_list_title: title,
-        board_list_content: content,
-        board_list_img: payload,
-      },
-      true
-    );
+    request("POST", `/community/${communityIdx}/board`, payload, true);
+    console.log({
+      board_list_title: title,
+      board_list_content: content,
+      file: payload,
+    });
   };
 
   React.useEffect(() => {
