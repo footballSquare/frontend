@@ -32,7 +32,7 @@ const TeamNameCheckInput = (props: TeamNameCheckInputProps) => {
   const disable = !modifyMode || (!loadState && !isRepeat) || isNotChange;
   return (
     <div>
-      <p className="text-sm font-medium text-gray-600">
+      <p className="text-sm font-medium text-gray-300">
         {isShort ? "Short Team Name" : "Team Name"}
       </p>
       <div className="flex w-full">

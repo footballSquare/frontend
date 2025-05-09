@@ -47,7 +47,7 @@ const TextInputForm = (props: TextInputFormProps) => {
     <FormProvider {...forms}>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex-1 min-w-[300px] bg-white rounded-lg shadow-md p-4">
+        className="flex-1 min-w-[300px]  rounded-lg shadow-md p-4">
         {/* 팀명 입력 */}
         <TeamNameCheckInput modifyMode={modifyMode} isShort={false} />
         {/* 짧은 태그 입력 */}

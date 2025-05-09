@@ -15,14 +15,14 @@ const ManageModal = (props: ManageModalProps) => {
 
   return (
     <div className="fixed inset-0 z-10 bg-black/60 bg-opacity-50 flex justify-center items-center">
-      <main className="w-[95%] max-w-6xl max-h-[90%] overflow-auto p-4 bg-white rounded-lg">
-        <div className="flex flex-row justify-between items-center bg-white border-b mb-6 ">
+      <main className="w-[95%] max-w-6xl max-h-[90%] overflow-auto p-4 bg-gray-800 rounded-lg">
+        <div className="flex flex-row justify-between items-center border-b mb-6 ">
           {/* 타이틀 영역 */}
           <div className="mr-6">
             <h2 className="text-blue-600 font-semibold tracking-wider text-2xl">
               TEAM MANAGEMENT
             </h2>
-            <h1 className="text-gray-800 font-bold text-4xl">TEAM DETAILS</h1>
+            <h1 className="text-gray-300 font-bold text-4xl">TEAM DETAILS</h1>
           </div>
 
           {/* 버튼 그룹 */}
