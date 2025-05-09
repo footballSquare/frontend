@@ -24,6 +24,7 @@ const TeamMemberCard = (props: TeamMemberCardProps) => {
     observeRef,
     handleDelete,
     handleChangeTeamRole,
+    handleChangeMyRole,
   } = props;
   const navigate = useNavigate();
 
@@ -161,6 +162,7 @@ const TeamMemberCard = (props: TeamMemberCardProps) => {
                   return;
                 } else {
                   setTeamRoleIdx(1);
+                  handleChangeMyRole(1);
                 }
                 dispatch({ type: "CLOSE_ALL" });
                 postChangeTeamRole(player_list_idx, team_role_idx);
