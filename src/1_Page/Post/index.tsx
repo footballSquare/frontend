@@ -226,53 +226,54 @@ const PostEditor: React.FC = () => {
   );
 };
 
+const dummyData = {
+  board: {
+    board: {
+      player: {
+        player_list_idx: 3,
+        player_list_nickname: "KFPL운영자",
+        player_list_profile_image: null,
+      },
+      comments: [
+        {
+          player_list_idx: 10,
+          board_comment_idx: 1,
+          player_list_nickname: "차범근",
+          board_comment_content: "좋습니다.",
+          board_comment_created_at: "2025-03-18T04:17:41.86784",
+          board_comment_updated_at: "2025-03-18T04:17:41.86784",
+          player_list_profile_image:
+            "https://dummyimage.com/150x150/000/fff&text=차범근",
+        },
+        {
+          player_list_idx: 11,
+          board_comment_idx: 2,
+          player_list_nickname: "기성용",
+          board_comment_content: "뭐가요?",
+          board_comment_created_at: "2025-03-18T04:25:03.5149",
+          board_comment_updated_at: "2025-03-18T04:25:03.5149",
+          player_list_profile_image:
+            "https://dummyimage.com/150x150/000/fff&text=기성용",
+        },
+      ],
+      board_list_idx: 3,
+      board_list_img: [
+        "https://footballsquare-evidance-img.s3.ap-northeast-2.amazonaws.com/board/1742270153277-images__2__.jpg",
+      ],
+      board_list_title: '"게시글을 수정하였습니다"',
+      board_category_idx: 1,
+      board_list_content: '"수정된 커뮤니티 게시판 글 입니다."',
+      board_list_likecount: 0,
+      board_list_created_at: "2025-03-18T03:36:42.116981",
+      board_list_updated_at: "2025-03-18T03:55:53.412586",
+      board_list_view_count: 0,
+    },
+  },
+} as const;
 const PostDetail: React.FC = () => {
   const navigate = useNavigate();
   // --- dummy response shaped like real API ---
-  const dummyData = {
-    board: {
-      board: {
-        player: {
-          player_list_idx: 3,
-          player_list_nickname: "KFPL운영자",
-          player_list_profile_image: null,
-        },
-        comments: [
-          {
-            player_list_idx: 10,
-            board_comment_idx: 1,
-            player_list_nickname: "차범근",
-            board_comment_content: "좋습니다.",
-            board_comment_created_at: "2025-03-18T04:17:41.86784",
-            board_comment_updated_at: "2025-03-18T04:17:41.86784",
-            player_list_profile_image:
-              "https://dummyimage.com/150x150/000/fff&text=차범근",
-          },
-          {
-            player_list_idx: 11,
-            board_comment_idx: 2,
-            player_list_nickname: "기성용",
-            board_comment_content: "뭐가요?",
-            board_comment_created_at: "2025-03-18T04:25:03.5149",
-            board_comment_updated_at: "2025-03-18T04:25:03.5149",
-            player_list_profile_image:
-              "https://dummyimage.com/150x150/000/fff&text=기성용",
-          },
-        ],
-        board_list_idx: 3,
-        board_list_img: [
-          "https://footballsquare-evidance-img.s3.ap-northeast-2.amazonaws.com/board/1742270153277-images__2__.jpg",
-        ],
-        board_list_title: '"게시글을 수정하였습니다"',
-        board_category_idx: 1,
-        board_list_content: '"수정된 커뮤니티 게시판 글 입니다."',
-        board_list_likecount: 0,
-        board_list_created_at: "2025-03-18T03:36:42.116981",
-        board_list_updated_at: "2025-03-18T03:55:53.412586",
-        board_list_view_count: 0,
-      },
-    },
-  } as const;
+
   const board = dummyData.board.board;
 
   const [post] = useState<Post>({
