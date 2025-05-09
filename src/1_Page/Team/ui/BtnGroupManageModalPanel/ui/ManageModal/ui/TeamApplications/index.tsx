@@ -10,8 +10,8 @@ const TeamApplications = (props: TeamApplicationsProps) => {
   const [pendingPlayers, excludePlayerById] = useManagePlayers(signMemberList);
 
   return (
-    <div className="flex-1 min-w-[300px] bg-white rounded-lg shadow-md p-4">
-      <h2 className="text-2xl font-bold mb-6 text-gray-800 border-b pb-3">
+    <div className="flex-1 w-full h-full  rounded-lg shadow-md p-4">
+      <h2 className="text-2xl font-bold mb-6 border-b pb-3">
         팀 가입 신청 인원
       </h2>
 
