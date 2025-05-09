@@ -28,9 +28,7 @@ const BtnGroupManageModalPanel = (props: BtnGroupManageModalPanelProps) => {
   // 팀 권한과
   const [myTeamIdx] = useMyTeamIdx();
   const [myTeamRoleIdx] = useMyTeamRoleIdx();
-  React.useEffect(() => {
-    console.log("myTeamIdx", myTeamIdx);
-  }, [myTeamIdx]);
+
   const isTeamPlayer = myTeamIdx === teamIdx;
   const isTeamTopLeader = isTeamPlayer && myTeamRoleIdx === 0; // 팀장만 허용
   const isTeamLeaders = isTeamTopLeader || myTeamRoleIdx === 1;
