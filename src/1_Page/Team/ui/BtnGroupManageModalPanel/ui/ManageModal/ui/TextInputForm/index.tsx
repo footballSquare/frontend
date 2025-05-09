@@ -98,7 +98,7 @@ const TextInputForm = (props: TextInputFormProps) => {
               ${
                 isValid
                   ? "bg-green-600 hover:bg-green-700 active:bg-green-800 focus:ring focus:ring-green-300"
-                  : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                  : "bg-gray-400 text-gray-500 cursor-none"
               }`}>
                 저장
               </button>

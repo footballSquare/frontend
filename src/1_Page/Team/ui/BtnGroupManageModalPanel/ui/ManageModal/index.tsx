@@ -7,6 +7,14 @@ import useDeleteTeam from "../../../../../../3_Entity/Team/useDeleteTeam";
 import usePutTeamBanner from "../../../../../../3_Entity/Team/usePutTeamBanner";
 import usePutTeamEmblem from "../../../../../../3_Entity/Team/usePutTeamEmblem";
 
+import deleteIcon from "../../../../../../4_Shared/assets/svg/delete.svg";
+import backIcon from "../../../../../../4_Shared/assets/svg/back.svg";
+import bannerIcon from "../../../../../../4_Shared/assets/svg/banner.svg";
+import emblemIcon from "../../../../../../4_Shared/assets/svg/emblem.svg";
+import autoMatchIcon from "../../../../../../4_Shared/assets/svg/auto-match.svg";
+import editIcon from "../../../../../../4_Shared/assets/svg/edit.svg";
+import applicationsIcon from "../../../../../../4_Shared/assets/svg/application.svg";
+
 const ManageModal = (props: ManageModalProps) => {
   const { teamInfo, handleToggleManageModal, handlers } = props;
   const [deleteTeam] = useDeleteTeam(teamInfo.team_list_idx);
@@ -14,68 +22,132 @@ const ManageModal = (props: ManageModalProps) => {
   const [putTeamEmblem] = usePutTeamEmblem(teamInfo.team_list_idx);
 
   return (
-    <div className="fixed inset-0 z-10 bg-black/60 bg-opacity-50 flex justify-center items-center">
-      <main className="w-[95%] max-w-6xl max-h-[90%] overflow-auto p-4 bg-gray-800 rounded-lg">
-        <div className="flex flex-row justify-between items-center border-b mb-6 ">
+    <div className="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex justify-center items-center">
+      <main className="w-[95%] max-w-6xl max-h-[90%] overflow-auto bg-gray-900 rounded-xl shadow-2xl border border-gray-800">
+        {/* Header */}
+        <div className="bg-gradient-to-r from-gray-900 to-gray-800 p-6 rounded-t-xl border-b border-gray-700 flex flex-row justify-between items-center sticky top-0 z-10 backdrop-filter backdrop-blur">
           {/* 타이틀 영역 */}
           <div className="mr-6">
-            <h2 className="text-blue-600 font-semibold tracking-wider text-2xl">
-              TEAM MANAGEMENT
+            <h2 className="text-blue-500 font-semibold tracking-wider text-lg uppercase mb-1">
+              Team Management
             </h2>
-            <h1 className="text-gray-300 font-bold text-4xl">TEAM DETAILS</h1>
+            <h1 className="text-gray-100 font-bold text-3xl flex items-center">
+              {teamInfo.team_list_name}
+              <span className="ml-3 px-2 py-1 bg-gray-800 text-xs text-gray-400 rounded-md border border-gray-700">
+                ID: {teamInfo.team_list_idx}
+              </span>
+            </h1>
           </div>
 
           {/* 버튼 그룹 */}
-          <div className="flex space-x-2">
+          <div className="flex space-x-3">
             <button
               onClick={() => {
-                if (confirm("정말로 해체하시겠습니까?")) {
+                if (
+                  confirm(
+                    "정말로 팀을 해체하시겠습니까? 이 작업은 되돌릴 수 없습니다."
+                  )
+                ) {
                   deleteTeam();
                 }
               }}
               type="button"
               aria-label="팀 해체"
-              className="flex items-center py-1.5 px-3 bg-white border border-red-500 text-red-500 rounded hover:bg-red-50 transition duration-200 focus:outline-none focus:ring-2 focus:ring-red-200 text-sm font-medium">
-              <i className="fas fa-trash-alt mr-1.5 text-xs"></i>팀 해체
+              className="flex items-center py-2 px-4 bg-gray-800 text-red-500 rounded-lg hover:bg-red-900 hover:text-red-100 transition duration-300 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 text-sm font-medium border border-red-800 shadow-md">
+              <img src={deleteIcon} alt="팀 해체" className="h-4 w-4 mr-2" />팀
+              해체
             </button>
 
             <button
               onClick={handleToggleManageModal}
               type="button"
               aria-label="뒤로가기"
-              className="flex items-center py-1.5 px-3 bg-white border border-gray-300 text-gray-700 rounded hover:bg-gray-50 transition duration-200 focus:outline-none focus:ring-2 focus:ring-gray-200 text-sm font-medium">
-              <i className="fas fa-arrow-left mr-1.5 text-xs"></i>뒤로가기
+              className="flex items-center py-2 px-4 bg-gray-800 text-gray-300 rounded-lg hover:bg-gray-700 transition duration-300 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50 text-sm font-medium border border-gray-700 shadow-md">
+              <img src={backIcon} alt="닫기" className="h-4 w-4 mr-2" />
+              닫기
             </button>
           </div>
         </div>
 
-        <div className="space-y-6">
+        {/* Content */}
+        <div className="p-6 space-y-8">
           {/* Team Banner */}
-          <TeamImageInput
-            imgSrc={teamInfo.team_list_banner}
-            putImage={putTeamBanner}
-            handleSetTeamImg={handlers.handleSetTeamBanner}
-            isBanner={true}
-          />
-
-          {/* Team Emblem */}
-          <section className="flex justify-start items-center space-x-4">
+          <section className="bg-gray-800 rounded-lg p-4 border border-gray-700 shadow-md">
+            <h3 className="text-gray-300 font-semibold mb-4 flex items-center">
+              <img src={bannerIcon} alt="팀 배너" className="h-5 w-5 mr-2" />팀
+              배너
+            </h3>
             <TeamImageInput
-              imgSrc={teamInfo.team_list_emblem}
-              handleSetTeamImg={handlers.handleSetTeamEmblem}
-              putImage={putTeamEmblem}
-              isBanner={false}
+              imgSrc={teamInfo.team_list_banner}
+              putImage={putTeamBanner}
+              handleSetTeamImg={handlers.handleSetTeamBanner}
+              isBanner={true}
             />
-            <AutoMatchPanel />
           </section>
 
-          <section className="flex flex-wrap w-full gap-3">
-            <TextInputForm
-              team_list_idx={teamInfo.team_list_idx}
-              teamInfo={teamInfo}
-              handleSetTeamInfoWithoutImg={handlers.handleSetTeamInfoWithoutImg}
-            />
-            <TeamApplications team_list_idx={teamInfo.team_list_idx} />
+          {/* Team Emblem & Auto Match */}
+          <section className="flex flex-col md:flex-row gap-6">
+            <div className="bg-gray-800 rounded-lg p-4 border border-gray-700 shadow-md flex-1">
+              <h3 className="text-gray-300 font-semibold mb-4 flex items-center">
+                <img
+                  src={emblemIcon}
+                  alt="팀 엠블럼"
+                  className="h-5 w-5 mr-2"
+                />
+                팀 엠블럼
+              </h3>
+              <TeamImageInput
+                imgSrc={teamInfo.team_list_emblem}
+                handleSetTeamImg={handlers.handleSetTeamEmblem}
+                putImage={putTeamEmblem}
+                isBanner={false}
+              />
+            </div>
+
+            <div className="bg-gray-800 rounded-lg p-4 border border-gray-700 shadow-md flex-1">
+              <h3 className="text-gray-300 font-semibold mb-4 flex items-center">
+                <img
+                  src={autoMatchIcon}
+                  alt="자동 매치"
+                  className="h-5 w-5 mr-2"
+                />
+                자동 매치
+              </h3>
+              <AutoMatchPanel />
+            </div>
+          </section>
+
+          {/* Team Details & Applications */}
+          <section className="flex flex-col lg:flex-row gap-6">
+            <div className="bg-gray-800 rounded-lg p-4 border border-gray-700 shadow-md flex-1">
+              <h3 className="text-gray-300 font-semibold mb-4 flex items-center">
+                <img
+                  src={editIcon}
+                  alt="팀 정보 편집"
+                  className="h-5 w-5 mr-2"
+                />
+                팀 정보 편집
+              </h3>
+              <TextInputForm
+                team_list_idx={teamInfo.team_list_idx}
+                teamInfo={teamInfo}
+                handleSetTeamInfoWithoutImg={
+                  handlers.handleSetTeamInfoWithoutImg
+                }
+              />
+            </div>
+
+            <div className="bg-gray-800 rounded-lg p-4 border border-gray-700 shadow-md flex-1">
+              <h3 className="text-gray-300 font-semibold mb-4 flex items-center">
+                <img
+                  src={applicationsIcon}
+                  alt="가입 신청"
+                  className="h-5 w-5 mr-2"
+                />
+                가입 신청
+              </h3>
+              <TeamApplications team_list_idx={teamInfo.team_list_idx} />
+            </div>
           </section>
         </div>
       </main>

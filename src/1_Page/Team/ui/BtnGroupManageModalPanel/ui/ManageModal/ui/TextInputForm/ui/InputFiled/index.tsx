@@ -23,7 +23,7 @@ const InputField = (props: InputFieldProps) => {
           className={`w-full p-3 text-sm border-2 rounded-xl outline-none transition-all duration-200 ${
             modifyMode
               ? "border-indigo-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200"
-              : "bg-gray-50 text-gray-500 border-gray-100"
+              : "bg-gray-700 text-gray-200 border-gray-100"
           }`}
           placeholder={placeholder}
         />
@@ -38,7 +38,7 @@ const InputField = (props: InputFieldProps) => {
           } text-sm border-2 rounded-xl outline-none transition-all duration-200 ${
             modifyMode
               ? "border-indigo-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200"
-              : "bg-gray-50 text-gray-500 border-gray-100"
+              : "bg-gray-700 text-gray-500 border-gray-100"
           }`}
           placeholder={placeholder}
         />
