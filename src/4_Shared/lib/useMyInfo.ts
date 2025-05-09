@@ -21,6 +21,8 @@ type AuthState = {
     nickname: string | null;
   }) => void;
   logout: () => void;
+  leaveTeam: () => void;
+  setTeamRoleIdx: (teamRoleIdx: number | null) => void;
 };
 
 export const useAuthStore = create<AuthState>()((set) => ({
@@ -42,6 +44,12 @@ export const useAuthStore = create<AuthState>()((set) => ({
       profileImg: null,
       nickname: null,
     }),
+  leaveTeam: () =>
+    set({
+      teamRoleIdx: null,
+      teamIdx: null,
+    }),
+  setTeamRoleIdx: (teamRoleIdx) => set({ teamRoleIdx }),
 }));
 
 // 로그인 여부 확인
