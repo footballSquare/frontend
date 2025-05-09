@@ -15,7 +15,7 @@ const HoverTrophy = (props: HoverTrophyProps) => {
   return (
     <div>
       <div
-        className="w-[50px] h-[50px] shadow mr-1 overflow-visible "
+        className="w-[50px] h-[50px] shadow mr-1 overflow-visible"
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}>
         {/* 기본 이미지 (Hover 전) */}
