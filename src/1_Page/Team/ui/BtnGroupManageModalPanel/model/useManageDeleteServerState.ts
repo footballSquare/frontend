@@ -1,17 +1,17 @@
 import React from "react";
-import { useRemoveTeamCookie } from "../../../../../4_Shared/lib/useMyInfo";
+import { useAuthStore } from "../../../../../4_Shared/lib/useMyInfo";
 
 const useManageDeleteServerState = ({
   deleteServerState,
   cancelUpdateToLeave,
 }: UseManageDeleteServerStateProps) => {
-  const [removeTeamCookie] = useRemoveTeamCookie();
+  const { leaveTeam } = useAuthStore();
 
   React.useEffect(() => {
     if (!deleteServerState) return;
     switch (deleteServerState.status) {
       case 200:
-        removeTeamCookie();
+        leaveTeam();
         alert("팀 탈퇴가 완료되었습니다.");
         break;
       default:

@@ -41,10 +41,13 @@ const BtnGroupManageModalPanel = (props: BtnGroupManageModalPanelProps) => {
     cancelUpdateToSignPending,
   } = useManageAction(isTeamPlayer);
 
+  // api
   const [deleteLeaveTeam, deleteServerState] = useDeleteLeaveTeam(teamIdx);
   const [putSignTeam, putServerState] = usePutSignTeam(teamIdx);
-  useManageDeleteServerState({ deleteServerState, cancelUpdateToLeave }); // deleteLeaveTeam 서버 상태 관리
-  useManagePutServerState({ putServerState, cancelUpdateToSignPending }); // deleteLeaveTeam 서버 상태 관리
+
+  // manage server state
+  useManageDeleteServerState({ deleteServerState, cancelUpdateToLeave });
+  useManagePutServerState({ putServerState, cancelUpdateToSignPending });
 
   // 팀매치 생성 모달 전역으로 관리
   const { toggleMakeMatchModal } = useMakeTeamMatchModalStore(); // 팀매치 생성 모달 전역으로 관리
