@@ -14,7 +14,6 @@ import useToggleState from "../../../../4_Shared/model/useToggleState";
 import ManageModal from "./ui/ManageModal";
 import useManagePutServerState from "./model/useManagePutServerState";
 import { useNavigate } from "react-router-dom";
-import React from "react";
 
 const BtnGroupManageModalPanel = (props: BtnGroupManageModalPanelProps) => {
   const { teamInfo, handlers } = props;

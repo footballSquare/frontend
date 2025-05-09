@@ -9,6 +9,7 @@ import useManageMemberList from "./model/useManageMemberList";
 const TeamMemberListBox = () => {
   const teamIdx = useParamInteger("teamIdx");
 
+  // api
   const [page, setPage] = React.useState<number>(0);
   const [teamMember, hasMoreContent, loading] = useGetTeamMembers(
     teamIdx,
@@ -20,6 +21,7 @@ const TeamMemberListBox = () => {
     hasMoreContent
   );
 
+  // optimistic state
   const [displayMemberList, handleDelete] = useManageMemberList(teamMember);
 
   return (

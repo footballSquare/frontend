@@ -10,7 +10,10 @@ import useManageTeamInfo from "./model/useManagePage";
 
 const Team = () => {
   const [teamIdx] = useValidParamInteger("teamIdx");
+
+  // api
   const [teamInfo, loading] = useGetTeamInfo(teamIdx);
+  // optimistic state
   const { displayTeamInfo, handlers } = useManageTeamInfo(teamInfo);
 
   const {
