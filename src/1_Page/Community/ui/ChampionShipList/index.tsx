@@ -3,6 +3,7 @@ import React from "react";
 import useInfiniteScrollPaging from "../../../../4_Shared/model/useInfiniteScrollPaging";
 import { useNavigate } from "react-router-dom";
 import PAGE_URI from "../../../../4_Shared/constant/pageUri";
+import { utcFormatter } from "../../../../4_Shared/lib/utcFormatter";
 
 const ChampionshipList = (props: ChampionshipListProps) => {
   const { communityIdx } = props;
@@ -19,27 +20,33 @@ const ChampionshipList = (props: ChampionshipListProps) => {
   const navigate = useNavigate();
 
   return (
-    <div className="rounded-xl shadow-md w-full flex flex-col gap-2 p-2 overflow-auto h-[100%]">
+    <div className="rounded-xl shadow-md w-full flex flex-col gap-2 p-2 overflow-auto h-[100%] text-gray">
       {championshipList.map((elem, index) => {
         return (
           <div
             onClick={() => {
-              navigate(`${PAGE_URI.CHAMPIONSHIP}/${elem.championship_list_idx}`);
+              navigate(
+                `${PAGE_URI.CHAMPIONSHIP}/${elem.championship_list_idx}`
+              );
             }}
             key={index}
-            className="border flex flex-col gap-2 justify-center border-gray-300 shadow-md rounded-lg p-2 cursor-pointer hover:bg-blue-100 transition-all duration-300"
+            className="border flex flex-col gap-2 justify-center border-gray shadow-md rounded-lg p-2 cursor-pointer hover:bg-grass hover:text-black transition-all duration-300"
             ref={championshipList.length === index + 1 ? observeRef : undefined}
           >
-            <h3 className="text-lg font-semibold text-gray-800">
+            <h3 className="text-lg font-semibold">
               {elem.championship_list_name}
             </h3>
             <img
               src={elem.championship_list_throphy_img}
-              className="w-12 h-12 border border-gray-300 rounded-lg"
+              className="w-12 h-12 border border-gray rounded-lg"
               alt="throphy"
             />
-            <p className="text-sm text-gray-600">{elem.championship_type_name} {`${elem.championship_list_start_date} ~ ${elem.championship_list_end_date}`}</p>
-            
+            <div className="text-sm">
+              {elem.championship_type_name}{" "}
+              {`${utcFormatter(
+                elem.championship_list_start_date
+              )} ~ ${utcFormatter(elem.championship_list_end_date)}`}
+            </div>
           </div>
         );
       })}

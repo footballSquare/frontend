@@ -24,7 +24,7 @@ const CommunityStaffListPanel = (props: CommunityStaffListPanelProps) => {
           return (
             <div
               key={index}
-              className="flex items-center space-x-2 border border-gray p-2 cursor-pointer hover:bg-gray-100 rounded-lg"
+              className="flex items-center space-x-2 border border-gray p-2 cursor-pointer hover:bg-grass hover:text-black rounded-lg"
               onClick={() => {
                 navigate(`/profile/${staff.player_list_idx}`);
               }}
