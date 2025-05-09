@@ -14,6 +14,7 @@ import useToggleState from "../../../../4_Shared/model/useToggleState";
 import ManageModal from "./ui/ManageModal";
 import useManagePutServerState from "./model/useManagePutServerState";
 import { useNavigate } from "react-router-dom";
+import React from "react";
 
 const BtnGroupManageModalPanel = (props: BtnGroupManageModalPanelProps) => {
   const { teamInfo, handlers } = props;
@@ -25,9 +26,12 @@ const BtnGroupManageModalPanel = (props: BtnGroupManageModalPanelProps) => {
   const [isLogin] = useIsLogin();
 
   // 팀 권한과
-  const [myTeamIDx] = useMyTeamIdx();
+  const [myTeamIdx] = useMyTeamIdx();
   const [myTeamRoleIdx] = useMyTeamRoleIdx();
-  const isTeamPlayer = myTeamIDx === teamIdx;
+  React.useEffect(() => {
+    console.log("myTeamIdx", myTeamIdx);
+  }, [myTeamIdx]);
+  const isTeamPlayer = myTeamIdx === teamIdx;
   const isTeamTopLeader = isTeamPlayer && myTeamRoleIdx === 0; // 팀장만 허용
   const isTeamLeaders = isTeamTopLeader || myTeamRoleIdx === 1;
 
@@ -63,19 +67,10 @@ const BtnGroupManageModalPanel = (props: BtnGroupManageModalPanelProps) => {
           <button
             className="bg-red-500 hover:bg-red-600 text-white text-sm font-medium py-2 px-4 rounded-full shadow transition transform hover:scale-105 duration-300"
             onClick={() => {
-              if (!isLogin) {
-                alert("로그인 후 이용해주세요.");
-                naviagate("/login");
-                return;
+              if (confirm(`정말로 팀을 탈퇴 하시겠습니까?`)) {
+                deleteLeaveTeam();
+                updateToLeave();
               }
-              const confirmResult = confirm(
-                `정말로 팀을 ${isLeaving ? "탈퇴" : "가입"}하시겠습니까?`
-              );
-              if (!confirmResult) {
-                return;
-              }
-              deleteLeaveTeam();
-              updateToLeave();
             }}>
             팀 탈퇴
           </button>
@@ -88,14 +83,10 @@ const BtnGroupManageModalPanel = (props: BtnGroupManageModalPanelProps) => {
                 naviagate("/login");
                 return;
               }
-              const confirmResult = confirm(
-                `정말로 팀을 ${isLeaving ? "탈퇴" : "가입"}하시겠습니까?`
-              );
-              if (!confirmResult) {
-                return;
+              if (confirm(`정말로 팀을 가입 하시겠습니까?`)) {
+                putSignTeam();
+                updateToSignPending();
               }
-              putSignTeam();
-              updateToSignPending();
             }}>
             팀 가입
           </button>
