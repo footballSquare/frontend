@@ -17,12 +17,15 @@ import {
   useMyProfileImg,
   useMyUserIdx,
 } from "../../4_Shared/lib/useMyInfo";
-import usePutMatchEnd from "../../3_Entity/Match/usePutMatchEnd";
 import useDeleteMatch from "../../3_Entity/Match/useDeleteMatch";
 import { useNavigate } from "react-router-dom";
+import { utcFormatter } from "../../4_Shared/lib/utcFormatter";
+import useMatchEnd from "./model/useMatchEnd";
+
 const MatchModal = () => {
   const { matchIdx, toggleMatchModal } = useMatchModalStore();
   const [matchDetail, setMatchDetail] = useGetMatchDetail({ matchIdx });
+  const [matchEndHandler] = useMatchEnd({ setMatchDetail });
   const {
     player_list_idx,
     player_list_nickname,
@@ -44,7 +47,6 @@ const MatchModal = () => {
     setMatchWaitList,
     setMatchParticipants,
   });
-  const [putMatchEnd] = usePutMatchEnd();
   const [deleteMatch] = useDeleteMatch();
   const [matchApplyHandler] = useMatchApply({
     setMatchWaitList,
@@ -97,7 +99,7 @@ const MatchModal = () => {
           <label className="flex flex-col text-xs font-semibold">
             시작 시간
             <p className="flex justify-center items-center w-[164px] h-[32px] rounded-[4px] border border-gray">
-              {match_match_start_time}
+              {utcFormatter(match_match_start_time)}
             </p>
           </label>
 
@@ -196,11 +198,7 @@ const MatchModal = () => {
             <button
               className="border border-gray shadow-lg p-[2px] hover:bg-blue hover:text-white"
               onClick={() => {
-                putMatchEnd({ matchIdx });
-                setMatchDetail((prev) => ({
-                  ...prev,
-                  common_status_idx: 1,
-                }));
+                matchEndHandler({ matchIdx });
               }}
             >
               매치 마감
