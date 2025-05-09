@@ -55,9 +55,7 @@ const AutoMatchPanel = () => {
                 자동 매치 생성
               </h2>
             </div>
-
             <p>현재 지원되지 않는 기능입니다</p>
-
             <hr className="m-4" />
 
             <form
