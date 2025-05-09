@@ -65,7 +65,7 @@ const BtnGroupManageModalPanel = (props: BtnGroupManageModalPanelProps) => {
                 naviagate("/login");
                 return;
               }
-              const confirmResult = !confirm(
+              const confirmResult = confirm(
                 `정말로 팀을 ${isLeaving ? "탈퇴" : "가입"}하시겠습니까?`
               );
               if (!confirmResult) {
@@ -85,7 +85,7 @@ const BtnGroupManageModalPanel = (props: BtnGroupManageModalPanelProps) => {
                 naviagate("/login");
                 return;
               }
-              const confirmResult = !confirm(
+              const confirmResult = confirm(
                 `정말로 팀을 ${isLeaving ? "탈퇴" : "가입"}하시겠습니까?`
               );
               if (!confirmResult) {
