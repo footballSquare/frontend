@@ -1,1 +1,1 @@
-type HoverTrophyProps = { trophyData: Awards; index: number };
+type HoverTrophyProps = { trophyData: Awards };
