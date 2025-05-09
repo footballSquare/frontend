@@ -1,9 +1,9 @@
 import { ButtonProps } from "./type";
 const Button = (props: ButtonProps) => {
   const {
-    bg = "white",
-    textColor = "blue",
-    borderColor = "blue",
+    bg = "black",
+    textColor = "white",
+    borderColor = "white",
     border = true,
     text = "BUTTON",
     bold = false,
