@@ -38,10 +38,10 @@ const PostBoardModal = () => {
                 communityIdx,
                 title: data.title,
                 content: data.content,
-                image: data.file,
+                image: data.file ? data.file[0] : null,
               });
             }
-          })} // TODO: submit 함수 작성
+          })}
           className="flex flex-col gap-4 h-full"
         >
           <div>
