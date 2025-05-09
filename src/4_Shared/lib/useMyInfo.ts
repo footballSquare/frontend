@@ -21,7 +21,6 @@ type AuthState = {
     nickname: string | null;
   }) => void;
   logout: () => void;
-  leaveTeam: () => void;
 };
 
 export const useAuthStore = create<AuthState>()((set) => ({
@@ -42,11 +41,6 @@ export const useAuthStore = create<AuthState>()((set) => ({
       teamIdx: null,
       profileImg: null,
       nickname: null,
-    }),
-  leaveTeam: () =>
-    set({
-      teamRoleIdx: null,
-      teamIdx: null,
     }),
 }));
 
@@ -128,6 +122,16 @@ export const useRemoveAllCookie = () => {
       removeCookie("user_idx", { path: "/" });
       removeCookie("profile_image", { path: "/" });
       removeCookie("player_status", { path: "/" });
+    },
+  ];
+};
+
+export const useRemoveTeamCookie = (): [() => void] => {
+  const [, , removeCookie] = useCookies(["team_role_idx", "team_idx"]);
+  return [
+    () => {
+      removeCookie("team_role_idx", { path: "/" });
+      removeCookie("team_idx", { path: "/" });
     },
   ];
 };

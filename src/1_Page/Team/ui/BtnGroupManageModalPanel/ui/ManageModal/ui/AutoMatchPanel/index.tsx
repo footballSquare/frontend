@@ -27,9 +27,6 @@ const AutoMatchPanel = () => {
   });
   const watchGameType = watch("gameType");
   const isCanFormation = watchGameType === "0";
-  const onSubmit = (data: AutoMatchForm) => {
-    console.log(data);
-  };
 
   return (
     <div className="flex flex-col">
@@ -46,13 +43,28 @@ const AutoMatchPanel = () => {
 
       {isModalOpen && (
         <div className="fixed inset-0 z-10 bg-black/50 flex items-center justify-center">
-          <div className="bg-white rounded-lg p-6 text-center shadow-lg max-h-[90%] overflow-y-auto">
-            <h2 className="text-2xl font-bold text-center mb-6 text-indigo-700">
-              자동 매치 생성
-            </h2>
+          <div className="bg-white  rounded-lg  p-6 text-center shadow-lg max-h-[90%] overflow-y-auto">
+            <div className="relative mb-4">
+              <button
+                type="button"
+                onClick={handleToggle}
+                className="absolute top-0 right-0 text-gray-400 hover:text-gray-600 transition-colors duration-200 text-2xl font-bold leading-none">
+                ×
+              </button>
+              <h2 className="text-2xl font-bold text-center text-indigo-700">
+                자동 매치 생성
+              </h2>
+            </div>
+
             <p>현재 지원되지 않는 기능입니다</p>
 
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+            <hr className="m-4" />
+
+            <form
+              onSubmit={handleSubmit((data) => {
+                console.log(data);
+              })}
+              className="space-y-5 opacity-50">
               {/* Auto Match Toggle */}
               <div className="flex items-center space-x-3">
                 <label className="relative inline-flex items-center cursor-pointer">
