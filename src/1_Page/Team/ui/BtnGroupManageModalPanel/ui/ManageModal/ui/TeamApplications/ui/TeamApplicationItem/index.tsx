@@ -4,7 +4,7 @@ import { getPlatformIcon } from "../../../../../../../../../../4_Shared/lib/getP
 import defaultProfileImage from "../../../../../../../../../../4_Shared/assets/svg/profile.svg";
 
 const TeamApplicationItem = (props: TeamApplicationItemProps) => {
-  const { player, team_list_idx, addDisplayPlayer } = props;
+  const { player, team_list_idx, excludePlayerById } = props;
 
   const [postApproveMember] = usePostApproveMember(team_list_idx);
   const [deleteApproveMember] = useDeleteApproveMember(team_list_idx);
@@ -33,7 +33,7 @@ const TeamApplicationItem = (props: TeamApplicationItemProps) => {
         <button
           onClick={() => {
             postApproveMember(player.player_list_idx);
-            addDisplayPlayer(player.player_list_idx);
+            excludePlayerById(player.player_list_idx);
           }}
           className="px-3 py-1 text-sm bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors">
           수락
@@ -41,7 +41,7 @@ const TeamApplicationItem = (props: TeamApplicationItemProps) => {
         <button
           onClick={() => {
             deleteApproveMember(player.player_list_idx);
-            addDisplayPlayer(player.player_list_idx);
+            excludePlayerById(player.player_list_idx);
           }}
           className="px-3 py-1 text-sm bg-white text-red-500 border border-red-300 rounded-md hover:bg-red-50 transition-colors">
           거절
