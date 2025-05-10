@@ -4,6 +4,7 @@ import useGetCommunityStaffList from "../../../../3_Entity/Community/useGetCommu
 import usePostApplyCommunityStaff from "../../../../3_Entity/Community/usePostApplyCommunityStaff";
 import { communityRole } from "../../../../4_Shared/constant/communityRole";
 import useIsCommunityStaff from "./model/useIsCommunityStaff";
+import { useIsLogin } from "../../../../4_Shared/lib/useMyInfo";
 
 const CommunityStaffListPanel = (props: CommunityStaffListPanelProps) => {
   const { communityIdx, modifyMode } = props;
@@ -14,6 +15,7 @@ const CommunityStaffListPanel = (props: CommunityStaffListPanelProps) => {
   const [postApplyCommunityStaff] = usePostApplyCommunityStaff();
   const [kickCommunityStaff] = useDeleteCommunityStaff();
   const navigate = useNavigate();
+  const [isLogin] = useIsLogin();
 
   return (
     <div className="flex flex-col gap-2">
@@ -22,7 +24,7 @@ const CommunityStaffListPanel = (props: CommunityStaffListPanelProps) => {
           return (
             <div
               key={index}
-              className="flex items-center space-x-2 border border-gray p-2 cursor-pointer hover:bg-gray-100 rounded-lg"
+              className="flex items-center space-x-2 border border-gray p-2 cursor-pointer hover:bg-grass hover:text-black rounded-lg"
               onClick={() => {
                 navigate(`/profile/${staff.player_list_idx}`);
               }}
@@ -62,7 +64,7 @@ const CommunityStaffListPanel = (props: CommunityStaffListPanelProps) => {
         })}
       </div>
 
-      {!isCommunityStaff && (
+      {(!isCommunityStaff && isLogin) && (
         <button
           onClick={() => {
             postApplyCommunityStaff({ communityIdx });

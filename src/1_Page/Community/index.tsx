@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from "react-router-dom";
 import ChampionshipList from "./ui/ChampionShipList";
 import CommunityStaffList from "./ui/CommunityStaffList";
-import CommunityTeamList from "../../2_Widget/CommunityTeamList";
+import CommunityTeamList from "./ui/CommunityTeamList";
 import useModifyMode from "./model/useModifyMode";
 import useGetCommunityInfo from "../../3_Entity/Community/useGetCommunityInfo";
 import CommunityStaffApplicationList from "./ui/CommunityStaffApplicationList";
@@ -15,6 +15,9 @@ import {
 import useIsCommunityStaffStore from "../../4_Shared/zustand/useIsCommunityStaffStore";
 import CommunityNotice from "./ui/CommunityNotice";
 import usePostApplyCommunityTeam from "../../3_Entity/Community/usePostApplyCommunityTeam";
+import usePostBoardModalStore from "../../4_Shared/zustand/usePostBoardModalStore";
+import CommunityBoardList from "./ui/CommunityBoardList";
+import useCommunityIdx from "./model/useCommunityIdx";
 
 const Community = () => {
   const { communityIdx } = useParams();
@@ -22,6 +25,7 @@ const Community = () => {
   const [communityInfo, loading, setCommunityInfo] = useGetCommunityInfo({
     communityIdx: Number(communityIdx),
   });
+
   const [changeEmblem] = useChangeEmblem({
     setCommunityInfo,
   });
@@ -29,10 +33,15 @@ const Community = () => {
     setCommunityInfo,
   });
   const { isCommunityStaff } = useIsCommunityStaffStore();
+  const { togglePostBoardModal } = usePostBoardModalStore();
   const [communityRoleIdx] = useMyCommunityRoleIdx();
   const navigate = useNavigate();
   const [myTeamRoleIdx] = useMyTeamRoleIdx();
   const [postApplyCommunityTeam] = usePostApplyCommunityTeam();
+  useCommunityIdx({
+    currentCommunityIdx: Number(communityIdx),
+  });
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -40,15 +49,15 @@ const Community = () => {
   return (
     <div className="h-full w-full p-6 flex gap-6">
       {/* Left Sidebar */}
-      <div className="flex flex-col h-[100vh] gap-6 bg-white rounded-xl shadow-md p-6 w-full max-w-[320px] overflow-auto">
+      <div className="flex flex-col h-[100vh] gap-6 text-gray rounded-xl shadow-md p-6 w-full max-w-[268px] overflow-auto">
         {/* 커뮤니티 앰블럼, 커뮤니티 명 */}
         <div className="flex flex-col items-center">
           <img
             src={communityInfo.community_list_emblem}
             alt="emblem"
-            className="w-20 h-20 rounded-full bg-blue-500 flex items-center justify-center text-white text-2xl mb-4 shadow-lg"
+            className="w-20 h-20 rounded-full flex items-center justify-center text-2xl mb-4 shadow-lg"
           />
-          <h2 className="text-2xl font-semibold text-gray-800">
+          <h2 className="text-2xl font-semibold">
             {communityInfo.community_list_name}
           </h2>
 
@@ -62,7 +71,7 @@ const Community = () => {
         {modifyMode && (
           <div className="flex flex-col gap-4 mx-auto">
             <div className="flex flex-col items-center">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium mb-2">
                 커뮤니티 엠블럼 변경 하기
               </label>
               <input
@@ -81,7 +90,7 @@ const Community = () => {
               />
             </div>
             <div className="flex flex-col items-center">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium mb-2">
                 커뮤니티 배너 변경 하기
               </label>
               <input
@@ -111,10 +120,19 @@ const Community = () => {
         {/* 커뮤니티 수정 버튼 */}
         {communityRoleIdx === 0 && (
           <button
-            className="p-3 border border-gray-300 shadow-md rounded-lg text-sm bg-blue-500 text-white hover:bg-blue-600 transition"
+            className="p-3 border border-gray-300 shadow-md rounded-lg text-sm bg-gray text-black hover:bg-grass transition"
             onClick={toggleModifyMode}
           >
             {modifyMode ? "뒤로 가기" : "커뮤니티 관리"}
+          </button>
+        )}
+        {/* 커뮤니티 글 작성 버튼 */}
+        {communityRoleIdx === 0 && (
+          <button
+            className="p-3 border border-gray-300 shadow-md rounded-lg text-sm bg-gray text-black hover:bg-grass transition"
+            onClick={togglePostBoardModal}
+          >
+            커뮤니티 글 작성
           </button>
         )}
         {/* 대회 생성 버튼 */}
@@ -123,7 +141,7 @@ const Community = () => {
             onClick={() => {
               navigate(`/championship-edit/add/${communityIdx}`);
             }}
-            className="p-3 border border-gray-300 shadow-md rounded-lg text-sm bg-blue-500 text-white hover:bg-blue-600 transition"
+            className="p-3 border border-gray-300 shadow-md rounded-lg text-sm bg-gray text-black hover:bg-grass transition"
           >
             대회 생성하기
           </button>
@@ -134,7 +152,7 @@ const Community = () => {
             onClick={() => {
               postApplyCommunityTeam({ communityIdx: Number(communityIdx) });
             }}
-            className="p-3 border border-gray-300 shadow-md rounded-lg text-sm bg-green-500 text-white hover:bg-green-600 transition"
+            className="p-3 border border-gray-300 shadow-md rounded-lg text-sm bg-gray text-black hover:bg-grass transition"
           >
             커뮤니티 팀 가입 신청하기
           </button>
@@ -146,7 +164,7 @@ const Community = () => {
         <img
           src={communityInfo.community_list_banner}
           alt="배너"
-          className="w-full min-h-[190px] bg-blue-500 flex items-center justify-center text-white text-2xl font-semibold rounded-lg shadow-md"
+          className="w-full min-h-[190px] bg-blue-500 flex items-center justify-center text-2xl font-semibold rounded-lg shadow-md"
         />
 
         <div className="flex gap-6 max-h-[80%]">
@@ -154,7 +172,7 @@ const Community = () => {
             <>
               {/* CommunityTeamList */}
               <div className="w-full">
-                <h3 className="font-semibold text-lg text-gray-800 mb-4">
+                <h3 className="font-semibold text-lg text-gray mb-4">
                   Community Teams
                 </h3>
                 <CommunityTeamList
@@ -165,7 +183,7 @@ const Community = () => {
 
               {/* 가입 신청 팀 목록 */}
               <div className="w-full">
-                <h3 className="font-semibold text-lg text-gray-800 mb-4">
+                <h3 className="font-semibold text-lg text-gray mb-4">
                   Join Requests
                 </h3>
                 <CommunityTeamApplicationList
@@ -175,7 +193,7 @@ const Community = () => {
 
               {/* 운영진 가입 신청 유저 목록 */}
               <div className="w-full">
-                <h3 className="font-semibold text-lg text-gray-800 mb-4">
+                <h3 className="font-semibold text-lg text-gray mb-4">
                   Staff Join Requests
                 </h3>
                 <CommunityStaffApplicationList
@@ -184,20 +202,26 @@ const Community = () => {
               </div>
             </>
           ) : (
-            <>
+            <div className="flex gap-6 w-full">
               {/* ChampionshipList */}
-              <div className="w-full">
-                <h3 className="font-semibold text-lg text-gray-800 mb-4">
+              <div className="w-[40%]">
+                <h3 className="font-semibold text-lg text-gray mb-4">
                   Championship
                 </h3>
                 <ChampionshipList communityIdx={Number(communityIdx)} />
               </div>
 
               {/* BoardList */}
+              <div className="w-[40%]">
+                <h3 className="font-semibold text-lg text-gray mb-4">
+                  Board
+                </h3>
+                <CommunityBoardList communityIdx={Number(communityIdx)} />
+              </div>
 
               {/* CommunityTeamList */}
-              <div className="w-full">
-                <h3 className="font-semibold text-lg text-gray-800 mb-4">
+              <div className="w-[20%]">
+                <h3 className="font-semibold text-lg text-gray mb-4">
                   Community Teams
                 </h3>
                 <CommunityTeamList
@@ -205,7 +229,7 @@ const Community = () => {
                   modifyMode={false}
                 />
               </div>
-            </>
+            </div>
           )}
         </div>
       </div>

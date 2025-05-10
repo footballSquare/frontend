@@ -30,3 +30,11 @@ type MatchApplyHandlerProps = {
   matchPosition: number;
   matchParticipationType: number;
 };
+
+type UseMatchEndProps = {
+  setMatchDetail: (value: React.SetStateAction<MatchDetail>) => void;
+};
+
+type MatchEndHandlerProps = {
+  matchIdx: number;
+}

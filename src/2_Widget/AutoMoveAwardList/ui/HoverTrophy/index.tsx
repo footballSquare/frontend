@@ -3,7 +3,7 @@ import useHover from "./model/useHover";
 import { formatDateKoreanDate } from "../../../../4_Shared/lib/dateFormatter";
 
 const HoverTrophy = (props: HoverTrophyProps) => {
-  const { trophyData, index } = props;
+  const { trophyData } = props;
   const {
     isHovered,
     hoverPosition,
@@ -15,7 +15,6 @@ const HoverTrophy = (props: HoverTrophyProps) => {
   return (
     <div>
       <div
-        key={`trophy-${index}`}
         className="w-[50px] h-[50px] shadow mr-1 overflow-visible"
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}>
@@ -33,7 +32,7 @@ const HoverTrophy = (props: HoverTrophyProps) => {
       {isHovered &&
         createPortal(
           <div
-            className="fixed bg-white rounded-lg flex flex-col items-center justify-center w-[200px] h-[200px] shadow-lg p-4 border border-gray-300 transition-opacity duration-300 ease-in-out"
+            className="fixed bg-gray-800 rounded-lg flex flex-col items-center justify-center w-[200px] h-[200px] shadow-lg p-4 border border-gray-300 transition-opacity duration-300 ease-in-out text-white"
             style={{
               left: `${hoverPosition.x}px`,
               top: `${hoverPosition.y - window.scrollY}px`,
@@ -52,7 +51,7 @@ const HoverTrophy = (props: HoverTrophyProps) => {
               style={{ color: trophyData.championship_list_color }}>
               {trophyData.championship_list_name}
             </h3>
-            <p className="text-gray-500 text-sm">
+            <p className="text-sm">
               {formatDateKoreanDate(
                 new Date(trophyData.championship_list_start_date)
               )}{" "}

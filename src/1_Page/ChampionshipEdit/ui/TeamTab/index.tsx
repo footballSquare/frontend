@@ -42,7 +42,7 @@ const TeamTab = () => {
       {championshipType && (
         <div className="mb-4 p-3 bg-amber-50 border border-amber-200 rounded-lg">
           <p className="text-sm text-amber-800">
-            {championshipType === 0
+            {championshipType == 0
               ? "리그는 팀 선택 제한이 없습니다"
               : `${championshipTypes[championshipType]}은 정확히 ${matchCount[championshipType]}개의 팀을 선택해야 합니다.`}
           </p>

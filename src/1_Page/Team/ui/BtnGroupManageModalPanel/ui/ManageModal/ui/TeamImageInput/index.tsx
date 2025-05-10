@@ -45,18 +45,18 @@ const TeamImageInput = (props: TeamImageInputProps) => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="w-full">
-      <label className="text-sm font-medium text-gray-600">
+      <label className="text-sm font-medium text-gray-300">
         {/* Label은 공통으로 둠. 필요시 props로 빼도 무방 */}
         Team Emblem
       </label>
 
-      <div className="relative space-y-4 bg-gray-50 p-4 rounded-md shadow-md">
+      <div className="relative p-4 rounded-md shadow-md">
         <div className="flex gap-1">
           {imagePreview ? (
             <img
               className={
                 isBanner
-                  ? "w-full h-[100px] object-cover"
+                  ? "w-full h-[140px] object-cover"
                   : "h-[40px] w-[40px] object-cover"
               }
               src={imagePreview}

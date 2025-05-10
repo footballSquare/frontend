@@ -1,67 +1,97 @@
 import { matchParticipation } from "../../../../../../4_Shared/constant/matchParticipation";
-import { matchType } from "../../../../../../4_Shared/constant/matchType";
-import apply_icon from "../../../../../../4_Shared/assets/svg/apply.svg";
-import denied_icon from "../../../../../../4_Shared/assets/svg/denied.svg";
-import { isPastTime } from "../../../../../../4_Shared/lib/timeChecker";
+import { utcFormatter } from "../../../../../../4_Shared/lib/utcFormatter";
 import useMatchModalStore from "../../../../../../4_Shared/zustand/useMatchModal";
 
 const MatchCard = (props: MatchCardProps) => {
   const {
+    player_list_nickname,
+    team_list_name,
+    match_match_participation_type,
     match_match_idx,
     match_type_idx,
-    team_list_idx,
-    team_list_name,
-    team_list_emblem,
-    match_match_attribute,
-    match_match_participation_type,
-    //player_list_idx,
-    player_list_nickname,
-    //player_list_profile_image,
     match_match_start_time,
-    common_status_idx,
     match_match_duration,
     observeRef,
+    common_status_idx,
   } = props;
+
   const { toggleMatchModal, setMatchIdx } = useMatchModalStore();
-  if (match_match_attribute !== 0) return;
+  const isMatchEnd = common_status_idx !== 0;
+
   return (
     <div
       ref={observeRef}
-      className={`flex ${
-        !isPastTime(match_match_start_time) ? "bg-white" : "bg-gray"
-      }  hover:bg-blue hover:text-white cursor-pointer items-center justify-between gap-6 duration-500 shadow-lg px-4 py-2 p text-xs`}
       onClick={() => {
-        toggleMatchModal();
         setMatchIdx(match_match_idx);
+        toggleMatchModal();
       }}
+      className={`w-full border-l-4 ${
+        !isMatchEnd
+          ? "border-l-emerald-500 hover:bg-gray-900"
+          : "border-l-red-600"
+      } bg-gray-800 shadow-md mb-3 transition-all rounded-r cursor-pointer`}
     >
-      {team_list_idx === null ? (
-        <h3>{`> Host: ${player_list_nickname}`}</h3>
-      ) : (
-        <div className=" flex gap-4 justify-center items-center">
-          <h3>{`> Team: ${team_list_name}`}</h3>
-          <img
-            src={team_list_emblem || undefined}
-            alt="팀 엠블럼"
-            className="w-10 h-10 rounded-full border border-gray"
-          />
+      <div className="p-4 flex flex-col md:flex-row">
+        {/* 왼쪽: 시간 정보 */}
+        <div className="md:w-2/6 flex flex-col justify-center items-center md:items-start mb-2 md:mb-0 md:pr-3 border-r border-gray-700">
+          <div className="text-sm font-medium text-gray-300">
+            매치 시작: {utcFormatter(match_match_start_time)}
+          </div>
+          <div className="text-xs text-gray-400 mt-1">
+            예상 플레이타임: {`${
+              match_match_duration.hours
+                ? `${match_match_duration.hours}h `
+                : ""
+            }${
+              match_match_duration.minutes
+                ? `${match_match_duration.minutes}m`
+                : ""
+            }`.trim()}
+          </div>
         </div>
-      )}
 
-      <h3>{`# ${matchParticipation[match_match_participation_type]}`}</h3>
+        {/* 중앙: 팀 및 게임 정보 */}
+        <div className="flex justify-center items-center md:w-3/6 flex-col px-3">
+          <div className="flex items-center">
+            <div className="font-bold text-gray-200">{team_list_name}</div>
+            <div className="ml-2 text-xs bg-gray-800 text-gray-300 px-2 py-1 rounded">
+              {match_type_idx === 0 ? "11 : 11" : "RUSH"}
+            </div>
+          </div>
 
-      <div className=" font-semibold">
-        <h5 className="text-sm">{`게임모드: [${matchType[match_type_idx]}]`}</h5>
-        <h5 className="text-sm">{`매치시작시간: ${match_match_start_time}`}</h5>
-        <h5 className="text-sm">{`예상 플레이 타임: ${
-          match_match_duration.hours
-        }.${match_match_duration.minutes || 0}시간`}</h5>
+          <div className="flex items-center text-sm text-gray-400 mt-1">
+            <span className="text-gray-400">Host: {player_list_nickname}</span>
+          </div>
+
+          <div
+            className={`flex items-center text-xs ${
+              match_match_participation_type === 0
+                ? "text-red-400"
+                : "text-emerald-400"
+            } font-medium mt-1`}
+          >
+            {matchParticipation[match_match_participation_type]}
+          </div>
+        </div>
+
+        {/* 오른쪽: 상태 및 ID 정보 */}
+        <div className="md:w-1/6 flex flex-col md:flex-row justify-between items-center">
+          <span className="text-xs text-gray-500 mb-1 md:mb-0">
+            ID: {match_match_idx}
+          </span>
+          <span
+            className={`text-xs font-bold px-2 py-1 rounded ${
+              !isMatchEnd
+                ? "bg-emerald-600 text-gray-100"
+                : "bg-red-700 text-gray-100"
+            }`}
+          >
+            {isMatchEnd ? "경기 마감" : "진행중"}
+          </span>
+        </div>
       </div>
-      <img
-        src={`${common_status_idx === 0 ? apply_icon : denied_icon}`}
-        alt="상태 아이콘"
-      />
     </div>
   );
 };
+
 export default MatchCard;

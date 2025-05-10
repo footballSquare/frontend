@@ -47,7 +47,7 @@ const TextInputForm = (props: TextInputFormProps) => {
     <FormProvider {...forms}>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex-1 min-w-[300px] bg-white rounded-lg shadow-md p-4">
+        className="flex-1 min-w-[300px]  rounded-lg shadow-md p-4">
         {/* 팀명 입력 */}
         <TeamNameCheckInput modifyMode={modifyMode} isShort={false} />
         {/* 짧은 태그 입력 */}
@@ -98,7 +98,7 @@ const TextInputForm = (props: TextInputFormProps) => {
               ${
                 isValid
                   ? "bg-green-600 hover:bg-green-700 active:bg-green-800 focus:ring focus:ring-green-300"
-                  : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                  : "bg-gray-400 text-gray-500 cursor-none"
               }`}>
                 저장
               </button>

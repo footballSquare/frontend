@@ -3,6 +3,7 @@ import React from "react";
 import useInfiniteScrollPaging from "../../../../4_Shared/model/useInfiniteScrollPaging";
 import { useNavigate } from "react-router-dom";
 import PAGE_URI from "../../../../4_Shared/constant/pageUri";
+import { utcFormatter } from "../../../../4_Shared/lib/utcFormatter";
 
 const ChampionshipList = (props: ChampionshipListProps) => {
   const { communityIdx } = props;
@@ -19,27 +20,46 @@ const ChampionshipList = (props: ChampionshipListProps) => {
   const navigate = useNavigate();
 
   return (
-    <div className="rounded-xl shadow-md w-full flex flex-col gap-2 p-2 overflow-auto h-[100%]">
+    <div className="rounded-xl shadow-lg w-full flex flex-col gap-4 p-4 overflow-auto h-[100%] text-gray">
       {championshipList.map((elem, index) => {
         return (
           <div
-            onClick={() => {
-              navigate(`${PAGE_URI.CHAMPIONSHIP}/${elem.championship_list_idx}`);
-            }}
             key={index}
-            className="border flex flex-col gap-2 justify-center border-gray-300 shadow-md rounded-lg p-2 cursor-pointer hover:bg-blue-100 transition-all duration-300"
             ref={championshipList.length === index + 1 ? observeRef : undefined}
+            onClick={() => {
+              navigate(
+                `${PAGE_URI.CHAMPIONSHIP}/${elem.championship_list_idx}`
+              );
+            }}
+            className={`w-full bg-gray-800 shadow-md mb-3 transition-all rounded-r cursor-pointer hover:bg-gray-900`}
           >
-            <h3 className="text-lg font-semibold text-gray-800">
-              {elem.championship_list_name}
-            </h3>
-            <img
-              src={elem.championship_list_throphy_img}
-              className="w-12 h-12 border border-gray-300 rounded-lg"
-              alt="throphy"
-            />
-            <p className="text-sm text-gray-600">{elem.championship_type_name} {`${elem.championship_list_start_date} ~ ${elem.championship_list_end_date}`}</p>
-            
+            <div className="p-4 flex flex-col md:flex-row">
+              {/* 왼쪽: 트로피 이미지 */}
+              <div className="flex flex-col justify-center items-center md:items-start mb-2 md:mb-0 md:pr-3 border-r border-gray-700">
+                {elem.championship_list_throphy_img && (
+                  <img
+                    src={elem.championship_list_throphy_img}
+                    alt="트로피"
+                    className="w-16 h-16 object-cover rounded-full border shadow-md"
+                  />
+                )}
+              </div>
+
+              {/* 중앙: 대회 이름 및 타입 */}
+              <div className="flex justify-center items-center w-full flex-col px-3">
+                <div className="font-bold text-gray-200 text-lg">
+                  {elem.championship_list_name}
+                </div>
+                <div className="text-sm text-gray-400 mt-1">
+                  {elem.championship_type_name}
+                </div>
+                <div className="text-sm text-gray-400 mt-1">
+                  {`${utcFormatter(
+                    elem.championship_list_start_date
+                  )} ~ ${utcFormatter(elem.championship_list_end_date)}`}
+                </div>
+              </div>
+            </div>
           </div>
         );
       })}
