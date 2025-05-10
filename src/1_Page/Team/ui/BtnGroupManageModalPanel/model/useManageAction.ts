@@ -3,10 +3,16 @@ import { RESULT_STATE } from "../../../../../4_Shared/constant/result";
 
 const useManageAction = (isTeamPlayer: boolean): UseManageActionReturn => {
   const [isTeamMember, setIsTeamMember] = React.useState<ResultStateType>(
-    isTeamPlayer
-      ? (RESULT_STATE.AVAILABLE as ResultStateType)
-      : (RESULT_STATE.UNAVAILABLE as ResultStateType)
+    RESULT_STATE.UNAVAILABLE as ResultStateType
   );
+
+  React.useEffect(() => {
+    if (isTeamPlayer) {
+      setIsTeamMember(RESULT_STATE.AVAILABLE as ResultStateType);
+    } else {
+      setIsTeamMember(RESULT_STATE.UNAVAILABLE as ResultStateType);
+    }
+  }, [isTeamPlayer]);
 
   const isPending = isTeamMember === RESULT_STATE.PENDING;
   const isLeaving = isTeamMember === RESULT_STATE.AVAILABLE;

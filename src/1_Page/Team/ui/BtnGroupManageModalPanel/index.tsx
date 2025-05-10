@@ -15,6 +15,11 @@ import ManageModal from "./ui/ManageModal";
 import useManagePutServerState from "./model/useManagePutServerState";
 import { useNavigate } from "react-router-dom";
 
+import exitIcon from "../../../../4_Shared/assets/svg/exit.svg";
+import joinIcon from "../../../../4_Shared/assets/svg/join.svg";
+import settingIcon from "../../../../4_Shared/assets/svg/setting.svg";
+import plusIcon from "../../../../4_Shared/assets/svg/plus.svg";
+
 const BtnGroupManageModalPanel = (props: BtnGroupManageModalPanelProps) => {
   const { teamInfo, handlers } = props;
   const naviagate = useNavigate();
@@ -25,9 +30,10 @@ const BtnGroupManageModalPanel = (props: BtnGroupManageModalPanelProps) => {
   const [isLogin] = useIsLogin();
 
   // 팀 권한과
-  const [myTeamIDx] = useMyTeamIdx();
+  const [myTeamIdx] = useMyTeamIdx();
   const [myTeamRoleIdx] = useMyTeamRoleIdx();
-  const isTeamPlayer = myTeamIDx === teamIdx;
+
+  const isTeamPlayer = myTeamIdx === teamIdx;
   const isTeamTopLeader = isTeamPlayer && myTeamRoleIdx === 0; // 팀장만 허용
   const isTeamLeaders = isTeamTopLeader || myTeamRoleIdx === 1;
 
@@ -41,81 +47,77 @@ const BtnGroupManageModalPanel = (props: BtnGroupManageModalPanelProps) => {
     cancelUpdateToSignPending,
   } = useManageAction(isTeamPlayer);
 
+  // api
   const [deleteLeaveTeam, deleteServerState] = useDeleteLeaveTeam(teamIdx);
   const [putSignTeam, putServerState] = usePutSignTeam(teamIdx);
-  useManageDeleteServerState({ deleteServerState, cancelUpdateToLeave }); // deleteLeaveTeam 서버 상태 관리
-  useManagePutServerState({ putServerState, cancelUpdateToSignPending }); // deleteLeaveTeam 서버 상태 관리
+
+  // manage server state
+  useManageDeleteServerState({ deleteServerState, cancelUpdateToLeave });
+  useManagePutServerState({ putServerState, cancelUpdateToSignPending });
 
   // 팀매치 생성 모달 전역으로 관리
   const { toggleMakeMatchModal } = useMakeTeamMatchModalStore(); // 팀매치 생성 모달 전역으로 관리
 
   return (
-    <div className="flex flex-col items-center gap-2 mt-2">
-      <div>
+    <div className="flex flex-col items-center gap-3 mt-4">
+      <div className="w-full max-w-xs">
         {!isTeamTopLeader && isPending ? (
-          <button className="bg-black hover:bg-black/80 text-white text-sm font-medium py-2 px-4 rounded-full shadow transition transform hover:scale-105 duration-300">
+          <button className="w-full bg-gray-700 text-gray-300 text-sm font-medium py-2.5 px-6 rounded-lg shadow-lg border border-gray-600 flex items-center justify-center gap-2 cursor-not-allowed">
+            <span className="inline-block w-2 h-2 bg-blue-400 rounded-full animate-pulse"></span>
             가입신청중
           </button>
         ) : isLeaving ? (
           <button
-            className="bg-red-500 hover:bg-red-600 text-white text-sm font-medium py-2 px-4 rounded-full shadow transition transform hover:scale-105 duration-300"
+            className="w-full bg-gradient-to-r from-red-700 to-red-600 hover:from-red-800 hover:to-red-700 text-white text-sm font-medium py-2.5 px-6 rounded-lg shadow-lg transition transform hover:translate-y-px duration-200 flex items-center justify-center"
             onClick={() => {
-              if (!isLogin) {
-                alert("로그인 후 이용해주세요.");
-                naviagate("/login");
-                return;
+              if (confirm(`정말로 팀을 탈퇴 하시겠습니까?`)) {
+                deleteLeaveTeam();
+                updateToLeave();
               }
-              const confirmResult = !confirm(
-                `정말로 팀을 ${isLeaving ? "탈퇴" : "가입"}하시겠습니까?`
-              );
-              if (!confirmResult) {
-                return;
-              }
-              deleteLeaveTeam();
-              updateToLeave();
             }}>
-            팀 탈퇴
+            <img src={exitIcon} alt="팀 탈퇴" className="h-4 w-4 mr-2" />팀 탈퇴
           </button>
         ) : (
           <button
-            className="bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium py-2 px-4 rounded-full shadow transition transform hover:scale-105 duration-300"
+            className="w-full bg-gradient-to-r from-blue-700 to-blue-600 hover:from-blue-800 hover:to-blue-700 text-white text-sm font-medium py-2.5 px-6 rounded-lg shadow-lg transition transform hover:translate-y-px duration-200 flex items-center justify-center"
             onClick={() => {
               if (!isLogin) {
                 alert("로그인 후 이용해주세요.");
                 naviagate("/login");
                 return;
               }
-              const confirmResult = !confirm(
-                `정말로 팀을 ${isLeaving ? "탈퇴" : "가입"}하시겠습니까?`
-              );
-              if (!confirmResult) {
-                return;
+              if (confirm(`정말로 팀을 가입 하시겠습니까?`)) {
+                putSignTeam();
+                updateToSignPending();
               }
-              putSignTeam();
-              updateToSignPending();
             }}>
-            팀 가입
+            <img src={joinIcon} alt="팀 가입" className="h-4 w-4 mr-2" />팀 가입
           </button>
         )}
       </div>
 
-      {/* 팀 리더일 경우에만 팀 관리 및 매치 생성 버튼 */}
-      {isTeamTopLeader && isLeaving && (
-        <button
-          className="bg-blue-500 text-white text-sm font-medium py-1 px-3 rounded-full"
-          onClick={handleToggleManageModal}>
-          팀관리
-        </button>
-      )}
+      {/* 팀 리더 및 매치 생성 버튼 그룹 */}
+      <div className="flex gap-3">
+        {/* 팀 리더일 경우에만 팀 관리 버튼 */}
+        {isTeamTopLeader && isLeaving && (
+          <button
+            className="bg-gray-800 hover:bg-gray-700 text-gray-200 text-sm font-medium py-2 px-4 rounded-lg border border-gray-700 shadow-md transition flex items-center"
+            onClick={handleToggleManageModal}>
+            <img src={settingIcon} alt="팀 관리" className="h-4 w-4 mr-1.5" />
+            팀관리
+          </button>
+        )}
 
-      {/* 부팀장 또는 팀장의 경우만*/}
-      {isTeamLeaders && isLeaving && !isPending && (
-        <button
-          className="bg-blue-500 text-white text-sm font-medium py-1 px-3 rounded-full"
-          onClick={toggleMakeMatchModal}>
-          매치 생성
-        </button>
-      )}
+        {/* 부팀장 또는 팀장의 경우만*/}
+        {isTeamLeaders && isLeaving && !isPending && (
+          <button
+            className="bg-indigo-700 hover:bg-indigo-600 text-white text-sm font-medium py-2 px-4 rounded-lg shadow-md transition flex items-center"
+            onClick={toggleMakeMatchModal}>
+            <img src={plusIcon} alt="매치 생성" className="h-4 w-4 mr-1.5" />
+            매치 생성
+          </button>
+        )}
+      </div>
 
       {isModalOpen && (
         <ManageModal

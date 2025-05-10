@@ -7,20 +7,22 @@ const HistoryListBox = () => {
   const [teamHistory] = useGetTeamHistory(teamIdx);
 
   return (
-    <div className="bg-white rounded-lg shadow-lg p-4">
-      <h3 className="text-lg font-semibold text-gray-800 mb-2">대회 이력</h3>
+    <div className="w-full bg-gray-800 rounded-lg shadow-lg p-4">
+      <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-2">
+        팀 연혁
+      </h3>
       {teamHistory.length === 0 ? (
-        <p className="text-gray-500 text-sm text-center">
-          팀의 대회 이력이 없습니다.
+        <p className="text-gray-500 dark:text-gray-400 text-sm text-center">
+          팀의 변동사항이 없습니다.
         </p>
       ) : (
-        <ul className="divide-y divide-gray-200 max-h-[200px] overflow-y-auto">
+        <ul className="divide-gray-600 max-h-[200px] overflow-y-auto">
           {teamHistory.slice(0, 5).map((history, index) => (
             <li key={index} className="py-2 flex items-center justify-between">
-              <span className="font-medium text-gray-700">
+              <span className="font-medium text-gray-700 dark:text-gray-200">
                 {history.team_list_name}
               </span>
-              <span className="text-gray-500 text-xs">
+              <span className="text-gray-500 dark:text-gray-400 text-xs">
                 {formatDateKoreanDate(
                   new Date(history.team_history_created_at)
                 )}
@@ -30,7 +32,9 @@ const HistoryListBox = () => {
         </ul>
       )}
       {teamHistory.length > 5 && (
-        <p className="mt-2 text-center text-gray-500 text-sm">...</p>
+        <p className="mt-2 text-center text-gray-500 dark:text-gray-400 text-sm">
+          ...
+        </p>
       )}
     </div>
   );
