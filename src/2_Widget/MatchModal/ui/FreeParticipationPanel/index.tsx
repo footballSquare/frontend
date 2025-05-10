@@ -5,16 +5,22 @@ import {
   useMyUserIdx,
 } from "../../../../4_Shared/lib/useMyInfo";
 import useMatchModalStore from "../../../../4_Shared/zustand/useMatchModal";
+import { formations } from "../../constant/formation";
 
-const FreeParticipationPanel = (props :FreeParticipationPanelProps) => {
-  const { matchPositions, matchParticipants, matchApplyHandler } = props;
+const FreeParticipationPanel = (props: FreeParticipationPanelProps) => {
+  const {
+    matchPositions,
+    matchParticipants,
+    matchApplyHandler,
+    matchFormationIdx,
+  } = props;
   const [userIdx] = useMyUserIdx();
   const [nickname] = useMyNickname();
   const [profileImg] = useMyProfileImg();
   const { matchIdx } = useMatchModalStore();
 
   return (
-    <div className=" flex flex-col gap-4 h-[300px] flex-wrap">
+    <div className="relative w-full h-full">
       {matchPositions.map((positionIdx, index) => {
         return (
           !matchParticipants.some(
@@ -22,7 +28,7 @@ const FreeParticipationPanel = (props :FreeParticipationPanelProps) => {
           ) && (
             <button
               key={index}
-              className=" border border-gray shadow-lg p-[2px] w-[128px] hover:bg-blue hover:scale-[1.2] duration-300 hover:text-white"
+              className="absolute border border-gray shadow-lg px-2 h-[32px] rounded-lg bg-gray-500 hover:bg-gray-800 text-sm hover:scale-[1.2] duration-300 hover:text-white"
               onClick={() => {
                 matchApplyHandler({
                   matchIdx,
@@ -35,8 +41,17 @@ const FreeParticipationPanel = (props :FreeParticipationPanelProps) => {
                   matchParticipationType: 1,
                 });
               }}
+              style={{
+                top: formations[matchFormationIdx].find(
+                  (pos) => pos.positionIdx === positionIdx
+                )?.top,
+                left: formations[matchFormationIdx].find(
+                  (pos) => pos.positionIdx === positionIdx
+                )?.left,
+              }}
             >
-              {matchPosition[positionIdx]}로 참가하기
+              {matchPosition[positionIdx]}
+              에 참가
             </button>
           )
         );

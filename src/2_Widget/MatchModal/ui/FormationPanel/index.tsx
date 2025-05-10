@@ -2,7 +2,7 @@ import React from "react";
 import profile from "../../../../4_Shared/assets/svg/profile.svg";
 import field_img from "../../assets/img/field.png";
 import { FormationPanelProps } from "./type";
-import { formations } from "./constant/formation";
+import { formations } from "../../constant/formation";
 import { matchFormation } from "../../../../4_Shared/constant/matchFormation";
 import { matchPosition } from "../../../../4_Shared/constant/matchPosition";
 import useDeleteMatchJoin from "../../../../3_Entity/Match/useDeleteMatchJoin";
@@ -24,7 +24,7 @@ const FormationPanel = React.memo((props: FormationPanelProps) => {
   const [userIdx] = useMyUserIdx();
 
   return (
-    <div className="relative flex gap-6 h-full min-w-[38%]">
+    <div className="relative flex gap-6 h-full min-w-[38%] text-black">
       {/* 필드 & 포메이션 선택기 */}
       <div
         className="w-full p-2 flex flex-col gap-6 items-center bg-cover bg-center"
@@ -45,7 +45,7 @@ const FormationPanel = React.memo((props: FormationPanelProps) => {
         {formations[matchFormationIdx].map((pos, index) => (
           <div
             key={index}
-            className="hover:scale-[1.2] duration-300 absolute translate-x-[-50%] translate-y-[-50%] flex flex-col justify-center p-1 text-sm items-center gap-1"
+            className="hover:scale-120 duration-300 absolute translate-x-[-50%] translate-y-[-50%] flex flex-col justify-center p-1 text-sm items-center gap-1"
             style={{ top: pos.top, left: pos.left }} // 동적 스타일
           >
             <div className=" bg-white rounded-[32px] w-[36px] flex flex-col items-center">

@@ -20,4 +20,5 @@ type FreeParticipationPanelProps = {
     matchPosition: number;
     matchParticipationType: number;
   }) => void;
-}
+  matchFormationIdx: number;
+};
