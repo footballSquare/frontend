@@ -16,31 +16,39 @@ const CommunityBoardList = (props: ChampionshipListProps) => {
     loading,
     hasMoreContent
   );
-  console.log(communityBoardList, "communityBoardList");
 
   return (
-    <div className="rounded-xl shadow-md w-full flex flex-col gap-2 p-2 overflow-auto h-[100%] text-gray">
+    <div className="rounded-xl shadow-lg w-full flex flex-col gap-4 p-4 overflow-auto h-[100%] text-gray-800">
       {communityBoardList.map((elem, index) => {
         return (
           <div
             key={index}
-            className="border flex flex-col gap-2 justify-center border-gray-300 shadow-md rounded-lg p-2 cursor-pointer hover:bg-grass hover:text-black transition-all duration-300"
+            className="border flex flex-col md:flex-row gap-4 justify-between border-gray-300 shadow-lg rounded-xl p-4 cursor-pointer bg-gradient-to-b from-blue-50 to-gray hover:scale-105 hover:shadow-xl transition-all duration-300"
             ref={
               communityBoardList.length === index + 1 ? observeRef : undefined
             }
           >
-            <h3 className="text-lg font-semibold">
-              {elem.board_list_title}
-            </h3>
-            <img
-              src={elem.board_list_img[0]}
-              className="w-12 h-12 border border-gray rounded-lg"
-              alt="thumbnail"
-            />
-            <p className="text-sm">
-              {elem.player_list_nickname}{" "}
-              {`${utcFormatter(elem.board_list_updated_at)}`}
-            </p>
+            {/* 미리보기 이미지 */}
+            <div className="flex-shrink-0 w-20 h-12 items-center justify-center"> 
+              {elem.board_list_img[0] && (
+                <img
+                  src={elem.board_list_img[0]}
+                  className="w-full h-full object-cover border border-gray-300 rounded-lg shadow-md"
+                  alt="미리보기"
+                />
+              )}
+            </div>
+
+            {/* 게시글 정보 */}
+            <div className="flex flex-col justify-between flex-grow">
+              <h3 className="text-lg font-bold text-gray-800 mb-2">
+                {elem.board_list_title}
+              </h3>
+              <div className="text-xs text-gray-500 flex justify-between">
+                <span className="font-medium">작성자: {elem.player_list_nickname}</span>
+                <span>{utcFormatter(elem.board_list_updated_at)}</span>
+              </div>
+            </div>
           </div>
         );
       })}

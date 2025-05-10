@@ -49,7 +49,7 @@ const Community = () => {
   return (
     <div className="h-full w-full p-6 flex gap-6">
       {/* Left Sidebar */}
-      <div className="flex flex-col h-[100vh] gap-6 text-gray rounded-xl shadow-md p-6 w-full max-w-[320px] overflow-auto">
+      <div className="flex flex-col h-[100vh] gap-6 text-gray rounded-xl shadow-md p-6 w-full max-w-[268px] overflow-auto">
         {/* 커뮤니티 앰블럼, 커뮤니티 명 */}
         <div className="flex flex-col items-center">
           <img

@@ -20,7 +20,7 @@ const ChampionshipList = (props: ChampionshipListProps) => {
   const navigate = useNavigate();
 
   return (
-    <div className="rounded-xl shadow-md w-full flex flex-col gap-2 p-2 overflow-auto h-[100%] text-gray">
+    <div className="rounded-xl shadow-lg w-full flex flex-col gap-4 p-4 overflow-auto h-[100%] text-gray-800">
       {championshipList.map((elem, index) => {
         return (
           <div
@@ -30,22 +30,28 @@ const ChampionshipList = (props: ChampionshipListProps) => {
               );
             }}
             key={index}
-            className="border flex flex-col gap-2 justify-center border-gray shadow-md rounded-lg p-2 cursor-pointer hover:bg-grass hover:text-black transition-all duration-300"
+            className="border flex flex-col gap-2 justify-center border-gray-300 shadow-lg rounded-xl p-4 cursor-pointer bg-gradient-to-b from-blue-50 to-gray hover:scale-105 hover:shadow-xl transition-all duration-300"
             ref={championshipList.length === index + 1 ? observeRef : undefined}
           >
-            <h3 className="text-lg font-semibold">
-              {elem.championship_list_name}
-            </h3>
-            <img
-              src={elem.championship_list_throphy_img}
-              className="w-12 h-12 border border-gray rounded-lg"
-              alt="throphy"
-            />
-            <div className="text-sm">
-              {elem.championship_type_name}{" "}
-              {`${utcFormatter(
-                elem.championship_list_start_date
-              )} ~ ${utcFormatter(elem.championship_list_end_date)}`}
+            <div className="flex items-center gap-4">
+              <img
+                src={elem.championship_list_throphy_img}
+                className="w-16 h-16 border border-gray-300 rounded-full shadow-md"
+                alt="throphy"
+              />
+              <h3 className="text-xl font-bold">
+                {elem.championship_list_name}
+              </h3>
+            </div>
+            <div className="text-sm text-gray-600">
+              <span className="font-medium text-gray-800">
+                {elem.championship_type_name}
+              </span>{" "}
+              <span>
+                {`${utcFormatter(
+                  elem.championship_list_start_date
+                )} ~ ${utcFormatter(elem.championship_list_end_date)}`}
+              </span>
             </div>
           </div>
         );
