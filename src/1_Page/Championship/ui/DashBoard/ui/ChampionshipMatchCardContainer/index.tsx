@@ -17,7 +17,7 @@ const ChampionshipMatchCardContainer = (
 
   // admin
   const [community_role_idx] = useMyCommunityRoleIdx();
-  const isAdmin = community_role_idx === 1;
+  const isAdmin = community_role_idx === 0 || community_role_idx === 1;
 
   // state
   const {
