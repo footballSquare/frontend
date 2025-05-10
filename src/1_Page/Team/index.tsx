@@ -26,7 +26,7 @@ const Team = () => {
   } = displayTeamInfo;
 
   return (
-    <main className="flex flex-col w-full h-auto sm:w-[90%] max-w-7xl mx-auto text-sm pt-5 px-4 sm:px-0">
+    <main className="text-white flex flex-col w-full h-auto sm:w-[90%] max-w-7xl mx-auto text-sm pt-5 px-4 sm:px-0">
       {loading ? (
         <div className="text-center py-10">로딩중...</div>
       ) : (
@@ -83,29 +83,20 @@ const Team = () => {
                 </div>
 
                 {/* 팀 연혁 */}
-                <div className="w-full">
-                  <h2 className="text-base font-semibold mb-2">팀 연혁</h2>
-                  <HistoryListBox />
-                </div>
+
+                <HistoryListBox />
               </div>
 
-              {/* 팀 설명 및 팀 현황 */}
-              <div>
-                <div className="rounded-lg shadow p-4 bg-white">
-                  <h2 className="text-base font-semibold text-gray-800 mb-2">
-                    팀 설명
-                  </h2>
-                  <p className="text-gray-600 text-sm whitespace-pre-line leading-relaxed">
-                    {team_list_announcement}
-                  </p>
-                </div>
-                <div className="mt-4 bg-white border border-gray-100 rounded-xl shadow-sm p-4">
-                  <h2 className="text-base font-semibold text-gray-800 mb-2">
-                    팀 현황
-                  </h2>
-                  <TeamMemberListBox />
-                </div>
+              {/* 팀 설명 */}
+              <div className="rounded-lg shadow p-4 bg-gray-800">
+                <h2 className="text-base font-semibold  mb-2">팀 설명</h2>
+                <p className="text-gray-600 text-sm whitespace-pre-line leading-relaxed">
+                  {team_list_announcement}
+                </p>
               </div>
+
+              {/* 팀 멤버 현황 */}
+              <TeamMemberListBox />
             </div>
 
             {/* 오른쪽 섹션: 경기 정보 */}

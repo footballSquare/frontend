@@ -60,7 +60,7 @@ const TeamMemberCard = (props: TeamMemberCardProps) => {
       {/* 디테일 모달 */}
       {modalState.detail && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center">
-          <div className="bg-white rounded-lg w-[300px] p-6 text-center shadow-lg">
+          <div className="bg-gray-800 rounded-lg w-[300px] p-6 text-center shadow-lg">
             <div className="flex justify-center gap-4 mb-4">
               <img
                 src={player_list_profile_image || defaultProfile}
@@ -96,7 +96,7 @@ const TeamMemberCard = (props: TeamMemberCardProps) => {
 
             <button
               onClick={() => dispatch({ type: "CLOSE_ALL" })}
-              className="w-full border border-gray-300 py-2 rounded-md text-gray-600">
+              className="w-full border border-gray-300 py-2 rounded-md text-gray-300">
               닫기
             </button>
           </div>
@@ -106,7 +106,7 @@ const TeamMemberCard = (props: TeamMemberCardProps) => {
       {/* 팀원 관리 모달 */}
       {modalState.manage && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center">
-          <div className="bg-white rounded-lg w-[300px] p-6 text-center shadow-lg">
+          <div className="bg-gray-800 rounded-lg w-[300px] p-6 text-center shadow-lg">
             <div className="flex justify-between items-center mb-4">
               <div className="w-8 h-8 bg-purple-200 rounded-full flex items-center justify-center">
                 📂
@@ -119,7 +119,7 @@ const TeamMemberCard = (props: TeamMemberCardProps) => {
             </div>
 
             <h2 className="text-lg font-semibold mb-2">팀원 관리</h2>
-            <label className="block text-sm text-gray-600 mb-1">
+            <label className="block text-sm text-gray-300 mb-1">
               팀원 직책 변경
             </label>
             <select
@@ -178,7 +178,7 @@ const TeamMemberCard = (props: TeamMemberCardProps) => {
                   Number(initialRoleRef.current)
                 );
               }}
-              className="w-full border border-gray-300 py-2 rounded-md text-gray-600">
+              className="w-full border border-gray-300 py-2 rounded-md text-gray-300">
               닫기
             </button>
           </div>

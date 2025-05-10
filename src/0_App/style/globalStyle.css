@@ -6,6 +6,7 @@
   --color-red: #FF0000;
   --color-yellow: #FFFC00;
   --color-white: #FFFFFF;
+  --color-cement: #1B1D1E;
   --color-black: #000000;
   --color-light-blue: #F8FAFC;
   --color-gray: #C7C7C7;
@@ -39,13 +40,13 @@ button {
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--color-light-blue); /* 스크롤바 트랙 배경색 */
+  background: var(--color-cement); /* 스크롤바 트랙 배경색 */
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: var(--color-blue); /* 스크롤바 색상 */
+  background-color: var(--color-grass); /* 스크롤바 색상 */
   border-radius: 6px; /* 스크롤바 모서리 둥글게 */
-  border: 3px solid var(--color-light-blue); /* 스크롤바와 트랙 사이의 간격 */
+  border: 3px solid var(--color-cement); /* 스크롤바와 트랙 사이의 간격 */
 }
 
 ::-webkit-scrollbar-thumb:hover {

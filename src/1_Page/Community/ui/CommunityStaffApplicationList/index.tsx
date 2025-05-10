@@ -18,12 +18,12 @@ const CommunityStaffApplicationList = (
   const navigate = useNavigate();
 
   return (
-    <div className="bg-gray-50 rounded-xl shadow-md w-full flex flex-col gap-2 p-2">
+    <div className="text-gray rounded-xl shadow-md w-full flex flex-col gap-2 p-2">
       {communityStaffApplicationList.map((application, index) => {
         return (
           <div
             key={index}
-            className="flex items-center space-x-2 border border-gray p-2 cursor-pointer hover:bg-gray-100 rounded-lg"
+            className="flex items-center space-x-2 border border-gray p-2 cursor-pointer hover:bg-gray hover:text-black rounded-lg"
             onClick={() => {
               navigate(`/profile/${application.player_list_idx}`);
             }}

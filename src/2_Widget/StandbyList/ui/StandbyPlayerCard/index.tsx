@@ -13,9 +13,9 @@ const StandbyPlayerCard = (props: StandyPlayerCardProps) => {
       onClick={() => {
         navigate(`/profile/${player_list_idx}`);
       }}
-      className=" flex flex-col bg-white"
+      className=" flex flex-col"
     >
-      <div className="flex items-center h-[72px] justify-between drop-shadow-md cursor-pointer bg-light-blue duration-500 px-4 py-2 text-xs hover:bg-blue hover:text-white">
+      <div className="flex items-center h-[72px] justify-between drop-shadow-md cursor-pointer bg-gray rounded duration-500 px-4 py-2 text-xs hover:bg-grass">
         <img
           src={player_list_profile_img}
           alt="profile"

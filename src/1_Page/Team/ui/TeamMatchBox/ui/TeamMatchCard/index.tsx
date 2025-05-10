@@ -38,16 +38,16 @@ const TeamMatchCard = (props: TeamMatchCardProps) => {
       }}
       className={`w-full border-l-4 ${
         isNotEndMatch
-          ? "border-l-green-500 hover:bg-gray-50"
-          : "border-l-red-500 cursor-not-allowed"
-      } bg-white shadow-sm mb-2 transition-all`}>
-      <div className="p-3 flex flex-col md:flex-row">
+          ? "border-l-emerald-500 hover:bg-gray-900"
+          : "border-l-red-600 cursor-not-allowed"
+      } bg-gray-800 shadow-md mb-3 transition-all rounded-r`}>
+      <div className="p-4 flex flex-col md:flex-row">
         {/* 왼쪽: 시간 정보 */}
-        <div className="md:w-2/6 flex flex-col justify-center items-center md:items-start mb-2 md:mb-0 md:pr-3 border-r border-gray-100">
-          <div className="text-sm font-medium text-gray-500">
+        <div className="md:w-2/6 flex flex-col justify-center items-center md:items-start mb-2 md:mb-0 md:pr-3 border-r border-gray-700">
+          <div className="text-sm font-medium text-gray-300">
             {formatDateKoreanDate(new Date(match_match_start_time))}
           </div>
-          <div className="text-xs text-gray-500 mt-1">
+          <div className="text-xs text-gray-400 mt-1">
             {`${
               match_match_duration.hours
                 ? `${match_match_duration.hours}h `
@@ -61,26 +61,26 @@ const TeamMatchCard = (props: TeamMatchCardProps) => {
         </div>
 
         {/* 중앙: 팀 및 게임 정보 */}
-        <div className="flex justify-center items-center md:w-3/6 flex-col  px-3">
+        <div className="flex justify-center items-center md:w-3/6 flex-col px-3">
           <div className="flex items-center">
-            <div className="font-bold text-gray-900">{team_list_name}</div>
-            <div className="ml-2 text-xs bg-gray-100 px-2 py-1 rounded">
+            <div className="font-bold text-gray-200">{team_list_name}</div>
+            <div className="ml-2 text-xs bg-gray-800 text-gray-300 px-2 py-1 rounded">
               {match_type_idx === 0 ? "일반" : "특별"}
             </div>
           </div>
 
-          <div className="flex items-center text-sm text-gray-600 mt-1">
-            <span className="font-medium mr-2">
+          <div className="flex items-center text-sm text-gray-400 mt-1">
+            <span className="font-medium mr-2 text-gray-300">
               #{matchAttribute[match_match_attribute]}
             </span>
-            <span className="text-gray-500">#{player_list_nickname}</span>
+            <span className="text-gray-400">#{player_list_nickname}</span>
           </div>
 
           <div
             className={`flex items-center text-xs ${
               match_match_participation_type === 0
-                ? "text-red-500"
-                : "text-green-500"
+                ? "text-red-400"
+                : "text-emerald-400"
             } font-medium mt-1`}>
             {matchParticipation[match_match_participation_type]}
           </div>
@@ -88,14 +88,14 @@ const TeamMatchCard = (props: TeamMatchCardProps) => {
 
         {/* 오른쪽: 상태 및 ID 정보 */}
         <div className="md:w-1/6 flex flex-col md:flex-row justify-between items-center">
-          <span className="text-xs text-gray-400 mb-1 md:mb-0">
+          <span className="text-xs text-gray-500 mb-1 md:mb-0">
             ID: {match_match_idx}
           </span>
           <span
             className={`text-xs font-bold px-2 py-1 rounded ${
               isNotEndMatch
-                ? "bg-green-500 text-white"
-                : "bg-red-500 text-white"
+                ? "bg-emerald-600 text-gray-100"
+                : "bg-red-700 text-gray-100"
             }`}>
             {isNotEndMatch ? "완료" : "진행중"}
           </span>

@@ -5,7 +5,7 @@ const WaitingPlayerList = () => {
   const [standbyList] = useGetStandbyList();
 
   return (
-    <div className="flex flex-col overflow-y-auto h-full w-full">
+    <div className="flex flex-col overflow-y-auto h-full w-full gap-2">
       {standbyList.map((elem, index) => {
         return (
           <StandbyPlayerCard

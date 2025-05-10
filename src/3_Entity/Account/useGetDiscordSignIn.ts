@@ -22,6 +22,7 @@ const useGetDiscordSiginIn = (): [(props: GetDiscordSiginIn) => void] => {
 
   React.useEffect(() => {
     if (!loading && serverState) {
+      console.log("serverState", serverState);
       if (serverState.status === 200) {
         const {
           player_status,
@@ -55,9 +56,16 @@ const useGetDiscordSiginIn = (): [(props: GetDiscordSiginIn) => void] => {
           navigate("/");
         } else if (player_status === "pending") {
           console.log("pending");
+          console.log(serverState);
           const options = { path: "/signup", maxAge: 86400 / 24 / 6 };
           setCookie("access_token", access_token_temporary, options);
-          navigate(`/signup`);
+          if (
+            confirm(
+              "가입이 완료되지 않았습니다. 가입 페이지로 이동하시겠습니까?"
+            )
+          ) {
+            navigate("/signup");
+          }
         }
       } else if (serverState.status === 400 || serverState.status === 404) {
         alert("아이디 또는 비밀번호를 확인해주세요.");

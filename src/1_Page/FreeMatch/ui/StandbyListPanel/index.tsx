@@ -11,9 +11,9 @@ const StandbyListPanel = () => {
         {isStandbyListOpen ? (
           <Button
             text="매치 대기 인원 보기"
-            bg="white"
-            textColor="blue"
-            bold={true}
+            borderColor="grass"
+            bg="cement"
+            textColor="grass"
             onClickHandler={() => {
               toggleStandbyList();
             }}
@@ -21,9 +21,9 @@ const StandbyListPanel = () => {
         ) : (
           <Button
             text="매치 대기 인원 보기"
-            bg="blue"
-            textColor="white"
-            bold={true}
+            borderColor="grass"
+            bg="cement"
+            textColor="grass"
             onClickHandler={() => {
               toggleStandbyList();
             }}

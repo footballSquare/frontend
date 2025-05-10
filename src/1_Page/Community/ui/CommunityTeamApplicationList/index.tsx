@@ -17,21 +17,21 @@ const CommunityTeamApplicationList = (
   const [deleteCommunityTeamApplication] = useDeleteCommunityTeamApplication();
 
   return (
-    <div className="bg-gray-50 rounded-xl shadow-md w-full flex flex-col gap-4 p-4">
+    <div className="rounded-xl shadow-md w-full flex flex-col gap-4 p-4">
       {communityTeamApplicationList.map((application, index) => {
         return (
           <div
             key={index}
-            className={`border flex flex-col gap-4 justify-between border-gray-300 shadow-md rounded-lg p-4 min-h-[120px] hover:bg-blue-100 transition-all duration-300`}
+            className={`border flex flex-col gap-4 justify-between border-gray shadow-md rounded-lg p-4 min-h-[120px] hover:bg-grass transition-all duration-300`}
           >
-            <h3 className="text-lg font-semibold text-gray-800">
+            <h3 className="text-lg font-semibold text-gray">
               TEAM - {application.team_list_name}
             </h3>
             <button
               onClick={() => {
                 navigate(`/team/${application.team_list_idx}`);
               }}
-              className="border bg-white border-gray-300 p-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-100 transition"
+              className="border bg-gray border-gray p-2 rounded-lg text-sm font-medium hover:bg-grass transition"
             >
               팀 페이지로 이동하기
             </button>

@@ -29,8 +29,8 @@ const MatchCard = (props: MatchCardProps) => {
     <div
       ref={observeRef}
       className={`flex ${
-        !isPastTime(match_match_start_time) ? "bg-white" : "bg-gray"
-      }  hover:bg-blue hover:text-white cursor-pointer items-center justify-between gap-6 duration-500 shadow-lg px-4 py-2 p text-xs`}
+        !isPastTime(match_match_start_time) ? "bg-gray-300" : "bg-black text-white"
+      }  hover:bg-grass hover:text-black rounded cursor-pointer items-center justify-between gap-6 duration-500 shadow-lg px-4 py-2 p text-xs`}
       onClick={() => {
         toggleMatchModal();
         setMatchIdx(match_match_idx);
