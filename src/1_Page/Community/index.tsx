@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from "react-router-dom";
 import ChampionshipList from "./ui/ChampionShipList";
 import CommunityStaffList from "./ui/CommunityStaffList";
-import CommunityTeamList from "../../2_Widget/CommunityTeamList";
+import CommunityTeamList from "./ui/CommunityTeamList";
 import useModifyMode from "./model/useModifyMode";
 import useGetCommunityInfo from "../../3_Entity/Community/useGetCommunityInfo";
 import CommunityStaffApplicationList from "./ui/CommunityStaffApplicationList";
