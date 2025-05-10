@@ -1,6 +1,10 @@
 import { useFetchData } from "../../4_Shared/util/apiUtil";
 import React from "react";
-const usePutMatchEnd = (): [(props: PutMatchEndProps) => void] => {
+const usePutMatchEnd = (): [
+  (props: PutMatchEndProps) => void,
+  Record<string, unknown> | null,
+  boolean
+] => {
   const [serverState, request, loading] = useFetchData();
   const putMatchEnd = (props: PutMatchEndProps) => {
     const { matchIdx } = props;
@@ -11,13 +15,7 @@ const usePutMatchEnd = (): [(props: PutMatchEndProps) => void] => {
     if (!loading && serverState) {
       switch (serverState.status) {
         case 200:
-          alert("매치가 마감되었습니다.");
-          break;
-        case 403:
-          alert("매치가 아직 종료되지 않았습니다.");
-          break;
-        case 429:
-          alert("요청이 너무 많습니다! 잠시 기다려주세요.");
+          //alert("매치가 마감되었습니다."); 낙관적 상태 업데이트를 위해 외부에서 처리
           break;
         default:
           break;
@@ -25,6 +23,6 @@ const usePutMatchEnd = (): [(props: PutMatchEndProps) => void] => {
     }
   }, [loading, serverState]);
 
-  return [putMatchEnd];
+  return [putMatchEnd, serverState, loading];
 };
 export default usePutMatchEnd;

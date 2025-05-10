@@ -2,12 +2,13 @@ import React from "react";
 import profile from "../../../../4_Shared/assets/svg/profile.svg";
 import field_img from "../../assets/img/field.png";
 import { FormationPanelProps } from "./type";
-import { formations } from "./constant/formation";
+import { formations } from "../../constant/formation";
 import { matchFormation } from "../../../../4_Shared/constant/matchFormation";
 import { matchPosition } from "../../../../4_Shared/constant/matchPosition";
 import useDeleteMatchJoin from "../../../../3_Entity/Match/useDeleteMatchJoin";
 import useMatchModalStore from "../../../../4_Shared/zustand/useMatchModal";
 import { useNavigate } from "react-router-dom";
+import { useMyUserIdx } from "../../../../4_Shared/lib/useMyInfo";
 
 const FormationPanel = React.memo((props: FormationPanelProps) => {
   const {
@@ -20,8 +21,10 @@ const FormationPanel = React.memo((props: FormationPanelProps) => {
   const { matchIdx } = useMatchModalStore();
   const navigate = useNavigate();
   const { toggleMatchModal } = useMatchModalStore();
+  const [userIdx] = useMyUserIdx();
+
   return (
-    <div className="relative flex gap-6 h-full min-w-[38%]">
+    <div className="relative flex gap-6 h-full min-w-[38%] text-black">
       {/* 필드 & 포메이션 선택기 */}
       <div
         className="w-full p-2 flex flex-col gap-6 items-center bg-cover bg-center"
@@ -42,7 +45,7 @@ const FormationPanel = React.memo((props: FormationPanelProps) => {
         {formations[matchFormationIdx].map((pos, index) => (
           <div
             key={index}
-            className="hover:scale-[1.2] duration-300 absolute translate-x-[-50%] translate-y-[-50%] flex flex-col justify-center p-1 text-sm items-center gap-1"
+            className="hover:scale-120 duration-300 absolute translate-x-[-50%] translate-y-[-50%] flex flex-col justify-center p-1 text-sm items-center gap-1"
             style={{ top: pos.top, left: pos.left }} // 동적 스타일
           >
             <div className=" bg-white rounded-[32px] w-[36px] flex flex-col items-center">
@@ -77,7 +80,7 @@ const FormationPanel = React.memo((props: FormationPanelProps) => {
                     className=" flex border gap-4 px-2 items-center bg-gray rounded-lg w-[80px] text-xs"
                     key={index}
                   >
-                    {isMatchLeader && (
+                    {(isMatchLeader || elem.player_list_idx === userIdx) && (
                       <button
                         onClick={() => {
                           matchDisApproveHandler({

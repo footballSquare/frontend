@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { formations } from "../../../../../../../../2_Widget/MatchModal/ui/FormationPanel/constant/formation";
+import { formations } from "../../../../../../../../2_Widget/MatchModal/constant/formation";
 import { matchPosition } from "../../../../../../../../4_Shared/constant/matchPosition";
 
 const FootballGroundSection = (props: FootballGroundSectionProps) => {
