@@ -5,27 +5,29 @@ const useManageServerState = (
   serverState: Record<string, unknown> | null,
   isEditMode: boolean
 ) => {
-  const sucessMessage = isEditMode
+  const successMessage = isEditMode
     ? "수정에 성공했습니다"
     : "생성에 성공했습니다";
   const navigate = useNavigate();
-  const naviateUrl = "/championship";
 
   const [searchParams] = useSearchParams();
   const championshipIdx = Number(searchParams.get("championshipIdx") ?? 0);
-  const editUrl = `/championship/${championshipIdx}`;
 
   React.useEffect(() => {
     if (!serverState) return;
     switch (serverState.status) {
       case 200: {
-        alert(sucessMessage);
+        alert(successMessage);
+        const championshipListIdx = (
+          serverState.data as {
+            championship_list_idx: number;
+          }
+        ).championship_list_idx;
+
         const targetUrl = isEditMode
-          ? editUrl
-          : `${naviateUrl}/${
-              (serverState.data as { championship_list_idx: number })
-                .championship_list_idx
-            }`;
+          ? `/championship/${championshipIdx}`
+          : `/championship/${championshipListIdx}`;
+
         navigate(targetUrl);
         break;
       }

@@ -49,7 +49,7 @@ const ChampionshipForm = () => {
     handleSubmit,
     control,
     watch,
-    formState: { isSubmitting, errors },
+    formState: { isSubmitting },
     reset,
   } = method;
 
