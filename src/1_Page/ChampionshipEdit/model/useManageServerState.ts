@@ -18,8 +18,9 @@ const useManageServerState = (
     switch (serverState.status) {
       case 200: {
         alert(successMessage);
+        console.log(serverState);
         const championshipListIdx = (
-          serverState.data as {
+          serverState as {
             championship_list_idx: number;
           }
         ).championship_list_idx;
