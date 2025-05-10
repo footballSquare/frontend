@@ -49,7 +49,7 @@ const ChampionshipForm = () => {
     handleSubmit,
     control,
     watch,
-    formState: { isSubmitting, errors },
+    formState: { isSubmitting },
     reset,
   } = method;
 
@@ -227,10 +227,7 @@ const ChampionshipForm = () => {
               <div className="pt-6 flex justify-between">
                 <button
                   type="button"
-                  // onClick={() => setActiveTab(CHAMPIONSHIP_EDIT_TAB.AWARDS)}
-                  onClick={() => {
-                    console.log(errors);
-                  }}
+                  onClick={() => setActiveTab(CHAMPIONSHIP_EDIT_TAB.AWARDS)}
                   className="px-6 py-2.5 border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition">
                   이전: 수상 항목
                 </button>
