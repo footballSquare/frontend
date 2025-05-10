@@ -1,7 +1,7 @@
 import { matchAttribute } from "../../../../../../4_Shared/constant/matchAttribute";
 import { matchParticipation } from "../../../../../../4_Shared/constant/matchParticipation";
-import { formatDateKoreanDate } from "../../../../../../4_Shared/lib/dateFormatter";
 import { useMyTeamIdx } from "../../../../../../4_Shared/lib/useMyInfo";
+import { utcFormatter } from "../../../../../../4_Shared/lib/utcFormatter";
 import useMatchModalStore from "../../../../../../4_Shared/zustand/useMatchModal";
 
 const TeamMatchCard = (props: TeamMatchCardProps) => {
@@ -45,7 +45,7 @@ const TeamMatchCard = (props: TeamMatchCardProps) => {
         {/* 왼쪽: 시간 정보 */}
         <div className="md:w-2/6 flex flex-col justify-center items-center md:items-start mb-2 md:mb-0 md:pr-3 border-r border-gray-700">
           <div className="text-sm font-medium text-gray-300">
-            {formatDateKoreanDate(new Date(match_match_start_time))}
+            {utcFormatter(match_match_start_time)}
           </div>
           <div className="text-xs text-gray-400 mt-1">
             {`${
