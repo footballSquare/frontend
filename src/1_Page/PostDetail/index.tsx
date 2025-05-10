@@ -1,7 +1,43 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-interface Comment {
+interface Player {
+  player_list_idx: number;
+  player_list_nickname: string;
+  player_list_profile_image: string | null;
+}
+
+interface BoardCommentEntity {
+  player_list_idx: number;
+  board_comment_idx: number;
+  player_list_nickname: string;
+  board_comment_content: string;
+  board_comment_created_at: string;
+  board_comment_updated_at: string;
+  player_list_profile_image: string | null;
+}
+
+interface BoardEntity {
+  player: Player;
+  comments: BoardCommentEntity[];
+  board_list_idx: number;
+  board_list_img: string[];
+  board_list_title: string;
+  board_category_idx: number;
+  board_list_content: string;
+  board_list_likecount: number;
+  board_list_created_at: string;
+  board_list_updated_at: string;
+  board_list_view_count: number;
+}
+
+interface BoardApiResponse {
+  board: {
+    board: BoardEntity;
+  };
+}
+
+interface PostComment {
   id: number;
   author: string;
   body: string;
@@ -52,7 +88,7 @@ const dummyData: BoardApiResponse = {
       board_list_view_count: 0,
     },
   },
-} as const;
+};
 
 const PostDetail: React.FC = () => {
   const navigate = useNavigate();
@@ -60,8 +96,22 @@ const PostDetail: React.FC = () => {
 
   const board = dummyData.board.board;
 
-  const [comments, setComments] = React.useState<Comment[]>(
-    board.comments.map((c) => ({
+  const post = React.useMemo(
+    () => ({
+      id: board.board_list_idx,
+      categoryIdx: board.board_category_idx,
+      createdAt: board.board_list_created_at,
+      title: board.board_list_title.replace(/(^"|"$)/g, ""),
+      body: board.board_list_content.replace(/(^"|"$)/g, ""),
+      imageUrl: board.board_list_img?.[0],
+      author: board.player.player_list_nickname,
+      avatar: board.player.player_list_profile_image,
+    }),
+    [board]
+  );
+
+  const [comments, setComments] = React.useState<PostComment[]>(
+    board.comments.map((c: BoardCommentEntity) => ({
       id: c.board_comment_idx,
       author: c.player_list_nickname,
       body: c.board_comment_content,
@@ -116,39 +166,39 @@ const PostDetail: React.FC = () => {
       <div className="space-y-3 border-b border-[#262b40] pb-6">
         <div className="flex justify-between items-center">
           <span className="inline-block px-3 py-1 bg-blue-600 text-white text-sm rounded-full">
-            {board.category === "notice" ? "공지" : "자유"}
+            {post.categoryIdx === 1 ? "공지" : "자유"}
           </span>
-          <p className="text-sm text-gray-400">{board.createdAt}</p>
+          <p className="text-sm text-gray-400">{post.createdAt}</p>
         </div>
 
-        <h1 className="text-3xl font-bold text-gray-100">{board.title}</h1>
+        <h1 className="text-3xl font-bold text-gray-100">{post.title}</h1>
 
         <div className="flex items-center space-x-2">
           <div className="w-8 h-8 rounded-full bg-[#262b40] overflow-hidden flex items-center justify-center text-gray-300">
-            {board.avatar ? (
+            {post.avatar ? (
               <img
-                src={board.avatar}
-                alt={board.author}
+                src={post.avatar}
+                alt={post.author}
                 className="w-full h-full object-cover"
               />
             ) : (
-              board.author.charAt(0)
+              post.author.charAt(0)
             )}
           </div>
-          <p className="text-gray-300">{board.author}</p>
+          <p className="text-gray-300">{post.author}</p>
         </div>
       </div>
 
       {/* 게시글 본문 */}
       <div className="space-y-6">
         <p className="whitespace-pre-wrap leading-relaxed text-gray-300 min-h-[200px]">
-          {board.body}
+          {post.body}
         </p>
 
-        {board.imageUrl && (
+        {post.imageUrl && (
           <div className="p-2 bg-[#1b1f2e] border border-[#262b40] rounded">
             <img
-              src={board.imageUrl}
+              src={post.imageUrl}
               alt="게시글 이미지"
               className="max-h-96 mx-auto rounded"
             />
@@ -160,7 +210,7 @@ const PostDetail: React.FC = () => {
       <div className="flex space-x-3 pt-2">
         <button
           className="text-[#2f80ed] hover:underline cursor-pointer"
-          onClick={() => navigate(`/board/edit/${board.id}`)}>
+          onClick={() => navigate(`/board/edit/${post.id}`)}>
           수정
         </button>
         <button
