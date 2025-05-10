@@ -29,7 +29,10 @@ const TeamMatchCard = (props: TeamMatchCardProps) => {
     <div
       ref={observeRef}
       onClick={() => {
-        if (!isMyTeamMatch) alert("팀 소속이 아닙니다");
+        if (!isMyTeamMatch) {
+          alert("팀 소속이 아닙니다");
+          return;
+        }
         setMatchIdx(match_match_idx);
         toggleMatchModal();
       }}
