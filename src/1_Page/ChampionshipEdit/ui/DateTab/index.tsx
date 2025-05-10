@@ -8,6 +8,7 @@ const DateTab = () => {
     watch,
     control,
   } = useFormContext();
+
   const { fields } = useFieldArray({
     control,
     name: "championship_award",
