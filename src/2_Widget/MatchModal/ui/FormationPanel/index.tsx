@@ -8,6 +8,7 @@ import { matchPosition } from "../../../../4_Shared/constant/matchPosition";
 import useDeleteMatchJoin from "../../../../3_Entity/Match/useDeleteMatchJoin";
 import useMatchModalStore from "../../../../4_Shared/zustand/useMatchModal";
 import { useNavigate } from "react-router-dom";
+import { useMyUserIdx } from "../../../../4_Shared/lib/useMyInfo";
 
 const FormationPanel = React.memo((props: FormationPanelProps) => {
   const {
@@ -20,6 +21,10 @@ const FormationPanel = React.memo((props: FormationPanelProps) => {
   const { matchIdx } = useMatchModalStore();
   const navigate = useNavigate();
   const { toggleMatchModal } = useMatchModalStore();
+  const [userIdx] = useMyUserIdx();
+  console.log(matchParticipants);
+  console.log(userIdx, "userIdx");
+
   return (
     <div className="relative flex gap-6 h-full min-w-[38%]">
       {/* 필드 & 포메이션 선택기 */}
@@ -77,7 +82,7 @@ const FormationPanel = React.memo((props: FormationPanelProps) => {
                     className=" flex border gap-4 px-2 items-center bg-gray rounded-lg w-[80px] text-xs"
                     key={index}
                   >
-                    {isMatchLeader && (
+                    {(isMatchLeader || elem.player_list_idx === userIdx) && (
                       <button
                         onClick={() => {
                           matchDisApproveHandler({
