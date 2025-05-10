@@ -15,7 +15,7 @@ const StandbyPlayerCard = (props: StandyPlayerCardProps) => {
       }}
       className=" flex flex-col"
     >
-      <div className="flex items-center h-[72px] justify-between drop-shadow-md cursor-pointer bg-gray rounded duration-500 px-4 py-2 text-xs hover:bg-grass">
+      <div className="flex items-center h-[72px] justify-between text-gray drop-shadow-md cursor-pointer bg-gray-800 rounded duration-500 px-4 py-2 text-xs hover:bg-gray-900">
         <img
           src={player_list_profile_img}
           alt="profile"
