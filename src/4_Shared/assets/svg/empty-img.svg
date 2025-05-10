@@ -3,7 +3,7 @@
   class="h-10 w-10 text-gray-200"
   fill="none"
   viewBox="0 0 24 24"
-  stroke="white">
+  stroke="gray">
   <path
     stroke-linecap="round"
     stroke-linejoin="round"
