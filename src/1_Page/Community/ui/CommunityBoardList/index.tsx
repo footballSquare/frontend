@@ -16,31 +16,46 @@ const CommunityBoardList = (props: ChampionshipListProps) => {
     loading,
     hasMoreContent
   );
-  console.log(communityBoardList, "communityBoardList");
 
   return (
-    <div className="rounded-xl shadow-md w-full flex flex-col gap-2 p-2 overflow-auto h-[100%] text-gray">
+    <div className="rounded-xl shadow-lg w-full flex flex-col gap-4 p-4 overflow-auto h-[100%] text-gray">
       {communityBoardList.map((elem, index) => {
         return (
           <div
             key={index}
-            className="border flex flex-col gap-2 justify-center border-gray-300 shadow-md rounded-lg p-2 cursor-pointer hover:bg-grass hover:text-black transition-all duration-300"
             ref={
               communityBoardList.length === index + 1 ? observeRef : undefined
             }
+            onClick={() => {
+              // Add navigation logic if needed
+            }}
+            className={`w-full bg-gray-800 shadow-md mb-3 transition-all rounded-r cursor-pointer hover:bg-gray-900`}
           >
-            <h3 className="text-lg font-semibold">
-              {elem.board_list_title}
-            </h3>
-            <img
-              src={elem.board_list_img[0]}
-              className="w-12 h-12 border border-gray rounded-lg"
-              alt="thumbnail"
-            />
-            <p className="text-sm">
-              {elem.player_list_nickname}{" "}
-              {`${utcFormatter(elem.board_list_updated_at)}`}
-            </p>
+            <div className="p-4 flex flex-col md:flex-row">
+              {/* 왼쪽: 미리보기 이미지 */}
+              <div className="flex-shrink-0 w-32 pr-2 items-center justify-center border-r border-gray-700">
+                {/* {elem.board_list_img[0] && (
+                  <img
+                    src={elem.board_list_img[0]}
+                    className="w-16 object-cover border border-gray-300 rounded-lg shadow-md"
+                    alt="미리보기"
+                  />
+                )} */}
+                <span className="text-sm text-gray-400 mt-1">
+                  {utcFormatter(elem.board_list_updated_at)}
+                </span>
+              </div>
+
+              {/* 중앙: 게시글 정보 */}
+              <div className="flex justify-around items-center w-full flex-col px-3">
+                <div className="font-bold text-gray-200 text-sm">
+                  제목: {elem.board_list_title}
+                </div>
+                <div className="text-sm text-gray-400 mt-1">
+                  작성자: {elem.player_list_nickname}
+                </div>
+              </div>
+            </div>
           </div>
         );
       })}
