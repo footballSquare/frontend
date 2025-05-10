@@ -22,8 +22,6 @@ const FormationPanel = React.memo((props: FormationPanelProps) => {
   const navigate = useNavigate();
   const { toggleMatchModal } = useMatchModalStore();
   const [userIdx] = useMyUserIdx();
-  console.log(matchParticipants);
-  console.log(userIdx, "userIdx");
 
   return (
     <div className="relative flex gap-6 h-full min-w-[38%]">
