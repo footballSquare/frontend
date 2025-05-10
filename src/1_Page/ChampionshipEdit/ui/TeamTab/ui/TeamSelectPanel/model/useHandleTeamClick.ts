@@ -1,9 +1,10 @@
 import React from "react";
-import { matchCount } from "../../../../../4_Shared/constant/matchCount";
+import { matchCount } from "../../../../../../../4_Shared/constant/matchCount";
 
 const useHandleTeamClick = (props: UseHandleTeamClickProps) => {
   const { championshipType, participation_team_idxs, setValue } = props;
 
+  // team_all_success 값 설정
   React.useEffect(() => {
     if (championshipType == 0) {
       setValue("team_all_success", true);
@@ -42,16 +43,6 @@ const useHandleTeamClick = (props: UseHandleTeamClickProps) => {
           ...participation_team_idxs,
           teamIdx,
         ]);
-      } else {
-        alert(
-          `${
-            championshipType === 2
-              ? "16강"
-              : championshipType === 3
-              ? "8강"
-              : "4강"
-          } 토너먼트는 최대 ${maxTeams}개 팀만 선택 가능합니다.`
-        );
       }
     }
   };
