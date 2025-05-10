@@ -1,16 +1,16 @@
 import { useFormContext } from "react-hook-form";
 import { matchCount } from "../../../../4_Shared/constant/matchCount";
-import TeamCard from "./ui/TeamCard";
+import SelectableTeamCard from "../../../../2_Widget/SelectableTeamCard";
 import React from "react";
 import useGetCommunityTeamList from "../../../../3_Entity/Community/useGetCommunityTeamList";
 import useInfiniteScrollPaging from "../../../../4_Shared/model/useInfiniteScrollPaging";
 import useParamInteger from "../../../../4_Shared/model/useParamInteger";
-import useHandleTeamClick from "./model/useHandleTeamClick";
 import { championshipTypes } from "../../../../4_Shared/constant/championshipTypes";
+import TeamSelectPanel from "./ui/TeamSelectPanel";
 
 const TeamTab = () => {
-  const { watch, setValue } = useFormContext<ChampionshipFormValues>();
   const communityIdx = useParamInteger("communityIdx");
+
   const [page, setPage] = React.useState<number>(0);
   const [communityTeamList, hasMoreContent, loading] = useGetCommunityTeamList({
     communityIdx,
@@ -21,16 +21,22 @@ const TeamTab = () => {
     loading,
     hasMoreContent
   );
+
+  const { watch } = useFormContext<ChampionshipFormValues>();
   const championshipType = watch("championship_type_idx");
   const participation_team_idxs = watch("participation_team_idxs");
-  const handleTeamClick = useHandleTeamClick({
-    setValue,
-    championshipType,
-    participation_team_idxs,
-  });
 
   return (
     <div>
+      {championshipType && (
+        <div className="mb-4 p-3 bg-amber-50 border border-amber-200 rounded-lg">
+          <p className="text-sm text-amber-800">
+            {championshipType == 0
+              ? "리그는 팀 선택 제한이 없습니다"
+              : `${championshipTypes[championshipType]}은 정확히 ${matchCount[championshipType]}개의 팀을 선택해야 합니다.`}
+          </p>
+        </div>
+      )}
       <div className="flex items-center justify-between mb-3">
         <label className="font-medium text-gray-700">참가 팀 선택</label>
         <span className="text-sm text-gray-500">
@@ -39,35 +45,25 @@ const TeamTab = () => {
         </span>
       </div>
 
-      {championshipType && (
-        <div className="mb-4 p-3 bg-amber-50 border border-amber-200 rounded-lg">
-          <p className="text-sm text-amber-800">
-            {championshipType === 0
-              ? "리그는 팀 선택 제한이 없습니다"
-              : `${championshipTypes[championshipType]}은 정확히 ${matchCount[championshipType]}개의 팀을 선택해야 합니다.`}
-          </p>
+      {participation_team_idxs?.length > 0 && (
+        <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-4">
+          {communityTeamList
+            .filter((team) =>
+              participation_team_idxs.includes(team.team_list_idx as number)
+            )
+            .map((teamInfo) => (
+              <SelectableTeamCard
+                key={teamInfo.team_list_idx}
+                teamInfo={teamInfo}
+              />
+            ))}
         </div>
       )}
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-        {communityTeamList &&
-          communityTeamList.map((teamInfo, index) => (
-            <TeamCard
-              observeRef={
-                (communityTeamList.length === index + 1 && observeRef) ||
-                undefined
-              }
-              key={`team_card_${teamInfo.team_list_idx || index}`}
-              teamInfo={teamInfo}
-              handleTeamClick={handleTeamClick}
-            />
-          ))}
-      </div>
-      {loading && (
-        <div className="col-span-full py-4 text-center text-gray-500">
-          팀 목록을 불러오는 중...
-        </div>
-      )}
+      <TeamSelectPanel
+        communityTeamList={communityTeamList}
+        observeRef={observeRef}
+      />
     </div>
   );
 };
