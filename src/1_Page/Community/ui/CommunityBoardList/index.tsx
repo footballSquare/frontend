@@ -2,6 +2,8 @@ import React from "react";
 import useInfiniteScrollPaging from "../../../../4_Shared/model/useInfiniteScrollPaging";
 import useGetCommunityBoardList from "../../../../3_Entity/Community/useGetCommunityBoardList";
 import { utcFormatter } from "../../../../4_Shared/lib/utcFormatter";
+import { useNavigate } from "react-router-dom";
+import PAGE_URI from "../../../../4_Shared/constant/pageUri";
 
 const CommunityBoardList = (props: ChampionshipListProps) => {
   const { communityIdx } = props;
@@ -16,6 +18,7 @@ const CommunityBoardList = (props: ChampionshipListProps) => {
     loading,
     hasMoreContent
   );
+  const navigate = useNavigate();
 
   return (
     <div className="rounded-xl shadow-lg w-full flex flex-col gap-4 p-4 overflow-auto h-[100%] text-gray">
@@ -27,7 +30,7 @@ const CommunityBoardList = (props: ChampionshipListProps) => {
               communityBoardList.length === index + 1 ? observeRef : undefined
             }
             onClick={() => {
-              // Add navigation logic if needed
+              navigate(`${PAGE_URI.POST}/${elem.board_list_idx}`);
             }}
             className={`w-full bg-gray-800 shadow-md mb-3 transition-all rounded-r cursor-pointer hover:bg-gray-900`}
           >
