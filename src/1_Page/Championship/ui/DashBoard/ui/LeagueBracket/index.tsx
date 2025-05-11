@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import useToggleState from "../../../../../../4_Shared/model/useToggleState";
+import { headerList } from "./constant/header";
 
 const LeagueBracket = (props: LeagueBracketProps) => {
   const { leagueData } = props;
@@ -7,24 +8,13 @@ const LeagueBracket = (props: LeagueBracketProps) => {
   const [showAllTeams, handleToggle] = useToggleState();
 
   return (
-    /* 화면 전체가 어두운 배경을 갖도록 gray‑900 */
+    /* 전체 배경 */
     <div className="bg-gray-900 rounded-xl overflow-x-auto">
       <table className="w-full border-collapse rounded-lg overflow-hidden min-w-[600px]">
-        {/* 헤더: gray‑800 / 텍스트 gray‑100 */}
+        {/* 헤더 */}
         <thead>
           <tr className="bg-gray-800 text-gray-100 text-left">
-            {[
-              "순위",
-              "팀",
-              "경기수",
-              "승",
-              "무",
-              "패",
-              "득점",
-              "실점",
-              "골득실",
-              "포인트",
-            ].map((h) => (
+            {headerList.map((h) => (
               <th
                 key={h}
                 className="px-6 py-4 font-semibold text-sm md:text-base">
@@ -39,22 +29,15 @@ const LeagueBracket = (props: LeagueBracketProps) => {
             (team, index) => (
               <tr
                 key={team.team_list_idx}
-                className={`border-b ${
-                  index % 2 === 0 ? "bg-gray-850" : "bg-gray-800"
-                } hover:bg-gray-700 transition-colors duration-150`}>
-                {/* 순위 배지: 상위 3위만 gray‑700 + text‑100, 그 외 gray‑600 + text‑200 */}
+                className="border-b bg-gray-800 hover:bg-gray-700 transition-colors duration-150">
+                {/* 순위 배지 – 색상 고정 */}
                 <td className="px-6 py-4 text-center">
-                  <span
-                    className={`inline-flex items-center justify-center w-8 h-8 rounded-full font-bold ${
-                      index < 3
-                        ? "bg-gray-700 text-gray-100"
-                        : "bg-gray-600 text-gray-200"
-                    }`}>
+                  <span className="inline-flex items-center justify-center w-8 h-8 rounded-full font-bold bg-gray-600 text-gray-200">
                     {index + 1}
                   </span>
                 </td>
 
-                {/* 팀명 */}
+                {/* 팀명 + 팀 컬러 점 */}
                 <td className="px-6 py-4">
                   <div
                     className="flex items-center gap-4 cursor-pointer"
@@ -79,7 +62,7 @@ const LeagueBracket = (props: LeagueBracketProps) => {
                   </div>
                 </td>
 
-                {/* 스탯 열들 – text‑gray‑200 / 강조 색 제거 */}
+                {/* 스탯 열 – 통일된 색상 */}
                 <td className="px-6 py-4 text-center text-gray-200">
                   {team.matchesPlayed}
                 </td>
@@ -99,13 +82,13 @@ const LeagueBracket = (props: LeagueBracketProps) => {
                   {team.goalsAgainst}
                 </td>
 
-                {/* 골득실 – 양수/음수 색 대신 흰색·회색으로만 구분 */}
+                {/* 골득실 */}
                 <td className="px-6 py-4 text-center font-semibold text-gray-100">
                   {team.goalDifference > 0 ? "+" : ""}
                   {team.goalDifference}
                 </td>
 
-                {/* 포인트 뱃지 – 테이블 유일한 세미‑강조: gray‑700 배경 */}
+                {/* 포인트 뱃지 – 살짝 강조 */}
                 <td className="px-6 py-4 text-center">
                   <span className="font-bold text-gray-100 bg-gray-700 px-3 py-1 rounded-full">
                     {team.points}
@@ -117,7 +100,7 @@ const LeagueBracket = (props: LeagueBracketProps) => {
         </tbody>
       </table>
 
-      {/* 더보기 버튼 – gray‑700 */}
+      {/* 더보기 버튼 */}
       {leagueData.length > 10 && (
         <div className="text-center py-4">
           <button
