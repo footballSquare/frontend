@@ -9,11 +9,16 @@ import { useChampionshipContext } from "./model/useChampionshipContext";
 const Championship = () => {
   const [championshipIdx] = useValidParamInteger("championshipIdx");
   const [championshipInfo] = useGetChampionshipInfo(championshipIdx);
-  const { championship_type_idx, community_list_idx, championship_list_color } =
-    championshipInfo;
+  const {
+    championship_type_idx,
+    community_list_idx,
+    championship_list_color,
+    winner_team_color,
+  } = championshipInfo;
+
   const { value, ChampionshipInfoContext } = useChampionshipContext(
     community_list_idx,
-    championship_list_color
+    winner_team_color || championship_list_color
   );
 
   return (
