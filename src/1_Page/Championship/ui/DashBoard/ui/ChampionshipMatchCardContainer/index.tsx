@@ -30,7 +30,7 @@ const ChampionshipMatchCardContainer = (
 
   return (
     <div className="sm:max-w-[300px] w-full flex-shrink-0">
-      <h2 className="text-lg font-bold text-blue-700 mb-4">매치 결과</h2>
+      <h2 className="text-lg font-bold text-white mb-4">매치 결과</h2>
       {/* 검색 및 정렬 옵션 UI */}
       <div className="flex justify-end">
         {isCommunityOperator ||
