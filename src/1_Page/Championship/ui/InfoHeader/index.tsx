@@ -21,9 +21,9 @@ const InfoHeader = (props: InfoHeaderProps) => {
   return (
     <div>
       <header
-        className={`relative rounded-lg shadow-md transition-all duration-300 overflow-hidden mb-4 ${
+        className={`relative rounded-lg shadow-md transition-all duration-300 overflow-hidden ${
           isHeaderCollapsed ? "h-14" : ""
-        } bg-gray-800 dark:bg-gray-900 text-gray-100`}>
+        } bg-gray-900 text-gray-100`}>
         {/* accent: team color strip */}
         <div
           className="absolute inset-x-0 top-0 h-1"
@@ -76,23 +76,23 @@ const InfoHeader = (props: InfoHeaderProps) => {
             </div>
 
             <div className="w-full flex flex-wrap justify-center gap-2">
-              <span className="px-3 py-1 text-sm rounded-full border border-current bg-white/10 dark:bg-white/5 text-inherit">
+              <span className="px-3 py-1 text-sm rounded-full border border-current bg-white/10 text-inherit">
                 {`${utcFormatter(
                   championshipInfo.championship_list_start_date
                 )} ~ ${utcFormatter(
                   championshipInfo.championship_list_end_date
                 )}`}
               </span>
-              <span className="px-3 py-1 text-sm rounded-full border border-current bg-white/10 dark:bg-white/5 text-inherit">
+              <span className="px-3 py-1 text-sm rounded-full border border-current bg-white/10 text-inherit">
                 {championshipTypes[championshipInfo.championship_type_idx]}
               </span>
-              <span className="px-3 py-1 text-sm rounded-full border border-current bg-white/10 dark:bg-white/5 text-inherit">
+              <span className="px-3 py-1 text-sm rounded-full border border-current bg-white/10 text-inherit">
                 {matchType[championshipInfo.match_type_idx]}
               </span>
             </div>
 
             <div className="w-full flex flex-col sm:flex-row gap-3 mt-1">
-              <p className="text-sm text-inherit flex-1 bg-white/10 dark:bg-white/5 p-3 rounded-md max-h-20 overflow-y-auto">
+              <p className="text-sm text-inherit flex-1 bg-white/10 p-3 rounded-md max-h-20 overflow-y-auto">
                 {championshipInfo.championship_list_description}
               </p>
               {isCommunityManager && !isChampionshipEnd && (
@@ -109,7 +109,7 @@ const InfoHeader = (props: InfoHeaderProps) => {
           <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/3">
             <button
               onClick={toggleHeader}
-              className="w-10 h-10 flex items-center justify-center text-sm rounded-full bg-gray-200 dark:bg-gray-700 shadow-lg hover:bg-gray-300 dark:hover:bg-gray-600 text-black dark:text-white"
+              className="w-10 h-10 flex items-center justify-center text-sm rounded-full bg-gray-700 shadow-lg hover:bg-gray-600 text-white"
               aria-label={isHeaderCollapsed ? "펼치기" : "접기"}>
               {isHeaderCollapsed ? "▼" : "▲"}
             </button>
@@ -145,7 +145,7 @@ const InfoHeader = (props: InfoHeaderProps) => {
               </div>
             </div>
           </div>
-          <div className="w-full py-2 text-center bg-gray-400 dark:bg-gray-700 text-white text-sm font-semibold rounded-lg shadow-md flex items-center justify-center space-x-2 animate-pulse">
+          <div className="w-full py-2 text-center bg-gray-700 text-white text-sm font-semibold rounded-lg shadow-md flex items-center justify-center space-x-2 animate-pulse">
             <span className="uppercase tracking-wide">대회 종료</span>
           </div>
         </div>
@@ -153,7 +153,7 @@ const InfoHeader = (props: InfoHeaderProps) => {
       {/* 승자 모달 */}
       {isChampionshipEnd && isEndModalOpen && (
         <div className="fixed inset-0 z-10 bg-black/60 backdrop-blur-sm flex items-center justify-center">
-          <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-xl max-w-xs w-full transform transition-all duration-300 scale-100 border border-gray-200 dark:border-gray-700">
+          <div className="bg-gray-800 p-6 rounded-xl shadow-xl max-w-xs w-full transform transition-all duration-300 scale-100 border border-gray-700">
             <div className="relative flex justify-center mb-4">
               <div className="text-4xl">🏆</div>
               <div className="absolute -top-2 -right-1 text-xl animate-bounce">
@@ -163,20 +163,20 @@ const InfoHeader = (props: InfoHeaderProps) => {
                 ✨
               </div>
             </div>
-            <h2 className="text-2xl font-bold text-center text-gray-600 dark:text-gray-300">
+            <h2 className="text-2xl font-bold text-center text-gray-300">
               축하합니다!
             </h2>
             {championshipInfo.winner_team_idx &&
               championshipInfo.winner_team_name &&
               championshipInfo.winner_team_emblem && (
-                <div className="flex items-center justify-center mt-4 p-2 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                <div className="flex items-center justify-center mt-4 p-2 bg-gray-700 rounded-lg">
                   <img
-                    className="w-12 h-12 object-cover rounded-lg border-2 border-gray-200 dark:border-gray-600"
+                    className="w-12 h-12 object-cover rounded-lg border-2 border-gray-600"
                     src={championshipInfo.winner_team_emblem}
                     alt={`${championshipInfo.winner_team_name} 엠블럼`}
                   />
                   <div className="ml-3">
-                    <p className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                    <p className="text-xs text-gray-500 uppercase tracking-wider">
                       CHAMPION
                     </p>
                     <p className="font-bold">
@@ -185,7 +185,7 @@ const InfoHeader = (props: InfoHeaderProps) => {
                   </div>
                 </div>
               )}
-            <p className="mt-4 text-center text-sm text-gray-600 dark:text-gray-300">
+            <p className="mt-4 text-center text-sm text-gray-300">
               대회가 종료되었습니다
             </p>
             <button
@@ -196,6 +196,7 @@ const InfoHeader = (props: InfoHeaderProps) => {
           </div>
         </div>
       )}
+      <hr className="border-t border-gray-600" />
     </div>
   );
 };
