@@ -1,5 +1,5 @@
-type SelectableTeamCardProps = {
+type TeamCardProps = {
   teamInfo: CommunityTeam;
-  onClickEvent?: (teamIdx: number) => void;
+  handleTeamClick: (teamIdx: number) => void;
   observeRef?: (node?: Element | null) => void;
 };
