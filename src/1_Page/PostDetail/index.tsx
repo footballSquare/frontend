@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import useGetBoardDetail from "../../3_Entity/Board/useGetBoard";
+import useGetBoardDetail from "../../3_Entity/Board/useGetBoardDetail";
 import useParamInteger from "../../4_Shared/model/useParamInteger";
 import { useMyNickname, useMyUserIdx } from "../../4_Shared/lib/useMyInfo";
 
@@ -9,8 +9,6 @@ const PostDetail = () => {
 
   const postId = useParamInteger("postId");
   const [board] = useGetBoardDetail(postId);
-
-  console.log("board", board);
 
   const {
     board_category_idx,
