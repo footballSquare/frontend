@@ -38,6 +38,7 @@ const useGetDiscordSiginIn = (): [(props: GetDiscordSiginIn) => void] => {
           team_idx,
           team_role_idx,
           community_role_idx,
+          community_list_idx,
         } = serverState.data as SignInData;
 
         if (player_status === "active") {
@@ -46,6 +47,7 @@ const useGetDiscordSiginIn = (): [(props: GetDiscordSiginIn) => void] => {
             accessToken: access_token || null,
             userIdx: user_idx,
             communityRoleIdx: community_role_idx || null,
+            communityListIdx: community_list_idx || null,
             teamRoleIdx: team_role_idx || null,
             teamIdx: team_idx || null,
             profileImg: profile_image || null,
