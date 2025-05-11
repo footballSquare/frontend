@@ -50,7 +50,7 @@ const schema = yup
 
 type PostFormFields = {
   category?: number;
-  board_category_idx?: number;
+  board_category_idx?: number | null;
   board_list_title: string;
   board_list_content: string;
   board_list_img?: FileList;
@@ -83,7 +83,7 @@ const PostEdit = () => {
     resolver: yupResolver(schema),
     defaultValues: {
       category: undefined,
-      board_category_idx: undefined,
+      board_category_idx: null,
       board_list_title: "",
       board_list_content: "",
     },
