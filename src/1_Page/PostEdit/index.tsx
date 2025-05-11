@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import useGetBoardDetail from "../../3_Entity/Board/useGetBoardDetail";
 
 const schema = yup
   .object({
@@ -48,34 +49,55 @@ const schema = yup
   .required();
 
 type PostFormFields = {
-  category: number | "";
-  board_category_idx?: number | "";
+  category?: number;
+  board_category_idx?: number;
   board_list_title: string;
   board_list_content: string;
   board_list_img?: FileList;
 };
 
-const PostEdit: React.FC = () => {
-  const { mode, postId } = useParams<{
-    mode: "edit" | "new";
-    postId?: string;
-  }>();
-  const isEdit = mode === "edit";
+const PostEdit = () => {
   const navigate = useNavigate();
+
+  // 1. 문자열로만 받기
+  const { postId = "new" } = useParams<{ postId: string }>();
+  // 2. 'new' 여부로 모드 결정
+  const isEdit = postId !== "new";
+  // 3. 수정 모드일 때만 숫자로 변환
+  const numericPostId = isEdit ? Number(postId) : undefined;
+  if (isEdit && Number.isNaN(numericPostId)) {
+    // 잘못된 파라미터 → 404 처리 등
+    navigate("/404");
+  }
+  // 4. 상세조회 훅 호출 (훅 시그니처를 number | undefined 받도록 하면 편리)
+  const [boadDetail] = useGetBoardDetail(numericPostId as number);
+
   const {
     register,
     handleSubmit,
     control,
     formState: { errors },
     watch,
+    reset,
   } = useForm<PostFormFields>({
     resolver: yupResolver(schema),
     defaultValues: {
-      category: "",
+      category: undefined,
+      board_category_idx: undefined,
       board_list_title: "",
       board_list_content: "",
     },
   });
+
+  React.useEffect(() => {
+    reset({
+      category: boadDetail?.board_category_idx,
+      board_category_idx: boadDetail?.board_category_idx,
+      board_list_title: boadDetail?.board_list_title,
+      board_list_content: boadDetail?.board_list_content,
+    });
+    setPreview(boadDetail?.board_list_img);
+  }, [boadDetail]);
 
   const imageFile = watch("board_list_img")?.[0];
   const [preview, setPreview] = useState<string>();
@@ -123,8 +145,8 @@ const PostEdit: React.FC = () => {
             {...register("category")}
             className="bg-[#1b1f2e] border border-[#262b40] rounded p-2.5 w-full focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-200">
             <option value="">말머리 선택</option>
-            <option value="notice">공지</option>
-            <option value="free">자유</option>
+            <option value="1">공지</option>
+            <option value="2">자유</option>
           </select>
           {errors.category && (
             <p className="text-red-400 text-sm">{errors.category.message}</p>

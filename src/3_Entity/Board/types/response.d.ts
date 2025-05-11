@@ -32,7 +32,7 @@ type BoardDetails = {
   player: BoardPlayer;
   comments: BoardComment[];
   board_list_idx: number;
-  board_list_img: string[];
+  board_list_img: string;
   board_list_title: string;
   board_category_idx: number;
   community_list_idx: number | null;
