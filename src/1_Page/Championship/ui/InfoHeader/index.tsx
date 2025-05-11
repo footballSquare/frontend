@@ -13,7 +13,8 @@ const InfoHeader = (props: InfoHeaderProps) => {
 
   const isChampionshipEnd = championshipInfo.common_status_idx === 4;
   // 어드민
-  const { isCommunityManager } = useChampionshipContextInfo();
+  const { isCommunityManager, championship_list_color } =
+    useChampionshipContextInfo();
 
   const [isHeaderCollapsed, toggleHeader] = useToggleState();
   const [isEndModalOpen, toggleEndModal] = useToggleState(true);
@@ -28,11 +29,11 @@ const InfoHeader = (props: InfoHeaderProps) => {
         <div className="absolute inset-0 pointer-events-none">
           <div
             className="absolute top-[-48px] left-[-48px] w-24 h-24 rounded-full border-4 opacity-20"
-            style={{ borderColor: championshipInfo.championship_list_color }}
+            style={{ borderColor: championship_list_color }}
           />
           <div
             className="absolute bottom-[-48px] right-[-48px] w-24 h-24 rounded-full border-4 opacity-20"
-            style={{ borderColor: championshipInfo.championship_list_color }}
+            style={{ borderColor: championship_list_color }}
           />
         </div>
 
@@ -40,7 +41,7 @@ const InfoHeader = (props: InfoHeaderProps) => {
           <div className="h-full flex items-center px-4">
             <img
               className="w-6 h-6 mr-2 border-2 rounded-full"
-              style={{ borderColor: championshipInfo.championship_list_color }}
+              style={{ borderColor: championship_list_color }}
               src={
                 championshipInfo.championship_list_throphy_img ||
                 defaultTrophyImg
