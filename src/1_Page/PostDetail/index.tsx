@@ -1,145 +1,64 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import useGetBoardDetail from "../../3_Entity/Board/useGetBoard";
+import useParamInteger from "../../4_Shared/model/useParamInteger";
+import { useMyNickname, useMyUserIdx } from "../../4_Shared/lib/useMyInfo";
 
-interface Player {
-  player_list_idx: number;
-  player_list_nickname: string;
-  player_list_profile_image: string | null;
-}
-
-interface BoardCommentEntity {
-  player_list_idx: number;
-  board_comment_idx: number;
-  player_list_nickname: string;
-  board_comment_content: string;
-  board_comment_created_at: string;
-  board_comment_updated_at: string;
-  player_list_profile_image: string | null;
-}
-
-interface BoardEntity {
-  player: Player;
-  comments: BoardCommentEntity[];
-  board_list_idx: number;
-  board_list_img: string[];
-  board_list_title: string;
-  board_category_idx: number;
-  board_list_content: string;
-  board_list_likecount: number;
-  board_list_created_at: string;
-  board_list_updated_at: string;
-  board_list_view_count: number;
-}
-
-interface BoardApiResponse {
-  board: {
-    board: BoardEntity;
-  };
-}
-
-interface PostComment {
-  id: number;
-  author: string;
-  body: string;
-  createdAt: string;
-  avatar?: string | null;
-}
-
-const dummyData: BoardApiResponse = {
-  board: {
-    board: {
-      player: {
-        player_list_idx: 3,
-        player_list_nickname: "KFPL운영자",
-        player_list_profile_image: null,
-      },
-      comments: [
-        {
-          player_list_idx: 10,
-          board_comment_idx: 1,
-          player_list_nickname: "차범근",
-          board_comment_content: "좋습니다.",
-          board_comment_created_at: "2025-03-18T04:17:41.86784",
-          board_comment_updated_at: "2025-03-18T04:17:41.86784",
-          player_list_profile_image:
-            "https://dummyimage.com/150x150/000/fff&text=차범근",
-        },
-        {
-          player_list_idx: 11,
-          board_comment_idx: 2,
-          player_list_nickname: "기성용",
-          board_comment_content: "뭐가요?",
-          board_comment_created_at: "2025-03-18T04:25:03.5149",
-          board_comment_updated_at: "2025-03-18T04:25:03.5149",
-          player_list_profile_image:
-            "https://dummyimage.com/150x150/000/fff&text=기성용",
-        },
-      ],
-      board_list_idx: 3,
-      board_list_img: [
-        "https://footballsquare-evidance-img.s3.ap-northeast-2.amazonaws.com/board/1742270153277-images__2__.jpg",
-      ],
-      board_list_title: '"게시글을 수정하였습니다"',
-      board_category_idx: 1,
-      board_list_content: '"수정된 커뮤니티 게시판 글 입니다."',
-      board_list_likecount: 0,
-      board_list_created_at: "2025-03-18T03:36:42.116981",
-      board_list_updated_at: "2025-03-18T03:55:53.412586",
-      board_list_view_count: 0,
-    },
-  },
-};
-
-const PostDetail: React.FC = () => {
+const PostDetail = () => {
   const navigate = useNavigate();
-  // --- dummy response shaped like real API ---
 
-  const board = dummyData.board.board;
+  const postId = useParamInteger("postId");
+  const [board] = useGetBoardDetail(postId);
 
-  const post = React.useMemo(
-    () => ({
-      id: board.board_list_idx,
-      categoryIdx: board.board_category_idx,
-      createdAt: board.board_list_created_at,
-      title: board.board_list_title.replace(/(^"|"$)/g, ""),
-      body: board.board_list_content.replace(/(^"|"$)/g, ""),
-      imageUrl: board.board_list_img?.[0],
-      author: board.player.player_list_nickname,
-      avatar: board.player.player_list_profile_image,
-    }),
-    [board]
-  );
+  console.log("board", board);
 
-  const [comments, setComments] = React.useState<PostComment[]>(
-    board.comments.map((c: BoardCommentEntity) => ({
-      id: c.board_comment_idx,
-      author: c.player_list_nickname,
-      body: c.board_comment_content,
-      createdAt: c.board_comment_created_at,
-      avatar: c.player_list_profile_image,
-    }))
-  );
+  const {
+    board_category_idx,
+    board_list_created_at,
+    board_list_title,
+    board_list_content,
+    board_list_img,
+    board_list_idx,
+    player,
+  } = board;
+
+  const player_list_profile_image = player?.player_list_profile_image ?? null;
+  const player_list_nickname = player?.player_list_nickname ?? "";
+  const firstImage = board_list_img?.[0];
+
+  const [comments, setComments] = React.useState<BoardComment[]>([]);
+
+  React.useEffect(() => {
+    setComments(board.comments || []);
+  }, [board]);
+
   const [editingId, setEditingId] = React.useState<number | null>(null);
   const [commentInput, setCommentInput] = React.useState("");
   const [newComment, setNewComment] = React.useState("");
 
   const handleDeletePost = () => {
     if (window.confirm("정말로 이 게시글을 삭제하시겠습니까?")) {
-      // TODO: API 삭제
       navigate(-1);
     }
   };
 
   const handleEditComment = (id: number, body: string) => {
-    setComments((prev) => prev.map((c) => (c.id === id ? { ...c, body } : c)));
+    setComments((prev) =>
+      prev.map((c) =>
+        c.board_comment_idx === id ? { ...c, board_comment_content: body } : c
+      )
+    );
     setEditingId(null);
     setCommentInput("");
   };
 
+  const [myIdx] = useMyUserIdx();
+  const [myNickname] = useMyNickname();
+
   const handleAddComment = () => {
     if (!newComment.trim()) return;
 
-    const newId = Math.max(0, ...comments.map((c) => c.id)) + 1;
+    const newId = Math.max(0, ...comments.map((c) => c.board_comment_idx)) + 1;
     const now = new Date();
     const formattedDate = `${now.getFullYear()}-${String(
       now.getMonth() + 1
@@ -147,70 +66,77 @@ const PostDetail: React.FC = () => {
       now.getHours()
     ).padStart(2, "0")}:${String(now.getMinutes()).padStart(2, "0")}`;
 
-    setComments([
-      ...comments,
-      {
-        id: newId,
-        author: "현재 사용자", // 실제로는 로그인된 사용자 정보
-        body: newComment,
-        createdAt: formattedDate,
-      },
-    ]);
+    if (!myIdx || !myNickname) {
+      alert("로그인 후 댓글을 작성해주세요.");
+      return;
+    }
+    const newCommentObj: BoardComment = {
+      player_list_idx: myIdx,
+      board_comment_idx: newId,
+      player_list_nickname: myNickname,
+      board_comment_content: newComment,
+      board_comment_created_at: formattedDate,
+      board_comment_updated_at: formattedDate,
+      player_list_profile_image: null,
+    };
 
+    setComments([...comments, newCommentObj]);
     setNewComment("");
   };
 
   return (
-    <div className="w-full max-w-5xl mx-auto mt-8 mb-16 space-y-12 text-[#e1e4ea]">
+    <div className="w-full max-w-5xl mx-auto mt-8 mb-16 space-y-12 text-[#e1e4ea] px-4 sm:px-6">
       {/* 게시글 헤더 */}
       <div className="space-y-3 border-b border-[#262b40] pb-6">
         <div className="flex justify-between items-center">
           <span className="inline-block px-3 py-1 bg-blue-600 text-white text-sm rounded-full">
-            {post.categoryIdx === 1 ? "공지" : "자유"}
+            {board_category_idx === 1 ? "공지" : "자유"}
           </span>
-          <p className="text-sm text-gray-400">{post.createdAt}</p>
+          <p className="text-sm text-gray-400">{board_list_created_at}</p>
         </div>
 
-        <h1 className="text-3xl font-bold text-gray-100">{post.title}</h1>
+        <h1 className="text-2xl sm:text-3xl font-bold text-gray-100 break-words">
+          {board_list_title}
+        </h1>
 
         <div className="flex items-center space-x-2">
           <div className="w-8 h-8 rounded-full bg-[#262b40] overflow-hidden flex items-center justify-center text-gray-300">
-            {post.avatar ? (
+            {player_list_profile_image ? (
               <img
-                src={post.avatar}
-                alt={post.author}
+                src={player_list_profile_image}
+                alt={player_list_nickname}
                 className="w-full h-full object-cover"
               />
             ) : (
-              post.author.charAt(0)
+              player_list_nickname.charAt(0)
             )}
           </div>
-          <p className="text-gray-300">{post.author}</p>
+          <p className="text-gray-300">{player_list_nickname}</p>
         </div>
       </div>
 
       {/* 게시글 본문 */}
       <div className="space-y-6">
-        <p className="whitespace-pre-wrap leading-relaxed text-gray-300 min-h-[200px]">
-          {post.body}
+        <p className="whitespace-pre-wrap leading-relaxed text-gray-300 min-h-[200px] break-words">
+          {board_list_content}
         </p>
 
-        {post.imageUrl && (
+        {firstImage && (
           <div className="p-2 bg-[#1b1f2e] border border-[#262b40] rounded">
             <img
-              src={post.imageUrl}
+              src={firstImage}
               alt="게시글 이미지"
-              className="max-h-96 mx-auto rounded"
+              className="w-full max-w-full max-h-96 mx-auto rounded"
             />
           </div>
         )}
       </div>
 
       {/* 게시글 작업 버튼 */}
-      <div className="flex space-x-3 pt-2">
+      <div className="flex flex-wrap gap-2 pt-2">
         <button
           className="text-[#2f80ed] hover:underline cursor-pointer"
-          onClick={() => navigate(`/board/edit/${post.id}`)}>
+          onClick={() => navigate(`/board/edit/${board_list_idx}`)}>
           수정
         </button>
         <button
@@ -260,29 +186,35 @@ const PostDetail: React.FC = () => {
               첫 댓글을 작성해보세요!
             </p>
           ) : (
-            comments.slice(0, 40).map((c) => (
-              <div key={c.id} className="p-4 border-b border-[#262b40]">
+            comments.slice(0, 40).map((comment, index) => (
+              <div
+                key={comment.board_comment_idx + index}
+                className="p-4 border-b border-[#262b40]">
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center space-x-2">
                     <div className="w-8 h-8 rounded-full bg-[#262b40] overflow-hidden flex items-center justify-center text-gray-300">
-                      {c.avatar ? (
+                      {comment.player_list_profile_image ? (
                         <img
-                          src={c.avatar}
-                          alt={c.author}
+                          src={comment.player_list_profile_image}
+                          alt={comment.player_list_nickname}
                           className="w-full h-full object-cover"
                         />
                       ) : (
-                        c.author.charAt(0)
+                        comment.player_list_nickname.charAt(0)
                       )}
                     </div>
                     <div>
-                      <p className="font-medium text-gray-300">{c.author}</p>
-                      <p className="text-xs text-gray-500">{c.createdAt}</p>
+                      <p className="font-medium text-gray-300">
+                        {comment.player_list_nickname}
+                      </p>
+                      <p className="text-xs text-gray-500">
+                        {comment.board_comment_created_at}
+                      </p>
                     </div>
                   </div>
                 </div>
 
-                {editingId === c.id ? (
+                {editingId === comment.board_comment_idx ? (
                   <div className="space-y-3 mt-3">
                     <textarea
                       value={commentInput}
@@ -292,7 +224,12 @@ const PostDetail: React.FC = () => {
                     <div className="flex space-x-2 justify-end">
                       <button
                         className="text-[#2f80ed] hover:underline cursor-pointer"
-                        onClick={() => handleEditComment(c.id, commentInput)}>
+                        onClick={() =>
+                          handleEditComment(
+                            comment.board_comment_idx,
+                            commentInput
+                          )
+                        }>
                         수정 완료
                       </button>
                       <button
@@ -308,14 +245,14 @@ const PostDetail: React.FC = () => {
                 ) : (
                   <div className="mt-2">
                     <p className="whitespace-pre-wrap text-gray-300">
-                      {c.body}
+                      {comment.board_comment_content}
                     </p>
                     <div className="flex space-x-2 mt-3 justify-end">
                       <button
                         className="text-[#c9ced8] hover:underline cursor-pointer"
                         onClick={() => {
-                          setEditingId(c.id);
-                          setCommentInput(c.body);
+                          setEditingId(comment.board_comment_idx);
+                          setCommentInput(comment.board_comment_content);
                         }}>
                         수정
                       </button>
@@ -326,7 +263,11 @@ const PostDetail: React.FC = () => {
                             window.confirm("정말로 이 댓글을 삭제하시겠습니까?")
                           ) {
                             setComments((prev) =>
-                              prev.filter((cc) => cc.id !== c.id)
+                              prev.filter(
+                                (cc) =>
+                                  cc.board_comment_idx !==
+                                  comment.board_comment_idx
+                              )
                             );
                           }
                         }}>
