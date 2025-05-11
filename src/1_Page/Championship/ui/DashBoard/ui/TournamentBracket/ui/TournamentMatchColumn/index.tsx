@@ -58,15 +58,18 @@ const TournamentMatchColumn = (props: TournamentMatchColumnProps) => {
               className="w-8 h-8 object-contain"
             />
           </div>
-          <div className="flex-grow">
+          <div className="flex-grow flex items-center gap-1">
+            <span
+              className="inline-block w-3 h-3 rounded-full"
+              style={{
+                backgroundColor:
+                  match.championship_match_first.team_list_color || "#ffffff",
+              }}></span>
             <span
               className={`font-medium ${
                 team1Won && isFinished ? "font-bold" : ""
               }`}
-              style={{
-                color:
-                  match.championship_match_first.team_list_color || "inherit",
-              }}>
+              style={{ color: "#ffffff" }}>
               {match.championship_match_first.team_list_name}
             </span>
           </div>
@@ -101,15 +104,18 @@ const TournamentMatchColumn = (props: TournamentMatchColumnProps) => {
               className="w-8 h-8 object-contain"
             />
           </div>
-          <div className="flex-grow">
+          <div className="flex-grow flex items-center gap-1">
+            <span
+              className="inline-block w-3 h-3 rounded-full"
+              style={{
+                backgroundColor:
+                  match.championship_match_second.team_list_color || "#ffffff",
+              }}></span>
             <span
               className={`font-medium ${
                 team2Won && isFinished ? "font-bold" : ""
               }`}
-              style={{
-                color:
-                  match.championship_match_second.team_list_color || "inherit",
-              }}>
+              style={{ color: "#ffffff" }}>
               {match.championship_match_second.team_list_name}
             </span>
           </div>
