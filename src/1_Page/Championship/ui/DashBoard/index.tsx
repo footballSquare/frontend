@@ -15,11 +15,13 @@ import useParamInteger from "../../../../4_Shared/model/useParamInteger";
 import useSelectHandler from "./model/useSelectHandler";
 import useGetChampionshipDetail from "../../../../3_Entity/Championship/useGetChampionshipDetail";
 import PlayerTab from "./ui/PlayerTab";
+import { useChampionshipContextInfo } from "../../model/useChampionshipContext";
 
 const DashBoard = (props: DashBoardProps) => {
   const { championship_type_idx } = props;
   const isLeague = championship_type_idx === 0;
   const championshipIdx = useParamInteger("championshipIdx");
+  const { championship_list_color } = useChampionshipContextInfo();
 
   // api
   const [playerStats] = useGetPlayerStats(championshipIdx);
@@ -52,9 +54,9 @@ const DashBoard = (props: DashBoardProps) => {
   );
 
   return (
-    <div className="w-full p-4 bg-gray-50 min-h-screen">
+    <div className="w-full p-4 bg-gray-900 text-gray-100 min-h-screen">
       <nav className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
-        <div className="flex overflow-x-auto space-x-2 p-2 rounded-md scrollbar-hide bg-white shadow-sm">
+        <div className="flex overflow-x-auto space-x-2 p-2 rounded-md scrollbar-hide">
           {activeTabList.map(({ id, label }) => (
             <button
               key={id}
@@ -62,8 +64,13 @@ const DashBoard = (props: DashBoardProps) => {
               className={`flex-shrink-0 px-4 py-2 rounded-full text-sm font-medium transition ${
                 activeTab === id
                   ? "bg-blue-600 text-white"
-                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-              }`}>
+                  : "bg-gray-700 text-gray-200 hover:bg-gray-600"
+              }`}
+              style={
+                activeTab === id
+                  ? { backgroundColor: championship_list_color }
+                  : undefined
+              }>
               {label}
             </button>
           ))}
@@ -79,7 +86,7 @@ const DashBoard = (props: DashBoardProps) => {
 
         {/* 팀 기록 탭 */}
         {activeTab === ACTIVE_TAB.TEAMS && (
-          <section className="bg-white rounded-lg shadow-md p-4">
+          <section className="bg-gray-800 rounded-lg shadow-md p-4">
             {teamList.length === 0 ? (
               <div className="flex flex-col items-center justify-center py-10">
                 <div className="bg-gray-100 rounded-full p-4 mb-4">
@@ -113,7 +120,7 @@ const DashBoard = (props: DashBoardProps) => {
             />
 
             {/* MatchLineup (반응형 적용) */}
-            <div className="flex-1 min-h-[500px] bg-white rounded-lg shadow-md p-4 overflow-hidden">
+            <div className="flex-1 min-h-[500px] bg-gray-800 rounded-lg shadow-md p-4 overflow-hidden">
               <MatchLineupContainer
                 championshipMatchIdx={selectChampionshipMatchIdx}
                 matchIdx={selectMatchIdx}

@@ -1,8 +1,9 @@
 import useDeleteChampionshipMatch from "../../../../../../../../3_Entity/Championship/useDeleteChampionshipMatch";
 import usePutChampionshipMatchEnd from "../../../../../../../../3_Entity/Championship/usePutChampionshipMatchEnd";
 import { matchState } from "../../../../../../../../4_Shared/constant/matchState";
-import { useCommunityRole } from "../../../../../../model/useCommunityContext";
-import { getStatusColors, getTeamStyle } from "./lib/getStatusColor";
+import { useChampionshipContextInfo } from "../../../../../../model/useChampionshipContext";
+import { getTeamStyle } from "./lib/getStatusColor";
+import { getTextColorFromBackground } from "../../../../../../../../4_Shared/lib/colorChecker";
 
 const ChampionshipMatchCard = (props: ChampionshipMatchCardProps) => {
   const { match, isSelected, handleSelect, handleDeleteMatch, handleEndMatch } =
@@ -11,7 +12,12 @@ const ChampionshipMatchCard = (props: ChampionshipMatchCardProps) => {
   const away = match.championship_match_second;
 
   // admin
-  const { isCommunityOperator, isCommunityManager } = useCommunityRole();
+  const { isCommunityOperator, isCommunityManager } =
+    useChampionshipContextInfo();
+
+  const { championship_list_color } = useChampionshipContextInfo();
+  const accentColor = championship_list_color || "#2563eb"; // default blue-600
+  const accentText = getTextColorFromBackground(accentColor);
 
   // 경기 종료 여부 (common_status_idx === 4)
   const isFinished = home.common_status_idx === 4;
@@ -19,37 +25,38 @@ const ChampionshipMatchCard = (props: ChampionshipMatchCardProps) => {
   const [deleteChampionshipMatch] = useDeleteChampionshipMatch();
   const [putChampionshipMatchEnd] = usePutChampionshipMatchEnd();
 
-  const colors = getStatusColors(isFinished, home.common_status_idx);
   return (
     <li
       onClick={() => handleSelect(match.championship_match_idx)}
-      className={`relative flex flex-col w-full rounded-xl overflow-hidden shadow-md backdrop-blur-sm
-        ${colors.bgColor} ${colors.textColor}
-        transform transition-all duration-300 hover:scale-105 hover:shadow-lg
-        ${isSelected ? `ring-2 ring-offset-2 ring-blue-500 shadow-lg` : ""}`}>
+      className={`relative flex flex-col w-full rounded-xl overflow-hidden
+        bg-gray-800 text-gray-100
+        transform transition-all duration-200 hover:scale-102 hover:shadow-2xl
+      `}
+      style={{
+        borderColor: isSelected ? accentColor : "transparent",
+        borderWidth: isSelected ? 2 : 0,
+      }}>
       {/* 상태 표시 배지 */}
-      <div
-        className="absolute top-2 right-2 px-2 py-0.5 rounded-full text-xs font-medium z-10"
-        style={{
-          backgroundColor: isFinished
-            ? "#374151"
-            : home.common_status_idx === 3
-            ? "#1d4ed8"
-            : home.common_status_idx === 0
-            ? "#059669"
-            : "#6b7280",
-          color: "#ffffff",
-        }}>
-        {matchState[home.common_status_idx] || ""}
+      <div className="flex justify-end">
+        <div
+          className="mr-2 mt-2 px-3 py-1 rounded-full text-xs font-semibold"
+          style={{
+            backgroundColor: isFinished ? accentColor : accentColor + "80", // 50% opaque for in-progress
+            color: accentText,
+          }}>
+          {matchState[home.common_status_idx] || ""}
+        </div>
       </div>
 
       {/* 메인 콘텐츠 */}
-      <div className="p-3 sm:p-4">
+      <div className="p-2 sm:p-6">
         {/* VS 영역 */}
         <div className="flex items-center justify-between mb-3 relative">
           {/* 홈팀 */}
           <div className="flex flex-col items-center w-2/5">
-            <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full shadow-md flex items-center justify-center mb-1">
+            <div
+              className="w-8 h-8 sm:w-10 sm:h-10 rounded-full shadow-md flex items-center justify-center mb-1"
+              style={{ backgroundColor: accentColor + "20" }}>
               {home.team_list_emblem ? (
                 <img
                   src={home.team_list_emblem}
@@ -63,7 +70,7 @@ const ChampionshipMatchCard = (props: ChampionshipMatchCardProps) => {
               )}
             </div>
             <span
-              className={`text-xs sm:text-sm font-medium truncate max-w-full text-center ${getTeamStyle(
+              className={`text-sm font-semibold truncate max-w-full text-center ${getTeamStyle(
                 true,
                 isFinished,
                 home
@@ -77,7 +84,8 @@ const ChampionshipMatchCard = (props: ChampionshipMatchCardProps) => {
 
           {/* 점수 */}
           <div
-            className={`flex items-center justify-center px-2 py-1 sm:py-2 rounded-lg ${colors.scoreBoxBg} text-white font-bold`}>
+            className="flex items-center justify-center px-3 py-2 rounded-lg shadow-md"
+            style={{ backgroundColor: accentColor, color: accentText }}>
             <span className="text-lg sm:text-xl">
               {home.match_team_stats_our_score}
             </span>
@@ -89,7 +97,9 @@ const ChampionshipMatchCard = (props: ChampionshipMatchCardProps) => {
 
           {/* 어웨이팀 */}
           <div className="flex flex-col items-center w-2/5">
-            <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full shadow-md flex items-center justify-center mb-1">
+            <div
+              className="w-8 h-8 sm:w-10 sm:h-10 rounded-full shadow-md flex items-center justify-center mb-1"
+              style={{ backgroundColor: accentColor + "20" }}>
               {away.team_list_emblem ? (
                 <img
                   src={away.team_list_emblem}
@@ -103,7 +113,7 @@ const ChampionshipMatchCard = (props: ChampionshipMatchCardProps) => {
               )}
             </div>
             <span
-              className={`text-xs sm:text-sm font-medium truncate max-w-full text-center ${getTeamStyle(
+              className={`text-sm font-semibold truncate max-w-full text-center ${getTeamStyle(
                 false,
                 isFinished,
                 home
@@ -120,7 +130,7 @@ const ChampionshipMatchCard = (props: ChampionshipMatchCardProps) => {
       {/* 관리자 버튼 영역 */}
       {isCommunityOperator ||
         (isCommunityManager && !isFinished && (
-          <div className="flex justify-end gap-2 p-2 bg-black/5 backdrop-blur-sm">
+          <div className="flex justify-end gap-2 p-2 bg-gray-800/80 backdrop-blur-sm">
             <button
               onClick={() => {
                 if (confirm("정말 삭제하시겠습니까?")) {
@@ -128,7 +138,7 @@ const ChampionshipMatchCard = (props: ChampionshipMatchCardProps) => {
                   handleDeleteMatch(match.championship_match_idx);
                 }
               }}
-              className="text-xs px-2 py-1 rounded bg-red-500/90 text-white hover:bg-red-600 transition-colors">
+              className="text-xs px-2 py-1 rounded bg-red-600 text-white hover:bg-red-700 transition-colors">
               삭제
             </button>
             <button
@@ -138,7 +148,7 @@ const ChampionshipMatchCard = (props: ChampionshipMatchCardProps) => {
                   handleEndMatch(match.championship_match_idx);
                 }
               }}
-              className="text-xs px-2 py-1 rounded bg-gray-700/90 text-white hover:bg-gray-800 transition-colors">
+              className="text-xs px-2 py-1 rounded bg-gray-700 text-white hover:bg-gray-800 transition-colors">
               경기종료
             </button>
           </div>
@@ -146,7 +156,10 @@ const ChampionshipMatchCard = (props: ChampionshipMatchCardProps) => {
 
       {/* 선택 표시기 */}
       {isSelected && (
-        <div className="absolute inset-0 border-2 border-blue-500 rounded-xl pointer-events-none"></div>
+        <div
+          className="absolute inset-0 rounded-xl pointer-events-none"
+          style={{ boxShadow: `0 0 0 2px ${accentColor}` }}
+        />
       )}
     </li>
   );

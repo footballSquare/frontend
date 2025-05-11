@@ -1,23 +1,35 @@
 import { useNavigate } from "react-router-dom";
 import { convertHexToRGBA } from "../../../../../../4_Shared/lib/colorConverter";
 import useToggleState from "../../../../../../4_Shared/model/useToggleState";
+import { useChampionshipContextInfo } from "../../../../model/useChampionshipContext";
 
 const TeamListPanel = (props: TeamListPanelProps) => {
   const { teamList } = props;
   const [isModalOpen, handleToggleModal] = useToggleState();
   const navigate = useNavigate();
+  const { championship_list_color } = useChampionshipContextInfo();
+  const textColor = "white";
 
   return (
     <div>
       <button
         onClick={handleToggleModal}
-        className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white font-semibold px-4 py-2 rounded-full shadow-lg hover:scale-105 active:scale-95 transition-all duration-200">
+        style={{
+          background: `linear-gradient(90deg, ${championship_list_color} 0%, ${championship_list_color}B3 50%, ${championship_list_color}80 100%)`,
+          color: textColor,
+        }}
+        className="text-white font-semibold px-4 py-2 rounded-full shadow-lg hover:scale-105 active:scale-95 transition-all duration-200">
         🏆 참가 팀 목록 보기
       </button>
       {isModalOpen && (
         <div className="fixed inset-0 z-10 bg-black/50 flex items-center justify-center">
-          <div className="bg-white rounded-lg">
-            <div className="w-full flex justify-end">
+          <div
+            className="bg-gray-800 text-gray-100 rounded-lg p-4"
+            style={{ borderColor: championship_list_color }}>
+            <div className="w-full flex justify-between">
+              <h1 className="text-white font-semibold text-center text-2xl">
+                🏆 참가 팀 목록
+              </h1>
               <button
                 onClick={handleToggleModal}
                 className="m-1 px-4 py-2 text-red-500 font-semibold border border-red-300 rounded-md hover:bg-red-50 active:scale-95 transition-all">
@@ -38,6 +50,7 @@ const TeamListPanel = (props: TeamListPanelProps) => {
                       backgroundColor: teamBgColor,
                       borderColor: teamBorderColor,
                       borderLeft: `4px solid ${teamColor}`,
+                      color: textColor,
                     }}
                     className={`cursor-pointer p-3 border rounded-lg transition-all duration-200 hover:shadow-md `}>
                     <div className="flex items-center space-x-2">
@@ -55,12 +68,14 @@ const TeamListPanel = (props: TeamListPanelProps) => {
                       )}
                       <div className="min-w-0 flex-1">
                         <div
-                          className="font-bold text-gray-800 truncate"
+                          className="font-bold truncate"
+                          style={{ color: textColor }}
                           title={team.team_list_name}>
                           {team.team_list_name}
                         </div>
                         <div
-                          className={`text-xs truncate font-semibold`}
+                          className="text-xs truncate font-semibold"
+                          style={{ color: textColor }}
                           title={team.team_list_short_name}>
                           {team.team_list_short_name}
                         </div>
