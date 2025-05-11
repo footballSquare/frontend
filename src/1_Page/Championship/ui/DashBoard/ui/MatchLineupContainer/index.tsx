@@ -4,6 +4,7 @@ import EvidenceDetailModal from "./ui/EvidenceDetailModal";
 
 import useToggleState from "../../../../../../4_Shared/model/useToggleState";
 import { useCommunityRole } from "../../../../model/useCommunityContext";
+import useMatchModalStore from "../../../../../../4_Shared/zustand/useMatchModal";
 
 const MatchLineupContainer = (props: MatchLineupContainerProps) => {
   const { matchIdx, selectedTeams, championshipDetail } = props;
@@ -15,6 +16,7 @@ const MatchLineupContainer = (props: MatchLineupContainerProps) => {
   const [isModalOpen, handleToggleModal] = useToggleState();
   const [isFormationView, toggleIsFormationView] = useToggleState();
   const [isTeamHistoryView, toggleIsTeamHistoryView] = useToggleState();
+  const { setMatchIdx, toggleMatchModal } = useMatchModalStore();
 
   if (!matchIdx)
     return (
@@ -57,6 +59,14 @@ const MatchLineupContainer = (props: MatchLineupContainerProps) => {
           }`}
           onClick={toggleIsTeamHistoryView}>
           라인업 보기
+        </button>
+        <button
+          className={`px-4 py-2 rounded-full border transition-colors duration-200 ${"bg-white text-gray-800 border-gray-300 hover:bg-gray-100"}`}
+          onClick={() => {
+            setMatchIdx(matchIdx);
+            toggleMatchModal();
+          }}>
+          매치 상세 보기
         </button>
       </div>
 

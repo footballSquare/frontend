@@ -110,13 +110,11 @@ const DashBoard = (props: DashBoardProps) => {
 
             {/* MatchLineup (반응형 적용) */}
             <div className="flex-1 min-h-[500px] bg-white rounded-lg shadow-md p-4 overflow-hidden">
-              (
               <MatchLineupContainer
                 matchIdx={selectedIdx}
                 selectedTeams={selectedTeams}
                 championshipDetail={championshipDetail}
               />
-              )
             </div>
           </section>
         )}
