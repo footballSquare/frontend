@@ -16,6 +16,21 @@ const MatchLineupContainer = (props: MatchLineupContainerProps) => {
   const [isFormationView, toggleIsFormationView] = useToggleState();
   const [isTeamHistoryView, toggleIsTeamHistoryView] = useToggleState();
 
+  if (!matchIdx)
+    return (
+      <div className="flex flex-col items-center justify-center h-full py-10">
+        <div className="bg-gray-100 rounded-full p-4 mb-4">
+          <span className="text-gray-400 text-2xl">⚽</span>
+        </div>
+        <h3 className="text-lg font-medium text-gray-900 mb-2">
+          매치를 선택해주세요
+        </h3>
+        <p className="text-sm text-gray-500 text-center max-w-md">
+          왼쪽 패널에서 확인하고 싶은 매치를 선택하면 상세 정보가 표시됩니다.
+        </p>
+      </div>
+    );
+
   return (
     <div className="p-4">
       {isCommunityManager ||
