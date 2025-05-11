@@ -43,7 +43,7 @@ const PlayerTab = (props: PlayerTabProps) => {
         <p className="text-xs md:text-sm">클릭하여 선수 프로필을 확인하세요</p>
       </div>
       <hr className="border-gray-700" />
-      <div className="overflow-x-auto">
+      <div className="overflow-x-hidden">
         <table className="w-full bg-gray-700 min-w-[600px] text-gray-100">
           {/* 헤더 */}
           <thead className="text-xs bg-gray-600 text-gray-400 uppercase tracking-wider">
