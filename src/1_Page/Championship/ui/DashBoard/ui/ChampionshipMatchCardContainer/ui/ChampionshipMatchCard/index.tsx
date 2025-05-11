@@ -1,7 +1,7 @@
 import useDeleteChampionshipMatch from "../../../../../../../../3_Entity/Championship/useDeleteChampionshipMatch";
 import usePutChampionshipMatchEnd from "../../../../../../../../3_Entity/Championship/usePutChampionshipMatchEnd";
 import { matchState } from "../../../../../../../../4_Shared/constant/matchState";
-import { useCommunityRole } from "../../../../../../model/useCommunityContext";
+import { useChampionshipContextInfo } from "../../../../../../model/useChampionshipContext";
 import { getStatusColors, getTeamStyle } from "./lib/getStatusColor";
 
 const ChampionshipMatchCard = (props: ChampionshipMatchCardProps) => {
@@ -11,7 +11,8 @@ const ChampionshipMatchCard = (props: ChampionshipMatchCardProps) => {
   const away = match.championship_match_second;
 
   // admin
-  const { isCommunityOperator, isCommunityManager } = useCommunityRole();
+  const { isCommunityOperator, isCommunityManager } =
+    useChampionshipContextInfo();
 
   // 경기 종료 여부 (common_status_idx === 4)
   const isFinished = home.common_status_idx === 4;

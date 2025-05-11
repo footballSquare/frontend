@@ -3,7 +3,7 @@ import VerticalTeamStatCards from "./ui/VerticalTeamStatCards";
 import EvidenceDetailModal from "./ui/EvidenceDetailModal";
 
 import useToggleState from "../../../../../../4_Shared/model/useToggleState";
-import { useCommunityRole } from "../../../../model/useCommunityContext";
+import { useChampionshipContextInfo } from "../../../../model/useChampionshipContext";
 import useMatchModalStore from "../../../../../../4_Shared/zustand/useMatchModal";
 
 const MatchLineupContainer = (props: MatchLineupContainerProps) => {
@@ -11,7 +11,8 @@ const MatchLineupContainer = (props: MatchLineupContainerProps) => {
     props;
 
   // admin
-  const { isCommunityManager, isCommunityOperator } = useCommunityRole();
+  const { isCommunityManager, isCommunityOperator } =
+    useChampionshipContextInfo();
 
   // state
   const [isModalOpen, handleToggleModal] = useToggleState();

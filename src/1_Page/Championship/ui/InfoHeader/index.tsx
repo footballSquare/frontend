@@ -5,7 +5,7 @@ import { getTextColorFromBackground } from "../../../../4_Shared/lib/colorChecke
 import { matchType } from "../../../../4_Shared/constant/matchType";
 import { championshipTypes } from "../../../../4_Shared/constant/championshipTypes";
 import defaultTrophyImg from "../../../../4_Shared/assets/svg/rank.svg";
-import { useCommunityRole } from "../../model/useCommunityContext";
+import { useChampionshipContextInfo } from "../../model/useChampionshipContext";
 import { utcFormatter } from "../../../../4_Shared/lib/utcFormatter";
 
 const InfoHeader = (props: InfoHeaderProps) => {
@@ -13,7 +13,7 @@ const InfoHeader = (props: InfoHeaderProps) => {
 
   const isChampionshipEnd = championshipInfo.common_status_idx === 4;
   // 어드민
-  const { isCommunityManager } = useCommunityRole();
+  const { isCommunityManager } = useChampionshipContextInfo();
 
   const [isHeaderCollapsed, toggleHeader] = useToggleState();
   const [isEndModalOpen, toggleEndModal] = useToggleState(true);

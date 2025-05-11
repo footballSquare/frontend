@@ -1,17 +1,22 @@
 import { useNavigate } from "react-router-dom";
 import { convertHexToRGBA } from "../../../../../../4_Shared/lib/colorConverter";
 import useToggleState from "../../../../../../4_Shared/model/useToggleState";
+import { useChampionshipContextInfo } from "../../../../model/useChampionshipContext";
 
 const TeamListPanel = (props: TeamListPanelProps) => {
   const { teamList } = props;
   const [isModalOpen, handleToggleModal] = useToggleState();
   const navigate = useNavigate();
+  const { championship_list_color } = useChampionshipContextInfo();
 
   return (
     <div>
       <button
         onClick={handleToggleModal}
-        className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white font-semibold px-4 py-2 rounded-full shadow-lg hover:scale-105 active:scale-95 transition-all duration-200">
+        style={{
+          background: `linear-gradient(90deg, ${championship_list_color} 0%, ${championship_list_color}B3 50%, ${championship_list_color}80 100%)`,
+        }}
+        className="text-white font-semibold px-4 py-2 rounded-full shadow-lg hover:scale-105 active:scale-95 transition-all duration-200">
         🏆 참가 팀 목록 보기
       </button>
       {isModalOpen && (
