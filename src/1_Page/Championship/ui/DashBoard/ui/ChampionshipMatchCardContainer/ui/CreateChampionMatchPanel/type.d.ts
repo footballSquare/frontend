@@ -1,6 +1,5 @@
 type CreateChampionMatchPanelProps = {
   filteredTeamList: ChampionshipTeamInfo[];
-  fetchMatchList: () => void;
 };
 
 type CreateChampionMatchFormValues = {

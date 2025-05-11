@@ -12,7 +12,6 @@ const ChampionshipMatchCardContainer = (
     matchList,
     filteredTeamList,
     matchHandlers,
-    fetchMatchList,
     handleSelect,
   } = props;
 
@@ -35,10 +34,7 @@ const ChampionshipMatchCardContainer = (
       <div className="flex justify-end">
         {isCommunityOperator ||
           (isCommunityManager && (
-            <CreateChampionMatchPanel
-              filteredTeamList={filteredTeamList}
-              fetchMatchList={fetchMatchList}
-            />
+            <CreateChampionMatchPanel filteredTeamList={filteredTeamList} />
           ))}
       </div>
       <div className="flex gap-4 mb-6  p-4 rounded-lg shadow-md">

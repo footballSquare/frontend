@@ -7,7 +7,8 @@ import { useCommunityRole } from "../../../../model/useCommunityContext";
 import useMatchModalStore from "../../../../../../4_Shared/zustand/useMatchModal";
 
 const MatchLineupContainer = (props: MatchLineupContainerProps) => {
-  const { matchIdx, selectedTeams, championshipDetail } = props;
+  const { championshipMatchIdx, selectedTeams, championshipDetail, matchIdx } =
+    props;
 
   // admin
   const { isCommunityManager, isCommunityOperator } = useCommunityRole();
@@ -16,9 +17,11 @@ const MatchLineupContainer = (props: MatchLineupContainerProps) => {
   const [isModalOpen, handleToggleModal] = useToggleState();
   const [isFormationView, toggleIsFormationView] = useToggleState();
   const [isTeamHistoryView, toggleIsTeamHistoryView] = useToggleState();
+
+  // zustand
   const { setMatchIdx, toggleMatchModal } = useMatchModalStore();
 
-  if (!matchIdx)
+  if (!championshipMatchIdx)
     return (
       <div className="flex flex-col items-center justify-center h-full py-10">
         <div className="bg-gray-100 rounded-full p-4 mb-4">
@@ -101,7 +104,7 @@ const MatchLineupContainer = (props: MatchLineupContainerProps) => {
           </div>
 
           <h2 className="text-xl font-bold mb-4 text-center">
-            매치 #{matchIdx} 라인업
+            매치 #{championshipMatchIdx} 라인업
           </h2>
 
           {/* 모바일에서는 선택할 수 있는 토글 버튼 */}
@@ -155,7 +158,7 @@ const MatchLineupContainer = (props: MatchLineupContainerProps) => {
       {isModalOpen && (
         <EvidenceDetailModal
           handleToggleModal={handleToggleModal}
-          matchIdx={matchIdx}
+          championshipMatchIdx={championshipMatchIdx}
           selectTeamList={selectedTeams.selectTeamList}
         />
       )}

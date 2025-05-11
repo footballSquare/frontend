@@ -4,5 +4,4 @@ type ChampionshipMatchCardContainerProps = {
   selectedIdx: number;
   handleSelect: (idx: number) => void;
   matchHandlers: MatchHandlerReturn;
-  fetchMatchList: () => void;
 };

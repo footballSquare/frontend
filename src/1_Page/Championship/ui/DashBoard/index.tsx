@@ -23,14 +23,17 @@ const DashBoard = (props: DashBoardProps) => {
 
   // api
   const [playerStats] = useGetPlayerStats(championshipIdx);
-  const [matchList, fetchMatchList] =
-    useGetChampionshipMatchList(championshipIdx); // 대회 생성된 매치 리스트
+  const [matchList] = useGetChampionshipMatchList(championshipIdx); // 대회 생성된 매치 리스트
   const [teamList] = useGetChampionshipTeams(championshipIdx); // 대회 참가 팀리스트
 
   // state
   const [activeTab, setActiveTab] = React.useState(ACTIVE_TAB.PLAYERS);
-  const [selectedIdx, selectedTeams, handleSelect] =
-    useSelectHandler(matchList);
+  const [
+    selectChampionshipMatchIdx,
+    selectMatchIdx,
+    selectedTeams,
+    handleSelect,
+  ] = useSelectHandler(matchList);
 
   // optimistic state
   const [displayMatchList, matchHandlers] = useManageMatchList(matchList);
@@ -44,7 +47,9 @@ const DashBoard = (props: DashBoardProps) => {
   }, [displayMatchList, teamList, championship_type_idx, isLeague]);
 
   // api 이미 호출된 idx는 캐싱을 통해 데이터 최적화
-  const [championshipDetail] = useGetChampionshipDetail(selectedIdx);
+  const [championshipDetail] = useGetChampionshipDetail(
+    selectChampionshipMatchIdx
+  );
 
   return (
     <div className="w-full p-4 bg-gray-50 min-h-screen">
@@ -100,18 +105,18 @@ const DashBoard = (props: DashBoardProps) => {
           <section className="w-full mx-auto flex flex-col md:flex-row gap-4">
             {/* 매치 결과 리스트 (좌측) */}
             <ChampionshipMatchCardContainer
-              selectedIdx={selectedIdx}
+              selectedIdx={selectChampionshipMatchIdx}
               matchList={displayMatchList}
               filteredTeamList={filteredTeamList}
               matchHandlers={matchHandlers}
-              fetchMatchList={fetchMatchList}
               handleSelect={handleSelect}
             />
 
             {/* MatchLineup (반응형 적용) */}
             <div className="flex-1 min-h-[500px] bg-white rounded-lg shadow-md p-4 overflow-hidden">
               <MatchLineupContainer
-                matchIdx={selectedIdx}
+                championshipMatchIdx={selectChampionshipMatchIdx}
+                matchIdx={selectMatchIdx}
                 selectedTeams={selectedTeams}
                 championshipDetail={championshipDetail}
               />

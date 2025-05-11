@@ -2,10 +2,10 @@ import React from "react";
 import useGetChampionshipEvidence from "../../../../../../../../3_Entity/Championship/useGetChampionshipEvidence";
 
 const EvidenceDetailModal = (props: EvidenceDetailModalProps) => {
-  const { matchIdx, selectTeamList, handleToggleModal } = props;
+  const { championshipMatchIdx, selectTeamList, handleToggleModal } = props;
 
   // api
-  const [evidenceImage] = useGetChampionshipEvidence(matchIdx);
+  const [evidenceImage] = useGetChampionshipEvidence(championshipMatchIdx);
   const [selectedImage, setSelectedImage] = React.useState<string | null>(null);
 
   return (

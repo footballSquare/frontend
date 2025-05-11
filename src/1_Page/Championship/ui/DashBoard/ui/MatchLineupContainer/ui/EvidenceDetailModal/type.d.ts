@@ -1,5 +1,5 @@
 type EvidenceDetailModalProps = {
-  matchIdx: number;
+  championshipMatchIdx: number;
   selectTeamList: string[];
   handleToggleModal: () => void;
 };

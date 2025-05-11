@@ -4,9 +4,9 @@ import useToggleState from "../../../../4_Shared/model/useToggleState";
 import { getTextColorFromBackground } from "../../../../4_Shared/lib/colorChecker";
 import { matchType } from "../../../../4_Shared/constant/matchType";
 import { championshipTypes } from "../../../../4_Shared/constant/championshipTypes";
-import { formatDateKoreanDate } from "../../../../4_Shared/lib/dateFormatter";
 import defaultTrophyImg from "../../../../4_Shared/assets/svg/rank.svg";
 import { useCommunityRole } from "../../model/useCommunityContext";
+import { utcFormatter } from "../../../../4_Shared/lib/utcFormatter";
 
 const InfoHeader = (props: InfoHeaderProps) => {
   const { championshipInfo } = props;
@@ -65,23 +65,23 @@ const InfoHeader = (props: InfoHeaderProps) => {
             </div>
 
             <div className="w-full flex flex-wrap justify-center gap-2">
-              <span className="px-3 py-1 text-sm rounded-full border border-current bg-white/10 text-inherit">
-                {`${formatDateKoreanDate(
-                  new Date(championshipInfo.championship_list_start_date)
-                )} ~ ${formatDateKoreanDate(
-                  new Date(championshipInfo.championship_list_end_date)
+              <span className="px-3 py-1 text-sm rounded-full border border-current bg-white/10 dark:bg-white/5 text-inherit">
+                {`${utcFormatter(
+                  championshipInfo.championship_list_start_date
+                )} ~ ${utcFormatter(
+                  championshipInfo.championship_list_end_date
                 )}`}
               </span>
-              <span className="px-3 py-1 text-sm rounded-full border border-current bg-white/10 text-inherit">
+              <span className="px-3 py-1 text-sm rounded-full border border-current bg-white/10 dark:bg-white/5 text-inherit">
                 {championshipTypes[championshipInfo.championship_type_idx]}
               </span>
-              <span className="px-3 py-1 text-sm rounded-full border border-current bg-white/10 text-inherit">
+              <span className="px-3 py-1 text-sm rounded-full border border-current bg-white/10 dark:bg-white/5 text-inherit">
                 {matchType[championshipInfo.match_type_idx]}
               </span>
             </div>
 
             <div className="w-full flex flex-col sm:flex-row gap-3 mt-1">
-              <p className="text-sm text-inherit flex-1 bg-white/5 p-3 rounded-md max-h-20 overflow-y-auto">
+              <p className="text-sm text-inherit flex-1 bg-white/10 dark:bg-white/5 p-3 rounded-md max-h-20 overflow-y-auto">
                 {championshipInfo.championship_list_description}
               </p>
               {isCommunityManager && !isChampionshipEnd && (
@@ -98,7 +98,7 @@ const InfoHeader = (props: InfoHeaderProps) => {
           <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/3">
             <button
               onClick={toggleHeader}
-              className="w-10 h-10 flex items-center justify-center text-sm rounded-full bg-white shadow-lg hover:bg-gray-100 text-black"
+              className="w-10 h-10 flex items-center justify-center text-sm rounded-full bg-gray-200 dark:bg-gray-700 shadow-lg hover:bg-gray-300 dark:hover:bg-gray-600 text-black dark:text-white"
               aria-label={isHeaderCollapsed ? "펼치기" : "접기"}>
               {isHeaderCollapsed ? "▼" : "▲"}
             </button>
@@ -134,7 +134,7 @@ const InfoHeader = (props: InfoHeaderProps) => {
               </div>
             </div>
           </div>
-          <div className="w-full py-2 text-center bg-gray-400 text-white text-sm font-semibold rounded-lg shadow-md flex items-center justify-center space-x-2 animate-pulse">
+          <div className="w-full py-2 text-center bg-gray-400 dark:bg-gray-700 text-white text-sm font-semibold rounded-lg shadow-md flex items-center justify-center space-x-2 animate-pulse">
             <span className="uppercase tracking-wide">대회 종료</span>
           </div>
         </div>
