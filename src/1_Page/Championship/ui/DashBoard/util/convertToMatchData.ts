@@ -31,6 +31,7 @@ export const convertToMatchData = (
   }
 };
 
+// 토너먼트의 경우 추가가 가능한 팀 목록
 const convertToFilterMatchList = (
   matchList: ChampionshipMatchList[],
   teamList: ChampionshipTeamInfo[],
@@ -153,7 +154,7 @@ const convertToLeague = (
     team.goalDifference = team.goalsFor - team.goalsAgainst;
   });
 
-  // 객체 배열화 및 sosrt 함수를 통한 정렬
+  // 객체 배열화 및 sort 함수를 통한 정렬
   const teamStatsArray = Object.values(statsMap);
   teamStatsArray.sort((a, b) => {
     if (b.points !== a.points) return b.points - a.points;
