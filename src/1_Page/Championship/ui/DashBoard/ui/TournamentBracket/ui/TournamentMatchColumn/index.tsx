@@ -1,7 +1,9 @@
 import defaultTeamImg from "../../../../../../../../4_Shared/assets/svg/team.svg";
+import { useChampionshipContextInfo } from "../../../../../../model/useChampionshipContext";
+import { getTextColorFromBackground } from "../../../../../../../../4_Shared/lib/colorChecker";
 
 const TournamentMatchColumn = (props: TournamentMatchColumnProps) => {
-  const { match, index } = props;
+  const { match } = props;
 
   const team1Score =
     match.championship_match_first.match_team_stats_our_score || 0;
@@ -16,32 +18,37 @@ const TournamentMatchColumn = (props: TournamentMatchColumnProps) => {
     match.championship_match_first.common_status_idx === 4 ||
     match.championship_match_second.common_status_idx === 4;
 
+  const { championship_list_color } = useChampionshipContextInfo();
+  const textColor = getTextColorFromBackground(championship_list_color);
+
   return (
-    <div
-      key={index + "_MatchBox_" + match.championship_match_idx}
-      className="relative">
+    <div className="relative">
       {/* 현재 라운드 매치카드 */}
-      <div className="border border-gray-200 rounded-lg overflow-hidden shadow-md bg-white">
-        <div className="bg-gray-100 px-4 py-2 flex justify-between items-center border-b">
-          <span className="text-sm font-medium text-gray-600">
-            매치 {match.championship_match_idx}
-          </span>
+      <div className="border border-gray-600 rounded-lg overflow-hidden shadow-md text-gray-100">
+        <div className="px-4 py-2 flex justify-between items-center bg-gray-700">
+          <span className="text-sm font-medium">{`매치 ${match.championship_match_idx}`}</span>
           <span
-            className={`px-2 py-1 text-xs rounded-full ${
-              isFinished
-                ? "bg-blue-100 text-blue-700"
-                : "bg-amber-100 text-green-700"
-            }`}>
+            className="px-2 py-1 text-xs rounded-full"
+            style={{
+              backgroundColor: isFinished
+                ? championship_list_color
+                : `${textColor}33`,
+              color: isFinished ? textColor : championship_list_color,
+            }}>
             {isFinished ? "종료" : "진행 예정"}
           </span>
         </div>
 
         {/* 팀 1 */}
         <div
-          className={`p-3 flex items-center ${
-            team1Won && isFinished ? "bg-blue-50" : ""
-          }`}>
-          <div className="w-10 h-10 rounded-full bg-white shadow-sm flex items-center justify-center p-1 mr-3">
+          className="p-3 flex items-center"
+          style={{
+            backgroundColor:
+              team1Won && isFinished
+                ? `${championship_list_color}33`
+                : "#1F2937", // Tailwind gray‑800 to guarantee readability
+          }}>
+          <div className="w-10 h-10 rounded-full shadow-sm flex items-center justify-center p-1 mr-3">
             <img
               src={
                 match.championship_match_first.team_list_emblem ||
@@ -51,24 +58,27 @@ const TournamentMatchColumn = (props: TournamentMatchColumnProps) => {
               className="w-8 h-8 object-contain"
             />
           </div>
-          <div className="flex-grow">
+          <div className="flex-grow flex items-center gap-1">
+            <span
+              className="inline-block w-3 h-3 rounded-full"
+              style={{
+                backgroundColor:
+                  match.championship_match_first.team_list_color || "#ffffff",
+              }}></span>
             <span
               className={`font-medium ${
                 team1Won && isFinished ? "font-bold" : ""
               }`}
-              style={{
-                color:
-                  match.championship_match_first.team_list_color || "inherit",
-              }}>
+              style={{ color: "#ffffff" }}>
               {match.championship_match_first.team_list_name}
             </span>
           </div>
           <div
-            className={`w-8 h-8 flex items-center justify-center rounded-full ${
-              team1Won && isFinished
-                ? "bg-blue-600 text-white font-bold"
-                : "bg-gray-100"
-            }`}>
+            className="w-8 h-8 flex items-center justify-center rounded-full font-bold"
+            style={{
+              backgroundColor: team1Won ? championship_list_color : "#374151", // Tailwind gray-700
+              color: team1Won && isFinished ? textColor : "#f3f4f6", // Tailwind gray-100
+            }}>
             {team1Score}
           </div>
         </div>
@@ -78,10 +88,13 @@ const TournamentMatchColumn = (props: TournamentMatchColumnProps) => {
 
         {/* 팀 2 */}
         <div
-          className={`p-3 flex items-center ${
-            team2Won && isFinished ? "bg-blue-50" : ""
-          }`}>
-          <div className="w-10 h-10 rounded-full bg-white shadow-sm flex items-center justify-center p-1 mr-3">
+          className="p-3 flex items-center"
+          style={{
+            backgroundColor: team2Won
+              ? `${championship_list_color}33`
+              : "#1F2937",
+          }}>
+          <div className="w-10 h-10 rounded-full shadow-sm flex items-center justify-center p-1 mr-3">
             <img
               src={
                 match.championship_match_second.team_list_emblem ||
@@ -91,24 +104,28 @@ const TournamentMatchColumn = (props: TournamentMatchColumnProps) => {
               className="w-8 h-8 object-contain"
             />
           </div>
-          <div className="flex-grow">
+          <div className="flex-grow flex items-center gap-1">
+            <span
+              className="inline-block w-3 h-3 rounded-full"
+              style={{
+                backgroundColor:
+                  match.championship_match_second.team_list_color || "#ffffff",
+              }}></span>
             <span
               className={`font-medium ${
                 team2Won && isFinished ? "font-bold" : ""
               }`}
-              style={{
-                color:
-                  match.championship_match_second.team_list_color || "inherit",
-              }}>
+              style={{ color: "#ffffff" }}>
               {match.championship_match_second.team_list_name}
             </span>
           </div>
           <div
-            className={`w-8 h-8 flex items-center justify-center rounded-full ${
-              team2Won && isFinished
-                ? "bg-blue-600 text-white font-bold"
-                : "bg-gray-100"
-            }`}>
+            className="w-8 h-8 flex items-center justify-center rounded-full font-bold"
+            style={{
+              backgroundColor:
+                team2Won && isFinished ? championship_list_color : "#374151", // Tailwind gray-700
+              color: team2Won && isFinished ? textColor : "#f3f4f6", // Tailwind gray-100
+            }}>
             {team2Score}
           </div>
         </div>

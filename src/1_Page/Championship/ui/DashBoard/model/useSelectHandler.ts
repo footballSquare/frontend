@@ -2,8 +2,18 @@ import React from "react";
 
 const useSelectHandler = (
   matchList: ChampionshipMatchList[]
-): [number, SelectTeamMatchInfo, (idx: number) => void] => {
-  const [selectedIdx, setSelectedIdx] = React.useState<number>(0);
+): [number, number, SelectTeamMatchInfo, (idx: number) => void] => {
+  const [selectChampionshipMatchIdx, setSelectedIdx] =
+    React.useState<number>(0);
+
+  const selectMatchIdx = React.useMemo(() => {
+    const selectMatchData = matchList.filter(
+      (matchData) =>
+        matchData.championship_match_idx === selectChampionshipMatchIdx
+    );
+
+    return selectMatchData[0]?.championship_match_first.match_match_idx ?? null;
+  }, [selectChampionshipMatchIdx]);
 
   React.useEffect(() => {
     if (matchList.length === 0) return;
@@ -13,11 +23,16 @@ const useSelectHandler = (
   const handleSelect = (idx: number) => setSelectedIdx(idx);
 
   const selectedTeams = React.useMemo(
-    () => getSelectedMatchTeams(matchList, selectedIdx),
-    [matchList, selectedIdx]
+    () => getSelectedMatchTeams(matchList, selectChampionshipMatchIdx),
+    [matchList, selectChampionshipMatchIdx]
   );
 
-  return [selectedIdx, selectedTeams, handleSelect];
+  return [
+    selectChampionshipMatchIdx,
+    selectMatchIdx,
+    selectedTeams,
+    handleSelect,
+  ];
 };
 
 export default useSelectHandler;

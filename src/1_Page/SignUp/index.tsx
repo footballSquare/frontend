@@ -9,9 +9,9 @@ import {
 } from "../../4_Shared/hookForm/SignUpInput/schema";
 import usePostTemporalSignUp from "../../3_Entity/Account/usePostTemporalSignUp";
 import { useNavigate } from "react-router-dom";
-import usePostReceiveAuthSms from "../../3_Entity/Account/usePostReceiveAuthSms";
 import usePostCheckAuthSms from "../../3_Entity/Account/usePostCheckAuthSms";
 import useSignUpStep from "./model/useSignUpStep";
+import useReceiveAuthSms from "./model/useReceiveAuthSms";
 
 const SignUp = () => {
   const [step, setStep] = useSignUpStep();
@@ -47,11 +47,11 @@ const SignUp = () => {
   const [postTemporalSignUp] = usePostTemporalSignUp();
   const [isValidAuthSms, postCheckAuthSms] = usePostCheckAuthSms();
   const [authPhone, setAuthPhone] = React.useState<string>("");
-  const [postReceiveAuthSms] = usePostReceiveAuthSms();
+  const [isSmsSent, postReceiveAuthSms] = useReceiveAuthSms();
 
   return (
-    <div className="flex flex-col gap-4 items-center justify-center min-h-screen">
-      <div className="bg-white p-8 rounded shadow-md w-full max-w-md">
+    <div className="flex flex-col gap-4 items-center justify-center min-h-screen ">
+      <div className="bg-gray-800 text-gray-100 p-8 rounded shadow-md w-full max-w-md">
         {step === 1 && (
           <>
             <h1 className="text-2xl font-bold mb-6 text-center">회원가입</h1>
@@ -102,7 +102,7 @@ const SignUp = () => {
               </button>
               <button
                 type="submit"
-                className="mt-4 w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="mt-4 w-full bg-gray-500 text-white py-2 px-4 rounded hover:bg-blue-600 duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 회원가입 진행
               </button>
@@ -155,7 +155,7 @@ const SignUp = () => {
                 }}
                 className="mt-4 w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
-                인증번호 전송
+                {isSmsSent ? "인증번호 재전송" : "인증번호 전송"}
               </button>
 
               <button
