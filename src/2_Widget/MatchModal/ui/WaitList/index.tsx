@@ -1,7 +1,6 @@
 import React from "react";
 import { matchPosition } from "../../../../4_Shared/constant/matchPosition";
 import { WaitingListProps } from "./type";
-import applyBtn from "../../../../4_Shared/assets/svg/applyBtn.svg";
 import {
   useMyNickname,
   useMyProfileImg,
@@ -64,8 +63,9 @@ const WaitingList = React.memo((props: WaitingListProps) => {
                       matchParticipants,
                     })
                   }
+                  className="text-white text-lg"
                 >
-                  <img className=" w-[24px]" src={applyBtn} alt="" />
+                  ✓
                 </button>
               )}
             </div>
