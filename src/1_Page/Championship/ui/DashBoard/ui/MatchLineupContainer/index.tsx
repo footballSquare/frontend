@@ -3,14 +3,13 @@ import VerticalTeamStatCards from "./ui/VerticalTeamStatCards";
 import EvidenceDetailModal from "./ui/EvidenceDetailModal";
 
 import useToggleState from "../../../../../../4_Shared/model/useToggleState";
-import { useMyCommunityRoleIdx } from "../../../../../../4_Shared/lib/useMyInfo";
+import { useCommunityRole } from "../../../../model/useCommunityContext";
 
 const MatchLineupContainer = (props: MatchLineupContainerProps) => {
   const { matchIdx, selectedTeams, championshipDetail } = props;
 
   // admin
-  const [community_role_idx] = useMyCommunityRoleIdx();
-  const isAdmin = community_role_idx === 0 || community_role_idx === 1;
+  const { isCommunityManager, isCommunityOperator } = useCommunityRole();
 
   // state
   const [isModalOpen, handleToggleModal] = useToggleState();
@@ -19,11 +18,12 @@ const MatchLineupContainer = (props: MatchLineupContainerProps) => {
 
   return (
     <div className="p-4">
-      {isAdmin && (
-        <button className="text-blue-600" onClick={handleToggleModal}>
-          증거 자세히 보기
-        </button>
-      )}
+      {isCommunityManager ||
+        (isCommunityOperator && (
+          <button className="text-blue-600" onClick={handleToggleModal}>
+            증거 자세히 보기
+          </button>
+        ))}
       <div className="flex justify-center mb-4 gap-4">
         <button
           className={`px-4 py-2 rounded-full border transition-colors duration-200 ${

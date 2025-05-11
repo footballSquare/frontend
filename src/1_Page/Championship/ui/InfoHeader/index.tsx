@@ -6,15 +6,14 @@ import { matchType } from "../../../../4_Shared/constant/matchType";
 import { championshipTypes } from "../../../../4_Shared/constant/championshipTypes";
 import { formatDateKoreanDate } from "../../../../4_Shared/lib/dateFormatter";
 import defaultTrophyImg from "../../../../4_Shared/assets/svg/rank.svg";
-import { useMyCommunityRoleIdx } from "../../../../4_Shared/lib/useMyInfo";
+import { useCommunityRole } from "../../model/useCommunityContext";
 
 const InfoHeader = (props: InfoHeaderProps) => {
   const { championshipInfo } = props;
 
   const isChampionshipEnd = championshipInfo.common_status_idx === 4;
   // 어드민
-  const [community_role_idx] = useMyCommunityRoleIdx();
-  const isAdmin = community_role_idx === 0;
+  const { isCommunityManager } = useCommunityRole();
 
   const [isHeaderCollapsed, toggleHeader] = useToggleState();
   const [isEndModalOpen, toggleEndModal] = useToggleState(true);
@@ -85,7 +84,7 @@ const InfoHeader = (props: InfoHeaderProps) => {
               <p className="text-sm text-inherit flex-1 bg-white/5 p-3 rounded-md max-h-20 overflow-y-auto">
                 {championshipInfo.championship_list_description}
               </p>
-              {isAdmin && !isChampionshipEnd && (
+              {isCommunityManager && !isChampionshipEnd && (
                 <div className="flex gap-2 items-center justify-center">
                   <AdminBtnPanel championshipInfo={championshipInfo} />
                 </div>

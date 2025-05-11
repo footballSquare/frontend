@@ -2,10 +2,6 @@ import { useNavigate } from "react-router-dom";
 import { convertHexToRGBA } from "../../../../../../4_Shared/lib/colorConverter";
 import useToggleState from "../../../../../../4_Shared/model/useToggleState";
 
-type TeamListPanelProps = {
-  teamList: ChampionshipTeamInfo[];
-};
-
 const TeamListPanel = (props: TeamListPanelProps) => {
   const { teamList } = props;
   const [isModalOpen, handleToggleModal] = useToggleState();
