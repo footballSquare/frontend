@@ -1,13 +1,13 @@
 import React from "react";
 import { useFormContext, useWatch } from "react-hook-form";
+import garbage from "../../../../../../4_Shared/assets/svg/garbage.svg";
+import placeholder from "../../../../../../4_Shared/assets/svg/placeholder.svg";
 import { imgConverter } from "../../../../../../4_Shared/lib/imgConverter";
-import emptyImg from "../../../../../../4_Shared/assets/svg/empty-img.svg";
-import garbageIcon from "../../../../../../4_Shared/assets/svg/garbage.svg";
-import uploadPohtoIcon from "../../../../../../4_Shared/assets/svg/uploadphoto-gray.svg";
 
 const AwardRow = (props: AwardRowProps) => {
   const { index, field, remove } = props;
-  const { control, register, setValue } = useFormContext();
+  const { control, register, setValue } =
+    useFormContext<ChampionshipFormValues>();
 
   const selectedFile = useWatch({
     control,
@@ -21,8 +21,8 @@ const AwardRow = (props: AwardRowProps) => {
   return (
     <div
       key={field.id + " : " + index}
-      className="flex w-full items-center p-3 bg-gray-800 border border-gray-700 rounded-lg shadow-md transition-all hover:border-gray-600">
-      <div className="w-12 h-12 bg-gray-900 mr-3 flex items-center justify-center overflow-hidden rounded">
+      className="flex w-full items-center p-3 bg-white border border-gray-200 rounded-lg shadow-sm">
+      <div className="w-10 h-10 bg-gray-100 mr-3 flex items-center justify-center">
         {filePreview ? (
           <img
             src={filePreview}
@@ -30,25 +30,23 @@ const AwardRow = (props: AwardRowProps) => {
             className="w-full h-full object-cover"
           />
         ) : (
-          <img src={emptyImg} className="w-[30px] h-[30px]" />
+          <img
+            src={placeholder}
+            alt="placeholder"
+            className="h-5 w-5 text-gray-400"
+          />
         )}
       </div>
-
-      <div className="flex-1 relative">
-        <input
-          type="text"
-          className="w-full bg-transparent border-0 border-b border-gray-700 py-2 px-1 focus:ring-0 focus:border-blue-500 outline-none transition text-gray-100 placeholder-gray-500"
-          placeholder="예) MVP, 득점왕, 베스트 골키퍼"
-          {...register(
-            `championship_award.${index}.championship_award_name` as const
-          )}
-        />
-        <div className="absolute bottom-0 left-0 h-[1px] w-0 bg-blue-500 transition-all duration-300 group-focus-within:w-full"></div>
-      </div>
-
-      <label className="ml-3 px-3 py-1.5 border border-gray-600 rounded-md cursor-pointer text-gray hover:bg-gray-700 transition-colors flex items-center">
-        <img src={uploadPohtoIcon} className="w-[20px] h-[20px] mr-1" />
-        사진
+      <input
+        type="text"
+        className="flex-1 border-0 border-b border-gray-200 py-1 focus:ring-0 focus:border-blue-500 outline-none transition"
+        placeholder="예) MVP, 득점왕, 베스트 골키퍼"
+        {...register(
+          `championship_award.${index}.championship_award_name` as const
+        )}
+      />
+      <label className="ml-2 px-3 py-1 border border-gray-300 rounded cursor-pointer text-gray-600 hover:bg-gray-100">
+        사진 추가
         <input
           type="file"
           accept="image/*"
@@ -57,6 +55,7 @@ const AwardRow = (props: AwardRowProps) => {
             onChange: (e) => {
               const file = e.target.files?.[0];
               if (file) {
+                console.log(file);
                 setValue(`championship_award.${index}.file`, file, {
                   shouldValidate: true,
                 });
@@ -65,13 +64,11 @@ const AwardRow = (props: AwardRowProps) => {
           })}
         />
       </label>
-
       <button
         type="button"
         onClick={() => remove(index)}
-        className="ml-2 w-9 h-9 flex items-center justify-center text-gray-500 hover:text-red-400 hover:bg-gray-700 rounded-full transition-all"
-        aria-label="삭제">
-        <img src={garbageIcon} className="w-[20px] h-[20px]" />
+        className="ml-2 w-8 h-8 flex items-center justify-center text-gray-500 hover:text-red-500 transition">
+        <img src={garbage} />
       </button>
     </div>
   );
