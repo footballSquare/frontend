@@ -23,28 +23,36 @@ const InfoHeader = (props: InfoHeaderProps) => {
       <header
         className={`relative rounded-lg shadow-md transition-all duration-300 overflow-hidden mb-4 ${
           isHeaderCollapsed ? "h-14" : ""
-        }`}
-        style={{
-          backgroundColor: championshipInfo.championship_list_color,
-          color: getTextColorFromBackground(
-            championshipInfo.championship_list_color
-          ),
-        }}>
-        {/* 장식용 원 요소들 (중앙 원 제거) */}
-        <div className="absolute top-0 left-0 w-24 h-24 border-2 border-current rounded-full transform -translate-x-1/2 -translate-y-1/2 opacity-20"></div>
-        <div className="absolute bottom-0 right-0 w-24 h-24 border-2 border-current rounded-full transform translate-x-1/2 translate-y-1/2 opacity-20"></div>
+        } bg-gray-800 dark:bg-gray-900 text-gray-100`}>
+        {/* accent: team color strip */}
+        <div
+          className="absolute inset-x-0 top-0 h-1"
+          style={{ backgroundColor: championshipInfo.championship_list_color }}
+        />
+        {/* 장식용 원 요소들 (중앙 원 제거, dark theme용 개선) */}
+        <div className="absolute inset-0 pointer-events-none">
+          <div
+            className="absolute top-[-48px] left-[-48px] w-24 h-24 rounded-full border-4 opacity-20"
+            style={{ borderColor: championshipInfo.championship_list_color }}
+          />
+          <div
+            className="absolute bottom-[-48px] right-[-48px] w-24 h-24 rounded-full border-4 opacity-20"
+            style={{ borderColor: championshipInfo.championship_list_color }}
+          />
+        </div>
 
         {isHeaderCollapsed ? (
           <div className="h-full flex items-center px-4">
             <img
-              className="w-6 h-6 mr-2"
+              className="w-6 h-6 mr-2 border-2 rounded-full"
+              style={{ borderColor: championshipInfo.championship_list_color }}
               src={
                 championshipInfo.championship_list_throphy_img ||
                 defaultTrophyImg
               }
               alt="Trophy"
             />
-            <h1 className="text-lg font-medium truncate">
+            <h1 className="text-lg font-semibold tracking-wide truncate">
               {championshipInfo.championship_list_name}
             </h1>
           </div>
@@ -52,14 +60,17 @@ const InfoHeader = (props: InfoHeaderProps) => {
           <div className="flex flex-col items-center w-full gap-3 p-4">
             <div className="flex items-center space-x-2 mb-2">
               <img
-                className="w-8 h-8 object-cover"
+                className="w-8 h-8 object-cover border-2 rounded-full"
+                style={{
+                  borderColor: championshipInfo.championship_list_color,
+                }}
                 src={
                   championshipInfo.championship_list_throphy_img ||
                   defaultTrophyImg
                 }
                 alt="Trophy"
               />
-              <h1 className="text-xl font-bold">
+              <h1 className="text-2xl font-extrabold tracking-wide">
                 {championshipInfo.championship_list_name}
               </h1>
             </div>
