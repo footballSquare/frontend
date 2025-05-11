@@ -56,7 +56,7 @@ const DashBoard = (props: DashBoardProps) => {
   return (
     <div className="w-full p-4 bg-gray-900 text-gray-100 min-h-screen">
       <nav className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
-        <div className="flex overflow-x-auto space-x-2 p-2 rounded-md scrollbar-hide bg-gray-800 shadow-md">
+        <div className="flex overflow-x-auto space-x-2 p-2 rounded-md scrollbar-hide">
           {activeTabList.map(({ id, label }) => (
             <button
               key={id}

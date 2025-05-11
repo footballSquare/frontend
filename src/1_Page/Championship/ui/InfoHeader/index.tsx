@@ -24,11 +24,6 @@ const InfoHeader = (props: InfoHeaderProps) => {
         className={`relative rounded-lg shadow-md transition-all duration-300 overflow-hidden ${
           isHeaderCollapsed ? "h-14" : ""
         } bg-gray-900 text-gray-100`}>
-        {/* accent: team color strip */}
-        <div
-          className="absolute inset-x-0 top-0 h-1"
-          style={{ backgroundColor: championshipInfo.championship_list_color }}
-        />
         {/* 장식용 원 요소들 (중앙 원 제거, dark theme용 개선) */}
         <div className="absolute inset-0 pointer-events-none">
           <div
