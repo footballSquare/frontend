@@ -1,8 +1,6 @@
 import PlayerRow from "./ui/PlayerRow";
 import useSearchHandler from "./model/useSearchHandler";
 import { sortColumns } from "./constant/sortColumns";
-import { useChampionshipContextInfo } from "../../../../model/useChampionshipContext";
-import { getTextColorFromBackground } from "../../../../../../4_Shared/lib/colorChecker";
 
 const PlayerTab = (props: PlayerTabProps) => {
   const { playerStats } = props;
@@ -14,8 +12,6 @@ const PlayerTab = (props: PlayerTabProps) => {
     handleSort,
     filteredPlayerStats,
   } = useSearchHandler(playerStats);
-
-  const { championship_list_color } = useChampionshipContextInfo();
 
   return (
     <section className="w-full mx-auto bg-gray-900 text-gray-100 rounded-lg shadow-md overflow-hidden">
@@ -40,12 +36,7 @@ const PlayerTab = (props: PlayerTabProps) => {
           <span>필터 초기화</span>
         </button>
       </div>
-      <div
-        className="p-4 rounded-t-lg"
-        style={{
-          backgroundColor: championship_list_color,
-          color: getTextColorFromBackground(championship_list_color),
-        }}>
+      <div className="p-4 rounded-t-lg bg-gray-600">
         <h2 className="font-bold text-lg md:text-xl">
           <span>선수 통계</span>
         </h2>
@@ -55,12 +46,7 @@ const PlayerTab = (props: PlayerTabProps) => {
       <div className="overflow-x-auto">
         <table className="w-full bg-gray-700 min-w-[600px] text-gray-100">
           {/* 헤더 */}
-          <thead
-            className="text-xs"
-            style={{
-              backgroundColor: championship_list_color,
-              color: getTextColorFromBackground(championship_list_color),
-            }}>
+          <thead className="text-xs bg-gray-600 text-gray-400 uppercase tracking-wider">
             <tr>
               {sortColumns.map((col) => (
                 <th key={col.key} className={col.thClass}>
