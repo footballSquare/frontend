@@ -1,7 +1,8 @@
 import ChampionshipMatchCard from "./ui/ChampionshipMatchCard";
 import CreateChampionMatchPanel from "./ui/CreateChampionMatchPanel";
 import useSortHandler from "./model/useSortHandler";
-import { useMyCommunityRoleIdx } from "../../../../../../4_Shared/lib/useMyInfo";
+
+import { useCommunityRole } from "../../../../model/useCommunityContext";
 
 const ChampionshipMatchCardContainer = (
   props: ChampionshipMatchCardContainerProps
@@ -11,13 +12,11 @@ const ChampionshipMatchCardContainer = (
     matchList,
     filteredTeamList,
     matchHandlers,
-    fetchMatchList,
     handleSelect,
   } = props;
 
   // admin
-  const [community_role_idx] = useMyCommunityRoleIdx();
-  const isAdmin = community_role_idx === 1;
+  const { isCommunityOperator, isCommunityManager } = useCommunityRole();
 
   // state
   const {
@@ -33,12 +32,10 @@ const ChampionshipMatchCardContainer = (
       <h2 className="text-lg font-bold text-blue-700 mb-4">매치 결과</h2>
       {/* 검색 및 정렬 옵션 UI */}
       <div className="flex justify-end">
-        {isAdmin && (
-          <CreateChampionMatchPanel
-            filteredTeamList={filteredTeamList}
-            fetchMatchList={fetchMatchList}
-          />
-        )}
+        {isCommunityOperator ||
+          (isCommunityManager && (
+            <CreateChampionMatchPanel filteredTeamList={filteredTeamList} />
+          ))}
       </div>
       <div className="flex gap-4 mb-6  p-4 rounded-lg shadow-md">
         <input

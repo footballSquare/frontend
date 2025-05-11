@@ -10,7 +10,7 @@ import useParamInteger from "../../../../../../../../4_Shared/model/useParamInte
 import useToggleState from "../../../../../../../../4_Shared/model/useToggleState";
 
 const CreateChampionMatchPanel = (props: CreateChampionMatchPanelProps) => {
-  const { filteredTeamList, fetchMatchList } = props;
+  const { filteredTeamList } = props;
   // form
   const {
     register,
@@ -38,7 +38,6 @@ const CreateChampionMatchPanel = (props: CreateChampionMatchPanelProps) => {
   useManageCreateChampionshipMatch({
     serverState,
     handleToggleModal,
-    fetchMatchList,
   });
 
   return (

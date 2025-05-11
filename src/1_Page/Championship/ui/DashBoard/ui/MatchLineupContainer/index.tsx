@@ -3,27 +3,47 @@ import VerticalTeamStatCards from "./ui/VerticalTeamStatCards";
 import EvidenceDetailModal from "./ui/EvidenceDetailModal";
 
 import useToggleState from "../../../../../../4_Shared/model/useToggleState";
-import { useMyCommunityRoleIdx } from "../../../../../../4_Shared/lib/useMyInfo";
+import { useCommunityRole } from "../../../../model/useCommunityContext";
+import useMatchModalStore from "../../../../../../4_Shared/zustand/useMatchModal";
 
 const MatchLineupContainer = (props: MatchLineupContainerProps) => {
-  const { matchIdx, selectedTeams, championshipDetail } = props;
+  const { championshipMatchIdx, selectedTeams, championshipDetail, matchIdx } =
+    props;
 
   // admin
-  const [community_role_idx] = useMyCommunityRoleIdx();
-  const isAdmin = community_role_idx === 1;
+  const { isCommunityManager, isCommunityOperator } = useCommunityRole();
 
   // state
   const [isModalOpen, handleToggleModal] = useToggleState();
   const [isFormationView, toggleIsFormationView] = useToggleState();
   const [isTeamHistoryView, toggleIsTeamHistoryView] = useToggleState();
 
+  // zustand
+  const { setMatchIdx, toggleMatchModal } = useMatchModalStore();
+
+  if (!championshipMatchIdx)
+    return (
+      <div className="flex flex-col items-center justify-center h-full py-10">
+        <div className="bg-gray-100 rounded-full p-4 mb-4">
+          <span className="text-gray-400 text-2xl">⚽</span>
+        </div>
+        <h3 className="text-lg font-medium text-gray-900 mb-2">
+          매치를 선택해주세요
+        </h3>
+        <p className="text-sm text-gray-500 text-center max-w-md">
+          왼쪽 패널에서 확인하고 싶은 매치를 선택하면 상세 정보가 표시됩니다.
+        </p>
+      </div>
+    );
+
   return (
     <div className="p-4">
-      {isAdmin && (
-        <button className="text-blue-600" onClick={handleToggleModal}>
-          증거 자세히 보기
-        </button>
-      )}
+      {isCommunityManager ||
+        (isCommunityOperator && (
+          <button className="text-blue-600" onClick={handleToggleModal}>
+            증거 자세히 보기
+          </button>
+        ))}
       <div className="flex justify-center mb-4 gap-4">
         <button
           className={`px-4 py-2 rounded-full border transition-colors duration-200 ${
@@ -42,6 +62,14 @@ const MatchLineupContainer = (props: MatchLineupContainerProps) => {
           }`}
           onClick={toggleIsTeamHistoryView}>
           라인업 보기
+        </button>
+        <button
+          className={`px-4 py-2 rounded-full border transition-colors duration-200 ${"bg-white text-gray-800 border-gray-300 hover:bg-gray-100"}`}
+          onClick={() => {
+            setMatchIdx(matchIdx);
+            toggleMatchModal();
+          }}>
+          매치 상세 보기
         </button>
       </div>
 
@@ -76,7 +104,7 @@ const MatchLineupContainer = (props: MatchLineupContainerProps) => {
           </div>
 
           <h2 className="text-xl font-bold mb-4 text-center">
-            매치 #{matchIdx} 라인업
+            매치 #{championshipMatchIdx} 라인업
           </h2>
 
           {/* 모바일에서는 선택할 수 있는 토글 버튼 */}
@@ -130,7 +158,7 @@ const MatchLineupContainer = (props: MatchLineupContainerProps) => {
       {isModalOpen && (
         <EvidenceDetailModal
           handleToggleModal={handleToggleModal}
-          matchIdx={matchIdx}
+          championshipMatchIdx={championshipMatchIdx}
           selectTeamList={selectedTeams.selectTeamList}
         />
       )}

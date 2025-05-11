@@ -1,7 +1,7 @@
 import useDeleteChampionshipMatch from "../../../../../../../../3_Entity/Championship/useDeleteChampionshipMatch";
 import usePutChampionshipMatchEnd from "../../../../../../../../3_Entity/Championship/usePutChampionshipMatchEnd";
 import { matchState } from "../../../../../../../../4_Shared/constant/matchState";
-import { useMyCommunityRoleIdx } from "../../../../../../../../4_Shared/lib/useMyInfo";
+import { useCommunityRole } from "../../../../../../model/useCommunityContext";
 import { getStatusColors, getTeamStyle } from "./lib/getStatusColor";
 
 const ChampionshipMatchCard = (props: ChampionshipMatchCardProps) => {
@@ -11,8 +11,8 @@ const ChampionshipMatchCard = (props: ChampionshipMatchCardProps) => {
   const away = match.championship_match_second;
 
   // admin
-  const [community_role_idx] = useMyCommunityRoleIdx();
-  const isAdmin = community_role_idx === 1;
+  const { isCommunityOperator, isCommunityManager } = useCommunityRole();
+
   // 경기 종료 여부 (common_status_idx === 4)
   const isFinished = home.common_status_idx === 4;
   // api
@@ -118,30 +118,31 @@ const ChampionshipMatchCard = (props: ChampionshipMatchCardProps) => {
       </div>
 
       {/* 관리자 버튼 영역 */}
-      {isAdmin && !isFinished && (
-        <div className="flex justify-end gap-2 p-2 bg-black/5 backdrop-blur-sm">
-          <button
-            onClick={() => {
-              if (confirm("정말 삭제하시겠습니까?")) {
-                deleteChampionshipMatch(match.championship_match_idx);
-                handleDeleteMatch(match.championship_match_idx);
-              }
-            }}
-            className="text-xs px-2 py-1 rounded bg-red-500/90 text-white hover:bg-red-600 transition-colors">
-            삭제
-          </button>
-          <button
-            onClick={() => {
-              if (confirm("정말 종료하시겠습니까?")) {
-                putChampionshipMatchEnd(match.championship_match_idx);
-                handleEndMatch(match.championship_match_idx);
-              }
-            }}
-            className="text-xs px-2 py-1 rounded bg-gray-700/90 text-white hover:bg-gray-800 transition-colors">
-            경기종료
-          </button>
-        </div>
-      )}
+      {isCommunityOperator ||
+        (isCommunityManager && !isFinished && (
+          <div className="flex justify-end gap-2 p-2 bg-black/5 backdrop-blur-sm">
+            <button
+              onClick={() => {
+                if (confirm("정말 삭제하시겠습니까?")) {
+                  deleteChampionshipMatch(match.championship_match_idx);
+                  handleDeleteMatch(match.championship_match_idx);
+                }
+              }}
+              className="text-xs px-2 py-1 rounded bg-red-500/90 text-white hover:bg-red-600 transition-colors">
+              삭제
+            </button>
+            <button
+              onClick={() => {
+                if (confirm("정말 종료하시겠습니까?")) {
+                  putChampionshipMatchEnd(match.championship_match_idx);
+                  handleEndMatch(match.championship_match_idx);
+                }
+              }}
+              className="text-xs px-2 py-1 rounded bg-gray-700/90 text-white hover:bg-gray-800 transition-colors">
+              경기종료
+            </button>
+          </div>
+        ))}
 
       {/* 선택 표시기 */}
       {isSelected && (
