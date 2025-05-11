@@ -58,7 +58,7 @@ const InfoHeader = (props: InfoHeaderProps) => {
               <img
                 className="w-8 h-8 object-cover border-2 rounded-full"
                 style={{
-                  borderColor: championshipInfo.championship_list_color,
+                  borderColor: championship_list_color,
                 }}
                 src={
                   championshipInfo.championship_list_throphy_img ||
