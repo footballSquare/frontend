@@ -1,6 +1,5 @@
 import { useMyUserIdx } from "../../../../../../4_Shared/lib/useMyInfo";
 import useCommentInput from "../../model/useCommentInput";
-import useEditngId from "../../model/useEditngId";
 import useToggleState from "../../../../../../4_Shared/model/useToggleState";
 import { getIsLong } from "./util/getIsLong";
 
@@ -8,7 +7,7 @@ const Comment = (props: CommentProps) => {
   const { comment, handleEditComment, handleDeleteComment } = props;
 
   const [myIdx] = useMyUserIdx();
-  const { editingId, handleEditMode, handleCancelEditMode } = useEditngId();
+  const [isEditMode, handleEditMode] = useToggleState();
   const { commentInput, handleSetCommentInput } = useCommentInput();
 
   const [isExpanded, handleToggleExpanded] = useToggleState();
@@ -45,7 +44,7 @@ const Comment = (props: CommentProps) => {
       </div>
 
       {/* 본문 or 수정 모드 */}
-      {editingId === comment.board_comment_idx ? (
+      {isEditMode ? (
         <div className="space-y-3 mt-3">
           <textarea
             value={commentInput}
@@ -57,14 +56,14 @@ const Comment = (props: CommentProps) => {
               className="text-grass hover:underline"
               onClick={() => {
                 handleEditComment(comment.board_comment_idx, commentInput);
-                handleCancelEditMode();
+                handleEditMode();
               }}>
               수정 완료
             </button>
             <button
               className="text-gray-400 hover:underline"
               onClick={() => {
-                handleCancelEditMode();
+                handleEditMode();
                 handleSetCommentInput(comment.board_comment_content);
               }}>
               취소
@@ -92,7 +91,7 @@ const Comment = (props: CommentProps) => {
               <button
                 className="text-gray-400 hover:underline"
                 onClick={() => {
-                  handleEditMode(comment.board_comment_idx);
+                  handleEditMode();
                   handleSetCommentInput(comment.board_comment_content);
                 }}>
                 수정
