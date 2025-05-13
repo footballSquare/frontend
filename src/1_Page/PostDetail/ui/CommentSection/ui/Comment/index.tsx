@@ -19,10 +19,14 @@ const Comment = (props: CommentProps) => {
   return (
     <div
       key={comment.board_comment_idx}
-      className="p-4 border-b border-gray-800">
+      className={`${
+        isEditMode
+          ? "border-l-4 border-grass rounded-lg mb-4 p-4"
+          : " rounded-lg mb-4 p-4"
+      }  `}>
       {/* 작성자 헤더 */}
       <div className="flex items-center space-x-2 mb-2">
-        <div className="w-8 h-8 rounded-full bg-gray-900 overflow-hidden flex items-center justify-center text-gray-300">
+        <div className="w-8 h-8 rounded-full overflow-hidden flex items-center justify-center text-gray-300">
           {comment.player_list_profile_image ? (
             <img
               src={comment.player_list_profile_image}
@@ -49,11 +53,11 @@ const Comment = (props: CommentProps) => {
           <textarea
             value={commentInput}
             onChange={(e) => setCommentInput(e.target.value)}
-            className="w-full bg-transparent border border-gray-800 p-2 text-gray-200 focus:ring-2 focus:ring-grass"
+            className="w-full border border-grass p-2 text-gray-200 rounded-md"
           />
           <div className="flex space-x-2 justify-end">
             <button
-              className="text-grass hover:underline"
+              className="px-2 py-1 bg-grass text-black rounded"
               onClick={() => {
                 handleEditComment(comment.board_comment_idx, commentInput);
                 handleEditMode();
@@ -61,7 +65,7 @@ const Comment = (props: CommentProps) => {
               수정 완료
             </button>
             <button
-              className="text-gray-400 hover:underline"
+              className="px-2 py-1 bg-gray-700 text-gray-200 rounded hover:bg-gray-600"
               onClick={() => {
                 handleEditMode();
                 setCommentInput(comment.board_comment_content);
