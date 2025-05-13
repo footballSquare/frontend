@@ -1,16 +1,14 @@
 import React from "react";
 import useDeleteComment from "../../../../../../../3_Entity/Board/useDeleteComment";
+import useParamInteger from "../../../../../../../4_Shared/model/useParamInteger";
 
 const useCommentPutHandler = (props: UseServerStateProps): [() => void] => {
-  const {
-    board_list_idx,
-    board_comment_idx,
-    handleRollbackComment,
-    discardLastHistory,
-  } = props;
+  const { board_comment_idx, handleRollbackComment, discardLastHistory } =
+    props;
 
+  const boardListIdx = useParamInteger("postId");
   const [deleteComment, deleteServerState] = useDeleteComment(
-    board_list_idx,
+    boardListIdx,
     board_comment_idx
   );
 

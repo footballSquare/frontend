@@ -1,15 +1,16 @@
-import React from "react";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 import { useMyUserIdx } from "../../../../../../4_Shared/lib/useMyInfo";
 import useToggleState from "../../../../../../4_Shared/model/useToggleState";
 import useCommentPutHandler from "./model/usePutCommentHandler";
 import useDeleteCommentHandler from "./model/useDeleteCommentHandler";
 import { getIsLong } from "./util/getIsLong";
+import { schema } from "./lib/schema";
 
 const Comment = (props: CommentProps) => {
   const {
     comment,
-    board_list_idx,
     handleEditComment,
     handleDeleteComment,
     handleRollbackComment,
@@ -20,7 +21,6 @@ const Comment = (props: CommentProps) => {
   const { board_comment_idx } = comment;
 
   const handlerProps = {
-    board_list_idx,
     board_comment_idx,
     handleRollbackComment,
     discardLastHistory,
@@ -29,9 +29,18 @@ const Comment = (props: CommentProps) => {
   const [putComment] = useCommentPutHandler(handlerProps);
   const [deleteComment] = useDeleteCommentHandler(handlerProps);
 
-  const [commentInput, setCommentInput] = React.useState("");
   const [isEditMode, handleEditMode] = useToggleState();
   const [isExpanded, handleToggleExpanded] = useToggleState();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<{ content: string }>({
+    resolver: yupResolver(schema),
+    defaultValues: { content: comment.board_comment_content },
+  });
 
   const previewLimit = 100;
   const lines = comment.board_comment_content.split(/\r?\n/);
@@ -70,31 +79,37 @@ const Comment = (props: CommentProps) => {
 
       {/* 본문 or 수정 모드 */}
       {isEditMode ? (
-        <div className="space-y-3 mt-3">
+        <form
+          onSubmit={handleSubmit((data) => {
+            handleEditComment(comment.board_comment_idx, data.content);
+            handleEditMode();
+            putComment(data.content);
+          })}
+          className="space-y-3 mt-3">
           <textarea
-            value={commentInput}
-            onChange={(e) => setCommentInput(e.target.value)}
+            {...register("content")}
             className="w-full border border-grass p-2 text-gray-200 rounded-md"
           />
+          {errors.content && (
+            <p className="text-red-500 text-sm">{errors.content.message}</p>
+          )}
           <div className="flex space-x-2 justify-end">
             <button
-              className="px-2 py-1 bg-grass text-black rounded"
-              onClick={() => {
-                handleEditComment(comment.board_comment_idx, commentInput);
-                handleEditMode();
-              }}>
+              type="submit"
+              className="px-2 py-1 bg-grass text-black rounded">
               수정 완료
             </button>
             <button
+              type="button"
               className="px-2 py-1 bg-gray-700 text-gray-200 rounded hover:bg-gray-600"
               onClick={() => {
+                reset();
                 handleEditMode();
-                setCommentInput(comment.board_comment_content);
               }}>
               취소
             </button>
           </div>
-        </div>
+        </form>
       ) : (
         <div className="mt-2">
           <p className="whitespace-pre-wrap text-gray-300">
@@ -117,8 +132,7 @@ const Comment = (props: CommentProps) => {
                 className="text-gray-400 hover:underline"
                 onClick={() => {
                   handleEditMode();
-                  setCommentInput(comment.board_comment_content);
-                  putComment(comment.board_comment_content);
+                  reset();
                 }}>
                 수정
               </button>

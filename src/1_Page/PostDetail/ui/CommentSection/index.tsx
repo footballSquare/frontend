@@ -7,7 +7,7 @@ import Comment from "./ui/Comment";
 import usePostCommentHandler from "./model/usePostCommentHandler";
 
 const CommentSection = (props: CommentSectionProps) => {
-  const { initialComments, board_list_idx } = props;
+  const { initialComments } = props;
 
   const {
     register,
@@ -28,10 +28,7 @@ const CommentSection = (props: CommentSectionProps) => {
     handleSetCommentsIdx,
   } = useManageComments(initialComments);
 
-  const [postComment] = usePostCommentHandler(
-    board_list_idx,
-    handleSetCommentsIdx
-  );
+  const [postComment] = usePostCommentHandler(handleSetCommentsIdx);
   return (
     <div className="pt-6 border-t border-gray-800">
       <h3 className="text-lg font-medium mb-4 text-gray-200">
@@ -75,7 +72,6 @@ const CommentSection = (props: CommentSectionProps) => {
             .slice(0, 40)
             .map((comment) => (
               <Comment
-                board_list_idx={board_list_idx}
                 comment={comment}
                 handleEditComment={handleEditComment}
                 handleDeleteComment={handleDeleteComment}

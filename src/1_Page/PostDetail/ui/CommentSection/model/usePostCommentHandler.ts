@@ -1,10 +1,12 @@
 import React from "react";
 import usePostComment from "../../../../../3_Entity/Board/usePostComment";
+import useParamInteger from "../../../../../4_Shared/model/useParamInteger";
 
 const usePostCommentHandler = (
-  boardListIdx: number,
   handleSetCommentsIdx: (newIdx: number) => void
 ) => {
+  const boardListIdx = useParamInteger("postId");
+
   const [postComment, postServerState] = usePostComment(boardListIdx);
 
   React.useEffect(() => {

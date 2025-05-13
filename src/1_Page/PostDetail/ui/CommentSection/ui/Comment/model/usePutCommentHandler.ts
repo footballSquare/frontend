@@ -1,18 +1,17 @@
 import React from "react";
 import usePutComment from "../../../../../../../3_Entity/Board/usePutComment";
+import useParamInteger from "../../../../../../../4_Shared/model/useParamInteger";
 
 const useCommentPutHandler = (
   props: UseServerStateProps
 ): [(content: string) => void] => {
-  const {
-    board_list_idx,
-    board_comment_idx,
-    handleRollbackComment,
-    discardLastHistory,
-  } = props;
+  const { board_comment_idx, handleRollbackComment, discardLastHistory } =
+    props;
+
+  const boardListIdx = useParamInteger("postId");
 
   const [putComment, putServerState] = usePutComment(
-    board_list_idx,
+    boardListIdx,
     board_comment_idx
   );
   React.useEffect(() => {
@@ -28,6 +27,7 @@ const useCommentPutHandler = (
       }
     }
   }, [putServerState]);
+
   return [putComment];
 };
 
