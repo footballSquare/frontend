@@ -54,7 +54,7 @@ const PostEdit = () => {
           <input
             id="board_list_title"
             {...register("board_list_title")}
-            className="bg-[#1b1f2e] border border-[#262b40] rounded p-2.5 w-full focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-200"
+            className="bg-gray-800 border border-gray-700 rounded p-2.5 w-full focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-200"
             placeholder="제목을 입력하세요 (50자 이하)"
           />
           {errors.board_list_title && (
@@ -73,7 +73,7 @@ const PostEdit = () => {
           <textarea
             id="board_list_content"
             {...register("board_list_content")}
-            className="bg-[#1b1f2e] border border-[#262b40] rounded p-2.5 w-full h-72 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-200"
+            className="bg-gray-800 border border-gray-700 rounded p-2.5 w-full h-72 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-200"
             placeholder="내용을 입력하세요 (6000자 이하)"
           />
           {errors.board_list_content && (
@@ -88,7 +88,7 @@ const PostEdit = () => {
             이미지
           </label>
           <div className="flex items-center justify-center w-full">
-            <label className="flex flex-col w-full h-28 border-2 border-dashed border-[#262b40] rounded cursor-pointer hover:border-blue-500 transition-all bg-[#1b1f2e]">
+            <label className="flex flex-col w-full h-28 border-2 border-dashed border-gray-700 rounded cursor-pointer hover:border-blue-500 transition-all bg-gray-800">
               <div className="flex flex-col items-center justify-center pt-5 pb-6">
                 <img src={uploadIcon} className="w-[40px] h-[40px]" />
                 <p className="mb-2 text-sm text-gray-400">
@@ -120,7 +120,7 @@ const PostEdit = () => {
         </div>
 
         {preview && (
-          <div className="mt-4 p-2 bg-[#1b1f2e] border border-[#262b40] rounded">
+          <div className="mt-4 p-2 bg-gray-800 border border-gray-700 rounded">
             <img src={preview} className="max-h-64 mx-auto rounded" />
           </div>
         )}
@@ -128,12 +128,12 @@ const PostEdit = () => {
         <div className="flex space-x-3 pt-4">
           <button
             type="submit"
-            className="px-4 py-1.5 text-sm font-medium text-[#2f80ed] border border-[#2f80ed] hover:bg-[#2f80ed] hover:text-white rounded transition-colors">
+            className="px-4 py-1.5 text-sm font-medium text-blue-500 border border-blue-500 hover:bg-blue-500 hover:text-white rounded transition-colors">
             {isNew ? "작성 완료" : "수정 완료"}
           </button>
           <button
             type="button"
-            className="px-4 py-1.5 text-sm font-medium text-[#c9ced8] border border-[#2a2e3d] hover:bg-[#242834] rounded transition-colors"
+            className="px-4 py-1.5 text-sm font-medium text-gray-400 border border-gray-600 hover:bg-gray-700 rounded transition-colors"
             onClick={() => navigate(-1)}>
             취소
           </button>

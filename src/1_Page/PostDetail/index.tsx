@@ -29,7 +29,7 @@ const PostDetail = () => {
   return (
     <div className="w-full max-w-5xl mx-auto mt-8 mb-16 space-y-12 text-gray-200 px-4 sm:px-6">
       {/* 게시글 헤더 */}
-      <div className="space-y-3 border-b border-gray-800 pb-6">
+      <div className="space-y-3 border-b border-gray-700 pb-6">
         <div className="flex justify-between items-center">
           <span
             className={`inline-block px-3 py-1 text-sm rounded-full text-white bg-grass`}>
@@ -45,7 +45,7 @@ const PostDetail = () => {
         </h1>
 
         <div className="flex items-center space-x-2">
-          <div className="w-8 h-8 rounded-full bg-[#262b40] overflow-hidden flex items-center justify-center text-gray-300">
+          <div className="w-8 h-8 rounded-full bg-gray-800 overflow-hidden flex items-center justify-center text-gray-300">
             {player_list_profile_image ? (
               <img
                 src={player_list_profile_image}
@@ -67,7 +67,7 @@ const PostDetail = () => {
         </p>
 
         {firstImage && (
-          <div className="p-2 border border-gray-800 rounded">
+          <div className="p-2 border border-gray-700 rounded">
             <img
               src={firstImage}
               alt="게시글 이미지"
