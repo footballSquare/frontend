@@ -1,17 +1,17 @@
 import { useFetchData } from "../../4_Shared/util/apiUtil";
 
-const usePutComment = (
+const useDeleteComment = (
   boardListIdx: number,
   boardCommentIdx: number
 ): [(content: string) => void, serverState: Record<string, unknown> | null] => {
   const [serverState, request] = useFetchData();
 
-  const putComment = (content: string) => {
+  const deleteComment = () => {
     const endPoint = `/board/${boardListIdx}/comment/${boardCommentIdx}`;
-    request("POST", endPoint, { board_comment_content: content }, true);
+    request("POST", endPoint, null, true);
   };
 
-  return [putComment, serverState];
+  return [deleteComment, serverState];
 };
 
-export default usePutComment;
+export default useDeleteComment;

@@ -97,7 +97,10 @@ const PostDetail = () => {
         </button>
       </div>
 
-      <CommentSection initialComments={board.comments || []} />
+      <CommentSection
+        board_list_idx={board_list_idx}
+        initialComments={board.comments || []}
+      />
     </div>
   );
 };

@@ -6,7 +6,7 @@ import useManageComments from "./model/useManageComments";
 import Comment from "./ui/Comment";
 
 const CommentSection = (props: CommentSectionProps) => {
-  const { initialComments } = props;
+  const { initialComments, board_list_idx } = props;
 
   const {
     register,
@@ -62,6 +62,7 @@ const CommentSection = (props: CommentSectionProps) => {
             .slice(0, 40)
             .map((comment) => (
               <Comment
+                board_list_idx={board_list_idx}
                 comment={comment}
                 handleEditComment={handleEditComment}
                 handleDeleteComment={handleDeleteComment}
