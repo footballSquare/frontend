@@ -1,6 +1,5 @@
 import React from "react";
 import usePutComment from "../../../../../../../3_Entity/Board/usePutComment";
-import useParamInteger from "../../../../../../../4_Shared/model/useParamInteger";
 
 const useCommentPutHandler = (
   props: UseServerStateProps
@@ -8,12 +7,7 @@ const useCommentPutHandler = (
   const { board_comment_idx, handleRollbackComment, discardLastHistory } =
     props;
 
-  const boardListIdx = useParamInteger("postId");
-
-  const [putComment, putServerState] = usePutComment(
-    boardListIdx,
-    board_comment_idx
-  );
+  const [putComment, putServerState] = usePutComment(board_comment_idx);
   React.useEffect(() => {
     if (putServerState) {
       switch (putServerState.status) {
