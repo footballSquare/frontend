@@ -2,10 +2,10 @@ import React from "react";
 import { useFetchData } from "../../4_Shared/util/apiUtil";
 import { useNavigate } from "react-router-dom";
 
-const useDeleteBoardContext = (boardListIdx: number): [() => void] => {
+const useDeleteBoard = (boardListIdx: number): [() => void] => {
   const [serverState, request, loading] = useFetchData();
 
-  const deleteBoardContext = () => {
+  const deleteBoard = () => {
     request("DELETE", `/board/${boardListIdx}`, null, true);
   };
 
@@ -25,7 +25,7 @@ const useDeleteBoardContext = (boardListIdx: number): [() => void] => {
     }
   }, [loading, serverState]);
 
-  return [deleteBoardContext];
+  return [deleteBoard];
 };
 
-export default useDeleteBoardContext;
+export default useDeleteBoard;

@@ -1,4 +1,4 @@
-type FormFields = {
+type PostEditFormFields = {
   category: number;
   board_list_title: string;
   board_list_content: string;

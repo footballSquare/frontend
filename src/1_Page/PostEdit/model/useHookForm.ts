@@ -6,10 +6,10 @@ import type { UseFormReturn } from "react-hook-form";
 
 const useHookForm = (
   boadDetail: BoardDetails
-): [UseFormReturn<FormFields>, string | undefined] => {
+): [UseFormReturn<PostEditFormFields>, string | undefined] => {
   const [preview, setPreview] = React.useState<string>();
 
-  const { reset, watch, ...rest } = useForm<FormFields>({
+  const { reset, watch, ...rest } = useForm<PostEditFormFields>({
     resolver: yupResolver(schema),
     defaultValues: {
       category: undefined,

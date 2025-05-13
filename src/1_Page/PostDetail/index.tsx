@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import useGetBoardDetail from "../../3_Entity/Board/useGetBoardDetail";
 import useParamInteger from "../../4_Shared/model/useParamInteger";
 import CommentSection from "./ui/CommentSection";
-import useDeleteBoardContext from "../../3_Entity/Board/useDeleteBoardContext";
+import useDeleteBoard from "../../3_Entity/Board/useDeleteBoard";
 import { utcFormatter } from "../../4_Shared/lib/utcFormatter";
 
 const PostDetail = () => {
@@ -10,7 +10,7 @@ const PostDetail = () => {
 
   const postId = useParamInteger("postId");
   const [board] = useGetBoardDetail(postId);
-  const [deleteBoard] = useDeleteBoardContext(postId);
+  const [deleteBoard] = useDeleteBoard(postId);
 
   const {
     board_category_idx,

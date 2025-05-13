@@ -8,7 +8,7 @@ const usePutComment = (
 
   const putComment = (content: string) => {
     const endPoint = `/board/${boardListIdx}/comment/${boardCommentIdx}`;
-    request("POST", endPoint, { board_comment_content: content }, true);
+    request("PUT", endPoint, { board_comment_content: content }, true);
   };
 
   return [putComment, serverState];

@@ -2,6 +2,7 @@ import { Controller } from "react-hook-form";
 import useGetBoardDetailHandler from "./model/useGetBoardDetailHandler";
 import useHookForm from "./model/useHookForm";
 import { useNavigate } from "react-router-dom";
+import { convertToFormData } from "./util/convert";
 
 const PostEdit = () => {
   const { boadDetail, isEdit, postId } = useGetBoardDetailHandler();
@@ -15,7 +16,8 @@ const PostEdit = () => {
     control,
   } = form;
 
-  const onSubmit = (data: FormFields) => {
+  const onSubmit = (data: PostEditFormFields) => {
+    const formData = convertToFormData(data);
     if (isEdit && postId) {
       // TODO: PUT /posts/${postId} (게시글 수정)
     } else {
