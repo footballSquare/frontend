@@ -7,6 +7,7 @@ import useCommentPutHandler from "./model/usePutCommentHandler";
 import useDeleteCommentHandler from "./model/useDeleteCommentHandler";
 import { getIsLong } from "./util/getIsLong";
 import { schema } from "./lib/schema";
+import { utcFormatter } from "../../../../../../4_Shared/lib/utcFormatter";
 
 const Comment = (props: CommentProps) => {
   const {
@@ -72,7 +73,7 @@ const Comment = (props: CommentProps) => {
             {comment.player_list_nickname}
           </p>
           <p className="text-xs text-gray-500">
-            {comment.board_comment_created_at}
+            {utcFormatter(comment.board_comment_created_at)}
           </p>
         </div>
       </div>

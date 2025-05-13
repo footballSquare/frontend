@@ -3,6 +3,7 @@ import useGetBoardDetail from "../../3_Entity/Board/useGetBoardDetail";
 import useParamInteger from "../../4_Shared/model/useParamInteger";
 import CommentSection from "./ui/CommentSection";
 import useDeleteBoardContext from "../../3_Entity/Board/useDeleteBoardContext";
+import { utcFormatter } from "../../4_Shared/lib/utcFormatter";
 
 const PostDetail = () => {
   const navigate = useNavigate();
@@ -34,7 +35,9 @@ const PostDetail = () => {
             className={`inline-block px-3 py-1 text-sm rounded-full text-white bg-grass`}>
             {board_category_idx === 1 ? "공지" : "자유"}
           </span>
-          <p className="text-sm text-gray-400">{board_list_created_at}</p>
+          <p className="text-sm text-gray-400">
+            {utcFormatter(board_list_created_at)}
+          </p>
         </div>
 
         <h1 className="text-2xl sm:text-3xl font-bold text-gray-100 break-words">
