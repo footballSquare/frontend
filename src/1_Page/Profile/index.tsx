@@ -60,7 +60,7 @@ const Profile = () => {
             </h3>
 
             {awards.length === 0 ? (
-              <div className="flex flex-col items-center justify-center text-gray-400 py-8 bg-gray-50 rounded-lg">
+              <div className="flex flex-col items-center justify-center text-gray-400 py-8 bg-gray-900 rounded-lg">
                 <img
                   src={empty}
                   alt="Empty Award List"

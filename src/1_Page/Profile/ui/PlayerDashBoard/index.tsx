@@ -60,7 +60,7 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
   };
 
   return (
-    <div className="w-full bg-white shadow-xl rounded-2xl overflow-hidden border-t border-blue-100 transform transition duration-300 hover:shadow-blue-200">
+    <div className="w-full bg-gray-800 shadow-xl rounded-2xl overflow-hidden border-t border-gray-700 transform transition duration-300 hover:shadow-blue-500">
       {/* 헤더 부분 */}
       <div className="relative bg-gradient-to-r from-blue-600 to-indigo-700 p-6 text-white">
         <div className="absolute top-0 right-0 w-32 h-32 bg-blue-400 opacity-20 rounded-bl-full"></div>
@@ -84,7 +84,7 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
               className={`w-full p-3 text-sm text-center rounded-lg transition-all duration-200 ${
                 modifyMode
                   ? "border border-blue-400 bg-blue-50 text-blue-700 shadow-sm"
-                  : "bg-gradient-to-r from-gray-50 to-blue-50 text-gray-700 italic"
+                  : "bg-gradient-to-r from-gray-800 to-gray-700 text-gray-300 italic"
               }`}
               placeholder="상태 메시지 입력"
             />
@@ -96,12 +96,12 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
           </div>
 
           {/* 팀 & 플랫폼 */}
-          <div className="mb-5 bg-gray-50 p-4 rounded-xl">
-            <label className="text-xs font-semibold text-gray-600 uppercase mb-2 block border-b pb-1">
+          <div className="mb-5 bg-gray-700 p-4 rounded-xl">
+            <label className="text-xs font-semibold text-gray-300 uppercase mb-2 block border-b pb-1">
               {team_name ? "팀" : "팀구직상태"}
             </label>
             {team_name ? (
-              <div className="flex items-center w-full p-2 text-sm gap-3 bg-transparent text-gray-700">
+              <div className="flex items-center w-full p-2 text-sm gap-3 bg-transparent text-gray-300">
                 {team_emblem && (
                   <div className="w-10 h-10  overflow-hidden border-2 border-blue-400 shadow-md">
                     <img
@@ -120,7 +120,7 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
                 className={`w-full p-3 text-sm rounded-lg ${
                   modifyMode
                     ? "border border-blue-400 bg-blue-50 text-blue-700"
-                    : "bg-white shadow-sm text-gray-700 border border-gray-100"
+                    : "bg-gray-800 border border-gray-700 text-gray-300"
                 }`}>
                 {commonStatusIdx.slice(6, 9).map((commontStatusIdx, index) => (
                   <option key={index} value={6 + index}>
@@ -139,14 +139,14 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
           <div className="space-y-5">
             {/* 닉네임 */}
             <div className="group transition-all duration-300">
-              <label className="text-xs font-semibold text-gray-600 uppercase mb-1 block">
+              <label className="text-xs font-semibold text-gray-300 uppercase mb-1 block">
                 Nickname
               </label>
               <div
                 className={`flex items-center w-full p-3 text-sm rounded-lg transition-all duration-200 ${
                   modifyMode
                     ? "border border-blue-400 bg-blue-50 text-blue-700 shadow-sm"
-                    : "bg-white border border-gray-100 shadow-sm hover:shadow group-hover:border-blue-200 text-gray-700"
+                    : "bg-gray-800 border border-gray-700 shadow-sm hover:shadow group-hover:border-blue-200 text-gray-300"
                 }`}>
                 {team_short_name && (
                   <p className="whitespace-nowrap text-blue-700 font-bold mr-1">{`#${team_short_name} -`}</p>
@@ -167,7 +167,7 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
 
             {/* 플랫폼 */}
             <div className="group transition-all duration-300">
-              <label className="text-xs font-semibold text-gray-600 uppercase mb-1 block">
+              <label className="text-xs font-semibold text-gray-300 uppercase mb-1 block">
                 Platform
               </label>
               <select
@@ -176,7 +176,7 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
                 className={`w-full p-3 text-sm rounded-lg transition-all duration-200 ${
                   modifyMode
                     ? "border border-blue-400 bg-blue-50 text-blue-700 shadow-sm"
-                    : "bg-white border border-gray-100 shadow-sm hover:shadow group-hover:border-blue-200 text-gray-700"
+                    : "bg-gray-800 border border-gray-700 shadow-sm hover:shadow group-hover:border-blue-200 text-gray-300"
                 }`}>
                 {platform.map((plat, index) => (
                   <option key={index} value={plat?.toLowerCase()}>
@@ -193,7 +193,7 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
 
             {/* 포지션 */}
             <div className="group transition-all duration-300">
-              <label className="text-xs font-semibold text-gray-600 uppercase mb-1 block">
+              <label className="text-xs font-semibold text-gray-300 uppercase mb-1 block">
                 Position
               </label>
               <div className="relative">
@@ -204,7 +204,7 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
                   className={`w-full p-3 text-sm rounded-lg transition-all duration-200 ${
                     modifyMode
                       ? "border border-blue-400 bg-blue-50 text-blue-700 shadow-sm"
-                      : "bg-white border border-gray-100 shadow-sm hover:shadow group-hover:border-blue-200 text-gray-700"
+                      : "bg-gray-800 border border-gray-700 shadow-sm hover:shadow group-hover:border-blue-200 text-gray-300"
                   }`}>
                   {matchPosition.map((position, idx) => (
                     <option
@@ -225,16 +225,16 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
 
             {/* Discord 태그 */}
             <div className="group transition-all duration-300">
-              <label className="text-xs font-semibold text-gray-600 uppercase mb-1 block">
+              <label className="text-xs font-semibold text-gray-300 uppercase mb-1 block">
                 Discord Tag
               </label>
               <div
                 className={`flex items-center w-full rounded-lg transition-all duration-200 ${
                   modifyMode
                     ? "border border-blue-400 bg-blue-50 text-blue-700 shadow-sm"
-                    : "bg-white border border-gray-100 shadow-sm hover:shadow group-hover:border-blue-200"
+                    : "bg-gray-800 border border-gray-700 shadow-sm hover:shadow group-hover:border-blue-200"
                 }`}>
-                <div className="bg-gray-100 p-2 rounded-l-lg">
+                <div className="bg-gray-700 p-2 rounded-l-lg">
                   <img
                     src={discord}
                     className="w-[30px] h-[30px] object-cover"
