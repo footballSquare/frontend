@@ -39,10 +39,8 @@ const PostEdit = () => {
   return (
     <div className="w-full max-w-5xl mx-auto mt-8 mb-16 space-y-12 text-gray-100">
       <h1 className="text-3xl font-semibold mb-6 text-gray-100">
-        {categoryIndex === 0
-          ? "자유게시판 게시글 작성"
-          : isNew
-          ? `${CATEGORY_STRING[boardDetail.board_category_idx]} 게시글 작성`
+        {isNew
+          ? `${CATEGORY_STRING[categoryIndex]} 게시글 작성`
           : `${CATEGORY_STRING[boardDetail.board_category_idx]} 게시글 수정`}
       </h1>
 
