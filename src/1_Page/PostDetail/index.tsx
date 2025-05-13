@@ -34,7 +34,8 @@ const PostDetail = () => {
       {/* 게시글 헤더 */}
       <div className="space-y-3 border-b border-[#262b40] pb-6">
         <div className="flex justify-between items-center">
-          <span className="inline-block px-3 py-1 bg-blue-600 text-white text-sm rounded-full">
+          <span
+            className={`inline-block px-3 py-1 text-sm rounded-full text-white bg-grass`}>
             {board_category_idx === 1 ? "공지" : "자유"}
           </span>
           <p className="text-sm text-gray-400">{board_list_created_at}</p>
