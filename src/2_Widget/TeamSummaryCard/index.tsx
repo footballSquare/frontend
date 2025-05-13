@@ -12,7 +12,7 @@ const TeamSummaryCard = (props: TeamSummaryCardProps) => {
     <div
       id={isRecent ? "recent" : isMyTeam ? "myteam" : undefined}
       ref={observeRef}
-      className="group w-full max-w-md rounded-xl overflow-hidden bg-white shadow-md transition-shadow duration-200 cursor-pointer hover:shadow-xl">
+      className="group w-full max-w-md rounded-xl overflow-hidden bg-gray-800 shadow-md transition-shadow duration-200 cursor-pointer hover:shadow-xl">
       <div className="p-5">
         <div className="flex items-center mb-4">
           {team.team_list_emblem ? (
@@ -34,16 +34,16 @@ const TeamSummaryCard = (props: TeamSummaryCardProps) => {
               <span
                 style={{ backgroundColor: team.team_list_color }}
                 className="w-[12px] h-[12px] rounded-full inline-block mr-[6px]"></span>
-              <h3 className="text-lg font-bold text-gray-800">
+              <h3 className="text-lg font-bold text-gray-100">
                 {team.team_list_name}
               </h3>
             </div>
-            <p className="text-sm text-gray-500">{team.team_list_short_name}</p>
+            <p className="text-sm text-gray-400">{team.team_list_short_name}</p>
           </div>
 
           <div className="ml-auto">
             {team.whole_member < 10 && (
-              <div className="bg-blue-50 text-blue-600 px-2 py-1 rounded-md text-xs font-medium">
+              <div className="bg-blue-700/40 text-blue-300 px-2 py-1 rounded-md text-xs font-medium">
                 모집중
               </div>
             )}
@@ -51,9 +51,9 @@ const TeamSummaryCard = (props: TeamSummaryCardProps) => {
         </div>
 
         {/* 데이터 시각화 섹션 */}
-        <div className="mt-4 pt-4 border-t border-gray-100">
+        <div className="mt-4 pt-4 border-t border-gray-700">
           <div className="grid grid-cols-2 gap-4">
-            <div className="flex items-center text-sm text-gray-600">
+            <div className="flex items-center text-sm text-gray-400">
               <img src={calendarIcon} className="w-5 h-5" />
               <span className="ml-2 mr-1">생성일:</span>
               <span className="font-medium">
@@ -61,7 +61,7 @@ const TeamSummaryCard = (props: TeamSummaryCardProps) => {
               </span>
             </div>
 
-            <div className="flex items-center text-sm text-gray-600">
+            <div className="flex items-center text-sm text-gray-400">
               <img src={userIcon} className="w-5 h-5" />
               <span className="ml-2 mr-1">멤버:</span>
               <span className="font-medium">{team.whole_member}명</span>
@@ -75,11 +75,11 @@ const TeamSummaryCard = (props: TeamSummaryCardProps) => {
         onClick={() => {
           navigate(`/team/${team.team_list_idx}`);
         }}
-        className="flex items-center justify-center p-3 bg-gray-50 transition-colors group-hover:bg-blue-50">
-        <span className="text-sm font-medium text-gray-600 transition-colors group-hover:text-blue-600">
+        className="flex items-center justify-center p-3 bg-gray-700 transition-colors group-hover:bg-blue-700/40">
+        <span className="text-sm font-medium text-gray-300 transition-colors group-hover:text-blue-400">
           팀 상세보기
         </span>
-        <span className="text-gray-400 transition-colors group-hover:text-blue-600">
+        <span className="text-gray-400 transition-colors group-hover:text-blue-400">
           ›
         </span>
       </div>
