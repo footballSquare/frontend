@@ -10,10 +10,12 @@ type AuthState = {
   teamIdx: number | null;
   profileImg: string | null;
   nickname: string | null;
+  communityListIdx: number | null;
   login: (data: {
     accessToken: string | null;
     userIdx: number;
     communityRoleIdx: number | null;
+    communityListIdx: number | null;
     teamRoleIdx: number | null;
     teamIdx: number | null;
     playerStatus: string;
@@ -33,6 +35,7 @@ export const useAuthStore = create<AuthState>()((set) => ({
   teamIdx: null,
   profileImg: null,
   nickname: null,
+  communityListIdx: null,
   login: (data) => set({ ...data }),
   logout: () =>
     set({
@@ -43,6 +46,7 @@ export const useAuthStore = create<AuthState>()((set) => ({
       teamIdx: null,
       profileImg: null,
       nickname: null,
+      communityListIdx: null,
     }),
   leaveTeam: () =>
     set({
@@ -94,6 +98,11 @@ export const useMyTeamIdx = (): [number | null] => {
 export const useMyProfileImg = (): [string | null] => {
   const profileImg = useAuthStore((state) => state.profileImg);
   return [profileImg];
+};
+
+export const useMyCommunityListIdx = (): [number | null] => {
+  const communityListIdx = useAuthStore((state) => state.communityListIdx);
+  return [communityListIdx];
 };
 
 export const useLogout = (): [() => void] => {

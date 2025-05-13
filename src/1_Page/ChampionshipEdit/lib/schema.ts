@@ -5,6 +5,7 @@ export const schema = Yup.object().shape({
   championship_type_idx: Yup.number().required("대회 종류는 필수값입니다."),
   championship_list_name: Yup.string()
     .max(30, "대회 이름은 최대 30글자까지 가능합니다.")
+    .matches(/^[가-힣A-Za-z\s]+$/, "대회 이름은 한글과 영어만 입력 가능합니다.")
     .required("대회 이름을 입력해주세요."),
   championship_list_description: Yup.string()
     .max(500, "대회 설명은 최대 500글자까지 입력 가능합니다.")

@@ -2,10 +2,10 @@ import React from "react";
 import useGetChampionshipEvidence from "../../../../../../../../3_Entity/Championship/useGetChampionshipEvidence";
 
 const EvidenceDetailModal = (props: EvidenceDetailModalProps) => {
-  const { matchIdx, selectTeamList, handleToggleModal } = props;
+  const { championshipMatchIdx, selectTeamList, handleToggleModal } = props;
 
   // api
-  const [evidenceImage] = useGetChampionshipEvidence(matchIdx);
+  const [evidenceImage] = useGetChampionshipEvidence(championshipMatchIdx);
   const [selectedImage, setSelectedImage] = React.useState<string | null>(null);
 
   return (
@@ -17,7 +17,7 @@ const EvidenceDetailModal = (props: EvidenceDetailModalProps) => {
           className="bg-white w-full max-w-4xl rounded-2xl shadow-2xl border border-gray-200 max-h-[90vh] overflow-y-auto"
           onClick={(e) => e.stopPropagation()}>
           <div className="sticky top-0 bg-white z-10 border-b p-4 flex justify-between items-center">
-            <h2 className="text-xl font-bold text-gray-800">증거 자료</h2>
+            <h2 className="text-xl font-bold text-white">증거 자료</h2>
             <button
               onClick={handleToggleModal}
               className="text-gray-600 hover:text-gray-900 transition-colors rounded-full p-2 hover:bg-gray-100">

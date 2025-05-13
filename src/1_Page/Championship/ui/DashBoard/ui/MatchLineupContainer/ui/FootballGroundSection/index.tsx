@@ -2,6 +2,8 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { formations } from "../../../../../../../../2_Widget/MatchModal/constant/formation";
 import { matchPosition } from "../../../../../../../../4_Shared/constant/matchPosition";
+import { useChampionshipContextInfo } from "../../../../../../model/useChampionshipContext";
+import { getTextColorFromBackground } from "../../../../../../../../4_Shared/lib/colorChecker";
 
 const FootballGroundSection = (props: FootballGroundSectionProps) => {
   const { players, teamFormation, isFirstTeam, isFormationView, momPlayerIdx } =
@@ -12,171 +14,184 @@ const FootballGroundSection = (props: FootballGroundSectionProps) => {
     null
   );
 
+  /** 챔피언십 메인 색 */
+  const { championship_list_color } = useChampionshipContextInfo();
+  const accent = championship_list_color || "#3b82f6";
+  const accentText = getTextColorFromBackground(accent);
+
+  /** 공통 카드 스타일 */
+  const cardBase =
+    "relative p-3 border-b rounded-md shadow-sm cursor-pointer transition-colors duration-150";
+  const whiteCard =
+    cardBase + " bg-gray-800 hover:bg-gray-700 border-gray-700 text-gray-100";
+
+  /** 포메이션 배경 */
+  const pitchBg =
+    "w-full sm:w-[300px] h-[500px] rounded-lg shadow-xl p-2 relative bg-green-600 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-green-700 via-green-600 to-green-700";
+
   return (
-    <div className={"flex flex-col sm:flex-row items-center w-full  md:w-auto"}>
-      {/* 팀 라인업 */}
+    <div className="flex flex-col sm:flex-row items-center w-full md:w-auto">
+      {/* 팀 라인업 (왼쪽 팀만) */}
       {isFirstTeam && (
         <div
-          className={`w-full flex-col md:w-1/4 ${
+          className={`w-full sm:w-1/4 flex-col ${
             isFormationView ? "hidden" : "flex"
-          } sm:flex`}>
-          {players?.map((player, idx) => (
+          }`}>
+          {players?.map((p) => (
             <div
-              key={`lineup-${idx}`}
-              onClick={() => {
+              key={`lineup-${p.player_list_idx}`}
+              onClick={() =>
                 setActiveTooltipId(
-                  activeTooltipId === player.player_list_idx
+                  activeTooltipId === p.player_list_idx
                     ? null
-                    : player.player_list_idx
-                );
-              }}
-              className="relative group p-3 border-b bg-white rounded-md shadow-md hover:bg-gray-50 transition">
-              <div
-                className={`text-sm whitespace-nowrap overflow-hidden text-ellipsis ${
-                  player.player_list_idx === momPlayerIdx
-                    ? "text-yellow-500 font-bold"
+                    : p.player_list_idx
+                )
+              }
+              className={whiteCard}>
+              <span
+                className={`truncate whitespace-nowrap ${
+                  p.player_list_idx === momPlayerIdx
+                    ? "text-yellow-400 font-bold"
                     : ""
                 }`}>
-                {player.player_list_idx === momPlayerIdx ? "MOM " : ""}
-                {matchPosition[player.match_position_idx]}
-                {" : "}
-                {player.player_list_nickname}
-              </div>
+                {p.player_list_idx === momPlayerIdx && "MOM "}
+                {matchPosition[p.match_position_idx]} : {p.player_list_nickname}
+              </span>
             </div>
           ))}
         </div>
       )}
 
-      {/* 팀 포메이션 */}
+      {/* 포메이션 */}
       <div
-        className={`w-full sm:w-[300px] h-[500px] bg-green-500 rounded-lg shadow-xl p-2 relative ${
+        className={`${pitchBg} ${
           isFormationView ? "block" : "hidden"
         } sm:block`}>
-        <div className="absolute top-0 left-1/2 w-[100px] h-[50px] overflow-hidden transform -translate-x-1/2">
-          <div className="w-[100px] h-[100px] rounded-full border border-white transform translate-y-[-50%]"></div>
+        {/* 센터 서클 & 골문 */}
+        <div className="absolute top-0 left-1/2 w-24 h-12 overflow-hidden -translate-x-1/2">
+          <div className="w-24 h-24 rounded-full border border-white -translate-y-1/2" />
         </div>
-        <div className="absolute bottom-0 left-1/2 w-[100px] h-[40px] border-t border-l border-r border-white transform -translate-x-1/2"></div>
-        {players?.map((player) => {
-          const location = formations[teamFormation].filter(
-            (formation) => formation.positionIdx === player.match_position_idx
-          )[0] || { top: 0, left: 0 };
+        <div className="absolute bottom-0 left-1/2 w-24 h-10 border-t border-l border-r border-white -translate-x-1/2" />
+
+        {players?.map((p) => {
+          const loc = formations[teamFormation].find(
+            (f) => f.positionIdx === p.match_position_idx
+          ) || { top: 0, left: 0 };
 
           return (
             <div
-              onClick={() => {
+              key={`formation-${p.player_list_idx}`}
+              onClick={() =>
                 setActiveTooltipId(
-                  activeTooltipId === player.player_list_idx
+                  activeTooltipId === p.player_list_idx
                     ? null
-                    : player.player_list_idx
-                );
-              }}
-              key={`formation-${player.player_list_idx}-${player.match_player_stats_possession}`}
+                    : p.player_list_idx
+                )
+              }
               className="absolute flex flex-col items-center"
               style={{
-                top: location.top,
-                left: location.left,
+                top: loc.top,
+                left: loc.left,
                 transform: "translateX(-50%)",
               }}>
-              <div className="group flex flex-col items-center">
+              {/* 플레이어 이름 */}
+              <p
+                className={`truncate max-w-[90px] text-[10px] leading-tight ${
+                  p.player_list_idx === momPlayerIdx
+                    ? "text-yellow-300 font-bold"
+                    : "text-white"
+                }`}>
+                {p.player_list_idx === momPlayerIdx && "MOM "}
+                {p.player_list_nickname}
+              </p>
+
+              {/* 원형 아이콘 */}
+              <div
+                className={`relative rounded-full w-8 h-8 flex items-center justify-center shadow transition-transform duration-200 ${
+                  p.player_list_idx === momPlayerIdx
+                    ? "bg-yellow-300"
+                    : "bg-white"
+                } hover:scale-110`}>
+                {/* 골/어시스트 표시 */}
+                {(p.match_player_stats_goal ?? 0) > 0 && (
+                  <span className="absolute -bottom-1 -left-1 text-[10px] bg-black text-white px-1 rounded-full flex items-center gap-0.5">
+                    ⚽
+                    {(p.match_player_stats_goal ?? 0) > 1 && (
+                      <span className="ml-0.5">
+                        +{p.match_player_stats_goal}
+                      </span>
+                    )}
+                  </span>
+                )}
+                {(p.match_player_stats_assist ?? 0) > 0 && (
+                  <span className="absolute -bottom-1 -right-1 text-[10px] bg-black text-white px-1 rounded-full flex items-center gap-0.5">
+                    🎯
+                    {(p.match_player_stats_assist ?? 0) > 1 && (
+                      <span className="ml-0.5">
+                        +{p.match_player_stats_assist}
+                      </span>
+                    )}
+                  </span>
+                )}
+              </div>
+
+              {/* 툴팁 */}
+              <div
+                className={`absolute left-1/2 -translate-x-1/2 top-[calc(100%+8px)] z-10 max-w-[160px] p-2 rounded-md border whitespace-nowrap text-xs transition-opacity duration-200 ${
+                  activeTooltipId === p.player_list_idx
+                    ? "opacity-100"
+                    : "opacity-0 pointer-events-none"
+                }`}
+                style={{
+                  backgroundColor: "white",
+                  borderColor: accent,
+                  color: accentText,
+                }}>
                 <p
-                  className={`truncate whitespace-nowrap overflow-hidden text-[10px] leading-tight ${
-                    player.player_list_idx === momPlayerIdx
-                      ? "text-yellow-400 font-bold"
-                      : ""
-                  }`}>
-                  {player.player_list_idx === momPlayerIdx ? "MOM " : ""}
-                  {player.player_list_nickname}
+                  className="cursor-pointer underline"
+                  onClick={() => navigate(`/profile/${p.player_list_idx}`)}>
+                  프로필 보기
                 </p>
-                <div
-                  className={`relative rounded-full w-8 h-8 flex items-center justify-center shadow group-hover:scale-110 transition-transform ${
-                    player.player_list_idx === momPlayerIdx
-                      ? "bg-yellow-300"
-                      : "bg-white"
-                  }`}>
-                  {/* 골 아이콘 표시 */}
-                  {player.match_player_stats_goal &&
-                    player.match_player_stats_goal > 0 && (
-                      <div className="absolute -bottom-1 -left-1 text-[10px] bg-black text-white px-1 rounded-full flex items-center gap-0.5">
-                        ⚽
-                        {player.match_player_stats_goal > 1 && (
-                          <span className="ml-0.5">
-                            +{player.match_player_stats_goal}
-                          </span>
-                        )}
-                      </div>
-                    )}
-                  {/* 어시스트 아이콘 표시 */}
-                  {player.match_player_stats_assist &&
-                    player.match_player_stats_assist > 0 && (
-                      <div className="absolute -bottom-1 -right-1 text-[10px] bg-black text-white px-1 rounded-full flex items-center gap-0.5">
-                        🎯
-                        {player.match_player_stats_assist > 1 && (
-                          <span className="ml-0.5">
-                            +{player.match_player_stats_assist}
-                          </span>
-                        )}
-                      </div>
-                    )}
+                <div>Pos: {matchPosition[p.match_position_idx]}</div>
+                <div>골: {p.match_player_stats_goal || 0}</div>
+                <div>도움: {p.match_player_stats_assist || 0}</div>
+                <div>패스: {p.match_player_stats_successrate_pass || 0}</div>
+                <div>
+                  드리블: {p.match_player_stats_successrate_dribble || 0}
                 </div>
-                <div
-                  className={`absolute left-1/2 -translate-x-1/2 top-[calc(100%+8px)] p-2 bg-gray-800 text-white text-xs rounded-md shadow-lg border border-gray-600 whitespace-nowrap transition-opacity duration-200  ${
-                    activeTooltipId === player.player_list_idx
-                      ? "opacity-100"
-                      : "opacity-0 group-hover:opacity-100"
-                  }`}>
-                  <p
-                    onClick={() =>
-                      navigate(`/profile/${player.player_list_idx}`)
-                    }>
-                    프로필 상세보기
-                  </p>
-                  <div>Name: {player.player_list_nickname}</div>
-                  <div>
-                    Position: {matchPosition[player.match_position_idx]}
-                  </div>
-                  <div>Goal: {player.match_player_stats_goal}</div>
-                  <div>Assist: {player.match_player_stats_assist}</div>
-                  <div>Pass: {player.match_player_stats_successrate_pass}</div>
-                  <div>
-                    Dribble: {player.match_player_stats_successrate_dribble}
-                  </div>
-                  <div>
-                    Tackle: {player.match_player_stats_successrate_tackle}
-                  </div>
-                </div>
+                <div>태클: {p.match_player_stats_successrate_tackle || 0}</div>
               </div>
             </div>
           );
         })}
       </div>
+
       {/* 상대 팀 라인업 */}
       {!isFirstTeam && (
         <div
-          className={`w-full flex-col md:w-1/4 ${
+          className={`w-full sm:w-1/4 flex-col ${
             isFormationView ? "hidden" : "flex"
-          } sm:flex`}>
-          {players?.map((player, idx) => (
+          }`}>
+          {players?.map((p) => (
             <div
-              key={`lineup-${idx}`}
-              className="relative group p-3 border-b bg-white rounded-md shadow-md hover:bg-gray-50 transition"
-              onClick={() => {
+              key={`lineup-${p.player_list_idx}`}
+              onClick={() =>
                 setActiveTooltipId(
-                  activeTooltipId === player.player_list_idx
+                  activeTooltipId === p.player_list_idx
                     ? null
-                    : player.player_list_idx
-                );
-              }}>
-              <div
-                className={`text-sm whitespace-nowrap overflow-hidden text-ellipsis ${
-                  player.player_list_idx === momPlayerIdx
-                    ? "text-yellow-500 font-bold"
+                    : p.player_list_idx
+                )
+              }
+              className={whiteCard}>
+              <span
+                className={`truncate whitespace-nowrap ${
+                  p.player_list_idx === momPlayerIdx
+                    ? "text-yellow-400 font-bold"
                     : ""
                 }`}>
-                {player.player_list_idx === momPlayerIdx ? "MOM " : ""}
-                {matchPosition[player.match_position_idx]}
-                {" : "}
-                {player.player_list_nickname}
-              </div>
+                {p.player_list_idx === momPlayerIdx && "MOM "}
+                {matchPosition[p.match_position_idx]} : {p.player_list_nickname}
+              </span>
             </div>
           ))}
         </div>

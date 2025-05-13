@@ -35,12 +35,6 @@ const AwardTab = (props: AwartTabProps) => {
         )}
       </div>
 
-      {errors.championship_award && (
-        <p className="text-red-500 text-sm mt-1">
-          {errors.championship_award.message}
-        </p>
-      )}
-
       {errors.championship_award?.root?.message && (
         <p className="text-red-500 text-sm mt-1">
           {errors.championship_award.root.message}

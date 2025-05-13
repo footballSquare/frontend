@@ -6,20 +6,20 @@ const TournamentBracket = (props: TournamentBracketProps) => {
   const { scale, increaseScale, decreaseScale } = useScale();
 
   return (
-    <div className="p-6 bg-gradient-to-r from-blue-50 to-slate-50 rounded-lg overflow-x-auto">
-      <h1 className="text-2xl font-bold mb-6 text-center text-blue-700">
+    <div className="p-6  text-gray-100 rounded-lg overflow-x-auto">
+      <h1 className="text-2xl font-bold mb-6 text-center text-white">
         토너먼트 대진표
       </h1>
 
       <div className="flex justify-end mb-4 gap-2">
         <button
           onClick={decreaseScale}
-          className="px-3 py-1 bg-blue-200 hover:bg-blue-300 text-sm rounded">
+          className="px-3 py-1 bg-gray-700 hover:bg-gray-600 text-sm rounded text-gray-100">
           -
         </button>
         <button
           onClick={increaseScale}
-          className="px-3 py-1 bg-blue-200 hover:bg-blue-300 text-sm rounded">
+          className="px-3 py-1 bg-gray-700 hover:bg-gray-600 text-sm rounded text-gray-100">
           +
         </button>
       </div>
@@ -33,7 +33,7 @@ const TournamentBracket = (props: TournamentBracketProps) => {
             className="flex-shrink-0 px-4"
             style={{ width: "280px" }}>
             {/* 라운드 제목 16, 8 ,4 등 */}
-            <div className="bg-blue-600 text-white py-2 px-4 rounded-t-lg text-center font-bold">
+            <div className="py-2 px-4 rounded-t-lg text-center font-bold bg-gray-700 text-gray-100">
               {roundContnet.label}
             </div>
 
@@ -41,7 +41,10 @@ const TournamentBracket = (props: TournamentBracketProps) => {
             <div className="space-y-12 relative mt-4">
               {roundContnet.matchList.map(
                 (match: ChampionshipMatchList, index: number) => (
-                  <TournamentMatchColumn match={match} index={index} />
+                  <TournamentMatchColumn
+                    key={index + "_MatchBox_" + match.championship_match_idx}
+                    match={match}
+                  />
                 )
               )}
             </div>
