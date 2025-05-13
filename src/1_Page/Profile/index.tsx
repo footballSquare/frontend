@@ -12,7 +12,7 @@ const Profile = () => {
   const awards = userInfo?.Awards ?? [];
 
   return (
-    <main className="flex flex-wrap gap-6 w-full justify-center py-8 px-4 bg-gradient-to-b from-gray-50 to-blue-50">
+    <main className="flex flex-wrap gap-6 w-full justify-center py-8 px-4 bg-gradient-to-b from-gray-900 to-gray-800">
       {/* Player Dashboard */}
       <div className="w-[90%] sm:w-[40%] min-w-[300px] max-w-sm">
         <div className="transform transition-all duration-300 hover:scale-[1.01] hover:shadow-xl">
@@ -22,7 +22,7 @@ const Profile = () => {
 
       {/* Award Dashboard */}
       <div className="w-[90%] sm:w-[40%] min-w-[300px] max-w-sm">
-        <div className="w-full bg-white shadow-lg rounded-2xl p-6 border border-blue-200 transform transition-all duration-300 hover:shadow-blue-200 hover:border-blue-300 overflow-hidden">
+        <div className="w-full bg-gray-800 shadow-lg rounded-2xl p-6 border border-gray-700 transform transition-all duration-300 hover:shadow-blue-500 hover:border-blue-500 overflow-hidden">
           {/* 헤더 영역 */}
           <div className="relative mb-6">
             <div className="absolute -top-10 -left-10 w-24 h-24 bg-blue-500 opacity-10 rounded-full"></div>
@@ -31,10 +31,10 @@ const Profile = () => {
             <h2 className="text-blue-600 font-semibold text-center text-sm tracking-widest">
               PLAY TO WIN
             </h2>
-            <h1 className="text-xl font-bold text-center mt-1 text-gray-800">
+            <h1 className="text-xl font-bold text-center mt-1 text-gray-100">
               AWARD
             </h1>
-            <p className="text-gray-500 text-center text-xs mt-2 cursor-pointer hover:text-blue-500 transition-colors">
+            <p className="text-gray-400 text-center text-xs mt-2 cursor-pointer hover:text-blue-500 transition-colors">
               See More Award
             </p>
 
@@ -43,7 +43,7 @@ const Profile = () => {
 
           {/* 트로피 리스트 */}
           {awards.length !== 0 && (
-            <div className="w-full mt-3 bg-blue-50 p-3 rounded-xl">
+            <div className="w-full mt-3 bg-gray-700 p-3 rounded-xl">
               <AutoMoveAwardList awards={awards} />
             </div>
           )}
@@ -54,7 +54,7 @@ const Profile = () => {
           </div>
 
           {/* 어워드 리스트 */}
-          <div className="mt-6 bg-gray-50 rounded-xl p-4">
+          <div className="mt-6 bg-gray-800 rounded-xl p-4 border border-gray-700">
             <h3 className="text-blue-600 font-semibold text-sm mb-4 border-b border-blue-100 pb-2 flex items-center">
               <span className="text-lg mr-2">🏆</span> AWARD LIST
             </h3>
@@ -73,8 +73,8 @@ const Profile = () => {
                 {awards.map((award, index) => (
                   <div
                     key={index}
-                    className="cursor-pointer text-sm text-gray-600 hover:text-blue-600 transition-all duration-200">
-                    <div className="bg-white p-3 rounded-lg shadow-sm hover:shadow-md border-l-4 border-blue-400 hover:translate-x-1 transition-all">
+                    className="cursor-pointer text-sm text-gray-300 hover:text-blue-600 transition-all duration-200">
+                    <div className="bg-gray-700 p-3 rounded-lg shadow-sm hover:shadow-md border-l-4 border-blue-400 hover:translate-x-1 transition-all">
                       <h4 className="font-semibold truncate flex items-center">
                         <span className="text-yellow-500 mr-2">🏅</span>
                         {award.championship_list_name}
@@ -88,9 +88,9 @@ const Profile = () => {
 
           {/* 장식적 요소 */}
           <div className="w-full flex justify-center mt-6">
-            <div className="h-1 w-12 bg-gray-200 rounded-full mx-1"></div>
+            <div className="h-1 w-12 bg-gray-600 rounded-full mx-1"></div>
             <div className="h-1 w-12 bg-blue-300 rounded-full mx-1"></div>
-            <div className="h-1 w-12 bg-gray-200 rounded-full mx-1"></div>
+            <div className="h-1 w-12 bg-gray-600 rounded-full mx-1"></div>
           </div>
         </div>
       </div>
