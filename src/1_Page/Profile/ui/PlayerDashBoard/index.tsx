@@ -248,7 +248,9 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
                 <input
                   {...register("discord_tag")}
                   disabled={!modifyMode}
-                  className="w-full p-3 bg-transparent outline-none text-sm text-white"
+                  className={`w-full p-3 bg-transparent outline-none text-sm 
+                    ${modifyMode ? "text-blue-700" : "text-gray-300"}
+                    `}
                   placeholder="Discord Tag"
                 />
               </div>
