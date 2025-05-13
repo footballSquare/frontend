@@ -10,12 +10,12 @@ const TeamListPage = () => {
   const [activeTab, setActiveTab] = React.useState(TEAM_TAB.ALL_TEAMS);
 
   return (
-    <div className="min-h-screen w-full bg-gray-50">
+    <div className="min-h-screen w-full bg-gray-900">
       {/* 상단 헤더 - 토스 스타일 */}
-      <header className="w-full bg-white shadow-sm">
+      <header className="w-full bg-gray-800 shadow-md">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
           <div className="flex items-center justify-between">
-            <h1 className="text-xl font-bold">팀 둘러보기</h1>
+            <h1 className="text-xl font-bold text-gray-100">팀 둘러보기</h1>
             <TeamCreatePanel />
           </div>
         </div>
@@ -23,12 +23,12 @@ const TeamListPage = () => {
 
       <main className="py-6 pb-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="lg:hidden flex border-b mb-4">
+          <div className="lg:hidden flex border-b border-gray-700 mb-4">
             <button
               className={`flex-1 text-center py-2 ${
                 activeTab === TEAM_TAB.RECRUITING_TEAMS
-                  ? "border-b-2 border-blue-500 text-blue-500 font-semibold"
-                  : "text-gray-600"
+                  ? "border-b-2 border-blue-400 text-blue-400 font-semibold"
+                  : "text-gray-300"
               }`}
               onClick={() => setActiveTab(TEAM_TAB.RECRUITING_TEAMS)}>
               모집 중인 팀
@@ -36,8 +36,8 @@ const TeamListPage = () => {
             <button
               className={`flex-1 text-center py-2 ${
                 activeTab === TEAM_TAB.ALL_TEAMS
-                  ? "border-b-2 border-blue-500 text-blue-500 font-semibold"
-                  : "text-gray-600"
+                  ? "border-b-2 border-blue-400 text-blue-400 font-semibold"
+                  : "text-gray-300"
               }`}
               onClick={() => setActiveTab(TEAM_TAB.ALL_TEAMS)}>
               전체 팀 목록
