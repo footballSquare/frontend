@@ -1,6 +1,6 @@
 import useToggleState from "../../../../4_Shared/model/useToggleState";
 
-import plusCircleIcon from "../../../../4_Shared/assets/svg/plus.svg";
+import plusIcon from "../../../../4_Shared/assets/svg/plus.svg";
 import CreateTeamModal from "./ui/CreateTeamModal";
 
 const TeamCreatePanel = () => {
@@ -13,7 +13,7 @@ const TeamCreatePanel = () => {
         onClick={handleToggleModal}>
         <div className="flex items-center">
           <div className="w-12 h-12 rounded-full bg-gray-700 flex items-center justify-center mr-3">
-            <img src={plusCircleIcon} className="w-[20px] h-[20px]" />
+            <img src={plusIcon} className="w-[20px] h-[20px]" />
           </div>
           <div>
             <h3 className="font-bold text-gray-100">새로운 팀 만들기</h3>
