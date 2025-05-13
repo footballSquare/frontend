@@ -30,9 +30,9 @@ const PostDetail = () => {
   };
 
   return (
-    <div className="w-full max-w-5xl mx-auto mt-8 mb-16 space-y-12 text-[#e1e4ea] px-4 sm:px-6">
+    <div className="w-full max-w-5xl mx-auto mt-8 mb-16 space-y-12 text-gray-200 px-4 sm:px-6">
       {/* 게시글 헤더 */}
-      <div className="space-y-3 border-b border-[#262b40] pb-6">
+      <div className="space-y-3 border-b border-gray-800 pb-6">
         <div className="flex justify-between items-center">
           <span
             className={`inline-block px-3 py-1 text-sm rounded-full text-white bg-grass`}>
@@ -68,7 +68,7 @@ const PostDetail = () => {
         </p>
 
         {firstImage && (
-          <div className="p-2 bg-[#1b1f2e] border border-[#262b40] rounded">
+          <div className="p-2 border border-gray-800 rounded">
             <img
               src={firstImage}
               alt="게시글 이미지"
@@ -81,17 +81,17 @@ const PostDetail = () => {
       {/* 게시글 작업 버튼 */}
       <div className="flex flex-wrap gap-2 pt-2">
         <button
-          className="text-[#2f80ed] hover:underline cursor-pointer"
+          className="text-grass hover:underline cursor-pointer"
           onClick={() => navigate(`/board/edit/${board_list_idx}`)}>
           수정
         </button>
         <button
-          className="text-[#ff5353] hover:underline cursor-pointer"
+          className="text-red-500 hover:underline cursor-pointer"
           onClick={handleDeletePost}>
           삭제
         </button>
         <button
-          className="text-[#c9ced8] hover:underline cursor-pointer ml-auto"
+          className="text-gray-400 hover:underline cursor-pointer ml-auto"
           onClick={() => navigate(-1)}>
           목록
         </button>
