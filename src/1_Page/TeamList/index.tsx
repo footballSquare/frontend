@@ -12,7 +12,7 @@ const TeamListPage = () => {
   return (
     <div className="min-h-screen w-full bg-gray-900">
       {/* 상단 헤더 - 토스 스타일 */}
-      <header className="w-full bg-gray-800 shadow-md">
+      <header className="sticky top-0 z-20 w-full bg-gray-800/90 backdrop-blur-md shadow-sm border-b border-grass/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
           <div className="flex items-center justify-between">
             <h1 className="text-xl font-bold text-gray-100">팀 둘러보기</h1>
@@ -27,19 +27,23 @@ const TeamListPage = () => {
             <button
               className={`flex-1 text-center py-2 ${
                 activeTab === TEAM_TAB.RECRUITING_TEAMS
-                  ? "border-b-2 border-blue-400 text-blue-400 font-semibold"
-                  : "text-gray-300"
+                  ? "border-b-2 border-grass text-grass font-semibold"
+                  : "text-gray-300 hover:text-grass transition-colors"
               }`}
-              onClick={() => setActiveTab(TEAM_TAB.RECRUITING_TEAMS)}>
+              onClick={() => setActiveTab(TEAM_TAB.RECRUITING_TEAMS)}
+              role="tab"
+              aria-selected={activeTab === TEAM_TAB.RECRUITING_TEAMS}>
               모집 중인 팀
             </button>
             <button
               className={`flex-1 text-center py-2 ${
                 activeTab === TEAM_TAB.ALL_TEAMS
-                  ? "border-b-2 border-blue-400 text-blue-400 font-semibold"
-                  : "text-gray-300"
+                  ? "border-b-2 border-grass text-grass font-semibold"
+                  : "text-gray-300 hover:text-grass transition-colors"
               }`}
-              onClick={() => setActiveTab(TEAM_TAB.ALL_TEAMS)}>
+              onClick={() => setActiveTab(TEAM_TAB.ALL_TEAMS)}
+              role="tab"
+              aria-selected={activeTab === TEAM_TAB.ALL_TEAMS}>
               전체 팀 목록
             </button>
           </div>
