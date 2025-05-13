@@ -1,14 +1,14 @@
 import { useFetchData } from "../../4_Shared/util/apiUtil";
 
 const usePostBoard = (): [
-  (formData: FormData, category: number) => void,
+  (data: PostEditFormFields, category: number) => void,
   serverState: Record<string, unknown> | null
 ] => {
   const [serverState, request] = useFetchData();
 
-  const postBoard = (formData: FormData, category: number) => {
+  const postBoard = (data: PostEditFormFields, category: number) => {
     const endPoint = `/board/?category=${category}`;
-    request("POST", endPoint, formData, true);
+    request("POST", endPoint, data, true);
   };
 
   return [postBoard, serverState];

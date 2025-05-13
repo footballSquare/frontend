@@ -2,7 +2,9 @@ import { Controller } from "react-hook-form";
 import useGetBoardDetailHandler from "./model/useGetBoardDetailHandler";
 import useHookForm from "./model/useHookForm";
 import { useNavigate } from "react-router-dom";
-import { convertToFormData } from "./util/convert";
+import usePostBoard from "../../3_Entity/Board/usePostBoard";
+import usePutBoard from "../../3_Entity/Board/usePutBoard";
+import uploadIcon from "../../4_Shared/assets/svg/upload.svg";
 
 const PostEdit = () => {
   const { boadDetail, isEdit, postId } = useGetBoardDetailHandler();
@@ -16,12 +18,15 @@ const PostEdit = () => {
     control,
   } = form;
 
+  const [postBoard] = usePostBoard();
+  const [putBoard] = usePutBoard(postId);
+
   const onSubmit = (data: PostEditFormFields) => {
-    const formData = convertToFormData(data);
+    const category = data.category;
     if (isEdit && postId) {
-      // TODO: PUT /posts/${postId} (게시글 수정)
+      putBoard(data);
     } else {
-      // TODO: POST /posts (게시글 생성)
+      postBoard(data, category);
     }
   };
 
@@ -96,18 +101,7 @@ const PostEdit = () => {
           <div className="flex items-center justify-center w-full">
             <label className="flex flex-col w-full h-28 border-2 border-dashed border-[#262b40] rounded cursor-pointer hover:border-blue-500 transition-all bg-[#1b1f2e]">
               <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                <svg
-                  className="w-8 h-8 text-gray-400"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
-                </svg>
+                <img src={uploadIcon} className="w-[40px] h-[40px]" />
                 <p className="mb-2 text-sm text-gray-400">
                   <span className="font-medium">클릭하여 이미지 업로드</span>
                 </p>

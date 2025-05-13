@@ -2,15 +2,12 @@ import { useFetchData } from "../../4_Shared/util/apiUtil";
 
 const usePutBoard = (
   boardListIdx: number
-): [
-  (formData: FormData) => void,
-  serverState: Record<string, unknown> | null
-] => {
+): [(data: PostEditFormFields) => void, Record<string, unknown> | null] => {
   const [serverState, request] = useFetchData();
 
-  const putBoard = (formData: FormData) => {
+  const putBoard = (data: PostEditFormFields) => {
     const endPoint = `/board/${boardListIdx}`;
-    request("PUT", endPoint, formData, true);
+    request("PUT", endPoint, data, true);
   };
 
   return [putBoard, serverState];
