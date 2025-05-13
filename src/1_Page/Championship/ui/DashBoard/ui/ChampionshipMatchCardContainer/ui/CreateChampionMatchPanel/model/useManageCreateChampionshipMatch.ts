@@ -3,18 +3,16 @@ import React from "react";
 type UseManageCreateChampionshipMatchProps = {
   serverState: Record<string, unknown> | null;
   handleToggleModal: () => void;
-  fetchMatchList: () => void;
 };
 const useManageCreateChampionshipMatch = (
   props: UseManageCreateChampionshipMatchProps
 ) => {
-  const { serverState, handleToggleModal, fetchMatchList } = props;
+  const { serverState, handleToggleModal } = props;
   React.useEffect(() => {
     if (!serverState) return;
 
     switch (serverState.status) {
       case 200:
-        fetchMatchList();
         handleToggleModal();
         break;
       case 400:

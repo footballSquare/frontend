@@ -8,7 +8,7 @@ import useManageChampionshipEndData from "./model/useManageChampionshipEndData";
 import useParamInteger from "../../../../../../../../4_Shared/model/useParamInteger";
 import check_white from "../../../../../../../../4_Shared/assets/svg/check_white.svg";
 import closeBtn from "../../../../../../../../4_Shared/assets/svg/closeBtn.svg";
-import AwardPlayerList from "./ui/AwardPlayerList";
+import AwardPlayerSelector from "./ui/AwardPlayerSelector";
 
 const EndChampionshipModal = (props: EndChampionshipModalProps) => {
   const { onClose, cachedChampionshipEndDataRef } = props;
@@ -20,7 +20,8 @@ const EndChampionshipModal = (props: EndChampionshipModalProps) => {
     cachedChampionshipEndDataRef
   ); // 부모 ref를 이용해 캐싱해서 값이 있을때만 호출
   const [putChampionshipEnd] = usePutChampionshipEnd(championshipListIdx);
-  // 선택 및 필터링
+
+  // 팀 선택 및 필터링
   const { selectTeam, handleSetSelectTeam } = useTeamSelect();
   const { selectedAwardPlayers, handlePlayerSelectForAward } =
     useAwardPlayers();
@@ -129,7 +130,7 @@ const EndChampionshipModal = (props: EndChampionshipModalProps) => {
         <div className="space-y-3">
           {championshipEndData.awards &&
             championshipEndData.awards.map((award, index) => (
-              <AwardPlayerList
+              <AwardPlayerSelector
                 award={award}
                 players={championshipEndData.players}
                 index={index}
