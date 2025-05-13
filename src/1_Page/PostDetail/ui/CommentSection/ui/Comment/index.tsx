@@ -142,8 +142,10 @@ const Comment = (props: CommentProps) => {
                 type="button"
                 className="text-red-500 hover:underline"
                 onClick={() => {
-                  handleDeleteComment(comment.board_comment_idx);
-                  deleteComment();
+                  if (confirm("정말 삭제하시겠습니까?")) {
+                    handleDeleteComment(comment.board_comment_idx);
+                    deleteComment();
+                  }
                 }}>
                 삭제
               </button>
