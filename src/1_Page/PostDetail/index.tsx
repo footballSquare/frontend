@@ -2,12 +2,14 @@ import { useNavigate } from "react-router-dom";
 import useGetBoardDetail from "../../3_Entity/Board/useGetBoardDetail";
 import useParamInteger from "../../4_Shared/model/useParamInteger";
 import CommentSection from "./ui/CommentSection";
+import useDeleteBoardContext from "../../3_Entity/Board/useDeleteBoardContext";
 
 const PostDetail = () => {
   const navigate = useNavigate();
 
   const postId = useParamInteger("postId");
   const [board] = useGetBoardDetail(postId);
+  const [deleteBoard] = useDeleteBoardContext(postId);
 
   const {
     board_category_idx,
@@ -22,12 +24,6 @@ const PostDetail = () => {
   const player_list_profile_image = player?.player_list_profile_image ?? null;
   const player_list_nickname = player?.player_list_nickname ?? "";
   const firstImage = board_list_img?.[0];
-
-  const handleDeletePost = () => {
-    if (window.confirm("정말로 이 게시글을 삭제하시겠습니까?")) {
-      navigate(-1);
-    }
-  };
 
   return (
     <div className="w-full max-w-5xl mx-auto mt-8 mb-16 space-y-12 text-gray-200 px-4 sm:px-6">
@@ -87,7 +83,11 @@ const PostDetail = () => {
         </button>
         <button
           className="text-red-500 hover:underline cursor-pointer"
-          onClick={handleDeletePost}>
+          onClick={() => {
+            if (confirm("정말로 이 게시글을 삭제하시겠습니까?")) {
+              deleteBoard();
+            }
+          }}>
           삭제
         </button>
         <button
