@@ -19,6 +19,7 @@ import {
 import { getPositionColor } from "../../../../4_Shared/lib/getPositionColor";
 import useManageModifyAndServerState from "./model/useManageModifyAndServerState";
 import { useNavigate } from "react-router-dom";
+import { getPlatformIcon } from "../../../../4_Shared/lib/getPlatformIcon";
 
 const PlayerDashBoard = (props: PlayerDashBoardProps) => {
   const { is_mine, team_short_name, team_name, team_emblem } = props; // 뷸변값들
@@ -40,7 +41,7 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
     reset(userInfoForm);
   }, [userInfoForm]); // 초기값 설정
   const match_position_idx = watch("match_position_idx");
-
+  const watchPlatform = watch("platform");
   const [putUserInfo, serverState] = usePutUserInfo();
   const [deleteUser] = useDeleteUser();
   const [removeAllCookie] = useRemoveAllCookie();
@@ -166,30 +167,34 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
             </div>
 
             {/* 플랫폼 */}
-            <div className="group transition-all duration-300">
-              <label className="text-xs font-semibold text-gray-300 uppercase mb-1 block">
-                Platform
-              </label>
+            <div
+              className={`flex items-center w-full text-sm rounded-lg transition-all duration-200 ${
+                modifyMode
+                  ? "border border-blue-400 bg-blue-50 text-blue-700 shadow-sm"
+                  : "bg-gray-800 border border-gray-700 shadow-sm hover:shadow group-hover:border-blue-200 text-gray-300"
+              }`}>
+              <div className="bg-gray-700 p-2 rounded-l-lg">
+                <img
+                  src={getPlatformIcon(watchPlatform)}
+                  className="w-[30px] h-[30px] object-cover"
+                />
+              </div>
               <select
                 {...register("platform")}
                 disabled={!modifyMode}
-                className={`w-full p-3 text-sm rounded-lg transition-all duration-200 ${
-                  modifyMode
-                    ? "border border-blue-400 bg-blue-50 text-blue-700 shadow-sm"
-                    : "bg-gray-800 border border-gray-700 shadow-sm hover:shadow group-hover:border-blue-200 text-gray-300"
-                }`}>
+                className="flex-1 pt-1 bg-transparent outline-none">
                 {platform.map((plat, index) => (
                   <option key={index} value={plat?.toLowerCase()}>
                     {plat}
                   </option>
                 ))}
               </select>
-              {errors.platform && (
-                <p className="text-red-500 text-xs mt-1 pl-2">
-                  {errors.platform.message}
-                </p>
-              )}
             </div>
+            {errors.platform && (
+              <p className="text-red-500 text-xs mt-1 pl-2">
+                {errors.platform.message}
+              </p>
+            )}
 
             {/* 포지션 */}
             <div className="group transition-all duration-300">
@@ -243,7 +248,7 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
                 <input
                   {...register("discord_tag")}
                   disabled={!modifyMode}
-                  className="w-full p-3 bg-transparent outline-none text-sm"
+                  className="w-full p-3 bg-transparent outline-none text-sm text-white"
                   placeholder="Discord Tag"
                 />
               </div>
