@@ -15,6 +15,8 @@ const useManageComments = (props: UseManageCommentsProps) => {
   const [comments, setComments] =
     React.useState<BoardComment[]>(initialComments);
 
+  const commentsHistoryRef = React.useRef<BoardComment[][]>([]);
+
   const handleAddComment = (data: { content: string }) => {
     const text = data.content.trim();
     if (!myIdx || !myNickname) {
@@ -39,17 +41,35 @@ const useManageComments = (props: UseManageCommentsProps) => {
 
   /* 댓글 수정 */
   const handleEditComment = (id: number, body: string) => {
-    setComments((prev) =>
-      prev.map((c) =>
+    setComments((prev) => {
+      commentsHistoryRef.current.push(prev);
+      return prev.map((c) =>
         c.board_comment_idx === id ? { ...c, board_comment_content: body } : c
-      )
-    );
+      );
+    });
   };
 
   /* 댓글 삭제 */
   const handleDeleteComment = (id: number) => {
-    if (confirm("정말로 이 댓글을 삭제하시겠습니까?"))
-      setComments((prev) => prev.filter((c) => c.board_comment_idx !== id));
+    setComments((prev) => {
+      commentsHistoryRef.current.push(prev);
+      return prev.filter((c) => c.board_comment_idx !== id);
+    });
+  };
+
+  const handleRollbackComment = () => {
+    const history = commentsHistoryRef.current;
+    if (history.length === 0) return;
+    const previous = history.pop();
+    if (previous) {
+      setComments(previous);
+    }
+  };
+
+  const discardLastHistory = () => {
+    const history = commentsHistoryRef.current;
+    if (history.length === 0) return;
+    history.pop();
   };
 
   return {
@@ -57,6 +77,8 @@ const useManageComments = (props: UseManageCommentsProps) => {
     handleAddComment,
     handleEditComment,
     handleDeleteComment,
+    handleRollbackComment,
+    discardLastHistory,
   };
 };
 

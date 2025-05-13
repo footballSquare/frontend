@@ -17,8 +17,14 @@ const CommentSection = (props: CommentSectionProps) => {
     resolver: yupResolver(commentSchema),
   });
 
-  const { comments, handleAddComment, handleEditComment, handleDeleteComment } =
-    useManageComments({ initialComments });
+  const {
+    comments,
+    handleAddComment,
+    handleEditComment,
+    handleDeleteComment,
+    handleRollbackComment,
+    discardLastHistory,
+  } = useManageComments({ initialComments });
 
   return (
     <div className="pt-6 border-t border-gray-800">
@@ -66,6 +72,8 @@ const CommentSection = (props: CommentSectionProps) => {
                 comment={comment}
                 handleEditComment={handleEditComment}
                 handleDeleteComment={handleDeleteComment}
+                handleRollbackComment={handleRollbackComment}
+                discardLastHistory={discardLastHistory}
               />
             ))
         )}

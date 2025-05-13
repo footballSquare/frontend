@@ -3,4 +3,6 @@ type CommentProps = {
   board_list_idx: number;
   handleEditComment: (commentId: number, content: string) => void;
   handleDeleteComment: (commentId: number) => void;
+  handleRollbackComment: () => void;
+  discardLastHistory: () => void;
 };

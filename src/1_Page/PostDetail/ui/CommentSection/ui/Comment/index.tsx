@@ -1,38 +1,32 @@
-import usePutComment from "../../../../../../3_Entity/Board/usePutComment";
 import { useMyUserIdx } from "../../../../../../4_Shared/lib/useMyInfo";
 import useToggleState from "../../../../../../4_Shared/model/useToggleState";
+import useCommentPutHandler from "../../model/usePutCommentHandler";
+import useDeleteCommentHandler from "../../model/useDeleteCommentHandler";
 import { getIsLong } from "./util/getIsLong";
 import React from "react";
 
 const Comment = (props: CommentProps) => {
-  const { comment, board_list_idx, handleEditComment, handleDeleteComment } =
-    props;
+  const {
+    comment,
+    board_list_idx,
+    handleEditComment,
+    handleDeleteComment,
+    handleRollbackComment,
+    discardLastHistory,
+  } = props;
 
   const [myIdx] = useMyUserIdx();
   const { board_comment_idx } = comment;
 
-  const [deleteComment, deleteServerState] = useDeleteComment();
-
-  const [putComment, putServerState] = usePutComment(
+  const handlerProps = {
     board_list_idx,
-    board_comment_idx
-  );
+    board_comment_idx,
+    handleRollbackComment,
+    discardLastHistory,
+  };
 
-  React.useEffect(() => {
-    if (putServerState) {
-      switch (putServerState.status) {
-        case 200:
-          alert("댓글이 수정되었습니다.");
-          break;
-        case 400:
-          alert("댓글 수정에 실패했습니다.");
-          break;
-        default:
-          alert("알 수 없는 오류가 발생했습니다.");
-          break;
-      }
-    }
-  }, [putServerState]);
+  const [putComment] = useCommentPutHandler(handlerProps);
+  const [deleteComment] = useDeleteCommentHandler(handlerProps);
 
   const [commentInput, setCommentInput] = React.useState("");
   const [isEditMode, handleEditMode] = useToggleState();
@@ -129,7 +123,10 @@ const Comment = (props: CommentProps) => {
               </button>
               <button
                 className="text-red-500 hover:underline"
-                onClick={() => handleDeleteComment(comment.board_comment_idx)}>
+                onClick={() => {
+                  handleDeleteComment(comment.board_comment_idx);
+                  deleteComment();
+                }}>
                 삭제
               </button>
             </div>

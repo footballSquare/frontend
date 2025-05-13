@@ -3,7 +3,7 @@ import { useFetchData } from "../../4_Shared/util/apiUtil";
 const useDeleteComment = (
   boardListIdx: number,
   boardCommentIdx: number
-): [(content: string) => void, serverState: Record<string, unknown> | null] => {
+): [() => void, serverState: Record<string, unknown> | null] => {
   const [serverState, request] = useFetchData();
 
   const deleteComment = () => {
