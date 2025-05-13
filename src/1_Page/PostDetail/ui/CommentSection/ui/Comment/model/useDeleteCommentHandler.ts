@@ -12,11 +12,10 @@ const useCommentPutHandler = (props: UseServerStateProps): [() => void] => {
     if (deleteServerState) {
       switch (deleteServerState.status) {
         case 200:
-          alert("댓글이 수정되었습니다.");
           discardLastHistory();
           break;
         default:
-          alert("수정에 실패했습니다.");
+          alert("삭제에 실패했습니다.");
           handleRollbackComment();
           break;
       }

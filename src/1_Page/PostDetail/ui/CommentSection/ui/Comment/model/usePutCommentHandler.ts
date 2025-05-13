@@ -12,7 +12,6 @@ const useCommentPutHandler = (
     if (putServerState) {
       switch (putServerState.status) {
         case 200:
-          alert("댓글이 수정되었습니다.");
           discardLastHistory();
           break;
         default:

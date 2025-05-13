@@ -130,6 +130,7 @@ const Comment = (props: CommentProps) => {
           {myIdx === comment.player_list_idx && (
             <div className="flex space-x-2 mt-3 justify-end">
               <button
+                type="button"
                 className="text-gray-400 hover:underline"
                 onClick={() => {
                   handleEditMode();
@@ -138,6 +139,7 @@ const Comment = (props: CommentProps) => {
                 수정
               </button>
               <button
+                type="button"
                 className="text-red-500 hover:underline"
                 onClick={() => {
                   handleDeleteComment(comment.board_comment_idx);
