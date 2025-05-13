@@ -1,15 +1,12 @@
-import { useMyUserIdx } from "../../../../4_Shared/lib/useMyInfo";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { commentSchema } from "./lib/schema";
 import useManageComments from "./model/useManageComments";
-import useEditngId from "./model/useEditngId";
-import useCommentInput from "./model/useCommentInput";
+
+import Comment from "./ui/Comment";
 
 const CommentSection = (props: CommentSectionProps) => {
   const { initialComments } = props;
-
-  const [myIdx] = useMyUserIdx();
 
   const {
     register,
@@ -19,9 +16,6 @@ const CommentSection = (props: CommentSectionProps) => {
   } = useForm<{ content: string }>({
     resolver: yupResolver(commentSchema),
   });
-
-  const { editingId, handleEditMode, handleCancelEditMode } = useEditngId();
-  const { commentInput, handleSetCommentInput } = useCommentInput();
 
   const { comments, handleAddComment, handleEditComment, handleDeleteComment } =
     useManageComments({
@@ -67,95 +61,19 @@ const CommentSection = (props: CommentSectionProps) => {
             첫 댓글을 작성해보세요!
           </p>
         ) : (
-          comments.slice(0, 40).map((comment) => (
-            <div
-              key={comment.board_comment_idx}
-              className="p-4 border-b border-gray-800">
-              {/* 작성자 헤더 */}
-              <div className="flex items-center space-x-2 mb-2">
-                <div className="w-8 h-8 rounded-full bg-gray-900 overflow-hidden flex items-center justify-center text-gray-300">
-                  {comment.player_list_profile_image ? (
-                    <img
-                      src={comment.player_list_profile_image}
-                      alt={comment.player_list_nickname}
-                      className="w-full h-full object-cover"
-                    />
-                  ) : (
-                    comment.player_list_nickname.charAt(0)
-                  )}
-                </div>
-                <div>
-                  <p className="font-medium text-gray-300">
-                    {comment.player_list_nickname}
-                  </p>
-                  <p className="text-xs text-gray-500">
-                    {comment.board_comment_created_at}
-                  </p>
-                </div>
-              </div>
-
-              {/* 본문 or 수정 모드 */}
-              {editingId === comment.board_comment_idx ? (
-                <div className="space-y-3 mt-3">
-                  <textarea
-                    value={commentInput}
-                    onChange={(e) => handleSetCommentInput(e.target.value)}
-                    className="w-full bg-transparent border border-gray-800 p-2 text-gray-200 focus:ring-2 focus:ring-grass"
-                  />
-                  <div className="flex space-x-2 justify-end">
-                    <button
-                      className="text-grass hover:underline"
-                      onClick={() => {
-                        handleEditComment(
-                          comment.board_comment_idx,
-                          commentInput
-                        );
-                        handleCancelEditMode();
-                      }}>
-                      수정 완료
-                    </button>
-                    <button
-                      className="text-gray-400 hover:underline"
-                      onClick={() => {
-                        handleCancelEditMode();
-                        handleSetCommentInput(comment.board_comment_content);
-                      }}>
-                      취소
-                    </button>
-                  </div>
-                </div>
-              ) : (
-                <div className="mt-2">
-                  <p className="whitespace-pre-wrap text-gray-300">
-                    {comment.board_comment_content}
-                  </p>
-                  {myIdx === comment.player_list_idx && (
-                    <div className="flex space-x-2 mt-3 justify-end">
-                      <button
-                        className="text-gray-400 hover:underline"
-                        onClick={() => {
-                          handleEditMode(comment.board_comment_idx);
-                          handleSetCommentInput(comment.board_comment_content);
-                        }}>
-                        수정
-                      </button>
-                      <button
-                        className="text-red-500 hover:underline"
-                        onClick={() =>
-                          handleDeleteComment(comment.board_comment_idx)
-                        }>
-                        삭제
-                      </button>
-                    </div>
-                  )}
-                </div>
-              )}
-            </div>
-          ))
+          comments
+            .slice(0, 40)
+            .map((comment) => (
+              <Comment
+                comment={comment}
+                handleEditComment={handleEditComment}
+                handleDeleteComment={handleDeleteComment}
+              />
+            ))
         )}
 
         {comments.length > 40 && (
-          <button className="px-4 py-2 bg-grass/10 hover:bg-grass/20 text-grass rounded w-full border border-grass/30 transition-colors">
+          <button className="px-4 py-2 bg-gray-800 hover:bg-gray-700 text-gray-300 rounded w-full border border-gray-800 transition-colors">
             댓글 더보기
           </button>
         )}
