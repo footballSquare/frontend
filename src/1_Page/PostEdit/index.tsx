@@ -1,130 +1,26 @@
-import React, { useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { useForm, Controller } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
-import useGetBoardDetail from "../../3_Entity/Board/useGetBoardDetail";
-
-const schema = yup
-  .object({
-    // 새 필드
-    category: yup
-      .number()
-      .transform((v, o) => (o === "" ? undefined : v))
-      .when("board_category_idx", {
-        is: (val: unknown) => val === undefined || val === "",
-        then: (s) =>
-          s
-            .typeError("게시판 종류를 선택해주세요")
-            .required("게시판 종류를 선택해주세요"),
-        otherwise: (s) => s.notRequired(),
-      }),
-
-    // 기존 필드(선택)
-    board_category_idx: yup
-      .number()
-      .transform((v, o) => (o === "" ? undefined : v))
-      .notRequired(),
-
-    board_list_title: yup
-      .string()
-      .required("제목을 입력해주세요")
-      .max(50, "제목은 50자 이하로 입력해주세요"),
-    board_list_content: yup
-      .string()
-      .required("내용을 입력해주세요")
-      .max(1000, "내용은 1000자 이하로 입력해주세요"),
-    board_list_img: yup
-      .mixed<FileList>()
-      .test("fileSize", "3MB 이하만 업로드 가능합니다", (value) => {
-        if (!value || value.length === 0) return true;
-        return value[0].size <= 3 * 1024 * 1024;
-      })
-      .test(
-        "fileCount",
-        "이미지는 최대 1개만 업로드 가능합니다",
-        (value) => !value || value.length <= 1
-      ),
-  })
-  .required();
-
-type PostFormFields = {
-  category?: number;
-  board_category_idx?: number | null;
-  board_list_title: string;
-  board_list_content: string;
-  board_list_img?: FileList;
-};
+import { Controller } from "react-hook-form";
+import useGetBoardDetailHandler from "./model/useGetBoardDetailHandler";
+import useHookForm from "./model/useHookForm";
+import { useNavigate } from "react-router-dom";
 
 const PostEdit = () => {
+  const { boadDetail, isEdit, postId } = useGetBoardDetailHandler();
   const navigate = useNavigate();
 
-  // 1. 문자열로만 받기
-  const { postId = "new" } = useParams<{ postId: string }>();
-  // 2. 'new' 여부로 모드 결정
-  const isEdit = postId !== "new";
-  // 3. 수정 모드일 때만 숫자로 변환
-  const numericPostId = isEdit ? Number(postId) : undefined;
-  if (isEdit && Number.isNaN(numericPostId)) {
-    // 잘못된 파라미터 → 404 처리 등
-    navigate("/404");
-  }
-  // 4. 상세조회 훅 호출 (훅 시그니처를 number | undefined 받도록 하면 편리)
-  const [boadDetail] = useGetBoardDetail(numericPostId as number);
-
+  const [form, preview] = useHookForm(boadDetail);
   const {
-    register,
     handleSubmit,
-    control,
+    register,
     formState: { errors },
-    watch,
-    reset,
-  } = useForm<PostFormFields>({
-    resolver: yupResolver(schema),
-    defaultValues: {
-      category: undefined,
-      board_category_idx: null,
-      board_list_title: "",
-      board_list_content: "",
-    },
-  });
+    control,
+  } = form;
 
-  React.useEffect(() => {
-    reset({
-      category: boadDetail?.board_category_idx,
-      board_category_idx: boadDetail?.board_category_idx,
-      board_list_title: boadDetail?.board_list_title,
-      board_list_content: boadDetail?.board_list_content,
-    });
-    setPreview(boadDetail?.board_list_img);
-  }, [boadDetail]);
-
-  const imageFile = watch("board_list_img")?.[0];
-  const [preview, setPreview] = useState<string>();
-
-  React.useEffect(() => {
-    if (!imageFile) return setPreview(undefined);
-    const url = URL.createObjectURL(imageFile);
-    setPreview(url);
-    return () => URL.revokeObjectURL(url);
-  }, [imageFile]);
-
-  const onSubmit = (data: PostFormFields) => {
-    const formData = new FormData();
-    formData.append(
-      "category",
-      String(data.category || data.board_category_idx)
-    );
-    formData.append("board_list_title", data.board_list_title);
-    formData.append("board_list_content", data.board_list_content);
-    if (data.board_list_img?.[0])
-      formData.append("board_list_img", data.board_list_img[0]);
+  const onSubmit = (data: FormFields) => {
     if (isEdit && postId) {
       // TODO: PUT /posts/${postId} (게시글 수정)
     } else {
       // TODO: POST /posts (게시글 생성)
     }
-    navigate(-1);
   };
 
   return (

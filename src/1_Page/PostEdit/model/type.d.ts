@@ -1,0 +1,3 @@
+type UseHookFormProps = {
+  boadDetail: BoardDetails;
+};
