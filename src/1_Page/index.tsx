@@ -52,7 +52,11 @@ const Page = () => {
         <Route path={`${PAGE_URI.OAUTH}`} element={<OAuthHub />} />
         <Route path={`${PAGE_URI.POST}/:postId`} element={<PostDetail />} />
         <Route
-          path={`${PAGE_URI.POST}/:category/:postId`}
+          path={`${PAGE_URI.POST}/write/edit/:postId`}
+          element={<PostEdit />}
+        />
+        <Route
+          path={`${PAGE_URI.POST}/write/new/:category`}
           element={<PostEdit />}
         />
       </Routes>

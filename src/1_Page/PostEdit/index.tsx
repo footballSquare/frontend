@@ -5,12 +5,19 @@ import { useNavigate } from "react-router-dom";
 import usePostBoard from "../../3_Entity/Board/usePostBoard";
 import usePutBoard from "../../3_Entity/Board/usePutBoard";
 import uploadIcon from "../../4_Shared/assets/svg/upload.svg";
+import { CATEGORY_STRING } from "./constant/constant";
 
 const PostEdit = () => {
-  const { boadDetail, isEdit, postId } = useGetBoardDetailHandler();
   const navigate = useNavigate();
+  const {
+    boardDetail,
+    isNew,
+    postId,
+    categoryIndex = 0,
+  } = useGetBoardDetailHandler();
 
-  const [form, preview] = useHookForm(boadDetail);
+  const [form, preview] = useHookForm(boardDetail);
+
   const {
     handleSubmit,
     register,
@@ -19,43 +26,27 @@ const PostEdit = () => {
   } = form;
 
   const [postBoard] = usePostBoard();
-  const [putBoard] = usePutBoard(postId);
+  const [putBoard] = usePutBoard(postId!);
 
   const onSubmit = (data: PostEditFormFields) => {
-    const category = data.category;
-    if (isEdit && postId) {
-      putBoard(data);
+    if (isNew) {
+      postBoard(data, categoryIndex);
     } else {
-      postBoard(data, category);
+      putBoard(data);
     }
   };
 
   return (
-    <div className="w-full max-w-5xl mx-auto mt-8 mb-16 space-y-12 text-[#e1e4ea]">
+    <div className="w-full max-w-5xl mx-auto mt-8 mb-16 space-y-12 text-gray-100">
       <h1 className="text-3xl font-semibold mb-6 text-gray-100">
-        {isEdit ? "게시글 수정" : "게시글 작성"}
+        {categoryIndex === 0
+          ? "자유게시판 게시글 작성"
+          : isNew
+          ? `${CATEGORY_STRING[boardDetail.board_category_idx]} 게시글 작성`
+          : `${CATEGORY_STRING[boardDetail.board_category_idx]} 게시글 수정`}
       </h1>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-        <div className="space-y-2">
-          <label
-            htmlFor="category"
-            className="block text-sm font-medium text-gray-300">
-            말머리
-          </label>
-          <select
-            id="category"
-            {...register("category")}
-            className="bg-[#1b1f2e] border border-[#262b40] rounded p-2.5 w-full focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-200">
-            <option value="">말머리 선택</option>
-            <option value="1">공지</option>
-            <option value="2">자유</option>
-          </select>
-          {errors.category && (
-            <p className="text-red-400 text-sm">{errors.category.message}</p>
-          )}
-        </div>
-
         <div className="space-y-2">
           <label
             htmlFor="board_list_title"
@@ -144,7 +135,7 @@ const PostEdit = () => {
           <button
             type="submit"
             className="px-4 py-1.5 text-sm font-medium text-[#2f80ed] border border-[#2f80ed] hover:bg-[#2f80ed] hover:text-white rounded transition-colors">
-            {isEdit ? "수정 완료" : "작성 완료"}
+            {isNew ? "작성 완료" : "수정 완료"}
           </button>
           <button
             type="button"

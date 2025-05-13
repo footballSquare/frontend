@@ -1,19 +1,6 @@
 import * as yup from "yup";
 export const schema = yup
   .object({
-    // 새 필드
-    category: yup
-      .number()
-      .required("카테고리는 필수 사항입니다")
-      .transform((v, o) => (o === "" ? undefined : v))
-      .when("board_category_idx", {
-        is: (val: unknown) => val === undefined || val === "",
-        then: (s) =>
-          s
-            .typeError("게시판 종류를 선택해주세요")
-            .required("게시판 종류를 선택해주세요"),
-        otherwise: (s) => s.notRequired(),
-      }),
     board_list_title: yup
       .string()
       .required("제목을 입력해주세요")

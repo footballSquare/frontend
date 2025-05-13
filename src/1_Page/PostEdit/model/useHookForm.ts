@@ -12,7 +12,6 @@ const useHookForm = (
   const { reset, watch, ...rest } = useForm<PostEditFormFields>({
     resolver: yupResolver(schema),
     defaultValues: {
-      category: undefined,
       board_list_title: "",
       board_list_content: "",
     },
@@ -23,7 +22,6 @@ const useHookForm = (
 
   React.useEffect(() => {
     reset({
-      category: boadDetail?.board_category_idx,
       board_list_title: boadDetail?.board_list_title,
       board_list_content: boadDetail?.board_list_content,
     });
