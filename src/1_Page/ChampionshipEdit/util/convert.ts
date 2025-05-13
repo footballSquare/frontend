@@ -37,13 +37,19 @@ export const convertToAPIChampionship = (
   formData.append("championship_list_start_date", championship_list_start_date);
   formData.append("championship_list_end_date", championship_list_end_date);
 
+  // 배열 형태의 데이터는 보통 JSON 문자열로 변환해서 전달합니다.
+  // 대신 각각의 요소를 별도로 append합니다.
   participation_team_idxs.forEach((idx) => {
     formData.append("participation_team_idxs", String(idx));
   });
 
+  // 각 award의 이름 배열을 별도로 append합니다.
   championship_award.forEach((award) => {
     formData.append("championship_award_name", award.championship_award_name);
   });
+
+  // 만약 나머지(rest) 데이터가 있을 경우에도 원하는대로 추가할 수 있습니다.
+  // 예: Object.entries(rest).forEach(([key, value]) => formData.append(key, String(value)));
 
   return formData;
 };

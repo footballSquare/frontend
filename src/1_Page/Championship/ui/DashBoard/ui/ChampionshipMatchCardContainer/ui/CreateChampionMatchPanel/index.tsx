@@ -8,9 +8,11 @@ import useManageCreateChampionshipMatch from "./model/useManageCreateChampionshi
 import usePostCreateChampionshipMatch from "../../../../../../../../3_Entity/Championship/usePostCreateChampionshipMatch";
 import useParamInteger from "../../../../../../../../4_Shared/model/useParamInteger";
 import useToggleState from "../../../../../../../../4_Shared/model/useToggleState";
+import { useChampionshipContextInfo } from "../../../../../../model/useChampionshipContext";
+import { getTextColorFromBackground } from "../../../../../../../../4_Shared/lib/colorChecker";
 
 const CreateChampionMatchPanel = (props: CreateChampionMatchPanelProps) => {
-  const { filteredTeamList, fetchMatchList } = props;
+  const { filteredTeamList } = props;
   // form
   const {
     register,
@@ -31,6 +33,9 @@ const CreateChampionMatchPanel = (props: CreateChampionMatchPanelProps) => {
     useSetValueHandler(setValue);
 
   const championshipIdx = useParamInteger("championshipIdx");
+  const { championship_list_color } = useChampionshipContextInfo();
+  const accentColor = championship_list_color || "#3b82f6"; // fallback blue‑500
+  const accentText = getTextColorFromBackground(accentColor);
   // api
   const [postCreateChampionshipMatch, serverState] =
     usePostCreateChampionshipMatch(championshipIdx);
@@ -38,7 +43,6 @@ const CreateChampionMatchPanel = (props: CreateChampionMatchPanelProps) => {
   useManageCreateChampionshipMatch({
     serverState,
     handleToggleModal,
-    fetchMatchList,
   });
 
   return (
@@ -46,12 +50,13 @@ const CreateChampionMatchPanel = (props: CreateChampionMatchPanelProps) => {
       <button
         type="button"
         onClick={handleToggleModal}
-        className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">
+        className="px-4 py-2 rounded hover:opacity-80 transition-colors"
+        style={{ backgroundColor: accentColor, color: accentText }}>
         매치 생성
       </button>
       {isModalOpen && (
         <div className="fixed inset-0 z-10 bg-black/50 flex items-center justify-center">
-          <div className="rounded-lg p-6 w-full max-w-md shadow-lg overflow-y-scroll">
+          <div className="rounded-lg p-6 w-full max-w-md bg-gray-800 text-gray-100 shadow-lg overflow-y-scroll">
             <h2 className="text-center text-2xl mb-4">대회 매치 생성</h2>
             <form
               onSubmit={handleSubmit((data) => {
@@ -75,9 +80,12 @@ const CreateChampionMatchPanel = (props: CreateChampionMatchPanelProps) => {
                           className="w-[30px] h-[30px] object-cover"
                           src={team.team_list_emblem}
                         />
-                        <span style={{ color: team.team_list_color }}>
-                          {team.team_list_name}
-                        </span>
+                        <span
+                          className="inline-block w-3 h-3 rounded-full"
+                          style={{
+                            backgroundColor: team.team_list_color || "#ffffff",
+                          }}></span>
+                        <span>{team.team_list_name}</span>
                         <span>#{team.team_list_short_name}</span>
 
                         {selectedTeams.find(
@@ -94,7 +102,11 @@ const CreateChampionMatchPanel = (props: CreateChampionMatchPanelProps) => {
                           <button
                             type="button"
                             onClick={() => handleAddTeam(team)}
-                            className="px-2 py-1 bg-green-500 text-white rounded">
+                            className="px-2 py-1 rounded hover:opacity-80"
+                            style={{
+                              backgroundColor: accentColor,
+                              color: accentText,
+                            }}>
                             추가
                           </button>
                         )}
@@ -200,13 +212,15 @@ const CreateChampionMatchPanel = (props: CreateChampionMatchPanelProps) => {
               <div className="flex justify-between mt-4">
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+                  className="px-4 py-2 rounded hover:opacity-80 transition-colors"
+                  style={{ backgroundColor: accentColor, color: accentText }}>
                   매치 생성하기
                 </button>
                 <button
                   type="button"
                   onClick={handleToggleModal}
-                  className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+                  className="px-4 py-2 rounded hover:opacity-80 transition-colors"
+                  style={{ backgroundColor: accentColor, color: accentText }}>
                   모달 닫기
                 </button>
               </div>

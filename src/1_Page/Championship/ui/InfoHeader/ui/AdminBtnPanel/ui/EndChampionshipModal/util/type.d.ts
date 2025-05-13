@@ -1,4 +1,4 @@
-type EndChampionshipParams = {
+type ConvertToPutAwardDataProps = {
   selectTeam: EndTeamInfo | null;
   selectedAwardPlayers: (EndPlayerStatas | null)[];
   championshipEndData: ChampionshipEndData;

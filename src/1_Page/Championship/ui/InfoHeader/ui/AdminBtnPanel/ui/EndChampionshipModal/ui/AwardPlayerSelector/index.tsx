@@ -1,18 +1,7 @@
 import usePlayerSearch from "./model/usePlayerSearch";
 import down_blue from "../../../../../../../../../../4_Shared/assets/svg/down_blue.svg";
 
-type AwardPlayerListProps = {
-  award: EndAwards;
-  players: EndPlayerStatas[];
-  index: number;
-  selectedAwardPlayers: (EndPlayerStatas | null)[];
-  handlePlayerSelectForAward: (
-    awardIndex: number,
-    player: EndPlayerStatas
-  ) => void;
-};
-
-const AwardPlayerList = (props: AwardPlayerListProps) => {
+const AwardPlayerSelector = (props: AwardPlayerSelectorProps) => {
   const {
     players,
     index,
@@ -20,6 +9,7 @@ const AwardPlayerList = (props: AwardPlayerListProps) => {
     selectedAwardPlayers,
     handlePlayerSelectForAward,
   } = props;
+  // 선수 검색 훅
   const { playerSearchTerm, filteredPlayers, handleSetPlayerSearchTerm } =
     usePlayerSearch(players);
 
@@ -136,4 +126,4 @@ const AwardPlayerList = (props: AwardPlayerListProps) => {
   );
 };
 
-export default AwardPlayerList;
+export default AwardPlayerSelector;

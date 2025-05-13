@@ -19,12 +19,14 @@ const useLoadMyInfo = (): [MyInfo] => {
         community_role_idx,
         team_role_idx,
         nickname,
+        community_list_idx,
       } = myInfo;
       login({
         playerStatus: player_status,
         accessToken: cookies.access_token,
         userIdx: user_idx,
         communityRoleIdx: community_role_idx,
+        communityListIdx: community_list_idx,
         teamRoleIdx: team_role_idx,
         teamIdx: team_idx,
         profileImg: profile_image,

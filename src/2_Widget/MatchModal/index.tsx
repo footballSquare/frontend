@@ -58,8 +58,7 @@ const MatchModal = () => {
       {/* 레이어 */}
       <div
         className="absolute top-0 left-0 w-full h-full opacity-50 bg-gray"
-        onClick={toggleMatchModal}
-      ></div>
+        onClick={toggleMatchModal}></div>
       {/* 모달 */}
       <div className="flex flex-col relative w-[80%] h-[80%] bg-gray-800 text-white gap-4 p-4 overflow-auto">
         {/* 타이틀 / 닫기 버튼 / 대회명(대회 매치 전용) / 게임 팀 이름(팀 없으면 공방) */}
@@ -112,8 +111,7 @@ const MatchModal = () => {
                 toggleMatchModal();
                 navigate(`profile/${player_list_idx}`);
               }}
-              className="flex justify-center items-center w-[164px] h-[32px] border border-gray-500 rounded-[4px] cursor-pointer"
-            >
+              className="flex justify-center items-center w-[164px] h-[32px] border border-gray-500 rounded-[4px] cursor-pointer">
               <h2>{player_list_nickname}</h2>
               <img
                 src={player_list_profile_image || undefined}
@@ -242,8 +240,7 @@ const MatchModal = () => {
                 className="border border-gray shadow-lg p-[2px] hover:bg-blue hover:text-white"
                 onClick={() => {
                   matchEndHandler({ matchIdx });
-                }}
-              >
+                }}>
                 매치 마감
               </button>
             )}
@@ -253,8 +250,7 @@ const MatchModal = () => {
                 if (confirm("매치를 삭제하시겠습니까?")) {
                   deleteMatch({ matchIdx });
                 }
-              }}
-            >
+              }}>
               매치 삭제
             </button>
           </div>

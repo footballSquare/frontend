@@ -1,6 +1,5 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import LoginInput from "../../4_Shared/hookForm/LoginInput";
 import loginInputSchema from "../../4_Shared/hookForm/LoginInput/schema";
 import usePostSignIn from "../../3_Entity/Account/usePostSignIn";
 import discord_icon from "../../4_Shared/assets/svg/discord.svg";
@@ -20,8 +19,8 @@ const Login = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="flex flex-col gap-4 items-center justify-center min-h-screen">
-      <div className="bg-white p-8 rounded shadow-md w-full max-w-md">
+    <div className="flex flex-col gap-2 items-center justify-center min-h-screen">
+      <div className="bg-gray-800 text-gray-100 p-4 rounded shadow-md min-w-[300px]">
         <h1 className="text-2xl font-bold mb-6 text-center">Login</h1>
         <form
           onSubmit={handleSubmit((data) => {
@@ -29,38 +28,66 @@ const Login = () => {
           })}
           className="flex flex-col gap-4"
         >
-          <LoginInput
-            register={register}
-            registerType={"id"}
-            errors={errors}
-            type="text"
-            placeholder="Enter your ID"
-          />
-          <LoginInput
-            register={register}
-            registerType={"password"}
-            errors={errors}
-            type="password"
-            placeholder="Enter your Password"
-          />
+          <div>
+            <label className="block text-sm font-medium text-gray">ID</label>
+            <input
+              type={"text"}
+              id={"id"}
+              {...register("id")}
+              className={`mt-1 block w-full p-2 border ${
+                errors.id ? "border-red-500" : "border-gray"
+              } rounded focus:outline-none focus:ring-2 focus:ring-blue-500`}
+              placeholder={"Enter your ID"}
+            />
+            {errors["id"] && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors["id"].message}
+              </p>
+            )}
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray">
+              PassWord
+            </label>
+            <input
+              type={"password"}
+              id={"password"}
+              {...register("password")}
+              className={`mt-1 block w-full p-2 border ${
+                errors.id ? "border-red-500" : "border-gray"
+              } rounded focus:outline-none focus:ring-2 focus:ring-blue-500`}
+              placeholder={"Enter your Password"}
+            />
+            {errors["password"] && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors["password"].message}
+              </p>
+            )}
+          </div>
+
           <button
             type="submit"
-            className="mt-4 w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="mt-4 w-full py-2 bg-gray-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             Login
           </button>
+          <button
+            className="mt-4 w-full py-2 bg-gray-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            onClick={() => {
+              navigate("/signup");
+            }}
+          >
+            회원가입
+          </button>
         </form>
       </div>
+      <div className="m-0 text-white hover:text-blue cursor-pointer">
+        로그인 정보를 잊어버리셨나요?
+      </div>
+      <div className="text-gray-500">-------------- or --------------</div>
       <button
-        className=" flex flex-col justify-center items-center border border-gray rounded w-full"
-        onClick={() => {
-          navigate('/signup')
-        }}
-      >
-        회원 가입 하기
-      </button>
-      <button
-        className=" flex flex-col justify-center items-center border border-gray rounded w-full"
+        className=" flex gap-2 justify-evenly items-center bg-gray-400 hover:bg-gray-500 text-gray-100  rounded w-full"
         onClick={() => {
           if (!discordLoading) {
             window.location.href = discordOAuthUrl.url;
@@ -68,7 +95,7 @@ const Login = () => {
         }}
       >
         <img className="w-[48px]" src={discord_icon} alt="discord" />
-        디스코드로 시작하기
+        <span>Start with Discord</span>
       </button>
     </div>
   );
