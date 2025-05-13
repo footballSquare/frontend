@@ -1,33 +1,40 @@
-const useManageComments = () => {
-  const [comments, setComments] =
-    React.useState<BoardComment[]>(initialComments);
+import React from "react";
+import {
+  useMyNickname,
+  useMyProfileImg,
+  useMyUserIdx,
+} from "../../../../../4_Shared/lib/useMyInfo";
+
+const useManageComments = (props: UseManageCommentsProps) => {
+  const { initialComments } = props;
 
   const [myIdx] = useMyUserIdx();
   const [myNickname] = useMyNickname();
+  const [myProfileImage] = useMyProfileImg();
 
-  /* 댓글 추가 */
-  const handleAddComment = () => {
-    if (!newComment.trim()) return;
+  const [comments, setComments] =
+    React.useState<BoardComment[]>(initialComments);
+
+  const handleAddComment = (data: { content: string }) => {
+    const text = data.content.trim();
     if (!myIdx || !myNickname) {
       alert("로그인 후 댓글을 작성해주세요.");
       return;
     }
-
     const newId = Math.max(0, ...comments.map((c) => c.board_comment_idx)) + 1;
     const now = new Date().toISOString().slice(0, 16).replace("T", " ");
-
-    const newCommentObj: BoardComment = {
-      player_list_idx: myIdx,
-      board_comment_idx: newId,
-      player_list_nickname: myNickname,
-      board_comment_content: newComment,
-      board_comment_created_at: now,
-      board_comment_updated_at: now,
-      player_list_profile_image: null,
-    };
-
-    setComments([...comments, newCommentObj]);
-    setNewComment("");
+    setComments([
+      ...comments,
+      {
+        player_list_idx: myIdx,
+        board_comment_idx: newId,
+        player_list_nickname: myNickname,
+        board_comment_content: text,
+        board_comment_created_at: now,
+        board_comment_updated_at: now,
+        player_list_profile_image: myProfileImage,
+      },
+    ]);
   };
 
   /* 댓글 수정 */
@@ -37,15 +44,14 @@ const useManageComments = () => {
         c.board_comment_idx === id ? { ...c, board_comment_content: body } : c
       )
     );
-    setEditingId(null);
-    setCommentInput("");
   };
 
   /* 댓글 삭제 */
   const handleDeleteComment = (id: number) => {
-    if (window.confirm("정말로 이 댓글을 삭제하시겠습니까?"))
+    if (confirm("정말로 이 댓글을 삭제하시겠습니까?"))
       setComments((prev) => prev.filter((c) => c.board_comment_idx !== id));
   };
+
   return {
     comments,
     handleAddComment,
@@ -53,3 +59,5 @@ const useManageComments = () => {
     handleDeleteComment,
   };
 };
+
+export default useManageComments;
