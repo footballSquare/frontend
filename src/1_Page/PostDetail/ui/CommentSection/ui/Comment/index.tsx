@@ -1,9 +1,10 @@
+import React from "react";
+
 import { useMyUserIdx } from "../../../../../../4_Shared/lib/useMyInfo";
 import useToggleState from "../../../../../../4_Shared/model/useToggleState";
-import useCommentPutHandler from "../../model/usePutCommentHandler";
-import useDeleteCommentHandler from "../../model/useDeleteCommentHandler";
+import useCommentPutHandler from "./model/usePutCommentHandler";
+import useDeleteCommentHandler from "./model/useDeleteCommentHandler";
 import { getIsLong } from "./util/getIsLong";
-import React from "react";
 
 const Comment = (props: CommentProps) => {
   const {

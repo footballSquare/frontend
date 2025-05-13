@@ -4,6 +4,7 @@ import { commentSchema } from "./lib/schema";
 import useManageComments from "./model/useManageComments";
 
 import Comment from "./ui/Comment";
+import usePostCommentHandler from "./model/usePostCommentHandler";
 
 const CommentSection = (props: CommentSectionProps) => {
   const { initialComments, board_list_idx } = props;
@@ -24,8 +25,13 @@ const CommentSection = (props: CommentSectionProps) => {
     handleDeleteComment,
     handleRollbackComment,
     discardLastHistory,
-  } = useManageComments({ initialComments });
+    handleSetCommentsIdx,
+  } = useManageComments(initialComments);
 
+  const [postComment] = usePostCommentHandler(
+    board_list_idx,
+    handleSetCommentsIdx
+  );
   return (
     <div className="pt-6 border-t border-gray-800">
       <h3 className="text-lg font-medium mb-4 text-gray-200">
@@ -35,6 +41,7 @@ const CommentSection = (props: CommentSectionProps) => {
       {/* 새 댓글 입력 */}
       <form
         onSubmit={handleSubmit((data) => {
+          postComment(data.content);
           handleAddComment(data);
           reset();
         })}

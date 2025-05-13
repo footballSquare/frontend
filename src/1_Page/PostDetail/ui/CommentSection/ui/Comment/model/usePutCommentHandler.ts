@@ -1,8 +1,8 @@
 import React from "react";
-import usePutComment from "../../../../../3_Entity/Board/usePutComment";
+import usePutComment from "../../../../../../../3_Entity/Board/usePutComment";
 
 const useCommentPutHandler = (
-  props: UseCommentPutHandlerProps
+  props: UseServerStateProps
 ): [(content: string) => void] => {
   const {
     board_list_idx,

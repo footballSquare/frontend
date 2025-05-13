@@ -5,17 +5,21 @@ import {
   useMyUserIdx,
 } from "../../../../../4_Shared/lib/useMyInfo";
 
-const useManageComments = (props: UseManageCommentsProps) => {
-  const { initialComments } = props;
-
+const useManageComments = (initialComments: BoardComment[]) => {
   const [myIdx] = useMyUserIdx();
   const [myNickname] = useMyNickname();
   const [myProfileImage] = useMyProfileImg();
 
-  const [comments, setComments] =
-    React.useState<BoardComment[]>(initialComments);
+  const [comments, setComments] = React.useState<BoardComment[]>(
+    [] as BoardComment[]
+  );
+
+  React.useEffect(() => {
+    setComments(initialComments);
+  }, [initialComments]);
 
   const commentsHistoryRef = React.useRef<BoardComment[][]>([]);
+  const commentNewRef = React.useRef<number[]>([]);
 
   const handleAddComment = (data: { content: string }) => {
     const text = data.content.trim();
@@ -24,6 +28,8 @@ const useManageComments = (props: UseManageCommentsProps) => {
       return;
     }
     const newId = Math.max(0, ...comments.map((c) => c.board_comment_idx)) + 1;
+    commentNewRef.current.push(newId);
+
     const now = new Date().toISOString().slice(0, 16).replace("T", " ");
     setComments([
       ...comments,
@@ -72,6 +78,17 @@ const useManageComments = (props: UseManageCommentsProps) => {
     history.pop();
   };
 
+  const handleSetCommentsIdx = (newId: number) => {
+    setComments((prev) => {
+      return prev.map((comment, idx) =>
+        idx === commentNewRef.current[0]
+          ? { ...comment, board_comment_idx: newId }
+          : comment
+      );
+    });
+    commentNewRef.current.pop();
+  };
+
   return {
     comments,
     handleAddComment,
@@ -79,6 +96,7 @@ const useManageComments = (props: UseManageCommentsProps) => {
     handleDeleteComment,
     handleRollbackComment,
     discardLastHistory,
+    handleSetCommentsIdx,
   };
 };
 

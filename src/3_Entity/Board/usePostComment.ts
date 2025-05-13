@@ -2,7 +2,7 @@ import { useFetchData } from "../../4_Shared/util/apiUtil";
 
 const usePostComment = (
   boardListIdx: number
-): [(ostText: string) => void, Record<string, unknown> | null, boolean] => {
+): [(postText: string) => void, Record<string, unknown> | null, boolean] => {
   const [serverState, request, loading] = useFetchData();
 
   const postComment = (postText: string) => {

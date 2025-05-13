@@ -1,9 +1,7 @@
 import React from "react";
-import useDeleteComment from "../../../../../3_Entity/Board/useDeleteComment";
+import useDeleteComment from "../../../../../../../3_Entity/Board/useDeleteComment";
 
-const useCommentPutHandler = (
-  props: UseCommentPutHandlerProps
-): [() => void] => {
+const useCommentPutHandler = (props: UseServerStateProps): [() => void] => {
   const {
     board_list_idx,
     board_comment_idx,
