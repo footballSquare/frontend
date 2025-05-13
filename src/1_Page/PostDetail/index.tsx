@@ -95,6 +95,7 @@ const PostDetail = () => {
         </button>
         <button
           className="text-gray-400 hover:underline cursor-pointer ml-auto"
+          // to do 목록 페이지 구현시 설정할것
           onClick={() => navigate(-1)}>
           목록
         </button>
