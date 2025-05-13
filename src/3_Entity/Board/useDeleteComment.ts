@@ -7,7 +7,7 @@ const useDeleteComment = (
 
   const deleteComment = () => {
     const endPoint = `/board/comment/${boardCommentIdx}`;
-    request("POST", endPoint, null, true);
+    request("DELETE", endPoint, null, true);
   };
 
   return [deleteComment, serverState];
