@@ -121,11 +121,7 @@ const PostEdit = () => {
 
         {preview && (
           <div className="mt-4 p-2 bg-[#1b1f2e] border border-[#262b40] rounded">
-            <img
-              src={preview}
-              alt="미리보기"
-              className="max-h-64 mx-auto rounded"
-            />
+            <img src={preview} className="max-h-64 mx-auto rounded" />
           </div>
         )}
 
