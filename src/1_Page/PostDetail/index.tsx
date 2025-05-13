@@ -78,7 +78,7 @@ const PostDetail = () => {
       <div className="flex flex-wrap gap-2 pt-2">
         <button
           className="text-grass hover:underline cursor-pointer"
-          onClick={() => navigate(`/board/edit/${board_list_idx}`)}>
+          onClick={() => navigate(`/post/write/${board_list_idx}`)}>
           수정
         </button>
         <button
