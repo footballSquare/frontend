@@ -35,7 +35,7 @@ const CreateTeamModal = (props: CreateTeamModalProps) => {
             <input
               type="text"
               {...register("team_list_name")}
-              className="w-full px-4 py-3 rounded-lg border border-gray-700 bg-gray-900 text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+              className="w-full px-4 py-3 rounded-lg border border-gray-700 bg-gray-900 text-gray-100 focus:outline-none focus:ring-grass focus:border-transparent transition-all"
             />
             {errors.team_list_name && (
               <p className="text-red-500 text-xs mt-1">
@@ -51,7 +51,7 @@ const CreateTeamModal = (props: CreateTeamModalProps) => {
             <input
               type="text"
               {...register("team_list_short_name")}
-              className="w-full px-4 py-3 rounded-lg border border-gray-700 bg-gray-900 text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+              className="w-full px-4 py-3 rounded-lg border border-gray-700 bg-gray-900 text-gray-100 focus:outline-none focus:ring-grass focus:border-transparent transition-all"
             />
             {errors.team_list_short_name && (
               <p className="text-red-500 text-xs mt-1">
@@ -75,7 +75,7 @@ const CreateTeamModal = (props: CreateTeamModalProps) => {
               <input
                 type="text"
                 {...register("team_list_color")}
-                className="flex-1 py-2 rounded-lg border border-gray-700 bg-gray-900 text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all"
+                className="flex-1 py-2 rounded-lg border border-gray-700 bg-gray-900 text-gray-100 focus:outline-none focus:ring-grass transition-all"
               />
             </div>
             {errors.team_list_color && (
@@ -91,7 +91,7 @@ const CreateTeamModal = (props: CreateTeamModalProps) => {
             </label>
             <select
               {...register("common_status_idx", { valueAsNumber: true })}
-              className="w-full px-4 py-3 rounded-lg border border-gray-700 bg-gray-900 text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all appearance-none"
+              className="w-full px-4 py-3 rounded-lg border border-gray-700 bg-gray-900 text-gray-100 focus:outline-none focus:ring-grass focus:border-transparent transition-all appearance-none"
               style={{
                 backgroundImage:
                   "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23999'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E\")",
@@ -124,7 +124,7 @@ const CreateTeamModal = (props: CreateTeamModalProps) => {
             <textarea
               {...register("team_list_announcement")}
               rows={4}
-              className="w-full px-4 py-3 rounded-lg border border-gray-700 bg-gray-900 text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all resize-none"
+              className="w-full px-4 py-3 rounded-lg border border-gray-700 bg-gray-900 text-gray-100 focus:outline-none focus:ring-grass focus:border-transparent transition-all resize-none"
             />
             {errors.team_list_announcement && (
               <p className="text-red-500 text-xs mt-1">
@@ -136,7 +136,7 @@ const CreateTeamModal = (props: CreateTeamModalProps) => {
           <div className="flex space-x-3 mt-6">
             <button
               type="submit"
-              className="flex-1 bg-blue-500 hover:bg-blue-600 text-white font-medium py-3 px-4 rounded-lg transition-colors">
+              className="flex-1 bg-grass hover:bg-grass/80 text-white font-medium py-3 px-4 rounded-lg transition-colors">
               팀 생성하기
             </button>
             <button

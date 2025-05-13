@@ -16,7 +16,9 @@ const TeamRecruitListSection = () => {
   return (
     <div>
       <div className="flex items-center justify-between px-2">
-        <h2 className="text-lg font-bold text-gray-100 mb-3 px-1">팀원 모집 중</h2>
+        <h2 className="text-lg font-bold text-gray-100 mb-3 px-1">
+          팀원 모집 중
+        </h2>
       </div>
 
       <div className="bg-gray-800 rounded-2xl overflow-hidden shadow-sm p-4">
@@ -40,7 +42,7 @@ const TeamRecruitListSection = () => {
 
         {loading && (
           <div className="p-4 text-center">
-            <div className="w-6 h-6 border-2 border-blue-400 border-t-transparent rounded-full mx-auto animate-spin"></div>
+            <div className="w-6 h-6 border-2 border-grass border-t-transparent rounded-full mx-auto animate-spin"></div>
           </div>
         )}
       </div>

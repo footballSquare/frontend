@@ -3,13 +3,13 @@ import infoSvg from "../../../../4_Shared/assets/svg/info.svg";
 
 const TeamBanner = () => {
   return (
-    <div className="bg-gray-800 rounded-xl shadow-sm overflow-hidden">
-      <div className="relative bg-gradient-to-r from-blue-500 to-blue-600 p-6 text-white">
+    <div className="bg-gray-800 border border-grass/30 rounded-xl shadow-md overflow-hidden">
+      <div className="relative bg-gradient-to-br from-grass via-grass/80 to-grass/50 p-6 text-white">
         <div className="relative z-10">
           <h2 className="text-xl font-bold mb-2">
             나에게 맞는 팀을 찾아보세요
           </h2>
-          <p className="mb-4 text-blue-100">
+          <p className="mb-4 text-grass">
             함께하면 더 즐거운 활동이 기다리고 있어요
           </p>
         </div>
@@ -35,23 +35,23 @@ const TeamBanner = () => {
         <div className="space-y-2">
           <a
             href="#recent"
-            className="flex items-center justify-between p-3 rounded-lg hover:bg-gray-700 transition-colors">
+            className="flex items-center justify-between p-3 rounded-lg hover:bg-grass/20 group transition-colors">
             <span className="text-gray-300">최근 생성된 팀</span>
-            <span className="text-gray-400">›</span>
+            <span className="text-gray-400 group-hover:text-grass">›</span>
           </a>
 
           <a
             href="#myteam"
-            className="flex items-center justify-between p-3 rounded-lg hover:bg-gray-700 transition-colors">
+            className="flex items-center justify-between p-3 rounded-lg hover:bg-grass/20 group transition-colors">
             <span className="text-gray-300">내가 속한 팀</span>
-            <span className="text-gray-400">›</span>
+            <span className="text-gray-400 group-hover:text-grass">›</span>
           </a>
         </div>
 
-        <div className="mt-6 p-4 bg-gray-700 rounded-lg">
+        <div className="mt-6 p-4 bg-gray-700/70 rounded-lg border-l-4 border-grass">
           <div className="flex items-center mb-2">
             <img src={infoSvg} />
-            <span className="ml-2 text-sm font-medium text-gray-200">
+            <span className="ml-2 text-sm font-medium text-grass">
               알고 계셨나요?
             </span>
           </div>

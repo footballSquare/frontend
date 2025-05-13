@@ -43,7 +43,7 @@ const TeamSummaryCard = (props: TeamSummaryCardProps) => {
 
           <div className="ml-auto">
             {team.whole_member < 10 && (
-              <div className="bg-blue-700/40 text-blue-300 px-2 py-1 rounded-md text-xs font-medium">
+              <div className="bg-[var(--color-thick-grass)]/40 text-[var(--color-grass)] px-2 py-1 rounded-md text-xs font-medium">
                 모집중
               </div>
             )}
@@ -75,11 +75,11 @@ const TeamSummaryCard = (props: TeamSummaryCardProps) => {
         onClick={() => {
           navigate(`/team/${team.team_list_idx}`);
         }}
-        className="flex items-center justify-center p-3 bg-gray-700 transition-colors group-hover:bg-blue-700/40">
-        <span className="text-sm font-medium text-gray-300 transition-colors group-hover:text-blue-400">
+        className="flex items-center justify-center p-3 bg-gray-700 transition-colors group-hover:bg-[var(--color-thick-grass)]/40">
+        <span className="text-sm font-medium text-gray-300 transition-colors group-hover:text-[var(--color-grass)]">
           팀 상세보기
         </span>
-        <span className="text-gray-400 transition-colors group-hover:text-blue-400">
+        <span className="text-gray-400 transition-colors group-hover:text-[var(--color-grass)]">
           ›
         </span>
       </div>
