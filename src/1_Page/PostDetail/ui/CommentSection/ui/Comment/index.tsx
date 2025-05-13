@@ -1,15 +1,15 @@
 import { useMyUserIdx } from "../../../../../../4_Shared/lib/useMyInfo";
-import useCommentInput from "../../model/useCommentInput";
 import useToggleState from "../../../../../../4_Shared/model/useToggleState";
 import { getIsLong } from "./util/getIsLong";
+import React from "react";
 
 const Comment = (props: CommentProps) => {
   const { comment, handleEditComment, handleDeleteComment } = props;
 
   const [myIdx] = useMyUserIdx();
-  const [isEditMode, handleEditMode] = useToggleState();
-  const { commentInput, handleSetCommentInput } = useCommentInput();
 
+  const [commentInput, setCommentInput] = React.useState("");
+  const [isEditMode, handleEditMode] = useToggleState();
   const [isExpanded, handleToggleExpanded] = useToggleState();
 
   const previewLimit = 100;
@@ -48,7 +48,7 @@ const Comment = (props: CommentProps) => {
         <div className="space-y-3 mt-3">
           <textarea
             value={commentInput}
-            onChange={(e) => handleSetCommentInput(e.target.value)}
+            onChange={(e) => setCommentInput(e.target.value)}
             className="w-full bg-transparent border border-gray-800 p-2 text-gray-200 focus:ring-2 focus:ring-grass"
           />
           <div className="flex space-x-2 justify-end">
@@ -64,7 +64,7 @@ const Comment = (props: CommentProps) => {
               className="text-gray-400 hover:underline"
               onClick={() => {
                 handleEditMode();
-                handleSetCommentInput(comment.board_comment_content);
+                setCommentInput(comment.board_comment_content);
               }}>
               취소
             </button>
@@ -92,7 +92,7 @@ const Comment = (props: CommentProps) => {
                 className="text-gray-400 hover:underline"
                 onClick={() => {
                   handleEditMode();
-                  handleSetCommentInput(comment.board_comment_content);
+                  setCommentInput(comment.board_comment_content);
                 }}>
                 수정
               </button>

@@ -18,15 +18,7 @@ const CommentSection = (props: CommentSectionProps) => {
   });
 
   const { comments, handleAddComment, handleEditComment, handleDeleteComment } =
-    useManageComments({
-      initialComments,
-    });
-
-  /* 댓글 추가 */
-  const onSubmitNew = (data: { content: string }) => {
-    handleAddComment(data);
-    reset();
-  };
+    useManageComments({ initialComments });
 
   return (
     <div className="pt-6 border-t border-gray-800">
@@ -35,7 +27,12 @@ const CommentSection = (props: CommentSectionProps) => {
       </h3>
 
       {/* 새 댓글 입력 */}
-      <form onSubmit={handleSubmit(onSubmitNew)} className="mb-6">
+      <form
+        onSubmit={handleSubmit((data) => {
+          handleAddComment(data);
+          reset();
+        })}
+        className="mb-6">
         <textarea
           {...register("content")}
           placeholder="댓글을 작성하세요..."
