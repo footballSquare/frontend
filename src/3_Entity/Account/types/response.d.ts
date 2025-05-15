@@ -43,6 +43,7 @@ type SignInData = {
   team_idx?: number | null;
   team_role_idx?: number | null;
   community_role_idx?: number | null;
+  community_list_idx?: number | null;
 };
 
 type DiscordOAuthUrl = {
@@ -69,5 +70,6 @@ type MyInfo = {
   team_color: string | null;
   team_emblem: string | null;
   community_role_idx: number | null;
+  community_list_idx: number | null;
   team_role_idx: number | null;
 };

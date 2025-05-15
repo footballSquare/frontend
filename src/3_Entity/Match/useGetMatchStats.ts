@@ -1,12 +1,12 @@
 import React from "react";
-import { useFetch } from "../../4_Shared/util/apiUtil";
+import { useFetchData } from "../../4_Shared/util/apiUtil";
 import { mockMatchStats } from "../../4_Shared/mock/matchStats";
 
 const useGetMatchStats = (
   props: UseGetMatchStatsProps
 ): [MatchStats, boolean] => {
   const { matchIdx } = props;
-  const [serverState, request, loading] = useFetch();
+  const [serverState, request, loading] = useFetchData();
   const [matchStats, setMatchStats] = React.useState<{
     team_stats: MatchTeamStat;
     player_stats: MatchPlayerStat[];
@@ -16,10 +16,7 @@ const useGetMatchStats = (
   });
 
   React.useEffect(() => {
-    request({
-      team_stats: mockMatchStats.team_stats,
-      player_stats: mockMatchStats.player_stats,
-    });
+    request("GET", `/match/${matchIdx}/stats`, null, true);
   }, [matchIdx, request]);
 
   React.useEffect(() => {

@@ -1,5 +1,4 @@
 import useMatchModalStore from "../../4_Shared/zustand/useMatchModal";
-import close_icon from "../../4_Shared/assets/svg/closeBtn.svg";
 import flag_icon from "../../4_Shared/assets/svg/flag-green.svg";
 import FormationPanel from "./ui/FormationPanel";
 import useGetMatchDetail from "../../3_Entity/Match/useGetMatchDetail";
@@ -10,19 +9,19 @@ import useGetMatchParticipants from "../../3_Entity/Match/useGetMatchParticipant
 import useGetMatchWaitlist from "../../3_Entity/Match/useGetMatchWaitList";
 import useMatchApprove from "./model/useMatchApprove";
 import useMatchApply from "./model/useMatchApply";
-import { matchPosition } from "../../4_Shared/constant/matchPosition";
 import StatPanel from "./ui/StatPanel";
-import {
-  useIsLogin,
-  useMyProfileImg,
-  useMyUserIdx,
-} from "../../4_Shared/lib/useMyInfo";
-import usePutMatchEnd from "../../3_Entity/Match/usePutMatchEnd";
+import { useIsLogin, useMyUserIdx } from "../../4_Shared/lib/useMyInfo";
 import useDeleteMatch from "../../3_Entity/Match/useDeleteMatch";
 import { useNavigate } from "react-router-dom";
+import { utcFormatter } from "../../4_Shared/lib/utcFormatter";
+import useMatchEnd from "./model/useMatchEnd";
+import FreeParticipationPanel from "./ui/FreeParticipationPanel";
+import ModalLayer from "../../4_Shared/components/ModalLayout";
+
 const MatchModal = () => {
   const { matchIdx, toggleMatchModal } = useMatchModalStore();
   const [matchDetail, setMatchDetail] = useGetMatchDetail({ matchIdx });
+  const [matchEndHandler] = useMatchEnd({ setMatchDetail });
   const {
     player_list_idx,
     player_list_nickname,
@@ -44,36 +43,27 @@ const MatchModal = () => {
     setMatchWaitList,
     setMatchParticipants,
   });
-  const [putMatchEnd] = usePutMatchEnd();
   const [deleteMatch] = useDeleteMatch();
+  const [isLogin] = useIsLogin();
+  const [userIdx] = useMyUserIdx();
+  const isMatchLeader = userIdx === player_list_idx;
   const [matchApplyHandler] = useMatchApply({
     setMatchWaitList,
     setMatchParticipants,
+    isMatchLeader,
   });
-  const [isLogin] = useIsLogin();
-  const [userIdx] = useMyUserIdx();
-  const [profileImg] = useMyProfileImg();
-  const isMatchLeader = userIdx === player_list_idx;
   const navigate = useNavigate();
 
   return (
-    // 모달 커버
-    <div className="absolute top-0 left-0 w-full h-full flex justify-center items-center">
-      {/* 레이어 */}
-      <div
-        className="absolute top-0 left-0 w-full h-full opacity-50 bg-gray"
-        onClick={toggleMatchModal}
-      ></div>
-      {/* 모달 */}
-      <div className="flex flex-col relative w-[80%] h-[80%] bg-white gap-4 border border-gray p-4 overflow-auto">
+    <ModalLayer toggleModalHandler={toggleMatchModal}>
         {/* 타이틀 / 닫기 버튼 / 대회명(대회 매치 전용) / 게임 팀 이름(팀 없으면 공방) */}
         <div className="flex justify-between">
           <div className="flex gap-4 items-center">
             <img className="w-[32px]" src={flag_icon} alt="MATCH" />
             <h2>매치 정보</h2>
           </div>
-          <button onClick={toggleMatchModal}>
-            <img src={close_icon} alt="close" />
+          <button onClick={toggleMatchModal} className="text-white text-2xl">
+            x
           </button>
         </div>
         {/* 매치모드 / 참여방식 / 플레이타임 / 매치 시작 시간 / 게임모드 */}
@@ -81,7 +71,7 @@ const MatchModal = () => {
           <label className="flex flex-col text-xs font-semibold">
             예상 플레이 타임
             {/* 아래의 select 태그 Select 컴포넌트로 적용 */}
-            <p className="flex justify-center items-center w-[164px] h-[32px] rounded-[4px] border border-blue">
+            <p className="flex justify-center items-center w-[164px] h-[32px] rounded-[4px] border border-gray-500">
               {`${match_match_duration.hours}.${
                 match_match_duration.minutes || 0
               } 시간`}
@@ -89,34 +79,34 @@ const MatchModal = () => {
           </label>
           <label className="flex flex-col text-xs font-semibold">
             참가 모드
-            <p className="flex justify-center items-center w-[164px] h-[32px] rounded-[4px] border border-blue">
+            <p className="flex justify-center items-center w-[164px] h-[32px] rounded-[4px] border border-gray-500">
               {matchParticipation[match_match_participation_type]}
             </p>
           </label>
 
           <label className="flex flex-col text-xs font-semibold">
             시작 시간
-            <p className="flex justify-center items-center w-[164px] h-[32px] rounded-[4px] border border-gray">
-              {match_match_start_time}
+            <p className="flex justify-center items-center w-[164px] h-[32px] rounded-[4px] border border-gray-500">
+              {utcFormatter(match_match_start_time)}
             </p>
           </label>
 
           <label className="flex flex-col text-xs font-semibold">
             매치 종류
-            <p className="flex justify-center items-center h-[32px]">
+            <span className="flex justify-center items-center border border-gray-500 rounded-[4px] h-[32px]">
               {matchType[match_type_idx]}
-            </p>
+            </span>
           </label>
 
           {/* 매치 리더 프로필 이동 버튼 */}
           <div className="flex flex-col text-xs font-semibold relative hover:scale-[1.2] duration-300">
-            매치 호스트
+            Host
             <div
               onClick={() => {
                 toggleMatchModal();
                 navigate(`profile/${player_list_idx}`);
               }}
-              className="flex justify-center items-center w-[164px] h-[32px] bg-blue-100 rounded-[4px] border cursor-pointer"
+              className="flex justify-center items-center w-[164px] h-[32px] border border-gray-500 rounded-[4px] cursor-pointer"
             >
               <h2>{player_list_nickname}</h2>
               <img
@@ -129,7 +119,7 @@ const MatchModal = () => {
         </div>
 
         {/* 포메이션 / 포지션 / 포지션별 대기 인원(승인 참가 전용) */}
-        <div className="flex gap-6 h-[70%]">
+        <div className="flex gap-2 h-[80%]">
           {/* 필드 & 포메이션 */}
           <FormationPanel
             matchFormationIdx={match_formation_idx}
@@ -138,73 +128,122 @@ const MatchModal = () => {
             isMatchLeader={isMatchLeader}
           />
 
-          {common_status_idx === 0 ? (
-            match_match_participation_type === 0 ? (
-              // 매치 라인업 마감 전 & 승인 참여
-              <WaitingList
-                matchFormationPosition={match_position_idxs}
-                matchParticipants={matchParticipants}
-                matchWaitList={matchWaitList.match_waitlist}
-                matchApproveHandler={matchApproveHandler}
-                matchApplyHandler={matchApplyHandler}
-                isMatchLeader={isMatchLeader}
-              />
-            ) : (
-              isLogin && (
-                // 매치 라인업 마감 전 & 자유 참여
-                <div className=" flex flex-col gap-4 h-[300px] flex-wrap">
-                  {match_position_idxs.map((positionIdx, index) => {
-                    return (
-                      !matchParticipants.some(
-                        (elem) => elem.match_position_idx === positionIdx
-                      ) && (
-                        <button
-                          key={index}
-                          className=" border border-gray shadow-lg p-[2px] w-[128px] hover:bg-blue hover:scale-[1.2] duration-300 hover:text-white"
-                          onClick={() => {
-                            matchApplyHandler({
-                              matchIdx,
-                              player: {
-                                player_list_nickname,
-                                player_list_idx,
-                                player_list_url: profileImg || "",
-                              },
-                              matchPosition: positionIdx,
-                              matchParticipationType:
-                                match_match_participation_type,
-                            });
-                          }}
-                        >
-                          {matchPosition[positionIdx]}로 참가하기
-                        </button>
-                      )
-                    );
-                  })}
-                </div>
+          {/* 승인참여 : 자유참여 */}
+          {isLogin &&
+            (match_match_participation_type === 0 ? (
+              <div className="w-full">
+                {/* 공개 매치 : 비공개 매치 : 대회 매치 */}
+                {match_match_attribute === 0 ? (
+                  /* 라인업 마감 전 : 라인업 마감 */
+                  common_status_idx === 0 ? (
+                    <WaitingList
+                      matchFormationPosition={match_position_idxs}
+                      matchParticipants={matchParticipants}
+                      matchWaitList={matchWaitList.match_waitlist}
+                      matchApproveHandler={matchApproveHandler}
+                      matchApplyHandler={matchApplyHandler}
+                      isMatchLeader={isMatchLeader}
+                      setMatchWaitList={setMatchWaitList}
+                    />
+                  ) : (
+                    <div>마감된 경기입니다...</div>
+                  )
+                ) : match_match_attribute === 1 ? (
+                  /* 라인업 마감 전 : 라인업 마감 */
+                  common_status_idx === 0 ? (
+                    <WaitingList
+                      matchFormationPosition={match_position_idxs}
+                      matchParticipants={matchParticipants}
+                      matchWaitList={matchWaitList.match_waitlist}
+                      matchApproveHandler={matchApproveHandler}
+                      matchApplyHandler={matchApplyHandler}
+                      isMatchLeader={isMatchLeader}
+                      setMatchWaitList={setMatchWaitList}
+                    />
+                  ) : (
+                    <div>마감된 경기입니다...</div>
+                  )
+                ) : (
+                  match_match_attribute === 2 &&
+                  /* 라인업 마감 전 : 라인업 마감 & 스탯 입력 마감 전 : 스탯 입력 마감 */
+                  (common_status_idx === 0 ? (
+                    <WaitingList
+                      matchFormationPosition={match_position_idxs}
+                      matchParticipants={matchParticipants}
+                      matchWaitList={matchWaitList.match_waitlist}
+                      matchApproveHandler={matchApproveHandler}
+                      matchApplyHandler={matchApplyHandler}
+                      isMatchLeader={isMatchLeader}
+                      setMatchWaitList={setMatchWaitList}
+                    />
+                  ) : common_status_idx === 1 &&
+                    matchParticipants.length > 0 ? (
+                    <StatPanel matchParticipants={matchParticipants} />
+                  ) : common_status_idx === 1 ? (
+                    <StatPanel matchParticipants={matchParticipants} />
+                  ) : (
+                    <div>
+                      마감된 대회입니다. 스탯 입력 기능은 곧 추가됩니다.
+                    </div>
+                  ))
+                )}
+              </div>
+            ) : /* 라인업 마감 전 : 라인업 마감 */
+
+            match_match_attribute === 0 ? (
+              /* 라인업 마감 전 : 라인업 마감 */
+              common_status_idx === 0 ? (
+                <FreeParticipationPanel
+                  matchPositions={match_position_idxs}
+                  matchParticipants={matchParticipants}
+                  matchApplyHandler={matchApplyHandler}
+                  matchFormationIdx={match_formation_idx}
+                />
+              ) : (
+                <div>마감된 경기입니다...</div>
               )
-            )
-          ) : // 매치 라인업 마감 & 대회
-          match_match_attribute !== 2 ? (
-            <div className=" m-auto">참가가 마감된 경기입니다</div>
-          ) : (
-            isLogin && <StatPanel matchParticipants={matchParticipants} />
-          )}
+            ) : match_match_attribute === 1 ? (
+              /* 라인업 마감 전 : 라인업 마감 */
+              common_status_idx === 0 ? (
+                <FreeParticipationPanel
+                  matchPositions={match_position_idxs}
+                  matchParticipants={matchParticipants}
+                  matchApplyHandler={matchApplyHandler}
+                  matchFormationIdx={match_formation_idx}
+                />
+              ) : (
+                <div></div>
+              )
+            ) : (
+              match_match_attribute === 2 &&
+              /* 라인업 마감 전 : 라인업 마감 & 스탯 입력 마감 전 : 스탯 입력 마감 */
+              (common_status_idx === 0 ? (
+                <FreeParticipationPanel
+                  matchPositions={match_position_idxs}
+                  matchParticipants={matchParticipants}
+                  matchApplyHandler={matchApplyHandler}
+                  matchFormationIdx={match_formation_idx}
+                />
+              ) : common_status_idx === 1 ? (
+                <StatPanel matchParticipants={matchParticipants} />
+              ) : (
+                <div>마감된 대회입니다. 스탯 입력 기능은 곧 추가됩니다.</div>
+              ))
+            ))}
         </div>
-        {/* 변경 사항 저장 / 매치 강제 종료 / 매치 삭제 <- 매치 생성자 전용*/}
+        {/* 매치 마감&삭제 버튼*/}
         {isMatchLeader && (
           <div className="flex gap-4 justify-end">
-            <button
-              className="border border-gray shadow-lg p-[2px] hover:bg-blue hover:text-white"
-              onClick={() => {
-                putMatchEnd({ matchIdx });
-                setMatchDetail((prev) => ({
-                  ...prev,
-                  common_status_idx: 1,
-                }));
-              }}
-            >
-              매치 마감
-            </button>
+            {common_status_idx === 0 && (
+              <button
+                className="border border-gray shadow-lg p-[2px] hover:bg-blue hover:text-white"
+                onClick={() => {
+                  matchEndHandler({ matchIdx });
+                }}
+              >
+                매치 마감
+              </button>
+            )}
             <button
               className="border border-gray shadow-lg p-[2px] hover:bg-blue hover:text-white"
               onClick={() => {
@@ -217,8 +256,7 @@ const MatchModal = () => {
             </button>
           </div>
         )}
-      </div>
-    </div>
+    </ModalLayer>
   );
 };
 

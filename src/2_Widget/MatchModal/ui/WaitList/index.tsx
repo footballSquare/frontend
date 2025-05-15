@@ -1,13 +1,13 @@
 import React from "react";
 import { matchPosition } from "../../../../4_Shared/constant/matchPosition";
 import { WaitingListProps } from "./type";
-import applyBtn from "../../../../4_Shared/assets/svg/applyBtn.svg";
 import {
   useMyNickname,
   useMyProfileImg,
   useMyUserIdx,
 } from "../../../../4_Shared/lib/useMyInfo";
 import useMatchModalStore from "../../../../4_Shared/zustand/useMatchModal";
+import useCancelMatchApply from "../../model/useCancelMatchApply";
 
 const WaitingList = React.memo((props: WaitingListProps) => {
   const [selectedPosition, setSelectedPosition] = React.useState<number>(0);
@@ -18,18 +18,20 @@ const WaitingList = React.memo((props: WaitingListProps) => {
     matchApproveHandler,
     matchApplyHandler,
     isMatchLeader,
+    setMatchWaitList,
   } = props;
 
   const [userIdx] = useMyUserIdx();
   const [nickName] = useMyNickname();
   const [profileUrl] = useMyProfileImg();
   const { matchIdx } = useMatchModalStore();
+  const [cancelMatchApplyHandler] = useCancelMatchApply({ setMatchWaitList });
 
   return (
     <div className=" w-[60%]">
       {/* 포지션 select & option 태그, 포지션 명 & 각 지원자 수 표시 */}
       <select
-        className="w-[164px] h-[32px] rounded-[4px] text-center border-1 border-blue"
+        className="w-[164px] h-[32px] rounded-[4px] text-center border-1 bg-gray-500 border-gray text-black cursor-pointer"
         onChange={(e) => setSelectedPosition(Number(e.target.value))}
       >
         {matchFormationPosition.map((position) => (
@@ -51,10 +53,10 @@ const WaitingList = React.memo((props: WaitingListProps) => {
           {matchWaitList[selectedPosition]?.map((player) => (
             <div
               key={player.player_list_idx}
-              className="flex gap-2 justify-between p-2 border-1 border-gray rounded-lg bg-light-blue shadow-lg"
+              className="flex gap-2 justify-between p-2 border-1 border-gray rounded-lg shadow-lg"
             >
               {/* <img src={player.player_list_url} alt="player" /> */}
-              <p>{player.player_list_nickname}</p>
+              <span>{player.player_list_nickname}</span>
               {isMatchLeader && (
                 <button
                   onClick={() =>
@@ -64,15 +66,29 @@ const WaitingList = React.memo((props: WaitingListProps) => {
                       matchParticipants,
                     })
                   }
+                  className=" text-grass"
                 >
-                  <img className=" w-[24px]" src={applyBtn} alt="" />
+                  승인
+                </button>
+              )}
+              {userIdx === player.player_list_idx && (
+                <button
+                  onClick={() =>
+                    cancelMatchApplyHandler({
+                      userIdx: player.player_list_idx,
+                      matchPosition: selectedPosition,
+                    })
+                  }
+                  className="text-red"
+                >
+                  취소
                 </button>
               )}
             </div>
           ))}
 
           <button
-            className=" border-1 rounded-lg border-gray shadow-lg bg-blue text-white hover:bg-light-blue hover:text-black duration-700"
+            className=" border-1 rounded-lg border-gray shadow-lg bg-gray-500 hover:bg-light-blue text-black duration-700"
             onClick={() => {
               matchApplyHandler({
                 matchIdx,
