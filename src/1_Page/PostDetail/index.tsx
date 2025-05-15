@@ -13,6 +13,7 @@ const PostDetail = () => {
   const postId = useParamInteger("postId");
   const [board] = useGetBoardDetail(postId);
   const [deleteBoard] = useDeleteBoard(postId);
+  console.log(board);
 
   const {
     board_category_idx,
@@ -25,6 +26,7 @@ const PostDetail = () => {
     board_list_updated_at,
     board_list_view_count,
     player,
+    is_liked,
   } = board;
 
   const [myIdx] = useMyUserIdx();
@@ -58,7 +60,7 @@ const PostDetail = () => {
               <span>수정: {utcFormatter(board_list_updated_at)}</span>
             )}
           </div>
-          <LikeToggle board_list_likecount={board_list_likecount} />
+          <LikeToggle boardLikeCount={board_list_likecount} isLike={is_liked} />
         </div>
 
         <div className="flex items-center space-x-2">

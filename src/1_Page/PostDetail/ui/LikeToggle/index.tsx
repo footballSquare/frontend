@@ -4,13 +4,17 @@ import useDeleteBoardLike from "../../../../3_Entity/Board/useDeleteBoardLike";
 import useParamInteger from "../../../../4_Shared/model/useParamInteger";
 
 const LikeToggle = (props: LikeToggleProps) => {
-  const { board_list_likecount } = props;
+  const { boardLikeCount, isLike } = props;
   const [isLiked, setIsLiked] = React.useState(false);
 
-  const [likes, setLikes] = React.useState<number>(0);
   React.useEffect(() => {
-    setLikes(board_list_likecount);
-  }, [board_list_likecount]);
+    setIsLiked(isLike);
+  }, [isLike]);
+
+  const [likeCount, setLikeCount] = React.useState<number>(0);
+  React.useEffect(() => {
+    setLikeCount(boardLikeCount);
+  }, [boardLikeCount]);
 
   const postId = useParamInteger("postId");
   const [postBoardLike] = usePostBoardLike(postId);
@@ -22,11 +26,11 @@ const LikeToggle = (props: LikeToggleProps) => {
       onClick={() => {
         if (isLiked) {
           setIsLiked(false);
-          setLikes((prev) => prev - 1);
+          setLikeCount((prev) => prev - 1);
           deleteBoardLike();
         } else {
           setIsLiked(true);
-          setLikes((prev) => prev + 1);
+          setLikeCount((prev) => prev + 1);
           postBoardLike();
         }
       }}>
@@ -45,7 +49,7 @@ const LikeToggle = (props: LikeToggleProps) => {
           <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
         </svg>
       )}
-      <span className="text-gray-100">{likes}</span>
+      <span className="text-gray-100">{likeCount}</span>
     </button>
   );
 };

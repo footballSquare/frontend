@@ -1,3 +1,4 @@
 type LikeToggleProps = {
-  board_list_likecount: number;
+  boardLikeCount: number;
+  isLike: boolean;
 };
