@@ -20,6 +20,9 @@ const PostDetail = () => {
     board_list_content,
     board_list_img,
     board_list_idx,
+    board_list_likecount,
+    board_list_updated_at,
+    board_list_view_count,
     player,
   } = board;
 
@@ -46,6 +49,14 @@ const PostDetail = () => {
         <h1 className="text-2xl sm:text-3xl font-bold text-gray-100 break-words">
           {board_list_title}
         </h1>
+        {/* 게시글 통계 */}
+        <div className="flex items-center space-x-4 text-sm text-gray-400">
+          <span>조회수 {board_list_view_count}</span>
+          <span>좋아요 {board_list_likecount}</span>
+          {board_list_updated_at && (
+            <span>수정: {utcFormatter(board_list_updated_at)}</span>
+          )}
+        </div>
 
         <div className="flex items-center space-x-2">
           <div className="w-8 h-8 rounded-full bg-gray-800 overflow-hidden flex items-center justify-center text-gray-300">
