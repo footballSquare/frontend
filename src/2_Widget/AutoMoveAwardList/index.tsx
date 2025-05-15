@@ -41,7 +41,7 @@ const AutoMoveAwardList = (props: AutoMoveAwardListProps) => {
             className={`w-2 h-2 rounded-full transition-all duration-300 cursor-pointer ${
               currentIndex >= index * visibleTrophyCount &&
               currentIndex < (index + 1) * visibleTrophyCount
-                ? "bg-blue-500"
+                ? "bg-grass"
                 : "bg-gray-300"
             }`}
             onClick={() => handleClickCurrentIndex(index * visibleTrophyCount)}

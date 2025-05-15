@@ -21,7 +21,7 @@ const TeamSelectPanel = (props: TeamSelectPanelProps) => {
     <div>
       <button
         type="button"
-        className="px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors duration-150 flex items-center shadow-md"
+        className="px-4 py-2.5 bg-grass/90 hover:bg-grass text-white font-semibold rounded-lg transition-all duration-150 flex items-center shadow hover:shadow-lg hover:scale-[1.02]"
         onClick={toggleModal}>
         팀 선택
       </button>

@@ -51,9 +51,9 @@ const PlayerCard = (props: PlayerCardProps) => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="w-full h-full">
-      <div className="bg-gradient-to-br from-gray-900 to-gray-800 text-white rounded-xl overflow-hidden shadow-2xl border border-gray-700 transform transition-all hover:scale-[1.01] hover:shadow-blue-500/20">
+      <div className="bg-gradient-to-br from-gray-900 to-gray-800 text-white rounded-xl overflow-hidden shadow-2xl border border-gray-700 transform transition-all hover:scale-[1.01] hover:shadow-grass/20">
         {/* Header with position badge */}
-        <div className="relative h-16 bg-gradient-to-r from-blue-700 to-indigo-800 flex items-center px-4">
+        <div className="relative h-16 bg-gradient-to-br from-grass to-grass/80 flex items-center px-4">
           <div
             className={`absolute top-3 right-3 ${getPositionColor(
               match_position_idx
@@ -80,7 +80,7 @@ const PlayerCard = (props: PlayerCardProps) => {
                 is_mine ? "cursor-pointer group" : "cursor-default"
               }`}>
               <div className="relative">
-                <div className="w-20 h-20 rounded-full p-1 bg-gradient-to-r from-blue-400 to-purple-500">
+                <div className="w-20 h-20 rounded-full p-1 bg-gradient-to-br from-grass to-grass/80">
                   <img
                     className="w-full h-full object-cover rounded-full border-2 border-gray-800 bg-white"
                     src={preview ? preview : profile}
@@ -98,7 +98,7 @@ const PlayerCard = (props: PlayerCardProps) => {
 
           <div className="ml-24">
             <div className="font-bold text-lg tracking-wide">{nickname}</div>
-            <div className="text-xs text-blue-300 font-medium">#{user_idx}</div>
+            <div className="text-xs text-grass font-medium">#{user_idx}</div>
           </div>
         </div>
 
@@ -115,7 +115,7 @@ const PlayerCard = (props: PlayerCardProps) => {
                 </button>
                 <button
                   type="submit"
-                  className="flex-1 py-2 text-xs font-medium bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 rounded-md transition-colors shadow-md">
+                  className="flex-1 py-2 text-xs font-medium bg-grass hover:bg-grass/80 rounded-md transition-colors shadow-md">
                   저장
                 </button>
               </div>
@@ -137,7 +137,7 @@ const PlayerCard = (props: PlayerCardProps) => {
           <div className="flex justify-center">
             <button
               type="button"
-              className="w-full text-xs py-2 font-medium bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 rounded-md mx-4 transition-colors shadow-md"
+              className="w-full text-xs py-2 font-medium bg-grass hover:bg-grass/80 rounded-md mx-4 transition-colors shadow-md"
               onClick={(e) => {
                 e.preventDefault();
                 navigate(`/profile/${user_idx}`);
