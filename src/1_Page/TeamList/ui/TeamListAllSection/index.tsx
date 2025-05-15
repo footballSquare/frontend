@@ -18,13 +18,13 @@ const TeamListAllSection = () => {
   return (
     <div>
       <div className="flex items-center justify-between px-2 ">
-        <h2 className="text-lg font-bold mb-3 px-1">모든 팀</h2>
+        <h2 className="text-lg font-bold text-gray-100 mb-3 px-1">모든 팀</h2>
       </div>
 
-      <div className="bg-white rounded-2xl overflow-hidden shadow-sm p-4">
+      <div className="bg-gray-800 rounded-2xl overflow-hidden shadow-sm p-4">
         <div className="space-y-3 overflow-y-auto max-h-96 overscroll-contain">
           {teamLists && teamLists.length === 0 ? (
-            <div className="text-center text-gray-500 py-4">
+            <div className="text-center text-gray-400 py-4">
               등록된 팀이 없습니다
             </div>
           ) : (
@@ -44,7 +44,7 @@ const TeamListAllSection = () => {
 
         {loading && (
           <div className="p-4 text-center">
-            <div className="w-6 h-6 border-2 border-blue-500 border-t-transparent rounded-full mx-auto animate-spin"></div>
+            <div className="w-6 h-6 border-2 border-blue-400 border-t-transparent rounded-full mx-auto animate-spin"></div>
           </div>
         )}
       </div>
