@@ -1,20 +1,15 @@
-import React from "react";
 import usePostBoardLike from "../../../../3_Entity/Board/usePostBoardLike";
 import useDeleteBoardLike from "../../../../3_Entity/Board/useDeleteBoardLike";
 import useParamInteger from "../../../../4_Shared/model/useParamInteger";
+import useIsLiked from "./model/useIsLiked";
+import useLikeCount from "./model/useLikeCount";
 
 const LikeToggle = (props: LikeToggleProps) => {
   const { boardLikeCount, isLike } = props;
-  const [isLiked, setIsLiked] = React.useState(false);
 
-  React.useEffect(() => {
-    setIsLiked(isLike);
-  }, [isLike]);
-
-  const [likeCount, setLikeCount] = React.useState<number>(0);
-  React.useEffect(() => {
-    setLikeCount(boardLikeCount);
-  }, [boardLikeCount]);
+  const [isLiked, handleToogleLike] = useIsLiked(isLike);
+  const { likeCount, increaseLikeCount, decreaseLikeCount } =
+    useLikeCount(boardLikeCount);
 
   const postId = useParamInteger("postId");
   const [postBoardLike] = usePostBoardLike(postId);
@@ -25,12 +20,12 @@ const LikeToggle = (props: LikeToggleProps) => {
       className="flex items-center space-x-1 focus:outline-none"
       onClick={() => {
         if (isLiked) {
-          setIsLiked(false);
-          setLikeCount((prev) => prev - 1);
+          handleToogleLike();
+          decreaseLikeCount();
           deleteBoardLike();
         } else {
-          setIsLiked(true);
-          setLikeCount((prev) => prev + 1);
+          handleToogleLike();
+          increaseLikeCount();
           postBoardLike();
         }
       }}>
