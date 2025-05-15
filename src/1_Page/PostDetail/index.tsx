@@ -4,6 +4,7 @@ import useParamInteger from "../../4_Shared/model/useParamInteger";
 import CommentSection from "./ui/CommentSection";
 import useDeleteBoard from "../../3_Entity/Board/useDeleteBoard";
 import { utcFormatter } from "../../4_Shared/lib/utcFormatter";
+import { useMyUserIdx } from "../../4_Shared/lib/useMyInfo";
 
 const PostDetail = () => {
   const navigate = useNavigate();
@@ -22,6 +23,8 @@ const PostDetail = () => {
     player,
   } = board;
 
+  const [myIdx] = useMyUserIdx();
+  const player_list_idx = player.player_list_idx ?? null;
   const player_list_profile_image = player?.player_list_profile_image ?? null;
   const player_list_nickname = player?.player_list_nickname ?? "";
   const firstImage = board_list_img?.[0];
@@ -79,20 +82,24 @@ const PostDetail = () => {
 
       {/* 게시글 작업 버튼 */}
       <div className="flex flex-wrap gap-2 pt-2">
-        <button
-          className="text-grass hover:underline cursor-pointer"
-          onClick={() => navigate(`/post/write/edit/${board_list_idx}`)}>
-          수정
-        </button>
-        <button
-          className="text-red-500 hover:underline cursor-pointer"
-          onClick={() => {
-            if (confirm("정말로 이 게시글을 삭제하시겠습니까?")) {
-              deleteBoard();
-            }
-          }}>
-          삭제
-        </button>
+        {myIdx === player_list_idx && (
+          <div>
+            <button
+              className="text-grass hover:underline cursor-pointer"
+              onClick={() => navigate(`/post/write/edit/${board_list_idx}`)}>
+              수정
+            </button>
+            <button
+              className="text-red-500 hover:underline cursor-pointer"
+              onClick={() => {
+                if (confirm("정말로 이 게시글을 삭제하시겠습니까?")) {
+                  deleteBoard();
+                }
+              }}>
+              삭제
+            </button>
+          </div>
+        )}
         <button
           className="text-gray-400 hover:underline cursor-pointer ml-auto"
           // to do 목록 페이지 구현시 설정할것
