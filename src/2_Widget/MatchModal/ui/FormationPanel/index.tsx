@@ -5,7 +5,6 @@ import { FormationPanelProps } from "./type";
 import { formations } from "../../constant/formation";
 import { matchFormation } from "../../../../4_Shared/constant/matchFormation";
 import { matchPosition } from "../../../../4_Shared/constant/matchPosition";
-import useDeleteMatchJoin from "../../../../3_Entity/Match/useDeleteMatchJoin";
 import useMatchModalStore from "../../../../4_Shared/zustand/useMatchModal";
 import { useNavigate } from "react-router-dom";
 import { useMyUserIdx } from "../../../../4_Shared/lib/useMyInfo";
@@ -17,8 +16,6 @@ const FormationPanel = React.memo((props: FormationPanelProps) => {
     matchDisApproveHandler,
     isMatchLeader,
   } = props;
-  const [deleteMatchJoin] = useDeleteMatchJoin();
-  const { matchIdx } = useMatchModalStore();
   const navigate = useNavigate();
   const { toggleMatchModal } = useMatchModalStore();
   const [userIdx] = useMyUserIdx();
@@ -91,10 +88,6 @@ const FormationPanel = React.memo((props: FormationPanelProps) => {
                             },
                             matchPosition: elem.match_position_idx,
                             matchParticipants,
-                          });
-                          deleteMatchJoin({
-                            matchIdx,
-                            userIdx: elem.player_list_idx,
                           });
                         }}
                       >

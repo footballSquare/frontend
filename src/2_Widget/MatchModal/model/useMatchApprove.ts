@@ -1,7 +1,7 @@
 import React from "react";
 import usePostMatchApproval from "../../../3_Entity/Match/usePostMatchApproval";
-import useDeleteMatchApproval from "../../../3_Entity/Match/useDeleteMatchApproval";
 import useMatchModalStore from "../../../4_Shared/zustand/useMatchModal";
+import useDeleteMatchJoin from "../../../3_Entity/Match/useDeleteMatchJoin";
 
 const useMatchApprove = (
   props: UseMatchApproveProps
@@ -11,15 +11,11 @@ const useMatchApprove = (
 ] => {
   const { setMatchParticipants, setMatchWaitList } = props;
   const [postMatchApproval] = usePostMatchApproval();
-  const [deleteMatchApproval] = useDeleteMatchApproval();
   const { matchIdx } = useMatchModalStore();
+  const [deleteMatchJoin] = useDeleteMatchJoin();
   const matchApproveHandler = React.useCallback(
     (props: MatchApproveHandlerProps): void => {
-      const {
-        player,
-        matchPosition,
-        matchParticipants,
-      } = props;
+      const { player, matchPosition, matchParticipants } = props;
       if (
         // 포지션이 비어 있는 지 체크
         !matchParticipants.some(
@@ -88,8 +84,6 @@ const useMatchApprove = (
             participant.player_list_idx === player.player_list_idx
         )
       ) {
-        // delete api
-        deleteMatchApproval(player.player_list_idx);
         // set MatchParticipants state
         setMatchParticipants((prev) =>
           prev.filter(
@@ -97,9 +91,10 @@ const useMatchApprove = (
               participant.player_list_idx !== player.player_list_idx
           )
         );
+        deleteMatchJoin({ matchIdx, userIdx: player.player_list_idx });
       }
     },
-    [setMatchParticipants, deleteMatchApproval]
+    [setMatchParticipants, matchIdx, deleteMatchJoin]
   );
 
   return [matchApproveHandler, matchDisApproveHandler];

@@ -4,7 +4,11 @@ import usePutOpenMatchJoin from "../../../3_Entity/Match/usePutOpenMatchJoin";
 const useMatchApply = (
   props: UseMatchApplyProps
 ): [(props: MatchApplyHandlerProps) => void] => {
-  const { setMatchWaitList, setMatchParticipants } = props;
+  const {
+    setMatchWaitList,
+    setMatchParticipants,
+    isMatchLeader = false,
+  } = props;
   const [putOpenMatchJoin, serverState, loading] = usePutOpenMatchJoin();
   const [player, setPlayer] = React.useState<Player>();
   const [matchPosition, setMatchPosition] = React.useState<number>(-1);
@@ -18,7 +22,7 @@ const useMatchApply = (
       player &&
       matchPosition !== -1
     ) {
-      if (matchParticipationType === 0) {
+      if (matchParticipationType === 0 && !isMatchLeader) {
         setMatchWaitList((prev: MatchWaitList) => ({
           match_waitlist: {
             ...prev.match_waitlist,
@@ -35,7 +39,7 @@ const useMatchApply = (
           },
         }));
         alert("매치에 대기자로 등록되었습니다.");
-      } else if (matchParticipationType === 1) {
+      } else if (matchParticipationType === 1 || isMatchLeader) {
         // set MatchParticipants state
         setMatchParticipants((prev) => [
           ...prev,
@@ -61,6 +65,7 @@ const useMatchApply = (
     setMatchWaitList,
     matchParticipationType,
     setMatchParticipants,
+    isMatchLeader,
   ]);
 
   const matchApplyHandler = React.useCallback(
