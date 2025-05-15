@@ -1,20 +1,19 @@
 import { Controller } from "react-hook-form";
-import useGetBoardDetailHandler from "./model/useGetBoardDetailHandler";
+import useWriteRouteType from "./model/useWriteRouteType";
 import useHookForm from "./model/useHookForm";
 import { useNavigate } from "react-router-dom";
 import usePostBoard from "../../3_Entity/Board/usePostBoard";
 import usePutBoard from "../../3_Entity/Board/usePutBoard";
 import uploadIcon from "../../4_Shared/assets/svg/upload.svg";
 import { CATEGORY_STRING } from "./constant/constant";
+import useGetBoardDetail from "../../3_Entity/Board/useGetBoardDetail";
+import useManageRole from "./model/useManageRole";
 
 const PostEdit = () => {
   const navigate = useNavigate();
-  const {
-    boardDetail,
-    isNew,
-    postId,
-    categoryIndex = 0,
-  } = useGetBoardDetailHandler();
+  const { isNew, categoryIndex, postId } = useWriteRouteType();
+  const [boardDetail] = useGetBoardDetail(postId);
+  useManageRole(isNew, boardDetail);
 
   const [form, preview] = useHookForm(boardDetail);
 

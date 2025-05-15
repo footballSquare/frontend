@@ -41,6 +41,7 @@ type BoardDetails = {
   board_list_created_at: string;
   board_list_updated_at: string;
   board_list_view_count: number;
+  is_liked: boolean;
 };
 
 type BoardLike = {
