@@ -8,3 +8,9 @@ type UseGetBoardDetailHandlerReturn = {
   postId: number;
   categoryIndex: number | undefined;
 };
+type UseWriteRouteTypeReturn = {
+  isNew: boolean;
+  isEdit: boolean;
+  categoryIndex: number;
+  postId: number;
+};
