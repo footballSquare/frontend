@@ -91,10 +91,23 @@ const useMatchApprove = (
               participant.player_list_idx !== player.player_list_idx
           )
         );
+        setMatchWaitList((prev) => ({
+          match_waitlist: {
+            ...prev.match_waitlist,
+            [matchPosition]: [
+              ...(prev.match_waitlist?.[matchPosition] ?? []),
+              {
+                player_list_idx: player.player_list_idx,
+                player_list_nickname: player.player_list_nickname,
+                player_list_url: player.player_list_url,
+              },
+            ],
+          },
+        }));
         deleteMatchJoin({ matchIdx, userIdx: player.player_list_idx });
       }
     },
-    [setMatchParticipants, matchIdx, deleteMatchJoin]
+    [setMatchParticipants, matchIdx, deleteMatchJoin, setMatchWaitList]
   );
 
   return [matchApproveHandler, matchDisApproveHandler];
