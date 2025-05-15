@@ -13,7 +13,6 @@ const PostDetail = () => {
   const postId = useParamInteger("postId");
   const [board] = useGetBoardDetail(postId);
   const [deleteBoard] = useDeleteBoard(postId);
-  console.log(board);
 
   const {
     board_category_idx,
