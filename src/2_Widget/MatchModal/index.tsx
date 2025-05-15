@@ -16,6 +16,7 @@ import { useNavigate } from "react-router-dom";
 import { utcFormatter } from "../../4_Shared/lib/utcFormatter";
 import useMatchEnd from "./model/useMatchEnd";
 import FreeParticipationPanel from "./ui/FreeParticipationPanel";
+import ModalLayer from "../../4_Shared/components/ModalLayout";
 
 const MatchModal = () => {
   const { matchIdx, toggleMatchModal } = useMatchModalStore();
@@ -54,15 +55,7 @@ const MatchModal = () => {
   const navigate = useNavigate();
 
   return (
-    // 모달 커버
-    <div className="absolute top-0 left-0 w-full h-full flex justify-center items-center">
-      {/* 레이어 */}
-      <div
-        className="absolute top-0 left-0 w-full h-full opacity-50 bg-gray"
-        onClick={toggleMatchModal}
-      ></div>
-      {/* 모달 */}
-      <div className="flex flex-col relative w-[80%] h-[80%] bg-gray-800 text-white gap-4 p-4 overflow-auto">
+    <ModalLayer toggleModalHandler={toggleMatchModal}>
         {/* 타이틀 / 닫기 버튼 / 대회명(대회 매치 전용) / 게임 팀 이름(팀 없으면 공방) */}
         <div className="flex justify-between">
           <div className="flex gap-4 items-center">
@@ -263,8 +256,7 @@ const MatchModal = () => {
             </button>
           </div>
         )}
-      </div>
-    </div>
+    </ModalLayer>
   );
 };
 
