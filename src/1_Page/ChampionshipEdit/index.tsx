@@ -25,6 +25,7 @@ import { championshipTypes } from "../../4_Shared/constant/championshipTypes";
 import useManageServerState from "./model/useManageServerState";
 import EditRequest from "./ui/EditRequest";
 import { calculateProgress } from "./lib/calculateProgress";
+import { getTextColorFromBackground } from "../../4_Shared/lib/colorChecker";
 
 const ChampionshipForm = () => {
   const { isEditMode, communityIdx } = useManageSearchParam();
@@ -52,6 +53,7 @@ const ChampionshipForm = () => {
 
   const championshipType = watch("championship_type_idx");
   const championshipColor = watch("championship_list_color");
+  const textColor = getTextColorFromBackground(championshipColor || "#1e293b");
   const teamsSelected = watch("participation_team_idxs");
 
   const progress = calculateProgress(watch, fields);
@@ -83,13 +85,14 @@ const ChampionshipForm = () => {
             className="p-6 rounded-tl-xl"
             style={{
               backgroundColor: championshipColor || "#1e293b",
+              color: textColor,
               boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.2)",
             }}>
-            <h1 className="text-xl font-bold text-white mb-2">
+            <h1 className="text-xl font-bold mb-2">
               {watch("championship_list_name") ||
                 (!isEditMode ? "새로운 대회 생성" : "대회 수정")}
             </h1>
-            <p className="text-white text-opacity-80 text-sm">
+            <p className="text-opacity-80 text-sm">
               {championshipType
                 ? championshipTypes[championshipType]
                 : "대회 타입을 선택해주세요"}
@@ -106,9 +109,20 @@ const ChampionshipForm = () => {
                 className={`w-full text-left px-6 py-3 flex items-center space-x-3 transition-colors duration-200
                   ${
                     activeTab === tab
-                      ? "bg-gray-800 border-l-4 border-blue-500 text-blue-400"
+                      ? "border-l-4 border-blue-500 text-blue-400"
                       : "text-gray-400 hover:bg-gray-800 hover:text-gray-200"
-                  }`}>
+                  }`}
+                style={
+                  activeTab === tab
+                    ? {
+                        backgroundColor: championshipColor,
+                        color: textColor,
+                        borderLeftWidth: "4px",
+                        borderLeftStyle: "solid",
+                        borderLeftColor: championshipColor,
+                      }
+                    : undefined
+                }>
                 {tab === CHAMPIONSHIP_EDIT_TAB.BASIC && (
                   <>
                     <svg
@@ -218,16 +232,17 @@ const ChampionshipForm = () => {
 
           {/* 모바일 헤더 */}
           <div
-            className="lg:hidden p-6 text-white relative rounded-t-xl"
+            className="lg:hidden p-6 relative rounded-t-xl"
             style={{
               backgroundColor: championshipColor || "#1e293b",
+              color: textColor,
               boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.2)",
             }}>
             <h1 className="text-2xl font-bold mb-1">
               {watch("championship_list_name") ||
                 (!isEditMode ? "새로운 대회 생성" : "대회 수정")}
             </h1>
-            <p className="text-white text-opacity-80">
+            <p className="text-opacity-80">
               {championshipType
                 ? championshipTypes[championshipType]
                 : "대회 타입을 선택해주세요"}
@@ -261,7 +276,8 @@ const ChampionshipForm = () => {
                   activeTab === tab
                     ? "text-blue-400"
                     : "text-gray-400 hover:text-gray-200 hover:bg-gray-700"
-                } transition-colors duration-200 flex-shrink-0`}>
+                } transition-colors duration-200 flex-shrink-0`}
+                style={activeTab === tab ? { color: textColor } : {}}>
                 {tab === CHAMPIONSHIP_EDIT_TAB.BASIC && "기본 정보"}
                 {tab === CHAMPIONSHIP_EDIT_TAB.TEAMS &&
                   `참가 팀 (${teamsSelected.length}/${
@@ -316,7 +332,11 @@ const ChampionshipForm = () => {
                     <button
                       type="button"
                       onClick={() => setActiveTab(CHAMPIONSHIP_EDIT_TAB.TEAMS)}
-                      className="px-6 py-2.5 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition flex items-center">
+                      style={{
+                        backgroundColor: championshipColor,
+                        color: textColor,
+                      }}
+                      className="px-6 py-2.5 text-white font-medium rounded-lg hover:opacity-90 transition flex items-center">
                       다음: 참가 팀 선택
                       <svg
                         className="w-4 h-4 ml-2"
@@ -356,7 +376,11 @@ const ChampionshipForm = () => {
                     <button
                       type="button"
                       onClick={() => setActiveTab(CHAMPIONSHIP_EDIT_TAB.AWARDS)}
-                      className="px-6 py-2.5 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition flex items-center">
+                      style={{
+                        backgroundColor: championshipColor,
+                        color: textColor,
+                      }}
+                      className="px-6 py-2.5 text-white font-medium rounded-lg hover:opacity-90 transition flex items-center">
                       다음: 수상 항목
                       {" >"}
                     </button>
@@ -378,7 +402,11 @@ const ChampionshipForm = () => {
                     <button
                       type="button"
                       onClick={() => setActiveTab(CHAMPIONSHIP_EDIT_TAB.DATES)}
-                      className="px-6 py-2.5 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition flex items-center">
+                      style={{
+                        backgroundColor: championshipColor,
+                        color: textColor,
+                      }}
+                      className="px-6 py-2.5 text-white font-medium rounded-lg hover:opacity-90 transition flex items-center">
                       다음: 일정 및 설정
                       {" >"}
                     </button>
@@ -400,7 +428,11 @@ const ChampionshipForm = () => {
                     </button>
                     <button
                       type="submit"
-                      className="px-8 py-3 font-medium rounded-lg transition flex items-center bg-blue-600 text-white hover:bg-blue-700">
+                      style={{
+                        backgroundColor: championshipColor,
+                        color: textColor,
+                      }}
+                      className="px-8 py-3 font-medium rounded-lg transition flex items-center text-white hover:opacity-90">
                       {isEditMode ? "대회 수정하기" : "대회 생성하기"}
                     </button>
                   </div>

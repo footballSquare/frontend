@@ -1,0 +1,3 @@
+type CommentSectionProps = {
+  initialComments: BoardComment[];
+};
