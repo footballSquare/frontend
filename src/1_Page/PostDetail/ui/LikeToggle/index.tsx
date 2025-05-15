@@ -1,8 +1,11 @@
+import { useIsLogin } from "../../../../4_Shared/lib/useMyInfo";
 import useDebouncedLikeEffect from "./model/useDebouncedLikeEffect";
 import useOptimisticLikeToggle from "./model/useOptimisticLikeToggle";
 
 const LikeToggle = (props: LikeToggleProps) => {
   const { boardLikeCount, isLike } = props;
+
+  const [isLogin] = useIsLogin();
 
   const { isLiked, likeCount, toggleLike } = useOptimisticLikeToggle(
     boardLikeCount,
@@ -15,6 +18,10 @@ const LikeToggle = (props: LikeToggleProps) => {
     <button
       className="flex items-center space-x-1 focus:outline-none"
       onClick={() => {
+        if (!isLogin) {
+          alert("로그인 후 이용 가능합니다.");
+          return;
+        }
         toggleLike();
         handleBtnClick();
       }}>
