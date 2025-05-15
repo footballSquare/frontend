@@ -5,6 +5,7 @@ import CommentSection from "./ui/CommentSection";
 import useDeleteBoard from "../../3_Entity/Board/useDeleteBoard";
 import { utcFormatter } from "../../4_Shared/lib/utcFormatter";
 import { useMyUserIdx } from "../../4_Shared/lib/useMyInfo";
+import LikeToggle from "./ui/LikeToggle";
 
 const PostDetail = () => {
   const navigate = useNavigate();
@@ -50,12 +51,14 @@ const PostDetail = () => {
           {board_list_title}
         </h1>
         {/* 게시글 통계 */}
-        <div className="flex items-center space-x-4 text-sm text-gray-400">
-          <span>조회수 {board_list_view_count}</span>
-          <span>좋아요 {board_list_likecount}</span>
-          {board_list_updated_at && (
-            <span>수정: {utcFormatter(board_list_updated_at)}</span>
-          )}
+        <div className="flex items-center justify-between space-x-4 text-sm text-gray-400">
+          <div className="flex items-center space-x-4">
+            <span>조회수 {board_list_view_count}</span>
+            {board_list_updated_at && (
+              <span>수정: {utcFormatter(board_list_updated_at)}</span>
+            )}
+          </div>
+          <LikeToggle board_list_likecount={board_list_likecount} />
         </div>
 
         <div className="flex items-center space-x-2">
