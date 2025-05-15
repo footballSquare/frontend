@@ -51,7 +51,14 @@ const Page = () => {
         <Route path={`${PAGE_URI.SIGNUP}`} element={<SignUp />} />
         <Route path={`${PAGE_URI.OAUTH}`} element={<OAuthHub />} />
         <Route path={`${PAGE_URI.POST}/:postId`} element={<PostDetail />} />
-        <Route path={`${PAGE_URI.POST}/write/:postId`} element={<PostEdit />} />
+        <Route
+          path={`${PAGE_URI.POST}/write/edit/:postId`}
+          element={<PostEdit />}
+        />
+        <Route
+          path={`${PAGE_URI.POST}/write/new/:category`}
+          element={<PostEdit />}
+        />
       </Routes>
     </div>
   );
