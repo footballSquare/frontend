@@ -24,7 +24,7 @@ const PostDetail = () => {
   } = board;
 
   const [myIdx] = useMyUserIdx();
-  const player_list_idx = player.player_list_idx ?? null;
+  const player_list_idx = player?.player_list_idx ?? null;
   const player_list_profile_image = player?.player_list_profile_image ?? null;
   const player_list_nickname = player?.player_list_nickname ?? "";
   const firstImage = board_list_img?.[0];
@@ -83,7 +83,7 @@ const PostDetail = () => {
       {/* 게시글 작업 버튼 */}
       <div className="flex flex-wrap gap-2 pt-2">
         {myIdx === player_list_idx && (
-          <div>
+          <div className="flex gap-2">
             <button
               className="text-grass hover:underline cursor-pointer"
               onClick={() => navigate(`/post/write/edit/${board_list_idx}`)}>
