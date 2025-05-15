@@ -80,8 +80,8 @@ const useManageComments = (initialComments: BoardComment[]) => {
 
   const handleSetCommentsIdx = (newId: number) => {
     setComments((prev) => {
-      return prev.map((comment, idx) =>
-        idx === commentNewRef.current[0]
+      return prev.map((comment) =>
+        comment.board_comment_idx === commentNewRef.current[0]
           ? { ...comment, board_comment_idx: newId }
           : comment
       );
