@@ -1,33 +1,22 @@
-import usePostBoardLike from "../../../../3_Entity/Board/usePostBoardLike";
-import useDeleteBoardLike from "../../../../3_Entity/Board/useDeleteBoardLike";
-import useParamInteger from "../../../../4_Shared/model/useParamInteger";
-import useIsLiked from "./model/useIsLiked";
-import useLikeCount from "./model/useLikeCount";
+import useDebouncedLikeEffect from "./model/useDebouncedLikeEffect";
+import useOptimisticLikeToggle from "./model/useOptimisticLikeToggle";
 
 const LikeToggle = (props: LikeToggleProps) => {
   const { boardLikeCount, isLike } = props;
 
-  const [isLiked, handleToogleLike] = useIsLiked(isLike);
-  const { likeCount, increaseLikeCount, decreaseLikeCount } =
-    useLikeCount(boardLikeCount);
+  const { isLiked, likeCount, toggleLike } = useOptimisticLikeToggle(
+    boardLikeCount,
+    isLike
+  );
 
-  const postId = useParamInteger("postId");
-  const [postBoardLike] = usePostBoardLike(postId);
-  const [deleteBoardLike] = useDeleteBoardLike(postId);
+  const [handleBtnClick] = useDebouncedLikeEffect(isLiked);
 
   return (
     <button
       className="flex items-center space-x-1 focus:outline-none"
       onClick={() => {
-        if (isLiked) {
-          handleToogleLike();
-          decreaseLikeCount();
-          deleteBoardLike();
-        } else {
-          handleToogleLike();
-          increaseLikeCount();
-          postBoardLike();
-        }
+        toggleLike();
+        handleBtnClick();
       }}>
       {isLiked ? (
         <svg
