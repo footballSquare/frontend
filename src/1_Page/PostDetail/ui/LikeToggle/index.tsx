@@ -1,9 +1,20 @@
 import React from "react";
+import usePostBoardLike from "../../../../3_Entity/Board/usePostBoardLike";
+import useDeleteBoardLike from "../../../../3_Entity/Board/useDeleteBoardLike";
+import useParamInteger from "../../../../4_Shared/model/useParamInteger";
 
 const LikeToggle = (props: LikeToggleProps) => {
   const { board_list_likecount } = props;
   const [isLiked, setIsLiked] = React.useState(false);
-  const [likes, setLikes] = React.useState<number>(board_list_likecount || 0);
+
+  const [likes, setLikes] = React.useState<number>(0);
+  React.useEffect(() => {
+    setLikes(board_list_likecount);
+  }, [board_list_likecount]);
+
+  const postId = useParamInteger("postId");
+  const [postBoardLike] = usePostBoardLike(postId);
+  const [deleteBoardLike] = useDeleteBoardLike(postId);
 
   return (
     <button
@@ -12,9 +23,11 @@ const LikeToggle = (props: LikeToggleProps) => {
         if (isLiked) {
           setIsLiked(false);
           setLikes((prev) => prev - 1);
+          deleteBoardLike();
         } else {
           setIsLiked(true);
           setLikes((prev) => prev + 1);
+          postBoardLike();
         }
       }}>
       {isLiked ? (
