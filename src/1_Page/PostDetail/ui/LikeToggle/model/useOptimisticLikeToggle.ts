@@ -3,7 +3,7 @@ import React from "react";
 const useOptimisticLikeToggle = (
   initBoardLikeCount: number,
   initIsLike: boolean
-) => {
+): UseOptimisticLikeToggleReturn => {
   const [isLiked, setIsLiked] = React.useState(false);
   const [likeCount, setLikeCount] = React.useState(0);
 

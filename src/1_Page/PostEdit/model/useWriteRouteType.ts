@@ -1,13 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { CATEGORY_MAP } from "../constant/constant";
-import { number } from "yup";
-
-type UseWriteRouteTypeReturn = {
-  isNew: boolean;
-  isEdit: boolean;
-  categoryIndex: number;
-  postId: number;
-};
 
 const useWriteRouteType = (): UseWriteRouteTypeReturn => {
   const navigate = useNavigate();

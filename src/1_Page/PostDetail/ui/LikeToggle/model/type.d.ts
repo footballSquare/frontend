@@ -3,3 +3,8 @@ type UseLikeCountReturn = {
   increaseLikeCount: () => void;
   decreaseLikeCount: () => void;
 };
+type UseOptimisticLikeToggleReturn = {
+  isLiked: boolean;
+  likeCount: number;
+  toggleLike: () => void;
+};
