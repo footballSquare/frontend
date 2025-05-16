@@ -65,7 +65,8 @@ export const useFetchData = (): [
           );
 
           const newAccessToken = refreshResponse.data.data.access_token;
-           const options = { path: "/", maxAge: 86400 };
+          console.log(refreshResponse);
+          const options = { path: "/", maxAge: 86400 };
           setCookie("access_token", newAccessToken, options); // access_token을 쿠키에 저장
 
           axiosInstance.defaults.headers["Authorization"] = newAccessToken;
