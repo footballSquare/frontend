@@ -8,7 +8,7 @@ const useGetTeamHistory = (teamListIdx: number): [TeamHistory[], boolean] => {
   React.useEffect(() => {
     const endPoint = `/team/${teamListIdx}/history`;
     request("GET", endPoint, null, true);
-  }, []);
+  }, [teamListIdx]);
 
   React.useEffect(() => {
     if (!loading && serverState && "team_history" in serverState) {

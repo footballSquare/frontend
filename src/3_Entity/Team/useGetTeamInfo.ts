@@ -10,7 +10,7 @@ const useGetTeamInfo = (teamListIdx: number): [TeamInfo, boolean] => {
   React.useEffect(() => {
     const endPoint = `/team/${teamListIdx}/information`;
     request("GET", endPoint, null, true);
-  }, []);
+  }, [teamListIdx]);
 
   React.useEffect(() => {
     if (!loading && serverState && "team" in serverState) {
