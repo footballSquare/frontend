@@ -1,6 +1,6 @@
 import { Controller } from "react-hook-form";
 import useWriteRouteType from "./model/useWriteRouteType";
-import useHookForm from "./model/useHookForm";
+import usePostEditForm from "./model/usePostEditForm";
 import { useNavigate } from "react-router-dom";
 import usePostBoard from "../../3_Entity/Board/usePostBoard";
 import usePutBoard from "../../3_Entity/Board/usePutBoard";
@@ -15,7 +15,7 @@ const PostEdit = () => {
   const [boardDetail] = useGetBoardDetail(postId);
   useManageRole(isNew, boardDetail);
 
-  const [form, preview] = useHookForm(boardDetail);
+  const [form, preview] = usePostEditForm(boardDetail);
 
   const {
     handleSubmit,
@@ -36,7 +36,7 @@ const PostEdit = () => {
   };
 
   return (
-    <div className="w-full max-w-5xl mx-auto mt-8 mb-16 space-y-12 text-gray-100">
+    <div className="w-full max-w-5xl mx-auto mt-8 mb-16 space-y-12 sm :px-8 px-4">
       <h1 className="text-3xl font-semibold mb-6 text-gray-100">
         {isNew
           ? `${CATEGORY_STRING[categoryIndex]} 게시글 작성`

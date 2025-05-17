@@ -15,9 +15,10 @@ const useWriteRouteType = (): UseWriteRouteTypeReturn => {
     navigate("/404", { replace: true });
   }
 
-  let categoryIndex: number | undefined = undefined;
+  let categoryIndex = -1;
   if (isNew) {
-    categoryIndex = CATEGORY_MAP[categoryParam!];
+    categoryIndex =
+      CATEGORY_MAP[categoryParam as keyof typeof CATEGORY_MAP] ?? -1;
     if (categoryIndex === undefined) {
       navigate("/404", { replace: true });
     }
@@ -31,7 +32,7 @@ const useWriteRouteType = (): UseWriteRouteTypeReturn => {
   return {
     isNew,
     isEdit,
-    categoryIndex: -1, // 혹은 null로 처리
+    categoryIndex,
     postId: numericPostId,
   };
 };

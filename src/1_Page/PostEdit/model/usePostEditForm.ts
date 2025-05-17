@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { schema } from "../lib/schema";
 import type { UseFormReturn } from "react-hook-form";
 
-const useHookForm = (
+const usePostEditForm = (
   boadDetail: BoardDetails
 ): [UseFormReturn<PostEditFormFields>, string | undefined] => {
   const [preview, setPreview] = React.useState<string>();
@@ -37,4 +37,4 @@ const useHookForm = (
 
   return [form, preview];
 };
-export default useHookForm;
+export default usePostEditForm;
