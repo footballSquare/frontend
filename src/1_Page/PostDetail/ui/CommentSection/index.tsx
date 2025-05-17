@@ -1,13 +1,17 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { commentSchema } from "./lib/schema";
+import { commentSchema } from "../../../../4_Shared/hookForm/PostCommentInput/schema";
 import useManageComments from "./model/useManageComments";
 
 import Comment from "./ui/Comment";
 import usePostCommentHandler from "./model/usePostCommentHandler";
+import PostCommentInput from "../../../../4_Shared/hookForm/PostCommentInput";
+import { useIsLogin } from "../../../../4_Shared/lib/useMyInfo";
 
 const CommentSection = (props: CommentSectionProps) => {
   const { initialComments } = props;
+
+  const [isLogin] = useIsLogin();
 
   const {
     register,
@@ -38,24 +42,25 @@ const CommentSection = (props: CommentSectionProps) => {
       {/* 새 댓글 입력 */}
       <form
         onSubmit={handleSubmit((data) => {
+          if (!isLogin) {
+            alert("로그인 후 댓글을 작성할 수 있습니다.");
+            return;
+          }
           postComment(data.content);
           handleAddComment(data);
           reset();
         })}
         className="mb-6">
-        <textarea
-          {...register("content")}
-          placeholder="댓글을 작성하세요..."
-          className="w-full bg-gray-900 border border-gray-800 rounded p-3 text-gray-200 mb-1 focus:ring-2 focus:ring-grass"
-          rows={3}
-        />
-        {errors.content && (
-          <p className="text-red-500 text-sm mb-2">{errors.content.message}</p>
-        )}
+        <PostCommentInput register={register} errors={errors} />
+
         <div className="flex justify-end">
           <button
             type="submit"
-            className="px-4 py-2 rounded bg-grass hover:bg-grass/80 text-white transition-colors">
+            className={`px-4 py-2 rounded text-white transition-colors ${
+              isLogin
+                ? "bg-grass hover:bg-grass/80"
+                : "bg-gray-500 cursor-not-allowed"
+            }`}>
             댓글 작성
           </button>
         </div>
