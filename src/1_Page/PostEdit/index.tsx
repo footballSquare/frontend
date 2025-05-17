@@ -1,19 +1,19 @@
 import { Controller } from "react-hook-form";
-import useWriteRouteType from "./model/useWriteRouteType";
+import usePostEditRoutingGuard from "./model/usePostEditRoutingGuard";
 import usePostEditForm from "./model/usePostEditForm";
 import { useNavigate } from "react-router-dom";
-import usePostBoard from "../../3_Entity/Board/usePostBoard";
-import usePutBoard from "../../3_Entity/Board/usePutBoard";
 import uploadIcon from "../../4_Shared/assets/svg/upload.svg";
 import { CATEGORY_STRING } from "./constant/constant";
 import useGetBoardDetail from "../../3_Entity/Board/useGetBoardDetail";
-import useManageRole from "./model/useManageRole";
+import useValidatePostOwner from "./model/useValidatePostOwner";
+import useSubmitBoardHandler from "./model/useSubmitBoardHandler";
 
 const PostEdit = () => {
   const navigate = useNavigate();
-  const { isNew, categoryIndex, postId } = useWriteRouteType();
+  // 게시글 작성/수정 여부 및 게시글 ID를 가져옵니다.
+  const { isNew, categoryIndex, postId } = usePostEditRoutingGuard();
   const [boardDetail] = useGetBoardDetail(postId);
-  useManageRole(isNew, boardDetail);
+  useValidatePostOwner(isNew, boardDetail);
 
   const [form, preview] = usePostEditForm(boardDetail);
 
@@ -24,16 +24,7 @@ const PostEdit = () => {
     control,
   } = form;
 
-  const [postBoard] = usePostBoard();
-  const [putBoard] = usePutBoard(postId!);
-
-  const onSubmit = (data: PostEditFormFields) => {
-    if (isNew) {
-      postBoard(data, categoryIndex);
-    } else {
-      putBoard(data);
-    }
-  };
+  const [submitBoard] = useSubmitBoardHandler(isNew, postId);
 
   return (
     <div className="w-full max-w-5xl mx-auto mt-8 mb-16 space-y-12 sm :px-8 px-4">
@@ -43,7 +34,9 @@ const PostEdit = () => {
           : `${CATEGORY_STRING[boardDetail.board_category_idx]} 게시글 수정`}
       </h1>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+      <form
+        onSubmit={handleSubmit((data) => submitBoard(data, categoryIndex))}
+        className="space-y-5">
         <div className="space-y-2">
           <label
             htmlFor="board_list_title"

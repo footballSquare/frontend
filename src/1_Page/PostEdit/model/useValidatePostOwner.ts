@@ -2,7 +2,7 @@ import React from "react";
 import { useMyUserIdx } from "../../../4_Shared/lib/useMyInfo";
 import { useNavigate } from "react-router-dom";
 
-const useManageRole = (isNew: boolean, boardDetail: BoardDetails) => {
+const useValidatePostOwner = (isNew: boolean, boardDetail: BoardDetails) => {
   const navigate = useNavigate();
   const [myIdx] = useMyUserIdx();
 
@@ -15,4 +15,4 @@ const useManageRole = (isNew: boolean, boardDetail: BoardDetails) => {
     }
   }, [boardDetail]);
 };
-export default useManageRole;
+export default useValidatePostOwner;

@@ -1,7 +1,9 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { CATEGORY_MAP } from "../constant/constant";
+import { useIsLogin } from "../../../4_Shared/lib/useMyInfo";
+import React from "react";
 
-const useWriteRouteType = (): UseWriteRouteTypeReturn => {
+const usePostEditRoutingGuard = (): UseWriteRouteTypeReturn => {
   const navigate = useNavigate();
   const { category: categoryParam, postId: postIdParam } = useParams<{
     category?: string;
@@ -29,6 +31,14 @@ const useWriteRouteType = (): UseWriteRouteTypeReturn => {
     navigate("/404", { replace: true });
   }
 
+  const [isLogin] = useIsLogin();
+  React.useEffect(() => {
+    if (!isLogin) {
+      alert("로그인이 필요합니다.");
+      navigate("/login", { replace: true });
+    }
+  }, [isLogin]);
+
   return {
     isNew,
     isEdit,
@@ -37,4 +47,4 @@ const useWriteRouteType = (): UseWriteRouteTypeReturn => {
   };
 };
 
-export default useWriteRouteType;
+export default usePostEditRoutingGuard;
