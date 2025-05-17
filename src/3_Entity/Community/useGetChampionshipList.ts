@@ -1,6 +1,5 @@
 import React from "react";
 import { useFetchData } from "../../4_Shared/util/apiUtil";
-import { mockChampionshipList } from "../../4_Shared/mock/championshipList";
 
 const ITEMS_PER_PAGE = 5;
 
@@ -11,7 +10,7 @@ const useGetChampionshipList = (
   const [serverState, request, loading] = useFetchData();
   const [championshipList, setChampionshipList] = React.useState<
     Championship[]
-  >(mockChampionshipList.championship);
+  >([]);
   const [hasMoreContent, setHasMoreContent] = React.useState<boolean>(true);
 
   React.useEffect(() => {
