@@ -14,7 +14,7 @@ const useGetTeamMembers = (
   React.useEffect(() => {
     const endPoint = `/team/${teamIdx}/member?page=${page}`;
     request("GET", endPoint, null, true);
-  }, [page]);
+  }, [teamIdx, page]);
 
   React.useEffect(() => {
     if (!loading && serverState && "member" in serverState) {

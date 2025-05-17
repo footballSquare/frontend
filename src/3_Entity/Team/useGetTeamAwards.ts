@@ -8,7 +8,7 @@ const useGetTeamAwards = (teamListIdx: number): [TeamAwards[], boolean] => {
   React.useEffect(() => {
     const endPoint = `/team/${teamListIdx}/award`;
     request("GET", endPoint, null, true);
-  }, []);
+  }, [teamListIdx]);
 
   React.useEffect(() => {
     if (!loading && serverState && "team_award" in serverState) {

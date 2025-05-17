@@ -12,7 +12,7 @@ const useGetSignMemberList = (
   React.useEffect(() => {
     const endPoint = `/team/${teamListIdx}/application/list`;
     request("GET", endPoint, null, true);
-  }, []);
+  }, [teamListIdx]);
 
   React.useEffect(() => {
     if (!loading && serverState && "access_list" in serverState) {
