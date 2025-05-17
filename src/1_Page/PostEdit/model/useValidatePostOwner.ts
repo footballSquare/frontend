@@ -6,6 +6,7 @@ const useValidatePostOwner = (isNew: boolean, boardDetail: BoardDetails) => {
   const navigate = useNavigate();
   const [myIdx] = useMyUserIdx();
 
+  // 게시글이 본인의 것인지 확인합니다
   React.useEffect(() => {
     if (!isNew && Object.keys(boardDetail).length !== 0) {
       if (boardDetail?.player?.player_list_idx !== myIdx) {
