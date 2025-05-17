@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { commentSchema } from "./lib/schema";
+import { commentSchema } from "../../../../4_Shared/hookForm/PostCommentInput/schema";
 import useManageComments from "./model/useManageComments";
 
 import Comment from "./ui/Comment";
