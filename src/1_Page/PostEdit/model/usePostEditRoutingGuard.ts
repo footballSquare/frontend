@@ -13,10 +13,12 @@ const usePostEditRoutingGuard = (): UseWriteRouteTypeReturn => {
   const isNew = categoryParam !== undefined && postIdParam === undefined;
   const isEdit = postIdParam !== undefined && categoryParam === undefined;
 
-  if ((!isNew && !isEdit) || (isNew && isEdit)) {
+  // isNew와 isEdit이 모두 false인 경우
+  if (!isNew && !isEdit) {
     navigate("/404", { replace: true });
   }
 
+  // isNew인 경우 categoryIdx를 CATEGORY_MAP에서 찾습니다.
   let categoryIndex = -1;
   if (isNew) {
     categoryIndex =
@@ -26,11 +28,13 @@ const usePostEditRoutingGuard = (): UseWriteRouteTypeReturn => {
     }
   }
 
+  // isEdit인 경우 postId를 숫자로 변환합니다.
   const numericPostId = isEdit ? Number(postIdParam!) : -1;
   if (isEdit && Number.isNaN(numericPostId)) {
     navigate("/404", { replace: true });
   }
 
+  // 로그인 여부를 확인합니다.
   const [isLogin] = useIsLogin();
   React.useEffect(() => {
     if (!isLogin) {
