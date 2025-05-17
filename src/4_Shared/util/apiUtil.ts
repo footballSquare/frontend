@@ -64,9 +64,9 @@ export const useFetchData = (): [
             { withCredentials: true }
           );
 
-          const newAccessToken = refreshResponse.data.access_token;
-          console.log(newAccessToken);
-          setCookie("access_token", newAccessToken); // access_token을 쿠키에 저장
+          const newAccessToken = refreshResponse.data.data.access_token;
+          const options = { path: "/", maxAge: 86400 };
+          setCookie("access_token", newAccessToken, options); // access_token을 쿠키에 저장
 
           axiosInstance.defaults.headers["Authorization"] = newAccessToken;
           processQueue(newAccessToken);
@@ -93,8 +93,8 @@ export const useFetchData = (): [
     ) => {
       try {
         setLoading(true);
+        
         // API 호출
-        console.log("request", endpoint);
         const response = await axiosInstance({
           method: method,
           url: `${SERVER_URL}${endpoint}`,
@@ -113,11 +113,6 @@ export const useFetchData = (): [
         if (error instanceof AxiosError) {
           const { status, data } = error.response ?? {};
           console.log("endpoint", endpoint);
-          console.log("body", body);
-          console.log("authorization", authorization);
-          console.log(`auth ${cookies.access_token}`);
-          console.log("status", status);
-          console.log("message", data.message);
           setServerState({ status });
 
           if (status === 500) {
