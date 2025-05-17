@@ -16,7 +16,7 @@ import { useNavigate } from "react-router-dom";
 import { utcFormatter } from "../../4_Shared/lib/utcFormatter";
 import useMatchEnd from "./model/useMatchEnd";
 import FreeParticipationPanel from "./ui/FreeParticipationPanel";
-import ModalLayer from "../../4_Shared/components/ModalLayout";
+import ModalLayer from "../../4_Shared/components/ModalLayer";
 
 const MatchModal = () => {
   const { matchIdx, toggleMatchModal } = useMatchModalStore();
