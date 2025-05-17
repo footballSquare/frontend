@@ -1,12 +1,11 @@
-import { Controller } from "react-hook-form";
 import usePostEditRoutingGuard from "./model/usePostEditRoutingGuard";
 import usePostEditForm from "./model/usePostEditForm";
 import { useNavigate } from "react-router-dom";
-import uploadIcon from "../../4_Shared/assets/svg/upload.svg";
 import { CATEGORY_STRING } from "./constant/constant";
 import useGetBoardDetail from "../../3_Entity/Board/useGetBoardDetail";
 import useValidatePostOwner from "./model/useValidatePostOwner";
 import useSubmitBoardHandler from "./model/useSubmitBoardHandler";
+import PostEditInput from "../../4_Shared/hookForm/PostEditInput";
 
 const PostEdit = () => {
   const navigate = useNavigate();
@@ -38,77 +37,27 @@ const PostEdit = () => {
         onSubmit={handleSubmit((data) => submitBoard(data, categoryIndex))}
         className="space-y-5">
         <div className="space-y-2">
-          <label
-            htmlFor="board_list_title"
-            className="block text-sm font-medium text-gray-300">
-            제목
-          </label>
-          <input
-            id="board_list_title"
-            {...register("board_list_title")}
-            className="bg-gray-800 border border-gray-700 rounded p-2.5 w-full focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-200"
-            placeholder="제목을 입력하세요 (50자 이하)"
+          <PostEditInput
+            register={register}
+            registerType={"title"}
+            errors={errors}
           />
-          {errors.board_list_title && (
-            <p className="text-red-400 text-sm">
-              {errors.board_list_title.message}
-            </p>
-          )}
         </div>
 
-        <div className="space-y-2">
-          <label
-            htmlFor="board_list_content"
-            className="block text-sm font-medium text-gray-300">
-            내용
-          </label>
-          <textarea
-            id="board_list_content"
-            {...register("board_list_content")}
-            className="bg-gray-800 border border-gray-700 rounded p-2.5 w-full h-72 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-200"
-            placeholder="내용을 입력하세요 (6000자 이하)"
-          />
-          {errors.board_list_content && (
-            <p className="text-red-400 text-sm">
-              {errors.board_list_content.message}
-            </p>
-          )}
-        </div>
+        <PostEditInput
+          register={register}
+          registerType={"content"}
+          errors={errors}
+          control={control}
+        />
 
         <div className="space-y-2">
-          <label className="block text-sm font-medium text-gray-300">
-            이미지
-          </label>
-          <div className="flex items-center justify-center w-full">
-            <label className="flex flex-col w-full h-28 border-2 border-dashed border-gray-700 rounded cursor-pointer hover:border-blue-500 transition-all bg-gray-800">
-              <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                <img src={uploadIcon} className="w-[40px] h-[40px]" />
-                <p className="mb-2 text-sm text-gray-400">
-                  <span className="font-medium">클릭하여 이미지 업로드</span>
-                </p>
-                <p className="text-xs text-gray-400">
-                  PNG, JPG, GIF (최대 3MB)
-                </p>
-              </div>
-              <Controller
-                name="board_list_img"
-                control={control}
-                render={({ field }) => (
-                  <input
-                    type="file"
-                    accept="image/*"
-                    className="hidden"
-                    onChange={(e) => field.onChange(e.target.files)}
-                  />
-                )}
-              />
-            </label>
-          </div>
-          {errors.board_list_img && (
-            <p className="text-red-400 text-sm">
-              {errors.board_list_img.message as string}
-            </p>
-          )}
+          <PostEditInput
+            register={register}
+            registerType={"img"}
+            errors={errors}
+            control={control}
+          />
         </div>
 
         {preview && (

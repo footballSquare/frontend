@@ -1,5 +1,5 @@
 import * as yup from "yup";
-export const schema = yup
+export const postEditSchema = yup
   .object({
     board_list_title: yup
       .string()
