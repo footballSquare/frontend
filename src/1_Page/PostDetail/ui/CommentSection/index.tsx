@@ -6,9 +6,12 @@ import useManageComments from "./model/useManageComments";
 import Comment from "./ui/Comment";
 import usePostCommentHandler from "./model/usePostCommentHandler";
 import PostCommentInput from "../../../../4_Shared/hookForm/PostCommentInput";
+import { useIsLogin } from "../../../../4_Shared/lib/useMyInfo";
 
 const CommentSection = (props: CommentSectionProps) => {
   const { initialComments } = props;
+
+  const [isLogin] = useIsLogin();
 
   const {
     register,
@@ -39,6 +42,7 @@ const CommentSection = (props: CommentSectionProps) => {
       {/* 새 댓글 입력 */}
       <form
         onSubmit={handleSubmit((data) => {
+          if (!isLogin) return;
           postComment(data.content);
           handleAddComment(data);
           reset();
@@ -49,7 +53,12 @@ const CommentSection = (props: CommentSectionProps) => {
         <div className="flex justify-end">
           <button
             type="submit"
-            className="px-4 py-2 rounded bg-grass hover:bg-grass/80 text-white transition-colors">
+            disabled={!isLogin}
+            className={`px-4 py-2 rounded text-white transition-colors ${
+              isLogin
+                ? "bg-grass hover:bg-grass/80"
+                : "bg-gray-500 cursor-not-allowed"
+            }`}>
             댓글 작성
           </button>
         </div>
