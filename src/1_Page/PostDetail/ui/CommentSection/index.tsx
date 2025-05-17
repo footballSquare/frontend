@@ -42,7 +42,10 @@ const CommentSection = (props: CommentSectionProps) => {
       {/* 새 댓글 입력 */}
       <form
         onSubmit={handleSubmit((data) => {
-          if (!isLogin) return;
+          if (!isLogin) {
+            alert("로그인 후 댓글을 작성할 수 있습니다.");
+            return;
+          }
           postComment(data.content);
           handleAddComment(data);
           reset();
@@ -53,7 +56,6 @@ const CommentSection = (props: CommentSectionProps) => {
         <div className="flex justify-end">
           <button
             type="submit"
-            disabled={!isLogin}
             className={`px-4 py-2 rounded text-white transition-colors ${
               isLogin
                 ? "bg-grass hover:bg-grass/80"
