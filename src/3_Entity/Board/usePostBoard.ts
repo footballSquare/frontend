@@ -25,6 +25,10 @@ const usePostBoard = (): [
         navigate(`/post/${board_list_idx}`);
         break;
       }
+      case 403: {
+        alert("게시글 작성 권한이 없습니다.");
+        break;
+      }
       default: {
         alert("게시글을 작성하는 데 실패했습니다.");
         break;

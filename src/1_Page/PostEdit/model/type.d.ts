@@ -14,3 +14,7 @@ type UseWriteRouteTypeReturn = {
   categoryIndex: number;
   postId: number;
 };
+
+type UseSubmitBoardHandlerReturn = [
+  (data: PostEditFormFields, categoryIndex: number) => void
+];

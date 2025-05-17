@@ -1,16 +1,16 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import React from "react";
 import { useForm } from "react-hook-form";
-import { schema } from "../lib/schema";
+import { postEditSchema } from "../../../4_Shared/hookForm/PostEditInput/schema";
 import type { UseFormReturn } from "react-hook-form";
 
-const useHookForm = (
+const usePostEditForm = (
   boadDetail: BoardDetails
 ): [UseFormReturn<PostEditFormFields>, string | undefined] => {
   const [preview, setPreview] = React.useState<string>();
 
   const { reset, watch, ...rest } = useForm<PostEditFormFields>({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(postEditSchema),
     defaultValues: {
       board_list_title: "",
       board_list_content: "",
@@ -37,4 +37,4 @@ const useHookForm = (
 
   return [form, preview];
 };
-export default useHookForm;
+export default usePostEditForm;
