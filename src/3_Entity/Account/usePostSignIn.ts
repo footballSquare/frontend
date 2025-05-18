@@ -58,7 +58,6 @@ const usePostSignIn = (): [(props: PostSignInProps) => void] => {
           setCookie("access_token", access_token, options);
           navigate("/");
         } else if (player_status === "pending") {
-          console.log("pending");
           const options = { path: "/signup", maxAge: 86400 / 24 / 6 };
           setCookie("access_token", access_token_temporary, options);
           navigate(`/signup`);

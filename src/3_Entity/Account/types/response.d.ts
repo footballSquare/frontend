@@ -73,3 +73,9 @@ type MyInfo = {
   community_list_idx: number | null;
   team_role_idx: number | null;
 };
+
+type FoundId = {
+  data: {
+    id: string;
+  };
+};

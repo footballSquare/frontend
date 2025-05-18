@@ -10,8 +10,8 @@ const App = () => {
   return (
     <BrowserRouter>
       <main className=" w-full m-auto h-full justify-center items-center bg-light-blue">
-        <Page />
         <Nav />
+        <Page />
         <Modals />
       </main>
     </BrowserRouter>
