@@ -15,7 +15,6 @@ import {
 import useIsCommunityStaffStore from "../../4_Shared/zustand/useIsCommunityStaffStore";
 import CommunityNotice from "./ui/CommunityNotice";
 import usePostApplyCommunityTeam from "../../3_Entity/Community/usePostApplyCommunityTeam";
-import usePostBoardModalStore from "../../4_Shared/zustand/usePostBoardModalStore";
 import CommunityBoardList from "./ui/CommunityBoardList";
 import useCommunityIdx from "./model/useCommunityIdx";
 
@@ -33,7 +32,6 @@ const Community = () => {
     setCommunityInfo,
   });
   const { isCommunityStaff } = useIsCommunityStaffStore();
-  const { togglePostBoardModal } = usePostBoardModalStore();
   const [communityRoleIdx] = useMyCommunityRoleIdx();
   const navigate = useNavigate();
   const [myTeamRoleIdx] = useMyTeamRoleIdx();
@@ -130,7 +128,7 @@ const Community = () => {
         {communityRoleIdx === 0 && (
           <button
             className="p-3 border border-gray-300 shadow-md rounded-lg text-sm bg-gray text-black hover:bg-grass transition"
-            onClick={togglePostBoardModal}
+            onClick={()=>{navigate("/post/write/new/community")}}
           >
             커뮤니티 글 작성
           </button>
