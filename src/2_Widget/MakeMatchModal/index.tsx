@@ -38,7 +38,7 @@ const MakeMatchModal = () => {
   const isCanFormationChange = watch("match_type_idx_radio") === "0";
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-10">
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center">
       <div className="bg-white rounded-2xl shadow-xl w-[500px] p-6">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-xl font-semibold">

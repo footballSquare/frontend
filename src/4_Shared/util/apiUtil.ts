@@ -93,7 +93,7 @@ export const useFetchData = (): [
     ) => {
       try {
         setLoading(true);
-        
+
         // API 호출
         const response = await axiosInstance({
           method: method,

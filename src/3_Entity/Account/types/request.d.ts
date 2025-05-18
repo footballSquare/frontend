@@ -44,7 +44,31 @@ type PostCheckAuthSmsProps = {
   code: string;
 };
 
+type PostCheckFindIdSmsProps = {
+  phone: string;
+  code: string;
+};
+
+type PostCheckFindPwSmsProps = {
+  phone: string;
+  code: string;
+};
+
 type GetDiscordSiginIn = {
   code: string;
   state: string;
+};
+
+type PostReceiveFindIdSmsProps = {
+  phone: string;
+};
+
+type PostReceiveFindPwSmsProps = {
+  phone: string;
+};
+
+type PutUserPasswordProps = {
+  phone: string;
+  id: string;
+  password: string;
 };

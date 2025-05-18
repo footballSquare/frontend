@@ -6,8 +6,9 @@ import useToggleState from "../../../../../../4_Shared/model/useToggleState";
 import useCommentPutHandler from "./model/usePutCommentHandler";
 import useDeleteCommentHandler from "./model/useDeleteCommentHandler";
 import { getIsLong } from "./util/getIsLong";
-import { schema } from "./lib/schema";
+import { commentSchema } from "../../../../../../4_Shared/hookForm/PostCommentInput/schema";
 import { utcFormatter } from "../../../../../../4_Shared/lib/utcFormatter";
+import PostCommentInput from "../../../../../../4_Shared/hookForm/PostCommentInput";
 
 const Comment = (props: CommentProps) => {
   const {
@@ -39,7 +40,7 @@ const Comment = (props: CommentProps) => {
     formState: { errors },
     reset,
   } = useForm<{ content: string }>({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(commentSchema),
     defaultValues: { content: comment.board_comment_content },
   });
 
@@ -87,13 +88,8 @@ const Comment = (props: CommentProps) => {
             putComment(data.content);
           })}
           className="space-y-3 mt-3">
-          <textarea
-            {...register("content")}
-            className="w-full border border-grass p-2 text-gray-200 rounded-md"
-          />
-          {errors.content && (
-            <p className="text-red-500 text-sm">{errors.content.message}</p>
-          )}
+          <PostCommentInput register={register} errors={errors} isCommentEdit />
+
           <div className="flex space-x-2 justify-end">
             <button
               type="submit"
