@@ -29,7 +29,6 @@ const useGetCommunityTeamList = (
 
   React.useEffect(() => {
     if (!loading && serverState) {
-      console.log(serverState);
       setCommunityTeamList((prev: CommunityTeam[]) => [
         ...prev,
         ...(serverState as { participation_team: CommunityTeam[] })
