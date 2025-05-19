@@ -9,7 +9,7 @@ const useGetUserInfo = (userIdx: number): [UserInfo, boolean] => {
 
   React.useEffect(() => {
     const endPoint = `/account/info/${userIdx}`;
-    request("GET", endPoint, null, false);
+    request("GET", endPoint, null, true);
   }, []);
 
   React.useEffect(() => {
