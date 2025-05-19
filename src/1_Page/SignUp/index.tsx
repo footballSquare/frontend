@@ -12,10 +12,13 @@ import { useNavigate } from "react-router-dom";
 import usePostCheckAuthSms from "../../3_Entity/Account/usePostCheckAuthSms";
 import useSignUpStep from "./model/useSignUpStep";
 import useReceiveAuthSms from "./model/useReceiveAuthSms";
+import useTermOfUseModal from "./model/useTermOfUseModal";
+import TermOfUseModal from "./ui/TermOfUseModal";
 
 const SignUp = () => {
   const [step, setStep] = useSignUpStep();
   const navigate = useNavigate();
+  const [isTermOfUseModalOpen, toggleIsTermOfUseModal] = useTermOfUseModal();
 
   const {
     register: firstStepRegister,
@@ -51,6 +54,9 @@ const SignUp = () => {
 
   return (
     <div className="flex flex-col gap-4 items-center justify-center min-h-screen ">
+      {isTermOfUseModalOpen && (
+        <TermOfUseModal toggleModalHandler={toggleIsTermOfUseModal} />
+      )}
       <div className="bg-gray-800 text-gray-100 p-8 rounded shadow-md w-full max-w-md">
         {step === 1 && (
           <>
