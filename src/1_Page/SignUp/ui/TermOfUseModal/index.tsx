@@ -38,7 +38,7 @@ const TermOfUseModal = (props: TermOfUseModalProps) => {
                 </button>
               </div>
               {showDetail === term.key && (
-                <div className="bg-gray-100 text-gray-800 p-2 rounded text-xs border mt-1">
+                <div className="bg-gray-100 text-gray-800 p-2 rounded text-xs border mt-1 overflow-auto max-h-[200px] whitespace-pre-line">
                   {term.content}
                   <button
                     className="block ml-auto mt-2 text-blue-600 underline text-xs"

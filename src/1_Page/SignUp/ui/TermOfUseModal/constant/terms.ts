@@ -1,6 +1,6 @@
 const TERMS = [
   {
-    key: "service",
+    key: "privacy",
     label: "개인정보 수집 및 이용 동의서",
     content: `### 📄 개인정보 수집 및 이용 동의서
 
@@ -45,7 +45,7 @@ const TERMS = [
     required: true,
   },
   {
-    key: "privacy",
+    key: "service",
     label: "서비스 이용 약관",
     content: `### 📜 서비스 이용약관
 
@@ -141,7 +141,7 @@ const TERMS = [
     required: true,
   },
   {
-    key: "marketing",
+    key: "community",
     label: "커뮤니티 이용 약관",
     content: `# ⚖️ 커뮤니티 운영정책
 
@@ -254,7 +254,7 @@ const TERMS = [
     required: true,
   },
   {
-    key: "location",
+    key: "team",
     label: "팀 이용 약관",
     content: `### 🛡️ 팀 이용약관
 
