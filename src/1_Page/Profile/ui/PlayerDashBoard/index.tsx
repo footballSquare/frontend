@@ -40,16 +40,19 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
 
   const watchMatchPositionIdx = watch("match_position_idx");
   const watchPlatform = watch("platform");
-  const [deleteUser] = useDeleteUserHandler();
-  const [logOut] = useLogout();
 
-  const [isModifyMode, toggleIsModifyMode] = useToggleState();
+  // ref
   const inputBackupDataRef = React.useRef<UserInfoForm>({} as UserInfoForm);
-
+  // api
+  const [deleteUser] = useDeleteUserHandler();
   const [putUserInfo] = usePutUserInfoHandler({
     reset,
     inputBackupDataRef,
   });
+  // cookie
+  const [logOut] = useLogout();
+  // state
+  const [isModifyMode, toggleIsModifyMode] = useToggleState();
 
   return (
     <div className="w-full bg-gray-800 shadow-xl rounded-2xl overflow-hidden border-t border-gray-700 transform transition duration-300 hover:shadow-grass">
