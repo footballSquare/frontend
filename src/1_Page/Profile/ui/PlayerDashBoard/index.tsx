@@ -36,10 +36,13 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
     resolver: yupResolver(schema),
     mode: "onChange",
   });
+
   const userInfoForm = React.useMemo(() => convertToInfoForm(props), [props]);
+
   React.useEffect(() => {
     reset(userInfoForm);
   }, [userInfoForm]); // 초기값 설정
+
   const match_position_idx = watch("match_position_idx");
   const watchPlatform = watch("platform");
   const [putUserInfo, serverState] = usePutUserInfo();
@@ -141,7 +144,7 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
             {/* 닉네임 */}
             <div className="group transition-all duration-300">
               <label className="text-xs font-semibold text-gray-300 uppercase mb-1 block">
-                Nickname
+                GAME ID
               </label>
               <div
                 className={`flex items-center w-full p-3 text-sm rounded-lg transition-all duration-200 ${
