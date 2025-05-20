@@ -1,6 +1,4 @@
-export const convertToInfoForm = (
-  userInfo: PlayerDashBoardProps
-): UserInfoForm => {
+export const convertToUserInfoForm = (userInfo: UserInfo): UserInfoForm => {
   return {
     nickname: userInfo.nickname,
     common_status_idx: userInfo.common_status_idx,

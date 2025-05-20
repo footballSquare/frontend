@@ -16,7 +16,7 @@ const Profile = () => {
       {/* Player Dashboard */}
       <div className="w-[90%] sm:w-[40%] min-w-[300px] max-w-sm">
         <div className="transform transition-all duration-300 hover:scale-[1.01] hover:shadow-xl">
-          <PlayerDashBoard {...userInfo} />
+          <PlayerDashBoard userInfo={userInfo} />
         </div>
       </div>
 

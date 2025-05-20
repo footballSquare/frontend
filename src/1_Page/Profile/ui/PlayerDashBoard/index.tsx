@@ -1,29 +1,26 @@
 import React from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 import discord from "../../../../4_Shared/assets/svg/discord.svg";
 import { schema } from "./lib/schema";
 import { hasChanges } from "./util/validate";
-import { convertToInfoForm } from "./util/convert";
 // 상수
 import { platform } from "../../../../4_Shared/constant/platform";
 import { matchPosition } from "../../../../4_Shared/constant/matchPosition";
 import { commonStatusIdx } from "../../../../4_Shared/constant/commonStatusIdx";
-import usePutUserInfo from "../../../../3_Entity/Account/usePutUserInfo";
-import useDeleteUser from "../../../../3_Entity/Account/useDeleteUser";
-import {
-  useLogout,
-  useRemoveAllCookie,
-} from "../../../../4_Shared/lib/useMyInfo";
+
+import { useLogout } from "../../../../4_Shared/lib/useMyInfo";
 import { getPositionColor } from "../../../../4_Shared/lib/getPositionColor";
-import useManageModifyAndServerState from "./model/useManageModifyAndServerState";
-import { useNavigate } from "react-router-dom";
+import usePutUserInfoHandler from "./model/usePutUserInfoHandler";
 import { getPlatformIcon } from "../../../../4_Shared/lib/getPlatformIcon";
+import { convertToUserInfoForm } from "./util/convert";
+import useToggleState from "../../../../4_Shared/model/useToggleState";
+import useDeleteUserHandler from "./model/useDeleteUserHandler";
 
 const PlayerDashBoard = (props: PlayerDashBoardProps) => {
-  const { is_mine, team_short_name, team_name, team_emblem } = props; // 뷸변값들
-  const navigate = useNavigate();
+  const { userInfo } = props; // 뷸변값들
+  const { is_mine, team_name, team_short_name, team_emblem } = userInfo;
 
   const {
     reset,
@@ -37,31 +34,22 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
     mode: "onChange",
   });
 
-  const userInfoForm = React.useMemo(() => convertToInfoForm(props), [props]);
-
   React.useEffect(() => {
-    reset(userInfoForm);
-  }, [userInfoForm]); // 초기값 설정
+    convertToUserInfoForm(userInfo);
+  }, [userInfo]); // 초기값 설정
 
-  const match_position_idx = watch("match_position_idx");
+  const watchMatchPositionIdx = watch("match_position_idx");
   const watchPlatform = watch("platform");
-  const [putUserInfo, serverState] = usePutUserInfo();
-  const [deleteUser] = useDeleteUser();
-  const [removeAllCookie] = useRemoveAllCookie();
+  const [deleteUser] = useDeleteUserHandler();
   const [logOut] = useLogout();
 
-  const {
-    inputBackupDataRef,
-    modifyMode,
-    handleModifyFalse,
-    handleModifyTrue,
-  } = useManageModifyAndServerState({ serverState, reset });
+  const [isModifyMode, toggleIsModifyMode] = useToggleState();
+  const inputBackupDataRef = React.useRef<UserInfoForm>({} as UserInfoForm);
 
-  const onSubmit: SubmitHandler<UserInfoForm> = (data) => {
-    handleModifyFalse();
-    if (!hasChanges(data, inputBackupDataRef.current)) return;
-    putUserInfo(data);
-  };
+  const [putUserInfo] = usePutUserInfoHandler({
+    reset,
+    inputBackupDataRef,
+  });
 
   return (
     <div className="w-full bg-gray-800 shadow-xl rounded-2xl overflow-hidden border-t border-gray-700 transform transition duration-300 hover:shadow-grass">
@@ -79,14 +67,19 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
       </div>
 
       <div className="p-6">
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form
+          onSubmit={handleSubmit((formData) => {
+            toggleIsModifyMode();
+            if (!hasChanges(formData, inputBackupDataRef.current)) return;
+            putUserInfo(formData);
+          })}>
           {/* 상태 메시지 */}
           <div className="mb-6">
             <input
               {...register("message")}
-              disabled={!modifyMode}
+              disabled={!isModifyMode}
               className={`w-full p-3 text-sm text-center rounded-lg transition-all duration-200 ${
-                modifyMode
+                isModifyMode
                   ? "border border-grass bg-grass/20 text-grass shadow-sm"
                   : "bg-gradient-to-r from-gray-800 to-gray-700 text-gray-300 italic"
               }`}
@@ -120,9 +113,9 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
             ) : (
               <select
                 {...register("common_status_idx")}
-                disabled={!modifyMode}
+                disabled={!isModifyMode}
                 className={`w-full p-3 text-sm rounded-lg ${
-                  modifyMode
+                  isModifyMode
                     ? "border border-grass bg-grass/20 text-grass"
                     : "bg-gray-800 border border-gray-700 text-gray-300"
                 }`}>
@@ -148,7 +141,7 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
               </label>
               <div
                 className={`flex items-center w-full p-3 text-sm rounded-lg transition-all duration-200 ${
-                  modifyMode
+                  isModifyMode
                     ? "border border-grass bg-grass/20 text-grass shadow-sm"
                     : "bg-gray-800 border border-gray-700 shadow-sm hover:shadow group-hover:border-grass text-gray-300"
                 }`}>
@@ -157,7 +150,7 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
                 )}
                 <input
                   {...register("nickname")}
-                  disabled={!modifyMode}
+                  disabled={!isModifyMode}
                   className="w-full bg-transparent outline-none font-medium"
                   placeholder="Nickname"
                 />
@@ -170,34 +163,40 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
             </div>
 
             {/* 플랫폼 */}
-            <div
-              className={`flex items-center w-full text-sm rounded-lg transition-all duration-200 ${
-                modifyMode
-                  ? "border border-grass bg-grass/20 text-grass shadow-sm"
-                  : "bg-gray-800 border border-gray-700 shadow-sm hover:shadow group-hover:border-grass text-gray-300"
-              }`}>
-              <div className="bg-gray-700 p-2 rounded-l-lg">
-                <img
-                  src={getPlatformIcon(watchPlatform)}
-                  className="w-[30px] h-[30px] object-cover"
-                />
+            <div className="group transition-all duration-300">
+              <label className="text-xs font-semibold text-gray-300 uppercase mb-1 block">
+                PLATFORM
+              </label>
+              <div
+                className={`flex items-center w-full p-3 text-sm rounded-lg transition-all duration-200 ${
+                  isModifyMode
+                    ? "border border-grass bg-grass/20 text-grass shadow-sm"
+                    : "bg-gray-800 border border-gray-700 shadow-sm hover:shadow group-hover:border-grass text-gray-300"
+                }`}>
+                <div className="mr-2 flex-shrink-0">
+                  <img
+                    src={getPlatformIcon(watchPlatform)}
+                    className="w-[30px] h-[30px] object-cover"
+                    alt="Platform Icon"
+                  />
+                </div>
+                <select
+                  {...register("platform")}
+                  disabled={!isModifyMode}
+                  className="flex-1 bg-transparent outline-none">
+                  {platform.map((plat, index) => (
+                    <option key={index} value={plat?.toLowerCase()}>
+                      {plat}
+                    </option>
+                  ))}
+                </select>
               </div>
-              <select
-                {...register("platform")}
-                disabled={!modifyMode}
-                className="flex-1 pt-1 bg-transparent outline-none">
-                {platform.map((plat, index) => (
-                  <option key={index} value={plat?.toLowerCase()}>
-                    {plat}
-                  </option>
-                ))}
-              </select>
+              {errors.platform && (
+                <p className="text-red-500 text-xs mt-1 pl-2">
+                  {errors.platform.message}
+                </p>
+              )}
             </div>
-            {errors.platform && (
-              <p className="text-red-500 text-xs mt-1 pl-2">
-                {errors.platform.message}
-              </p>
-            )}
 
             {/* 포지션 */}
             <div className="group transition-all duration-300">
@@ -207,10 +206,10 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
               <div className="relative">
                 <select
                   {...register("match_position_idx")}
-                  disabled={!modifyMode}
-                  style={{ color: getPositionColor(match_position_idx) }}
+                  disabled={!isModifyMode}
+                  style={{ color: getPositionColor(watchMatchPositionIdx) }}
                   className={`w-full p-3 text-sm rounded-lg transition-all duration-200 ${
-                    modifyMode
+                    isModifyMode
                       ? "border border-grass bg-grass/20 text-grass shadow-sm"
                       : "bg-gray-800 border border-gray-700 shadow-sm hover:shadow group-hover:border-grass text-gray-300"
                   }`}>
@@ -238,7 +237,7 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
               </label>
               <div
                 className={`flex items-center w-full rounded-lg transition-all duration-200 ${
-                  modifyMode
+                  isModifyMode
                     ? "border border-grass bg-grass/20 text-grass shadow-sm"
                     : "bg-gray-800 border border-gray-700 shadow-sm hover:shadow group-hover:border-grass"
                 }`}>
@@ -250,9 +249,9 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
                 </div>
                 <input
                   {...register("discord_tag")}
-                  disabled={!modifyMode}
+                  disabled={!isModifyMode}
                   className={`w-full p-3 bg-transparent outline-none text-sm 
-                    ${modifyMode ? "text-grass" : "text-gray-300"}
+                    ${isModifyMode ? "text-grass" : "text-gray-300"}
                     `}
                   placeholder="Discord Tag"
                 />
@@ -266,13 +265,13 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
 
             {/* 버튼 */}
             {is_mine &&
-              (!modifyMode ? (
+              (!isModifyMode ? (
                 <button
                   className="w-full py-3 text-sm rounded-lg font-bold mt-4 bg-grass text-white hover:bg-grass/80 transition-all shadow-md hover:shadow-lg"
                   onClick={(e) => {
                     e.preventDefault();
                     inputBackupDataRef.current = getValues();
-                    handleModifyTrue();
+                    toggleIsModifyMode();
                   }}>
                   수정하기
                 </button>
@@ -282,7 +281,7 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
                     type="button"
                     className="w-1/2 py-2.5 border-2 border-red-500 text-red-500 rounded-lg text-sm font-bold hover:bg-red-500 hover:text-white transition-all shadow-sm"
                     onClick={() => {
-                      handleModifyFalse();
+                      toggleIsModifyMode();
                       reset(inputBackupDataRef.current);
                     }}>
                     취소
@@ -297,15 +296,13 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
           </div>
         </form>
 
-        {is_mine && !modifyMode && (
+        {is_mine && !isModifyMode && (
           <div className="flex w-full mt-4 gap-2">
             <button
               className="w-1/2 h-8 border-2 border-red-500 text-red-600 font-bold px-2 py-1 text-xs rounded-lg shadow-sm transition-all duration-200 hover:bg-red-500 hover:text-white"
               onClick={() => {
                 if (confirm("정말로 삭제하시겠습니까?")) {
                   deleteUser();
-                  removeAllCookie();
-                  navigate("/");
                 }
               }}>
               탈퇴
