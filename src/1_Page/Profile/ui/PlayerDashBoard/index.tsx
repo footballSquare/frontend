@@ -1,9 +1,7 @@
 import React from "react";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
+import { useFormContext } from "react-hook-form";
 
 import discord from "../../../../4_Shared/assets/svg/discord.svg";
-import { schema } from "./lib/schema";
 import { hasChanges } from "./util/validate";
 // 상수
 import { platform } from "../../../../4_Shared/constant/platform";
@@ -14,7 +12,7 @@ import { useLogout } from "../../../../4_Shared/lib/useMyInfo";
 import { getPositionColor } from "../../../../4_Shared/lib/getPositionColor";
 import usePutUserInfoHandler from "./model/usePutUserInfoHandler";
 import { getPlatformIcon } from "../../../../4_Shared/lib/getPlatformIcon";
-import { convertToUserInfoForm } from "./util/convert";
+
 import useToggleState from "../../../../4_Shared/model/useToggleState";
 import useDeleteUserHandler from "./model/useDeleteUserHandler";
 
@@ -23,20 +21,13 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
   const { is_mine, team_name, team_short_name, team_emblem } = userInfo;
 
   const {
-    reset,
     register,
     handleSubmit,
+    reset,
+    watch,
     getValues,
     formState: { errors },
-    watch,
-  } = useForm<UserInfoForm>({
-    resolver: yupResolver(schema),
-    mode: "onChange",
-  });
-
-  React.useEffect(() => {
-    convertToUserInfoForm(userInfo);
-  }, [userInfo]); // 초기값 설정
+  } = useFormContext<UserInfoForm>();
 
   const watchMatchPositionIdx = watch("match_position_idx");
   const watchPlatform = watch("platform");

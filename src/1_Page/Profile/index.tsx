@@ -4,19 +4,41 @@ import useValidParamInteger from "../../4_Shared/model/useValidParamInteger";
 import PlayerCard from "../../2_Widget/PlayerCard";
 import AutoMoveAwardList from "../../2_Widget/AutoMoveAwardList";
 import empty from "../../4_Shared/assets/svg/empty-note.svg";
+import { FormProvider, useForm } from "react-hook-form";
+import { schema } from "./ui/PlayerDashBoard/lib/schema";
+import { yupResolver } from "@hookform/resolvers/yup";
+import React from "react";
+import { convertToUserInfoForm } from "./ui/PlayerDashBoard/util/convert";
 
 const Profile = () => {
   const [userIdx] = useValidParamInteger("userIdx");
   const [userInfo] = useGetMyInfo(userIdx);
+
+  const form = useForm<UserInfoForm>({
+    resolver: yupResolver(schema),
+    mode: "onChange",
+  });
+
+  React.useEffect(() => {
+    form.reset(convertToUserInfoForm(userInfo));
+  }, [userInfo]); // 초기값 설정
+
+  const { watch } = form;
+  const nickname = watch("nickname");
+  const matchPositionIdx = watch("match_position_idx");
+
   // Awards 값이 undefined면 빈 배열([])로 처리
   const awards = userInfo?.Awards ?? [];
 
   return (
     <main className="flex flex-wrap gap-6 w-full justify-center py-8 px-4 bg-gradient-to-b from-gray-900 to-gray-800">
       {/* Player Dashboard */}
+
       <div className="w-[90%] sm:w-[40%] min-w-[300px] max-w-sm">
         <div className="transform transition-all duration-300 hover:scale-[1.01] hover:shadow-xl">
-          <PlayerDashBoard userInfo={userInfo} />
+          <FormProvider {...form}>
+            <PlayerDashBoard userInfo={userInfo} />
+          </FormProvider>
         </div>
       </div>
 
@@ -50,7 +72,11 @@ const Profile = () => {
 
           {/* 플레이어 카드 */}
           <div className="w-full max-w-[280px] mx-auto my-6 transform transition hover:scale-[1.01]">
-            <PlayerCard {...userInfo} />
+            <PlayerCard
+              {...userInfo}
+              nickname={nickname}
+              match_position_idx={matchPositionIdx}
+            />
           </div>
 
           {/* 어워드 리스트 */}
