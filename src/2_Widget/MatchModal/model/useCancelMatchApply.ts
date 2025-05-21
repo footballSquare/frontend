@@ -1,6 +1,7 @@
 import useDeleteMatchJoin from "../../../3_Entity/Match/useDeleteMatchJoin";
 import useMatchModalStore from "../../../4_Shared/zustand/useMatchModal";
 
+// 승인 참여 지원 취소 기능인데, 서비스에서 기획 취소된 기능.. 실제로 쓰진 않지만, 일단 코드는 남겨둠
 const useCancelMatchApply = (
   props: UseCancelMatchApplyProps
 ): [(props: CancelMatchApplyHandlerProps) => void] => {

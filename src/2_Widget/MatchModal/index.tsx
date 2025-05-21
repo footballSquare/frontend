@@ -126,6 +126,7 @@ const MatchModal = () => {
           matchParticipants={matchParticipants}
           matchDisApproveHandler={matchDisApproveHandler}
           isMatchLeader={isMatchLeader}
+          matchParticipationType={matchDetail.match_match_participation_type}
         />
 
         {/* 승인참여 : 자유참여 */}
@@ -143,7 +144,6 @@ const MatchModal = () => {
                     matchApproveHandler={matchApproveHandler}
                     matchApplyHandler={matchApplyHandler}
                     isMatchLeader={isMatchLeader}
-                    setMatchWaitList={setMatchWaitList}
                   />
                 ) : (
                   <div>마감된 경기입니다...</div>
@@ -158,7 +158,6 @@ const MatchModal = () => {
                     matchApproveHandler={matchApproveHandler}
                     matchApplyHandler={matchApplyHandler}
                     isMatchLeader={isMatchLeader}
-                    setMatchWaitList={setMatchWaitList}
                   />
                 ) : (
                   <div>마감된 경기입니다...</div>
@@ -174,7 +173,6 @@ const MatchModal = () => {
                     matchApproveHandler={matchApproveHandler}
                     matchApplyHandler={matchApplyHandler}
                     isMatchLeader={isMatchLeader}
-                    setMatchWaitList={setMatchWaitList}
                   />
                 ) : common_status_idx === 1 && matchParticipants.length > 0 ? (
                   <StatPanel matchParticipants={matchParticipants} />

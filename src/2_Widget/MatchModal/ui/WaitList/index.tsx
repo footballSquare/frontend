@@ -7,7 +7,6 @@ import {
   useMyUserIdx,
 } from "../../../../4_Shared/lib/useMyInfo";
 import useMatchModalStore from "../../../../4_Shared/zustand/useMatchModal";
-import useCancelMatchApply from "../../model/useCancelMatchApply";
 
 const WaitingList = React.memo((props: WaitingListProps) => {
   const [selectedPosition, setSelectedPosition] = React.useState<number>(0);
@@ -18,14 +17,12 @@ const WaitingList = React.memo((props: WaitingListProps) => {
     matchApproveHandler,
     matchApplyHandler,
     isMatchLeader,
-    setMatchWaitList,
   } = props;
 
   const [userIdx] = useMyUserIdx();
   const [nickName] = useMyNickname();
   const [profileUrl] = useMyProfileImg();
   const { matchIdx } = useMatchModalStore();
-  const [cancelMatchApplyHandler] = useCancelMatchApply({ setMatchWaitList });
 
   return (
     <div className=" w-[60%]">
@@ -69,19 +66,6 @@ const WaitingList = React.memo((props: WaitingListProps) => {
                   className=" text-grass"
                 >
                   승인
-                </button>
-              )}
-              {userIdx === player.player_list_idx && (
-                <button
-                  onClick={() =>
-                    cancelMatchApplyHandler({
-                      userIdx: player.player_list_idx,
-                      matchPosition: selectedPosition,
-                    })
-                  }
-                  className="text-red"
-                >
-                  취소
                 </button>
               )}
             </div>

@@ -20,5 +20,4 @@ export type WaitingListProps = {
   matchApproveHandler: (props: MatchApproveHandlerProps) => void;
   matchApplyHandler: (props: MatchApplyHandlerProps) => void;
   isMatchLeader: boolean;
-  setMatchWaitList: React.Dispatch<React.SetStateAction<MatchWaitList>>;
 };
