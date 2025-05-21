@@ -61,38 +61,47 @@ const useMatchApprove = (
   );
 
   const matchDisApproveHandler = React.useCallback(
-    (props: MatchApproveHandlerProps): void => {
+    async (props: MatchApproveHandlerProps): Promise<void> => {
       const { player, matchPosition, isFree } = props;
 
       // delete api
-      deleteMatchJoin({
+      const status = await deleteMatchJoin({
         matchIdx,
         userIdx: player.player_list_idx,
       });
-      // set MatchParticipants state
-      setMatchParticipants((prev) =>
-        prev.filter(
-          (participant) =>
-            participant.player_list_idx !== player.player_list_idx
-        )
-      );
-      if (!isFree && myUserIdx !== player.player_list_idx) {
-        setMatchWaitList((prev) => ({
-          match_waitlist: {
-            ...prev.match_waitlist,
-            [matchPosition]: [
-              ...(prev.match_waitlist?.[matchPosition] ?? []),
-              {
-                player_list_idx: player.player_list_idx,
-                player_list_nickname: player.player_list_nickname,
-                player_list_url: player.player_list_url,
-              },
-            ],
-          },
-        }));
+
+      if (typeof status === "number" && status === 200) {
+        // set MatchParticipants state
+        setMatchParticipants((prev) =>
+          prev.filter(
+            (participant) =>
+              participant.player_list_idx !== player.player_list_idx
+          )
+        );
+        if (!isFree && myUserIdx !== player.player_list_idx) {
+          setMatchWaitList((prev) => ({
+            match_waitlist: {
+              ...prev.match_waitlist,
+              [matchPosition]: [
+                ...(prev.match_waitlist?.[matchPosition] ?? []),
+                {
+                  player_list_idx: player.player_list_idx,
+                  player_list_nickname: player.player_list_nickname,
+                  player_list_url: player.player_list_url,
+                },
+              ],
+            },
+          }));
+        }
       }
     },
-    [setMatchParticipants, matchIdx, deleteMatchJoin, setMatchWaitList, myUserIdx]
+    [
+      setMatchParticipants,
+      matchIdx,
+      deleteMatchJoin,
+      setMatchWaitList,
+      myUserIdx,
+    ]
   );
 
   return [matchApproveHandler, matchDisApproveHandler];

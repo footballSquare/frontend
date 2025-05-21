@@ -4,9 +4,9 @@ import { useFetchData } from "../../4_Shared/util/apiUtil";
 const useDeleteMatchJoin = (): [(props: DeleteMatchJoinProps) => void] => {
   const [serverState, request, loading] = useFetchData();
 
-  const deleteMatchJoin = (props: DeleteMatchJoinProps) => {
+  const deleteMatchJoin = async (props: DeleteMatchJoinProps) => {
     const { matchIdx, userIdx } = props;
-    request(
+    return await request(
       "delete",
       `/match/${matchIdx}/leave?target_player_idx=${userIdx}`,
       null,
