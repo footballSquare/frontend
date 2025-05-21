@@ -1,4 +1,7 @@
-import { MatchApplyHandlerProps, MatchApproveHandlerProps } from "../../model/type";
+import {
+  MatchApplyHandlerProps,
+  MatchApproveHandlerProps,
+} from "../../model/type";
 export type WaitingListProps = {
   matchFormationPosition: number[];
   matchParticipants: {
@@ -17,4 +20,5 @@ export type WaitingListProps = {
   matchApproveHandler: (props: MatchApproveHandlerProps) => void;
   matchApplyHandler: (props: MatchApplyHandlerProps) => void;
   isMatchLeader: boolean;
+  setMatchWaitList: React.Dispatch<React.SetStateAction<MatchWaitList>>;
 };

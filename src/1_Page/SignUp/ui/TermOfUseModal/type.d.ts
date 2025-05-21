@@ -1,0 +1,3 @@
+type TermOfUseModalProps = {
+  toggleModalHandler: () => void;
+};

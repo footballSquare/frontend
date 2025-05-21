@@ -26,7 +26,7 @@ const TeamMatchBox = () => {
         teamMatchList.map((elem, index) => (
           <TeamMatchCard
             {...elem}
-            index={index}
+            key={`matchcard-${index}`}
             observeRef={
               teamMatchList.length === index + 1 ? observeRef : undefined
             }

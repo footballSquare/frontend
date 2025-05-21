@@ -13,6 +13,8 @@ import ChampionshipEdit from "./ChampionshipEdit";
 import SignUp from "./SignUp";
 import TeamList from "./TeamList";
 import OAuthHub from "./OAuthHub";
+import PostEdit from "./PostEdit";
+import PostDetail from "./PostDetail";
 
 const Page = () => {
   const [isLogin] = useIsLogin(); // accessToken 존재 여부 확인
@@ -46,8 +48,17 @@ const Page = () => {
           path={`${PAGE_URI.CHAMPIONSHIPEDIT}/:mode/:communityIdx`}
           element={<ChampionshipEdit />}
         />
-        <Route path={`${PAGE_URI.SIGNUP}`} element={<SignUp />}/>
-        <Route path ={`${PAGE_URI.OAUTH}`} element={<OAuthHub />} />
+        <Route path={`${PAGE_URI.SIGNUP}`} element={<SignUp />} />
+        <Route path={`${PAGE_URI.OAUTH}`} element={<OAuthHub />} />
+        <Route path={`${PAGE_URI.POST}/:postId`} element={<PostDetail />} />
+        <Route
+          path={`${PAGE_URI.POST}/write/edit/:postId`}
+          element={<PostEdit />}
+        />
+        <Route
+          path={`${PAGE_URI.POST}/write/new/:category`}
+          element={<PostEdit />}
+        />
       </Routes>
     </div>
   );

@@ -63,9 +63,9 @@ const WaitingList = React.memo((props: WaitingListProps) => {
                       matchParticipants,
                     })
                   }
-                  className="text-white text-lg"
+                  className=" text-grass"
                 >
-                  ✓
+                  승인
                 </button>
               )}
             </div>

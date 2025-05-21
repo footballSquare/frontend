@@ -23,6 +23,7 @@ type UseMatchApplyProps = {
   setMatchParticipants: React.Dispatch<
     React.SetStateAction<MatchParticipant[]>
   >;
+  isMatchLeader?: boolean;
 };
 type MatchApplyHandlerProps = {
   matchIdx: number;
@@ -37,4 +38,13 @@ type UseMatchEndProps = {
 
 type MatchEndHandlerProps = {
   matchIdx: number;
-}
+};
+
+type CancelMatchApplyHandlerProps = {
+  userIdx: number;
+  matchPosition: number;
+};
+
+type UseCancelMatchApplyProps = {
+  setMatchWaitList: React.Dispatch<React.SetStateAction<MatchWaitList>>;
+};

@@ -13,6 +13,7 @@ const PAGE_URI = {
   CHAMPIONSHIP: "/championship",
   CHAMPIONSHIPEDIT: "/championship-edit",
   OAUTH: "/oauth/redirect",
+  POST: "/post",
 };
 
 export default PAGE_URI;

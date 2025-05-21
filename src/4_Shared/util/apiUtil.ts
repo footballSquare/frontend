@@ -4,43 +4,6 @@ import { useCookies } from "react-cookie";
 
 const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
-export const useFetch = (): [
-  Record<string, unknown> | null,
-  (mockdata: object) => Promise<void>,
-  boolean
-] => {
-  const [serverState, setServerState] = React.useState<Record<
-    string,
-    unknown
-  > | null>(null);
-  const [loading, setLoading] = React.useState<boolean>(true);
-
-  const request = async (mockdata: object) => {
-    try {
-      setLoading(true);
-      // API 호출
-      const response = await axios({
-        method: "",
-        url: "",
-        params: {},
-        headers: {
-          Authorization: "",
-        },
-      });
-      if (response === null) {
-        console.log("response is 0");
-      }
-      setServerState({ ...mockdata });
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  return [serverState, request, loading];
-};
-
 export const useFetchData = (): [
   Record<string, unknown> | null,
   (
@@ -101,9 +64,9 @@ export const useFetchData = (): [
             { withCredentials: true }
           );
 
-          const newAccessToken = refreshResponse.data.access_token;
-          console.log(newAccessToken);
-          setCookie("access_token", newAccessToken); // access_token을 쿠키에 저장
+          const newAccessToken = refreshResponse.data.data.access_token;
+          const options = { path: "/", maxAge: 86400 };
+          setCookie("access_token", newAccessToken, options); // access_token을 쿠키에 저장
 
           axiosInstance.defaults.headers["Authorization"] = newAccessToken;
           processQueue(newAccessToken);
@@ -130,8 +93,8 @@ export const useFetchData = (): [
     ) => {
       try {
         setLoading(true);
+
         // API 호출
-        console.log("request", endpoint);
         const response = await axiosInstance({
           method: method,
           url: `${SERVER_URL}${endpoint}`,
@@ -150,11 +113,6 @@ export const useFetchData = (): [
         if (error instanceof AxiosError) {
           const { status, data } = error.response ?? {};
           console.log("endpoint", endpoint);
-          console.log("body", body);
-          console.log("authorization", authorization);
-          console.log(`auth ${cookies.access_token}`);
-          console.log("status", status);
-          console.log("message", data.message);
           setServerState({ status });
 
           if (status === 500) {

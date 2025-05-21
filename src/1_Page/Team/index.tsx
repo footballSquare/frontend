@@ -7,6 +7,7 @@ import BtnGroupManageModalPanel from "./ui/BtnGroupManageModalPanel";
 import useValidParamInteger from "../../4_Shared/model/useValidParamInteger";
 
 import useManageTeamInfo from "./model/useManagePage";
+import { useMyTeamIdx } from "../../4_Shared/lib/useMyInfo";
 
 const Team = () => {
   const [teamIdx] = useValidParamInteger("teamIdx");
@@ -15,6 +16,8 @@ const Team = () => {
   const [teamInfo, loading] = useGetTeamInfo(teamIdx);
   // optimistic state
   const { displayTeamInfo, handlers } = useManageTeamInfo(teamInfo);
+
+  const [myTeamIdx] = useMyTeamIdx();
 
   const {
     team_list_banner,
@@ -102,7 +105,20 @@ const Team = () => {
             {/* 오른쪽 섹션: 경기 정보 */}
             <div className="sm:col-span-3 space-y-3">
               <h2 className="text-base font-semibold">현재 경기</h2>
-              <TeamMatchBox />
+              {teamInfo?.team_list_idx === myTeamIdx ? (
+                <TeamMatchBox />
+              ) : (
+                <div>
+                  <div className="rounded-lg shadow p-4 bg-gray-800">
+                    <h2 className="text-base font-semibold  mb-2">
+                      팀 경기 정보
+                    </h2>
+                    <p className="text-gray-600 text-sm whitespace-pre-line leading-relaxed">
+                      현재 경기 정보는 팀원만 확인할 수 있습니다.
+                    </p>
+                  </div>
+                </div>
+              )}
             </div>
           </article>
         </div>

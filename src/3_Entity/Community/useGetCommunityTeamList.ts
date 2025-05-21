@@ -1,6 +1,5 @@
 import React from "react";
 import { useFetchData } from "../../4_Shared/util/apiUtil";
-import { mockCommunityTeamList } from "../../4_Shared/constant/communityTeamList";
 
 const ITEMS_PER_PAGE = 5;
 
@@ -16,7 +15,7 @@ const useGetCommunityTeamList = (
   const [serverState, request, loading] = useFetchData();
   const [communityTeamList, setCommunityTeamList] = React.useState<
     CommunityTeam[]
-  >(mockCommunityTeamList.participation_team);
+  >([]);
   const [hasMoreContent, setHasMoreContent] = React.useState<boolean>(true);
 
   React.useEffect(() => {
@@ -30,7 +29,6 @@ const useGetCommunityTeamList = (
 
   React.useEffect(() => {
     if (!loading && serverState) {
-      console.log(serverState);
       setCommunityTeamList((prev: CommunityTeam[]) => [
         ...prev,
         ...(serverState as { participation_team: CommunityTeam[] })

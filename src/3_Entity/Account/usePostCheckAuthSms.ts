@@ -20,6 +20,9 @@ const usePostCheckAuthSms = (): [
           setIsValid(true);
           alert("확인 되었습니다!");
           break;
+        case 400:
+          alert("인증번호가 유효하지 않습니다. 인증번호 재발급을 해주세요.");
+          break;
         default:
           setIsValid(false);
           alert("다시 시도해주세요.");
