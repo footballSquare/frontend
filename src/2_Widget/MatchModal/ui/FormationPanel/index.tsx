@@ -15,6 +15,7 @@ const FormationPanel = React.memo((props: FormationPanelProps) => {
     matchParticipants,
     matchDisApproveHandler,
     isMatchLeader,
+    matchParticipationType,
   } = props;
   const navigate = useNavigate();
   const { toggleMatchModal } = useMatchModalStore();
@@ -87,7 +88,7 @@ const FormationPanel = React.memo((props: FormationPanelProps) => {
                               player_list_url: elem.player_list_url,
                             },
                             matchPosition: elem.match_position_idx,
-                            matchParticipants,
+                            isFree: matchParticipationType === 1,
                           });
                         }}
                       >

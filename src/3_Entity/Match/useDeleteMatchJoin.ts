@@ -16,7 +16,6 @@ const useDeleteMatchJoin = (): [(props: DeleteMatchJoinProps) => void] => {
 
   React.useEffect(() => {
     if (!loading && serverState) {
-      console.log(serverState.status)
       switch (serverState.status) {
         case 200:
           alert("매치 참가가 취소되었습니다.");

@@ -8,6 +8,7 @@ export type FormationPanelProps = {
     match_position_idx: number;
     player_list_url: string;
   }[];
-  matchDisApproveHandler:  (props: MatchApproveHandlerProps) => void
+  matchDisApproveHandler: (props: MatchApproveHandlerProps) => void;
   isMatchLeader: boolean;
+  matchParticipationType: number;
 };
