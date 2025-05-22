@@ -130,6 +130,8 @@ const MatchModal = () => {
         />
 
         {/* 승인참여 : 자유참여 */}
+
+        <StatPanel matchParticipants={matchParticipants} />
         {isLogin &&
           (match_match_participation_type === 0 ? (
             <div className="w-full">
