@@ -17,6 +17,7 @@ import CommunityNotice from "./ui/CommunityNotice";
 import usePostApplyCommunityTeam from "../../3_Entity/Community/usePostApplyCommunityTeam";
 import CommunityBoardList from "./ui/CommunityBoardList";
 import useCommunityIdx from "./model/useCommunityIdx";
+import Banner from "./ui/Banner";
 
 const Community = () => {
   const { communityIdx } = useParams();
@@ -128,7 +129,9 @@ const Community = () => {
         {communityRoleIdx === 0 && (
           <button
             className="p-3 border border-gray-300 shadow-md rounded-lg text-sm bg-gray text-black hover:bg-grass transition"
-            onClick={()=>{navigate("/post/write/new/community")}}
+            onClick={() => {
+              navigate("/post/write/new/community");
+            }}
           >
             커뮤니티 글 작성
           </button>
@@ -157,13 +160,9 @@ const Community = () => {
         )}
       </div>
 
-      <div className="flex flex-col gap-6 w-full">
+      <div className="flex flex-col gap-[56px] w-full">
         {/* 배너 */}
-        <img
-          src={communityInfo.community_list_banner}
-          alt="배너"
-          className="w-full min-h-[190px] bg-blue-500 flex items-center justify-center text-2xl font-semibold rounded-lg shadow-md"
-        />
+        <Banner bannerImg={communityInfo.community_list_banner} />
 
         <div className="flex gap-6 max-h-[80%]">
           {modifyMode ? (
@@ -211,9 +210,7 @@ const Community = () => {
 
               {/* BoardList */}
               <div className="w-[40%]">
-                <h3 className="font-semibold text-lg text-gray mb-4">
-                  Board
-                </h3>
+                <h3 className="font-semibold text-lg text-gray mb-4">Board</h3>
                 <CommunityBoardList communityIdx={Number(communityIdx)} />
               </div>
 

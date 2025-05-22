@@ -32,7 +32,7 @@ const CommunityTeamList = (props: CommunityTeamListProps) => {
             onClick={() => {
               navigate(`/team/${team.team_list_idx}`);
             }}
-            className="w-full bg-gray-800 shadow-md mb-3 transition-all rounded-r cursor-pointer hover:bg-gray-900"
+            className=" max-h-[100px] w-full bg-gray-800 shadow-md mb-3 transition-all rounded-r cursor-pointer hover:bg-gray-900"
             style={{ borderLeft: `4px solid ${team.team_list_color}` }}
           >
             <div className="p-4 flex flex-col md:flex-row">
@@ -49,10 +49,10 @@ const CommunityTeamList = (props: CommunityTeamListProps) => {
 
               {/* 중앙: 팀 이름 및 약칭 */}
               <div className="flex justify-center items-center md:w-3/6 flex-col px-3">
-                <div className="font-bold text-gray-200 text-lg">
+                <div className="font-bold text-gray-200 text-sm">
                   {team.team_list_name}
                 </div>
-                <div className="text-sm text-gray-400 mt-1">
+                <div className="text-xs text-gray-400">
                   약칭: {team.team_list_short_name}
                 </div>
               </div>
