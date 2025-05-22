@@ -30,7 +30,7 @@ const Welcome = () => {
           </button>
         )}
       </div>
-      <div className=" pt-2">
+      <div className=" pt-2 max-lg:hidden">
         <img
           src={welcomeBanner}
           className=" max-w-[700px]"

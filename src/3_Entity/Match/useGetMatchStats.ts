@@ -1,6 +1,5 @@
 import React from "react";
 import { useFetchData } from "../../4_Shared/util/apiUtil";
-import { mockMatchStats } from "../../4_Shared/mock/matchStats";
 
 const useGetMatchStats = (
   props: UseGetMatchStatsProps
@@ -10,10 +9,7 @@ const useGetMatchStats = (
   const [matchStats, setMatchStats] = React.useState<{
     team_stats: MatchTeamStat;
     player_stats: MatchPlayerStat[];
-  }>({
-    team_stats: mockMatchStats.team_stats,
-    player_stats: mockMatchStats.player_stats,
-  });
+  }>({} as MatchStats);
 
   React.useEffect(() => {
     request("GET", `/match/${matchIdx}/stats`, null, true);
