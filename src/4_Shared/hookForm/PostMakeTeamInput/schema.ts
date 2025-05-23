@@ -1,6 +1,6 @@
 import * as yup from "yup";
 
-export const schema = yup.object().shape({
+export const postMakeTeamInputSchema = yup.object().shape({
   team_list_name: yup
     .string()
     .max(20, "최대 20글자까지 가능합니다.")

@@ -23,7 +23,7 @@ const TeamCreatePanel = () => {
         <span className="text-gray-300">›</span>
       </div>
 
-      {isModalOpen && <CreateTeamModal handleToggleModal={handleToggleModal} />}
+      {isModalOpen && <CreateTeamModal onClose={handleToggleModal} />}
     </div>
   );
 };
