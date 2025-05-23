@@ -4,24 +4,16 @@ import useValidParamInteger from "../../4_Shared/model/useValidParamInteger";
 import PlayerCard from "../../2_Widget/PlayerCard";
 import AutoMoveAwardList from "../../2_Widget/AutoMoveAwardList";
 import empty from "../../4_Shared/assets/svg/empty-note.svg";
-import { FormProvider, useForm } from "react-hook-form";
-import { schema } from "./ui/PlayerDashBoard/lib/schema";
-import { yupResolver } from "@hookform/resolvers/yup";
-import React from "react";
-import { convertToUserInfoForm } from "./ui/PlayerDashBoard/util/convert";
+import { FormProvider } from "react-hook-form";
+import useProfileDashBoardHookform from "./model/useProfileDashBoardHookForm";
 
 const Profile = () => {
+  // api
   const [userIdx] = useValidParamInteger("userIdx");
   const [userInfo] = useGetMyInfo(userIdx);
 
-  const form = useForm<UserInfoForm>({
-    resolver: yupResolver(schema),
-    mode: "onChange",
-  });
-
-  React.useEffect(() => {
-    form.reset(convertToUserInfoForm(userInfo));
-  }, [userInfo]); // 초기값 설정
+  // hookform
+  const { form } = useProfileDashBoardHookform(userInfo);
 
   const { watch } = form;
   const nickname = watch("nickname");
