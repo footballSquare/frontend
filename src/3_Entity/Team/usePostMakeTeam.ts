@@ -21,7 +21,7 @@ const usePostMakeTeam = (): [
     switch (serverState.status) {
       case 200:
         alert("팀 생성 성공");
-        navigate(`/teams/${serverState.team_list_idx}`);
+        navigate(`/team/${serverState.team_list_idx}`);
         setTeamIdx(serverState.team_list_idx as number);
         break;
       case 403:
