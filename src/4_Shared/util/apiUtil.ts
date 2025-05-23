@@ -5,14 +5,14 @@ import { useCookies } from "react-cookie";
 const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
 export const useFetchData = (): [
-  Record<string, unknown> | null,
-  (
+  serverState: Record<string, unknown> | null,
+  request: (
     method: string,
     endpoint: string,
     body: Record<string, unknown> | null | FormData,
     authorization: boolean
-  ) => Promise<void>,
-  boolean
+  ) => Promise<number | undefined>,
+  loading: boolean
 ] => {
   const [serverState, setServerState] = React.useState<Record<
     string,
@@ -90,10 +90,10 @@ export const useFetchData = (): [
       endpoint: string,
       body: Record<string, unknown> | null | FormData,
       authorization: boolean = false
-    ) => {
+    ): Promise<number | undefined> => {
       try {
         setLoading(true);
-        
+
         // API 호출
         const response = await axiosInstance({
           method: method,
@@ -109,16 +109,12 @@ export const useFetchData = (): [
         });
 
         setServerState({ ...response.data, status: response.status });
+        return response.status;
       } catch (error: unknown) {
         if (error instanceof AxiosError) {
-          const { status, data } = error.response ?? {};
-          console.log("endpoint", endpoint);
+          const { status } = error.response ?? {};
+          console.log("network error");
           setServerState({ status });
-
-          if (status === 500) {
-            console.error("Internal Server Error:", status, data.message);
-            alert("알 수 없는 오류.");
-          }
         }
       } finally {
         setLoading(false);

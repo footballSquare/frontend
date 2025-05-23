@@ -1,10 +1,12 @@
 import { useFetchData } from "../../4_Shared/util/apiUtil";
 import React from "react";
-const usePutTeamMatchJoin = (): [(props: PutTeamMatchJoinProps) => void] => {
+const usePutTeamMatchJoin = (): [
+  (props: PutTeamMatchJoinProps) => Promise<number | undefined>
+] => {
   const [serverState, request, loading] = useFetchData();
-  const putTeamMatchJoin = (props: PutTeamMatchJoinProps) => {
+  const putTeamMatchJoin = async (props: PutTeamMatchJoinProps) => {
     const { matchIdx, matchPositionIdx, teamIdx } = props;
-    request(
+    return await request(
       "PUT",
       `/match/${matchIdx}/team/${teamIdx}/join?match_position_idx=${matchPositionIdx}`,
       null,
@@ -16,7 +18,6 @@ const usePutTeamMatchJoin = (): [(props: PutTeamMatchJoinProps) => void] => {
     if (!loading && serverState) {
       switch (serverState.status) {
         case 200:
-          alert("매치에 참가했습니다.");
           break;
         case 401:
           alert("로그인이 필요합니다.");

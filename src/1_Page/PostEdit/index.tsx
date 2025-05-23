@@ -1,21 +1,20 @@
-import { Controller } from "react-hook-form";
-import useWriteRouteType from "./model/useWriteRouteType";
-import useHookForm from "./model/useHookForm";
+import usePostEditRoutingGuard from "./model/usePostEditRoutingGuard";
+import usePostEditForm from "./model/usePostEditForm";
 import { useNavigate } from "react-router-dom";
-import usePostBoard from "../../3_Entity/Board/usePostBoard";
-import usePutBoard from "../../3_Entity/Board/usePutBoard";
-import uploadIcon from "../../4_Shared/assets/svg/upload.svg";
 import { CATEGORY_STRING } from "./constant/constant";
 import useGetBoardDetail from "../../3_Entity/Board/useGetBoardDetail";
-import useManageRole from "./model/useManageRole";
+import useValidatePostOwner from "./model/useValidatePostOwner";
+import useSubmitBoardHandler from "./model/useSubmitBoardHandler";
+import PostEditInput from "../../4_Shared/hookForm/PostEditInput";
 
 const PostEdit = () => {
   const navigate = useNavigate();
-  const { isNew, categoryIndex, postId } = useWriteRouteType();
+  // 게시글 작성/수정 여부 및 게시글 ID를 가져옵니다.
+  const { isNew, categoryIndex, postId } = usePostEditRoutingGuard();
   const [boardDetail] = useGetBoardDetail(postId);
-  useManageRole(isNew, boardDetail);
+  useValidatePostOwner(isNew, boardDetail);
 
-  const [form, preview] = useHookForm(boardDetail);
+  const [form, preview] = usePostEditForm(boardDetail);
 
   const {
     handleSubmit,
@@ -24,98 +23,41 @@ const PostEdit = () => {
     control,
   } = form;
 
-  const [postBoard] = usePostBoard();
-  const [putBoard] = usePutBoard(postId!);
-
-  const onSubmit = (data: PostEditFormFields) => {
-    if (isNew) {
-      postBoard(data, categoryIndex);
-    } else {
-      putBoard(data);
-    }
-  };
+  const [submitBoard] = useSubmitBoardHandler(isNew, postId);
 
   return (
-    <div className="w-full max-w-5xl mx-auto mt-8 mb-16 space-y-12 text-gray-100">
+    <div className="w-full max-w-5xl mx-auto mt-8 mb-16 space-y-12 sm :px-8 px-4">
       <h1 className="text-3xl font-semibold mb-6 text-gray-100">
         {isNew
           ? `${CATEGORY_STRING[categoryIndex]} 게시글 작성`
           : `${CATEGORY_STRING[boardDetail.board_category_idx]} 게시글 수정`}
       </h1>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+      <form
+        onSubmit={handleSubmit((data) => submitBoard(data, categoryIndex))}
+        className="space-y-5">
         <div className="space-y-2">
-          <label
-            htmlFor="board_list_title"
-            className="block text-sm font-medium text-gray-300">
-            제목
-          </label>
-          <input
-            id="board_list_title"
-            {...register("board_list_title")}
-            className="bg-gray-800 border border-gray-700 rounded p-2.5 w-full focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-200"
-            placeholder="제목을 입력하세요 (50자 이하)"
+          <PostEditInput
+            register={register}
+            registerType={"title"}
+            errors={errors}
           />
-          {errors.board_list_title && (
-            <p className="text-red-400 text-sm">
-              {errors.board_list_title.message}
-            </p>
-          )}
         </div>
 
-        <div className="space-y-2">
-          <label
-            htmlFor="board_list_content"
-            className="block text-sm font-medium text-gray-300">
-            내용
-          </label>
-          <textarea
-            id="board_list_content"
-            {...register("board_list_content")}
-            className="bg-gray-800 border border-gray-700 rounded p-2.5 w-full h-72 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-200"
-            placeholder="내용을 입력하세요 (6000자 이하)"
-          />
-          {errors.board_list_content && (
-            <p className="text-red-400 text-sm">
-              {errors.board_list_content.message}
-            </p>
-          )}
-        </div>
+        <PostEditInput
+          register={register}
+          registerType={"content"}
+          errors={errors}
+          control={control}
+        />
 
         <div className="space-y-2">
-          <label className="block text-sm font-medium text-gray-300">
-            이미지
-          </label>
-          <div className="flex items-center justify-center w-full">
-            <label className="flex flex-col w-full h-28 border-2 border-dashed border-gray-700 rounded cursor-pointer hover:border-blue-500 transition-all bg-gray-800">
-              <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                <img src={uploadIcon} className="w-[40px] h-[40px]" />
-                <p className="mb-2 text-sm text-gray-400">
-                  <span className="font-medium">클릭하여 이미지 업로드</span>
-                </p>
-                <p className="text-xs text-gray-400">
-                  PNG, JPG, GIF (최대 3MB)
-                </p>
-              </div>
-              <Controller
-                name="board_list_img"
-                control={control}
-                render={({ field }) => (
-                  <input
-                    type="file"
-                    accept="image/*"
-                    className="hidden"
-                    onChange={(e) => field.onChange(e.target.files)}
-                  />
-                )}
-              />
-            </label>
-          </div>
-          {errors.board_list_img && (
-            <p className="text-red-400 text-sm">
-              {errors.board_list_img.message as string}
-            </p>
-          )}
+          <PostEditInput
+            register={register}
+            registerType={"img"}
+            errors={errors}
+            control={control}
+          />
         </div>
 
         {preview && (

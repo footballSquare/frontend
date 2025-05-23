@@ -2,15 +2,17 @@ import React from "react";
 import { useFetchData } from "../../4_Shared/util/apiUtil";
 
 const usePostApproveCommunityTeamApplication = (): [
-  (props: PostApproveCommunityTeamApplicationProps) => void
+  (
+    props: PostApproveCommunityTeamApplicationProps
+  ) => Promise<number | undefined>
 ] => {
   const [serverState, request, loading] = useFetchData();
 
-  const postApproveCommunityTeamApplication = (
+  const postApproveCommunityTeamApplication = async (
     props: PostApproveCommunityTeamApplicationProps
   ) => {
     const { communityIdx, teamIdx } = props;
-    request(
+    return await request(
       "POST",
       `/community/${communityIdx}/team/${teamIdx}/access`,
       null,

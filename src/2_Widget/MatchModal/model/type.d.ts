@@ -15,7 +15,7 @@ type MatchApproveHandlerProps = {
   player: Player; // 승인할 대기자
   matchPosition: number; // 포지션 넘버
   matchParticipants: MatchParticipant[];
-  isFree: boolean;
+  isFree?: boolean;
 };
 
 type UseMatchApplyProps = {
@@ -24,6 +24,7 @@ type UseMatchApplyProps = {
     React.SetStateAction<MatchParticipant[]>
   >;
   isMatchLeader?: boolean;
+  isTeamMatch?: boolean;
 };
 type MatchApplyHandlerProps = {
   matchIdx: number;

@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import useGetCommunityTeamApplicationList from "../../../../3_Entity/Community/useGetCommunityTeamApplicationList";
-import usePostApproveCommunityTeamApplication from "../../../../3_Entity/Community/usePostApproveCommunityTeamApplication";
-import useDeleteCommunityTeamApplication from "../../../../3_Entity/Community/useDeleteCommunityTeamApplication";
+import useApproveCommunityTeamApplication from "./model/useApproveCommunityTeamApplication";
 
 const CommunityTeamApplicationList = (
   props: CommunityTeamApplicationListProps
@@ -12,9 +11,10 @@ const CommunityTeamApplicationList = (
       communityIdx,
     });
   const navigate = useNavigate();
-  const [postApproveCommunityTeamApplication] =
-    usePostApproveCommunityTeamApplication();
-  const [deleteCommunityTeamApplication] = useDeleteCommunityTeamApplication();
+  const [approveCommunityTeamApplication, disApproveCommunityTeamApplication] =
+    useApproveCommunityTeamApplication({
+      setCommunityTeamApplicationList: setCommunityTeamApplicationList,
+    });
 
   return (
     <div className="rounded-xl shadow-md w-full flex flex-col gap-4 p-4">
@@ -39,16 +39,10 @@ const CommunityTeamApplicationList = (
             {/* 수락버튼 */}
             <button
               onClick={() => {
-                postApproveCommunityTeamApplication({
+                approveCommunityTeamApplication({
                   communityIdx,
                   teamIdx: application.team_list_idx,
                 });
-                setCommunityTeamApplicationList((prev) =>
-                  prev.filter(
-                    (application) =>
-                      application.team_list_idx !== application.team_list_idx
-                  )
-                );
               }}
               className="bg-blue-500 p-2 rounded-lg text-white text-sm font-medium hover:bg-blue-600 transition"
             >
@@ -57,16 +51,10 @@ const CommunityTeamApplicationList = (
             {/* 거절버튼 */}
             <button
               onClick={() => {
-                deleteCommunityTeamApplication({
+                disApproveCommunityTeamApplication({
                   communityIdx,
                   teamIdx: application.team_list_idx,
                 });
-                setCommunityTeamApplicationList((prev) =>
-                  prev.filter(
-                    (application) =>
-                      application.team_list_idx !== application.team_list_idx
-                  )
-                );
               }}
               className="bg-red-500 p-2 rounded-lg text-white text-sm font-medium hover:bg-red-600 transition"
             >

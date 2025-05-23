@@ -1,0 +1,3 @@
+type FindLoginInfoModalProps = {
+  toggleModalHandler: () => void;
+};
