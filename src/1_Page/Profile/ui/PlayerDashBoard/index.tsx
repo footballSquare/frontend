@@ -9,10 +9,13 @@ import useToggleState from "../../../../4_Shared/model/useToggleState";
 
 import ProfileDashBoardInput from "../../../../4_Shared/hookForm/ProfileDashBoardInput";
 import useDeleteUserHandler from "./model/useDeleteUserHandler";
+import { useNavigate } from "react-router-dom";
 
 const PlayerDashBoard = (props: PlayerDashBoardProps) => {
   const { userInfo } = props; // 뷸변값들
-  const { is_mine, team_name, team_short_name, team_emblem } = userInfo;
+  const { is_mine, team_name, team_short_name, team_idx, team_emblem } =
+    userInfo;
+  const navigate = useNavigate();
 
   const {
     handleSubmit,
@@ -66,8 +69,11 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
 
           {/* 팀 & 구직 상태 */}
           {team_name ? (
-            /* 팀명이 있는 경우: 읽기 전용 카드 */
-            <div className="mb-6 p-3 rounded-lg bg-gray-700">
+            <div
+              className="mb-6 p-3 rounded-lg bg-gray-700 group"
+              onClick={() => {
+                navigate(`/team/${team_idx}`);
+              }}>
               <p className="mb-1 text-xs font-semibold text-gray-300">팀</p>
               <div className="flex items-center w-full p-2 text-sm gap-3 text-gray-300">
                 {team_emblem && (
@@ -79,7 +85,7 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
                     />
                   </div>
                 )}
-                <p className="text-grass font-bold">
+                <p className="text-grass font-bold group-hover:underline">
                   {team_name} {team_short_name}
                 </p>
               </div>
