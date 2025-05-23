@@ -20,7 +20,7 @@ const Profile = () => {
   const awards = userInfo?.Awards ?? [];
 
   return (
-    <main className="flex flex-wrap gap-6 w-full justify-center py-8 px-4 bg-gradient-to-b from-gray-900 to-gray-800">
+    <main className="flex flex-wrap gap-6 w-full justify-center py-8 px-4 min-h-screen bg-gray-900">
       {/* Player Dashboard */}
 
       <div className="w-[90%] sm:w-[40%] min-w-[300px] max-w-sm">
