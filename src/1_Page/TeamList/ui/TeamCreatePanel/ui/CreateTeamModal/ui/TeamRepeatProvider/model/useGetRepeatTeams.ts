@@ -3,7 +3,7 @@ import useGetRepeatTeam from "../../../../../../../../../3_Entity/Team/useGetRep
 import useGetRepeatShortTeam from "../../../../../../../../../3_Entity/Team/useGetRepeatShortTeam";
 import React from "react";
 
-const useGetRepeatTeams = (isShort: boolean) => {
+const useGetRepeatTeams = (isShort: boolean): [() => Promise<void>] => {
   const label = isShort ? "팀 약칭" : "팀 이름";
   const registerType = isShort ? "team_list_short_name" : "team_list_name";
   const registerTypeRepeat = isShort
