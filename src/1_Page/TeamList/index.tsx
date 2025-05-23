@@ -22,7 +22,7 @@ const TeamListPage = () => {
         </div>
       </header>
 
-      <main className="py-6 pb-24">
+      <main className="py-6 pb-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="lg:hidden flex border-b border-gray-700 mb-4">
             <button
@@ -54,7 +54,7 @@ const TeamListPage = () => {
             <div className="hidden lg:block lg:w-1/4 mb-6 lg:mb-0">
               <div className="bg-gray-800 border border-grass/30 rounded-xl shadow-md overflow-hidden">
                 <div className="relative bg-gradient-to-br from-grass via-grass/80 to-grass/50 p-6 text-white">
-                  <div className="relative z-10">
+                  <div className="relative">
                     <h2 className="text-xl font-bold mb-2">
                       나에게 맞는 팀을 찾아보세요
                     </h2>

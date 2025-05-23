@@ -12,7 +12,7 @@ const TeamSummaryCard = (props: TeamSummaryCardProps) => {
     <div
       id={isRecent ? "recent" : isMyTeam ? "myteam" : undefined}
       ref={observeRef}
-      className="group w-full max-w-md rounded-xl overflow-hidden bg-gray-800 shadow-md transition-shadow duration-200 cursor-pointer hover:shadow-xl">
+      className="group w-full rounded-xl overflow-hidden bg-gray-800 shadow-md transition-shadow duration-200 cursor-pointer hover:shadow-xl">
       <div className="p-5">
         <div className="flex items-center mb-4">
           {team.team_list_emblem ? (
