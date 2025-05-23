@@ -2,6 +2,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { schema } from "../../../../../../../../4_Shared/lib/imgSchema";
 import useImageHandler from "./model/useImageHandler";
+import EmptyBanner from "../../../../../../../../4_Shared/components/EmptyBanner";
 
 const TeamImageInput = (props: TeamImageInputProps) => {
   const { isBanner, imgSrc, handleSetTeamImg, putImage } = props;
@@ -63,14 +64,14 @@ const TeamImageInput = (props: TeamImageInputProps) => {
               alt="Team Emblem or Banner Preview"
             />
           ) : (
-            <div
+            <EmptyBanner
+              text={isBanner ? "팀 배너" : "팀 엠블럼"}
               className={
                 isBanner
-                  ? "w-full h-[100px] flex items-center justify-center bg-gray-200"
-                  : "h-[40px] w-[40px] flex items-center justify-center bg-gray-200"
-              }>
-              <span className="text-gray-500 text-sm">No Image Available</span>
-            </div>
+                  ? "w-full h-[140px] object-cover"
+                  : "h-[40px] w-[40px] object-cover"
+              }
+            />
           )}
         </div>
 

@@ -8,6 +8,7 @@ import useValidParamInteger from "../../4_Shared/model/useValidParamInteger";
 
 import useManageTeamInfo from "./model/useManagePage";
 import { useMyTeamIdx } from "../../4_Shared/lib/useMyInfo";
+import EmptyBanner from "../../4_Shared/components/EmptyBanner";
 
 const Team = () => {
   const [teamIdx] = useValidParamInteger("teamIdx");
@@ -43,9 +44,7 @@ const Team = () => {
                   alt="Team Banner"
                 />
               ) : (
-                <div className="w-full h-[200px] rounded-xl bg-gradient-to-r from-blue-500 to-green-500 flex items-center justify-center text-white text-2xl sm:text-3xl font-bold shadow-md">
-                  {team_list_name}
-                </div>
+                <EmptyBanner text={team_list_name} />
               )}
             </section>
 
