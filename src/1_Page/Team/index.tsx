@@ -11,13 +11,12 @@ import { useMyTeamIdx } from "../../4_Shared/lib/useMyInfo";
 
 const Team = () => {
   const [teamIdx] = useValidParamInteger("teamIdx");
+  const [myTeamIdx] = useMyTeamIdx();
 
   // api
   const [teamInfo, loading] = useGetTeamInfo(teamIdx);
   // optimistic state
   const { displayTeamInfo, handlers } = useManageTeamInfo(teamInfo);
-
-  const [myTeamIdx] = useMyTeamIdx();
 
   const {
     team_list_banner,
