@@ -3,6 +3,7 @@ import PostMakeTeamInput from "../../../../../../4_Shared/hookForm/PostMakeTeamI
 import usePostMakeTeam from "../../../../../../3_Entity/Team/usePostMakeTeam";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { postMakeTeamInputSchema } from "../../../../../../4_Shared/hookForm/PostMakeTeamInput/schema";
+import usePostMakeTeamHandler from "./model/usePostMakeTeamHandler";
 
 const CreateTeamModal = (props: CreateTeamModalProps) => {
   const { onClose } = props;
@@ -17,7 +18,7 @@ const CreateTeamModal = (props: CreateTeamModalProps) => {
     },
   });
   const { handleSubmit } = methods;
-  const [postMakeTeam] = usePostMakeTeam();
+  const [postMakeTeam] = usePostMakeTeamHandler();
 
   return (
     <div className="fixed inset-0 z-10 h-full bg-black/60 flex items-center justify-center p-4">
