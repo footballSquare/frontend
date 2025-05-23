@@ -9,7 +9,10 @@ const useProfileDashBoardHookform = (initUserInfo: UserInfo) => {
     mode: "onChange",
   });
 
-  const { reset } = form;
+  const { reset, watch } = form;
+
+  const nickname = watch("nickname");
+  const matchPositionIdx = watch("match_position_idx");
 
   React.useEffect(() => {
     reset(convertToUserInfoForm(initUserInfo));
@@ -17,6 +20,8 @@ const useProfileDashBoardHookform = (initUserInfo: UserInfo) => {
 
   return {
     form,
+    watchNickname: nickname,
+    watchMatchPositionIdx: matchPositionIdx,
   };
 };
 export default useProfileDashBoardHookform;

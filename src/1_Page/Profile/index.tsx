@@ -13,11 +13,8 @@ const Profile = () => {
   const [userInfo] = useGetMyInfo(userIdx);
 
   // hookform
-  const { form } = useProfileDashBoardHookform(userInfo);
-
-  const { watch } = form;
-  const nickname = watch("nickname");
-  const matchPositionIdx = watch("match_position_idx");
+  const { form, watchMatchPositionIdx, watchNickname } =
+    useProfileDashBoardHookform(userInfo);
 
   // Awards 값이 undefined면 빈 배열([])로 처리
   const awards = userInfo?.Awards ?? [];
@@ -66,8 +63,8 @@ const Profile = () => {
           <div className="w-full max-w-[280px] mx-auto my-6 transform transition hover:scale-[1.01]">
             <PlayerCard
               {...userInfo}
-              nickname={nickname}
-              match_position_idx={matchPositionIdx}
+              nickname={watchNickname}
+              match_position_idx={watchMatchPositionIdx}
             />
           </div>
 
