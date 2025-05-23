@@ -68,7 +68,7 @@ const PostMakeTeamInput = (props: PostMakeTeamInputProps) => {
           )}
           {repeatType && !getValues(repeatType) && (
             <p className="text-green-500 text-xs mt-1">
-              팀명 중복확인이 완료되었습니다.
+              약칭 중복확인이 완료되었습니다.
             </p>
           )}
         </div>
