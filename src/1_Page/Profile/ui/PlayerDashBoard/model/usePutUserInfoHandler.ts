@@ -1,4 +1,3 @@
-import React from "react";
 import usePutUserInfo from "../../../../../3_Entity/Account/usePutUserInfo";
 
 const usePutUserInfoHandler = (
@@ -6,20 +5,18 @@ const usePutUserInfoHandler = (
 ): [(data: UserInfoForm) => void] => {
   const { reset, inputBackupDataRef } = props;
 
-  const [putUserInfo, serverState] = usePutUserInfo();
+  const [putUserInfo] = usePutUserInfo();
 
-  React.useEffect(() => {
-    if (!serverState) return;
-    switch (serverState.status) {
-      case 200:
-        break;
-      default:
-        reset(inputBackupDataRef.current);
-        alert("변경 실패했습니다");
-        break;
+  const handlePutUserInfo = async (formData: UserInfoForm) => {
+    const result = await putUserInfo(formData);
+    if (result === 200) {
+      inputBackupDataRef.current = formData;
+    } else {
+      reset(inputBackupDataRef.current);
+      alert("변경 실패했습니다");
     }
-  }, [serverState]);
+  };
 
-  return [putUserInfo];
+  return [handlePutUserInfo];
 };
 export default usePutUserInfoHandler;

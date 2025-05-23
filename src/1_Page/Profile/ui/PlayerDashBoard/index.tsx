@@ -1,28 +1,31 @@
 import React from "react";
 import { useFormContext } from "react-hook-form";
 
-import { hasChanges } from "./util/validate";
-
 import { useLogout } from "../../../../4_Shared/lib/useMyInfo";
 
 import usePutUserInfoHandler from "./model/usePutUserInfoHandler";
 
 import useToggleState from "../../../../4_Shared/model/useToggleState";
-import useDeleteUserHandler from "./model/useDeleteUserHandler";
 
 import ProfileDashBoardInput from "../../../../4_Shared/hookForm/ProfileDashBoardInput";
+import useDeleteUserHandler from "./model/useDeleteUserHandler";
 
 const PlayerDashBoard = (props: PlayerDashBoardProps) => {
   const { userInfo } = props; // 뷸변값들
   const { is_mine, team_name, team_short_name, team_emblem } = userInfo;
 
-  const { handleSubmit, reset, getValues } = useFormContext<UserInfoForm>();
+  const {
+    handleSubmit,
+    reset,
+    getValues,
+    formState: { isDirty },
+  } = useFormContext<UserInfoForm>();
 
   // ref
   const inputBackupDataRef = React.useRef<UserInfoForm>({} as UserInfoForm);
   // api
-  const [deleteUser] = useDeleteUserHandler();
-  const [putUserInfo] = usePutUserInfoHandler({
+  const [handleDeleteUser] = useDeleteUserHandler();
+  const [handlePutUserInfo] = usePutUserInfoHandler({
     reset,
     inputBackupDataRef,
   });
@@ -50,8 +53,8 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
         <form
           onSubmit={handleSubmit((formData) => {
             toggleIsModifyMode();
-            if (!hasChanges(formData, inputBackupDataRef.current)) return;
-            putUserInfo(formData);
+            if (!isDirty) return;
+            handlePutUserInfo(formData);
           })}>
           <ProfileDashBoardInput
             label="상태 메시지"
@@ -159,9 +162,9 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
           <div className="flex w-full mt-4 gap-2">
             <button
               className="w-1/2 h-8 border-2 border-red-500 text-red-600 font-bold px-2 py-1 text-xs rounded-lg shadow-sm transition-all duration-200 hover:bg-red-500 hover:text-white"
-              onClick={() => {
+              onClick={async () => {
                 if (confirm("정말로 삭제하시겠습니까?")) {
-                  deleteUser();
+                  handleDeleteUser();
                 }
               }}>
               탈퇴
