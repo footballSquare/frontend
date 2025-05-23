@@ -6,6 +6,7 @@ export const postMakeTeamInputSchema = yup.object().shape({
     .max(20, "최대 20글자까지 가능합니다.")
     .matches(/^[가-힣a-zA-Z]+$/, "한글과 영어만 입력 가능합니다. 숫자 불가")
     .required("팀명을 입력해주세요."),
+
   team_list_short_name: yup
     .string()
     .matches(/^[A-Za-z]{3}$/, "영문 3글자여야 합니다.")
@@ -22,4 +23,12 @@ export const postMakeTeamInputSchema = yup.object().shape({
     .number()
     .oneOf([5, 8], "유효하지 않은 상태입니다.")
     .required("모집 상태를 선택해주세요."),
+  team_list_name_repeat: yup
+    .boolean()
+    .oneOf([false], "팀명 중복 확인이 필요합니다.")
+    .required("팀명 중복 확인이 필요합니다."),
+  team_list_short_name_repeat: yup
+    .boolean()
+    .oneOf([false], "약칭 중복 확인이 필요합니다.")
+    .required("약칭 중복 확인이 필요합니다."),
 });

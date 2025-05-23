@@ -3,16 +3,17 @@ import { commonStatusIdx } from "../../constant/commonStatusIdx";
 import ArrowDownIcon from "../../assets/svg/arrow-down.svg";
 
 const PostMakeTeamInput = (props: PostMakeTeamInputProps) => {
-  const { registerType } = props;
+  const { registerType, repeatType } = props;
   const {
     register,
     setValue,
     watch,
     formState: { errors },
+    getValues,
   } = useFormContext<TeamCreateFormValues>();
 
   return (
-    <>
+    <div className="w-full">
       {registerType === "team_list_name" && (
         <div className="mb-4">
           <label className="block text-sm font-medium text-gray-300 mb-1.5">
@@ -23,9 +24,21 @@ const PostMakeTeamInput = (props: PostMakeTeamInputProps) => {
             {...register(registerType)}
             className="w-full px-4 py-3 rounded-lg border border-gray-700 bg-gray-900 text-gray-100 focus:outline-none focus:ring-grass focus:border-transparent transition-all"
           />
-          {errors[registerType] && (
+          {errors[registerType] ? (
             <p className="text-red-500 text-xs mt-1">
               {errors[registerType].message}
+            </p>
+          ) : (
+            repeatType &&
+            errors[repeatType] && (
+              <p className="text-red-500 text-xs mt-1">
+                {errors[repeatType].message}
+              </p>
+            )
+          )}
+          {repeatType && !getValues(repeatType) && (
+            <p className="text-green-500 text-xs mt-1">
+              팀명 중복확인이 완료되었습니다.
             </p>
           )}
         </div>
@@ -41,9 +54,21 @@ const PostMakeTeamInput = (props: PostMakeTeamInputProps) => {
             {...register(registerType)}
             className="w-full px-4 py-3 rounded-lg border border-gray-700 bg-gray-900 text-gray-100 focus:outline-none focus:ring-grass focus:border-transparent transition-all"
           />
-          {errors[registerType] && (
+          {errors[registerType] ? (
             <p className="text-red-500 text-xs mt-1">
               {errors[registerType].message}
+            </p>
+          ) : (
+            repeatType &&
+            errors[repeatType] && (
+              <p className="text-red-500 text-xs mt-1">
+                {errors[repeatType].message}
+              </p>
+            )
+          )}
+          {repeatType && !getValues(repeatType) && (
+            <p className="text-green-500 text-xs mt-1">
+              팀명 중복확인이 완료되었습니다.
             </p>
           )}
         </div>
@@ -126,7 +151,7 @@ const PostMakeTeamInput = (props: PostMakeTeamInputProps) => {
           )}
         </div>
       )}
-    </>
+    </div>
   );
 };
 export default PostMakeTeamInput;

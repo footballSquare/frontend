@@ -2,15 +2,22 @@ import useToggleState from "../../../../4_Shared/model/useToggleState";
 
 import plusIcon from "../../../../4_Shared/assets/svg/plus.svg";
 import CreateTeamModal from "./ui/CreateTeamModal";
+import { useMyTeamIdx } from "../../../../4_Shared/lib/useMyInfo";
 
 const TeamCreatePanel = () => {
   const [isModalOpen, handleToggleModal] = useToggleState();
-
+  const [teamIdx] = useMyTeamIdx();
   return (
     <div>
       <div
         className="bg-gray-800 hover:bg-gray-700 rounded-xl p-4 flex items-center justify-between active:bg-gray-700 transition-colors"
-        onClick={handleToggleModal}>
+        onClick={() => {
+          if (teamIdx) {
+            alert("팀 생성은 팀이 없는 상태에서만 가능합니다.");
+            return;
+          }
+          handleToggleModal();
+        }}>
         <div className="flex items-center">
           <div className="w-12 h-12 rounded-full bg-gray-700 flex items-center justify-center mr-3">
             <img src={plusIcon} className="w-[20px] h-[20px]" />

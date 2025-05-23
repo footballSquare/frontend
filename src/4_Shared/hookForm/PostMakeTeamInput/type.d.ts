@@ -13,4 +13,6 @@ type PostMakeTeamInputProps = {
     | "team_list_color"
     | "common_status_idx"
     | "team_list_announcement";
+
+  repeatType?: "team_list_name_repeat" | "team_list_short_name_repeat";
 };
