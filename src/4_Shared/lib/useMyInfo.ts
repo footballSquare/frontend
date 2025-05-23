@@ -25,6 +25,7 @@ type AuthState = {
   logout: () => void;
   leaveTeam: () => void;
   setTeamRoleIdx: (teamRoleIdx: number | null) => void;
+  setTeamIdx: (teamIdx: number | null) => void;
 };
 
 export const useAuthStore = create<AuthState>()((set) => ({
@@ -54,6 +55,7 @@ export const useAuthStore = create<AuthState>()((set) => ({
       teamIdx: null,
     }),
   setTeamRoleIdx: (teamRoleIdx) => set({ teamRoleIdx }),
+  setTeamIdx: (teamIdx) => set({ teamIdx }),
 }));
 
 // 로그인 여부 확인
