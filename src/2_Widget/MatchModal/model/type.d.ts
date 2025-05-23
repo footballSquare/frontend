@@ -24,6 +24,7 @@ type UseMatchApplyProps = {
     React.SetStateAction<MatchParticipant[]>
   >;
   isMatchLeader?: boolean;
+  isTeamMatch?: boolean;
 };
 type MatchApplyHandlerProps = {
   matchIdx: number;

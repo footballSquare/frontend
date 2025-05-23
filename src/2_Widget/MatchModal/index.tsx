@@ -51,6 +51,7 @@ const MatchModal = () => {
     setMatchWaitList,
     setMatchParticipants,
     isMatchLeader,
+    isTeamMatch: match_match_attribute !== 0,
   });
   const navigate = useNavigate();
 
