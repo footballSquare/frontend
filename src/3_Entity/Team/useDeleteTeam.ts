@@ -15,6 +15,10 @@ const useDeleteTeam = (
     if (!serverState) return;
     console.log(serverState);
     switch (serverState.status) {
+      case 200:
+        alert("팀 삭제가 완료되었습니다.");
+        window.location.href = "/";
+        return;
       case 403:
         alert("마지막 매치 생성일이 2주가 지나지 않았습니다.");
         return;
