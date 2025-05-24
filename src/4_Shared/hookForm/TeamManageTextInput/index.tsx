@@ -63,7 +63,7 @@ const TeamManageTextInput = (props: TeamManageTextInputProps) => {
         <div>
           <p className="text-sm font-medium text-gray-600">팀 태그 출력</p>
           <div className="flex gap-4">
-            {["0", "1"].map((value, idx) => {
+            {[0, 1].map((value, idx) => {
               const labelText = idx === 0 ? "미출력" : "출력";
               const active = watch("common_status_idx") == value;
               const color = idx === 0 ? "blue" : "green";
@@ -112,7 +112,7 @@ const TeamManageTextInput = (props: TeamManageTextInputProps) => {
               className={`w-[48px] h-[48px] p-1 border-2 rounded-xl outline-none transition-all duration-200 ${
                 modifyMode
                   ? "border-indigo-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200"
-                  : "bg-gray-700 text-gray-500 border-gray-100 opacity-50 cursor-not-allowed"
+                  : "bg-gray-700 text-gray-200 border-gray-100 opacity-50 cursor-not-allowed"
               }`}
             />
             <input
@@ -123,7 +123,7 @@ const TeamManageTextInput = (props: TeamManageTextInputProps) => {
               placeholder="#FFFFFF"
               className={`flex-1 p-3 text-sm border-2 rounded-xl outline-none transition-all duration-200 ${
                 modifyMode
-                  ? "border-indigo-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-gray-900"
+                  ? "border-indigo-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-gray-200"
                   : "bg-gray-700 text-gray-200 border-gray-100 opacity-50 cursor-not-allowed"
               }`}
             />

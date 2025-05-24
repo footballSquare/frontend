@@ -3,7 +3,10 @@ import useGetRepeatTeam from "../../../../../../../../../../../3_Entity/Team/use
 import useGetRepeatShortTeam from "../../../../../../../../../../../3_Entity/Team/useGetRepeatShortTeam";
 import React from "react";
 
-const useGetRepeatTeams = (isShort: boolean): [() => Promise<void>] => {
+const useGetRepeatTeams = (
+  props: UseGetRepeatTeamsProps
+): [() => Promise<void>] => {
+  const { isShort, beforeName } = props;
   const label = isShort ? "팀 약칭" : "팀 이름";
   const registerType = isShort ? "team_list_short_name" : "team_list_name";
   const registerTypeRepeat = isShort
@@ -56,6 +59,15 @@ const useGetRepeatTeams = (isShort: boolean): [() => Promise<void>] => {
     const name = getValues(registerType);
     const isValid = await trigger(registerType);
     if (!isValid) {
+      return;
+    }
+    // 이름 변경이 안된경우 증복 아님으로 설정
+    if (name === beforeName) {
+      setValue(registerTypeRepeat, false, {
+        shouldValidate: true,
+        shouldDirty: true,
+      });
+      clearErrors(registerTypeRepeat);
       return;
     }
     const status = await getRepeat(name);

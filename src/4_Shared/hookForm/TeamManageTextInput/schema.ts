@@ -1,6 +1,6 @@
 import * as Yup from "yup";
 
-export const schema = Yup.object().shape({
+export const teamManageTextInputSchema = Yup.object().shape({
   team_list_name: Yup.string()
     .required("팀 이름을 입력해주세요.")
     .max(20, "팀 이름은 최대 20글자까지 가능합니다.")
@@ -24,5 +24,5 @@ export const schema = Yup.object().shape({
     .required()
     .oneOf([true], "팀 약칭 중복 체크를 완료해주세요."),
 
-  common_status_idx: Yup.string().required("필수값입니다"),
+  common_status_idx: Yup.number().required("필수값입니다"),
 });

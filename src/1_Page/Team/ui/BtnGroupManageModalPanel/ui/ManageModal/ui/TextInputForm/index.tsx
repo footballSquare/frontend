@@ -1,54 +1,45 @@
-import React from "react";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { useForm, SubmitHandler, FormProvider } from "react-hook-form";
+import { FormProvider } from "react-hook-form";
 
-import useManageModify from "./model/useManageModify";
-import { schema } from "./lib/schema";
-import { convertToPutData, convertToTeamInfoForm } from "./util/convet";
-import usePutTeamInfo from "../../../../../../../../3_Entity/Team/usePutTeamInfo";
+import useTextInputForm from "./model/useTextInputForm";
 import TeamNameRepeatProvider from "./ui/TeamNameRepeatProvider";
 import TeamManageTextInput from "../../../../../../../../4_Shared/hookForm/TeamManageTextInput";
+import useToggleState from "../../../../../../../../4_Shared/model/useToggleState";
+import usePutTeamInfoHandler from "./model/usePutTeamInfoHandler";
 
 const TextInputForm = (props: TextInputFormProps) => {
-  const { team_list_idx, teamInfo, handleSetTeamInfoPreview } = props;
+  const { teamInfo, handleSetTeamInfoPreview } = props;
 
-  // props가 변경되지 않는 한, 기존 teamInfoForm 값을 재사용하여 불필요한 input form 재생성을 방지
-  const teamInfoForm = React.useMemo(
-    () => convertToTeamInfoForm(teamInfo),
-    [teamInfo]
-  );
-
-  const forms = useForm<TeamInfoForm>({
-    resolver: yupResolver(schema),
-    mode: "onChange",
+  const { forms, handleCancle, handleBackupData } = useTextInputForm({
+    teamInfo,
   });
 
   const {
     handleSubmit,
-    getValues,
     setValue,
     formState: { isValid },
-    reset,
   } = forms;
 
-  const { modifyMode, handleCancle, handleModifyFalse, handleBackupData } =
-    useManageModify({ reset, setValue, teamInfoForm });
+  const { handlePutTeamInfo } = usePutTeamInfoHandler({
+    team_list_idx: teamInfo.team_list_idx,
+    setValue,
+    handleSetTeamInfoPreview,
+  });
 
-  const [putTeamInfo] = usePutTeamInfo(team_list_idx);
-
-  const onSubmit: SubmitHandler<TeamInfoForm> = (data) => {
-    putTeamInfo(convertToPutData(data));
-    handleSetTeamInfoPreview(data);
-    handleModifyFalse();
-  };
+  const [modifyMode, toggleModifyMode] = useToggleState();
 
   return (
     <FormProvider {...forms}>
       <form
-        onSubmit={handleSubmit(onSubmit)}
+        onSubmit={handleSubmit((data: TeamInfoForm) => {
+          handlePutTeamInfo(data);
+          toggleModifyMode();
+        })}
         className="flex-1 min-w-[300px]  rounded-lg shadow-md p-4">
         {/* 팀명 입력 */}
-        <TeamNameRepeatProvider modifyMode={modifyMode} isShort={false}>
+        <TeamNameRepeatProvider
+          modifyMode={modifyMode}
+          isShort={false}
+          beforeName={teamInfo.team_list_name}>
           <TeamManageTextInput
             modifyMode={modifyMode}
             registerType="team_list_name"
@@ -56,7 +47,10 @@ const TextInputForm = (props: TextInputFormProps) => {
         </TeamNameRepeatProvider>
 
         {/* 짧은 태그 입력 */}
-        <TeamNameRepeatProvider modifyMode={modifyMode} isShort>
+        <TeamNameRepeatProvider
+          modifyMode={modifyMode}
+          isShort
+          beforeName={teamInfo.team_list_short_name}>
           <TeamManageTextInput
             modifyMode={modifyMode}
             registerType="team_list_short_name"
@@ -87,7 +81,8 @@ const TextInputForm = (props: TextInputFormProps) => {
               className="py-2 px-4 bg-blue-600 text-white rounded-md"
               onClick={(e) => {
                 e.preventDefault();
-                handleBackupData(getValues());
+                handleBackupData();
+                toggleModifyMode();
               }}>
               수정하기
             </button>
@@ -95,7 +90,10 @@ const TextInputForm = (props: TextInputFormProps) => {
             <div className="flex gap-2">
               <button
                 className="py-2 px-4 bg-red-600 text-white rounded-md"
-                onClick={handleCancle}>
+                onClick={() => {
+                  handleCancle();
+                  toggleModifyMode();
+                }}>
                 취소
               </button>
               <button
