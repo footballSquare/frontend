@@ -2,13 +2,11 @@ import React from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, SubmitHandler, FormProvider } from "react-hook-form";
 
-import InputField from "./ui/InputFiled";
-import TeamNameCheckInput from "./ui/TeamNameCheckInput";
-import StatusRadio from "./ui/StautsRadio";
 import useManageModify from "./model/useManageModify";
 import { schema } from "./lib/schema";
 import { convertToPutData, convertToTeamInfoForm } from "./util/convet";
 import usePutTeamInfo from "../../../../../../../../3_Entity/Team/usePutTeamInfo";
+import TeamNameCheckInput from "./ui/TeamNameCheckInput";
 
 const TextInputForm = (props: TextInputFormProps) => {
   const { team_list_idx, teamInfo, handleSetTeamInfoWithoutImg } = props;
@@ -53,25 +51,90 @@ const TextInputForm = (props: TextInputFormProps) => {
         {/* 짧은 태그 입력 */}
         <TeamNameCheckInput modifyMode={modifyMode} isShort={true} />
         {/* 팀원 모집상태 */}
-        <StatusRadio modifyMode={modifyMode} />
+        {/* 팀원 모집상태 */}
+        <div>
+          <p className="text-sm font-medium text-gray-600">팀 태그 출력</p>
+          <div className="flex gap-4">
+            {["0", "1"].map((value, idx) => {
+              const labelText = idx === 0 ? "미출력" : "출력";
+              const active = forms.watch("common_status_idx") == value;
+              const color = idx === 0 ? "blue" : "green";
+              return (
+                <label
+                  key={value}
+                  className={`flex items-center gap-2 ${
+                    !modifyMode && "cursor-not-allowed"
+                  }`}>
+                  <input
+                    type="radio"
+                    value={value}
+                    {...forms.register("common_status_idx")}
+                    disabled={!modifyMode}
+                    className="hidden"
+                  />
+                  <div
+                    className={`w-5 h-5 rounded-full border-2 transition ${
+                      active
+                        ? `bg-${color}-600 border-${color}-600`
+                        : "border-gray-400"
+                    } ${!modifyMode && "opacity-50"}`}
+                  />
+                  <span className="text-sm font-medium">{labelText}</span>
+                </label>
+              );
+            })}
+          </div>
+        </div>
 
         {/* 팀 색상 선택 */}
-        <InputField
-          label="Team Color"
-          name="team_list_color"
-          modifyMode={modifyMode}
-          type="color"
-          placeholder="Enter Team Notice"
-        />
+        <div className="mb-4">
+          <label
+            htmlFor="team_list_color"
+            className="block mb-1.5 text-sm font-medium text-gray-700">
+            Team Color
+          </label>
+          <input
+            id="team_list_color"
+            type="color"
+            {...forms.register("team_list_color")}
+            disabled={!modifyMode}
+            className={`w-[48px] h-[48px] p-1 text-sm border-2 rounded-xl outline-none transition-all duration-200 ${
+              modifyMode
+                ? "border-indigo-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200"
+                : "bg-gray-700 text-gray-500 border-gray-100"
+            }`}
+          />
+          {forms.formState.errors.team_list_color && (
+            <p className="mt-1.5 text-rose-500 text-xs font-medium">
+              {String(forms.formState.errors.team_list_color?.message || "")}
+            </p>
+          )}
+        </div>
 
         {/* 팀 공지 입력 */}
-        <InputField
-          label="Team Notice"
-          name="team_list_announcement"
-          modifyMode={modifyMode}
-          type="textarea"
-          placeholder="Enter Team Notice"
-        />
+        <div className="mb-4">
+          <label
+            htmlFor="team_list_announcement"
+            className="block mb-1.5 text-sm font-medium text-gray-700">
+            Team Notice
+          </label>
+          <textarea
+            id="team_list_announcement"
+            {...forms.register("team_list_announcement")}
+            disabled={!modifyMode}
+            className={`w-full p-3 text-sm border-2 rounded-xl outline-none transition-all duration-200 ${
+              modifyMode
+                ? "border-indigo-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200"
+                : "bg-gray-700 text-gray-200 border-gray-100"
+            }`}
+            placeholder="Enter Team Notice"
+          />
+          {forms.formState.errors.team_list_announcement && (
+            <p className="mt-1.5 text-rose-500 text-xs font-medium">
+              {forms.formState.errors.team_list_announcement?.message || ""}
+            </p>
+          )}
+        </div>
 
         {/* 제출 버튼 */}
         <div className="flex justify-end gap-4 mt-4">

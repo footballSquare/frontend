@@ -1,1 +1,0 @@
-type StatusRadioProps = { modifyMode: boolean };
