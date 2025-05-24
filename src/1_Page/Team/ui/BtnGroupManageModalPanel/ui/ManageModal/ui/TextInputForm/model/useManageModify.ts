@@ -23,8 +23,8 @@ const useManageModify = (
   //  수정 완료
   const handleModifyFalse = () => {
     setModifyMode(false);
-    setValue("team_repeat_checked", false);
-    setValue("short_team_repeat_checked", false);
+    setValue("team_list_name_repeat", false);
+    setValue("team_list_short_name_repeat", false);
   };
 
   // 취소 클릭
@@ -32,8 +32,8 @@ const useManageModify = (
     setModifyMode(false);
     reset({
       ...inputBackupDataRef.current,
-      team_repeat_checked: false,
-      short_team_repeat_checked: false,
+      team_list_name_repeat: false,
+      team_list_short_name_repeat: false,
     });
   };
 

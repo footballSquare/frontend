@@ -17,10 +17,10 @@ export const schema = Yup.object().shape({
     .required("팀 공지사항을 입력해주세요.")
     .max(200, "팀 공지사항은 최대 200글자까지 입력 가능합니다."),
 
-  team_repeat_checked: Yup.boolean()
+  team_list_name_repeat: Yup.boolean()
     .required()
     .oneOf([true], "팀 중복 체크를 완료해주세요."),
-  short_team_repeat_checked: Yup.boolean()
+  team_list_short_name_repeat: Yup.boolean()
     .required()
     .oneOf([true], "팀 약칭 중복 체크를 완료해주세요."),
 
