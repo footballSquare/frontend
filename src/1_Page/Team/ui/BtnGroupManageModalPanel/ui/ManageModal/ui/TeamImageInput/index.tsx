@@ -32,7 +32,7 @@ const TeamImageInput = (props: TeamImageInputProps) => {
 
   return (
     <form onSubmit={handleSubmit(onSubmitHandler)} className="space-y-2">
-      <label className="text-sm font-medium text-gray-300">{label}</label>
+      <label className="text-sm font-medium text-grass">{label}</label>
 
       <div className="relative p-4 rounded-md shadow-md bg-gray-800/40">
         {preview ? (
@@ -54,7 +54,7 @@ const TeamImageInput = (props: TeamImageInputProps) => {
             </button>
             <button
               type="submit"
-              className="py-2 px-5 rounded-md bg-blue-500 hover:bg-blue-600 text-white text-sm">
+              className="py-2 px-5 rounded-md bg-grass hover:bg-grass/80 text-white text-sm">
               저장
             </button>
           </div>
@@ -62,7 +62,7 @@ const TeamImageInput = (props: TeamImageInputProps) => {
           <button
             type="button"
             onClick={openFileDialog}
-            className="absolute bottom-4 right-4 py-2 px-5 rounded-md bg-blue-500 hover:bg-blue-600 text-white text-sm">
+            className="absolute bottom-4 right-4 py-2 px-5 rounded-md bg-grass hover:bg-grass/80 text-white text-sm">
             수정하기
           </button>
         )}
