@@ -1,8 +1,4 @@
-import {
-  MatchApplyHandlerProps,
-  MatchApproveHandlerProps,
-} from "../../model/type";
-export type WaitingListProps = {
+type WaitingListProps = {
   matchFormationPosition: number[];
   matchParticipants: {
     match_position_idx: number;
@@ -10,15 +6,8 @@ export type WaitingListProps = {
     player_list_nickname: string;
     player_list_url: string;
   }[];
-  matchWaitList: {
-    [key: string]: {
-      player_list_idx: number;
-      player_list_nickname: string;
-      player_list_url: string;
-    }[];
-  } | null;
+  matchWaitList: Pick<MatchWaitList, "match_waitlist">["match_waitlist"] | null;
   matchApproveHandler: (props: MatchApproveHandlerProps) => void;
   matchApplyHandler: (props: MatchApplyHandlerProps) => void;
   isMatchLeader: boolean;
-  setMatchWaitList: React.Dispatch<React.SetStateAction<MatchWaitList>>;
 };

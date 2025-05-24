@@ -29,17 +29,17 @@ export const formations = [
   ],
   // 4-2-3-1
   [
-    { positionIdx: 21, top: "15%", left: "50%" }, // ST
-    { positionIdx: 18, top: "35%", left: "30%" }, // LAM
-    { positionIdx: 17, top: "35%", left: "50%" }, // CAM
-    { positionIdx: 16, top: "35%", left: "70%" }, // RAM
-    { positionIdx: 9, top: "55%", left: "40%" },  // LDM
-    { positionIdx: 7, top: "55%", left: "60%" },  // RDM
-    { positionIdx: 5, top: "65%", left: "20%" },  // LB
-    { positionIdx: 4, top: "65%", left: "40%" },  // LCB
-    { positionIdx: 2, top: "65%", left: "60%" },  // RCB
-    { positionIdx: 1, top: "65%", left: "80%" },  // RB
-    { positionIdx: 0, top: "85%", left: "50%" },  // GK
+    { positionIdx: 21, top: "13%", left: "50%" }, // ST
+    { positionIdx: 18, top: "33%", left: "30%" }, // LAM
+    { positionIdx: 17, top: "33%", left: "50%" }, // CAM
+    { positionIdx: 16, top: "33%", left: "70%" }, // RAM
+    { positionIdx: 9, top: "51%", left: "40%" },  // LDM
+    { positionIdx: 7, top: "51%", left: "60%" },  // RDM
+    { positionIdx: 5, top: "70%", left: "20%" },  // LB
+    { positionIdx: 4, top: "70%", left: "40%" },  // LCB
+    { positionIdx: 2, top: "70%", left: "60%" },  // RCB
+    { positionIdx: 1, top: "70%", left: "80%" },  // RB
+    { positionIdx: 0, top: "87%", left: "50%" },  // GK
   ],
   // 3-4-3
   [
