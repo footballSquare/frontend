@@ -1,8 +1,4 @@
-import {
-  MatchApplyHandlerProps,
-  MatchApproveHandlerProps,
-} from "../../model/type";
-export type WaitingListProps = {
+type WaitingListProps = {
   matchFormationPosition: number[];
   matchParticipants: {
     match_position_idx: number;

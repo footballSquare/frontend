@@ -48,15 +48,17 @@ type MatchParticipant = {
   player_list_url: string;
 };
 
+type MatchWaiter = {
+  player_list_idx: number;
+  player_list_nickname: string;
+  player_list_url: string;
+  match_waitlist_created_at: string;
+};
+
 type MatchWaitList = {
   match_waitlist: {
-    [key: string]: {
-      player_list_idx: number;
-      player_list_nickname: string;
-      player_list_url: string;
-      match_waitlist_created_at: string;
-    }[];
-  };
+    [key: number]: MatchWaiter[];
+  } | null;
 };
 
 type MatchFormData = {

@@ -1,6 +1,5 @@
 import React from "react";
 import { matchPosition } from "../../../../4_Shared/constant/matchPosition";
-import { WaitingListProps } from "./type";
 import {
   useMyNickname,
   useMyProfileImg,
@@ -24,6 +23,7 @@ const WaitingList = React.memo((props: WaitingListProps) => {
   const [nickName] = useMyNickname();
   const [profileUrl] = useMyProfileImg();
   const { matchIdx } = useMatchModalStore();
+  console.log(matchWaitList);
 
   return (
     <div className=" w-[60%]">
@@ -78,12 +78,13 @@ const WaitingList = React.memo((props: WaitingListProps) => {
           <button
             className=" border-1 rounded-lg border-gray shadow-lg bg-gray-500 hover:bg-light-blue text-black duration-700"
             onClick={() => {
+              // WaitList는 로그인 상태에서만 출력되는 ui
               matchApplyHandler({
                 matchIdx,
                 player: {
-                  player_list_idx: userIdx,
-                  player_list_nickname: nickName,
-                  player_list_url: profileUrl,
+                  player_list_idx: userIdx!,
+                  player_list_nickname: nickName!,
+                  player_list_url: profileUrl!,
                 },
                 matchPosition: selectedPosition,
                 matchParticipationType: 0, // 대기자 목록(WaitingList)는 항상 승인참여

@@ -1,7 +1,6 @@
 import React from "react";
 import profile from "../../../../4_Shared/assets/svg/profile.svg";
 import field_img from "../../assets/img/field.png";
-import { FormationPanelProps } from "./type";
 import { formations } from "../../constant/formation";
 import { matchFormation } from "../../../../4_Shared/constant/matchFormation";
 import { matchPosition } from "../../../../4_Shared/constant/matchPosition";
@@ -86,6 +85,7 @@ const FormationPanel = React.memo((props: FormationPanelProps) => {
                               player_list_idx: elem.player_list_idx,
                               player_list_nickname: elem.player_list_nickname,
                               player_list_url: elem.player_list_url,
+                              match_waitlist_created_at: new Date().toISOString(),
                             },
                             matchPosition: elem.match_position_idx,
                             isFree: matchParticipationType === 1,
