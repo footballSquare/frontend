@@ -1,6 +1,5 @@
 type TextInputFormProps = {
   teamInfo: TeamInfo;
-  team_list_idx: number;
   handleSetTeamInfoPreview: (data: TeamInfoForm) => void;
 };
 type TextInputFormProps = {

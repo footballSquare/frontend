@@ -5,6 +5,7 @@ import TeamNameRepeatProvider from "./ui/TeamNameRepeatProvider";
 import TeamManageTextInput from "../../../../../../../../4_Shared/hookForm/TeamManageTextInput";
 import useToggleState from "../../../../../../../../4_Shared/model/useToggleState";
 import usePutTeamInfoHandler from "./model/usePutTeamInfoHandler";
+import SubmitBtn from "./ui/SubmitBtn";
 
 const TextInputForm = (props: TextInputFormProps) => {
   const { teamInfo, handleSetTeamInfoPreview } = props;
@@ -13,11 +14,7 @@ const TextInputForm = (props: TextInputFormProps) => {
     teamInfo,
   });
 
-  const {
-    handleSubmit,
-    setValue,
-    formState: { isValid },
-  } = forms;
+  const { handleSubmit, setValue } = forms;
 
   const { handlePutTeamInfo } = usePutTeamInfoHandler({
     team_list_idx: teamInfo.team_list_idx,
@@ -43,6 +40,7 @@ const TextInputForm = (props: TextInputFormProps) => {
           <TeamManageTextInput
             modifyMode={modifyMode}
             registerType="team_list_name"
+            repeatType="team_list_name_repeat"
           />
         </TeamNameRepeatProvider>
 
@@ -54,6 +52,7 @@ const TextInputForm = (props: TextInputFormProps) => {
           <TeamManageTextInput
             modifyMode={modifyMode}
             registerType="team_list_short_name"
+            repeatType="team_list_short_name_repeat"
           />
         </TeamNameRepeatProvider>
         {/* 팀원 모집상태 */}
@@ -96,17 +95,7 @@ const TextInputForm = (props: TextInputFormProps) => {
                 }}>
                 취소
               </button>
-              <button
-                type="submit"
-                disabled={!isValid}
-                className={`py-2 px-4 rounded-md text-white font-semibold shadow-md transition duration-300
-              ${
-                isValid
-                  ? "bg-green-600 hover:bg-green-700 active:bg-green-800 focus:ring focus:ring-green-300"
-                  : "bg-gray-400 text-gray-500 cursor-none"
-              }`}>
-                저장
-              </button>
+              <SubmitBtn />
             </div>
           )}
         </div>

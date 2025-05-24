@@ -2,6 +2,7 @@ import useGetRepeatTeams from "./model/useGetRepeatTeams";
 
 const TeamNameRepeatProvider = (props: TeamNameRepeatProviderProps) => {
   const { children, isShort, modifyMode, beforeName } = props;
+
   const [handleTeamNameCheck] = useGetRepeatTeams({ isShort, beforeName });
 
   return (

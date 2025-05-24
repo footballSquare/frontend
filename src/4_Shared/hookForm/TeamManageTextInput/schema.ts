@@ -19,10 +19,10 @@ export const teamManageTextInputSchema = Yup.object().shape({
 
   team_list_name_repeat: Yup.boolean()
     .required()
-    .oneOf([true], "팀 중복 체크를 완료해주세요."),
+    .oneOf([false], "팀 중복 체크를 완료해주세요."),
   team_list_short_name_repeat: Yup.boolean()
     .required()
-    .oneOf([true], "팀 약칭 중복 체크를 완료해주세요."),
+    .oneOf([false], "팀 약칭 중복 체크를 완료해주세요."),
 
   common_status_idx: Yup.number().required("필수값입니다"),
 });

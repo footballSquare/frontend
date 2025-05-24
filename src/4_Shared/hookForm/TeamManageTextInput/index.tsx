@@ -1,11 +1,12 @@
 import { useFormContext } from "react-hook-form";
 
 const TeamManageTextInput = (props: TeamManageTextInputProps) => {
-  const { modifyMode, registerType } = props;
+  const { modifyMode, registerType, repeatType } = props;
   const {
     watch,
     register,
     formState: { errors },
+    getValues,
   } = useFormContext();
 
   return (
@@ -23,15 +24,22 @@ const TeamManageTextInput = (props: TeamManageTextInputProps) => {
             }`}
             placeholder="팀 이름을 입력하세요"
           />
-          {errors.team_list_name && (
-            <p className="mt-1.5 text-rose-500 text-xs font-medium">
-              {String(errors.team_list_name?.message || "")}
-            </p>
-          )}
-          {errors.team_list_name_repeat && (
-            <p className="mt-1.5 text-rose-500 text-xs font-medium">
-              {String(errors.team_list_name_repeat?.message || "")}
-            </p>
+          {modifyMode && (
+            <div>
+              {errors.team_list_name ? (
+                <p className="mt-1.5 text-rose-500 text-xs font-medium">
+                  {String(errors.team_list_name?.message || "")}
+                </p>
+              ) : errors.team_list_name_repeat ? (
+                <p className="mt-1.5 text-rose-500 text-xs font-medium">
+                  {String(errors.team_list_name_repeat?.message || "")}
+                </p>
+              ) : repeatType && !getValues(repeatType) ? (
+                <p className="mt-1.5 text-green-500 text-xs font-medium">
+                  증복확인이 완료되었습니다
+                </p>
+              ) : null}
+            </div>
           )}
         </div>
       )}
@@ -47,15 +55,22 @@ const TeamManageTextInput = (props: TeamManageTextInputProps) => {
             }`}
             placeholder="짧은 팀 이름을 입력하세요"
           />
-          {errors.team_list_name && (
-            <p className="mt-1.5 text-rose-500 text-xs font-medium">
-              {String(errors.team_list_name?.message || "")}
-            </p>
-          )}
-          {errors.team_list_short_name_repeat && (
-            <p className="mt-1.5 text-rose-500 text-xs font-medium">
-              {String(errors.team_list_short_name_repeat?.message || "")}
-            </p>
+          {modifyMode && (
+            <div>
+              {errors.team_list_short_name ? (
+                <p className="mt-1.5 text-rose-500 text-xs font-medium">
+                  {String(errors.team_list_short_name?.message || "")}
+                </p>
+              ) : errors.team_list_short_name_repeat ? (
+                <p className="mt-1.5 text-rose-500 text-xs font-medium">
+                  {String(errors.team_list_short_name_repeat?.message || "")}
+                </p>
+              ) : repeatType && !getValues(repeatType) ? (
+                <p className="mt-1.5 text-green-500 text-xs font-medium">
+                  증복확인이 완료되었습니다
+                </p>
+              ) : null}
+            </div>
           )}
         </div>
       )}

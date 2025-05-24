@@ -55,13 +55,16 @@ const useGetRepeatTeams = (
     });
   }, [watchName]);
 
+  React.useEffect(() => {
+    checkedNamesRef.current.push(beforeName);
+  }, [beforeName]);
+
   const handleTeamNameCheck = async () => {
     const name = getValues(registerType);
     const isValid = await trigger(registerType);
     if (!isValid) {
       return;
     }
-    // 이름 변경이 안된경우 증복 아님으로 설정
     if (name === beforeName) {
       setValue(registerTypeRepeat, false, {
         shouldValidate: true,
@@ -70,6 +73,7 @@ const useGetRepeatTeams = (
       clearErrors(registerTypeRepeat);
       return;
     }
+
     const status = await getRepeat(name);
     if (status === 200) {
       setValue(registerTypeRepeat, false, {

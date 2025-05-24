@@ -135,7 +135,6 @@ const ManageModal = (props: ManageModalProps) => {
                 팀 정보 편집
               </h3>
               <TextInputForm
-                team_list_idx={teamInfo.team_list_idx}
                 teamInfo={teamInfo}
                 handleSetTeamInfoPreview={handlers.handleSetTeamInfoWithoutImg}
               />

@@ -1,4 +1,4 @@
 type UseGetRepeatTeamsProps = {
   isShort: boolean;
-  beforeName?: string;
+  beforeName: string;
 };
