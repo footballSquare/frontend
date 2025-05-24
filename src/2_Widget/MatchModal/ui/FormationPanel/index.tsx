@@ -40,7 +40,7 @@ const FormationPanel = React.memo((props: FormationPanelProps) => {
 
         {/* 포지션 */}
         {/* 포지션 참가자 프로필 */}
-        {formations[matchFormationIdx].map((pos, index) => (
+        {formations[matchFormationIdx]?.map((pos, index) => (
           <div
             key={index}
             className="hover:scale-120 duration-300 absolute translate-x-[-50%] translate-y-[-50%] flex flex-col justify-center p-1 text-sm items-center gap-1"

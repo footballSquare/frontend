@@ -1,5 +1,6 @@
 type MatchInfo = {
   match_match_idx: number;
+  match_match_name: string;
   match_type_idx: number;
   team_list_idx: number | null;
   team_list_name: string | null;
@@ -26,6 +27,7 @@ type StandbyPlayerInfo = {
 
 type MatchDetail = {
   match_match_idx: number;
+  match_match_name: string;
   player_list_idx: number;
   player_list_nickname: string;
   player_list_profile_image: string | null;
@@ -52,6 +54,7 @@ type MatchWaitList = {
       player_list_idx: number;
       player_list_nickname: string;
       player_list_url: string;
+      match_waitlist_created_at: string;
     }[];
   };
 };

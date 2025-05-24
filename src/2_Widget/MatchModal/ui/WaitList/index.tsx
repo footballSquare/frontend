@@ -7,6 +7,7 @@ import {
   useMyUserIdx,
 } from "../../../../4_Shared/lib/useMyInfo";
 import useMatchModalStore from "../../../../4_Shared/zustand/useMatchModal";
+import { utcFormatter } from "../../../../4_Shared/lib/utcFormatter";
 
 const WaitingList = React.memo((props: WaitingListProps) => {
   const [selectedPosition, setSelectedPosition] = React.useState<number>(0);
@@ -38,7 +39,7 @@ const WaitingList = React.memo((props: WaitingListProps) => {
             className="flex w-full justify-between"
           >
             {`${matchPosition[position]} | ${
-              matchWaitList && (matchWaitList[position]?.length || 0)
+              matchWaitList?.[position]?.length || 0
             } 명 지원`}
           </option>
         ))}
@@ -50,10 +51,13 @@ const WaitingList = React.memo((props: WaitingListProps) => {
           {matchWaitList[selectedPosition]?.map((player) => (
             <div
               key={player.player_list_idx}
-              className="flex gap-2 justify-between p-2 border-1 border-gray rounded-lg shadow-lg"
+              className="flex gap-4 justify-between p-2 border-1 border-gray rounded-lg shadow-lg"
             >
               {/* <img src={player.player_list_url} alt="player" /> */}
-              <span>{player.player_list_nickname}</span>
+              <div className="flex flex-col gap-2">
+                <span>{player.player_list_nickname}</span>
+                <span className="text-xs">{utcFormatter(player.match_waitlist_created_at)}</span>
+              </div>
               {isMatchLeader && (
                 <button
                   onClick={() =>
