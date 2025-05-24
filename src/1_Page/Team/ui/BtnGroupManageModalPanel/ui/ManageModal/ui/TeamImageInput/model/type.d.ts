@@ -1,15 +1,9 @@
-type UseImageHandlerProps = {
-  imgSrc: string | null;
-  setValue: UseFormSetValue<{ file: File }>;
-  clearErrors: UseFormClearErrors<{ file: string }>;
+type ImageInputForm = {
+  file: FileList;
 };
 
-type UseImageHandlerReturn = {
-  imagePreview: string | null;
-  inputFileRef: React.RefObject<HTMLInputElement>;
-  modifyMode: boolean;
-  handleImageClick: () => void;
-  handleImageChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  handleCancle: () => void;
-  handleSave: () => void;
+type UseTeamImageInputProps = {
+  initialSrc: string | null;
+  handleChangePreview?: (src: string) => void;
+  putImage: (file: File) => Promise<number | undefined>;
 };

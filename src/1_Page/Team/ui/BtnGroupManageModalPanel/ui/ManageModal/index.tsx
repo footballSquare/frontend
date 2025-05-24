@@ -78,10 +78,13 @@ const ManageModal = (props: ManageModalProps) => {
               배너
             </h3>
             <TeamImageInput
-              imgSrc={teamInfo.team_list_banner}
+              label="팀 배너"
+              placeholderText="배너 이미지를 업로드하세요"
+              width="w-full"
+              height="h-[140px]"
+              initialSrc={teamInfo.team_list_banner}
               putImage={putTeamBanner}
-              handleSetTeamImg={handlers.handleSetTeamBanner}
-              isBanner={true}
+              handleChangePreview={handlers.handleSetTeamBanner}
             />
           </section>
 
@@ -97,10 +100,13 @@ const ManageModal = (props: ManageModalProps) => {
                 팀 엠블럼
               </h3>
               <TeamImageInput
-                imgSrc={teamInfo.team_list_emblem}
-                handleSetTeamImg={handlers.handleSetTeamEmblem}
+                label="팀 엠블럼"
+                placeholderText="엠블럼 이미지를 업로드하세요"
+                width="w-20"
+                height="h-20"
+                initialSrc={teamInfo.team_list_emblem}
                 putImage={putTeamEmblem}
-                isBanner={false}
+                handleChangePreview={handlers.handleSetTeamEmblem}
               />
             </div>
 
