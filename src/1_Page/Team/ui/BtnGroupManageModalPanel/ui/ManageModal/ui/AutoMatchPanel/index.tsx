@@ -30,18 +30,18 @@ const AutoMatchPanel = () => {
 
   return (
     <div className="flex flex-col">
-      <h2 className="text-lg font-semibold ">자동 매치</h2>
+      <h2 className="text-lg font-semibold text-grass mb-1">자동 매치</h2>
       <p className="text-sm ">자동 매치 설정 하려면 버튼을 클릭하세요.</p>
       <button
         type="button"
         onClick={handleToggle}
-        className="py-2 px-6 bg-gray-300 text-gray-700 rounded-md shadow-md hover:bg-gray-400 transition duration-300 focus:outline-none focus:ring-2 focus:ring-gray-500">
+        className="py-2 px-6 bg-grass text-white rounded-md shadow-md hover:bg-grass/80 transition duration-300 focus:outline-none focus:ring-2 focus:ring-grass/50">
         팀 매치 자동화
       </button>
 
       {isModalOpen && (
         <div className="fixed inset-0 z-10 bg-black/50 flex items-center justify-center">
-          <div className="bg-white  rounded-lg  p-6 text-center shadow-lg max-h-[90%] overflow-y-auto">
+          <div className="bg-gray-800  rounded-lg  p-6 text-center shadow-lg max-h-[90%] overflow-y-auto">
             <div className="relative mb-4">
               <button
                 type="button"
@@ -49,11 +49,11 @@ const AutoMatchPanel = () => {
                 className="absolute top-0 right-0 text-gray-400 hover:text-gray-600 transition-colors duration-200 text-2xl font-bold leading-none">
                 ×
               </button>
-              <h2 className="text-2xl font-bold text-center text-indigo-700">
+              <h2 className="text-2xl font-bold text-center text-grass">
                 자동 매치 생성
               </h2>
             </div>
-            <p>현재 지원되지 않는 기능입니다</p>
+            <p className="text-white">현재 지원되지 않는 기능입니다</p>
             <hr className="m-4" />
 
             <form
@@ -69,7 +69,7 @@ const AutoMatchPanel = () => {
                     {...register("autoMatch")}
                     className="sr-only peer"
                   />
-                  <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
+                  <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-grass/40 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-grass"></div>
                 </label>
                 <span className="text-sm font-medium text-gray-700">
                   자동 매치 생성
@@ -83,7 +83,7 @@ const AutoMatchPanel = () => {
                 </label>
                 <select
                   {...register("matchAttribute")}
-                  className="w-full p-3 text-sm border-2 border-gray-200 rounded-xl focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none transition-all duration-200">
+                  className="w-full p-3 text-sm border-2 border-gray-200 rounded-xl focus:border-grass focus:ring-2 focus:ring-grass/20 outline-none transition-all duration-200">
                   {teamMatchAttribute.map((attribute, index) => (
                     <option value={index}>{attribute}</option>
                   ))}
@@ -97,7 +97,7 @@ const AutoMatchPanel = () => {
                 </label>
                 <select
                   {...register("gameType")}
-                  className="w-full p-3 text-sm border-2 border-gray-200 rounded-xl focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none transition-all duration-200">
+                  className="w-full p-3 text-sm border-2 border-gray-200 rounded-xl focus:border-grass focus:ring-2 focus:ring-grass/20 outline-none transition-all duration-200">
                   {matchType.map((type, index) => (
                     <option value={index}>{type}</option>
                   ))}
@@ -111,7 +111,7 @@ const AutoMatchPanel = () => {
                 </label>
                 <select
                   {...register("startTime")}
-                  className="w-full p-3 text-sm border-2 border-gray-200 rounded-xl focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none transition-all duration-200">
+                  className="w-full p-3 text-sm border-2 border-gray-200 rounded-xl focus:border-grass focus:ring-2 focus:ring-grass/20 outline-none transition-all duration-200">
                   {formatTime30.map((time) => (
                     <option key={time} value={time}>
                       {time}
@@ -127,7 +127,7 @@ const AutoMatchPanel = () => {
                 </label>
                 <select
                   {...register("duration")}
-                  className="w-full p-3 text-sm border-2 border-gray-200 rounded-xl focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none transition-all duration-200">
+                  className="w-full p-3 text-sm border-2 border-gray-200 rounded-xl focus:border-grass focus:ring-2 focus:ring-grass/20 outline-none transition-all duration-200">
                   {matchDuration.map((time) => (
                     <option value={time}>{time}</option>
                   ))}
@@ -141,7 +141,7 @@ const AutoMatchPanel = () => {
                 </label>
                 <select
                   {...register("participationMode")}
-                  className="w-full p-3 text-sm border-2 border-gray-200 rounded-xl focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none transition-all duration-200">
+                  className="w-full p-3 text-sm border-2 border-gray-200 rounded-xl focus:border-grass focus:ring-2 focus:ring-grass/20 outline-none transition-all duration-200">
                   {matchParticipation.map((participation, index) => (
                     <option value={index}>{participation}</option>
                   ))}
@@ -159,7 +159,7 @@ const AutoMatchPanel = () => {
                   className={`w-full p-3 text-sm border-2 rounded-xl focus:outline-none transition-all duration-200 
              ${
                isCanFormation
-                 ? "border-gray-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200"
+                 ? "border-gray-200 focus:border-grass focus:ring-2 focus:ring-grass/20"
                  : "bg-gray-100 text-gray-400 cursor-not-allowed border-gray-300"
              }`}
                   disabled={!isCanFormation}>
@@ -187,7 +187,7 @@ const AutoMatchPanel = () => {
                     ${
                       disableFlag
                         ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                        : "bg-indigo-600 text-white hover:bg-indigo-700"
+                        : "bg-grass text-white hover:bg-grass/80"
                     }`}>
                   자동 매치 설정 저장
                 </button>
