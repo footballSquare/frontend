@@ -1,64 +1,41 @@
 import React from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
+import { useFormContext } from "react-hook-form";
 
-import discord from "../../../../4_Shared/assets/svg/discord.svg";
-import { schema } from "./lib/schema";
-import { hasChanges } from "./util/validate";
-import { convertToInfoForm } from "./util/convert";
-// 상수
-import { platform } from "../../../../4_Shared/constant/platform";
-import { matchPosition } from "../../../../4_Shared/constant/matchPosition";
-import { commonStatusIdx } from "../../../../4_Shared/constant/commonStatusIdx";
-import usePutUserInfo from "../../../../3_Entity/Account/usePutUserInfo";
-import useDeleteUser from "../../../../3_Entity/Account/useDeleteUser";
-import {
-  useLogout,
-  useRemoveAllCookie,
-} from "../../../../4_Shared/lib/useMyInfo";
-import { getPositionColor } from "../../../../4_Shared/lib/getPositionColor";
-import useManageModifyAndServerState from "./model/useManageModifyAndServerState";
+import { useLogout } from "../../../../4_Shared/lib/useMyInfo";
+
+import usePutUserInfoHandler from "./model/usePutUserInfoHandler";
+
+import useToggleState from "../../../../4_Shared/model/useToggleState";
+
+import ProfileDashBoardInput from "../../../../4_Shared/hookForm/ProfileDashBoardInput";
+import useDeleteUserHandler from "./model/useDeleteUserHandler";
 import { useNavigate } from "react-router-dom";
-import { getPlatformIcon } from "../../../../4_Shared/lib/getPlatformIcon";
 
 const PlayerDashBoard = (props: PlayerDashBoardProps) => {
-  const { is_mine, team_short_name, team_name, team_emblem } = props; // 뷸변값들
+  const { userInfo } = props; // 뷸변값들
+  const { is_mine, team_name, team_short_name, team_idx, team_emblem } =
+    userInfo;
   const navigate = useNavigate();
 
   const {
-    reset,
-    register,
     handleSubmit,
+    reset,
     getValues,
-    formState: { errors },
-    watch,
-  } = useForm<UserInfoForm>({
-    resolver: yupResolver(schema),
-    mode: "onChange",
-  });
-  const userInfoForm = React.useMemo(() => convertToInfoForm(props), [props]);
-  React.useEffect(() => {
-    reset(userInfoForm);
-  }, [userInfoForm]); // 초기값 설정
-  const match_position_idx = watch("match_position_idx");
-  const watchPlatform = watch("platform");
-  const [putUserInfo, serverState] = usePutUserInfo();
-  const [deleteUser] = useDeleteUser();
-  const [removeAllCookie] = useRemoveAllCookie();
-  const [logOut] = useLogout();
+    formState: { isDirty },
+  } = useFormContext<UserInfoForm>();
 
-  const {
+  // ref
+  const inputBackupDataRef = React.useRef<UserInfoForm>({} as UserInfoForm);
+  // api
+  const [handleDeleteUser] = useDeleteUserHandler();
+  const [handlePutUserInfo] = usePutUserInfoHandler({
+    reset,
     inputBackupDataRef,
-    modifyMode,
-    handleModifyFalse,
-    handleModifyTrue,
-  } = useManageModifyAndServerState({ serverState, reset });
-
-  const onSubmit: SubmitHandler<UserInfoForm> = (data) => {
-    handleModifyFalse();
-    if (!hasChanges(data, inputBackupDataRef.current)) return;
-    putUserInfo(data);
-  };
+  });
+  // cookie
+  const [logOut] = useLogout();
+  // state
+  const [isModifyMode, toggleIsModifyMode] = useToggleState();
 
   return (
     <div className="w-full bg-gray-800 shadow-xl rounded-2xl overflow-hidden border-t border-gray-700 transform transition duration-300 hover:shadow-grass">
@@ -76,35 +53,31 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
       </div>
 
       <div className="p-6">
-        <form onSubmit={handleSubmit(onSubmit)}>
-          {/* 상태 메시지 */}
-          <div className="mb-6">
-            <input
-              {...register("message")}
-              disabled={!modifyMode}
-              className={`w-full p-3 text-sm text-center rounded-lg transition-all duration-200 ${
-                modifyMode
-                  ? "border border-grass bg-grass/20 text-grass shadow-sm"
-                  : "bg-gradient-to-r from-gray-800 to-gray-700 text-gray-300 italic"
-              }`}
-              placeholder="상태 메시지 입력"
-            />
-            {errors.message && (
-              <p className="text-red-500 text-xs mt-1 pl-2">
-                {errors.message.message}
-              </p>
-            )}
-          </div>
+        <form
+          onSubmit={handleSubmit((formData) => {
+            toggleIsModifyMode();
+            if (!isDirty) return;
+            handlePutUserInfo(formData);
+          })}>
+          <ProfileDashBoardInput
+            label="상태 메시지"
+            registerType="message"
+            name="message"
+            placeholder="상태 메시지 입력"
+            isModifyMode={isModifyMode}
+          />
 
-          {/* 팀 & 플랫폼 */}
-          <div className="mb-5 bg-gray-700 p-4 rounded-xl">
-            <label className="text-xs font-semibold text-gray-300 uppercase mb-2 block border-b pb-1">
-              {team_name ? "팀" : "팀구직상태"}
-            </label>
-            {team_name ? (
-              <div className="flex items-center w-full p-2 text-sm gap-3 bg-transparent text-gray-300">
+          {/* 팀 & 구직 상태 */}
+          {team_name ? (
+            <div
+              className="mb-6 p-3 rounded-lg bg-gray-700 group"
+              onClick={() => {
+                navigate(`/team/${team_idx}`);
+              }}>
+              <p className="mb-1 text-xs font-semibold text-gray-300">팀</p>
+              <div className="flex items-center w-full p-2 text-sm gap-3 text-gray-300">
                 {team_emblem && (
-                  <div className="w-10 h-10  overflow-hidden border-2 border-grass shadow-md">
+                  <div className="w-10 h-10 overflow-hidden border-2 border-grass shadow-md">
                     <img
                       className="w-full h-full object-cover"
                       src={team_emblem}
@@ -112,164 +85,61 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
                     />
                   </div>
                 )}
-                <p className="text-grass font-bold">{team_name}</p>
+                <p className="text-grass font-bold group-hover:underline">
+                  {team_name} {team_short_name}
+                </p>
               </div>
-            ) : (
-              <select
-                {...register("common_status_idx")}
-                disabled={!modifyMode}
-                className={`w-full p-3 text-sm rounded-lg ${
-                  modifyMode
-                    ? "border border-grass bg-grass/20 text-grass"
-                    : "bg-gray-800 border border-gray-700 text-gray-300"
-                }`}>
-                {commonStatusIdx.slice(6, 9).map((commontStatusIdx, index) => (
-                  <option key={index} value={6 + index}>
-                    {commontStatusIdx}
-                  </option>
-                ))}
-              </select>
-            )}
-            {errors.common_status_idx && (
-              <p className="text-red-500 text-xs mt-1 pl-2">
-                {errors.common_status_idx.message}
-              </p>
-            )}
-          </div>
+            </div>
+          ) : (
+            /* 팀이 없는 경우: 구직 상태 선택 */
+            <ProfileDashBoardInput
+              label="팀구직상태"
+              registerType="common_status_idx"
+              name="common_status_idx"
+              isModifyMode={isModifyMode}
+            />
+          )}
 
           <div className="space-y-5">
-            {/* 닉네임 */}
-            <div className="group transition-all duration-300">
-              <label className="text-xs font-semibold text-gray-300 uppercase mb-1 block">
-                Nickname
-              </label>
-              <div
-                className={`flex items-center w-full p-3 text-sm rounded-lg transition-all duration-200 ${
-                  modifyMode
-                    ? "border border-grass bg-grass/20 text-grass shadow-sm"
-                    : "bg-gray-800 border border-gray-700 shadow-sm hover:shadow group-hover:border-grass text-gray-300"
-                }`}>
-                {team_short_name && (
-                  <p className="whitespace-nowrap text-grass font-bold mr-1">{`#${team_short_name} -`}</p>
-                )}
-                <input
-                  {...register("nickname")}
-                  disabled={!modifyMode}
-                  className="w-full bg-transparent outline-none font-medium"
-                  placeholder="Nickname"
-                />
-              </div>
-              {errors.nickname && (
-                <p className="text-red-500 text-xs mt-1 pl-2">
-                  {errors.nickname.message}
-                </p>
-              )}
-            </div>
+            <ProfileDashBoardInput
+              label="GAME ID"
+              registerType="nickname"
+              name="nickname"
+              placeholder="Nickname"
+              isModifyMode={isModifyMode}
+            />
 
-            {/* 플랫폼 */}
-            <div
-              className={`flex items-center w-full text-sm rounded-lg transition-all duration-200 ${
-                modifyMode
-                  ? "border border-grass bg-grass/20 text-grass shadow-sm"
-                  : "bg-gray-800 border border-gray-700 shadow-sm hover:shadow group-hover:border-grass text-gray-300"
-              }`}>
-              <div className="bg-gray-700 p-2 rounded-l-lg">
-                <img
-                  src={getPlatformIcon(watchPlatform)}
-                  className="w-[30px] h-[30px] object-cover"
-                />
-              </div>
-              <select
-                {...register("platform")}
-                disabled={!modifyMode}
-                className="flex-1 pt-1 bg-transparent outline-none">
-                {platform.map((plat, index) => (
-                  <option key={index} value={plat?.toLowerCase()}>
-                    {plat}
-                  </option>
-                ))}
-              </select>
-            </div>
-            {errors.platform && (
-              <p className="text-red-500 text-xs mt-1 pl-2">
-                {errors.platform.message}
-              </p>
-            )}
+            <ProfileDashBoardInput
+              label="PLATFORM"
+              registerType="platform"
+              name="platform"
+              isModifyMode={isModifyMode}
+            />
 
-            {/* 포지션 */}
-            <div className="group transition-all duration-300">
-              <label className="text-xs font-semibold text-gray-300 uppercase mb-1 block">
-                Position
-              </label>
-              <div className="relative">
-                <select
-                  {...register("match_position_idx")}
-                  disabled={!modifyMode}
-                  style={{ color: getPositionColor(match_position_idx) }}
-                  className={`w-full p-3 text-sm rounded-lg transition-all duration-200 ${
-                    modifyMode
-                      ? "border border-grass bg-grass/20 text-grass shadow-sm"
-                      : "bg-gray-800 border border-gray-700 shadow-sm hover:shadow group-hover:border-grass text-gray-300"
-                  }`}>
-                  {matchPosition.map((position, idx) => (
-                    <option
-                      key={`match-position-${position}`}
-                      value={idx}
-                      style={{ color: getPositionColor(idx) }}>
-                      {position}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              {errors.match_position_idx && (
-                <p className="text-red-500 text-xs mt-1 pl-2">
-                  {errors.match_position_idx.message}
-                </p>
-              )}
-            </div>
+            <ProfileDashBoardInput
+              label="Position"
+              registerType="match_position_idx"
+              name="match_position_idx"
+              isModifyMode={isModifyMode}
+            />
 
-            {/* Discord 태그 */}
-            <div className="group transition-all duration-300">
-              <label className="text-xs font-semibold text-gray-300 uppercase mb-1 block">
-                Discord Tag
-              </label>
-              <div
-                className={`flex items-center w-full rounded-lg transition-all duration-200 ${
-                  modifyMode
-                    ? "border border-grass bg-grass/20 text-grass shadow-sm"
-                    : "bg-gray-800 border border-gray-700 shadow-sm hover:shadow group-hover:border-grass"
-                }`}>
-                <div className="bg-gray-700 p-2 rounded-l-lg">
-                  <img
-                    src={discord}
-                    className="w-[30px] h-[30px] object-cover"
-                  />
-                </div>
-                <input
-                  {...register("discord_tag")}
-                  disabled={!modifyMode}
-                  className={`w-full p-3 bg-transparent outline-none text-sm 
-                    ${modifyMode ? "text-grass" : "text-gray-300"}
-                    `}
-                  placeholder="Discord Tag"
-                />
-              </div>
-              {errors.discord_tag && (
-                <p className="text-red-500 text-xs mt-1 pl-2">
-                  {errors.discord_tag.message}
-                </p>
-              )}
-            </div>
+            <ProfileDashBoardInput
+              label="Discord Tag"
+              registerType="discord_tag"
+              name="discord_tag"
+              placeholder="Discord Tag"
+              isModifyMode={isModifyMode}
+            />
 
             {/* 버튼 */}
             {is_mine &&
-              (!modifyMode ? (
+              (!isModifyMode ? (
                 <button
                   className="w-full py-3 text-sm rounded-lg font-bold mt-4 bg-grass text-white hover:bg-grass/80 transition-all shadow-md hover:shadow-lg"
                   onClick={(e) => {
                     e.preventDefault();
                     inputBackupDataRef.current = getValues();
-                    handleModifyTrue();
+                    toggleIsModifyMode();
                   }}>
                   수정하기
                 </button>
@@ -279,7 +149,7 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
                     type="button"
                     className="w-1/2 py-2.5 border-2 border-red-500 text-red-500 rounded-lg text-sm font-bold hover:bg-red-500 hover:text-white transition-all shadow-sm"
                     onClick={() => {
-                      handleModifyFalse();
+                      toggleIsModifyMode();
                       reset(inputBackupDataRef.current);
                     }}>
                     취소
@@ -294,15 +164,13 @@ const PlayerDashBoard = (props: PlayerDashBoardProps) => {
           </div>
         </form>
 
-        {is_mine && !modifyMode && (
+        {is_mine && !isModifyMode && (
           <div className="flex w-full mt-4 gap-2">
             <button
               className="w-1/2 h-8 border-2 border-red-500 text-red-600 font-bold px-2 py-1 text-xs rounded-lg shadow-sm transition-all duration-200 hover:bg-red-500 hover:text-white"
-              onClick={() => {
+              onClick={async () => {
                 if (confirm("정말로 삭제하시겠습니까?")) {
-                  deleteUser();
-                  removeAllCookie();
-                  navigate("/");
+                  handleDeleteUser();
                 }
               }}>
               탈퇴

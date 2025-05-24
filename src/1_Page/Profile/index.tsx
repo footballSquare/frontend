@@ -4,19 +4,30 @@ import useValidParamInteger from "../../4_Shared/model/useValidParamInteger";
 import PlayerCard from "../../2_Widget/PlayerCard";
 import AutoMoveAwardList from "../../2_Widget/AutoMoveAwardList";
 import empty from "../../4_Shared/assets/svg/empty-note.svg";
+import { FormProvider } from "react-hook-form";
+import useProfileDashBoardHookform from "./model/useProfileDashBoardHookForm";
 
 const Profile = () => {
+  // api
   const [userIdx] = useValidParamInteger("userIdx");
   const [userInfo] = useGetMyInfo(userIdx);
+
+  // hookform
+  const { form, watchMatchPositionIdx, watchNickname } =
+    useProfileDashBoardHookform(userInfo);
+
   // Awards 값이 undefined면 빈 배열([])로 처리
   const awards = userInfo?.Awards ?? [];
 
   return (
-    <main className="flex flex-wrap gap-6 w-full justify-center py-8 px-4 bg-gradient-to-b from-gray-900 to-gray-800">
+    <main className="flex flex-wrap gap-6 w-full justify-center py-8 px-4 min-h-screen bg-gray-900">
       {/* Player Dashboard */}
+
       <div className="w-[90%] sm:w-[40%] min-w-[300px] max-w-sm">
         <div className="transform transition-all duration-300 hover:scale-[1.01] hover:shadow-xl">
-          <PlayerDashBoard {...userInfo} />
+          <FormProvider {...form}>
+            <PlayerDashBoard userInfo={userInfo} />
+          </FormProvider>
         </div>
       </div>
 
@@ -50,7 +61,11 @@ const Profile = () => {
 
           {/* 플레이어 카드 */}
           <div className="w-full max-w-[280px] mx-auto my-6 transform transition hover:scale-[1.01]">
-            <PlayerCard {...userInfo} />
+            <PlayerCard
+              {...userInfo}
+              nickname={watchNickname}
+              match_position_idx={watchMatchPositionIdx}
+            />
           </div>
 
           {/* 어워드 리스트 */}

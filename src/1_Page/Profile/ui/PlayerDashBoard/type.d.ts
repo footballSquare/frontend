@@ -1,4 +1,6 @@
-type PlayerDashBoardProps = Omit<UserInfo, "Awards" | "mmr">;
+type PlayerDashBoardProps = {
+  userInfo: UserInfo;
+};
 
 type UserInfoForm = {
   nickname: string;

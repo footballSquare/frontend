@@ -1,7 +1,7 @@
 import * as yup from "yup";
 
 // 입력 예외처리 yup
-export const schema = yup.object().shape({
+export const profileDashBoardInputSchema = yup.object().shape({
   nickname: yup
     .string()
     .required("닉네임은 필수 입력 항목입니다.")

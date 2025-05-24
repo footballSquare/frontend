@@ -10,7 +10,7 @@ const useGetUserInfo = (userIdx: number): [UserInfo, boolean] => {
   React.useEffect(() => {
     const endPoint = `/account/info/${userIdx}`;
     request("GET", endPoint, null, true);
-  }, []);
+  }, [userIdx, request]);
 
   React.useEffect(() => {
     if (!loading && serverState) {
@@ -26,7 +26,7 @@ const useGetUserInfo = (userIdx: number): [UserInfo, boolean] => {
       }
       setUserInfo((serverState as { data: UserInfo }).data);
     }
-  }, [loading, serverState]);
+  }, [loading, serverState, navigate]);
 
   return [userInfo, loading];
 };

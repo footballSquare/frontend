@@ -2,15 +2,15 @@ import React from "react";
 import { useFetchData } from "../../4_Shared/util/apiUtil";
 
 const useDeleteUser = (): [
-  deleteUser: () => void,
+  deleteUser: () => Promise<number | undefined>,
   Record<string, unknown> | null,
   loading: boolean
 ] => {
   const [serverState, request, loading] = useFetchData();
 
-  const deleteUser = () => {
+  const deleteUser = async () => {
     const endPoint = `/account/user/delete`;
-    request("DELETE", endPoint, null, true);
+    return await request("DELETE", endPoint, null, true);
   };
 
   React.useEffect(() => {
@@ -21,7 +21,6 @@ const useDeleteUser = (): [
           break;
         default:
           alert("잘못된 접근");
-          window.location.reload();
           break;
       }
     }
