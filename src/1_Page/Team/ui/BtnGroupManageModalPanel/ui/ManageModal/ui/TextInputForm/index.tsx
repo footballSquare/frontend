@@ -6,10 +6,12 @@ import useManageModify from "./model/useManageModify";
 import { schema } from "./lib/schema";
 import { convertToPutData, convertToTeamInfoForm } from "./util/convet";
 import usePutTeamInfo from "../../../../../../../../3_Entity/Team/usePutTeamInfo";
-import TeamNameCheckInput from "./ui/TeamNameCheckInput";
+import TeamNameRepeatProvider from "./ui/TeamNameRepeatProvider";
+import useGetRepeatTeam from "../../../../../../../../3_Entity/Team/useGetRepeatTeam";
+import useGetRepeatShortTeam from "../../../../../../../../3_Entity/Team/useGetRepeatShortTeam";
 
 const TextInputForm = (props: TextInputFormProps) => {
-  const { team_list_idx, teamInfo, handleSetTeamInfoWithoutImg } = props;
+  const { team_list_idx, teamInfo, handleSetTeamInfoPreview } = props;
 
   // props가 변경되지 않는 한, 기존 teamInfoForm 값을 재사용하여 불필요한 input form 재생성을 방지
   const teamInfoForm = React.useMemo(
@@ -23,10 +25,11 @@ const TextInputForm = (props: TextInputFormProps) => {
   });
 
   const {
+    register,
     handleSubmit,
     getValues,
     setValue,
-    formState: { isValid },
+    formState: { isValid, errors },
     reset,
   } = forms;
 
@@ -34,10 +37,12 @@ const TextInputForm = (props: TextInputFormProps) => {
     useManageModify({ reset, setValue, teamInfoForm });
 
   const [putTeamInfo] = usePutTeamInfo(team_list_idx);
+  const [getRepeatTeam] = useGetRepeatTeam();
+  const [getRepeatShortTeam] = useGetRepeatShortTeam();
 
   const onSubmit: SubmitHandler<TeamInfoForm> = (data) => {
     putTeamInfo(convertToPutData(data));
-    handleSetTeamInfoWithoutImg(data);
+    handleSetTeamInfoPreview(data);
     handleModifyFalse();
   };
 
@@ -47,10 +52,32 @@ const TextInputForm = (props: TextInputFormProps) => {
         onSubmit={handleSubmit(onSubmit)}
         className="flex-1 min-w-[300px]  rounded-lg shadow-md p-4">
         {/* 팀명 입력 */}
-        <TeamNameCheckInput modifyMode={modifyMode} isShort={false} />
+        <TeamNameRepeatProvider getRepeatCheck={getRepeatTeam}>
+          <input
+            {...register("team_list_name")}
+            disabled={!modifyMode}
+            className={`w-full p-3 text-sm border-2 rounded-xl outline-none transition-all duration-200 ${
+              modifyMode
+                ? "border-indigo-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200"
+                : "bg-gray-700 text-gray-200 border-gray-100"
+            }`}
+            placeholder="팀 이름을 입력하세요"
+          />
+        </TeamNameRepeatProvider>
+
         {/* 짧은 태그 입력 */}
-        <TeamNameCheckInput modifyMode={modifyMode} isShort={true} />
-        {/* 팀원 모집상태 */}
+        <TeamNameRepeatProvider getRepeatCheck={getRepeatShortTeam}>
+          <input
+            {...register("team_list_short_name")}
+            disabled={!modifyMode}
+            className={`w-full p-3 text-sm border-2 rounded-xl outline-none transition-all duration-200 ${
+              modifyMode
+                ? "border-indigo-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200"
+                : "bg-gray-700 text-gray-200 border-gray-100"
+            }`}
+            placeholder="짧은 팀 이름을 입력하세요"
+          />
+        </TeamNameRepeatProvider>
         {/* 팀원 모집상태 */}
         <div>
           <p className="text-sm font-medium text-gray-600">팀 태그 출력</p>
@@ -104,9 +131,9 @@ const TextInputForm = (props: TextInputFormProps) => {
                 : "bg-gray-700 text-gray-500 border-gray-100"
             }`}
           />
-          {forms.formState.errors.team_list_color && (
+          {errors.team_list_color && (
             <p className="mt-1.5 text-rose-500 text-xs font-medium">
-              {String(forms.formState.errors.team_list_color?.message || "")}
+              {String(errors.team_list_color?.message || "")}
             </p>
           )}
         </div>
@@ -129,9 +156,9 @@ const TextInputForm = (props: TextInputFormProps) => {
             }`}
             placeholder="Enter Team Notice"
           />
-          {forms.formState.errors.team_list_announcement && (
+          {errors.team_list_announcement && (
             <p className="mt-1.5 text-rose-500 text-xs font-medium">
-              {forms.formState.errors.team_list_announcement?.message || ""}
+              {errors.team_list_announcement?.message || ""}
             </p>
           )}
         </div>

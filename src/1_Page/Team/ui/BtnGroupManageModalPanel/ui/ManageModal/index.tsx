@@ -137,9 +137,7 @@ const ManageModal = (props: ManageModalProps) => {
               <TextInputForm
                 team_list_idx={teamInfo.team_list_idx}
                 teamInfo={teamInfo}
-                handleSetTeamInfoWithoutImg={
-                  handlers.handleSetTeamInfoWithoutImg
-                }
+                handleSetTeamInfoPreview={handlers.handleSetTeamInfoWithoutImg}
               />
             </div>
 
