@@ -1,6 +1,6 @@
 type MatchInfo = {
   match_match_idx: number;
-  match_match_name: string;
+  match_match_name?: string;
   match_type_idx: number;
   team_list_idx: number | null;
   team_list_name: string | null;
