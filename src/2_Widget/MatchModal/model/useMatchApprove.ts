@@ -8,7 +8,7 @@ const useMatchApprove = (
   props: UseMatchApproveProps
 ): [
   (props: MatchApproveHandlerProps) => void,
-  (props: MatchApproveHandlerProps) => void
+  (props: MatchDisApproveHandlerProps) => void
 ] => {
   const { setMatchParticipants, setMatchWaitList } = props;
   const [postMatchApproval] = usePostMatchApproval();
@@ -19,7 +19,6 @@ const useMatchApprove = (
   const matchApproveHandler = React.useCallback(
     (props: MatchApproveHandlerProps): void => {
       const { player, matchPosition, matchParticipants, isFree } = props;
-
       // post api
       postMatchApproval({
         matchIdx,
@@ -61,7 +60,7 @@ const useMatchApprove = (
   );
 
   const matchDisApproveHandler = React.useCallback(
-    async (props: MatchApproveHandlerProps): Promise<void> => {
+    async (props: MatchDisApproveHandlerProps): Promise<void> => {
       const { player, matchPosition, isFree } = props;
 
       // delete api
@@ -88,6 +87,7 @@ const useMatchApprove = (
                   player_list_idx: player.player_list_idx,
                   player_list_nickname: player.player_list_nickname,
                   player_list_url: player.player_list_url,
+                  match_waitlist_created_at: player.match_waitlist_created_at,
                 },
               ],
             },

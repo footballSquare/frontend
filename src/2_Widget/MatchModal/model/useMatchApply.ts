@@ -46,6 +46,7 @@ const useMatchApply = (
                   player_list_idx: player.player_list_idx,
                   player_list_nickname: player.player_list_nickname,
                   player_list_url: player.player_list_url,
+                  match_waitlist_created_at: new Date().toISOString(),
                 },
               ],
             },

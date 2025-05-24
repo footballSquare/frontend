@@ -1,6 +1,5 @@
 import React from "react";
 import { useFetchData } from "../../4_Shared/util/apiUtil";
-import { mockMatchDetail } from "../../4_Shared/mock//matchDetail";
 
 const useGetMatchDetail = (
   props: useGetMatchDetailProps
@@ -12,7 +11,7 @@ const useGetMatchDetail = (
   const { matchIdx } = props;
   const [serverState, request, loading] = useFetchData();
   const [matchDetail, setMatchDetail] = React.useState<MatchDetail>(
-    mockMatchDetail.match
+    {} as MatchDetail
   );
 
   React.useEffect(() => {

@@ -1,6 +1,4 @@
-import { MatchApproveHandlerProps } from "../../model/type";
-
-export type FormationPanelProps = {
+type FormationPanelProps = {
   matchFormationIdx: number;
   matchParticipants: {
     player_list_idx: number;
@@ -8,7 +6,7 @@ export type FormationPanelProps = {
     match_position_idx: number;
     player_list_url: string;
   }[];
-  matchDisApproveHandler: (props: MatchApproveHandlerProps) => void;
+  matchDisApproveHandler: (props: MatchDisApproveHandlerProps) => void;
   isMatchLeader: boolean;
   matchParticipationType: number;
 };

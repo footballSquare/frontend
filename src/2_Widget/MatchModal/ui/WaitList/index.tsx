@@ -1,12 +1,12 @@
 import React from "react";
 import { matchPosition } from "../../../../4_Shared/constant/matchPosition";
-import { WaitingListProps } from "./type";
 import {
   useMyNickname,
   useMyProfileImg,
   useMyUserIdx,
 } from "../../../../4_Shared/lib/useMyInfo";
 import useMatchModalStore from "../../../../4_Shared/zustand/useMatchModal";
+import { utcFormatter } from "../../../../4_Shared/lib/utcFormatter";
 
 const WaitingList = React.memo((props: WaitingListProps) => {
   const [selectedPosition, setSelectedPosition] = React.useState<number>(0);
@@ -23,6 +23,7 @@ const WaitingList = React.memo((props: WaitingListProps) => {
   const [nickName] = useMyNickname();
   const [profileUrl] = useMyProfileImg();
   const { matchIdx } = useMatchModalStore();
+  console.log(matchWaitList);
 
   return (
     <div className=" w-[60%]">
@@ -38,7 +39,7 @@ const WaitingList = React.memo((props: WaitingListProps) => {
             className="flex w-full justify-between"
           >
             {`${matchPosition[position]} | ${
-              matchWaitList && (matchWaitList[position]?.length || 0)
+              matchWaitList?.[position]?.length || 0
             } 명 지원`}
           </option>
         ))}
@@ -50,10 +51,13 @@ const WaitingList = React.memo((props: WaitingListProps) => {
           {matchWaitList[selectedPosition]?.map((player) => (
             <div
               key={player.player_list_idx}
-              className="flex gap-2 justify-between p-2 border-1 border-gray rounded-lg shadow-lg"
+              className="flex gap-4 justify-between p-2 border-1 border-gray rounded-lg shadow-lg"
             >
               {/* <img src={player.player_list_url} alt="player" /> */}
-              <span>{player.player_list_nickname}</span>
+              <div className="flex flex-col gap-2">
+                <span>{player.player_list_nickname}</span>
+                <span className="text-xs">{utcFormatter(player.match_waitlist_created_at)}</span>
+              </div>
               {isMatchLeader && (
                 <button
                   onClick={() =>
@@ -74,12 +78,13 @@ const WaitingList = React.memo((props: WaitingListProps) => {
           <button
             className=" border-1 rounded-lg border-gray shadow-lg bg-gray-500 hover:bg-light-blue text-black duration-700"
             onClick={() => {
+              // WaitList는 로그인 상태에서만 출력되는 ui
               matchApplyHandler({
                 matchIdx,
                 player: {
-                  player_list_idx: userIdx,
-                  player_list_nickname: nickName,
-                  player_list_url: profileUrl,
+                  player_list_idx: userIdx!,
+                  player_list_nickname: nickName!,
+                  player_list_url: profileUrl!,
                 },
                 matchPosition: selectedPosition,
                 matchParticipationType: 0, // 대기자 목록(WaitingList)는 항상 승인참여
