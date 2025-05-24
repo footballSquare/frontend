@@ -5,16 +5,18 @@ type UseMatchApproveProps = {
   >;
 };
 
-type Player = {
-  player_list_idx: number;
-  player_list_nickname: string;
-  player_list_url: string;
-};
-
 type MatchApproveHandlerProps = {
-  player: Player; // 승인할 대기자
+  player: Pick<
+    MatchParticipant,
+    "player_list_idx" | "player_list_nickname" | "player_list_url"
+  >; // 승인할 대기자
   matchPosition: number; // 포지션 넘버
-  matchParticipants: MatchParticipant[];
+  matchParticipants: MatchParticipant[]; // 현재 참가자 목록
+  isFree?: boolean;
+};
+type MatchDisApproveHandlerProps = {
+  player: MatchWaiter; // 거절할 대기자
+  matchPosition: number; // 포지션 넘버
   isFree?: boolean;
 };
 
@@ -24,10 +26,14 @@ type UseMatchApplyProps = {
     React.SetStateAction<MatchParticipant[]>
   >;
   isMatchLeader?: boolean;
+  isTeamMatch?: boolean;
 };
 type MatchApplyHandlerProps = {
   matchIdx: number;
-  player: Player;
+  player: Pick<
+    MatchParticipant,
+    "player_list_idx" | "player_list_nickname" | "player_list_url"
+  >;
   matchPosition: number;
   matchParticipationType: number;
 };

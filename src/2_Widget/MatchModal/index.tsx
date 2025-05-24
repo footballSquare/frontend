@@ -20,8 +20,13 @@ import ModalLayer from "../../4_Shared/components/ModalLayer";
 
 const MatchModal = () => {
   const { matchIdx, toggleMatchModal } = useMatchModalStore();
+  const [isLogin] = useIsLogin();
+  const [userIdx] = useMyUserIdx();
+
+  const [matchParticipants, setMatchParticipants] = useGetMatchParticipants({
+    matchIdx,
+  });
   const [matchDetail, setMatchDetail] = useGetMatchDetail({ matchIdx });
-  const [matchEndHandler] = useMatchEnd({ setMatchDetail });
   const {
     player_list_idx,
     player_list_nickname,
@@ -35,23 +40,22 @@ const MatchModal = () => {
     common_status_idx,
     match_match_attribute,
   } = matchDetail;
-  const [matchParticipants, setMatchParticipants] = useGetMatchParticipants({
-    matchIdx,
-  });
+  const isMatchLeader = userIdx === player_list_idx;
   const [matchWaitList, setMatchWaitList] = useGetMatchWaitlist({ matchIdx });
+
   const [matchApproveHandler, matchDisApproveHandler] = useMatchApprove({
     setMatchWaitList,
     setMatchParticipants,
   });
-  const [deleteMatch] = useDeleteMatch();
-  const [isLogin] = useIsLogin();
-  const [userIdx] = useMyUserIdx();
-  const isMatchLeader = userIdx === player_list_idx;
+
   const [matchApplyHandler] = useMatchApply({
     setMatchWaitList,
     setMatchParticipants,
     isMatchLeader,
+    isTeamMatch: match_match_attribute !== 0,
   });
+  const [matchEndHandler] = useMatchEnd({ setMatchDetail });
+  const [deleteMatch] = useDeleteMatch();
   const navigate = useNavigate();
 
   return (
@@ -72,8 +76,8 @@ const MatchModal = () => {
           예상 플레이 타임
           {/* 아래의 select 태그 Select 컴포넌트로 적용 */}
           <p className="flex justify-center items-center w-[164px] h-[32px] rounded-[4px] border border-gray-500">
-            {`${match_match_duration.hours}.${
-              match_match_duration.minutes || 0
+            {`${match_match_duration?.hours}.${
+              match_match_duration?.minutes || 0
             } 시간`}
           </p>
         </label>
@@ -130,6 +134,7 @@ const MatchModal = () => {
         />
 
         {/* 승인참여 : 자유참여 */}
+
         {isLogin &&
           (match_match_participation_type === 0 ? (
             <div className="w-full">
@@ -175,9 +180,15 @@ const MatchModal = () => {
                     isMatchLeader={isMatchLeader}
                   />
                 ) : common_status_idx === 1 && matchParticipants.length > 0 ? (
-                  <StatPanel matchParticipants={matchParticipants} />
+                  <StatPanel
+                    matchParticipants={matchParticipants}
+                    isMatchLeader={isMatchLeader}
+                  />
                 ) : common_status_idx === 1 ? (
-                  <StatPanel matchParticipants={matchParticipants} />
+                  <StatPanel
+                    matchParticipants={matchParticipants}
+                    isMatchLeader={isMatchLeader}
+                  />
                 ) : (
                   <div>마감된 대회입니다. 스탯 입력 기능은 곧 추가됩니다.</div>
                 ))
@@ -220,7 +231,10 @@ const MatchModal = () => {
                 matchFormationIdx={match_formation_idx}
               />
             ) : common_status_idx === 1 ? (
-              <StatPanel matchParticipants={matchParticipants} />
+              <StatPanel
+                matchParticipants={matchParticipants}
+                isMatchLeader={isMatchLeader}
+              />
             ) : (
               <div>마감된 대회입니다. 스탯 입력 기능은 곧 추가됩니다.</div>
             ))
