@@ -2,15 +2,15 @@ import { useFetchData } from "../../4_Shared/util/apiUtil";
 const usePostApproveMember = (
   teamListIdx: number
 ): [
-  postApproveMember: (userIdx: number) => void,
+  postApproveMember: (userIdx: number) => Promise<number | undefined>,
   serverState: unknown,
   loading: boolean
 ] => {
   const [serverState, request, loading] = useFetchData();
 
-  const postApproveMember = (userIdx: number) => {
+  const postApproveMember = async (userIdx: number) => {
     const endPoint = `/team/${teamListIdx}/member/${userIdx}/access`;
-    request("POST", endPoint, null, true);
+    return await request("POST", endPoint, null, true);
   };
 
   return [postApproveMember, serverState, loading];

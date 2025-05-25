@@ -9,7 +9,7 @@ type UseTextInputFormReturn = {
 };
 
 type UsePutTeamInfoHandlerProps = {
-  team_list_idx: number;
+  teamInfo: TeamInfo;
   setValue: (name: string, value: boolean) => void;
   handleSetTeamInfoPreview: (data: TeamInfoForm) => void;
 };

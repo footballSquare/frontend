@@ -13,15 +13,13 @@ const TextInputForm = (props: TextInputFormProps) => {
   const { forms, handleCancle, handleBackupData } = useTextInputForm({
     teamInfo,
   });
-
   const { handleSubmit, setValue } = forms;
 
   const { handlePutTeamInfo } = usePutTeamInfoHandler({
-    team_list_idx: teamInfo.team_list_idx,
+    teamInfo,
     setValue,
     handleSetTeamInfoPreview,
   });
-
   const [modifyMode, toggleModifyMode] = useToggleState();
 
   return (

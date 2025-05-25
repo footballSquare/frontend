@@ -3,7 +3,6 @@ import TextInputForm from "./ui/TextInputForm";
 import TeamApplications from "./ui/TeamApplications";
 import AutoMatchPanel from "./ui/AutoMatchPanel";
 
-import useDeleteTeam from "../../../../../../3_Entity/Team/useDeleteTeam";
 import usePutTeamBanner from "../../../../../../3_Entity/Team/usePutTeamBanner";
 import usePutTeamEmblem from "../../../../../../3_Entity/Team/usePutTeamEmblem";
 
@@ -14,10 +13,13 @@ import emblemIcon from "../../../../../../4_Shared/assets/svg/emblem.svg";
 import autoMatchIcon from "../../../../../../4_Shared/assets/svg/auto-match.svg";
 import editIcon from "../../../../../../4_Shared/assets/svg/edit.svg";
 import applicationsIcon from "../../../../../../4_Shared/assets/svg/application.svg";
+import useDeleteTeamHadnler from "./model/useDeleteTeamHadnler";
 
 const ManageModal = (props: ManageModalProps) => {
   const { teamInfo, handleToggleManageModal, handlers } = props;
-  const [deleteTeam] = useDeleteTeam(teamInfo.team_list_idx);
+
+  const [handleDeleteTeam] = useDeleteTeamHadnler();
+
   const [putTeamBanner] = usePutTeamBanner(teamInfo.team_list_idx);
   const [putTeamEmblem] = usePutTeamEmblem(teamInfo.team_list_idx);
 
@@ -48,7 +50,7 @@ const ManageModal = (props: ManageModalProps) => {
                     "정말로 팀을 해체하시겠습니까? 이 작업은 되돌릴 수 없습니다."
                   )
                 ) {
-                  deleteTeam();
+                  handleDeleteTeam();
                 }
               }}
               type="button"

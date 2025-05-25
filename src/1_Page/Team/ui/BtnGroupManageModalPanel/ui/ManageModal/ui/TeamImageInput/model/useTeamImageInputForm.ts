@@ -21,18 +21,20 @@ const useTeamImageInputForm = (props: UseTeamImageInputProps) => {
     const { file } = props;
     const selected = file;
     if (!selected) return;
-    const resCode = await putImage(selected);
     const url = URL.createObjectURL(selected);
-    switch (resCode) {
+    // handleChangePreview : 메인 팀페이지의 이미지 설정
+    handleChangePreview?.(url);
+    setEditing(false);
+    reset();
+    if (inputRef.current) inputRef.current.value = ""; // ★ 추가
+    const status = await putImage(selected);
+    switch (status) {
       case 200:
-        handleChangePreview?.(url);
         backupRef.current = preview;
-        setEditing(false);
-        reset();
-        if (inputRef.current) inputRef.current.value = ""; // ★ 추가
-
         return;
       default:
+        setPreview(backupRef.current);
+        handleChangePreview?.(backupRef.current);
         break;
     }
   };

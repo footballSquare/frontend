@@ -4,7 +4,7 @@ type TeamImageInputProps = {
   width?: string;
   height?: string;
   initialSrc: string | null;
-  handleChangePreview?: (src: string) => void;
+  handleChangePreview?: (src: string | null) => void;
   putImage: (file: File) => Promise<number | undefined>;
 };
 

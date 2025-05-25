@@ -3,12 +3,16 @@ import { useFetchData } from "../../4_Shared/util/apiUtil";
 
 const useDeleteTeam = (
   teamListIdx: number
-): [deleteTeam: () => void, serverState: unknown, loading: boolean] => {
+): [
+  deleteTeam: () => Promise<number | undefined>,
+  serverState: unknown,
+  loading: boolean
+] => {
   const [serverState, request, loading] = useFetchData();
 
-  const deleteTeam = () => {
+  const deleteTeam = async () => {
     const endPoint = `/team/${teamListIdx}`;
-    request("DELETE", endPoint, null, true);
+    return await request("DELETE", endPoint, null, true);
   };
 
   React.useEffect(() => {
