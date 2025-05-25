@@ -62,7 +62,7 @@ const ChampionshipMatchCard = (props: ChampionshipMatchCardProps) => {
       </div>
 
       {/* 메인 콘텐츠 */}
-      <div className="p-2 sm:p-6">
+      <div className="pr-2 pl-2 sm:pl-4 pt-2 pb-3 flex flex-col items-center">
         {/* VS 영역 */}
         <div className="flex items-center justify-between mb-3 relative">
           {/* 홈팀 */}
