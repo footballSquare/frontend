@@ -13,3 +13,7 @@ type UsePostCreateChampionshipMatchHandlerReturn = {
     formData: CreateChampionMatchFormValues
   ) => Promise<void>;
 };
+
+type UseCreateMatchFormProps = {
+  filteredTeamList: ChampionshipTeamInfo[];
+};

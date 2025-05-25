@@ -1,41 +1,36 @@
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { schema } from "./lib/schema";
-import useSetValueHandler from "./model/useTeamListHandler";
 import useToggleState from "../../../../../../../../4_Shared/model/useToggleState";
 import { useChampionshipContextInfo } from "../../../../../../model/useChampionshipContext";
 import { getTextColorFromBackground } from "../../../../../../../../4_Shared/lib/colorChecker";
 import usePostCreateChampionshipMatchHandler from "./model/useManageCreateChampionshipMatch";
+import PostChampionshipMatch from "../../../../../../../../4_Shared/hookForm/PostChampionshipMatch";
+import useCreateMatchForm from "./model/useCreateMatchForm";
 
 const CreateChampionMatchPanel = (props: CreateChampionMatchPanelProps) => {
   const { filteredTeamList } = props;
-  // form
+
+  // state
+  const [isModalOpen, handleToggleModal] = useToggleState();
+
+  // hook form
+  const { methods, selectedTeams, handleAddTeam, handleRemoveTeam } =
+    useCreateMatchForm({
+      filteredTeamList,
+    });
   const {
     register,
     handleSubmit,
     formState: { errors },
-    setValue,
-  } = useForm<CreateChampionMatchFormValues>({
-    resolver: yupResolver(schema),
-    defaultValues: {
-      teams: [],
-      matchDate: new Date().toISOString().split("T")[0],
-      startTime: "10:00",
-    },
-  });
-  // state
-  const [isModalOpen, handleToggleModal] = useToggleState();
-  const { selectedTeams, handleAddTeam, handleRemoveTeam } =
-    useSetValueHandler(setValue);
+  } = methods;
 
-  const { championship_list_color } = useChampionshipContextInfo();
-  const accentColor = championship_list_color || "#3b82f6"; // fallback blue‑500
-  const accentText = getTextColorFromBackground(accentColor);
   // api
   const { handlePostCreateChampionshipMatch } =
     usePostCreateChampionshipMatchHandler({
       handleToggleModal,
     });
+
+  const { championship_list_color } = useChampionshipContextInfo();
+  const accentColor = championship_list_color || "#3b82f6"; // fallback blue‑500
+  const accentText = getTextColorFromBackground(accentColor);
 
   return (
     <div>
@@ -101,11 +96,11 @@ const CreateChampionMatchPanel = (props: CreateChampionMatchPanelProps) => {
                     ))
                   )}
                 </div>
-                {errors.teams && (
-                  <p className="text-red-500 text-sm mt-1">
-                    {errors.teams.message}
-                  </p>
-                )}
+                <PostChampionshipMatch
+                  registerType="teamList"
+                  register={register}
+                  formState={{ errors }}
+                />
               </div>
               <div className="mb-4">
                 <label>선택된 팀</label>
@@ -160,42 +155,20 @@ const CreateChampionMatchPanel = (props: CreateChampionMatchPanelProps) => {
                 </div>
               </div>
 
-              <div className="mb-4">
-                <label>매치 진행 일 선택</label>
-                <input
-                  type="date"
-                  {...register("matchDate")}
-                  className="w-full p-2 border border-gray-300 rounded mt-1"
-                />
-                {errors.matchDate && (
-                  <p className="text-red-500 text-sm mt-1">
-                    {errors.matchDate.message}
-                  </p>
-                )}
-              </div>
-              <div className="mb-4">
-                <label>매치 시작 시 각 선택</label>
-                <select
-                  {...register("startTime")}
-                  className="w-full p-2 border border-gray-300 rounded mt-1">
-                  {Array.from({ length: 48 }, (_, i) => {
-                    const hour = Math.floor(i / 2);
-                    const minutes = (i % 2) * 30;
-                    const hourString = hour.toString().padStart(2, "0");
-                    const minuteString = minutes.toString().padStart(2, "0");
-                    return (
-                      <option key={i} value={`${hourString}:${minuteString}`}>
-                        {`${hourString}:${minuteString}`}
-                      </option>
-                    );
-                  })}
-                </select>
-                {errors.startTime && (
-                  <p className="text-red-500 text-sm mt-1">
-                    {errors.startTime.message}
-                  </p>
-                )}
-              </div>
+              {/* 매치 날짜 입력 */}
+              <PostChampionshipMatch
+                registerType="matchDate"
+                register={register}
+                formState={{ errors }}
+              />
+
+              {/* 매치 시작 시각 입력 */}
+              <PostChampionshipMatch
+                registerType="startTime"
+                register={register}
+                formState={{ errors }}
+              />
+
               <div className="flex justify-between mt-4">
                 <button
                   type="submit"
