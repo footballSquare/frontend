@@ -3,15 +3,18 @@ import { useFetchData } from "../../4_Shared/util/apiUtil";
 const usePutChangeTeamRole = (
   teamIdx: number
 ): [
-  postChangeTeamRole: (userIdx: number, newRole: number) => void,
+  postChangeTeamRole: (
+    userIdx: number,
+    newRole: number
+  ) => Promise<number | undefined>,
   serverState: unknown,
   loading: boolean
 ] => {
   const [serverState, request, loading] = useFetchData();
 
-  const postChangeTeamRole = (userIdx: number, newRole: number) => {
+  const putChangeTeamRole = async (userIdx: number, newRole: number) => {
     const endPoint = `/team/${teamIdx}/member/${userIdx}/role/${newRole}`;
-    request("PUT", endPoint, null, true);
+    return await request("PUT", endPoint, null, true);
   };
 
   React.useEffect(() => {
@@ -22,7 +25,7 @@ const usePutChangeTeamRole = (
     }
   }, [serverState]);
 
-  return [postChangeTeamRole, serverState, loading];
+  return [putChangeTeamRole, serverState, loading];
 };
 
 export default usePutChangeTeamRole;

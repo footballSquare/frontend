@@ -1,8 +1,7 @@
 import React from "react";
 
 const useManageMemberList = (
-  teamMember: TeamMembers[],
-  myIdx: number | null
+  teamMember: TeamMembers[]
 ): UseManageMemberListReturn => {
   const [displayMemberList, setDisplayMemberList] = React.useState<
     TeamMembers[]
@@ -32,14 +31,6 @@ const useManageMemberList = (
     );
   };
 
-  const handleChangeMyRole = (team_role_idx: number) => {
-    setDisplayMemberList((prev) =>
-      prev.map((member) =>
-        member.player_list_idx === myIdx ? { ...member, team_role_idx } : member
-      )
-    );
-  };
-
   const sortMemberList = (list: TeamMembers[]) => {
     return list.sort((a, b) => {
       if (a.team_role_idx === b.team_role_idx) {
@@ -53,7 +44,6 @@ const useManageMemberList = (
     displayMemberList,
     handleDelete,
     handleChangeTeamRole,
-    handleChangeMyRole,
   };
 };
 export default useManageMemberList;
