@@ -20,7 +20,6 @@ const usePostCreateChampionshipMatch = (
 
   React.useEffect(() => {
     if (!serverState) return;
-    console.log("serverState", serverState.data);
     switch (serverState.status) {
       case 200:
         break;

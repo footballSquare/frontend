@@ -16,7 +16,6 @@ const usePutChampionshipMatchEndHandler = (
         break;
       default:
         handleRollBackMatchByIdx(matchIdx);
-        console.error("경기 삭제 실패");
     }
   };
   return { handlePutChampionshipMatchEnd };

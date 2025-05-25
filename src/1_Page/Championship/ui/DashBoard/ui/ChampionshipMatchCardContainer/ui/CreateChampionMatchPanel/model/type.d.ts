@@ -1,11 +1,11 @@
-type UseTeamListHandlerReturn = {
-  selectedTeams: ChampionshipTeamInfo[];
-  handleAddTeam: (team: ChampionshipTeamInfo) => void;
-  handleRemoveTeam: (team: ChampionshipTeamInfo) => void;
-};
-
 type UseManageCreateChampionshipMatchProps = {
-  handleToggleModal: () => void;
+  filteredTeamList: ChampionshipTeamInfo[];
+  handleAddMatch: (match: ChampionshipMatchList) => void;
+  handleSyncMatchIdx: (
+    dummyChampMatchIdx: number,
+    realChampMatchIdx: number,
+    realMatchIdx: number
+  ) => void;
 };
 
 type UsePostCreateChampionshipMatchHandlerReturn = {

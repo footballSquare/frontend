@@ -35,7 +35,11 @@ const ChampionshipMatchCardContainer = (
       <div className="flex justify-end">
         {isCommunityOperator ||
           (isCommunityManager && (
-            <CreateChampionMatchPanel filteredTeamList={filteredTeamList} />
+            <CreateChampionMatchPanel
+              handleAddMatch={matchHandlers.handleAddMatch}
+              handleSyncMatchIdx={matchHandlers.handleSyncMatchIdx}
+              filteredTeamList={filteredTeamList}
+            />
           ))}
       </div>
       <div className="flex gap-4 mb-6  p-4 rounded-lg shadow-md">
@@ -65,10 +69,7 @@ const ChampionshipMatchCardContainer = (
         {sortedMatches.map((match, index) => (
           <ChampionshipMatchCard
             key={`match-list-${index}`}
-            handleEndMatch={matchHandlers.handleEndMatch}
-            handleDeleteMatch={matchHandlers.handleDeleteMatch}
-            handleCommitMatches={matchHandlers.handleCommitMatches}
-            handleRollBackMatchByIdx={matchHandlers.handleRollBackMatchByIdx}
+            {...matchHandlers}
             isSelected={selectedIdx === match.championship_match_idx}
             handleSelect={handleSelect}
             match={match}

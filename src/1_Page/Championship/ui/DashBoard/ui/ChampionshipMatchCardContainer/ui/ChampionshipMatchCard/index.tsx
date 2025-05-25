@@ -17,17 +17,11 @@ const ChampionshipMatchCard = (props: ChampionshipMatchCardProps) => {
   } = props;
   const home = match.championship_match_first;
   const away = match.championship_match_second;
-
+  const isFinished = home.common_status_idx === 4;
   // admin
   const { isCommunityOperator, isCommunityManager } =
     useChampionshipContextInfo();
 
-  const { championship_list_color } = useChampionshipContextInfo();
-  const accentColor = championship_list_color || "#2563eb"; // default blue-600
-  const accentText = getTextColorFromBackground(accentColor);
-
-  // 경기 종료 여부 (common_status_idx === 4)
-  const isFinished = home.common_status_idx === 4;
   // api
   const { handleDeleteChampionshipMatch } = useDeleteChampionshipMatchHandler({
     handleDeleteMatch,
@@ -39,6 +33,10 @@ const ChampionshipMatchCard = (props: ChampionshipMatchCardProps) => {
     handleCommitMatches,
     handleRollBackMatchByIdx,
   });
+
+  const { championship_list_color } = useChampionshipContextInfo();
+  const accentColor = championship_list_color || "#2563eb"; // default blue-600
+  const accentText = getTextColorFromBackground(accentColor);
 
   return (
     <li

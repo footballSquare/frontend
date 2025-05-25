@@ -1,14 +1,18 @@
+import React from "react";
 import usePostCreateChampionshipMatch from "../../../../../../../../../3_Entity/Championship/usePostCreateChampionshipMatch";
 import useParamInteger from "../../../../../../../../../4_Shared/model/useParamInteger";
+import { buildDummyChampionshipMatch } from "../lib/buildDummyData";
 
 const usePostCreateChampionshipMatchHandler = (
   props: UseManageCreateChampionshipMatchProps
 ) => {
-  const { handleToggleModal } = props;
+  const { filteredTeamList, handleAddMatch, handleSyncMatchIdx } = props;
 
   const championshipIdx = useParamInteger("championshipIdx");
 
-  const [postCreateChampionshipMatch] =
+  const postMatchIdxListRef = React.useRef<number[]>([]);
+
+  const [postCreateChampionshipMatch, serverState] =
     usePostCreateChampionshipMatch(championshipIdx);
 
   const handlePostCreateChampionshipMatch = async (
@@ -20,10 +24,17 @@ const usePostCreateChampionshipMatchHandler = (
       match_match_start_time: `${data.matchDate} ${data.startTime}:00`,
     };
 
+    const dummyMatchIdx = Date.now(); // 더미용 unique key
+    postMatchIdxListRef.current.push(dummyMatchIdx);
+    handleAddMatch(
+      buildDummyChampionshipMatch(dummyMatchIdx, formData, filteredTeamList)
+    );
+
     const status = await postCreateChampionshipMatch(formData);
-    handleToggleModal();
     switch (status) {
       case 200:
+        console.log(serverState);
+        handleSyncMatchIdx(postMatchIdxListRef.current[0], 2, 3);
         break;
       default:
         console.error("Failed to create championship match");

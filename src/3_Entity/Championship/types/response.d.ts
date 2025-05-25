@@ -35,21 +35,23 @@ type ChampionshipMatchFirst = {
   match_team_stats_other_score: number | null;
   common_status_idx: number;
 };
+type ChampionshipMatchSecond = {
+  match_match_idx: number;
+  team_list_idx: number;
+  championship_match_second_idx: number;
+  team_list_name: string;
+  team_list_short_name: string;
+  team_list_color: string;
+  team_list_emblem: string;
+  match_team_stats_our_score: number | null;
+  match_team_stats_other_score: number | null;
+  common_status_idx: number;
+};
+
 type ChampionshipMatchList = {
   championship_match_idx: number;
   championship_match_first: ChampionshipMatchFirst;
-  championship_match_second: {
-    match_match_idx: number;
-    team_list_idx: number;
-    championship_match_second_idx: number;
-    team_list_name: string;
-    team_list_short_name: string;
-    team_list_color: string;
-    team_list_emblem: string;
-    match_team_stats_our_score: number | null;
-    match_team_stats_other_score: number | null;
-    common_status_idx: number;
-  };
+  championship_match_second: ChampionshipMatchSecond;
 };
 
 type EvidenceImage = {

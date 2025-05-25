@@ -89,18 +89,83 @@ const useManageMatchList = (
     }
   }, []);
 
+  const handleAddMatch = React.useCallback(
+    (newMatch: ChampionshipMatchList) => {
+      setDisplayMatchList((prev) => {
+        // 이미 존재하는 더미(혹은 실) 챔피언십 매치는 추가하지 않음
+        const exists = prev.some(
+          (m) => m.championship_match_idx === newMatch.championship_match_idx
+        );
+        if (exists) return prev;
+
+        return [...prev, newMatch];
+      });
+    },
+    []
+  );
+
+  const handleSyncMatchIdx = React.useCallback(
+    (
+      dummyChampMatchIdx: number,
+      realChampMatchIdx: number,
+      realMatchIdx: number
+    ) => {
+      setDisplayMatchList((prev) =>
+        prev.map((match) => {
+          if (match.championship_match_idx !== dummyChampMatchIdx) return match;
+
+          return {
+            ...match,
+            championship_match_idx: realChampMatchIdx,
+            championship_match_first: {
+              ...match.championship_match_first,
+              match_match_idx: realMatchIdx,
+            },
+            championship_match_second: {
+              ...match.championship_match_second,
+              match_match_idx: realMatchIdx,
+            },
+          };
+        })
+      );
+
+      // 백업이 존재했다면 키를 갱신
+      const backup = backupRef.current.get(dummyChampMatchIdx);
+      if (backup) {
+        backupRef.current.delete(dummyChampMatchIdx);
+        backupRef.current.set(realChampMatchIdx, {
+          ...backup,
+          championship_match_idx: realChampMatchIdx,
+          championship_match_first: {
+            ...backup.championship_match_first,
+            match_match_idx: realMatchIdx,
+          },
+          championship_match_second: {
+            ...backup.championship_match_second,
+            match_match_idx: realMatchIdx,
+          },
+        });
+      }
+    },
+    []
+  );
+
   const matchHandlers = React.useMemo(
     () => ({
+      handleAddMatch,
       handleDeleteMatch,
       handleEndMatch,
       handleRollBackMatchByIdx,
       handleCommitMatches,
+      handleSyncMatchIdx,
     }),
     [
+      handleAddMatch,
       handleDeleteMatch,
       handleEndMatch,
       handleRollBackMatchByIdx,
       handleCommitMatches,
+      handleSyncMatchIdx,
     ]
   );
 
