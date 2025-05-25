@@ -1,11 +1,16 @@
+import React from "react";
 import FootballGroundSection from "./ui/FootballGroundSection";
 import VerticalTeamStatCards from "./ui/VerticalTeamStatCards";
 import EvidenceDetailModal from "./ui/EvidenceDetailModal";
+
+const DEFAULT_ACCENT_COLOR = "#3b82f6";
+const SELECT_MATCH_BADGE = "⚽";
 
 import useToggleState from "../../../../../../4_Shared/model/useToggleState";
 import { useChampionshipContextInfo } from "../../../../model/useChampionshipContext";
 import { getTextColorFromBackground } from "../../../../../../4_Shared/lib/colorChecker";
 import useMatchModalStore from "../../../../../../4_Shared/zustand/useMatchModal";
+import { BUTTON_TEXT, ViewMode } from "./constant/tab";
 
 const MatchLineupContainer = (props: MatchLineupContainerProps) => {
   const { championshipMatchIdx, selectedTeams, championshipDetail, matchIdx } =
@@ -15,13 +20,13 @@ const MatchLineupContainer = (props: MatchLineupContainerProps) => {
   const { isCommunityManager, isCommunityOperator, championship_list_color } =
     useChampionshipContextInfo();
 
-  const accentColor = championship_list_color || "#3b82f6";
+  const accentColor = championship_list_color || DEFAULT_ACCENT_COLOR;
   const accentText = getTextColorFromBackground(accentColor);
 
   // state
   const [isModalOpen, handleToggleModal] = useToggleState();
   const [isFormationView, toggleIsFormationView] = useToggleState();
-  const [isTeamHistoryView, toggleIsTeamHistoryView] = useToggleState();
+  const [viewMode, setViewMode] = React.useState<ViewMode>(ViewMode.Team);
 
   // zustand
   const { setMatchIdx, toggleMatchModal } = useMatchModalStore();
@@ -31,7 +36,7 @@ const MatchLineupContainer = (props: MatchLineupContainerProps) => {
     return (
       <div className="flex flex-col items-center justify-center h-full py-10">
         <div className="bg-gray-800 rounded-full p-4 mb-4">
-          <span className="text-gray-300 text-2xl">⚽</span>
+          <span className="text-gray-300 text-2xl">{SELECT_MATCH_BADGE}</span>
         </div>
         <h3 className="text-lg font-medium text-gray-100 mb-2">
           매치를 선택해주세요
@@ -60,7 +65,7 @@ const MatchLineupContainer = (props: MatchLineupContainerProps) => {
         <button
           className={`px-4 py-2 rounded-full border transition-colors duration-200 `}
           style={
-            isTeamHistoryView
+            viewMode === ViewMode.Team
               ? {
                   backgroundColor: accentColor,
                   borderColor: accentColor,
@@ -68,13 +73,13 @@ const MatchLineupContainer = (props: MatchLineupContainerProps) => {
                 }
               : undefined
           }
-          onClick={toggleIsTeamHistoryView}>
-          팀 기록 보기
+          onClick={() => setViewMode(ViewMode.Team)}>
+          {BUTTON_TEXT[ViewMode.Team]}
         </button>
         <button
           className={`px-4 py-2 rounded-full border transition-colors duration-200 `}
           style={
-            !isTeamHistoryView
+            viewMode === ViewMode.Lineup
               ? {
                   backgroundColor: accentColor,
                   borderColor: accentColor,
@@ -82,8 +87,22 @@ const MatchLineupContainer = (props: MatchLineupContainerProps) => {
                 }
               : undefined
           }
-          onClick={toggleIsTeamHistoryView}>
-          라인업 보기
+          onClick={() => setViewMode(ViewMode.Lineup)}>
+          {BUTTON_TEXT[ViewMode.Lineup]}
+        </button>
+        <button
+          className={`px-4 py-2 rounded-full border transition-colors duration-200 `}
+          style={
+            viewMode === ViewMode.Personal
+              ? {
+                  backgroundColor: accentColor,
+                  borderColor: accentColor,
+                  color: accentText,
+                }
+              : undefined
+          }
+          onClick={() => setViewMode(ViewMode.Personal)}>
+          {BUTTON_TEXT[ViewMode.Personal]}
         </button>
         <button
           className="px-4 py-2 rounded-full border bg-gray-800 text-gray-200 border-gray-600 hover:bg-gray-700 transition-colors duration-200"
@@ -91,12 +110,12 @@ const MatchLineupContainer = (props: MatchLineupContainerProps) => {
             setMatchIdx(matchIdx);
             toggleMatchModal();
           }}>
-          매치 상세 보기
+          {BUTTON_TEXT.DETAIL}
         </button>
       </div>
 
-      {isTeamHistoryView ? (
-        /* 팀 통계 카드 – 카드 자체는 그대로 두고 상위 배경만 통일 */
+      {viewMode === ViewMode.Team ? (
+        /* 팀 통계 카드 – 기존 코드 그대로 */
         <div className="container mx-auto px-4 py-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <VerticalTeamStatCards
@@ -111,8 +130,15 @@ const MatchLineupContainer = (props: MatchLineupContainerProps) => {
             />
           </div>
         </div>
+      ) : viewMode === ViewMode.Personal ? (
+        /* 개인 기록 보기 – 임시 안내 */
+        <div className="container mx-auto px-4 py-6">
+          <p className="text-center text-gray-300">
+            개인 기록 데이터를 준비 중입니다.
+          </p>
+        </div>
       ) : (
-        /* 라인업/포메이션 영역 */
+        /* 라인업/포메이션 영역 – 기존 코드 그대로 */
         <div>
           <div className="flex justify-center items-center gap-4 mb-4">
             <h2 className="text-xl font-bold">
@@ -163,7 +189,6 @@ const MatchLineupContainer = (props: MatchLineupContainerProps) => {
           </div>
 
           <div className="flex flex-col md:flex-row flex-wrap justify-center gap-4">
-            {/* 첫 번째 팀 */}
             <FootballGroundSection
               teamFormation={
                 championshipDetail?.match_info?.first_match_formation_idx || 0
@@ -175,7 +200,6 @@ const MatchLineupContainer = (props: MatchLineupContainerProps) => {
               isFirstTeam={true}
               isFormationView={isFormationView}
             />
-            {/* 두 번째 팀 */}
             <FootballGroundSection
               teamFormation={
                 championshipDetail?.match_info?.second_match_formation_idx || 0
