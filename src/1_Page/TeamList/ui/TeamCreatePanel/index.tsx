@@ -2,10 +2,11 @@ import useToggleState from "../../../../4_Shared/model/useToggleState";
 
 import plusIcon from "../../../../4_Shared/assets/svg/plus.svg";
 import CreateTeamModal from "./ui/CreateTeamModal";
-import { useMyTeamIdx } from "../../../../4_Shared/lib/useMyInfo";
+import { useIsLogin, useMyTeamIdx } from "../../../../4_Shared/lib/useMyInfo";
 
 const TeamCreatePanel = () => {
   const [isModalOpen, handleToggleModal] = useToggleState();
+  const [isLogin] = useIsLogin();
   const [teamIdx] = useMyTeamIdx();
   return (
     <div>
@@ -14,6 +15,10 @@ const TeamCreatePanel = () => {
         onClick={() => {
           if (teamIdx) {
             alert("팀 생성은 팀이 없는 상태에서만 가능합니다.");
+            return;
+          }
+          if (!isLogin) {
+            alert("로그인 후 팀을 생성할 수 있습니다.");
             return;
           }
           handleToggleModal();
