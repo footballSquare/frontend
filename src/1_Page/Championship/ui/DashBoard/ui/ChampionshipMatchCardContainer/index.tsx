@@ -67,6 +67,8 @@ const ChampionshipMatchCardContainer = (
             key={`match-list-${index}`}
             handleEndMatch={matchHandlers.handleEndMatch}
             handleDeleteMatch={matchHandlers.handleDeleteMatch}
+            handleCommitMatches={matchHandlers.handleCommitMatches}
+            handleRollBackMatchByIdx={matchHandlers.handleRollBackMatchByIdx}
             isSelected={selectedIdx === match.championship_match_idx}
             handleSelect={handleSelect}
             match={match}

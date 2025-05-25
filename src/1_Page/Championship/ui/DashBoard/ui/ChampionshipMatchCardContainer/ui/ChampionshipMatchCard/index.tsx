@@ -1,13 +1,20 @@
-import useDeleteChampionshipMatch from "../../../../../../../../3_Entity/Championship/useDeleteChampionshipMatch";
-import usePutChampionshipMatchEnd from "../../../../../../../../3_Entity/Championship/usePutChampionshipMatchEnd";
 import { matchState } from "../../../../../../../../4_Shared/constant/matchState";
 import { useChampionshipContextInfo } from "../../../../../../model/useChampionshipContext";
 import { getTeamStyle } from "./lib/getStatusColor";
 import { getTextColorFromBackground } from "../../../../../../../../4_Shared/lib/colorChecker";
+import useDeleteChampionshipMatchHandler from "./model/useDeleteChampionshipMatchHandler";
+import usePutChampionshipMatchEndHandler from "./model/usePutChampionshipMatchEndHandler";
 
 const ChampionshipMatchCard = (props: ChampionshipMatchCardProps) => {
-  const { match, isSelected, handleSelect, handleDeleteMatch, handleEndMatch } =
-    props;
+  const {
+    match,
+    isSelected,
+    handleSelect,
+    handleDeleteMatch,
+    handleEndMatch,
+    handleCommitMatches,
+    handleRollBackMatchByIdx,
+  } = props;
   const home = match.championship_match_first;
   const away = match.championship_match_second;
 
@@ -22,8 +29,16 @@ const ChampionshipMatchCard = (props: ChampionshipMatchCardProps) => {
   // 경기 종료 여부 (common_status_idx === 4)
   const isFinished = home.common_status_idx === 4;
   // api
-  const [deleteChampionshipMatch] = useDeleteChampionshipMatch();
-  const [putChampionshipMatchEnd] = usePutChampionshipMatchEnd();
+  const { handleDeleteChampionshipMatch } = useDeleteChampionshipMatchHandler({
+    handleDeleteMatch,
+    handleCommitMatches,
+    handleRollBackMatchByIdx,
+  });
+  const { handlePutChampionshipMatchEnd } = usePutChampionshipMatchEndHandler({
+    handleEndMatch,
+    handleCommitMatches,
+    handleRollBackMatchByIdx,
+  });
 
   return (
     <li
@@ -133,10 +148,8 @@ const ChampionshipMatchCard = (props: ChampionshipMatchCardProps) => {
           <div className="flex justify-end gap-2 p-2 bg-gray-800/80 backdrop-blur-sm">
             <button
               onClick={() => {
-                if (confirm("정말 삭제하시겠습니까?")) {
-                  deleteChampionshipMatch(match.championship_match_idx);
-                  handleDeleteMatch(match.championship_match_idx);
-                }
+                if (confirm("정말 삭제하시겠습니까?"))
+                  handleDeleteChampionshipMatch(match.championship_match_idx);
               }}
               className="text-xs px-2 py-1 rounded bg-red-600 text-white hover:bg-red-700 transition-colors">
               삭제
@@ -144,8 +157,7 @@ const ChampionshipMatchCard = (props: ChampionshipMatchCardProps) => {
             <button
               onClick={() => {
                 if (confirm("정말 종료하시겠습니까?")) {
-                  putChampionshipMatchEnd(match.championship_match_idx);
-                  handleEndMatch(match.championship_match_idx);
+                  handlePutChampionshipMatchEnd(match.championship_match_idx);
                 }
               }}
               className="text-xs px-2 py-1 rounded bg-gray-700 text-white hover:bg-gray-800 transition-colors">
