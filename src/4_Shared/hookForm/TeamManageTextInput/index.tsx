@@ -81,7 +81,6 @@ const TeamManageTextInput = (props: TeamManageTextInputProps) => {
             {[0, 1].map((value, idx) => {
               const labelText = idx === 0 ? "미출력" : "출력";
               const active = watch("common_status_idx") == value;
-              const color = idx === 0 ? "blue" : "green";
               return (
                 <label
                   key={value}
@@ -97,9 +96,7 @@ const TeamManageTextInput = (props: TeamManageTextInputProps) => {
                   />
                   <div
                     className={`w-5 h-5 rounded-full border-2 transition ${
-                      active
-                        ? `bg-${color}-600 border-${color}-600`
-                        : "border-gray-400"
+                      active ? "bg-grass border-grass" : "border-gray-400"
                     } ${!modifyMode && "opacity-50"}`}
                   />
                   <span className="text-sm font-medium">{labelText}</span>

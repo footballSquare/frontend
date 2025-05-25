@@ -29,6 +29,7 @@ const TextInputForm = (props: TextInputFormProps) => {
       <form
         onSubmit={handleSubmit((data: TeamInfoForm) => {
           handlePutTeamInfo(data);
+          handleBackupData();
           toggleModifyMode();
         })}
         className="flex-1 min-w-[300px]  rounded-lg shadow-md p-4">
@@ -76,13 +77,7 @@ const TextInputForm = (props: TextInputFormProps) => {
         {/* 제출 버튼 */}
         <div className="flex justify-end gap-4 mt-4">
           {!modifyMode ? (
-            <button
-              className="py-2 px-4 bg-blue-600 text-white rounded-md"
-              onClick={(e) => {
-                e.preventDefault();
-                handleBackupData();
-                toggleModifyMode();
-              }}>
+            <button className="py-2 px-4 bg-grass text-white rounded-md">
               수정하기
             </button>
           ) : (

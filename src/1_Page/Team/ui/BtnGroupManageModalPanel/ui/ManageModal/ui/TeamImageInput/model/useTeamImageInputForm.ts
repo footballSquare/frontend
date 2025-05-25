@@ -3,10 +3,6 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { schema } from "../../../../../../../../../4_Shared/lib/imgSchema";
 
-type ImageInputForm = {
-  file: File;
-};
-
 const useTeamImageInputForm = (props: UseTeamImageInputProps) => {
   const { initialSrc, putImage, handleChangePreview } = props;
   const [preview, setPreview] = React.useState<string | null>(
@@ -33,6 +29,8 @@ const useTeamImageInputForm = (props: UseTeamImageInputProps) => {
         backupRef.current = preview;
         setEditing(false);
         reset();
+        if (inputRef.current) inputRef.current.value = ""; // ★ 추가
+
         return;
       default:
         break;
@@ -40,6 +38,7 @@ const useTeamImageInputForm = (props: UseTeamImageInputProps) => {
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(e.target.files);
     const file = e.target.files?.[0];
     if (!file) return;
     const url = URL.createObjectURL(file);
@@ -52,6 +51,7 @@ const useTeamImageInputForm = (props: UseTeamImageInputProps) => {
     setPreview(backupRef.current);
     setEditing(false);
     reset();
+    if (inputRef.current) inputRef.current.value = ""; // ★ 추가
   };
 
   const openFileDialog = () => inputRef.current?.click();

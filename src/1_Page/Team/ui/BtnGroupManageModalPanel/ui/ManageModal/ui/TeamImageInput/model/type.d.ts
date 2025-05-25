@@ -1,5 +1,5 @@
 type ImageInputForm = {
-  file: FileList;
+  file: File;
 };
 
 type UseTeamImageInputProps = {

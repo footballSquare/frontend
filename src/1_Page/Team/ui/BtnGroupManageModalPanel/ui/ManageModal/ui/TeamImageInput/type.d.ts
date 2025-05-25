@@ -9,5 +9,5 @@ type TeamImageInputProps = {
 };
 
 type ImageInputForm = {
-  file: FileList;
+  file: File;
 };
