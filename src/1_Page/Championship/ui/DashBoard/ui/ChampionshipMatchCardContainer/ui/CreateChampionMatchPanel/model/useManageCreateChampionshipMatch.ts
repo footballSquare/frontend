@@ -1,27 +1,36 @@
-import React from "react";
+import usePostCreateChampionshipMatch from "../../../../../../../../../3_Entity/Championship/usePostCreateChampionshipMatch";
+import useParamInteger from "../../../../../../../../../4_Shared/model/useParamInteger";
 
-type UseManageCreateChampionshipMatchProps = {
-  serverState: Record<string, unknown> | null;
-  handleToggleModal: () => void;
-};
-const useManageCreateChampionshipMatch = (
+const usePostCreateChampionshipMatchHandler = (
   props: UseManageCreateChampionshipMatchProps
 ) => {
-  const { serverState, handleToggleModal } = props;
-  React.useEffect(() => {
-    if (!serverState) return;
+  const { handleToggleModal } = props;
 
-    switch (serverState.status) {
+  const championshipIdx = useParamInteger("championshipIdx");
+
+  const [postCreateChampionshipMatch] =
+    usePostCreateChampionshipMatch(championshipIdx);
+
+  const handlePostCreateChampionshipMatch = async (
+    data: CreateChampionMatchFormValues
+  ) => {
+    const formData = {
+      first_team_idx: data.teams[0],
+      second_team_idx: data.teams[1],
+      match_match_start_time: `${data.matchDate} ${data.startTime}:00`,
+    };
+
+    const status = await postCreateChampionshipMatch(formData);
+    handleToggleModal();
+    switch (status) {
       case 200:
-        handleToggleModal();
         break;
-      case 400:
-        console.error("서버 오류:", serverState.error);
+      default:
+        console.error("Failed to create championship match");
         break;
-      case 500:
-        console.error("서버 오류:", serverState.error);
     }
-  }, [serverState]);
+  };
+  return { handlePostCreateChampionshipMatch };
 };
 
-export default useManageCreateChampionshipMatch;
+export default usePostCreateChampionshipMatchHandler;

@@ -1,15 +1,11 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { schema } from "./lib/schema";
-import { convertCreateChampionMatchForm } from "./util/convert";
 import useSetValueHandler from "./model/useTeamListHandler";
-import useManageCreateChampionshipMatch from "./model/useManageCreateChampionshipMatch";
-
-import usePostCreateChampionshipMatch from "../../../../../../../../3_Entity/Championship/usePostCreateChampionshipMatch";
-import useParamInteger from "../../../../../../../../4_Shared/model/useParamInteger";
 import useToggleState from "../../../../../../../../4_Shared/model/useToggleState";
 import { useChampionshipContextInfo } from "../../../../../../model/useChampionshipContext";
 import { getTextColorFromBackground } from "../../../../../../../../4_Shared/lib/colorChecker";
+import usePostCreateChampionshipMatchHandler from "./model/useManageCreateChampionshipMatch";
 
 const CreateChampionMatchPanel = (props: CreateChampionMatchPanelProps) => {
   const { filteredTeamList } = props;
@@ -32,18 +28,14 @@ const CreateChampionMatchPanel = (props: CreateChampionMatchPanelProps) => {
   const { selectedTeams, handleAddTeam, handleRemoveTeam } =
     useSetValueHandler(setValue);
 
-  const championshipIdx = useParamInteger("championshipIdx");
   const { championship_list_color } = useChampionshipContextInfo();
   const accentColor = championship_list_color || "#3b82f6"; // fallback blue‑500
   const accentText = getTextColorFromBackground(accentColor);
   // api
-  const [postCreateChampionshipMatch, serverState] =
-    usePostCreateChampionshipMatch(championshipIdx);
-  // api side effect
-  useManageCreateChampionshipMatch({
-    serverState,
-    handleToggleModal,
-  });
+  const { handlePostCreateChampionshipMatch } =
+    usePostCreateChampionshipMatchHandler({
+      handleToggleModal,
+    });
 
   return (
     <div>
@@ -58,12 +50,7 @@ const CreateChampionMatchPanel = (props: CreateChampionMatchPanelProps) => {
         <div className="fixed inset-0 z-10 bg-black/50 flex items-center justify-center">
           <div className="rounded-lg p-6 w-full max-w-md bg-gray-800 text-gray-100 shadow-lg overflow-y-scroll">
             <h2 className="text-center text-2xl mb-4">대회 매치 생성</h2>
-            <form
-              onSubmit={handleSubmit((data) => {
-                postCreateChampionshipMatch(
-                  convertCreateChampionMatchForm(data)
-                );
-              })}>
+            <form onSubmit={handleSubmit(handlePostCreateChampionshipMatch)}>
               <div className="mb-4">
                 <label>매치 참여 팀 선택</label>
                 <div className="flex flex-col gap-2 mt-1 overflow-y-scroll max-h-60">
