@@ -11,10 +11,13 @@ import { useChampionshipContextInfo } from "../../../../model/useChampionshipCon
 import { getTextColorFromBackground } from "../../../../../../4_Shared/lib/colorChecker";
 import useMatchModalStore from "../../../../../../4_Shared/zustand/useMatchModal";
 import { BUTTON_TEXT, ViewMode } from "./constant/tab";
+import VerticalPersonStatCards from "./ui/VerticalPersonStatCards";
 
 const MatchLineupContainer = (props: MatchLineupContainerProps) => {
   const { championshipMatchIdx, selectedTeams, championshipDetail, matchIdx } =
     props;
+
+  console.log(championshipDetail);
 
   // admin
   const { isCommunityManager, isCommunityOperator, championship_list_color } =
@@ -133,9 +136,10 @@ const MatchLineupContainer = (props: MatchLineupContainerProps) => {
       ) : viewMode === ViewMode.Personal ? (
         /* 개인 기록 보기 – 임시 안내 */
         <div className="container mx-auto px-4 py-6">
-          <p className="text-center text-gray-300">
-            개인 기록 데이터를 준비 중입니다.
-          </p>
+          <VerticalPersonStatCards
+            team1PlayerStats={championshipDetail?.first_team?.player_stats}
+            team2PlayerStats={championshipDetail?.second_team?.player_stats}
+          />
         </div>
       ) : (
         /* 라인업/포메이션 영역 – 기존 코드 그대로 */
