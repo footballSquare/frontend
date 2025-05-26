@@ -26,7 +26,7 @@ const MatchLineupContainer = (props: MatchLineupContainerProps) => {
   // state
   const [isModalOpen, handleToggleModal] = useToggleState();
   const [isFormationView, toggleIsFormationView] = useToggleState();
-  const [viewMode, setViewMode] = React.useState<ViewMode>(ViewMode.Team);
+  const [viewMode, setViewMode] = React.useState<ViewMode>(ViewMode.Lineup);
 
   // zustand
   const { setMatchIdx, toggleMatchModal } = useMatchModalStore();

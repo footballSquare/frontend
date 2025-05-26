@@ -41,7 +41,7 @@ const ChampionshipMatchCard = (props: ChampionshipMatchCardProps) => {
   return (
     <li
       onClick={() => handleSelect(match.championship_match_idx)}
-      className={`relative flex flex-col w-full rounded-xl overflow-hidden
+      className={`relative flex flex-col w-full rounded-xl overflow-visible
         bg-gray-800 text-gray-100
         transform transition-all duration-200 hover:scale-102 hover:shadow-2xl
       `}
