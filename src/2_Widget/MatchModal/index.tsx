@@ -76,15 +76,10 @@ const MatchModal = () => {
           예상 플레이 타임
           {/* 아래의 select 태그 Select 컴포넌트로 적용 */}
           <p className="flex justify-center items-center w-[164px] h-[32px] rounded-[4px] border border-gray-500">
-            {(match_match_duration?.hours || match_match_duration?.minutes) !==
-              undefined && (
-              <div>
-                {match_match_duration?.hours !== undefined &&
-                  `${match_match_duration.hours}시간 `}
-                {match_match_duration?.minutes !== undefined &&
-                  `${match_match_duration.minutes}분`}
-              </div>
-            )}
+            {match_match_duration?.hours !== undefined &&
+              `${match_match_duration.hours}시간 `}
+            {match_match_duration?.minutes !== undefined &&
+              `${match_match_duration.minutes}분`}
           </p>
         </label>
         <label className="flex flex-col text-xs font-semibold">
