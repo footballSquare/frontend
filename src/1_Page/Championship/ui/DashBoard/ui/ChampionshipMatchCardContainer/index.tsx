@@ -36,6 +36,7 @@ const ChampionshipMatchCardContainer = (
         {isCommunityOperator ||
           (isCommunityManager && (
             <CreateChampionMatchPanel
+              handleSelect={handleSelect}
               handleAddMatch={matchHandlers.handleAddMatch}
               handleSyncMatchIdx={matchHandlers.handleSyncMatchIdx}
               filteredTeamList={filteredTeamList}

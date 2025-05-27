@@ -6,6 +6,7 @@ type UseManageCreateChampionshipMatchProps = {
     realChampMatchIdx: number,
     realMatchIdx: number
   ) => void;
+  handleSelect: (matchIdx: number) => void;
 };
 
 type UsePostCreateChampionshipMatchHandlerReturn = {

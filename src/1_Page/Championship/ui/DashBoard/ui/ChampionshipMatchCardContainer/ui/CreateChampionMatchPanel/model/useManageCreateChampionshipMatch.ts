@@ -6,7 +6,8 @@ import { buildDummyChampionshipMatch } from "../lib/buildDummyData";
 const usePostCreateChampionshipMatchHandler = (
   props: UseManageCreateChampionshipMatchProps
 ) => {
-  const { filteredTeamList, handleAddMatch, handleSyncMatchIdx } = props;
+  const { filteredTeamList, handleAddMatch, handleSyncMatchIdx, handleSelect } =
+    props;
 
   const championshipIdx = useParamInteger("championshipIdx");
 
@@ -33,8 +34,9 @@ const usePostCreateChampionshipMatchHandler = (
     const status = await postCreateChampionshipMatch(formData);
     switch (status) {
       case 200:
-        console.log(serverState);
+        console.log("serverState", serverState);
         handleSyncMatchIdx(postMatchIdxListRef.current[0], 2, 3);
+        handleSelect(2);
         break;
       default:
         console.error("Failed to create championship match");

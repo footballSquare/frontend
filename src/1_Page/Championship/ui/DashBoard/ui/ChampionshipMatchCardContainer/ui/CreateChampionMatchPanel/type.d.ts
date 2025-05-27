@@ -6,6 +6,7 @@ type CreateChampionMatchPanelProps = {
     realChampMatchIdx: number,
     realMatchIdx: number
   ) => void;
+  handleSelect: (idx: number) => void;
 };
 
 type CreateChampionMatchFormValues = {

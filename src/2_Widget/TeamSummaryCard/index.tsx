@@ -25,7 +25,7 @@ const TeamSummaryCard = (props: TeamSummaryCardProps) => {
             <div
               className="w-12 h-12 rounded-full mr-3 flex items-center justify-center text-white font-bold text-lg"
               style={{ backgroundColor: team.team_list_color || "#3182f6" }}>
-              {team.team_list_short_name?.slice(0, 2) || "팀"}
+              {team.team_list_short_name?.slice(0, 3) || "팀"}
             </div>
           )}
 

@@ -6,7 +6,8 @@ import PostChampionshipMatch from "../../../../../../../../4_Shared/hookForm/Pos
 import useCreateMatchForm from "./model/useCreateMatchForm";
 
 const CreateChampionMatchPanel = (props: CreateChampionMatchPanelProps) => {
-  const { filteredTeamList, handleAddMatch, handleSyncMatchIdx } = props;
+  const { filteredTeamList, handleAddMatch, handleSyncMatchIdx, handleSelect } =
+    props;
 
   // state
   const [isModalOpen, handleToggleModal] = useToggleState();
@@ -27,6 +28,7 @@ const CreateChampionMatchPanel = (props: CreateChampionMatchPanelProps) => {
     usePostCreateChampionshipMatchHandler({
       handleAddMatch,
       handleSyncMatchIdx,
+      handleSelect,
       filteredTeamList,
     });
 
