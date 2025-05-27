@@ -1,4 +1,4 @@
 type DefaultTeamEmblemProps = {
-  team_list_color?: string;
-  team_list_short_name?: string;
+  bgColor?: string;
+  text?: string;
 };
