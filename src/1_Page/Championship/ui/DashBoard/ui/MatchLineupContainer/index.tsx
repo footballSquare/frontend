@@ -124,12 +124,10 @@ const MatchLineupContainer = (props: MatchLineupContainerProps) => {
             <VerticalTeamStatCards
               teamName={selectedTeams.selectTeamList[0]}
               stats={championshipDetail?.first_team?.stats}
-              color="blue"
             />
             <VerticalTeamStatCards
               teamName={selectedTeams.selectTeamList[1]}
               stats={championshipDetail?.second_team?.stats}
-              color="green"
             />
           </div>
         </div>
