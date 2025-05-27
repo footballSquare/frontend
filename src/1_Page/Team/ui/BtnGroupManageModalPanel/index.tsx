@@ -1,3 +1,4 @@
+import { useTeamInfo } from "../../model/useTeamContext";
 import useManageAction from "./model/useManageAction";
 import useMakeTeamMatchModalStore from "../../../../4_Shared/zustand/useMakeMatchModalStore";
 import useParamInteger from "../../../../4_Shared/model/useParamInteger";
@@ -29,6 +30,8 @@ const BtnGroupManageModalPanel = (props: BtnGroupManageModalPanelProps) => {
   // 팀 권한과
   const [myTeamIdx] = useMyTeamIdx();
   const [myTeamRoleIdx] = useMyTeamRoleIdx();
+
+  const { team_list_color } = useTeamInfo();
 
   const isTeamPlayer = myTeamIdx === teamIdx;
   const isTeamTopLeader = isTeamPlayer && myTeamRoleIdx === 0; // 팀장만 허용
@@ -105,7 +108,8 @@ const BtnGroupManageModalPanel = (props: BtnGroupManageModalPanelProps) => {
         {/* 부팀장 또는 팀장의 경우만*/}
         {isTeamLeaders && isLeaving && !isPending && (
           <button
-            className="bg-indigo-700 hover:bg-indigo-600 text-white text-sm font-medium py-2 px-4 rounded-lg shadow-md transition flex items-center"
+            className="text-white text-sm font-medium py-2 px-4 rounded-lg shadow-md transition flex items-center"
+            style={{ backgroundColor: team_list_color }}
             onClick={toggleMakeMatchModal}>
             <img src={plusIcon} alt="매치 생성" className="h-4 w-4 mr-1.5" />
             매치 생성
