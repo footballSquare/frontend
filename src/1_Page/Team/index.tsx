@@ -102,8 +102,8 @@ const Team = () => {
                               />
                             ) : (
                               <DefaultTeamEmblem
-                                team_list_color={team_list_color}
-                                team_list_short_name={team_list_short_name}
+                                bgColor={team_list_color}
+                                text={team_list_short_name}
                               />
                             )}
                           </div>
@@ -171,8 +171,8 @@ const Team = () => {
                             />
                           ) : (
                             <DefaultTeamEmblem
-                              team_list_color={team_list_color}
-                              team_list_short_name={team_list_short_name}
+                              bgColor={team_list_color}
+                              text={team_list_short_name}
                             />
                           )}
                         </div>
