@@ -47,7 +47,11 @@ const CreateChampionMatchPanel = (props: CreateChampionMatchPanelProps) => {
         <div className="fixed inset-0 z-10 bg-black/50 flex items-center justify-center">
           <div className="rounded-lg p-6 w-full max-w-md bg-gray-800 text-gray-100 shadow-lg overflow-y-scroll">
             <h2 className="text-center text-2xl mb-4">대회 매치 생성</h2>
-            <form onSubmit={handleSubmit(handlePostCreateChampionshipMatch)}>
+            <form
+              onSubmit={handleSubmit((data) => {
+                handleToggleModal();
+                handlePostCreateChampionshipMatch(data);
+              })}>
               <div className="mb-4">
                 <label>매치 참여 팀 선택</label>
                 <div className="flex flex-col gap-2 mt-1 overflow-y-scroll max-h-60">
