@@ -5,6 +5,7 @@ import useMatchModalStore from "../../../../../../4_Shared/zustand/useMatchModal
 const MatchCard = (props: MatchCardProps) => {
   const {
     player_list_nickname,
+    match_match_name,
     team_list_name,
     match_match_participation_type,
     match_match_idx,
@@ -37,8 +38,9 @@ const MatchCard = (props: MatchCardProps) => {
           <div className="text-sm font-medium text-gray-300">
             매치 시작: {utcFormatter(match_match_start_time)}
           </div>
-          <div className="text-xs text-gray-400 mt-1">
-            예상 플레이타임: {`${
+          <div className="text-xs text-gray-400">
+            예상 플레이타임:{" "}
+            {`${
               match_match_duration.hours
                 ? `${match_match_duration.hours}h `
                 : ""
@@ -48,6 +50,7 @@ const MatchCard = (props: MatchCardProps) => {
                 : ""
             }`.trim()}
           </div>
+          <span className="text-gray-400 text-xs">Host: {player_list_nickname}</span>
         </div>
 
         {/* 중앙: 팀 및 게임 정보 */}
@@ -60,13 +63,13 @@ const MatchCard = (props: MatchCardProps) => {
           </div>
 
           <div className="flex items-center text-sm text-gray-400 mt-1">
-            <span className="text-gray-400">Host: {player_list_nickname}</span>
+            <span className="text-grass">{match_match_name}</span>
           </div>
 
           <div
             className={`flex items-center text-xs ${
               match_match_participation_type === 0
-                ? "text-red-400"
+                ? "text-blue-400"
                 : "text-emerald-400"
             } font-medium mt-1`}
           >
