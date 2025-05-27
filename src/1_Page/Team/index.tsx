@@ -13,6 +13,7 @@ import { useMyTeamIdx } from "../../4_Shared/lib/useMyInfo";
 import EmptyBanner from "../../4_Shared/components/EmptyBanner";
 import { MOBILE_TABS, MobileTabKey } from "./constant/mobileTab";
 import { useTeamInfoContext } from "./model/useTeamContext";
+import DefaultTeamEmblem from "../../4_Shared/components/DefaultTeamEmblem";
 
 const Team = () => {
   const [teamIdx] = useValidParamInteger("teamIdx");
@@ -92,7 +93,7 @@ const Team = () => {
                       {/* 팀 기본 정보 + History */}
                       <div className="flex flex-col items-center space-y-4">
                         <div className="flex flex-col items-center space-y-3">
-                          <div className="w-20 h-20 rounded-full overflow-hidden border-2 border-gray-200 shadow-md bg-gray-100 flex items-center justify-center">
+                          <div className="w-20 h-20 rounded-full border-2 border-gray-200 shadow-md flex items-center justify-center">
                             {team_list_emblem ? (
                               <img
                                 src={team_list_emblem}
@@ -100,9 +101,10 @@ const Team = () => {
                                 className="w-full h-full object-cover"
                               />
                             ) : (
-                              <span className="text-gray-500 font-bold text-xl">
-                                {team_list_short_name || "팀"}
-                              </span>
+                              <DefaultTeamEmblem
+                                team_list_color={team_list_color}
+                                team_list_short_name={team_list_short_name}
+                              />
                             )}
                           </div>
 
@@ -168,9 +170,10 @@ const Team = () => {
                               className="w-full h-full object-cover"
                             />
                           ) : (
-                            <span className="text-gray-500 font-bold text-xl">
-                              {team_list_short_name || "팀"}
-                            </span>
+                            <DefaultTeamEmblem
+                              team_list_color={team_list_color}
+                              team_list_short_name={team_list_short_name}
+                            />
                           )}
                         </div>
                         <div className="flex flex-col items-center sm:items-start">
