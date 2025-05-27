@@ -12,7 +12,7 @@ const useGetChampionshipEvidence = (
   React.useEffect(() => {
     const endPoint = `/championship/championship_match/${championshipMatchIdx}/evidance_img`;
     request("GET", endPoint, null, true);
-  }, []);
+  }, [championshipMatchIdx, request]);
 
   React.useEffect(() => {
     if (!loading && serverState && "evidance_img" in serverState) {
