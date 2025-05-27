@@ -1,4 +1,4 @@
-const DefaultTeamProfile = (props: DefaultTeamProfileProps) => {
+const DefaultTeamEmblem = (props: DefaultTeamEmblemProps) => {
   const {
     team_list_color = "#3182f6",
     team_list_short_name = "팀",
@@ -19,4 +19,4 @@ const DefaultTeamProfile = (props: DefaultTeamProfileProps) => {
   );
 };
 
-export default DefaultTeamProfile;
+export default DefaultTeamEmblem;
