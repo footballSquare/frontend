@@ -16,7 +16,7 @@ import { useNavigate } from "react-router-dom";
 import exitIcon from "../../../../4_Shared/assets/svg/exit.svg";
 import joinIcon from "../../../../4_Shared/assets/svg/join.svg";
 import settingIcon from "../../../../4_Shared/assets/svg/setting.svg";
-import plusIcon from "../../../../4_Shared/assets/svg/plus.svg";
+import { getTextColorFromBackground } from "../../../../4_Shared/lib/colorChecker";
 
 const BtnGroupManageModalPanel = (props: BtnGroupManageModalPanelProps) => {
   const { teamInfo, handlers } = props;
@@ -32,7 +32,6 @@ const BtnGroupManageModalPanel = (props: BtnGroupManageModalPanelProps) => {
   const [myTeamRoleIdx] = useMyTeamRoleIdx();
 
   const { team_list_color } = useTeamInfo();
-
   const isTeamPlayer = myTeamIdx === teamIdx;
   const isTeamTopLeader = isTeamPlayer && myTeamRoleIdx === 0; // 팀장만 허용
   const isTeamLeaders = isTeamTopLeader || myTeamRoleIdx === 1;
@@ -109,10 +108,12 @@ const BtnGroupManageModalPanel = (props: BtnGroupManageModalPanelProps) => {
         {isTeamLeaders && isLeaving && !isPending && (
           <button
             className="text-white text-sm font-medium py-2 px-4 rounded-lg shadow-md transition flex items-center"
-            style={{ backgroundColor: team_list_color }}
+            style={{
+              backgroundColor: team_list_color,
+              color: getTextColorFromBackground(team_list_color),
+            }}
             onClick={toggleMakeMatchModal}>
-            <img src={plusIcon} alt="매치 생성" className="h-4 w-4 mr-1.5" />
-            매치 생성
+            + 매치 생성
           </button>
         )}
       </div>
