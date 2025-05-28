@@ -2,6 +2,7 @@ import userIcon from "../../4_Shared/assets/svg/user.svg";
 import calendarIcon from "../../4_Shared/assets/svg/calander.svg";
 import { formatDateKoreanDate } from "../../4_Shared/lib/dateFormatter";
 import { useNavigate } from "react-router-dom";
+import DefaultTeamEmblem from "../../4_Shared/components/DefaultTeamEmblem";
 
 // 팀 카드 컴포넌트
 const TeamSummaryCard = (props: TeamSummaryCardProps) => {
@@ -12,22 +13,23 @@ const TeamSummaryCard = (props: TeamSummaryCardProps) => {
     <div
       id={isRecent ? "recent" : isMyTeam ? "myteam" : undefined}
       ref={observeRef}
-      className="group w-full max-w-md rounded-xl overflow-hidden bg-gray-800 shadow-md transition-shadow duration-200 cursor-pointer hover:shadow-xl">
+      className="group w-full rounded-xl overflow-hidden bg-gray-800 shadow-md transition-shadow duration-200 cursor-pointer hover:shadow-xl">
       <div className="p-5">
         <div className="flex items-center mb-4">
-          {team.team_list_emblem ? (
-            <img
-              src={team.team_list_emblem}
-              alt={`${team.team_list_name} 엠블럼`}
-              className="w-12 h-12 rounded-full mr-3 object-cover"
-            />
-          ) : (
-            <div
-              className="w-12 h-12 rounded-full mr-3 flex items-center justify-center text-white font-bold text-lg"
-              style={{ backgroundColor: team.team_list_color || "#3182f6" }}>
-              {team.team_list_short_name?.slice(0, 2) || "팀"}
-            </div>
-          )}
+          <div className="w-12 h-12 mr-3">
+            {team.team_list_emblem ? (
+              <img
+                src={team.team_list_emblem}
+                alt={`${team.team_list_name} 엠블럼`}
+                className="rounded-full object-cover"
+              />
+            ) : (
+              <DefaultTeamEmblem
+                bgColor={team.team_list_color}
+                text={team.team_list_short_name}
+              />
+            )}
+          </div>
 
           <div className="flex-grow">
             <div className="flex items-center">

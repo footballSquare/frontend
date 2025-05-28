@@ -31,12 +31,8 @@ const TeamMemberListBox = () => {
   );
 
   // optimistic state
-  const {
-    displayMemberList,
-    handleDelete,
-    handleChangeTeamRole,
-    handleChangeMyRole,
-  } = useManageMemberList(teamMember, myIdx);
+  const { displayMemberList, handleDelete, handleChangeTeamRole } =
+    useManageMemberList(teamMember);
 
   return (
     <div className="rounded-lg shadow p-4 bg-gray-800">
@@ -54,7 +50,6 @@ const TeamMemberListBox = () => {
             isTeamReader={isTeamReader}
             handleChangeTeamRole={handleChangeTeamRole}
             handleDelete={handleDelete}
-            handleChangeMyRole={handleChangeMyRole}
             observeRef={
               teamMember.length === index + 1 ? observeRef : undefined
             }

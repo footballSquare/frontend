@@ -1,13 +1,21 @@
-import useDeleteApproveMember from "../../../../../../../../../../3_Entity/Team/useDeleteApproveMember";
-import usePostApproveMember from "../../../../../../../../../../3_Entity/Team/usePostApproveMember";
 import { getPlatformIcon } from "../../../../../../../../../../4_Shared/lib/getPlatformIcon";
 import defaultProfileImage from "../../../../../../../../../../4_Shared/assets/svg/profile.svg";
+import usePostApproveMemberHandler from "./model/usePostApproveMemberHandler";
+import useDeleteApproveMemberHandler from "./model/useDeleteApproveMember";
 
 const TeamApplicationItem = (props: TeamApplicationItemProps) => {
-  const { player, team_list_idx, excludePlayerById } = props;
+  const { player, team_list_idx, excludePlayerById, includePayerById } = props;
 
-  const [postApproveMember] = usePostApproveMember(team_list_idx);
-  const [deleteApproveMember] = useDeleteApproveMember(team_list_idx);
+  const { handlePostApproveMember } = usePostApproveMemberHandler({
+    team_list_idx,
+    excludePlayerById,
+    includePayerById,
+  });
+  const { handleDeleteApproveMember } = useDeleteApproveMemberHandler({
+    team_list_idx,
+    excludePlayerById,
+    includePayerById,
+  });
 
   return (
     <div className="flex items-center justify-between bg-gray-50 p-4 rounded-lg hover:bg-gray-100 transition-colors">
@@ -32,16 +40,14 @@ const TeamApplicationItem = (props: TeamApplicationItemProps) => {
       <div className="flex space-x-3">
         <button
           onClick={() => {
-            postApproveMember(player.player_list_idx);
-            excludePlayerById(player.player_list_idx);
+            handlePostApproveMember(player.player_list_idx);
           }}
           className="px-3 py-1 text-sm bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors">
           수락
         </button>
         <button
           onClick={() => {
-            deleteApproveMember(player.player_list_idx);
-            excludePlayerById(player.player_list_idx);
+            handleDeleteApproveMember(player.player_list_idx);
           }}
           className="px-3 py-1 text-sm bg-white text-red-500 border border-red-300 rounded-md hover:bg-red-50 transition-colors">
           거절

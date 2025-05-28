@@ -3,7 +3,6 @@ import TextInputForm from "./ui/TextInputForm";
 import TeamApplications from "./ui/TeamApplications";
 import AutoMatchPanel from "./ui/AutoMatchPanel";
 
-import useDeleteTeam from "../../../../../../3_Entity/Team/useDeleteTeam";
 import usePutTeamBanner from "../../../../../../3_Entity/Team/usePutTeamBanner";
 import usePutTeamEmblem from "../../../../../../3_Entity/Team/usePutTeamEmblem";
 
@@ -14,10 +13,13 @@ import emblemIcon from "../../../../../../4_Shared/assets/svg/emblem.svg";
 import autoMatchIcon from "../../../../../../4_Shared/assets/svg/auto-match.svg";
 import editIcon from "../../../../../../4_Shared/assets/svg/edit.svg";
 import applicationsIcon from "../../../../../../4_Shared/assets/svg/application.svg";
+import useDeleteTeamHadnler from "./model/useDeleteTeamHadnler";
 
 const ManageModal = (props: ManageModalProps) => {
   const { teamInfo, handleToggleManageModal, handlers } = props;
-  const [deleteTeam] = useDeleteTeam(teamInfo.team_list_idx);
+
+  const [handleDeleteTeam] = useDeleteTeamHadnler();
+
   const [putTeamBanner] = usePutTeamBanner(teamInfo.team_list_idx);
   const [putTeamEmblem] = usePutTeamEmblem(teamInfo.team_list_idx);
 
@@ -28,7 +30,7 @@ const ManageModal = (props: ManageModalProps) => {
         <div className="bg-gradient-to-r from-gray-900 to-gray-800 p-6 rounded-t-xl border-b border-gray-700 flex flex-row justify-between items-center sticky top-0 z-10 backdrop-filter backdrop-blur">
           {/* 타이틀 영역 */}
           <div className="mr-6">
-            <h2 className="text-blue-500 font-semibold tracking-wider text-lg uppercase mb-1">
+            <h2 className="text-grass font-semibold tracking-wider text-lg uppercase mb-1">
               Team Management
             </h2>
             <h1 className="text-gray-100 font-bold text-3xl flex items-center">
@@ -48,7 +50,7 @@ const ManageModal = (props: ManageModalProps) => {
                     "정말로 팀을 해체하시겠습니까? 이 작업은 되돌릴 수 없습니다."
                   )
                 ) {
-                  deleteTeam();
+                  handleDeleteTeam();
                 }
               }}
               type="button"
@@ -78,10 +80,13 @@ const ManageModal = (props: ManageModalProps) => {
               배너
             </h3>
             <TeamImageInput
-              imgSrc={teamInfo.team_list_banner}
+              label="팀 배너"
+              placeholderText="배너 이미지를 업로드하세요"
+              width="w-full"
+              height="h-[140px]"
+              initialSrc={teamInfo.team_list_banner}
               putImage={putTeamBanner}
-              handleSetTeamImg={handlers.handleSetTeamBanner}
-              isBanner={true}
+              handleChangePreview={handlers.handleSetTeamBanner}
             />
           </section>
 
@@ -97,10 +102,13 @@ const ManageModal = (props: ManageModalProps) => {
                 팀 엠블럼
               </h3>
               <TeamImageInput
-                imgSrc={teamInfo.team_list_emblem}
-                handleSetTeamImg={handlers.handleSetTeamEmblem}
+                label="팀 엠블럼"
+                placeholderText="엠블럼 이미지를 업로드하세요"
+                width="w-20"
+                height="h-20"
+                initialSrc={teamInfo.team_list_emblem}
                 putImage={putTeamEmblem}
-                isBanner={false}
+                handleChangePreview={handlers.handleSetTeamEmblem}
               />
             </div>
 
@@ -129,11 +137,8 @@ const ManageModal = (props: ManageModalProps) => {
                 팀 정보 편집
               </h3>
               <TextInputForm
-                team_list_idx={teamInfo.team_list_idx}
                 teamInfo={teamInfo}
-                handleSetTeamInfoWithoutImg={
-                  handlers.handleSetTeamInfoWithoutImg
-                }
+                handleSetTeamInfoPreview={handlers.handleSetTeamInfoWithoutImg}
               />
             </div>
 

@@ -1,10 +1,13 @@
 type TeamImageInputProps = {
-  isBanner: boolean;
-  imgSrc: string | null;
-  putImage: (file: File) => void;
-  handleSetTeamImg: (imgUrl: string) => void;
+  label?: string;
+  placeholderText: string;
+  width?: string;
+  height?: string;
+  initialSrc: string | null;
+  handleChangePreview?: (src: string | null) => void;
+  putImage: (file: File) => Promise<number | undefined>;
 };
 
-type ImageForm = {
+type ImageInputForm = {
   file: File;
 };
