@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { formations } from "../../../../../../../../2_Widget/MatchModal/constant/formation";
 import { matchPosition } from "../../../../../../../../4_Shared/constant/matchPosition";
-import { useChampionshipContextInfo } from "../../../../../../model/useChampionshipContext";
+import useChampionshipInfoContext from "../../../../../../model/useChampionshipInfoContext";
 import { getTextColorFromBackground } from "../../../../../../../../4_Shared/lib/colorChecker";
 
 const FootballGroundSection = (props: FootballGroundSectionProps) => {
@@ -15,8 +15,8 @@ const FootballGroundSection = (props: FootballGroundSectionProps) => {
   );
 
   /** 챔피언십 메인 색 */
-  const { championship_list_color } = useChampionshipContextInfo();
-  const accent = championship_list_color || "#3b82f6";
+  const { championshipListColor } = useChampionshipInfoContext();
+  const accent = championshipListColor || "#3b82f6";
   const accentText = getTextColorFromBackground(accent);
 
   /** 공통 카드 스타일 */

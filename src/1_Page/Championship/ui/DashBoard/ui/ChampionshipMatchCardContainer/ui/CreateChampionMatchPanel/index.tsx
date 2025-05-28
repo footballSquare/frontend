@@ -1,5 +1,5 @@
 import useToggleState from "../../../../../../../../4_Shared/model/useToggleState";
-import { useChampionshipContextInfo } from "../../../../../../model/useChampionshipContext";
+import useChampionshipInfoContext from "../../../../../../model/useChampionshipInfoContext";
 import { getTextColorFromBackground } from "../../../../../../../../4_Shared/lib/colorChecker";
 import usePostCreateChampionshipMatchHandler from "./model/useManageCreateChampionshipMatch";
 import PostChampionshipMatch from "../../../../../../../../4_Shared/hookForm/PostChampionshipMatch";
@@ -32,8 +32,8 @@ const CreateChampionMatchPanel = (props: CreateChampionMatchPanelProps) => {
       filteredTeamList,
     });
 
-  const { championship_list_color } = useChampionshipContextInfo();
-  const accentColor = championship_list_color || "#3b82f6"; // fallback blue‑500
+  const { championshipListColor } = useChampionshipInfoContext();
+  const accentColor = championshipListColor || "#3b82f6"; // fallback blue‑500
   const accentText = getTextColorFromBackground(accentColor);
 
   return (

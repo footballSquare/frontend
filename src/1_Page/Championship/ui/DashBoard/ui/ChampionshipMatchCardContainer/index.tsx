@@ -2,7 +2,7 @@ import ChampionshipMatchCard from "./ui/ChampionshipMatchCard";
 import CreateChampionMatchPanel from "./ui/CreateChampionMatchPanel";
 import useSortHandler from "./model/useSortHandler";
 
-import { useChampionshipContextInfo } from "../../../../model/useChampionshipContext";
+import useChampionshipInfoContext from "../../../../model/useChampionshipInfoContext";
 
 const ChampionshipMatchCardContainer = (
   props: ChampionshipMatchCardContainerProps
@@ -17,7 +17,7 @@ const ChampionshipMatchCardContainer = (
 
   // admin
   const { isCommunityOperator, isCommunityManager } =
-    useChampionshipContextInfo();
+    useChampionshipInfoContext();
 
   // state
   const {

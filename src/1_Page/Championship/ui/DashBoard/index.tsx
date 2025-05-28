@@ -15,13 +15,13 @@ import useParamInteger from "../../../../4_Shared/model/useParamInteger";
 import useSelectHandler from "./model/useSelectHandler";
 import useGetChampionshipDetail from "../../../../3_Entity/Championship/useGetChampionshipDetail";
 import PlayerTab from "./ui/PlayerTab";
-import { useChampionshipContextInfo } from "../../model/useChampionshipContext";
+import useChampionshipInfoContext from "../../model/useChampionshipInfoContext";
 
 const DashBoard = (props: DashBoardProps) => {
   const { championship_type_idx } = props;
   const isLeague = championship_type_idx === 0;
   const championshipIdx = useParamInteger("championshipIdx");
-  const { championship_list_color } = useChampionshipContextInfo();
+  const { championshipListColor } = useChampionshipInfoContext();
 
   // api
   const [playerStats] = useGetPlayerStats(championshipIdx);
@@ -68,7 +68,7 @@ const DashBoard = (props: DashBoardProps) => {
               }`}
               style={
                 activeTab === id
-                  ? { backgroundColor: championship_list_color }
+                  ? { backgroundColor: championshipListColor }
                   : undefined
               }>
               {label}

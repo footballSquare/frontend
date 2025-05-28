@@ -3,14 +3,14 @@ import { createPortal } from "react-dom";
 import denide from "../../../../../../../../4_Shared/assets/svg/denied.svg";
 import plus from "../../../../../../../../4_Shared/assets/svg/plus.svg";
 import useToggleState from "../../../../../../../../4_Shared/model/useToggleState";
-import { useChampionshipContextInfo } from "../../../../../../model/useChampionshipContext";
+import useChampionshipInfoContext from "../../../../../../model/useChampionshipInfoContext";
 
 const PlayerRow = (props: PlayerRowProps) => {
   const { player, index } = props;
   const navigate = useNavigate();
   const [isModalOpen, handleToogleModal] = useToggleState();
 
-  const { championship_list_color } = useChampionshipContextInfo();
+  const { championshipListColor } = useChampionshipInfoContext();
 
   return (
     <tr
@@ -26,7 +26,7 @@ const PlayerRow = (props: PlayerRowProps) => {
               src={player.match_player_stats_evidence_img || ""}
               alt="Player"
               className="w-8 h-8 md:w-10 md:h-10 rounded-full object-cover shadow-md transition-all duration-300"
-              style={{ border: `2px solid ${championship_list_color}` }}
+              style={{ border: `2px solid ${championshipListColor}` }}
             />
             {/* 순위 뱃지 – 회색으로 환원 */}
             <div className="absolute -bottom-1 -right-1 w-4 h-4 md:w-5 md:h-5 bg-gray-600 rounded-full flex items-center justify-center shadow-sm transition-colors duration-300">
@@ -100,7 +100,7 @@ const PlayerRow = (props: PlayerRowProps) => {
                         100
                     )
                 }%, 100% 0%, 100% 0%, 100% 100%, 0% 100%, 0% 0%)`,
-                backgroundColor: championship_list_color,
+                backgroundColor: championshipListColor,
               }}
             />
             <div className="absolute inset-0 flex items-center justify-center">

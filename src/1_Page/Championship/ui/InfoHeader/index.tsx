@@ -5,7 +5,7 @@ import { getTextColorFromBackground } from "../../../../4_Shared/lib/colorChecke
 import { matchType } from "../../../../4_Shared/constant/matchType";
 import { championshipTypes } from "../../../../4_Shared/constant/championshipTypes";
 import defaultTrophyImg from "../../../../4_Shared/assets/svg/rank.svg";
-import { useChampionshipContextInfo } from "../../model/useChampionshipContext";
+import useChampionshipInfoContext from "../../model/useChampionshipInfoContext";
 import { utcFormatter } from "../../../../4_Shared/lib/utcFormatter";
 
 const InfoHeader = (props: InfoHeaderProps) => {
@@ -13,8 +13,8 @@ const InfoHeader = (props: InfoHeaderProps) => {
 
   const isChampionshipEnd = championshipInfo.common_status_idx === 4;
   // 어드민
-  const { isCommunityManager, championship_list_color } =
-    useChampionshipContextInfo();
+  const { isCommunityManager, championshipListColor } =
+    useChampionshipInfoContext();
 
   const [isHeaderCollapsed, toggleHeader] = useToggleState();
   const [isEndModalOpen, toggleEndModal] = useToggleState(true);
@@ -29,11 +29,11 @@ const InfoHeader = (props: InfoHeaderProps) => {
         <div className="absolute inset-0 pointer-events-none">
           <div
             className="absolute top-[-48px] left-[-48px] w-24 h-24 rounded-full border-4 opacity-20"
-            style={{ borderColor: championship_list_color }}
+            style={{ borderColor: championshipListColor }}
           />
           <div
             className="absolute bottom-[-48px] right-[-48px] w-24 h-24 rounded-full border-4 opacity-20"
-            style={{ borderColor: championship_list_color }}
+            style={{ borderColor: championshipListColor }}
           />
         </div>
 
@@ -41,7 +41,7 @@ const InfoHeader = (props: InfoHeaderProps) => {
           <div className="h-full flex items-center px-4">
             <img
               className="w-6 h-6 mr-2 border-2 rounded-full"
-              style={{ borderColor: championship_list_color }}
+              style={{ borderColor: championshipListColor }}
               src={
                 championshipInfo.championship_list_throphy_img ||
                 defaultTrophyImg
@@ -58,7 +58,7 @@ const InfoHeader = (props: InfoHeaderProps) => {
               <img
                 className="w-8 h-8 object-cover border-2 rounded-full"
                 style={{
-                  borderColor: championship_list_color,
+                  borderColor: championshipListColor,
                 }}
                 src={
                   championshipInfo.championship_list_throphy_img ||

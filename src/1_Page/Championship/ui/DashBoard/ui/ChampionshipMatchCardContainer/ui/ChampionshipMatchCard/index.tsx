@@ -1,5 +1,5 @@
 import { matchState } from "../../../../../../../../4_Shared/constant/matchState";
-import { useChampionshipContextInfo } from "../../../../../../model/useChampionshipContext";
+import useChampionshipInfoContext from "../../../../../../model/useChampionshipInfoContext";
 import { getTeamStyle } from "./lib/getStatusColor";
 import { getTextColorFromBackground } from "../../../../../../../../4_Shared/lib/colorChecker";
 import useDeleteChampionshipMatchHandler from "./model/useDeleteChampionshipMatchHandler";
@@ -19,8 +19,8 @@ const ChampionshipMatchCard = (props: ChampionshipMatchCardProps) => {
   const away = match.championship_match_second;
   const isFinished = home.common_status_idx === 4;
   // admin
-  const { isCommunityOperator, isCommunityManager } =
-    useChampionshipContextInfo();
+  const { isCommunityOperator, isCommunityManager, championshipListColor } =
+    useChampionshipInfoContext();
 
   // api
   const { handleDeleteChampionshipMatch } = useDeleteChampionshipMatchHandler({
@@ -34,8 +34,7 @@ const ChampionshipMatchCard = (props: ChampionshipMatchCardProps) => {
     handleRollBackMatchByIdx,
   });
 
-  const { championship_list_color } = useChampionshipContextInfo();
-  const accentColor = championship_list_color || "#2563eb"; // default blue-600
+  const accentColor = championshipListColor || "#2563eb"; // default blue-600
   const accentText = getTextColorFromBackground(accentColor);
 
   return (

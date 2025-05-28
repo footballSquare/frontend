@@ -7,7 +7,7 @@ const DEFAULT_ACCENT_COLOR = "#3b82f6";
 const SELECT_MATCH_BADGE = "⚽";
 
 import useToggleState from "../../../../../../4_Shared/model/useToggleState";
-import { useChampionshipContextInfo } from "../../../../model/useChampionshipContext";
+import useChampionshipInfoContext from "../../../../model/useChampionshipInfoContext";
 import { getTextColorFromBackground } from "../../../../../../4_Shared/lib/colorChecker";
 import useMatchModalStore from "../../../../../../4_Shared/zustand/useMatchModal";
 import { BUTTON_TEXT, ViewMode } from "./constant/tab";
@@ -20,10 +20,10 @@ const MatchLineupContainer = (props: MatchLineupContainerProps) => {
   console.log(championshipDetail);
 
   // admin
-  const { isCommunityManager, isCommunityOperator, championship_list_color } =
-    useChampionshipContextInfo();
+  const { isCommunityManager, isCommunityOperator, championshipListColor } =
+    useChampionshipInfoContext();
 
-  const accentColor = championship_list_color || DEFAULT_ACCENT_COLOR;
+  const accentColor = championshipListColor || DEFAULT_ACCENT_COLOR;
   const accentText = getTextColorFromBackground(accentColor);
 
   // state
