@@ -17,8 +17,6 @@ const usePutChampionship = (
 
   React.useEffect(() => {
     if (!serverState) return;
-    console.log(serverState);
-
     switch (serverState.status) {
       case 200: {
         const { championship_list_idx } = serverState as {
