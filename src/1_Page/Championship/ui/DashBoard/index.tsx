@@ -10,7 +10,6 @@ import { convertToMatchData } from "./util/convertToMatchData";
 import { ACTIVE_TAB, activeTabList } from "./constant/activeTab";
 import useGetChampionshipTeams from "../../../../3_Entity/Championship/useGetChampionshipTeams";
 import useGetChampionshipMatchList from "../../../../3_Entity/Championship/useGetChampionshipMatchList";
-import useGetPlayerStats from "../../../../3_Entity/Championship/useGetPlayerStats";
 import useParamInteger from "../../../../4_Shared/model/useParamInteger";
 import useSelectHandler from "./model/useSelectHandler";
 import useGetChampionshipDetail from "../../../../3_Entity/Championship/useGetChampionshipDetail";
@@ -24,7 +23,6 @@ const DashBoard = (props: DashBoardProps) => {
   const { championshipListColor } = useChampionshipInfoContext();
 
   // api
-  const [playerStats] = useGetPlayerStats(championshipIdx);
   const [matchList] = useGetChampionshipMatchList(championshipIdx); // 대회 생성된 매치 리스트
   const [teamList] = useGetChampionshipTeams(championshipIdx); // 대회 참가 팀리스트
 
@@ -80,9 +78,9 @@ const DashBoard = (props: DashBoardProps) => {
 
       <main className="pt-2">
         {/* 출전선수 목록 */}
-        {activeTab === ACTIVE_TAB.PLAYERS && (
-          <PlayerTab playerStats={playerStats} />
-        )}
+        <div hidden={activeTab !== ACTIVE_TAB.PLAYERS}>
+          <PlayerTab />
+        </div>
 
         {/* 팀 기록 탭 */}
         {activeTab === ACTIVE_TAB.TEAMS && (

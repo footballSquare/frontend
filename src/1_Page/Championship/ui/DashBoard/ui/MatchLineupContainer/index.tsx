@@ -17,8 +17,6 @@ const MatchLineupContainer = (props: MatchLineupContainerProps) => {
   const { championshipMatchIdx, selectedTeams, championshipDetail, matchIdx } =
     props;
 
-  console.log(championshipDetail);
-
   // admin
   const { isCommunityManager, isCommunityOperator, championshipListColor } =
     useChampionshipInfoContext();

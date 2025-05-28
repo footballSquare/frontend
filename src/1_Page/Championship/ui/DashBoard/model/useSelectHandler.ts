@@ -6,14 +6,11 @@ const useSelectHandler = (
   const [selectChampionshipMatchIdx, setSelectedIdx] =
     React.useState<number>(0);
 
-  const selectMatchIdx = React.useMemo(() => {
-    const selectMatchData = matchList.filter(
+  const selectMatchIdx =
+    matchList.find(
       (matchData) =>
         matchData.championship_match_idx === selectChampionshipMatchIdx
-    );
-
-    return selectMatchData[0]?.championship_match_first.match_match_idx ?? null;
-  }, [selectChampionshipMatchIdx]);
+    )?.championship_match_first.match_match_idx ?? 0;
 
   React.useEffect(() => {
     if (matchList.length === 0) return;
@@ -22,9 +19,9 @@ const useSelectHandler = (
 
   const handleSelect = (idx: number) => setSelectedIdx(idx);
 
-  const selectedTeams = React.useMemo(
-    () => getSelectedMatchTeams(matchList, selectChampionshipMatchIdx),
-    [matchList, selectChampionshipMatchIdx]
+  const selectedTeams = getSelectedMatchTeams(
+    matchList,
+    selectChampionshipMatchIdx
   );
 
   return [
