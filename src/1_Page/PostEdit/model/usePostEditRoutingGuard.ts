@@ -23,7 +23,7 @@ const usePostEditRoutingGuard = (): UseWriteRouteTypeReturn => {
   if (isNew) {
     categoryIndex =
       CATEGORY_MAP[categoryParam as keyof typeof CATEGORY_MAP] ?? -1;
-    if (categoryIndex === undefined) {
+    if (categoryIndex === -1) {
       navigate("/404", { replace: true });
     }
   }

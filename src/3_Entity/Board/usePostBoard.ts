@@ -16,10 +16,9 @@ const usePostBoard = (): [
 
   React.useEffect(() => {
     if (!serverState) return;
-
     switch (serverState.status) {
       case 200: {
-        const { board_list_idx } = serverState.data as {
+        const { board_list_idx } = serverState as {
           board_list_idx: number;
         };
         navigate(`/post/${board_list_idx}`);
