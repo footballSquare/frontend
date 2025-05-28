@@ -1,7 +1,5 @@
+import { useTeamInfo } from "../../model/useTeamContext";
 import useManageAction from "./model/useManageAction";
-
-import useDeleteLeaveTeam from "../../../../3_Entity/Team/useDeleteLeaveTeam";
-import usePutSignTeam from "../../../../3_Entity/Team/usePutSignTeam";
 import useMakeTeamMatchModalStore from "../../../../4_Shared/zustand/useMakeMatchModalStore";
 import useParamInteger from "../../../../4_Shared/model/useParamInteger";
 import {
@@ -9,16 +7,16 @@ import {
   useMyTeamIdx,
   useMyTeamRoleIdx,
 } from "../../../../4_Shared/lib/useMyInfo";
-import useManageDeleteServerState from "./model/useManageDeleteServerState";
+import useDeleteLeaveTeamHandler from "./model/useDeleteLeaveTeamHandler";
 import useToggleState from "../../../../4_Shared/model/useToggleState";
 import ManageModal from "./ui/ManageModal";
-import useManagePutServerState from "./model/useManagePutServerState";
+import usePutSignTeamHandler from "./model/usePutSignTeamHandler";
 import { useNavigate } from "react-router-dom";
 
 import exitIcon from "../../../../4_Shared/assets/svg/exit.svg";
 import joinIcon from "../../../../4_Shared/assets/svg/join.svg";
 import settingIcon from "../../../../4_Shared/assets/svg/setting.svg";
-import plusIcon from "../../../../4_Shared/assets/svg/plus.svg";
+import { getTextColorFromBackground } from "../../../../4_Shared/lib/colorChecker";
 
 const BtnGroupManageModalPanel = (props: BtnGroupManageModalPanelProps) => {
   const { teamInfo, handlers } = props;
@@ -33,6 +31,7 @@ const BtnGroupManageModalPanel = (props: BtnGroupManageModalPanelProps) => {
   const [myTeamIdx] = useMyTeamIdx();
   const [myTeamRoleIdx] = useMyTeamRoleIdx();
 
+  const { team_list_color } = useTeamInfo();
   const isTeamPlayer = myTeamIdx === teamIdx;
   const isTeamTopLeader = isTeamPlayer && myTeamRoleIdx === 0; // 팀장만 허용
   const isTeamLeaders = isTeamTopLeader || myTeamRoleIdx === 1;
@@ -48,12 +47,9 @@ const BtnGroupManageModalPanel = (props: BtnGroupManageModalPanelProps) => {
   } = useManageAction(isTeamPlayer);
 
   // api
-  const [deleteLeaveTeam, deleteServerState] = useDeleteLeaveTeam(teamIdx);
-  const [putSignTeam, putServerState] = usePutSignTeam(teamIdx);
-
-  // manage server state
-  useManageDeleteServerState({ deleteServerState, cancelUpdateToLeave });
-  useManagePutServerState({ putServerState, cancelUpdateToSignPending });
+  const [handleDeleteLeaveTeam] =
+    useDeleteLeaveTeamHandler(cancelUpdateToLeave);
+  const [handlePutSignTeam] = usePutSignTeamHandler(cancelUpdateToSignPending);
 
   // 팀매치 생성 모달 전역으로 관리
   const { toggleMakeMatchModal } = useMakeTeamMatchModalStore(); // 팀매치 생성 모달 전역으로 관리
@@ -71,7 +67,7 @@ const BtnGroupManageModalPanel = (props: BtnGroupManageModalPanelProps) => {
             className="w-full bg-gradient-to-r from-red-700 to-red-600 hover:from-red-800 hover:to-red-700 text-white text-sm font-medium py-2.5 px-6 rounded-lg shadow-lg transition transform hover:translate-y-px duration-200 flex items-center justify-center"
             onClick={() => {
               if (confirm(`정말로 팀을 탈퇴 하시겠습니까?`)) {
-                deleteLeaveTeam();
+                handleDeleteLeaveTeam();
                 updateToLeave();
               }
             }}>
@@ -87,7 +83,7 @@ const BtnGroupManageModalPanel = (props: BtnGroupManageModalPanelProps) => {
                 return;
               }
               if (confirm(`정말로 팀을 가입 하시겠습니까?`)) {
-                putSignTeam();
+                handlePutSignTeam();
                 updateToSignPending();
               }
             }}>
@@ -111,10 +107,13 @@ const BtnGroupManageModalPanel = (props: BtnGroupManageModalPanelProps) => {
         {/* 부팀장 또는 팀장의 경우만*/}
         {isTeamLeaders && isLeaving && !isPending && (
           <button
-            className="bg-indigo-700 hover:bg-indigo-600 text-white text-sm font-medium py-2 px-4 rounded-lg shadow-md transition flex items-center"
+            className="text-white text-sm font-medium py-2 px-4 rounded-lg shadow-md transition flex items-center"
+            style={{
+              backgroundColor: team_list_color,
+              color: getTextColorFromBackground(team_list_color),
+            }}
             onClick={toggleMakeMatchModal}>
-            <img src={plusIcon} alt="매치 생성" className="h-4 w-4 mr-1.5" />
-            매치 생성
+            + 매치 생성
           </button>
         )}
       </div>

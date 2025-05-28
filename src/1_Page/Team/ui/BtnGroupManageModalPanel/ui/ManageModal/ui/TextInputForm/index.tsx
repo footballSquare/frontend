@@ -1,107 +1,94 @@
-import React from "react";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { useForm, SubmitHandler, FormProvider } from "react-hook-form";
+import { FormProvider } from "react-hook-form";
 
-import InputField from "./ui/InputFiled";
-import TeamNameCheckInput from "./ui/TeamNameCheckInput";
-import StatusRadio from "./ui/StautsRadio";
-import useManageModify from "./model/useManageModify";
-import { schema } from "./lib/schema";
-import { convertToPutData, convertToTeamInfoForm } from "./util/convet";
-import usePutTeamInfo from "../../../../../../../../3_Entity/Team/usePutTeamInfo";
+import useTextInputForm from "./model/useTextInputForm";
+import TeamNameRepeatProvider from "./ui/TeamNameRepeatProvider";
+import TeamManageTextInput from "../../../../../../../../4_Shared/hookForm/TeamManageTextInput";
+import useToggleState from "../../../../../../../../4_Shared/model/useToggleState";
+import usePutTeamInfoHandler from "./model/usePutTeamInfoHandler";
+import SubmitBtn from "./ui/SubmitBtn";
 
 const TextInputForm = (props: TextInputFormProps) => {
-  const { team_list_idx, teamInfo, handleSetTeamInfoWithoutImg } = props;
+  const { teamInfo, handleSetTeamInfoPreview } = props;
 
-  // props가 변경되지 않는 한, 기존 teamInfoForm 값을 재사용하여 불필요한 input form 재생성을 방지
-  const teamInfoForm = React.useMemo(
-    () => convertToTeamInfoForm(teamInfo),
-    [teamInfo]
-  );
-
-  const forms = useForm<TeamInfoForm>({
-    resolver: yupResolver(schema),
-    mode: "onChange",
+  const { forms, handleCancle, handleBackupData } = useTextInputForm({
+    teamInfo,
   });
+  const { handleSubmit, setValue } = forms;
 
-  const {
-    handleSubmit,
-    getValues,
+  const { handlePutTeamInfo } = usePutTeamInfoHandler({
+    teamInfo,
     setValue,
-    formState: { isValid },
-    reset,
-  } = forms;
-
-  const { modifyMode, handleCancle, handleModifyFalse, handleBackupData } =
-    useManageModify({ reset, setValue, teamInfoForm });
-
-  const [putTeamInfo] = usePutTeamInfo(team_list_idx);
-
-  const onSubmit: SubmitHandler<TeamInfoForm> = (data) => {
-    putTeamInfo(convertToPutData(data));
-    handleSetTeamInfoWithoutImg(data);
-    handleModifyFalse();
-  };
+    handleSetTeamInfoPreview,
+  });
+  const [modifyMode, toggleModifyMode] = useToggleState();
 
   return (
     <FormProvider {...forms}>
       <form
-        onSubmit={handleSubmit(onSubmit)}
+        onSubmit={handleSubmit((data: TeamInfoForm) => {
+          handlePutTeamInfo(data);
+          handleBackupData();
+          toggleModifyMode();
+        })}
         className="flex-1 min-w-[300px]  rounded-lg shadow-md p-4">
         {/* 팀명 입력 */}
-        <TeamNameCheckInput modifyMode={modifyMode} isShort={false} />
+        <TeamNameRepeatProvider
+          modifyMode={modifyMode}
+          isShort={false}
+          beforeName={teamInfo.team_list_name}>
+          <TeamManageTextInput
+            modifyMode={modifyMode}
+            registerType="team_list_name"
+            repeatType="team_list_name_repeat"
+          />
+        </TeamNameRepeatProvider>
+
         {/* 짧은 태그 입력 */}
-        <TeamNameCheckInput modifyMode={modifyMode} isShort={true} />
+        <TeamNameRepeatProvider
+          modifyMode={modifyMode}
+          isShort
+          beforeName={teamInfo.team_list_short_name}>
+          <TeamManageTextInput
+            modifyMode={modifyMode}
+            registerType="team_list_short_name"
+            repeatType="team_list_short_name_repeat"
+          />
+        </TeamNameRepeatProvider>
         {/* 팀원 모집상태 */}
-        <StatusRadio modifyMode={modifyMode} />
+        <TeamManageTextInput
+          modifyMode={modifyMode}
+          registerType="common_status_idx"
+        />
 
         {/* 팀 색상 선택 */}
-        <InputField
-          label="Team Color"
-          name="team_list_color"
+        <TeamManageTextInput
           modifyMode={modifyMode}
-          type="color"
-          placeholder="Enter Team Notice"
+          registerType="team_list_color"
         />
 
         {/* 팀 공지 입력 */}
-        <InputField
-          label="Team Notice"
-          name="team_list_announcement"
+        <TeamManageTextInput
           modifyMode={modifyMode}
-          type="textarea"
-          placeholder="Enter Team Notice"
+          registerType="team_list_announcement"
         />
 
         {/* 제출 버튼 */}
         <div className="flex justify-end gap-4 mt-4">
           {!modifyMode ? (
-            <button
-              className="py-2 px-4 bg-blue-600 text-white rounded-md"
-              onClick={(e) => {
-                e.preventDefault();
-                handleBackupData(getValues());
-              }}>
+            <button className="py-2 px-4 bg-grass text-white rounded-md">
               수정하기
             </button>
           ) : (
             <div className="flex gap-2">
               <button
                 className="py-2 px-4 bg-red-600 text-white rounded-md"
-                onClick={handleCancle}>
+                onClick={() => {
+                  handleCancle();
+                  toggleModifyMode();
+                }}>
                 취소
               </button>
-              <button
-                type="submit"
-                disabled={!isValid}
-                className={`py-2 px-4 rounded-md text-white font-semibold shadow-md transition duration-300
-              ${
-                isValid
-                  ? "bg-green-600 hover:bg-green-700 active:bg-green-800 focus:ring focus:ring-green-300"
-                  : "bg-gray-400 text-gray-500 cursor-none"
-              }`}>
-                저장
-              </button>
+              <SubmitBtn />
             </div>
           )}
         </div>

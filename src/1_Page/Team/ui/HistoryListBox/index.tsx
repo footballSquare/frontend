@@ -1,5 +1,5 @@
 import useGetTeamHistory from "../../../../3_Entity/Team/useGetTeamHistory";
-import { formatDateKoreanDate } from "../../../../4_Shared/lib/dateFormatter";
+import { utcFormatter } from "../../../../4_Shared/lib/utcFormatter";
 import useParamInteger from "../../../../4_Shared/model/useParamInteger";
 
 const HistoryListBox = () => {
@@ -23,9 +23,7 @@ const HistoryListBox = () => {
                 {history.team_list_name}
               </span>
               <span className="text-gray-500 dark:text-gray-400 text-xs">
-                {formatDateKoreanDate(
-                  new Date(history.team_history_created_at)
-                )}
+                {utcFormatter(history.team_history_created_at)}
               </span>
             </li>
           ))}

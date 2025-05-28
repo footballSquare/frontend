@@ -20,7 +20,6 @@ const useGetTeamInfo = (teamListIdx: number): [TeamInfo, boolean] => {
 
   React.useEffect(() => {
     if (!serverState) return;
-
     switch (serverState.status) {
       case 200:
         return;

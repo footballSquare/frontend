@@ -4,15 +4,15 @@ import { useFetchData } from "../../4_Shared/util/apiUtil";
 const usePutTeamInfo = (
   team_list_idx: number
 ): [
-  putTeamInfo: (props: UsePutTeamInfoProps) => void,
+  putTeamInfo: (props: UsePutTeamInfoProps) => Promise<number | undefined>,
   serverState: unknown,
   loading: boolean
 ] => {
   const [serverState, request, loading] = useFetchData();
 
-  const putTeamInfo = (props: UsePutTeamInfoProps) => {
+  const putTeamInfo = async (props: UsePutTeamInfoProps) => {
     const endPoint = `/team/${team_list_idx}`;
-    request("PUT", endPoint, props, true);
+    return await request("PUT", endPoint, props, true);
   };
 
   React.useEffect(() => {

@@ -7,7 +7,8 @@ const TeamApplications = (props: TeamApplicationsProps) => {
   // api
   const [signMemberList] = useGetSignMemberList(team_list_idx);
   // obtimistic state
-  const [pendingPlayers, excludePlayerById] = useManagePlayers(signMemberList);
+  const [pendingPlayers, excludePlayerById, includePayerById] =
+    useManagePlayers(signMemberList);
 
   return (
     <div className="flex-1 w-full h-full  rounded-lg shadow-md p-4">
@@ -25,6 +26,7 @@ const TeamApplications = (props: TeamApplicationsProps) => {
             <TeamApplicationItem
               key={`approve_card_${player.player_list_idx}`}
               player={player}
+              includePayerById={includePayerById}
               excludePlayerById={excludePlayerById}
               team_list_idx={team_list_idx}
             />

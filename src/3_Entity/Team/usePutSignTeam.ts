@@ -4,15 +4,15 @@ import { useFetchData } from "../../4_Shared/util/apiUtil";
 const usePutSignTeam = (
   teamListIdx: number
 ): [
-  putSignTeam: () => void,
+  putSignTeam: () => Promise<number | undefined>,
   serverState: Record<string, unknown> | null,
   loading: boolean
 ] => {
   const [serverState, request, loading] = useFetchData();
 
-  const putSignTeam = () => {
+  const putSignTeam = async () => {
     const endPoint = `/team/${teamListIdx}/application`;
-    request("PUT", endPoint, null, true);
+    return await request("PUT", endPoint, null, true);
   };
 
   React.useEffect(() => {

@@ -8,3 +8,7 @@ type ManageHandlers = {
   handleSetTeamBanner: (banner: string | null) => void;
   handleSetTeamInfoWithoutImg: (data: TeamInfoForm) => void;
 };
+
+type TeamInfoContextType = {
+  team_list_color: string;
+};
