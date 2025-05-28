@@ -76,9 +76,10 @@ const MatchModal = () => {
           예상 플레이 타임
           {/* 아래의 select 태그 Select 컴포넌트로 적용 */}
           <p className="flex justify-center items-center w-[164px] h-[32px] rounded-[4px] border border-gray-500">
-            {`${match_match_duration?.hours}.${
-              match_match_duration?.minutes || 0
-            } 시간`}
+            {match_match_duration?.hours !== undefined &&
+              `${match_match_duration.hours}시간 `}
+            {match_match_duration?.minutes !== undefined &&
+              `${match_match_duration.minutes}분`}
           </p>
         </label>
         <label className="flex flex-col text-xs font-semibold">
@@ -110,8 +111,7 @@ const MatchModal = () => {
               toggleMatchModal();
               navigate(`profile/${player_list_idx}`);
             }}
-            className="flex justify-center items-center w-[164px] h-[32px] border border-gray-500 rounded-[4px] cursor-pointer"
-          >
+            className="flex justify-center items-center w-[164px] h-[32px] border border-gray-500 rounded-[4px] cursor-pointer">
             <h2>{player_list_nickname}</h2>
             <img
               src={player_list_profile_image || undefined}
@@ -248,8 +248,7 @@ const MatchModal = () => {
               className="border border-gray shadow-lg p-[2px] hover:bg-blue hover:text-white"
               onClick={() => {
                 matchEndHandler({ matchIdx });
-              }}
-            >
+              }}>
               매치 마감
             </button>
           )}
@@ -259,8 +258,7 @@ const MatchModal = () => {
               if (confirm("매치를 삭제하시겠습니까?")) {
                 deleteMatch({ matchIdx });
               }
-            }}
-          >
+            }}>
             매치 삭제
           </button>
         </div>
