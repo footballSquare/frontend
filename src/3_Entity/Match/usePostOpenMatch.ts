@@ -15,7 +15,6 @@ const usePostOpenMatch = (): [
     if (!loading && serverState) {
       if (serverState.status === 200) {
         alert("매치가 생성되었습니다.");
-        window.location.reload();
       } else {
         alert("매치 생성에 실패했습니다.");
       }
