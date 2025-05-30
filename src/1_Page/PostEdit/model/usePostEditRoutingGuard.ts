@@ -23,7 +23,8 @@ const usePostEditRoutingGuard = (): UseWriteRouteTypeReturn => {
   if (isNew) {
     categoryIndex =
       CATEGORY_MAP[categoryParam as keyof typeof CATEGORY_MAP] ?? -1;
-    if (categoryIndex === undefined) {
+    // categoryIdx가 -1인 경우 404 페이지로 리다이렉트합니다.
+    if (categoryIndex === -1) {
       navigate("/404", { replace: true });
     }
   }

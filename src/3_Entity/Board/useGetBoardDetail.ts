@@ -16,17 +16,15 @@ const useGetBoardDetail = (board_list_idx: number): [BoardDetails, boolean] => {
   }, []);
 
   React.useEffect(() => {
-    if (!loading && serverState && "board" in serverState) {
-      const nestedBoard = (serverState as { board: { board: BoardDetails } })
-        .board.board;
-      setBoardDetail(nestedBoard);
-    }
-  }, [loading, serverState]);
-
-  React.useEffect(() => {
     if (!serverState) return;
     switch (serverState.status) {
       case 200:
+        {
+          const nestedBoard = (
+            serverState as { board: { board: BoardDetails } }
+          ).board.board;
+          setBoardDetail(nestedBoard);
+        }
         return;
       default:
         alert("게시글을 불러오는 데 실패했습니다.");
