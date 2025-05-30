@@ -12,6 +12,7 @@ export const convertToPostMatchProps = (
     match_match_participation_type_radio,
     match_formation_idx,
     match_type_idx_radio,
+    match_match_name,
   } = data;
 
   return {
@@ -22,6 +23,7 @@ export const convertToPostMatchProps = (
     ),
     match_match_duration: parseDuration(match_match_duration),
     match_match_start_time: `${match_match_start_date} ${match_match_start_hour}:${match_match_start_min}:00`,
+    match_match_name: match_match_name,
   };
 };
 
@@ -34,6 +36,7 @@ export const convertToMatchInfo = (props: MatchDataFormWithIdx): MatchInfo => {
     match_match_participation_type_radio,
     match_match_duration,
     team_list_idx,
+    match_match_name,
   } = props;
 
   return {
@@ -52,6 +55,7 @@ export const convertToMatchInfo = (props: MatchDataFormWithIdx): MatchInfo => {
     match_match_start_time: `${match_match_start_date} ${match_match_start_hour}:${match_match_start_min}`,
     common_status_idx: 0,
     match_match_duration: parseDuration(match_match_duration),
+    match_match_name: match_match_name,
   };
 };
 
@@ -69,6 +73,7 @@ export const convertToMatchDataForm = (
     match_match_participation_type_radio: "1",
     match_match_duration: matchDuration[0],
     match_formation_idx: 0,
+    match_match_name: "",
   };
 };
 
