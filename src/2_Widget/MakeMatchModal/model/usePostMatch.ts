@@ -16,7 +16,6 @@ const usePostMatch = (): [(props: PostMatchProps) => void, string] => {
     } else {
       postTeamMatch(props);
     }
-    window.location.reload();
   };
 
 
