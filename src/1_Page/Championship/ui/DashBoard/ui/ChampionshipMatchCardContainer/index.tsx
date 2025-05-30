@@ -2,7 +2,7 @@ import ChampionshipMatchCard from "./ui/ChampionshipMatchCard";
 import CreateChampionMatchPanel from "./ui/CreateChampionMatchPanel";
 import useSortHandler from "./model/useSortHandler";
 
-import useChampionshipInfoContext from "../../../../model/useChampionshipInfoContext";
+import useChampionshipInfoContext from "../../../../../../4_Shared/model/useChampionshipInfoContext";
 
 const ChampionshipMatchCardContainer = (
   props: ChampionshipMatchCardContainerProps

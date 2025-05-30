@@ -15,7 +15,6 @@ const PostEdit = () => {
   useValidatePostOwner(isNew, boardDetail);
 
   const [form, preview] = usePostEditForm(boardDetail);
-
   const {
     handleSubmit,
     register,

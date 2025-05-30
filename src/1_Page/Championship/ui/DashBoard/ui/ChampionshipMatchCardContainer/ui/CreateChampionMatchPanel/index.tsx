@@ -1,9 +1,10 @@
 import useToggleState from "../../../../../../../../4_Shared/model/useToggleState";
-import useChampionshipInfoContext from "../../../../../../model/useChampionshipInfoContext";
+import useChampionshipInfoContext from "../../../../../../../../4_Shared/model/useChampionshipInfoContext";
 import { getTextColorFromBackground } from "../../../../../../../../4_Shared/lib/colorChecker";
 import usePostCreateChampionshipMatchHandler from "./model/useManageCreateChampionshipMatch";
 import PostChampionshipMatch from "../../../../../../../../4_Shared/hookForm/PostChampionshipMatch";
 import useCreateMatchForm from "./model/useCreateMatchForm";
+import DefaultTeamEmblem from "../../../../../../../../4_Shared/components/DefaultTeamEmblem";
 
 const CreateChampionMatchPanel = (props: CreateChampionMatchPanelProps) => {
   const { filteredTeamList, handleAddMatch, handleSyncMatchIdx, handleSelect } =
@@ -80,13 +81,18 @@ const CreateChampionMatchPanel = (props: CreateChampionMatchPanelProps) => {
                             key={team.team_list_idx}
                             className="flex items-center justify-between bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 p-4 rounded-lg hover:shadow-sm transition-shadow">
                             <div className="flex items-center space-x-3 flex-1 min-w-0">
-                              <img
-                                className="w-8 h-8 object-cover rounded-full border-2 border-gray-200 dark:border-gray-600"
-                                src={
-                                  team.team_list_emblem || "/placeholder.svg"
-                                }
-                                alt={`${team.team_list_name} emblem`}
-                              />
+                              {team.team_list_emblem ? (
+                                <img
+                                  className="w-8 h-8 object-cover rounded-full border-2 border-gray-200 dark:border-gray-600"
+                                  src={team.team_list_emblem}
+                                  alt={`${team.team_list_name} emblem`}
+                                />
+                              ) : (
+                                <DefaultTeamEmblem
+                                  text={team.team_list_name}
+                                  bgColor={team.team_list_color}
+                                />
+                              )}
                               <span
                                 className="w-3 h-3 rounded-full border border-gray-300 dark:border-gray-500"
                                 style={{
@@ -149,14 +155,18 @@ const CreateChampionMatchPanel = (props: CreateChampionMatchPanelProps) => {
                     ) : (
                       <div className="flex items-center justify-center gap-4 flex-wrap sm:flex-nowrap">
                         <div className="flex items-center gap-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 p-3 rounded-lg min-w-0 flex-1 max-w-xs">
-                          <img
-                            className="w-8 h-8 object-cover rounded-full border-2 border-gray-200 dark:border-gray-600 flex-shrink-0"
-                            src={
-                              selectedTeams[0].team_list_emblem ||
-                              "/placeholder.svg"
-                            }
-                            alt={`${selectedTeams[0].team_list_name} emblem`}
-                          />
+                          {selectedTeams[0].team_list_emblem ? (
+                            <img
+                              className="w-8 h-8 object-cover rounded-full border-2 border-gray-200 dark:border-gray-600 flex-shrink-0"
+                              src={selectedTeams[0].team_list_emblem}
+                              alt={`${selectedTeams[0].team_list_name} emblem`}
+                            />
+                          ) : (
+                            <DefaultTeamEmblem
+                              text={selectedTeams[0].team_list_name}
+                              bgColor={selectedTeams[0].team_list_color}
+                            />
+                          )}
                           <span
                             style={{ color: selectedTeams[0].team_list_color }}
                             className="text-sm font-medium truncate flex-1"
@@ -179,14 +189,20 @@ const CreateChampionMatchPanel = (props: CreateChampionMatchPanelProps) => {
 
                         {selectedTeams[1] && (
                           <div className="flex items-center gap-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 p-3 rounded-lg min-w-0 flex-1 max-w-xs">
-                            <img
-                              className="w-8 h-8 object-cover rounded-full border-2 border-gray-200 dark:border-gray-600 flex-shrink-0"
-                              src={
-                                selectedTeams[1].team_list_emblem ||
-                                "/placeholder.svg"
-                              }
-                              alt={`${selectedTeams[1].team_list_name} emblem`}
-                            />
+                            {selectedTeams[1].team_list_emblem ? (
+                              <img
+                                className="w-8 h-8 object-cover rounded-full border-2 border-gray-200 dark:border-gray-600 flex-shrink-0"
+                                src={selectedTeams[1].team_list_emblem}
+                                alt={`${selectedTeams[1].team_list_name} emblem`}
+                              />
+                            ) : (
+                              <DefaultTeamEmblem
+                                text={selectedTeams[1].team_list_name}
+                                bgColor={
+                                  selectedTeams[1].team_list_color || "#ffffff"
+                                }
+                              />
+                            )}
                             <span
                               style={{
                                 color: selectedTeams[1].team_list_color,

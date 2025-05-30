@@ -3,11 +3,8 @@ import FootballGroundSection from "./ui/FootballGroundSection";
 import VerticalTeamStatCards from "./ui/VerticalTeamStatCards";
 import EvidenceDetailModal from "./ui/EvidenceDetailModal";
 
-const DEFAULT_ACCENT_COLOR = "#3b82f6";
-const SELECT_MATCH_BADGE = "⚽";
-
 import useToggleState from "../../../../../../4_Shared/model/useToggleState";
-import useChampionshipInfoContext from "../../../../model/useChampionshipInfoContext";
+import useChampionshipInfoContext from "../../../../../../4_Shared/model/useChampionshipInfoContext";
 import { getTextColorFromBackground } from "../../../../../../4_Shared/lib/colorChecker";
 import useMatchModalStore from "../../../../../../4_Shared/zustand/useMatchModal";
 import { BUTTON_TEXT, ViewMode } from "./constant/tab";
@@ -21,7 +18,7 @@ const MatchLineupContainer = (props: MatchLineupContainerProps) => {
   const { isCommunityManager, isCommunityOperator, championshipListColor } =
     useChampionshipInfoContext();
 
-  const accentColor = championshipListColor || DEFAULT_ACCENT_COLOR;
+  const accentColor = championshipListColor || "#3b82f6";
   const accentText = getTextColorFromBackground(accentColor);
 
   // state
@@ -37,7 +34,7 @@ const MatchLineupContainer = (props: MatchLineupContainerProps) => {
     return (
       <div className="flex flex-col items-center justify-center h-full py-10">
         <div className="bg-gray-800 rounded-full p-4 mb-4">
-          <span className="text-gray-300 text-2xl">{SELECT_MATCH_BADGE}</span>
+          <span className="text-gray-300 text-2xl">{"⚽"}</span>
         </div>
         <h3 className="text-lg font-medium text-gray-100 mb-2">
           매치를 선택해주세요

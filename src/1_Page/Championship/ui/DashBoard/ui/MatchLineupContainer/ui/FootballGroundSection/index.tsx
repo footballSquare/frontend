@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { formations } from "../../../../../../../../2_Widget/MatchModal/constant/formation";
 import { matchPosition } from "../../../../../../../../4_Shared/constant/matchPosition";
-import useChampionshipInfoContext from "../../../../../../model/useChampionshipInfoContext";
+import useChampionshipInfoContext from "../../../../../../../../4_Shared/model/useChampionshipInfoContext";
 import { getTextColorFromBackground } from "../../../../../../../../4_Shared/lib/colorChecker";
 
 const FootballGroundSection = (props: FootballGroundSectionProps) => {

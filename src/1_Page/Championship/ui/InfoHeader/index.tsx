@@ -5,8 +5,9 @@ import { getTextColorFromBackground } from "../../../../4_Shared/lib/colorChecke
 import { matchType } from "../../../../4_Shared/constant/matchType";
 import { championshipTypes } from "../../../../4_Shared/constant/championshipTypes";
 import defaultTrophyImg from "../../../../4_Shared/assets/svg/rank.svg";
-import useChampionshipInfoContext from "../../model/useChampionshipInfoContext";
+import useChampionshipInfoContext from "../../../../4_Shared/model/useChampionshipInfoContext";
 import { utcFormatter } from "../../../../4_Shared/lib/utcFormatter";
+import DefaultTeamEmblem from "../../../../4_Shared/components/DefaultTeamEmblem";
 
 const InfoHeader = (props: InfoHeaderProps) => {
   const { championshipInfo } = props;
@@ -125,11 +126,19 @@ const InfoHeader = (props: InfoHeaderProps) => {
             <div className="flex items-center">
               <div className="relative mr-3">
                 <span className="absolute -top-2 -left-1 text-lg">👑</span>
-                <img
-                  className="w-10 h-10 object-cover rounded-full border border-white/50 ml-1"
-                  src={championshipInfo.winner_team_emblem || "placeholder.png"}
-                  alt={`${championshipInfo.winner_team_name} 엠블럼`}
-                />
+                {championshipInfo.winner_team_emblem ? (
+                  <img
+                    className="w-10 h-10 object-cover rounded-full border border-white/50 ml-1"
+                    src={
+                      championshipInfo.winner_team_emblem || "placeholder.png"
+                    }
+                  />
+                ) : (
+                  <DefaultTeamEmblem
+                    text={championshipInfo.winner_team_name || "팀"}
+                    bgColor={championshipInfo.winner_team_color || "#ffffff"}
+                  />
+                )}
               </div>
               <div className="flex flex-col">
                 <span className="text-xs font-medium uppercase tracking-wider opacity-70">

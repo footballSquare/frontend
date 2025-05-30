@@ -20,6 +20,7 @@ const usePostEditForm = (
   const form = { reset, watch, ...rest };
   const imageFile = watch("board_list_img")?.[0];
 
+  // 초기 데이터 설정
   React.useEffect(() => {
     reset({
       board_list_title: boadDetail?.board_list_title,
@@ -28,6 +29,7 @@ const usePostEditForm = (
     setPreview(boadDetail?.board_list_img);
   }, [boadDetail]);
 
+  // 초기 이미지 설정
   React.useEffect(() => {
     if (!imageFile) return setPreview(undefined);
     const url = URL.createObjectURL(imageFile);

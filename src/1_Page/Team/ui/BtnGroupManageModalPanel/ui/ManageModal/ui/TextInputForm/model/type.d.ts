@@ -1,7 +1,19 @@
-import { UseFormReset, UseFormSetValue } from "react-hook-form";
+type UseTextInputFormProps = {
+  teamInfo: TeamInfo;
+};
 
-export type UseManageModifyProps = {
-  setValue: UseFormSetValue<TeamInfoForm>;
-  reset: UseFormReset<TeamInfoForm>;
-  teamInfoForm: TeamInfoForm;
+type UseTextInputFormReturn = {
+  forms: ReturnType<typeof useForm<TeamInfoForm>>;
+  handleCancle: () => void;
+  handleBackupData: () => void;
+};
+
+type UsePutTeamInfoHandlerProps = {
+  teamInfo: TeamInfo;
+  setValue: (name: string, value: boolean) => void;
+  handleSetTeamInfoPreview: (data: TeamInfoForm) => void;
+};
+
+type UsePutTeamInfoHandlerReturn = {
+  handlePutTeamInfo: (data: TeamInfoForm) => Promise<void>;
 };

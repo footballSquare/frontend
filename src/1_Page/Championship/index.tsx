@@ -4,7 +4,7 @@ import InfoHeader from "./ui/InfoHeader";
 import useGetChampionshipInfo from "../../3_Entity/Championship/useGetChampionshipInfo";
 import useValidParamInteger from "../../4_Shared/model/useValidParamInteger";
 
-import { ChampionshipInfoContext } from "./model/useChampionshipInfoContext";
+import { ChampionshipInfoContext } from "../../4_Shared/model/useChampionshipInfoContext";
 import {
   useMyCommunityListIdx,
   useMyCommunityRoleIdx,

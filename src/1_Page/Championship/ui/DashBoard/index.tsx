@@ -14,7 +14,7 @@ import useParamInteger from "../../../../4_Shared/model/useParamInteger";
 import useSelectHandler from "./model/useSelectHandler";
 import useGetChampionshipDetail from "../../../../3_Entity/Championship/useGetChampionshipDetail";
 import PlayerTab from "./ui/PlayerTab";
-import useChampionshipInfoContext from "../../model/useChampionshipInfoContext";
+import useChampionshipInfoContext from "../../../../4_Shared/model/useChampionshipInfoContext";
 
 const DashBoard = (props: DashBoardProps) => {
   const { championship_type_idx } = props;

@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import useToggleState from "../../../../../../4_Shared/model/useToggleState";
 import { headerList } from "./constant/header";
+import DefaultTeamEmblem from "../../../../../../4_Shared/components/DefaultTeamEmblem";
 
 const LeagueBracket = (props: LeagueBracketProps) => {
   const { leagueData } = props;
@@ -43,11 +44,18 @@ const LeagueBracket = (props: LeagueBracketProps) => {
                     className="flex items-center gap-4 cursor-pointer"
                     onClick={() => navigate(`/team/${team.team_list_idx}`)}>
                     <div className="w-10 h-10 rounded-full bg-gray-700 p-1 shadow-sm flex items-center justify-center">
-                      <img
-                        src={team.team_list_emblem}
-                        alt={team.team_list_name}
-                        className="w-8 h-8 object-contain"
-                      />
+                      {team.team_list_emblem ? (
+                        <img
+                          src={team.team_list_emblem}
+                          alt={team.team_list_name}
+                          className="w-8 h-8 object-contain"
+                        />
+                      ) : (
+                        <DefaultTeamEmblem
+                          bgColor={team.team_list_color}
+                          text={team.team_list_name}
+                        />
+                      )}
                     </div>
                     <span
                       className="inline-block w-3 h-3 rounded-full"

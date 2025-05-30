@@ -7,7 +7,7 @@ const HomeBtn = () => {
   const { setPage } = usePageStore();
   return (
     <button
-      className="lg:flex hidden items-center justify-center"
+      className="flex items-center justify-center"
       onClick={() => {
         navigate("/");
         setPage("HOME");

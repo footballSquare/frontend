@@ -1,6 +1,6 @@
-import defaultTeamImg from "../../../../../../../../4_Shared/assets/svg/team.svg";
-import useChampionshipInfoContext from "../../../../../../model/useChampionshipInfoContext";
+import useChampionshipInfoContext from "../../../../../../../../4_Shared/model/useChampionshipInfoContext";
 import { getTextColorFromBackground } from "../../../../../../../../4_Shared/lib/colorChecker";
+import DefaultTeamEmblem from "../../../../../../../../4_Shared/components/DefaultTeamEmblem";
 
 const TournamentMatchColumn = (props: TournamentMatchColumnProps) => {
   const { match } = props;
@@ -47,14 +47,18 @@ const TournamentMatchColumn = (props: TournamentMatchColumnProps) => {
               team1Won && isFinished ? `${championshipListColor}33` : "#1F2937", // Tailwind gray‑800 to guarantee readability
           }}>
           <div className="w-10 h-10 rounded-full shadow-sm flex items-center justify-center p-1 mr-3">
-            <img
-              src={
-                match.championship_match_first.team_list_emblem ||
-                defaultTeamImg
-              }
-              alt={match.championship_match_first.team_list_name}
-              className="w-8 h-8 object-contain"
-            />
+            {match.championship_match_first.team_list_emblem ? (
+              <img
+                alt={match.championship_match_first.team_list_name}
+                src={match.championship_match_first.team_list_emblem}
+                className="w-8 h-8 object-contain"
+              />
+            ) : (
+              <DefaultTeamEmblem
+                text={match.championship_match_first.team_list_name}
+                bgColor={match.championship_match_first.team_list_color}
+              />
+            )}
           </div>
           <div className="flex-grow flex items-center gap-1">
             <span
@@ -93,14 +97,18 @@ const TournamentMatchColumn = (props: TournamentMatchColumnProps) => {
               : "#1F2937",
           }}>
           <div className="w-10 h-10 rounded-full shadow-sm flex items-center justify-center p-1 mr-3">
-            <img
-              src={
-                match.championship_match_second.team_list_emblem ||
-                defaultTeamImg
-              }
-              alt={match.championship_match_second.team_list_name}
-              className="w-8 h-8 object-contain"
-            />
+            {match.championship_match_second.team_list_emblem ? (
+              <img
+                alt={match.championship_match_second.team_list_name}
+                src={match.championship_match_second.team_list_emblem}
+                className="w-8 h-8 object-contain"
+              />
+            ) : (
+              <DefaultTeamEmblem
+                text={match.championship_match_second.team_list_name}
+                bgColor={match.championship_match_second.team_list_color}
+              />
+            )}
           </div>
           <div className="flex-grow flex items-center gap-1">
             <span

@@ -114,7 +114,7 @@ export const useFetchData = (): [
         if (error instanceof AxiosError) {
           const { status } = error.response ?? {};
           console.log("network error");
-          setServerState({ status });
+          setServerState({ status, message: error.response?.data?.message });
         }
       } finally {
         setLoading(false);

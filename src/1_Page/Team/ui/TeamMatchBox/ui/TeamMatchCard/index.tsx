@@ -36,7 +36,7 @@ const TeamMatchCard = (props: TeamMatchCardProps) => {
         setMatchIdx(match_match_idx);
         toggleMatchModal();
       }}
-      className={`w-full border-l-4 ${
+      className={`w-full border-l-4 cursor-pointer ${
         isNotEndMatch
           ? "border-l-emerald-500 hover:bg-gray-900"
           : "border-l-red-600 cursor-not-allowed"

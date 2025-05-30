@@ -1,7 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import { convertHexToRGBA } from "../../../../../../4_Shared/lib/colorConverter";
 import useToggleState from "../../../../../../4_Shared/model/useToggleState";
-import useChampionshipInfoContext from "../../../../model/useChampionshipInfoContext";
+import useChampionshipInfoContext from "../../../../../../4_Shared/model/useChampionshipInfoContext";
+import DefaultTeamEmblem from "../../../../../../4_Shared/components/DefaultTeamEmblem";
 
 const TeamListPanel = (props: TeamListPanelProps) => {
   const { teamList } = props;
@@ -54,7 +55,7 @@ const TeamListPanel = (props: TeamListPanelProps) => {
                     }}
                     className={`cursor-pointer p-3 border rounded-lg transition-all duration-200 hover:shadow-md `}>
                     <div className="flex items-center space-x-2">
-                      {team.team_list_emblem && (
+                      {team.team_list_emblem ? (
                         <div
                           className="flex-shrink-0"
                           style={{ minWidth: "40px" }}>
@@ -65,6 +66,11 @@ const TeamListPanel = (props: TeamListPanelProps) => {
                             style={{ borderColor: teamColor }}
                           />
                         </div>
+                      ) : (
+                        <DefaultTeamEmblem
+                          bgColor={teamBgColor}
+                          text={team.team_list_name}
+                        />
                       )}
                       <div className="min-w-0 flex-1">
                         <div

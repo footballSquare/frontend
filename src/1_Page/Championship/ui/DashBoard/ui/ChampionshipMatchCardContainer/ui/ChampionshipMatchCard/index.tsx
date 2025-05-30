@@ -1,5 +1,5 @@
 import { matchState } from "../../../../../../../../4_Shared/constant/matchState";
-import useChampionshipInfoContext from "../../../../../../model/useChampionshipInfoContext";
+import useChampionshipInfoContext from "../../../../../../../../4_Shared/model/useChampionshipInfoContext";
 import { getTeamStyle } from "./lib/getStatusColor";
 import { getTextColorFromBackground } from "../../../../../../../../4_Shared/lib/colorChecker";
 import useDeleteChampionshipMatchHandler from "./model/useDeleteChampionshipMatchHandler";

@@ -62,8 +62,8 @@ const usePostSignIn = (): [(props: PostSignInProps) => void] => {
           setCookie("access_token", access_token_temporary, options);
           navigate(`/signup`);
         }
-      } else if (serverState.status === 400 || serverState.status === 404) {
-        alert("아이디 또는 비밀번호를 확인해주세요.");
+      } else {
+        alert(serverState.message || "로그인에 실패했습니다.");
       }
     }
   }, [loading, serverState]);
