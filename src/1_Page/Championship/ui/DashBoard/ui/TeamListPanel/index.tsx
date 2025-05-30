@@ -55,23 +55,23 @@ const TeamListPanel = (props: TeamListPanelProps) => {
                     }}
                     className={`cursor-pointer p-3 border rounded-lg transition-all duration-200 hover:shadow-md `}>
                     <div className="flex items-center space-x-2">
-                      {team.team_list_emblem ? (
-                        <div
-                          className="flex-shrink-0"
-                          style={{ minWidth: "40px" }}>
+                      <div
+                        className="flex-shrink-0"
+                        style={{ minWidth: "40px" }}>
+                        {team.team_list_emblem ? (
                           <img
                             src={team.team_list_emblem}
-                            alt={team.team_list_name}
+                            alt={team.team_list_short_name}
                             className="w-10 h-10 object-contain rounded-full bg-white p-1 border shadow-sm"
                             style={{ borderColor: teamColor }}
                           />
-                        </div>
-                      ) : (
-                        <DefaultTeamEmblem
-                          bgColor={teamBgColor}
-                          text={team.team_list_name}
-                        />
-                      )}
+                        ) : (
+                          <DefaultTeamEmblem
+                            text={team.team_list_short_name}
+                            bgColor={teamBgColor}
+                          />
+                        )}
+                      </div>
                       <div className="min-w-0 flex-1">
                         <div
                           className="font-bold truncate"

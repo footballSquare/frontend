@@ -55,7 +55,7 @@ const TournamentMatchColumn = (props: TournamentMatchColumnProps) => {
               />
             ) : (
               <DefaultTeamEmblem
-                text={match.championship_match_first.team_list_name}
+                text={match.championship_match_first.team_list_short_name}
                 bgColor={match.championship_match_first.team_list_color}
               />
             )}
@@ -105,7 +105,7 @@ const TournamentMatchColumn = (props: TournamentMatchColumnProps) => {
               />
             ) : (
               <DefaultTeamEmblem
-                text={match.championship_match_second.team_list_name}
+                text={match.championship_match_second.team_list_short_name}
                 bgColor={match.championship_match_second.team_list_color}
               />
             )}

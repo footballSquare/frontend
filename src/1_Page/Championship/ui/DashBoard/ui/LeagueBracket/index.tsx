@@ -31,9 +31,18 @@ const LeagueBracket = (props: LeagueBracketProps) => {
               <tr
                 key={team.team_list_idx}
                 className="border-b bg-gray-800 hover:bg-gray-700 transition-colors duration-150">
-                {/* 순위 배지 – 색상 고정 */}
+                {/* 순위 배지 – 색상 조건부(1~3위 색상 강조) */}
                 <td className="px-6 py-4 text-center">
-                  <span className="inline-flex items-center justify-center w-8 h-8 rounded-full font-bold bg-gray-600 text-gray-200">
+                  <span
+                    className={`inline-flex items-center justify-center w-8 h-8 rounded-full font-bold ${
+                      index === 0
+                        ? "bg-yellow-400 text-gray-900"
+                        : index === 1
+                        ? "bg-gray-400 text-gray-900"
+                        : index === 2
+                        ? "bg-amber-600 text-white"
+                        : "bg-gray-600 text-gray-200"
+                    }`}>
                     {index + 1}
                   </span>
                 </td>
@@ -41,28 +50,30 @@ const LeagueBracket = (props: LeagueBracketProps) => {
                 {/* 팀명 + 팀 컬러 점 */}
                 <td className="px-6 py-4">
                   <div
-                    className="flex items-center gap-4 cursor-pointer"
+                    className="flex items-center gap-3 cursor-pointer group"
                     onClick={() => navigate(`/team/${team.team_list_idx}`)}>
-                    <div className="w-10 h-10 rounded-full bg-gray-700 p-1 shadow-sm flex items-center justify-center">
-                      {team.team_list_emblem ? (
-                        <img
-                          src={team.team_list_emblem}
-                          alt={team.team_list_name}
-                          className="w-8 h-8 object-contain"
-                        />
-                      ) : (
+                    {team.team_list_emblem ? (
+                      <img
+                        src={team.team_list_emblem}
+                        alt={team.team_list_name}
+                        className="w-10 h-10 object-cover rounded-full border-2 border-gray-200 dark:border-gray-600 p-1 shadow-sm flex-shrink-0"
+                        style={{ borderColor: team.team_list_color }}
+                      />
+                    ) : (
+                      <div className="w-10 h-10 flex items-center justify-center rounded-full ">
                         <DefaultTeamEmblem
+                          text={team.team_list_short_name}
                           bgColor={team.team_list_color}
-                          text={team.team_list_name}
                         />
-                      )}
-                    </div>
+                      </div>
+                    )}
                     <span
-                      className="inline-block w-3 h-3 rounded-full"
+                      className="w-3 h-3 rounded-full flex-shrink-0"
                       style={{
                         backgroundColor: team.team_list_color || "#ffffff",
-                      }}></span>
-                    <span className="font-medium text-gray-100">
+                      }}
+                    />
+                    <span className="ml-2 font-medium text-gray-100 truncate max-w-[140px] group-hover:underline">
                       {team.team_list_name.length < 12
                         ? team.team_list_name
                         : team.team_list_short_name}
