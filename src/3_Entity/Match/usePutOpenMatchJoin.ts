@@ -19,13 +19,8 @@ const usePutOpenMatchJoin = (): [
   React.useEffect(() => {
     if (!loading && serverState) {
       switch (serverState.status) {
-        case 200:
-          // 2_Widget > MatchModal > model > useMatchApply 에서 관리
-          break;
-        case 403:
-          alert("같은 시간대 참가중인 매치가 존재합니다.");
-          break;
         default:
+          alert(serverState.message);
           break;
       }
     }

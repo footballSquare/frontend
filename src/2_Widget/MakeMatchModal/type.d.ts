@@ -12,6 +12,7 @@ type MatchDataForm = {
   match_match_participation_type_radio: string;
   match_match_duration: string;
   match_formation_idx: number;
+  match_match_name: string;
 };
 
 type MatchDataFormWithIdx = MatchDataForm & {

@@ -199,6 +199,22 @@ const MakeMatchModal = () => {
             </select>
           </div>
 
+          {/* 매치 제목 입력 */}
+          <div>
+            <label className="block text-gray-700">매치 제목</label>
+            <input
+              type="text"
+              {...register("match_match_name", { required: true })}
+              className="w-full border border-gray-300 rounded-lg p-2 mt-1"
+              placeholder="매치 제목을 입력하세요"
+            />
+            {errors.match_match_name && (
+              <span className="text-red-500">
+                {errors.match_match_name.message}
+              </span>
+            )}
+          </div>
+
           {/* 버튼 */}
           <div className="flex justify-end gap-4 mt-6">
             <button
