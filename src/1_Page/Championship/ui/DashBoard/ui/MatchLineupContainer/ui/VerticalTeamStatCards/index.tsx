@@ -5,7 +5,6 @@ import { statLabels } from "./constant/teamStatKeys";
 import TeamDetailHistoryInput from "../../../../../../../../4_Shared/hookForm/TeamDetailHistoryInput";
 import { teamStatsSchema } from "./schema";
 
-// Component
 const VerticalTeamStatCards = (props: VerticalTeamStatCardsProps) => {
   const { teamName, stats } = props;
   const [isEditing, setIsEditing] = useState(false);
@@ -107,7 +106,7 @@ const VerticalTeamStatCards = (props: VerticalTeamStatCardsProps) => {
                             ? stats[key as keyof TeamStats]
                               ? "첨부 완료"
                               : "-"
-                            : key === "mom"
+                            : key === "mom_player_idx"
                             ? stats[key as keyof TeamStats] ?? "-"
                             : formatValue(
                                 stats[key as keyof TeamStats] as

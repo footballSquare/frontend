@@ -31,19 +31,31 @@ export const teamStatsSchema = yup.object({
     .min(0, "태클 성공 횟수는 0 이상이어야 합니다.")
     .required("태클 성공 횟수를 입력해주세요."),
   match_team_stats_evidence_img: yup
-    .mixed<File>()
+    .mixed<FileList>()
     .optional()
     .test(
       "fileSize",
       "파일 크기는 최대 1MB입니다.",
-      (value) => !(value instanceof File) || value.size <= 1024 * 1024
+      (value) => {
+        if (!value) return true;
+        for (let i = 0; i < value.length; i++) {
+          if (value[i].size > 1024 * 1024) return false;
+        }
+        return true;
+      }
     )
     .test(
       "fileFormat",
       "JPG, JPEG, PNG 파일만 가능합니다.",
-      (value) =>
-        !(value instanceof File) ||
-        ["image/jpeg", "image/jpg", "image/png"].includes(value.type)
+      (value) => {
+        if (!value) return true;
+        for (let i = 0; i < value.length; i++) {
+          if (!["image/jpeg", "image/jpg", "image/png"].includes(value[i].type)) {
+            return false;
+          }
+        }
+        return true;
+      }
     ),
   match_match_idx: yup.number().required("팀 인덱스를 입력해주세요."),
   match_team_stats_expectation_goal: yup
@@ -66,5 +78,5 @@ export const teamStatsSchema = yup.object({
     .number()
     .min(0, "페널티킥 횟수는 0 이상이어야 합니다.")
     .required("페널티킥 횟수를 입력해주세요."),
-  mom: yup.number().required("MOM 선수 인덱스를 입력해주세요."),
+  mom_player_idx: yup.number().required("MOM 선수 인덱스를 입력해주세요."),
 });

@@ -15,7 +15,7 @@ type PostTeamStatsForm = {
   match_team_stats_cornerkick: number;
   match_team_stats_freekick: number;
   match_team_stats_penaltykick: number;
+  match_team_stats_evidence_img?: FileList;
   match_match_idx: number;
-  mom: number;
-  match_team_stats_evidence_img?: File; // null 제거
+  mom_player_idx: number;
 };

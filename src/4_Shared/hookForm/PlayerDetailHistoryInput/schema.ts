@@ -1,93 +1,58 @@
+// schema.ts
 import * as yup from "yup";
 
 export const playerDetailHistoryInputSchema = yup.object({
   match_player_stats_goal: yup
     .number()
-    .typeError("숫자를 입력하세요")
-    .min(0, "0 이상")
-    .required("필수값"),
-
+    .required("득점은 필수입니다.")
+    .min(0, "0 이상이어야 합니다."),
   match_player_stats_assist: yup
     .number()
-    .typeError("숫자를 입력하세요")
-    .min(0, "0 이상")
-    .required("필수값"),
-
+    .required("어시스트는 필수입니다.")
+    .min(0, "0 이상이어야 합니다."),
   match_player_stats_successrate_pass: yup
     .number()
-    .typeError("숫자를 입력하세요")
-    .min(0)
-    .max(100)
-    .required("0~100 사이"),
-
+    .required("패스 성공률은 필수입니다.")
+    .min(0, "0 이상이어야 합니다.")
+    .max(100, "100 이하이어야 합니다."),
   match_player_stats_successrate_dribble: yup
     .number()
-    .typeError("숫자를 입력하세요")
-    .min(0)
-    .max(100)
-    .required("0~100 사이"),
-
+    .required("드리블 성공률은 필수입니다.")
+    .min(0, "0 이상이어야 합니다.")
+    .max(100, "100 이하이어야 합니다."),
   match_player_stats_successrate_tackle: yup
     .number()
-    .typeError("숫자를 입력하세요")
-    .min(0)
-    .max(100)
-    .required("0~100 사이"),
-
-  match_player_stats_possession: yup
+    .required("태클 성공률은 필수입니다.")
+    .min(0, "0 이상이어야 합니다.")
+    .max(100, "100 이하이어야 합니다."),
+  match_player_stats_possesion: yup
     .number()
-    .typeError("숫자를 입력하세요")
-    .min(0)
-    .max(100)
-    .required("0~100 사이"),
-
+    .required("점유율은 필수입니다.")
+    .min(0, "0 이상이어야 합니다.")
+    .max(100, "100 이하이어야 합니다."),
   match_player_stats_standing_tackle: yup
     .number()
-    .typeError("숫자를 입력하세요")
-    .min(0)
-    .required("0 이상"),
-
+    .required("스탠딩 태클 성공 횟수는 필수입니다.")
+    .min(0, "0 이상이어야 합니다."),
   match_player_stats_sliding_tackle: yup
     .number()
-    .typeError("숫자를 입력하세요")
-    .min(0)
-    .required("0 이상"),
-
+    .required("슬라이딩 태클 성공 횟수는 필수입니다.")
+    .min(0, "0 이상이어야 합니다."),
   match_player_stats_cutting: yup
     .number()
-    .typeError("숫자를 입력하세요")
-    .min(0)
-    .required("0 이상"),
-
+    .required("가로채기는 필수입니다.")
+    .min(0, "0 이상이어야 합니다."),
   match_player_stats_saved: yup
     .number()
-    .typeError("숫자를 입력하세요")
-    .min(0)
-    .required("0 이상"),
-
+    .required("선방은 필수입니다.")
+    .min(0, "0 이상이어야 합니다."),
   match_player_stats_successrate_saved: yup
     .number()
-    .typeError("숫자를 입력하세요")
-    .min(0)
-    .max(100)
-    .required("0~100 사이"),
-
+    .required("선방률은 필수입니다.")
+    .min(0, "0 이상이어야 합니다.")
+    .max(100, "100 이하이어야 합니다."),
   match_match_idx: yup
     .number()
-    .typeError("숫자를 입력하세요")
-    .required("필수값"),
-
-  match_player_stats_evidence_img: yup
-    .mixed<File>()
-    .test(
-      "fileSize",
-      "1 MB 이하 이미지",
-      (file) => !file || file.size <= 1024 * 1024
-    )
-    .test(
-      "fileType",
-      "JPG,JPEG,PNG 만 허용",
-      (file) =>
-        !file || ["image/jpeg", "image/png", "image/jpg"].includes(file.type)
-    ),
+    .required("매치 인덱스는 필수입니다.")
+    .typeError("숫자여야 합니다."),
 });

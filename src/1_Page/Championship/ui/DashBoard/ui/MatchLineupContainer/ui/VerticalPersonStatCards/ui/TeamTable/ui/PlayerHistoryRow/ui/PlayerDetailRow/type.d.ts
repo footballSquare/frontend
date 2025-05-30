@@ -1,0 +1,3 @@
+type PlayerDetailRowProps = {
+  player: PlayerStats;
+};
