@@ -22,7 +22,6 @@ import DateTab from "./ui/DateTab";
 import usePostChampionship from "../../3_Entity/Community/usePostChampionship";
 import usePutChampionship from "../../3_Entity/Community/usePutChampionship";
 import { championshipTypes } from "../../4_Shared/constant/championshipTypes";
-import useManageServerState from "./model/useManageServerState";
 import EditRequest from "./ui/EditRequest";
 import { calculateProgress } from "./lib/calculateProgress";
 import { getTextColorFromBackground } from "../../4_Shared/lib/colorChecker";
@@ -30,11 +29,8 @@ import { getTextColorFromBackground } from "../../4_Shared/lib/colorChecker";
 const ChampionshipForm = () => {
   const { isEditMode, communityIdx } = useManageSearchParam();
 
-  const [postChampionship, postServerState] = usePostChampionship(communityIdx);
-  const [putChampionship, putServerState] = usePutChampionship(communityIdx);
-
-  const serverState = isEditMode ? putServerState : postServerState;
-  useManageServerState(serverState, isEditMode);
+  const [postChampionship] = usePostChampionship(communityIdx);
+  const [putChampionship] = usePutChampionship(communityIdx);
 
   const [activeTab, setActiveTab] = React.useState<ChampionshipEditTab>(
     CHAMPIONSHIP_EDIT_TAB.BASIC
