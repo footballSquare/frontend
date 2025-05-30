@@ -20,12 +20,9 @@ const usePutBoard = (
         navigate(`/post/${boardListIdx}`);
         break;
       }
-      case 403: {
-        alert("게시글 수정 권한이 없습니다.");
-        break;
-      }
+
       default: {
-        alert("게시글을 수정하는데 실패했습니다.");
+        alert(serverState.message || "게시글 작성에 실패했습니다.");
         break;
       }
     }
