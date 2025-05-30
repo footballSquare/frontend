@@ -7,7 +7,7 @@ const DefaultTeamEmblem = (props: DefaultTeamEmblemProps) => {
       style={{
         backgroundColor: bgColor,
       }}>
-      {text}
+      {text.slice(0, 3)}
     </div>
   );
 };
