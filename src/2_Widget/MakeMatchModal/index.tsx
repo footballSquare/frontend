@@ -47,7 +47,8 @@ const MakeMatchModal = () => {
           <button
             type="button"
             className="text-gray-400 hover:text-gray-600"
-            onClick={toggleMakeMatchModal}>
+            onClick={toggleMakeMatchModal}
+          >
             ✖
           </button>
         </div>
@@ -56,10 +57,10 @@ const MakeMatchModal = () => {
           onSubmit={handleSubmit((data) => {
             if (confirm("생성하시겠습니까?")) {
               postMatch(convertToPostMatchProps(data));
-              toggleMakeMatchModal();
             }
           })}
-          className="space-y-4">
+          className="space-y-4"
+        >
           {/* 매치 종류 선택 */}
           <div>
             <label className="block text-gray-700">매치 종류 선택</label>
@@ -127,7 +128,8 @@ const MakeMatchModal = () => {
                 </label>
                 <select
                   {...register("match_match_start_hour")}
-                  className="w-full border border-gray-300 rounded-lg p-3 text-center text-gray-800 focus:ring-2 focus:ring-blue-400 focus:outline-none">
+                  className="w-full border border-gray-300 rounded-lg p-3 text-center text-gray-800 focus:ring-2 focus:ring-blue-400 focus:outline-none"
+                >
                   {Array.from({ length: 24 }, (_, index) => {
                     const hours = index.toString().padStart(2, "0");
                     return (
@@ -145,7 +147,8 @@ const MakeMatchModal = () => {
                 </label>
                 <select
                   {...register("match_match_start_min")}
-                  className="w-full border border-gray-300 rounded-lg p-3 text-center text-gray-800 focus:ring-2 focus:ring-blue-400 focus:outline-none">
+                  className="w-full border border-gray-300 rounded-lg p-3 text-center text-gray-800 focus:ring-2 focus:ring-blue-400 focus:outline-none"
+                >
                   <option value="00">00</option>
                   <option value="30">30</option>
                 </select>
@@ -190,7 +193,8 @@ const MakeMatchModal = () => {
                 !isCanFormationChange
                   ? "bg-gray-200 cursor-not-allowed opacity-50"
                   : "bg-white"
-              }`}>
+              }`}
+            >
               {matchFormation.map((item, index) => (
                 <option key={index} value={index}>
                   {item}
@@ -220,12 +224,14 @@ const MakeMatchModal = () => {
             <button
               onClick={toggleMakeMatchModal}
               type="button"
-              className="px-4 py-2 rounded-lg border border-gray-300">
+              className="px-4 py-2 rounded-lg border border-gray-300"
+            >
               취소
             </button>
             <button
               type="submit"
-              className="px-4 py-2 rounded-lg bg-blue-600 text-white">
+              className="px-4 py-2 rounded-lg bg-blue-600 text-white"
+            >
               저장
             </button>
           </div>
