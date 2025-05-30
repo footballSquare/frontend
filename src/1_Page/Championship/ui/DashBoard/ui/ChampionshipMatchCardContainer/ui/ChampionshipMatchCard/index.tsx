@@ -4,6 +4,7 @@ import { getTeamStyle } from "./lib/getStatusColor";
 import { getTextColorFromBackground } from "../../../../../../../../4_Shared/lib/colorChecker";
 import useDeleteChampionshipMatchHandler from "./model/useDeleteChampionshipMatchHandler";
 import usePutChampionshipMatchEndHandler from "./model/usePutChampionshipMatchEndHandler";
+import DefaultTeamEmblem from "../../../../../../../../4_Shared/components/DefaultTeamEmblem";
 
 const ChampionshipMatchCard = (props: ChampionshipMatchCardProps) => {
   const {
@@ -76,9 +77,10 @@ const ChampionshipMatchCard = (props: ChampionshipMatchCardProps) => {
                   className="w-6 h-6 sm:w-8 sm:h-8 object-cover rounded-full"
                 />
               ) : (
-                <span className="text-xs font-bold text-gray-800">
-                  {home.team_list_short_name?.charAt(0) || "H"}
-                </span>
+                <DefaultTeamEmblem
+                  text={home.team_list_short_name}
+                  bgColor={home.team_list_color}
+                />
               )}
             </div>
             <span
@@ -119,9 +121,10 @@ const ChampionshipMatchCard = (props: ChampionshipMatchCardProps) => {
                   className="w-6 h-6 sm:w-8 sm:h-8 object-cover rounded-full"
                 />
               ) : (
-                <span className="text-xs font-bold text-gray-800">
-                  {away.team_list_short_name?.charAt(0) || "A"}
-                </span>
+                <DefaultTeamEmblem
+                  text={away.team_list_short_name}
+                  bgColor={away.team_list_color}
+                />
               )}
             </div>
             <span

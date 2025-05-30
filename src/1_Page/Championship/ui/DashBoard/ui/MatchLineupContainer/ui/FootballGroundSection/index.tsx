@@ -1,9 +1,8 @@
-import React from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { formations } from "../../../../../../../../2_Widget/MatchModal/constant/formation";
 import { matchPosition } from "../../../../../../../../4_Shared/constant/matchPosition";
 import useChampionshipInfoContext from "../../../../../../../../4_Shared/model/useChampionshipInfoContext";
-import { getTextColorFromBackground } from "../../../../../../../../4_Shared/lib/colorChecker";
 
 const FootballGroundSection = (props: FootballGroundSectionProps) => {
   const { players, teamFormation, isFirstTeam, isFormationView, momPlayerIdx } =
@@ -13,11 +12,27 @@ const FootballGroundSection = (props: FootballGroundSectionProps) => {
   const [activeTooltipId, setActiveTooltipId] = React.useState<number | null>(
     null
   );
+  const tooltipRefs = useRef<{ [key: number]: HTMLDivElement | null }>({});
+  const [flipTooltip, setFlipTooltip] = useState<{ [key: number]: boolean }>(
+    {}
+  );
+  useEffect(() => {
+    if (activeTooltipId !== null) {
+      const tooltipEl = tooltipRefs.current[activeTooltipId];
+      if (tooltipEl) {
+        const rect = tooltipEl.getBoundingClientRect();
+        // 화면 높이의 절반 기준으로 아래쪽이면 위로 플립
+        setFlipTooltip((prev) => ({
+          ...prev,
+          [activeTooltipId]: rect.top > window.innerHeight / 2,
+        }));
+      }
+    }
+  }, [activeTooltipId]);
 
   /** 챔피언십 메인 색 */
   const { championshipListColor } = useChampionshipInfoContext();
   const accent = championshipListColor || "#3b82f6";
-  const accentText = getTextColorFromBackground(accent);
 
   /** 공통 카드 스타일 */
   const cardBase =
@@ -49,10 +64,10 @@ const FootballGroundSection = (props: FootballGroundSectionProps) => {
               }
               className={whiteCard}>
               <span
-                className={`truncate whitespace-nowrap ${
+                className={`whitespace-normal break-words text-sm ${
                   p.player_list_idx === momPlayerIdx
                     ? "text-yellow-400 font-bold"
-                    : ""
+                    : "text-gray-100"
                 }`}>
                 {p.player_list_idx === momPlayerIdx && "MOM "}
                 {matchPosition[p.match_position_idx]} : {p.player_list_nickname}
@@ -96,7 +111,7 @@ const FootballGroundSection = (props: FootballGroundSectionProps) => {
               }}>
               {/* 플레이어 이름 */}
               <p
-                className={`truncate max-w-[90px] text-[10px] leading-tight ${
+                className={`whitespace-normal break-words max-w-[120px] text-xs leading-snug text-center ${
                   p.player_list_idx === momPlayerIdx
                     ? "text-yellow-300 font-bold"
                     : "text-white"
@@ -137,15 +152,18 @@ const FootballGroundSection = (props: FootballGroundSectionProps) => {
 
               {/* 툴팁 */}
               <div
-                className={`absolute left-1/2 -translate-x-1/2 top-[calc(100%+8px)] z-10 max-w-[160px] p-2 rounded-md border whitespace-nowrap text-xs transition-opacity duration-200 ${
+                ref={(el) => (tooltipRefs.current[p.player_list_idx] = el)}
+                className={`bg-white text-black absolute left-1/2 -translate-x-1/2 ${
+                  flipTooltip[p.player_list_idx]
+                    ? "bottom-[calc(100%+8px)]"
+                    : "top-[calc(100%+8px)]"
+                } z-10 max-w-[160px] p-2 rounded-md border whitespace-nowrap text-xs transition-opacity duration-200 ${
                   activeTooltipId === p.player_list_idx
                     ? "opacity-100"
                     : "opacity-0 pointer-events-none"
                 }`}
                 style={{
-                  backgroundColor: "white",
                   borderColor: accent,
-                  color: accentText,
                 }}>
                 <p
                   className="cursor-pointer underline"
