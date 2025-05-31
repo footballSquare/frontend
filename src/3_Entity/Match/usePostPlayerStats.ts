@@ -1,16 +1,16 @@
 import React from "react";
 import { useFetchData } from "../../4_Shared/util/apiUtil";
 
-const usePostTeamStat = (): [
-  postTeamMatch: (props: PostTeamStatProps) => Promise<number | undefined>
+const usePostPlayerStats = (): [
+  postTeamMatch: (props: PostPlayerStatProps) => Promise<number | undefined>
 ] => {
   const [serverState, request, loading] = useFetchData();
 
-  const postTeamMatch = async (props: PostTeamStatProps) => {
+  const postPlayerStats = async (props: PostPlayerStatProps) => {
     const { matchIdx, teamStat } = props;
     return await request(
       "POST",
-      `/match/${matchIdx}/team_stats`,
+      `/match/${matchIdx}/player_stats`,
       teamStat,
       true
     );
@@ -27,7 +27,7 @@ const usePostTeamStat = (): [
       }
     }
   }, [loading, serverState]);
-  return [postTeamMatch];
+  return [postPlayerStats];
 };
 
-export default usePostTeamStat;
+export default usePostPlayerStats;

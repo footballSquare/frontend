@@ -51,8 +51,4 @@ export const playerDetailHistoryInputSchema = yup.object({
     .required("선방률은 필수입니다.")
     .min(0, "0 이상이어야 합니다.")
     .max(100, "100 이하이어야 합니다."),
-  match_match_idx: yup
-    .number()
-    .required("매치 인덱스는 필수입니다.")
-    .typeError("숫자여야 합니다."),
 });

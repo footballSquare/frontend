@@ -130,6 +130,8 @@ const MatchLineupContainer = (props: MatchLineupContainerProps) => {
         /* 개인 기록 보기 – 임시 안내 */
         <div className="container mx-auto px-4 py-6">
           <VerticalPersonStatCards
+            teamName1={selectedTeams.selectTeamList[0]}
+            teamName2={selectedTeams.selectTeamList[1]}
             team1PlayerStats={championshipDetail?.first_team?.player_stats}
             team2PlayerStats={championshipDetail?.second_team?.player_stats}
           />

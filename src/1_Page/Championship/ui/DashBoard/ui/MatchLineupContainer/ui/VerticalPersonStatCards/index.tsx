@@ -3,8 +3,8 @@ import TeamTable from "./ui/TeamTable";
 
 /* ------------- 메인 컴포넌트 ------------- */
 const VerticalPersonStatCards = (props: VerticalPersonStatCardsProps) => {
-  const { team1PlayerStats, team2PlayerStats } = props;
-  const [activeTeam, setActiveTeam] = React.useState<1 | 2>(1);
+  const { team1PlayerStats, team2PlayerStats, teamName1, teamName2 } = props;
+  const [activeTeam, setActiveTeam] = React.useState<0 | 1>(0);
 
   // 두 팀 전체 선수 배열
   const allPlayers = [...team1PlayerStats, ...team2PlayerStats];
@@ -21,16 +21,16 @@ const VerticalPersonStatCards = (props: VerticalPersonStatCardsProps) => {
       {/* 모바일: 탭 전환 */}
       <div className="lg:hidden">
         <div className="flex space-x-1 bg-gray-800 p-1 rounded-lg">
-          {[1, 2].map((n) => (
+          {[teamName1, teamName2].map((teamName, index) => (
             <button
-              key={n}
-              onClick={() => setActiveTeam(n as 1 | 2)}
+              key={index}
+              onClick={() => setActiveTeam(index as 0 | 1)}
               className={`flex-1 py-2 px-4 text-sm font-medium rounded-md transition-colors ${
-                activeTeam === n
+                activeTeam === index
                   ? "bg-gray-700 text-gray-100 shadow-sm"
                   : "text-gray-400 hover:text-gray-100"
               }`}>
-              {n}st Team
+              {teamName}
             </button>
           ))}
         </div>
@@ -38,7 +38,7 @@ const VerticalPersonStatCards = (props: VerticalPersonStatCardsProps) => {
         <div className="mt-6">
           <TeamTable
             players={activeTeam === 1 ? team1PlayerStats : team2PlayerStats}
-            teamLabel={activeTeam === 1 ? "1st Team" : "2nd Team"}
+            teamLabel={activeTeam === 1 ? teamName1 : teamName2}
             maxGoal={maxGoal}
             maxAssist={maxAssist}
           />
@@ -49,13 +49,13 @@ const VerticalPersonStatCards = (props: VerticalPersonStatCardsProps) => {
       <div className="hidden lg:grid grid-cols-2 gap-6">
         <TeamTable
           players={team1PlayerStats}
-          teamLabel="1st Team"
+          teamLabel={teamName1}
           maxGoal={maxGoal}
           maxAssist={maxAssist}
         />
         <TeamTable
           players={team2PlayerStats}
-          teamLabel="2nd Team"
+          teamLabel={teamName2}
           maxGoal={maxGoal}
           maxAssist={maxAssist}
         />
