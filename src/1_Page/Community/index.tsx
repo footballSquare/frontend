@@ -8,16 +8,13 @@ import CommunityStaffApplicationList from "./ui/CommunityStaffApplicationList";
 import CommunityTeamApplicationList from "./ui/CommunityTeamApplicationList";
 import useChangeEmblem from "./model/useChangeEmblem";
 import useChangeBanner from "./model/useChangeBanner";
-import {
-  useMyCommunityRoleIdx,
-  useMyTeamRoleIdx,
-} from "../../4_Shared/lib/useMyInfo";
-import useIsCommunityStaffStore from "../../4_Shared/zustand/useIsCommunityStaffStore";
+import { useMyTeamRoleIdx } from "../../4_Shared/lib/useMyInfo";
 import CommunityNotice from "./ui/CommunityNotice";
 import usePostApplyCommunityTeam from "../../3_Entity/Community/usePostApplyCommunityTeam";
 import CommunityBoardList from "./ui/CommunityBoardList";
 import useCommunityIdx from "./model/useCommunityIdx";
 import Banner from "./ui/Banner";
+import useCommunityStaffInfo from "./model/useCommunityStaffInfo";
 
 const Community = () => {
   const { communityIdx } = useParams();
@@ -32,8 +29,9 @@ const Community = () => {
   const [changeBanner] = useChangeBanner({
     setCommunityInfo,
   });
-  const { isCommunityStaff } = useIsCommunityStaffStore();
-  const [communityRoleIdx] = useMyCommunityRoleIdx();
+  const [isCommunityStaff, communityRoleIdx] = useCommunityStaffInfo({
+    communityIdx: Number(communityIdx),
+  });
   const navigate = useNavigate();
   const [myTeamRoleIdx] = useMyTeamRoleIdx();
   const [postApplyCommunityTeam] = usePostApplyCommunityTeam();
@@ -114,10 +112,11 @@ const Community = () => {
         <CommunityStaffList
           communityIdx={Number(communityIdx)}
           modifyMode={modifyMode}
+          isCommunityStaff={isCommunityStaff}
         />
 
         {/* 커뮤니티 수정 버튼 */}
-        {communityRoleIdx === 0 && (
+        {isCommunityStaff && communityRoleIdx === 0 && (
           <button
             className="p-3 border border-gray-300 shadow-md rounded-lg text-sm bg-gray text-black hover:bg-grass transition"
             onClick={toggleModifyMode}
@@ -126,7 +125,7 @@ const Community = () => {
           </button>
         )}
         {/* 커뮤니티 글 작성 버튼 */}
-        {communityRoleIdx === 0 && (
+        {isCommunityStaff && communityRoleIdx === 0 && (
           <button
             className="p-3 border border-gray-300 shadow-md rounded-lg text-sm bg-gray text-black hover:bg-grass transition"
             onClick={() => {

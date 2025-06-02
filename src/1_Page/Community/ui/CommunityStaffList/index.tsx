@@ -3,15 +3,13 @@ import useDeleteCommunityStaff from "../../../../3_Entity/Community/useDeleteCom
 import useGetCommunityStaffList from "../../../../3_Entity/Community/useGetCommunityStaffList";
 import usePostApplyCommunityStaff from "../../../../3_Entity/Community/usePostApplyCommunityStaff";
 import { communityRole } from "../../../../4_Shared/constant/communityRole";
-import useIsCommunityStaff from "./model/useIsCommunityStaff";
 import { useIsLogin } from "../../../../4_Shared/lib/useMyInfo";
 
 const CommunityStaffListPanel = (props: CommunityStaffListPanelProps) => {
-  const { communityIdx, modifyMode } = props;
+  const { communityIdx, modifyMode, isCommunityStaff } = props;
   const [communityStaffList, setCommunityStaffList] = useGetCommunityStaffList({
     communityIdx,
   });
-  const [isCommunityStaff] = useIsCommunityStaff(communityStaffList);
   const [postApplyCommunityStaff] = usePostApplyCommunityStaff();
   const [kickCommunityStaff] = useDeleteCommunityStaff();
   const navigate = useNavigate();
