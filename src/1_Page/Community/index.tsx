@@ -8,20 +8,17 @@ import CommunityStaffApplicationList from "./ui/CommunityStaffApplicationList";
 import CommunityTeamApplicationList from "./ui/CommunityTeamApplicationList";
 import useChangeEmblem from "./model/useChangeEmblem";
 import useChangeBanner from "./model/useChangeBanner";
-import {
-  useMyCommunityRoleIdx,
-  useMyTeamRoleIdx,
-} from "../../4_Shared/lib/useMyInfo";
-import useIsCommunityStaffStore from "../../4_Shared/zustand/useIsCommunityStaffStore";
+import { useMyTeamRoleIdx } from "../../4_Shared/lib/useMyInfo";
 import CommunityNotice from "./ui/CommunityNotice";
 import usePostApplyCommunityTeam from "../../3_Entity/Community/usePostApplyCommunityTeam";
 import CommunityBoardList from "./ui/CommunityBoardList";
 import useCommunityIdx from "./model/useCommunityIdx";
 import Banner from "./ui/Banner";
+import useCommunityStaffInfo from "./model/useCommunityStaffInfo";
 
 const Community = () => {
   const { communityIdx } = useParams();
-  const [modifyMode, toggleModifyMode] = useModifyMode();
+  const [modifyMode, toggleModifyMode] = useModifyMode(Number(communityIdx));
   const [communityInfo, loading, setCommunityInfo] = useGetCommunityInfo({
     communityIdx: Number(communityIdx),
   });
@@ -32,8 +29,9 @@ const Community = () => {
   const [changeBanner] = useChangeBanner({
     setCommunityInfo,
   });
-  const { isCommunityStaff } = useIsCommunityStaffStore();
-  const [communityRoleIdx] = useMyCommunityRoleIdx();
+  const [isCommunityStaff, communityRoleIdx] = useCommunityStaffInfo({
+    communityIdx: Number(communityIdx),
+  });
   const navigate = useNavigate();
   const [myTeamRoleIdx] = useMyTeamRoleIdx();
   const [postApplyCommunityTeam] = usePostApplyCommunityTeam();
@@ -65,9 +63,9 @@ const Community = () => {
             content={communityInfo.community_list_notice}
             modifyMode={modifyMode}
           />
-        </div>
+        </div>{" "}
         {/* 배너&엠블럼 수정 버튼 */}
-        {modifyMode && (
+        {modifyMode && isCommunityStaff && communityRoleIdx === 0 && (
           <div className="flex flex-col gap-4 mx-auto">
             <div className="flex flex-col items-center">
               <label className="block text-sm font-medium mb-2">
@@ -109,15 +107,14 @@ const Community = () => {
             </div>
           </div>
         )}
-
         {/* 커뮤니티 운영진 목록 & 운영진 지원 */}
         <CommunityStaffList
           communityIdx={Number(communityIdx)}
           modifyMode={modifyMode}
-        />
-
+          isCommunityStaff={isCommunityStaff}
+        />{" "}
         {/* 커뮤니티 수정 버튼 */}
-        {communityRoleIdx === 0 && (
+        {isCommunityStaff && communityRoleIdx === 0 && (
           <button
             className="p-3 border border-gray-300 shadow-md rounded-lg text-sm bg-gray text-black hover:bg-grass transition"
             onClick={toggleModifyMode}
@@ -126,7 +123,7 @@ const Community = () => {
           </button>
         )}
         {/* 커뮤니티 글 작성 버튼 */}
-        {communityRoleIdx === 0 && (
+        {isCommunityStaff && communityRoleIdx === 0 && (
           <button
             className="p-3 border border-gray-300 shadow-md rounded-lg text-sm bg-gray text-black hover:bg-grass transition"
             onClick={() => {
@@ -162,10 +159,9 @@ const Community = () => {
 
       <div className="flex flex-col gap-[56px] w-full">
         {/* 배너 */}
-        <Banner bannerImg={communityInfo.community_list_banner} />
-
+        <Banner bannerImg={communityInfo.community_list_banner} />{" "}
         <div className="flex gap-6 max-h-[80%]">
-          {modifyMode ? (
+          {modifyMode && isCommunityStaff && communityRoleIdx === 0 ? (
             <>
               {/* CommunityTeamList */}
               <div className="w-full">

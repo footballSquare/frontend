@@ -30,7 +30,7 @@ const usePostSignIn = (): [(props: PostSignInProps) => void] => {
           user_idx,
           access_token_temporary,
           access_token,
-          //nickname,
+          nickname,
           //platform,
           //commmon_status_idx,
           //message,
@@ -45,14 +45,14 @@ const usePostSignIn = (): [(props: PostSignInProps) => void] => {
         if (player_status === "active") {
           login({
             playerStatus: player_status,
-            accessToken: access_token || null,
+            accessToken: access_token,
             userIdx: user_idx,
-            communityRoleIdx: community_role_idx || null,
-            communityListIdx: community_list_idx || null,
-            teamRoleIdx: team_role_idx || null,
-            teamIdx: team_idx || null,
-            profileImg: profile_image || null,
-            nickname: null,
+            communityRoleIdx: community_role_idx,
+            communityListIdx: community_list_idx,
+            teamRoleIdx: team_role_idx,
+            teamIdx: team_idx,
+            profileImg: profile_image,
+            nickname: nickname,
           });
           const options = { path: "/", maxAge: 86400 };
           setCookie("access_token", access_token, options);
@@ -66,7 +66,7 @@ const usePostSignIn = (): [(props: PostSignInProps) => void] => {
         alert(serverState.message || "로그인에 실패했습니다.");
       }
     }
-  }, [loading, serverState]);
+  }, [loading, serverState, login, setCookie, navigate]);
 
   return [postSignIn];
 };

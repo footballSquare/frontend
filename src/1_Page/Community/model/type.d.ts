@@ -17,3 +17,7 @@ type ChangeBannerProps = {
 type UseCommunityIdxProps = {
   currentCommunityIdx: number;
 };
+
+type UseCommunityStaffInfoProps = {
+  communityIdx: number;
+};
