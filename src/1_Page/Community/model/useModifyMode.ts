@@ -8,11 +8,11 @@ const useModifyMode = (communityIdx?: number): [boolean, () => void] => {
     setModifyMode(false);
   }, [communityIdx]);
 
-  const toggleModifyMod = () => {
+  const toggleModifyMode = () => {
     setModifyMode(!modifyMode);
   };
 
-  return [modifyMode, toggleModifyMod];
+  return [modifyMode, toggleModifyMode];
 };
 
 export default useModifyMode;
