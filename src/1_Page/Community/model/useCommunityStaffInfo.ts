@@ -22,7 +22,6 @@ const useCommunityStaffInfo = (
       myCommunityIdx === communityIdx &&
         (myCommunityRoleIdx === 0 || myCommunityRoleIdx === 1)
     );
-    console.log(isCommunityStaff, myCommunityRoleIdx, myCommunityIdx);
   }, [communityIdx, myCommunityIdx, myCommunityRoleIdx]);
   return [isCommunityStaff, myCommunityRoleIdx, myCommunityIdx];
 };
