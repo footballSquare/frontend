@@ -4,7 +4,7 @@ import { useCookies } from "react-cookie";
 import io, { Socket } from "socket.io-client";
 import React from "react";
 
-const API_URL = import.meta.env.VITE_API_URL; // API URL
+const API_URL = import.meta.env.VITE_SERVER_URL; // API URL
 
 interface ChatMessage {
   sender_idx: number;
