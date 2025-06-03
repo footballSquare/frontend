@@ -35,7 +35,7 @@ const ChatTesting = () => {
   React.useEffect(() => {
     // 소켓 연결
     const socket = io(API_URL, {
-      path: "/chat/socket.io", // 명세서에 맞게 수정
+      path: "/socket.io", // 명세서에 맞게 수정
       transports: ["websocket"], // websocket 권장
       auth: {
         token: cookies.access_token,
