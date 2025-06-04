@@ -5,6 +5,7 @@ import { persist, createJSONStorage } from "zustand/middleware";
 import { encryptedStorage } from "./encryptedStorage";
 
 type AuthState = {
+  playerStatus: string | null;
   accessToken: string | null;
   userIdx: number | null;
   communityRoleIdx: number | null;
@@ -26,9 +27,9 @@ type AuthState = {
     nickname: string | null;
   }) => void;
   logout: () => void;
-  leaveTeam: () => void;
-  setTeamRoleIdx: (teamRoleIdx: number | null) => void;
+  leaveTeam: () => void;  setTeamRoleIdx: (teamRoleIdx: number | null) => void;
   setTeamIdx: (teamIdx: number | null) => void;
+  setPlayerStatus: (playerStatus: string | null) => void;
   setHydrated: () => void;
 };
 
@@ -42,6 +43,7 @@ const encryptedPersistStorage = createJSONStorage(() => ({
 export const useAuthStore = create<AuthState>()(
   persist(
     (set) => ({
+      playerStatus: null,
       accessToken: null,
       userIdx: null,
       communityRoleIdx: null,
@@ -54,6 +56,7 @@ export const useAuthStore = create<AuthState>()(
       login: (data) => set({ ...data }),
       logout: () =>
         set({
+          playerStatus: null,
           accessToken: null,
           userIdx: null,
           communityRoleIdx: null,
@@ -70,6 +73,7 @@ export const useAuthStore = create<AuthState>()(
         }),
       setTeamRoleIdx: (teamRoleIdx) => set({ teamRoleIdx }),
       setTeamIdx: (teamIdx) => set({ teamIdx }),
+      setPlayerStatus: (playerStatus) => set({ playerStatus }),
       setHydrated: () => set({ isHydrated: true }),
     }),
     {
@@ -77,9 +81,9 @@ export const useAuthStore = create<AuthState>()(
       storage: encryptedPersistStorage,
       onRehydrateStorage: () => (state) => {
         state?.setHydrated();
-      },
-      // 민감하지 않은 정보만 저장
+      },      // 민감하지 않은 정보만 저장
       partialize: (state) => ({
+        playerStatus: state.playerStatus,
         userIdx: state.userIdx,
         communityRoleIdx: state.communityRoleIdx,
         teamRoleIdx: state.teamRoleIdx,
@@ -130,6 +134,12 @@ export const useMyTeamRoleIdx = (): [number | null] => {
 export const useMyTeamIdx = (): [number | null] => {
   const teamIdx = useAuthStore((state) => state.teamIdx);
   return [teamIdx];
+};
+
+// playerStatus 관리 hook 추가
+export const useMyPlayerStatus = (): [string | null] => {
+  const playerStatus = useAuthStore((state) => state.playerStatus);
+  return [playerStatus];
 };
 
 export const useMyProfileImg = (): [string | null] => {

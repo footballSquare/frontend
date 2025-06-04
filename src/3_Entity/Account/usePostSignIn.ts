@@ -19,7 +19,7 @@ const usePostSignIn = (): [(props: PostSignInProps) => void] => {
       false
     );
   };
-  const [, setCookie] = useCookies(["access_token"]);
+  const [, setCookie] = useCookies(["access_token", "access_token_temporary"]);
   const navigate = useNavigate();
 
   React.useEffect(() => {
@@ -59,7 +59,7 @@ const usePostSignIn = (): [(props: PostSignInProps) => void] => {
           navigate("/");
         } else if (player_status === "pending") {
           const options = { path: "/signup", maxAge: 86400 / 24 / 6 };
-          setCookie("access_token", access_token_temporary, options);
+          setCookie("access_token_temporary", access_token_temporary, options);
           navigate(`/signup`);
         }
       } else {

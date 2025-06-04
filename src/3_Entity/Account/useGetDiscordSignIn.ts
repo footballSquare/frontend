@@ -7,7 +7,7 @@ import { useCookies } from "react-cookie";
 const useGetDiscordSiginIn = (): [(props: GetDiscordSiginIn) => void] => {
   const [serverState, request, loading] = useFetchData();
   const { login } = useAuthStore();
-  const [, setCookie] = useCookies(["access_token"]);
+  const [, setCookie] = useCookies(["access_token", "access_token_temporary"]);
   const navigate = useNavigate();
 
   const getDiscordSiginIn = (props: GetDiscordSiginIn) => {
@@ -57,10 +57,8 @@ const useGetDiscordSiginIn = (): [(props: GetDiscordSiginIn) => void] => {
           setCookie("access_token", access_token, options);
           navigate("/");
         } else if (player_status === "pending") {
-          console.log("pending");
-          console.log(serverState);
           const options = { path: "/signup", maxAge: 86400 / 24 / 6 };
-          setCookie("access_token", access_token_temporary, options);
+          setCookie("access_token_temporary", access_token_temporary, options);
           if (
             confirm(
               "가입이 완료되지 않았습니다. 가입 페이지로 이동하시겠습니까?"

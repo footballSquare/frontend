@@ -10,7 +10,8 @@ export const useFetchData = (): [
     method: string,
     endpoint: string,
     body: Record<string, unknown> | null | FormData,
-    authorization: boolean
+    authorization: boolean,
+    useTemporalToken?: boolean
   ) => Promise<number | undefined>,
   loading: boolean
 ] => {
@@ -19,7 +20,10 @@ export const useFetchData = (): [
     unknown
   > | null>(null);
   const [loading, setLoading] = React.useState<boolean>(true);
-  const [cookies, setCookie] = useCookies(["access_token"]);
+  const [cookies, setCookie] = useCookies([
+    "access_token",
+    "access_token_temporary",
+  ]);
 
   const axiosInstance = axios.create({
     withCredentials: true, // httpOnly 쿠키 사용 시 필요
@@ -89,7 +93,8 @@ export const useFetchData = (): [
       method: string,
       endpoint: string,
       body: Record<string, unknown> | null | FormData,
-      authorization: boolean = false
+      authorization: boolean = false,
+      useTemporalToken?: boolean
     ): Promise<number | undefined> => {
       try {
         setLoading(true);
@@ -102,7 +107,11 @@ export const useFetchData = (): [
           headers:
             authorization && cookies.access_token
               ? {
-                  Authorization: `${cookies.access_token}`,
+                  Authorization: `${
+                    useTemporalToken
+                      ? cookies.access_token_temporary
+                      : cookies.access_token
+                  }`,
                 }
               : undefined,
           data: body ?? undefined,
@@ -120,7 +129,7 @@ export const useFetchData = (): [
         setLoading(false);
       }
     },
-    [cookies.access_token]
+    [cookies.access_token, cookies.access_token_temporary]
   );
 
   return [serverState, request, loading];
