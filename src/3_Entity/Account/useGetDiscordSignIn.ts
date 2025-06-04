@@ -53,7 +53,7 @@ const useGetDiscordSiginIn = (): [(props: GetDiscordSiginIn) => void] => {
             profileImg: profile_image || null,
             nickname: nickname || null,
           });
-          alert({
+          console.log({
             playerStatus: player_status,
             accessToken: access_token || null,
             userIdx: user_idx,
@@ -66,7 +66,13 @@ const useGetDiscordSiginIn = (): [(props: GetDiscordSiginIn) => void] => {
           });
           const options = { path: "/", maxAge: 86400 };
           setCookie("access_token", access_token, options);
-          navigate("/");
+          if (
+            confirm(
+              "로그인 되었습니다!"
+            )
+          ) {
+            navigate("/");
+          }
         } else if (player_status === "pending") {
           const options = { path: "/signup", maxAge: 86400 / 24 / 6 };
           setCookie("access_token_temporary", access_token_temporary, options);
