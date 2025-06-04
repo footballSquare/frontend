@@ -40,39 +40,21 @@ const useGetDiscordSiginIn = (): [(props: GetDiscordSiginIn) => void] => {
           community_role_idx,
           community_list_idx,
         } = serverState.data as SignInData;
-
         if (player_status === "active") {
           login({
             playerStatus: player_status,
-            accessToken: access_token || null,
+            accessToken: access_token,
             userIdx: user_idx,
-            communityRoleIdx: community_role_idx || null,
-            communityListIdx: community_list_idx || null,
-            teamRoleIdx: team_role_idx || null,
-            teamIdx: team_idx || null,
-            profileImg: profile_image || null,
-            nickname: nickname || null,
-          });
-          console.log({
-            playerStatus: player_status,
-            accessToken: access_token || null,
-            userIdx: user_idx,
-            communityRoleIdx: community_role_idx || null,
-            communityListIdx: community_list_idx || null,
-            teamRoleIdx: team_role_idx || null,
-            teamIdx: team_idx || null,
-            profileImg: profile_image || null,
-            nickname: nickname || null,
+            communityRoleIdx: community_role_idx,
+            communityListIdx: community_list_idx,
+            teamRoleIdx: team_role_idx,
+            teamIdx: team_idx,
+            profileImg: profile_image,
+            nickname: nickname,
           });
           const options = { path: "/", maxAge: 86400 };
           setCookie("access_token", access_token, options);
-          if (
-            confirm(
-              "로그인 되었습니다!"
-            )
-          ) {
-            navigate("/");
-          }
+          navigate("/");
         } else if (player_status === "pending") {
           const options = { path: "/signup", maxAge: 86400 / 24 / 6 };
           setCookie("access_token_temporary", access_token_temporary, options);
@@ -88,7 +70,7 @@ const useGetDiscordSiginIn = (): [(props: GetDiscordSiginIn) => void] => {
         alert("아이디 또는 비밀번호를 확인해주세요.");
       }
     }
-  }, [loading, serverState]);
+  }, [loading, serverState, login, navigate, setCookie]);
 
   return [getDiscordSiginIn];
 };
