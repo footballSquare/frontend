@@ -4,6 +4,15 @@ import { useCookies } from "react-cookie";
 
 const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
+// ✅ 모든 요청이 공유하는 전역 변수
+let isRefreshing = false;
+let failedQueue: ((token: string) => void)[] = [];
+
+const processQueue = (token: string) => {
+  failedQueue.forEach((cb) => cb(token));
+  failedQueue = [];
+};
+
 export const useFetchData = (): [
   serverState: Record<string, unknown> | null,
   request: (
@@ -19,33 +28,26 @@ export const useFetchData = (): [
     string,
     unknown
   > | null>(null);
-  const [loading, setLoading] = React.useState<boolean>(true);  const [cookies, setCookie] = useCookies([
+  const [loading, setLoading] = React.useState<boolean>(true);
+  const [cookies, setCookie] = useCookies([
     "access_token",
     "access_token_temporary",
   ]);
-
-  const axiosInstance = React.useMemo(() => axios.create({
-    withCredentials: true, // httpOnly 쿠키 사용 시 필요
-  }), []);
-
-  // 재발급 중 중복 요청 방지용 Promise 캐시
-  let isRefreshing = false;
-  let failedQueue: ((token: string) => void)[] = [];
-
-  const processQueue = (token: string) => {
-    failedQueue.forEach((cb) => cb(token));
-    failedQueue = [];
-  };
+  const axiosInstance = React.useMemo(
+    () =>
+      axios.create({
+        withCredentials: true, // httpOnly 쿠키 사용 시 필요
+      }),
+    []
+  );
 
   // 응답 인터셉터
   axiosInstance.interceptors.response.use(
     (response) => response,
     async (error: AxiosError) => {
-      const originalRequest = error.config as AxiosRequestConfig & {
-        _retry?: boolean;
-      };
-
-      if (error.response?.status === 401 && !originalRequest._retry) {
+      const originalRequest = error.config as AxiosRequestConfig;
+      console.log("isRefreshing: ", isRefreshing);
+      if (error.response?.status === 401) {
         if (isRefreshing) {
           return new Promise((resolve) => {
             failedQueue.push((newToken: string) => {
@@ -58,7 +60,6 @@ export const useFetchData = (): [
           });
         }
 
-        originalRequest._retry = true;
         isRefreshing = true;
 
         try {
@@ -66,13 +67,17 @@ export const useFetchData = (): [
             `${SERVER_URL}/account/accesstoken`,
             { withCredentials: true }
           );
-
           const newAccessToken = refreshResponse.data.data.access_token;
           const options = { path: "/", maxAge: 86400 };
           setCookie("access_token", newAccessToken, options); // access_token을 쿠키에 저장
 
-          axiosInstance.defaults.headers["Authorization"] = newAccessToken;
           processQueue(newAccessToken);
+          // ✅ originalRequest 헤더도 새 토큰으로 업데이트
+          originalRequest.headers = {
+            ...originalRequest.headers,
+            Authorization: newAccessToken,
+          };
+
           return axiosInstance(originalRequest);
         } catch (refreshError) {
           console.error("토큰 재발급 실패", refreshError);
@@ -96,16 +101,15 @@ export const useFetchData = (): [
       useTemporalToken?: boolean
     ): Promise<number | undefined> => {
       try {
-        setLoading(true);        // API 호출
+        setLoading(true);
+
+        // API 호출
         const response = await axiosInstance({
           method: method,
           url: `${SERVER_URL}${endpoint}`,
           params: {},
           headers:
-            authorization && 
-            (useTemporalToken 
-              ? cookies.access_token_temporary 
-              : cookies.access_token)
+            authorization && cookies.access_token
               ? {
                   Authorization: `${
                     useTemporalToken
@@ -127,7 +131,8 @@ export const useFetchData = (): [
         }
       } finally {
         setLoading(false);
-      }    },
+      }
+    },
     [cookies.access_token, cookies.access_token_temporary, axiosInstance]
   );
 
