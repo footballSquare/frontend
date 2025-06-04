@@ -11,8 +11,8 @@ type UseManagePutServerStateProps = {
 };
 
 type UseManageActionReturn = {
-  isLeaving: boolean;
-  isPending: boolean;
+  isJoinRequestPending: boolean;
+  isCurrentTeamMember: boolean;
   updateToLeave: () => void;
   updateToSignPending: () => void;
   cancelUpdateToLeave: () => void;
