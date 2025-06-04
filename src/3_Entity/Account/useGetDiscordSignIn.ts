@@ -29,7 +29,7 @@ const useGetDiscordSiginIn = (): [(props: GetDiscordSiginIn) => void] => {
           user_idx,
           access_token_temporary,
           access_token,
-          //nickname,
+          nickname,
           //platform,
           //commmon_status_idx,
           //message,
@@ -51,7 +51,18 @@ const useGetDiscordSiginIn = (): [(props: GetDiscordSiginIn) => void] => {
             teamRoleIdx: team_role_idx || null,
             teamIdx: team_idx || null,
             profileImg: profile_image || null,
-            nickname: null,
+            nickname: nickname || null,
+          });
+          alert({
+            playerStatus: player_status,
+            accessToken: access_token || null,
+            userIdx: user_idx,
+            communityRoleIdx: community_role_idx || null,
+            communityListIdx: community_list_idx || null,
+            teamRoleIdx: team_role_idx || null,
+            teamIdx: team_idx || null,
+            profileImg: profile_image || null,
+            nickname: nickname || null,
           });
           const options = { path: "/", maxAge: 86400 };
           setCookie("access_token", access_token, options);
