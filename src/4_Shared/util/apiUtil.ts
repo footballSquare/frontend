@@ -19,15 +19,14 @@ export const useFetchData = (): [
     string,
     unknown
   > | null>(null);
-  const [loading, setLoading] = React.useState<boolean>(true);
-  const [cookies, setCookie] = useCookies([
+  const [loading, setLoading] = React.useState<boolean>(true);  const [cookies, setCookie] = useCookies([
     "access_token",
     "access_token_temporary",
   ]);
 
-  const axiosInstance = axios.create({
+  const axiosInstance = React.useMemo(() => axios.create({
     withCredentials: true, // httpOnly 쿠키 사용 시 필요
-  });
+  }), []);
 
   // 재발급 중 중복 요청 방지용 Promise 캐시
   let isRefreshing = false;
@@ -97,15 +96,16 @@ export const useFetchData = (): [
       useTemporalToken?: boolean
     ): Promise<number | undefined> => {
       try {
-        setLoading(true);
-
-        // API 호출
+        setLoading(true);        // API 호출
         const response = await axiosInstance({
           method: method,
           url: `${SERVER_URL}${endpoint}`,
           params: {},
           headers:
-            authorization && cookies.access_token
+            authorization && 
+            (useTemporalToken 
+              ? cookies.access_token_temporary 
+              : cookies.access_token)
               ? {
                   Authorization: `${
                     useTemporalToken
@@ -127,9 +127,8 @@ export const useFetchData = (): [
         }
       } finally {
         setLoading(false);
-      }
-    },
-    [cookies.access_token, cookies.access_token_temporary]
+      }    },
+    [cookies.access_token, cookies.access_token_temporary, axiosInstance]
   );
 
   return [serverState, request, loading];
