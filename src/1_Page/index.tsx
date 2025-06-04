@@ -15,6 +15,7 @@ import TeamList from "./TeamList";
 import OAuthHub from "./OAuthHub";
 import PostEdit from "./PostEdit";
 import PostDetail from "./PostDetail";
+import ChatTesting from "./ChatTesting";
 
 const Page = () => {
   const [isLogin] = useIsLogin(); // accessToken 존재 여부 확인
@@ -59,6 +60,7 @@ const Page = () => {
           path={`${PAGE_URI.POST}/write/new/:category`}
           element={<PostEdit />}
         />
+        <Route path="/test/chat" element={<ChatTesting/>}/>
       </Routes>
     </div>
   );
