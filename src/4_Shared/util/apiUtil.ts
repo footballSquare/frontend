@@ -80,8 +80,11 @@ export const useFetchData = (): [
 
           return axiosInstance(originalRequest);
         } catch (refreshError) {
-          console.error("토큰 재발급 실패", refreshError);
-          // window.location.href = "/login"; // 재로그인 유도
+          if (confirm("세션이 만료되었습니다. 다시 로그인 해주세요.")) {
+            window.location.href = "/login"; // 로그인 페이지로 리다이렉트
+          } else {
+            window.location.href = "/";
+          }
           return Promise.reject(refreshError);
         } finally {
           isRefreshing = false;
