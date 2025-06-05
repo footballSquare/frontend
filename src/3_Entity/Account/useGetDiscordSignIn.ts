@@ -22,7 +22,6 @@ const useGetDiscordSiginIn = (): [(props: GetDiscordSiginIn) => void] => {
 
   React.useEffect(() => {
     if (!loading && serverState) {
-      console.log("serverState", serverState);
       if (serverState.status === 200) {
         const {
           player_status,
@@ -30,10 +29,6 @@ const useGetDiscordSiginIn = (): [(props: GetDiscordSiginIn) => void] => {
           access_token_temporary,
           access_token,
           nickname,
-          //platform,
-          //commmon_status_idx,
-          //message,
-          //discord_tag,
           profile_image,
           team_idx,
           team_role_idx,
@@ -54,7 +49,7 @@ const useGetDiscordSiginIn = (): [(props: GetDiscordSiginIn) => void] => {
           });
           const options = { path: "/", maxAge: 86400 };
           setCookie("access_token", access_token, options);
-          navigate("/");
+          setTimeout(() => navigate("/"), 100);
         } else if (player_status === "pending") {
           const options = { path: "/signup", maxAge: 86400 / 24 / 6 };
           setCookie("access_token_temporary", access_token_temporary, options);
