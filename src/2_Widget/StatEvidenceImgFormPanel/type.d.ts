@@ -1,15 +1,13 @@
 type StatEvidenceImgFormPanelProps = {
-  defaultValues: {
-    urls: string[];
-  };
+  defaultValues: string[];
   matchIdx: number;
   onSubmit: (data: FinalData) => Promise<number | undefined>;
 };
 
 type FinalData = {
   matchIdx: number;
-  files: File[];
-  urls: string[];
+  file: File[];
+  url: string[];
 };
 
 type StatsEvidenceFormValues = {
@@ -20,9 +18,4 @@ type StatsEvidenceFormValues = {
     file?: File;
     deleted?: boolean;
   }[];
-};
-
-type DefaultValues = {
-  urls?: string[];
-  match_match_idx?: number;
 };

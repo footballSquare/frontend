@@ -8,16 +8,27 @@ const usePostTeamStatsEvidence = (): [
 ] => {
   const [serverState, request, loading] = useFetchData();
 
-  const postTeamStatsEvidence = async (props: PostTeamStatsEvidenceProps) => {
-    const { matchIdx, files, urls } = props;
-    const body = {
-      file: files,
-      url: urls,
-    };
+  const postTeamStatsEvidence = async (
+    props: PostTeamStatsEvidenceProps
+  ): Promise<number | undefined> => {
+    const { matchIdx, file, url } = props;
+
+    const formData = new FormData();
+
+    // 기존 URL들 추가
+    url.forEach((urlString) => {
+      formData.append("url", urlString);
+    });
+
+    // 새 파일들 추가
+    file.forEach((fileObj) => {
+      formData.append("file", fileObj);
+    });
+
     return await request(
       "POST",
       `/match/${matchIdx}/team_stats/evidence_img`,
-      body,
+      formData,
       true
     );
   };

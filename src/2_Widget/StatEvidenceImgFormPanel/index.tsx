@@ -20,7 +20,6 @@ const StatEvidenceImgFormPanel = (props: StatEvidenceImgFormPanelProps) => {
 
   const { methods, fields, handleToggleDeleteImage, handleFileSelect } =
     useStatInputHookForm(defaultValues);
-
   const { handleFormSubmit } = useStatFormSubmit({
     methods,
     onSubmit,
@@ -37,6 +36,7 @@ const StatEvidenceImgFormPanel = (props: StatEvidenceImgFormPanelProps) => {
 
   // watch로 images 배열을 감시
   const watchedImages = watch("images") || [];
+
   // 삭제되지 않은 이미지만 카운트
   const activeImages = watchedImages.filter((img) => !img.deleted);
   const totalImageCount = activeImages.length;
@@ -127,6 +127,15 @@ const StatEvidenceImgFormPanel = (props: StatEvidenceImgFormPanelProps) => {
                             const isExisting = image?.type === "existing";
                             const isDeleted = image?.deleted || false;
 
+                            // 디버깅을 위한 로그 추가
+                            console.log(`Image ${index}:`, {
+                              field,
+                              image,
+                              url: image?.url,
+                              isExisting,
+                              isDeleted,
+                            });
+
                             return (
                               <div key={field.id} className="relative group">
                                 <div
@@ -137,15 +146,36 @@ const StatEvidenceImgFormPanel = (props: StatEvidenceImgFormPanelProps) => {
                                       ? "border-gray-700"
                                       : "border-[var(--color-grass)]/50"
                                   }`}>
-                                  <img
-                                    src={image?.url}
-                                    alt={`evidence-${index}`}
-                                    className={`w-full h-28 object-cover transition-all duration-200 ${
-                                      isDeleted
-                                        ? "grayscale group-hover:scale-100"
-                                        : "group-hover:scale-105"
-                                    }`}
-                                  />
+                                  {/* 이미지 URL 디버깅 정보 추가 */}
+                                  {!image?.url && (
+                                    <div className="w-full h-28 bg-red-500 flex items-center justify-center text-white text-xs">
+                                      URL 없음
+                                    </div>
+                                  )}
+                                  {image?.url && (
+                                    <img
+                                      src={image.url}
+                                      alt={`evidence-${index}`}
+                                      className={`w-full h-28 object-cover transition-all duration-200 ${
+                                        isDeleted
+                                          ? "grayscale group-hover:scale-100"
+                                          : "group-hover:scale-105"
+                                      }`}
+                                      onError={(e) => {
+                                        console.error(
+                                          `Image ${index} failed to load:`,
+                                          image.url
+                                        );
+                                        e.currentTarget.style.display = "none";
+                                      }}
+                                      onLoad={() => {
+                                        console.log(
+                                          `Image ${index} loaded successfully:`,
+                                          image.url
+                                        );
+                                      }}
+                                    />
+                                  )}
 
                                   {/* 삭제됨 오버레이 */}
                                   {isDeleted && (

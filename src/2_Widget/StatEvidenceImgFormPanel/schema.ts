@@ -9,15 +9,16 @@ export const statsEvidenceSchema = yup.object({
         id: yup.string().required("이미지 ID가 필요합니다.").trim(),
         url: yup.string().when("deleted", {
           is: true,
-          then: (schema) => schema.notRequired(),
+          then: (schema) => schema.notRequired().nullable(),
           otherwise: (schema) =>
             schema
               .required("이미지 URL이 필요합니다.")
+              .typeError("URL은 문자열이어야 합니다.")
               .test(
                 "valid-url",
                 "유효한 URL 형식이 아닙니다.",
                 function (value) {
-                  if (!value) return false;
+                  if (!value || typeof value !== "string") return false;
 
                   const { parent } = this;
 

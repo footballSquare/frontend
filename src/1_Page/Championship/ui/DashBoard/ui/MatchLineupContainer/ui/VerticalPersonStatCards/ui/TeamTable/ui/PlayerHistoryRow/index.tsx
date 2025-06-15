@@ -15,12 +15,15 @@ import usePostPlayerStatsEvidence from "../../../../../../../../../../../../3_En
 const PlayerHistoryRow = (props: PlayerHistoryRowProps) => {
   const { p, maxGoal, maxAssist, personEvidenceImage } = props;
 
-  const defaultEvidenceUrls = {
-    urls:
-      personEvidenceImage
-        ?.filter((item) => item.player_list_idx === p.player_list_idx)
-        .map((item) => item.match_player_stats_evidence_img) || [],
-  };
+  const defaultEvidenceUrls =
+    personEvidenceImage
+      ?.filter((item) => item.player_list_idx === p.player_list_idx)
+      .map((item) => item.match_player_stats_evidence_img) || [];
+
+  // 디버깅을 위한 로그 추가
+  console.log("PlayerHistoryRow - personEvidenceImage:", personEvidenceImage);
+  console.log("PlayerHistoryRow - player_list_idx:", p.player_list_idx);
+  console.log("PlayerHistoryRow - defaultEvidenceUrls:", defaultEvidenceUrls);
 
   const [myUserIdx] = useMyUserIdx();
   const isMine = p.player_list_idx === myUserIdx;

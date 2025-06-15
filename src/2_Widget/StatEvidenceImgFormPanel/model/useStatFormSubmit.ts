@@ -1,60 +1,82 @@
 import React from "react";
 
-const useStatFormSubmit = ({
-  methods,
-  onSubmit,
-  onModalClose,
-  matchIdx = 0,
-}: UseStatFormSubmitProps) => {
+const useStatFormSubmit = (props: UseStatFormSubmitProps) => {
+  const { methods, onSubmit, onModalClose, matchIdx = 0 } = props;
   const backupRef = React.useRef<StatsEvidenceFormValues | null>(null);
 
   const handleFormSubmit = async (data: StatsEvidenceFormValues) => {
-    // 제출 전 백업 생성
-    backupRef.current = structuredClone(data);
+    // 데이터 무결성 검사
+    if (!data.images || !Array.isArray(data.images)) {
+      return;
+    }
 
-    // 삭제되지 않은 기존 이미지 URL만 포함
+    // File 객체는 structuredClone으로 복사할 수 없으므로 별도 처리
+    const backupData = {
+      images: data.images.map((img) => ({
+        ...img,
+        file: img.file, // File 객체는 참조 유지
+      })),
+    };
+    backupRef.current = backupData;
+
+    // 삭제되지 않은 기존 이미지 URL만 포함 (타입 안전성 강화)
     const existingUrls = data.images
-      .filter((img) => img.type === "existing" && !img.deleted && img.url)
+      .filter(
+        (img) =>
+          img &&
+          typeof img === "object" &&
+          img.type === "existing" &&
+          !img.deleted &&
+          img.url &&
+          typeof img.url === "string"
+      )
       .map((img) => img.url!)
       .filter(Boolean);
 
     // 삭제되지 않은 새로 업로드된 File 객체만 골라내기
     const newFiles = data.images
-      .filter((img) => img.type === "new" && !img.deleted)
+      .filter((img) => {
+        const isValid =
+          img &&
+          typeof img === "object" &&
+          img.type === "new" &&
+          !img.deleted &&
+          img.file;
+
+        return isValid;
+      })
       .map((img) => img.file)
       .filter((f): f is File => Boolean(f));
 
     const finalData: FinalData = {
       matchIdx,
-      urls: existingUrls,
-      files: newFiles,
+      url: existingUrls,
+      file: newFiles,
     };
 
     onModalClose();
 
-    const result = await onSubmit?.(finalData);
+    const finalImages = [
+      ...finalData.url.map((url, index) => ({
+        id: `existing-${index}`,
+        url,
+        type: "existing" as const,
+        deleted: false,
+        file: undefined,
+      })),
+    ];
+    methods.setValue("images", finalImages);
+
+    const result = await onSubmit(finalData);
 
     if (result === 200) {
-      // 성공 시: 백업을 현재 상태로 업데이트하고 기존 이미지들을 existing 타입으로 변경
-      const activeImages = data.images
-        .filter((img) => !img.deleted)
-        .map((img) => ({
+      // 백업도 정리된 상태로 업데이트
+      backupRef.current = {
+        images: finalImages.map((img) => ({
           ...img,
-          type: "existing" as const,
-          file: undefined, // 파일 참조 제거
-        }));
-
-      methods.setValue("images", activeImages);
-      backupRef.current = structuredClone({ images: activeImages });
-
-      // 삭제된 이미지들의 blob URL 메모리 해제
-      data.images
-        .filter((img) => img.deleted && img.url?.startsWith("blob:"))
-        .forEach((img) => {
-          if (img.url) {
-            URL.revokeObjectURL(img.url);
-          }
-        });
+          file: undefined,
+        })),
+      };
     } else {
       // 실패 시: 백업으로 복원
       if (backupRef.current) {

@@ -3,28 +3,41 @@ import { useFieldArray, useForm } from "react-hook-form";
 import { statsEvidenceSchema } from "../schema";
 import React from "react";
 
-const useStatInputHookForm = (defaultValues?: DefaultValues) => {
+const useStatInputHookForm = (defaultValues?: string[]) => {
+  // 디버깅을 위한 로그 추가
+  console.log("useStatInputHookForm - defaultValues:", defaultValues);
+
   const methods = useForm<StatsEvidenceFormValues>({
     resolver: yupResolver(statsEvidenceSchema),
     defaultValues: {
-      images: (defaultValues?.urls || []).map((url: string, index: number) => ({
-        id: `existing-${index}`,
-        url,
-        type: "existing" as const,
-        deleted: false,
-      })),
+      images: (defaultValues || [])
+        .flat() // 중첩 배열을 평면화
+        .filter(
+          (url): url is string => typeof url === "string" && url.length > 0
+        )
+        .map((url: string, index: number) => ({
+          id: `existing-${index}`,
+          url,
+          type: "existing" as const,
+          deleted: false,
+        })),
     },
   });
   const { reset, control } = methods;
 
   React.useEffect(() => {
-    reset({
-      images: (defaultValues?.urls || []).map((url: string, index: number) => ({
+    const processedImages = (defaultValues || [])
+      .flat() // 중첩 배열을 평면화
+      .filter((url): url is string => typeof url === "string" && url.length > 0)
+      .map((url: string, index: number) => ({
         id: `existing-${index}`,
         url,
         type: "existing" as const,
         deleted: false,
-      })),
+      }));
+
+    reset({
+      images: processedImages,
     });
   }, [defaultValues, reset]);
 
@@ -36,12 +49,21 @@ const useStatInputHookForm = (defaultValues?: DefaultValues) => {
   // 이미지 삭제/복원 토글 핸들러
   const handleToggleDeleteImage = (index: number) => {
     const currentImages = methods.getValues("images");
+    if (!currentImages || index >= currentImages.length || index < 0) {
+      console.warn("Invalid image index:", index);
+      return;
+    }
+
     const updatedImages = [...currentImages];
-    updatedImages[index] = {
-      ...updatedImages[index],
-      deleted: !updatedImages[index].deleted,
-    };
-    methods.setValue("images", updatedImages);
+    const currentImage = updatedImages[index];
+
+    if (currentImage) {
+      updatedImages[index] = {
+        ...currentImage,
+        deleted: !currentImage.deleted,
+      };
+      methods.setValue("images", updatedImages);
+    }
   };
 
   // 파일 선택 핸들러

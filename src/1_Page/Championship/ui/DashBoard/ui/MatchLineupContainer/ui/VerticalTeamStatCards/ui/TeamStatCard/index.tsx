@@ -24,7 +24,6 @@ const TeamStatCard = (props: TeamStatCardProps) => {
     matchIdx,
   } = teamData;
 
-  console.log(teamEvidenceImage);
   const [isEditing, toggleIsEditing] = useToggleState();
   const [myTeamRoleIdx] = useMyTeamRoleIdx();
   const [myTeamIdx] = useMyTeamIdx();
@@ -58,6 +57,10 @@ const TeamStatCard = (props: TeamStatCardProps) => {
   const evidenceUrls =
     teamEvidenceImage?.map((item) => item.match_team_stats_evidence_img) || [];
 
+  // 디버깅을 위한 로그 추가
+  console.log("TeamStatCard - teamEvidenceImage:", teamEvidenceImage);
+  console.log("TeamStatCard - evidenceUrls:", evidenceUrls);
+
   return (
     <div>
       <div className="bg-gray-900 border border-gray-700 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
@@ -69,7 +72,7 @@ const TeamStatCard = (props: TeamStatCardProps) => {
               <div className="flex items-center gap-2">
                 <StatEvidenceImgFormPanel
                   matchIdx={matchIdx}
-                  defaultValues={{ urls: evidenceUrls }}
+                  defaultValues={evidenceUrls}
                   onSubmit={postTeamStatsEvidence}
                 />
                 {isTeamLeader && (

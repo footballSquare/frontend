@@ -118,12 +118,12 @@ type PostTeamStatProps = {
 
 type PostPlayerStatsEvidenceProps = {
   matchIdx: number;
-  files: File[];
-  urls: string[];
+  file: File[];
+  url: string[];
 };
 
 type PostTeamStatsEvidenceProps = {
   matchIdx: number;
-  files: File[];
-  urls: string[];
+  file: File[];
+  url: string[];
 };

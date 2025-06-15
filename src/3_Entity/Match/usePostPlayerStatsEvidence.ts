@@ -10,18 +10,25 @@ const usePostPlayerStatsEvidence = (): [
 
   const postPlayerStatsEvidence = async (
     props: PostPlayerStatsEvidenceProps
-  ) => {
-    const { matchIdx, files, urls } = props;
+  ): Promise<number | undefined> => {
+    const { matchIdx, file, url } = props;
 
-    const body = {
-      file: files,
-      url: urls,
-    };
+    const formData = new FormData();
+
+    // 기존 URL들 추가
+    url.forEach((urlString) => {
+      formData.append("url", urlString);
+    });
+
+    // 새 파일들 추가
+    file.forEach((fileObj) => {
+      formData.append("file", fileObj);
+    });
 
     return await request(
       "POST",
       `/match/${matchIdx}/player_stats/evidence_img`,
-      body,
+      formData,
       true
     );
   };
