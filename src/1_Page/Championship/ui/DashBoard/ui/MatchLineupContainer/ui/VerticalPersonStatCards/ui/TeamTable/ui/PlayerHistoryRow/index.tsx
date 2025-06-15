@@ -94,52 +94,53 @@ const PlayerHistoryRow = (props: PlayerHistoryRowProps) => {
       {isExpanded && (
         <tr className="bg-gray-800">
           <td colSpan={4} className="p-4">
-            <form onSubmit={handleSubmit(onSubmit)}>
-              {/* 증빙자료와 편집 버튼 영역 */}
-              <div className="flex justify-between items-center mb-4">
-                {/* 증빙자료 모달 - 모든 사용자가 볼 수 있음 */}
-                <div>
-                  <StatEvidenceImgFormPanel
-                    onSubmit={postPlayerStats}
-                    matchIdx={p.match_match_idx}
-                    defaultValues={defaultEvidenceUrls}
-                    canChange={isMine}
-                  />
-                </div>
-
-                {/* 편집 버튼들 - 본인만 볼 수 있음 */}
-                {isMine && (
-                  <div className="flex gap-2">
-                    {isEditing ? (
-                      <div>
-                        <button
-                          type="submit"
-                          className="px-3 py-1.5 text-sm bg-grass text-gray-900 rounded-lg hover:bg-grass/90 transition-colors font-medium flex items-center gap-1">
-                          💾 저장
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => {
-                            cancelEdit();
-                            toggleIsEditing();
-                          }}
-                          className="px-3 py-1.5 text-sm text-gray-300 border border-gray-600 rounded-lg hover:bg-gray-700 transition-colors flex items-center gap-1">
-                          ✖ 취소
-                        </button>
-                      </div>
-                    ) : (
-                      <button
-                        type="button"
-                        onClick={toggleIsEditing}
-                        className="px-3 py-1.5 text-sm text-gray-300 border border-gray-600 rounded-lg hover:bg-gray-700 hover:text-grass transition-colors flex items-center gap-1">
-                        ✏ 수정
-                      </button>
-                    )}
-                  </div>
-                )}
+            {/* 증빙자료와 편집 버튼 영역 - form 밖으로 이동 */}
+            <div className="flex justify-between items-center mb-4">
+              {/* 증빙자료 모달 - 모든 사용자가 볼 수 있음 */}
+              <div>
+                <StatEvidenceImgFormPanel
+                  onSubmit={postPlayerStats}
+                  matchIdx={p.match_match_idx}
+                  defaultValues={defaultEvidenceUrls}
+                  canChange={isMine}
+                />
               </div>
 
-              {/* 공격 스탯 + 성공률 */}
+              {/* 편집 버튼들 - 본인만 볼 수 있음 */}
+              {isMine && (
+                <div className="flex gap-2">
+                  {isEditing ? (
+                    <div>
+                      <button
+                        type="button"
+                        onClick={handleSubmit(onSubmit)}
+                        className="px-3 py-1.5 text-sm bg-grass text-gray-900 rounded-lg hover:bg-grass/90 transition-colors font-medium flex items-center gap-1">
+                        💾 저장
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          cancelEdit();
+                          toggleIsEditing();
+                        }}
+                        className="px-3 py-1.5 text-sm text-gray-300 border border-gray-600 rounded-lg hover:bg-gray-700 transition-colors flex items-center gap-1">
+                        ✖ 취소
+                      </button>
+                    </div>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={toggleIsEditing}
+                      className="px-3 py-1.5 text-sm text-gray-300 border border-gray-600 rounded-lg hover:bg-gray-700 hover:text-grass transition-colors flex items-center gap-1">
+                      ✏ 수정
+                    </button>
+                  )}
+                </div>
+              )}
+            </div>
+
+            {/* 공격 스탯 + 성공률 */}
+            <form onSubmit={handleSubmit(onSubmit)}>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-3">
                   <h4 className="font-semibold text-gray-100">공격 스탯</h4>

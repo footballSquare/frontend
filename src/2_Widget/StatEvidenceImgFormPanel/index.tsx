@@ -377,7 +377,7 @@ const StatEvidenceImgFormPanel = (props: StatEvidenceImgFormPanelProps) => {
                       <button
                         type="submit"
                         disabled={totalImageCount === 0}
-                        className="px-5 py-2.5 text-sm font-medium text-gray-900 bg-[var(--color-grass)] border border-transparent rounded-lg hover:bg-[var(--color-thick-grass)] transition-all duration-200 shadow-lg flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed">
+                        className="px-5 py-2.5 text-sm font-medium text-gray-900 bg-grass border border-transparent rounded-lg hover:bg-[var(--color-thick-grass)] transition-all duration-200 shadow-lg flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed">
                         <img src={checkIcon} className="w-4 h-4" alt="check" />
                         저장 ({totalImageCount}개 활성 이미지)
                       </button>
