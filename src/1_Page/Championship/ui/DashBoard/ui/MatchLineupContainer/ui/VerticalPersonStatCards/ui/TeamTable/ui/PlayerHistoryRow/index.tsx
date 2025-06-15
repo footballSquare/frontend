@@ -24,7 +24,9 @@ const PlayerHistoryRow = (props: PlayerHistoryRowProps) => {
 
   const goals = p.match_player_stats_goal ?? 0;
   const assists = p.match_player_stats_assist ?? 0;
-  const highlight = goals === maxGoal || assists === maxAssist;
+  const isTopScorer = goals > 0 && goals === maxGoal;
+  const isTopAssist = assists > 0 && assists === maxAssist;
+  const highlight = isTopScorer || isTopAssist;
 
   // PlayerDetailRow logic
   const { methods, cancelEdit, setBackupPlayerStats } = useTeamStatForm(p);
@@ -48,11 +50,16 @@ const PlayerHistoryRow = (props: PlayerHistoryRowProps) => {
     <React.Fragment key={p.player_list_idx}>
       <tr
         onClick={toggleIsExpanded}
-        className={`cursor-pointer hover:bg-grass/10 ${
-          highlight ? "ring-2 ring-grass" : ""
-        }`}>
+        className="cursor-pointer hover:bg-grass/10">
         <td className="px-4 py-3 font-medium text-gray-100">
-          {p.player_list_nickname}
+          <div className="flex items-center gap-2">
+            {highlight && (
+              <span className="text-lg">
+                {isTopScorer && isTopAssist ? "👑" : isTopScorer ? "⚽" : "🎯"}
+              </span>
+            )}
+            <span>{p.player_list_nickname}</span>
+          </div>
           {isMine && (
             <span className="ml-2 text-xs text-grass font-semibold">(나)</span>
           )}
@@ -66,8 +73,16 @@ const PlayerHistoryRow = (props: PlayerHistoryRowProps) => {
             {matchPosition[p.match_position_idx]}
           </span>
         </td>
-        <td className="px-4 py-3 text-center text-gray-100">{goals}</td>
-        <td className="px-4 py-3 text-center text-gray-100">{assists}</td>
+        <td className="px-4 py-3 text-center text-gray-100">
+          <span className={isTopScorer ? "font-bold text-yellow-400" : ""}>
+            {goals}
+          </span>
+        </td>
+        <td className="px-4 py-3 text-center text-gray-100">
+          <span className={isTopAssist ? "font-bold text-blue-400" : ""}>
+            {assists}
+          </span>
+        </td>
       </tr>
 
       {isExpanded && (

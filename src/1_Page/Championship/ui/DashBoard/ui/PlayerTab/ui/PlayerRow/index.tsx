@@ -10,8 +10,6 @@ const PlayerRow = (props: PlayerRowProps) => {
   const { player, index } = props;
   const navigate = useNavigate();
   const [isModalOpen, handleToogleModal] = useToggleState();
-
-  console.log("PlayerRow", player);
   const { championshipListColor } = useChampionshipInfoContext();
 
   return (
