@@ -10,6 +10,7 @@ import StatEvidenceImgFormPanel from "../../../../../../../../../../../../2_Widg
 import StatProgressBar from "../../../../../../../../../../../../4_Shared/components/StatProgressBar";
 import usePostPlayerStatsHandler from "./model/usePostPlayerStatsHandler";
 import usePlayerStatForm from "./model/usePlayerStatForm";
+import usePostPlayerStatsEvidence from "../../../../../../../../../../../../3_Entity/Match/usePostPlayerStatsEvidence";
 
 const PlayerHistoryRow = (props: PlayerHistoryRowProps) => {
   const { p, maxGoal, maxAssist, personEvidenceImage } = props;
@@ -38,6 +39,8 @@ const PlayerHistoryRow = (props: PlayerHistoryRowProps) => {
     handleSubmit,
     formState: { errors },
   } = methods;
+
+  const [postPlayerStats] = usePostPlayerStatsEvidence();
 
   const [handlePostPlayerStats] = usePostPlayerStatsHandler(
     cancelEdit,
@@ -138,15 +141,11 @@ const PlayerHistoryRow = (props: PlayerHistoryRowProps) => {
                       {p[key as keyof PlayerStats] ?? 0}
                     </PlayerStatsDetailInput>
                   ))}
-                  {(isEditing || p.match_player_stats_evidence_img) && (
-                    <div className="flex flex-col gap-1 text-sm">
-                      <span className="text-gray-400">증빙 자료:</span>
-                      <StatEvidenceImgFormPanel
-                        matchIdx={p.match_match_idx}
-                        defaultValues={defaultEvidenceUrls}
-                      />
-                    </div>
-                  )}
+                  <StatEvidenceImgFormPanel
+                    onSubmit={postPlayerStats}
+                    matchIdx={p.match_match_idx}
+                    defaultValues={defaultEvidenceUrls}
+                  />
                 </div>
                 <div className="space-y-3">
                   <h4 className="font-semibold text-gray-100">

@@ -1,7 +1,9 @@
 import { Controller, FieldArrayWithId } from "react-hook-form";
+
 import useToggleState from "../../4_Shared/model/useToggleState";
 import useStatInputHookForm from "./model/useStatInputHookForm";
 import useEnlargedImage from "./model/useEnlargedImage";
+import useStatFormSubmit from "./model/useStatFormSubmit";
 import uploadIcon from "../../4_Shared/assets/svg/upload.svg";
 import warningIcon from "../../4_Shared/assets/svg/warning.svg";
 import searchIcon from "../../4_Shared/assets/svg/search.svg";
@@ -11,13 +13,21 @@ import imageIcon from "../../4_Shared/assets/svg/image.svg";
 import bannedIcon from "../../4_Shared/assets/svg/banned.svg";
 
 const StatEvidenceImgFormPanel = (props: StatEvidenceImgFormPanelProps) => {
-  const { defaultValues, onSubmit, onClose } = props;
+  const { defaultValues, onSubmit, matchIdx } = props;
   const [isModalOpen, toggleModal] = useToggleState(false);
   const { enlargedImage, handleImageEnlarge, closeEnlargedImage } =
     useEnlargedImage();
 
-  const { methods, fields, handleDeleteImage, handleFileSelect } =
+  const { methods, fields, handleToggleDeleteImage, handleFileSelect } =
     useStatInputHookForm(defaultValues);
+
+  const { handleFormSubmit } = useStatFormSubmit({
+    methods,
+    onSubmit,
+    onModalClose: toggleModal,
+    matchIdx,
+  });
+
   const {
     handleSubmit,
     watch,
@@ -27,41 +37,11 @@ const StatEvidenceImgFormPanel = (props: StatEvidenceImgFormPanelProps) => {
 
   // watch로 images 배열을 감시
   const watchedImages = watch("images") || [];
-  const totalImageCount = watchedImages.length;
+  // 삭제되지 않은 이미지만 카운트
+  const activeImages = watchedImages.filter((img) => !img.deleted);
+  const totalImageCount = activeImages.length;
   const remainingSlots = 5 - totalImageCount;
   const isLimitReached = totalImageCount >= 5;
-
-  // 모달 닫기 핸들러
-  const handleCloseModal = () => {
-    toggleModal();
-    onClose?.();
-  };
-
-  // 폼 제출 핸들러
-  const handleFormSubmit = async (data: StatsEvidenceFormValues) => {
-    // 기존 이미지 URL
-    const existingUrls = data.images
-      .filter((img) => img.type === "existing")
-      .map((img) => img.url);
-
-    // 새로 업로드된 File 객체만 골라내기
-    const newFiles = data.images
-      .filter((img) => img.type === "new")
-      .map((img) => img.file)
-      .filter((f): f is File => Boolean(f));
-
-    const finalData = {
-      urls: existingUrls,
-      files: newFiles,
-      // previewImages는 클라이언트 상에서만 보여주기 위한 data
-      previewImages: data.images
-        .filter((img) => img.type === "new")
-        .map((img) => img.url),
-    };
-
-    await onSubmit?.(finalData);
-    handleCloseModal();
-  };
 
   return (
     <div>
@@ -78,7 +58,7 @@ const StatEvidenceImgFormPanel = (props: StatEvidenceImgFormPanelProps) => {
         <div className="fixed inset-0 z-50 flex items-center justify-center">
           <div
             className="absolute inset-0 bg-black/70 backdrop-blur-sm"
-            onClick={handleCloseModal}
+            onClick={toggleModal}
           />
 
           <div className="relative bg-gray-900 border border-gray-700 rounded-xl shadow-2xl max-w-3xl w-full mx-4 max-h-[85vh] overflow-hidden">
@@ -93,7 +73,7 @@ const StatEvidenceImgFormPanel = (props: StatEvidenceImgFormPanelProps) => {
                 </h2>
               </div>
               <button
-                onClick={handleCloseModal}
+                onClick={toggleModal}
                 className="text-gray-400 hover:text-gray-300 transition-colors p-2 hover:bg-gray-700 rounded-lg"></button>
             </div>
 
@@ -111,7 +91,14 @@ const StatEvidenceImgFormPanel = (props: StatEvidenceImgFormPanelProps) => {
                         className="w-[15px] h-[15px]"
                         alt="warning"
                       />
-                      총 {totalImageCount}개의 이미지가 선택되었습니다.
+                      총 {totalImageCount}개의 활성 이미지가 선택되었습니다.
+                      {watchedImages.filter((img) => img.deleted).length >
+                        0 && (
+                        <span className="text-red-400">
+                          ({watchedImages.filter((img) => img.deleted).length}개
+                          미포함 예정)
+                        </span>
+                      )}
                       {remainingSlots > 0
                         ? ` ${remainingSlots}개 더 추가 가능합니다.`
                         : " 최대 개수에 도달했습니다."}
@@ -122,7 +109,7 @@ const StatEvidenceImgFormPanel = (props: StatEvidenceImgFormPanelProps) => {
                   <div>
                     <label className="flex text-sm font-semibold text-gray-200 mb-4 items-center gap-2">
                       <div className="w-2 h-2 rounded-full bg-[var(--color-grass)]"></div>
-                      증빙자료 목록 ({totalImageCount}개)
+                      증빙자료 목록 ({totalImageCount}개 활성)
                     </label>
 
                     {fields.length > 0 ? (
@@ -138,28 +125,51 @@ const StatEvidenceImgFormPanel = (props: StatEvidenceImgFormPanelProps) => {
                           ) => {
                             const image = watchedImages[index];
                             const isExisting = image?.type === "existing";
+                            const isDeleted = image?.deleted || false;
 
                             return (
                               <div key={field.id} className="relative group">
                                 <div
-                                  className={`relative overflow-hidden rounded-xl border bg-gray-800 ${
-                                    isExisting
+                                  className={`relative overflow-hidden rounded-xl border bg-gray-800 transition-all duration-200 ${
+                                    isDeleted
+                                      ? "opacity-50 border-red-500/50"
+                                      : isExisting
                                       ? "border-gray-700"
                                       : "border-[var(--color-grass)]/50"
                                   }`}>
                                   <img
                                     src={image?.url}
                                     alt={`evidence-${index}`}
-                                    className="w-full h-28 object-cover transition-transform duration-200 group-hover:scale-105"
+                                    className={`w-full h-28 object-cover transition-all duration-200 ${
+                                      isDeleted
+                                        ? "grayscale group-hover:scale-100"
+                                        : "group-hover:scale-105"
+                                    }`}
                                   />
+
+                                  {/* 삭제됨 오버레이 */}
+                                  {isDeleted && (
+                                    <div className="absolute inset-0 bg-red-900/30 flex items-center justify-center">
+                                      <span className="text-white text-xs font-bold bg-red-500 px-2 py-1 rounded">
+                                        미포함 예정
+                                      </span>
+                                    </div>
+                                  )}
 
                                   {/* 상세보기 버튼 */}
                                   <button
                                     type="button"
-                                    onClick={() =>
-                                      handleImageEnlarge(image?.url)
-                                    }
-                                    className="absolute top-2 right-2 bg-blue-500 hover:bg-blue-600 text-white p-1.5 rounded-lg transition-all duration-200 shadow-lg">
+                                    onClick={() => {
+                                      if (image?.url) {
+                                        handleImageEnlarge(image.url);
+                                      }
+                                    }}
+                                    disabled={isDeleted || !image?.url}
+                                    className={`absolute top-2 right-2 text-white p-1.5 rounded-lg transition-all duration-200 shadow-lg ${
+                                      isDeleted || !image?.url
+                                        ? "bg-gray-500 cursor-not-allowed opacity-50"
+                                        : "bg-blue-500 hover:bg-blue-600"
+                                    }`}>
                                     <img
                                       src={searchIcon}
                                       className="w-3 h-3"
@@ -176,21 +186,31 @@ const StatEvidenceImgFormPanel = (props: StatEvidenceImgFormPanelProps) => {
                                       </span>
                                       <button
                                         type="button"
-                                        className="pointer-events-auto bg-red-500 hover:bg-red-600 text-white p-1.5 rounded-lg transition-colors duration-200 shadow-lg"
+                                        className={`pointer-events-auto text-white p-1.5 rounded-lg transition-colors duration-200 shadow-lg ${
+                                          isDeleted
+                                            ? "bg-green-500 hover:bg-green-600"
+                                            : "bg-red-500 hover:bg-red-600"
+                                        }`}
                                         onClick={() =>
-                                          handleDeleteImage(index)
+                                          handleToggleDeleteImage(index)
                                         }>
-                                        <img
-                                          src={closeIcon}
-                                          className="w-3 h-3"
-                                          alt="close"
-                                        />
+                                        {isDeleted ? (
+                                          <span className="text-xs font-bold">
+                                            복원
+                                          </span>
+                                        ) : (
+                                          <img
+                                            src={closeIcon}
+                                            className="w-3 h-3"
+                                            alt="delete"
+                                          />
+                                        )}
                                       </button>
                                     </div>
                                   </div>
 
                                   {/* 새 이미지 표시 배지 */}
-                                  {!isExisting && (
+                                  {!isExisting && !isDeleted && (
                                     <div className="absolute top-2 left-2">
                                       <span className="bg-[var(--color-grass)] text-gray-900 text-xs px-2 py-1 rounded-full font-bold">
                                         NEW
@@ -284,14 +304,34 @@ const StatEvidenceImgFormPanel = (props: StatEvidenceImgFormPanelProps) => {
                     {/* 에러 메시지 */}
                     {errors?.images && (
                       <div className="mt-3 p-3 bg-red-900/20 border border-red-500/30 rounded-lg">
-                        <p className="text-sm text-red-400 flex items-center gap-2">
-                          <img
-                            src={warningIcon}
-                            className="w-4 h-4"
-                            alt="warning"
-                          />
-                          {errors.images.message}
-                        </p>
+                        <div className="text-sm text-red-400">
+                          <div className="flex items-center gap-2 mb-2">
+                            <img
+                              src={warningIcon}
+                              className="w-4 h-4"
+                              alt="warning"
+                            />
+                            <span className="font-medium">이미지 오류</span>
+                          </div>
+                          {Array.isArray(errors.images) ? (
+                            <ul className="space-y-1 pl-6">
+                              {errors.images.map((imageError, index) => (
+                                <li key={index} className="text-xs">
+                                  <span className="font-medium">
+                                    이미지 {index + 1}:
+                                  </span>{" "}
+                                  {imageError?.url?.message ||
+                                    "알 수 없는 오류"}
+                                </li>
+                              ))}
+                            </ul>
+                          ) : (
+                            <p className="text-xs pl-6">
+                              {errors.images.message ||
+                                "이미지 관련 오류가 발생했습니다."}
+                            </p>
+                          )}
+                        </div>
                       </div>
                     )}
                   </div>
@@ -300,7 +340,7 @@ const StatEvidenceImgFormPanel = (props: StatEvidenceImgFormPanelProps) => {
                   <div className="flex justify-end space-x-3 pt-6 border-t border-gray-700">
                     <button
                       type="button"
-                      onClick={handleCloseModal}
+                      onClick={toggleModal}
                       className="px-5 py-2.5 text-sm font-medium text-gray-300 bg-gray-700 border border-gray-600 rounded-lg hover:bg-gray-600 hover:text-gray-200 transition-all duration-200">
                       취소
                     </button>
@@ -309,7 +349,7 @@ const StatEvidenceImgFormPanel = (props: StatEvidenceImgFormPanelProps) => {
                       disabled={totalImageCount === 0}
                       className="px-5 py-2.5 text-sm font-medium text-gray-900 bg-[var(--color-grass)] border border-transparent rounded-lg hover:bg-[var(--color-thick-grass)] transition-all duration-200 shadow-lg flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed">
                       <img src={checkIcon} className="w-4 h-4" alt="check" />
-                      저장 ({totalImageCount}개 이미지)
+                      저장 ({totalImageCount}개 활성 이미지)
                     </button>
                   </div>
                 </form>

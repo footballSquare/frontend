@@ -11,6 +11,7 @@ import {
 } from "../../../../../../../../../../4_Shared/lib/useMyInfo";
 import useToggleState from "../../../../../../../../../../4_Shared/model/useToggleState";
 import usePostTeamStatsHandler from "./model/usePostTeamStatsHandler";
+import usePostTeamStatsEvidence from "../../../../../../../../../../3_Entity/Match/usePostTeamStatsEvidence";
 
 const TeamStatCard = (props: TeamStatCardProps) => {
   const { teamData } = props;
@@ -47,10 +48,7 @@ const TeamStatCard = (props: TeamStatCardProps) => {
     toggleIsEditing();
   };
 
-  const handleEvidenceSubmit = (data: FinalData) => {
-    console.log("Evidence data:", data);
-    // 실제 구현에서는 여기서 증거 이미지를 저장
-  };
+  const [postTeamStatsEvidence] = usePostTeamStatsEvidence();
 
   const getCurrentMomPlayer = () => {
     const momIdx = isEditing ? watch("mom_player_idx") : stats.mom_player_idx;
@@ -70,8 +68,9 @@ const TeamStatCard = (props: TeamStatCardProps) => {
             {!isEditing && (
               <div className="flex items-center gap-2">
                 <StatEvidenceImgFormPanel
+                  matchIdx={matchIdx}
                   defaultValues={{ urls: evidenceUrls }}
-                  onSubmit={handleEvidenceSubmit}
+                  onSubmit={postTeamStatsEvidence}
                 />
                 {isTeamLeader && (
                   <button

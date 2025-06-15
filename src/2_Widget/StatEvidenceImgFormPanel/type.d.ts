@@ -1,24 +1,24 @@
 type StatEvidenceImgFormPanelProps = {
-  defaultValues?: {
+  defaultValues: {
     urls: string[];
   };
-  matchIdx?: number;
-  onSubmit?: (data: FinalData) => void;
-  onClose?: () => void;
+  matchIdx: number;
+  onSubmit: (data: FinalData) => Promise<number | undefined>;
 };
 
 type FinalData = {
-  urls: string[];
+  matchIdx: number;
   files: File[];
-  previewImages?: string[];
+  urls: string[];
 };
 
 type StatsEvidenceFormValues = {
   images: {
     id: string;
-    url: string;
-    type: "existing" | "new";
+    url?: string; // 삭제된 경우 optional
+    type?: "existing" | "new"; // 삭제된 경우 optional
     file?: File;
+    deleted?: boolean;
   }[];
 };
 

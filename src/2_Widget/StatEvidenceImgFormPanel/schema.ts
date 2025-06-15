@@ -7,23 +7,54 @@ export const statsEvidenceSchema = yup.object({
     .of(
       yup.object({
         id: yup.string().required("이미지 ID가 필요합니다.").trim(),
+        url: yup.string().when("deleted", {
+          is: true,
+          then: (schema) => schema.notRequired(),
+          otherwise: (schema) =>
+            schema
+              .required("이미지 URL이 필요합니다.")
+              .test(
+                "valid-url",
+                "유효한 URL 형식이 아닙니다.",
+                function (value) {
+                  if (!value) return false;
 
-        url: yup
-          .string()
-          .url("유효한 URL 형식이 아닙니다.")
-          .required("이미지 URL이 필요합니다."),
+                  const { parent } = this;
 
+                  // new 타입인 경우 blob URL 허용
+                  if (parent.type === "new") {
+                    return (
+                      value.startsWith("blob:") ||
+                      value.startsWith("data:") ||
+                      /^https?:\/\/.+/.test(value)
+                    );
+                  }
+
+                  // existing 타입인 경우 일반적인 URL 형식만 허용
+                  try {
+                    new URL(value);
+                    return true;
+                  } catch {
+                    return false;
+                  }
+                }
+              ),
+        }),
         type: yup
           .mixed<"existing" | "new">()
           .oneOf(
             ["existing", "new"],
             "type은 'existing' 또는 'new' 중 하나여야 합니다."
           )
-          .required("이미지 타입을 지정해주세요."),
-
+          .when("deleted", {
+            is: true,
+            then: (schema) => schema.notRequired(),
+            otherwise: (schema) =>
+              schema.required("이미지 타입을 지정해주세요."),
+          }),
         // file은 type이 "new"일 때만 유효성 검사
-        file: yup.mixed<File>().when("type", {
-          is: "new",
+        file: yup.mixed<File>().when(["type", "deleted"], {
+          is: (type: string, deleted: boolean) => type === "new" && !deleted,
           then: (schema) =>
             schema
               .required("새로 업로드할 파일을 선택해주세요.")
@@ -49,9 +80,26 @@ export const statsEvidenceSchema = yup.object({
               ),
           otherwise: (schema) => schema.notRequired().nullable(),
         }),
+        deleted: yup.boolean().optional(),
       })
     )
     .required("증빙 이미지를 최소 하나 이상 등록해야 합니다.")
-    .min(1, "증빙 이미지는 최소 1개 이상 입력해야 합니다.")
-    .max(5, "증빙 이미지는 최대 5개까지 등록할 수 있습니다."),
+    .test(
+      "min-active-images",
+      "활성 증빙 이미지는 최소 1개 이상 입력해야 합니다.",
+      function (images) {
+        if (!images) return false;
+        const activeImages = images.filter((img) => !img.deleted);
+        return activeImages.length >= 1;
+      }
+    )
+    .test(
+      "max-active-images",
+      "활성 증빙 이미지는 최대 5개까지 등록할 수 있습니다.",
+      function (images) {
+        if (!images) return true;
+        const activeImages = images.filter((img) => !img.deleted);
+        return activeImages.length <= 5;
+      }
+    ),
 });

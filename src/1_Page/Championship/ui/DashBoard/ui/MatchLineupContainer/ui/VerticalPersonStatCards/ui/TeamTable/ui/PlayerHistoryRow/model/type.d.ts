@@ -1,5 +1,5 @@
 type HandlePostPlayerStatProps = {
-  match_match_idx: number;
+  matchIdx: number;
   data: PlayerStatsFormValues;
 };
 

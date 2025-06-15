@@ -11,6 +11,7 @@ const useStatInputHookForm = (defaultValues?: DefaultValues) => {
         id: `existing-${index}`,
         url,
         type: "existing" as const,
+        deleted: false,
       })),
     },
   });
@@ -22,21 +23,25 @@ const useStatInputHookForm = (defaultValues?: DefaultValues) => {
         id: `existing-${index}`,
         url,
         type: "existing" as const,
+        deleted: false,
       })),
     });
-  }, [defaultValues]);
+  }, [defaultValues, reset]);
 
-  const { fields, append, remove } = useFieldArray({
+  const { fields, append } = useFieldArray({
     control,
     name: "images",
   });
 
-  // 현재 이미지 개수
-  const totalImageCount = fields.length;
-
-  // 이미지 삭제 핸들러
-  const handleDeleteImage = (index: number) => {
-    remove(index);
+  // 이미지 삭제/복원 토글 핸들러
+  const handleToggleDeleteImage = (index: number) => {
+    const currentImages = methods.getValues("images");
+    const updatedImages = [...currentImages];
+    updatedImages[index] = {
+      ...updatedImages[index],
+      deleted: !updatedImages[index].deleted,
+    };
+    methods.setValue("images", updatedImages);
   };
 
   // 파일 선택 핸들러
@@ -44,11 +49,14 @@ const useStatInputHookForm = (defaultValues?: DefaultValues) => {
     if (!files || files.length === 0) return;
 
     const newFilesCount = files.length;
-    const newTotalCount = totalImageCount + newFilesCount;
+    // 현재 활성 이미지 개수 (삭제되지 않은 이미지만)
+    const currentImages = methods.getValues("images");
+    const activeImageCount = currentImages.filter((img) => !img.deleted).length;
+    const newTotalCount = activeImageCount + newFilesCount;
 
     if (newTotalCount > 5) {
       alert(
-        `증빙자료는 총 최대 5개까지만 가능합니다. (현재: ${totalImageCount}개, 추가하려는: ${newFilesCount}개)`
+        `증빙자료는 총 최대 5개까지만 가능합니다. (현재 활성: ${activeImageCount}개, 추가하려는: ${newFilesCount}개)`
       );
       return;
     }
@@ -62,6 +70,7 @@ const useStatInputHookForm = (defaultValues?: DefaultValues) => {
             url: e.target.result as string,
             type: "new",
             file,
+            deleted: false,
           });
         }
       };
@@ -73,7 +82,7 @@ const useStatInputHookForm = (defaultValues?: DefaultValues) => {
   return {
     methods,
     fields,
-    handleDeleteImage,
+    handleToggleDeleteImage,
     handleFileSelect,
   };
 };

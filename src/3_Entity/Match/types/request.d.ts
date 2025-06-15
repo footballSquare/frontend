@@ -115,3 +115,15 @@ type PostTeamStatProps = {
     mom_player_idx: number;
   };
 };
+
+type PostPlayerStatsEvidenceProps = {
+  matchIdx: number;
+  files: File[];
+  urls: string[];
+};
+
+type PostTeamStatsEvidenceProps = {
+  matchIdx: number;
+  files: File[];
+  urls: string[];
+};
