@@ -47,7 +47,7 @@ const TeamStatCard = (props: TeamStatCardProps) => {
     toggleIsEditing();
   };
 
-  const [postTeamStatsEvidence] = usePostTeamStatsEvidence();
+  const [postTeamStatsEvidence, responseUrl] = usePostTeamStatsEvidence();
 
   const getCurrentMomPlayer = () => {
     const momIdx = isEditing ? watch("mom_player_idx") : stats.mom_player_idx;
@@ -55,11 +55,9 @@ const TeamStatCard = (props: TeamStatCardProps) => {
   };
 
   const evidenceUrls =
-    teamEvidenceImage?.map((item) => item.match_team_stats_evidence_img) || [];
-
-  // 디버깅을 위한 로그 추가
-  console.log("TeamStatCard - teamEvidenceImage:", teamEvidenceImage);
-  console.log("TeamStatCard - evidenceUrls:", evidenceUrls);
+    responseUrl ||
+    teamEvidenceImage?.map((item) => item.match_team_stats_evidence_img) ||
+    [];
 
   return (
     <div>

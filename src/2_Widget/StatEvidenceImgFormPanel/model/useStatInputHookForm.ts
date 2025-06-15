@@ -5,8 +5,19 @@ import React from "react";
 
 const useStatInputHookForm = (defaultValues?: string[]) => {
   // 디버깅을 위한 로그 추가
-  console.log("useStatInputHookForm - defaultValues:", defaultValues);
+  const backupRef = React.useRef<StatsEvidenceFormValues | null>(null);
 
+  // 백업 설정 함수 (외부에서 백업을 수동으로 설정할 때 사용)
+  const setBackup = (data: StatsEvidenceFormValues) => {
+    backupRef.current = structuredClone(data);
+  };
+
+  // 백업으로 복원하는 함수
+  const restoreFromBackup = () => {
+    if (backupRef.current) {
+      methods.reset(backupRef.current);
+    }
+  };
   const methods = useForm<StatsEvidenceFormValues>({
     resolver: yupResolver(statsEvidenceSchema),
     defaultValues: {
@@ -36,6 +47,10 @@ const useStatInputHookForm = (defaultValues?: string[]) => {
         deleted: false,
       }));
 
+    backupRef.current = {
+      images: processedImages,
+    };
+
     reset({
       images: processedImages,
     });
@@ -50,7 +65,6 @@ const useStatInputHookForm = (defaultValues?: string[]) => {
   const handleToggleDeleteImage = (index: number) => {
     const currentImages = methods.getValues("images");
     if (!currentImages || index >= currentImages.length || index < 0) {
-      console.warn("Invalid image index:", index);
       return;
     }
 
@@ -104,6 +118,8 @@ const useStatInputHookForm = (defaultValues?: string[]) => {
   return {
     methods,
     fields,
+    setBackup,
+    restoreFromBackup,
     handleToggleDeleteImage,
     handleFileSelect,
   };

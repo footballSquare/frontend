@@ -4,9 +4,11 @@ import { useFetchData } from "../../4_Shared/util/apiUtil";
 const usePostPlayerStatsEvidence = (): [
   postPlayerStatsEvidence: (
     props: PostPlayerStatsEvidenceProps
-  ) => Promise<number | undefined>
+  ) => Promise<number | undefined>,
+  postUrl: string[] | null
 ] => {
   const [serverState, request, loading] = useFetchData();
+  const [responseUrl, setResponseUrl] = React.useState<string[] | null>(null);
 
   const postPlayerStatsEvidence = async (
     props: PostPlayerStatsEvidenceProps
@@ -37,6 +39,7 @@ const usePostPlayerStatsEvidence = (): [
     if (!loading && serverState) {
       switch (serverState.status) {
         case 200:
+          setResponseUrl((serverState?.fileUrls as string[]) || null);
           break;
         default:
           alert("증빙자료 업로드가 완료되지 못했습니다.");
@@ -45,7 +48,7 @@ const usePostPlayerStatsEvidence = (): [
     }
   }, [loading, serverState]);
 
-  return [postPlayerStatsEvidence];
+  return [postPlayerStatsEvidence, responseUrl];
 };
 
 export default usePostPlayerStatsEvidence;

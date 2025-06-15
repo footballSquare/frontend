@@ -18,13 +18,19 @@ const StatEvidenceImgFormPanel = (props: StatEvidenceImgFormPanelProps) => {
   const { enlargedImage, handleImageEnlarge, closeEnlargedImage } =
     useEnlargedImage();
 
-  const { methods, fields, handleToggleDeleteImage, handleFileSelect } =
-    useStatInputHookForm(defaultValues);
-  const { handleFormSubmit } = useStatFormSubmit({
+  const {
     methods,
+    fields,
+    restoreFromBackup,
+    handleToggleDeleteImage,
+    handleFileSelect,
+  } = useStatInputHookForm(defaultValues);
+
+  const { handleFormSubmit } = useStatFormSubmit({
     onSubmit,
     onModalClose: toggleModal,
     matchIdx,
+    restoreFromBackup,
   });
 
   const {
@@ -127,15 +133,6 @@ const StatEvidenceImgFormPanel = (props: StatEvidenceImgFormPanelProps) => {
                             const isExisting = image?.type === "existing";
                             const isDeleted = image?.deleted || false;
 
-                            // 디버깅을 위한 로그 추가
-                            console.log(`Image ${index}:`, {
-                              field,
-                              image,
-                              url: image?.url,
-                              isExisting,
-                              isDeleted,
-                            });
-
                             return (
                               <div key={field.id} className="relative group">
                                 <div
@@ -161,19 +158,6 @@ const StatEvidenceImgFormPanel = (props: StatEvidenceImgFormPanelProps) => {
                                           ? "grayscale group-hover:scale-100"
                                           : "group-hover:scale-105"
                                       }`}
-                                      onError={(e) => {
-                                        console.error(
-                                          `Image ${index} failed to load:`,
-                                          image.url
-                                        );
-                                        e.currentTarget.style.display = "none";
-                                      }}
-                                      onLoad={() => {
-                                        console.log(
-                                          `Image ${index} loaded successfully:`,
-                                          image.url
-                                        );
-                                      }}
                                     />
                                   )}
 

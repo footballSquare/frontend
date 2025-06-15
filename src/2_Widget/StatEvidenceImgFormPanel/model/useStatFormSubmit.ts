@@ -1,23 +1,11 @@
-import React from "react";
-
 const useStatFormSubmit = (props: UseStatFormSubmitProps) => {
-  const { methods, onSubmit, onModalClose, matchIdx = 0 } = props;
-  const backupRef = React.useRef<StatsEvidenceFormValues | null>(null);
+  const { onSubmit, onModalClose, matchIdx = 0, restoreFromBackup } = props;
 
   const handleFormSubmit = async (data: StatsEvidenceFormValues) => {
     // 데이터 무결성 검사
     if (!data.images || !Array.isArray(data.images)) {
       return;
     }
-
-    // File 객체는 structuredClone으로 복사할 수 없으므로 별도 처리
-    const backupData = {
-      images: data.images.map((img) => ({
-        ...img,
-        file: img.file, // File 객체는 참조 유지
-      })),
-    };
-    backupRef.current = backupData;
 
     // 삭제되지 않은 기존 이미지 URL만 포함 (타입 안전성 강화)
     const existingUrls = data.images
@@ -56,52 +44,26 @@ const useStatFormSubmit = (props: UseStatFormSubmitProps) => {
 
     onModalClose();
 
-    const finalImages = [
-      ...finalData.url.map((url, index) => ({
-        id: `existing-${index}`,
-        url,
-        type: "existing" as const,
-        deleted: false,
-        file: undefined,
-      })),
-    ];
-    methods.setValue("images", finalImages);
-
     const result = await onSubmit(finalData);
 
     if (result === 200) {
       // 백업도 정리된 상태로 업데이트
-      backupRef.current = {
-        images: finalImages.map((img) => ({
-          ...img,
-          file: undefined,
-        })),
-      };
+      // deleted된 이미지들의 blob URL 메모리 해제
+      data.images
+        .filter((img) => img.deleted && img.url?.startsWith("blob:"))
+        .forEach((img) => {
+          if (img.url) {
+            URL.revokeObjectURL(img.url);
+          }
+        });
     } else {
-      // 실패 시: 백업으로 복원
-      if (backupRef.current) {
-        methods.reset(backupRef.current);
-      }
-    }
-  };
-
-  // 백업 설정 함수 (외부에서 백업을 수동으로 설정할 때 사용)
-  const setBackup = (data: StatsEvidenceFormValues) => {
-    backupRef.current = structuredClone(data);
-  };
-
-  // 백업으로 복원하는 함수
-  const restoreFromBackup = () => {
-    if (backupRef.current) {
-      methods.reset(backupRef.current);
+      alert("팀 증빙자료 업로드에 실패했습니다.");
+      restoreFromBackup();
     }
   };
 
   return {
     handleFormSubmit,
-    setBackup,
-    restoreFromBackup,
-    hasBackup: () => backupRef.current !== null,
   };
 };
 

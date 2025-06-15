@@ -15,16 +15,6 @@ import usePostPlayerStatsEvidence from "../../../../../../../../../../../../3_En
 const PlayerHistoryRow = (props: PlayerHistoryRowProps) => {
   const { p, maxGoal, maxAssist, personEvidenceImage } = props;
 
-  const defaultEvidenceUrls =
-    personEvidenceImage
-      ?.filter((item) => item.player_list_idx === p.player_list_idx)
-      .map((item) => item.match_player_stats_evidence_img) || [];
-
-  // 디버깅을 위한 로그 추가
-  console.log("PlayerHistoryRow - personEvidenceImage:", personEvidenceImage);
-  console.log("PlayerHistoryRow - player_list_idx:", p.player_list_idx);
-  console.log("PlayerHistoryRow - defaultEvidenceUrls:", defaultEvidenceUrls);
-
   const [myUserIdx] = useMyUserIdx();
   const isMine = p.player_list_idx === myUserIdx;
   const [isExpanded, toggleIsExpanded] = useToggleState();
@@ -43,7 +33,14 @@ const PlayerHistoryRow = (props: PlayerHistoryRowProps) => {
     formState: { errors },
   } = methods;
 
-  const [postPlayerStats] = usePostPlayerStatsEvidence();
+  const [postPlayerStats, responseUrl] = usePostPlayerStatsEvidence();
+
+  const defaultEvidenceUrls =
+    responseUrl ||
+    personEvidenceImage
+      ?.filter((item) => item.player_list_idx === p.player_list_idx)
+      .map((item) => item.match_player_stats_evidence_img) ||
+    [];
 
   const [handlePostPlayerStats] = usePostPlayerStatsHandler(
     cancelEdit,
@@ -98,36 +95,48 @@ const PlayerHistoryRow = (props: PlayerHistoryRowProps) => {
         <tr className="bg-gray-800">
           <td colSpan={4} className="p-4">
             <form onSubmit={handleSubmit(onSubmit)}>
-              {/* 편집 버튼 영역 */}
-              {isMine && (
-                <div className="flex justify-end gap-2 mb-4">
-                  {isEditing ? (
-                    <div className="flex gap-2">
-                      <button
-                        type="submit"
-                        className="px-2 py-1 text-sm bg-grass text-gray-900 rounded">
-                        💾 저장
-                      </button>
+              {/* 증빙자료와 편집 버튼 영역 */}
+              <div className="flex justify-between items-center mb-4">
+                {/* 증빙자료 모달 - 모든 사용자가 볼 수 있음 */}
+                <div>
+                  <StatEvidenceImgFormPanel
+                    onSubmit={postPlayerStats}
+                    matchIdx={p.match_match_idx}
+                    defaultValues={defaultEvidenceUrls}
+                  />
+                </div>
+
+                {/* 편집 버튼들 - 본인만 볼 수 있음 */}
+                {isMine && (
+                  <div className="flex gap-2">
+                    {isEditing ? (
+                      <div>
+                        <button
+                          type="submit"
+                          className="px-3 py-1.5 text-sm bg-grass text-gray-900 rounded-lg hover:bg-grass/90 transition-colors font-medium flex items-center gap-1">
+                          💾 저장
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            cancelEdit();
+                            toggleIsEditing();
+                          }}
+                          className="px-3 py-1.5 text-sm text-gray-300 border border-gray-600 rounded-lg hover:bg-gray-700 transition-colors flex items-center gap-1">
+                          ✖ 취소
+                        </button>
+                      </div>
+                    ) : (
                       <button
                         type="button"
-                        onClick={() => {
-                          cancelEdit();
-                          toggleIsEditing();
-                        }}
-                        className="px-2 py-1 text-sm bg-transparent border rounded">
-                        ✖ 취소
+                        onClick={toggleIsEditing}
+                        className="px-3 py-1.5 text-sm text-gray-300 border border-gray-600 rounded-lg hover:bg-gray-700 hover:text-grass transition-colors flex items-center gap-1">
+                        ✏ 수정
                       </button>
-                    </div>
-                  ) : (
-                    <button
-                      type="button"
-                      onClick={toggleIsEditing}
-                      className="px-2 py-1 text-sm bg-transparent border rounded">
-                      ✏ 수정
-                    </button>
-                  )}
-                </div>
-              )}
+                    )}
+                  </div>
+                )}
+              </div>
 
               {/* 공격 스탯 + 성공률 */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -144,11 +153,6 @@ const PlayerHistoryRow = (props: PlayerHistoryRowProps) => {
                       {p[key as keyof PlayerStats] ?? 0}
                     </PlayerStatsDetailInput>
                   ))}
-                  <StatEvidenceImgFormPanel
-                    onSubmit={postPlayerStats}
-                    matchIdx={p.match_match_idx}
-                    defaultValues={defaultEvidenceUrls}
-                  />
                 </div>
                 <div className="space-y-3">
                   <h4 className="font-semibold text-gray-100">
