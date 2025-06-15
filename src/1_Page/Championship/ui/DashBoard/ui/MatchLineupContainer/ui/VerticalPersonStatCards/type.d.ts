@@ -3,4 +3,5 @@ type VerticalPersonStatCardsProps = {
   team2PlayerStats: PlayerStats[];
   teamName1: string;
   teamName2: string;
+  personEvidenceImage?: PlayerEvidenceImg[];
 };

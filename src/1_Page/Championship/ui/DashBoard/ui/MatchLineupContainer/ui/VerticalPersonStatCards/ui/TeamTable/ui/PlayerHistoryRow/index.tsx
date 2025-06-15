@@ -6,13 +6,20 @@ import useToggleState from "../../../../../../../../../../../../4_Shared/model/u
 import { useMyUserIdx } from "../../../../../../../../../../../../4_Shared/lib/useMyInfo";
 import { attackStats, rateStats } from "./constant/formValues";
 import PlayerStatsDetailInput from "../../../../../../../../../../../../4_Shared/hookForm/PlayerDetailHistoryInput";
-import StatEvidenceImgFormPanel from "./ui/StatEvidenceImgFormPanel";
-import StatProgressBar from "./ui/StatProgressBar";
-import usePostTeamStatHandler from "./model/usePostTeamStatHandler";
+import StatEvidenceImgFormPanel from "../../../../../../../../../../../../2_Widget/StatEvidenceImgFormPanel";
+import StatProgressBar from "../../../../../../../../../../../../4_Shared/components/StatProgressBar";
+import usePostPlayerStatsHandler from "./model/usePostPlayerStatsHandler";
 import useTeamStatForm from "./model/useTeamStatForm";
 
 const PlayerHistoryRow = (props: PlayerHistoryRowProps) => {
-  const { p, maxGoal, maxAssist } = props;
+  const { p, maxGoal, maxAssist, personEvidenceImage } = props;
+
+  const defaultEvidenceUrls = {
+    urls:
+      personEvidenceImage
+        ?.filter((item) => item.player_list_idx === p.player_list_idx)
+        .map((item) => item.match_player_stats_evidence_img) || [],
+  };
 
   const [myUserIdx] = useMyUserIdx();
   const isMine = p.player_list_idx === myUserIdx;
@@ -32,7 +39,7 @@ const PlayerHistoryRow = (props: PlayerHistoryRowProps) => {
     formState: { errors },
   } = methods;
 
-  const [handlePostPlayerStats] = usePostTeamStatHandler(
+  const [handlePostPlayerStats] = usePostPlayerStatsHandler(
     cancelEdit,
     setBackupPlayerStats
   );
@@ -136,13 +143,7 @@ const PlayerHistoryRow = (props: PlayerHistoryRowProps) => {
                       <span className="text-gray-400">증빙 자료:</span>
                       <StatEvidenceImgFormPanel
                         matchIdx={p.match_match_idx}
-                        defaultValues={{
-                          urls: p.match_player_stats_evidence_img
-                            ? Array.isArray(p.match_player_stats_evidence_img)
-                              ? p.match_player_stats_evidence_img
-                              : [p.match_player_stats_evidence_img]
-                            : [],
-                        }}
+                        defaultValues={defaultEvidenceUrls}
                       />
                     </div>
                   )}

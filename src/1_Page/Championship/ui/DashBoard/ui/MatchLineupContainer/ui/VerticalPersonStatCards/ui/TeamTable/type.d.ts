@@ -3,4 +3,5 @@ type TeamTableProps = {
   teamLabel: string;
   maxGoal: number;
   maxAssist: number;
+  personEvidenceImage?: PlayerEvidenceImg[];
 };

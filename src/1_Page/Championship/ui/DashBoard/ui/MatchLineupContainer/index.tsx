@@ -1,7 +1,6 @@
 import React from "react";
 import FootballGroundSection from "./ui/FootballGroundSection";
 import VerticalTeamStatCards from "./ui/VerticalTeamStatCards";
-import EvidenceDetailModal from "./ui/EvidenceDetailModal";
 
 import useToggleState from "../../../../../../4_Shared/model/useToggleState";
 import useChampionshipInfoContext from "../../../../../../4_Shared/model/useChampionshipInfoContext";
@@ -9,20 +8,25 @@ import { getTextColorFromBackground } from "../../../../../../4_Shared/lib/color
 import useMatchModalStore from "../../../../../../4_Shared/zustand/useMatchModal";
 import { BUTTON_TEXT, ViewMode } from "./constant/tab";
 import VerticalPersonStatCards from "./ui/VerticalPersonStatCards";
+import useGetChampionshipEvidence from "../../../../../../3_Entity/Championship/useGetChampionshipEvidence";
+import {
+  getTeamEvidenceListByMatch,
+  getPlayerEvidenceListByMatch,
+} from "./lib/evidenceImageUtils";
 
 const MatchLineupContainer = (props: MatchLineupContainerProps) => {
   const { championshipMatchIdx, selectedTeams, championshipDetail, matchIdx } =
     props;
 
   // admin
-  const { isCommunityManager, isCommunityOperator, championshipListColor } =
-    useChampionshipInfoContext();
+  const { championshipListColor } = useChampionshipInfoContext();
+  const [evidenceImage] = useGetChampionshipEvidence(matchIdx);
 
+  // championshipMatchIdx에 해당하는 증거 이미지 필터링
   const accentColor = championshipListColor || "#3b82f6";
   const accentText = getTextColorFromBackground(accentColor);
 
   // state
-  const [isModalOpen, handleToggleModal] = useToggleState();
   const [isFormationView, toggleIsFormationView] = useToggleState();
   const [viewMode, setViewMode] = React.useState<ViewMode>(ViewMode.Lineup);
 
@@ -46,16 +50,6 @@ const MatchLineupContainer = (props: MatchLineupContainerProps) => {
         </div>
       ) : (
         <>
-          {isCommunityManager ||
-            (isCommunityOperator && (
-              <button
-                style={{ color: accentColor }}
-                className="hover:opacity-80 transition-colors"
-                onClick={handleToggleModal}>
-                증거 자세히 보기
-              </button>
-            ))}
-
           {/* 상단 토글 버튼 그룹 */}
           <div className="flex justify-center mb-4 gap-4">
             <button
@@ -111,23 +105,29 @@ const MatchLineupContainer = (props: MatchLineupContainerProps) => {
           </div>
 
           {viewMode === ViewMode.Team ? (
-            /* 팀 통계 카드 – 기존 코드 그대로 */
+            /* 팀 통계 카드 – 필터링된 증거 이미지 사용 */
             <div className="container mx-auto px-4 py-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <VerticalTeamStatCards
-                  teamName={selectedTeams.selectTeamList[0]}
-                  stats={championshipDetail?.first_team?.stats}
-                />
-                <VerticalTeamStatCards
-                  teamName={selectedTeams.selectTeamList[1]}
-                  stats={championshipDetail?.second_team?.stats}
-                />
-              </div>
+              <VerticalTeamStatCards
+                teamEvidenceImage={getTeamEvidenceListByMatch(
+                  evidenceImage,
+                  championshipMatchIdx
+                )}
+                teamName1={selectedTeams.selectTeamList[0]}
+                teamName2={selectedTeams.selectTeamList[1]}
+                team1Player={championshipDetail?.first_team.player_stats}
+                team2Player={championshipDetail?.second_team.player_stats}
+                team1Stats={championshipDetail?.first_team?.stats}
+                team2Stats={championshipDetail?.second_team?.stats}
+              />
             </div>
           ) : viewMode === ViewMode.Personal ? (
-            /* 개인 기록 보기 – 임시 안내 */
+            /* 개인 기록 보기 – 필터링된 증거 이미지 사용 */
             <div className="container mx-auto px-4 py-6">
               <VerticalPersonStatCards
+                personEvidenceImage={getPlayerEvidenceListByMatch(
+                  evidenceImage,
+                  championshipMatchIdx
+                )}
                 teamName1={selectedTeams.selectTeamList[0]}
                 teamName2={selectedTeams.selectTeamList[1]}
                 team1PlayerStats={championshipDetail?.first_team?.player_stats}
@@ -212,15 +212,6 @@ const MatchLineupContainer = (props: MatchLineupContainerProps) => {
                 />
               </div>
             </div>
-          )}
-
-          {/* 증거 모달 */}
-          {isModalOpen && (
-            <EvidenceDetailModal
-              handleToggleModal={handleToggleModal}
-              championshipMatchIdx={championshipMatchIdx}
-              selectTeamList={selectedTeams.selectTeamList}
-            />
           )}
         </>
       )}

@@ -53,27 +53,25 @@ type ChampionshipMatchList = {
   championship_match_first: ChampionshipMatchFirst;
   championship_match_second: ChampionshipMatchSecond;
 };
+type TeamEvidenceImg = {
+  match_match_idx: number;
+  team_list_idx: number;
+  match_team_stats_evidence_img: string;
+};
 
+type PlayerEvidenceImg = {
+  match_match_idx: number;
+  player_list_idx: number;
+  player_list_nickname: string;
+  match_player_stats_evidence_img: string;
+};
 type EvidenceImage = {
   championship_match_idx: number;
   first_match_idx: number;
   second_match_idx: number;
-  first_team_evidence: {
-    match_match_idx: number;
-    team_list_idx: number;
-    match_team_stats_evidence_img: string;
-  }[];
-  second_team_evidence: {
-    match_match_idx: number;
-    team_list_idx: number;
-    match_team_stats_evidence_img: string;
-  }[];
-  player_evidence: {
-    match_match_idx: number;
-    player_list_idx: number;
-    player_list_nickname: string;
-    match_player_stats_evidence_img: string;
-  }[];
+  first_team_evidence: TeamEvidenceImg[];
+  second_team_evidence: TeamEvidenceImg[];
+  player_evidence: PlayerEvidenceImg[];
 };
 
 type ChampionshipMatchDetail = {

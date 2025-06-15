@@ -2,7 +2,13 @@ import React from "react";
 import TeamTable from "./ui/TeamTable";
 
 const VerticalPersonStatCards = (props: VerticalPersonStatCardsProps) => {
-  const { team1PlayerStats, team2PlayerStats, teamName1, teamName2 } = props;
+  const {
+    team1PlayerStats,
+    team2PlayerStats,
+    teamName1,
+    teamName2,
+    personEvidenceImage,
+  } = props;
   const [activeTeam, setActiveTeam] = React.useState<0 | 1>(0);
 
   // 두 팀 전체 선수 배열
@@ -40,6 +46,7 @@ const VerticalPersonStatCards = (props: VerticalPersonStatCardsProps) => {
             teamLabel={activeTeam === 1 ? teamName1 : teamName2}
             maxGoal={maxGoal}
             maxAssist={maxAssist}
+            personEvidenceImage={personEvidenceImage}
           />
         </div>
       </div>
@@ -51,12 +58,14 @@ const VerticalPersonStatCards = (props: VerticalPersonStatCardsProps) => {
           teamLabel={teamName1}
           maxGoal={maxGoal}
           maxAssist={maxAssist}
+          personEvidenceImage={personEvidenceImage}
         />
         <TeamTable
           players={team2PlayerStats}
           teamLabel={teamName2}
           maxGoal={maxGoal}
           maxAssist={maxAssist}
+          personEvidenceImage={personEvidenceImage}
         />
       </div>
     </div>

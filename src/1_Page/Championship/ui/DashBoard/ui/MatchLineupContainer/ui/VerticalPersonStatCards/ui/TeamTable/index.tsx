@@ -1,7 +1,7 @@
 import PlayerHistoryRow from "./ui/PlayerHistoryRow";
 
 const TeamTable = (props: TeamTableProps) => {
-  const { players, teamLabel, maxGoal, maxAssist } = props;
+  const { players, teamLabel, maxGoal, maxAssist, personEvidenceImage } = props;
 
   return (
     <div className="space-y-4">
@@ -22,8 +22,14 @@ const TeamTable = (props: TeamTableProps) => {
           </thead>
 
           <tbody className="divide-y divide-gray-700">
-            {players.map((p) => (
-              <PlayerHistoryRow p={p} maxGoal={maxGoal} maxAssist={maxAssist} />
+            {players.map((p, index) => (
+              <PlayerHistoryRow
+                key={p.match_player_stats_idx || index}
+                p={p}
+                maxGoal={maxGoal}
+                maxAssist={maxAssist}
+                personEvidenceImage={personEvidenceImage}
+              />
             ))}
           </tbody>
         </table>

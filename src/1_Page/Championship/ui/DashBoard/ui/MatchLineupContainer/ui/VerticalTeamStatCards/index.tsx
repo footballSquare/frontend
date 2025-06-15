@@ -1,129 +1,88 @@
-import { useState } from "react";
-import { FormProvider, useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { statLabels } from "./constant/teamStatKeys";
-import TeamDetailHistoryInput from "../../../../../../../../4_Shared/hookForm/TeamDetailHistoryInput";
-import { teamStatsSchema } from "./schema";
+import React from "react";
+import TeamStatCard from "./ui/TeamStatCard";
 
 const VerticalTeamStatCards = (props: VerticalTeamStatCardsProps) => {
-  const { teamName, stats } = props;
-  const [isEditing, setIsEditing] = useState(false);
+  const {
+    team1Stats,
+    team2Stats,
+    teamName1,
+    teamName2,
+    teamEvidenceImage,
+    team1Player,
+    team2Player,
+  } = props;
+  const [activeTeam, setActiveTeam] = React.useState<0 | 1>(0);
 
-  const methods = useForm<PostTeamStatsForm>({
-    resolver: yupResolver(teamStatsSchema),
-    defaultValues: stats as unknown as Partial<PostTeamStatsForm>,
-  });
-  const { handleSubmit, reset } = methods;
-
-  const onSave = (values: PostTeamStatsForm) => {
-    console.log("Saving team stats:", values);
-    setIsEditing(false);
+  console.log(team1Stats);
+  const handleTeam1Save = (data: PostTeamStatsForm) => {
+    console.log("Team 1 stats saved:", data);
+    // 실제 구현에서는 API 호출
   };
 
-  const onCancel = () => {
-    reset(stats as unknown as PostTeamStatsForm);
-    setIsEditing(false);
+  const handleTeam2Save = (data: PostTeamStatsForm) => {
+    console.log("Team 2 stats saved:", data);
+    // 실제 구현에서는 API 호출
   };
 
-  const formatValue = (
-    value: number | null | undefined,
-    isPercentage = false
-  ): string => {
-    if (value === null || value === undefined || Number.isNaN(value))
-      return "-";
-    return isPercentage ? `${value}%` : value.toString();
-  };
+  const teams = [
+    {
+      name: teamName1,
+      stats: team1Stats,
+      onSave: handleTeam1Save,
+      teamEvidenceImage: teamEvidenceImage?.first_team_evidence,
+      teamPlayer: team1Player,
+    },
+    {
+      name: teamName2,
+      stats: team2Stats,
+      onSave: handleTeam2Save,
+      teamEvidenceImage: teamEvidenceImage?.second_team_evidence,
+      teamPlayer: team2Player,
+    },
+  ];
 
   return (
-    <div className="w-full max-w-md mx-auto">
-      <div className="bg-gray-900 border border-gray-700 rounded-lg overflow-hidden">
-        {/* Header */}
-        <div className="px-6 py-4 border-b border-gray-700 flex items-center justify-between">
-          <h3 className="text-xl font-semibold text-grass">{teamName}</h3>
-          {!isEditing && (
+    <div className="w-full max-w-6xl mx-auto p-4 space-y-6">
+      {/* 모바일: 탭 전환 */}
+      <div className="lg:hidden">
+        <div className="flex space-x-1 bg-gray-800 p-1 rounded-lg">
+          {teams.map((team, index) => (
             <button
-              onClick={() => setIsEditing(true)}
-              className="flex items-center gap-2 px-3 py-1.5 text-sm text-gray-300 border border-gray-600 rounded-md hover:bg-gray-800 transition-colors">
-              <span className="text-base">✏️</span>
-              수정
+              key={index}
+              onClick={() => setActiveTeam(index as 0 | 1)}
+              className={`flex-1 py-2 px-4 text-sm font-medium rounded-md transition-colors ${
+                activeTeam === index
+                  ? "bg-gray-700 text-gray-100 shadow-sm"
+                  : "text-gray-400 hover:text-gray-100"
+              }`}>
+              {team.name}
             </button>
-          )}
+          ))}
         </div>
 
-        {/* Content */}
-        <div className="p-6">
-          {isEditing ? (
-            /* Edit Mode */
-            <FormProvider {...methods}>
-              <form onSubmit={handleSubmit(onSave)} className="space-y-4">
-                <div className="space-y-3">
-                  {statLabels.map(({ key, label, isPercentage, isFile }) => (
-                    <div key={key} className="space-y-1">
-                      <label className="block text-sm font-medium text-gray-300">
-                        {label}
-                      </label>
-                      <TeamDetailHistoryInput
-                        registerType={key}
-                        isFile={Boolean(isFile)}
-                        isPercentage={Boolean(isPercentage)}
-                      />
-                    </div>
-                  ))}
-                </div>
-                {/* Action Buttons */}
-                <div className="flex gap-3 pt-4">
-                  <button
-                    type="submit"
-                    className="flex items-center gap-2 px-4 py-2 bg-grass text-white rounded-md hover:bg-grass/90 transition-colors font-medium">
-                    <span className="text-base">💾</span>
-                    저장
-                  </button>
-                  <button
-                    type="button"
-                    onClick={onCancel}
-                    className="flex items-center gap-2 px-4 py-2 text-gray-300 border border-gray-600 rounded-md hover:bg-gray-800 transition-colors">
-                    <span className="text-base">✖️</span>
-                    취소
-                  </button>
-                </div>
-              </form>
-            </FormProvider>
-          ) : (
-            /* View Mode */
-            <div className="space-y-0">
-              <table className="w-full">
-                <tbody className="divide-y divide-gray-700">
-                  {statLabels.map(({ key, label, isPercentage }) => (
-                    <tr
-                      key={key}
-                      className="hover:bg-gray-800/60 transition-colors">
-                      <td className="py-3 pr-4 text-sm font-medium text-gray-300">
-                        {label}
-                      </td>
-                      <td className="py-3 text-right">
-                        <span className="inline-flex items-center px-2.5 py-1 rounded-md text-sm font-medium bg-gray-800 text-gray-100">
-                          {key === "match_team_stats_evidence_img"
-                            ? stats[key as keyof TeamStats]
-                              ? "첨부 완료"
-                              : "-"
-                            : key === "mom_player_idx"
-                            ? stats[key as keyof TeamStats] ?? "-"
-                            : formatValue(
-                                stats[key as keyof TeamStats] as
-                                  | number
-                                  | null
-                                  | undefined,
-                                isPercentage
-                              )}
-                        </span>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
+        <div className="mt-6">
+          <TeamStatCard
+            teamName={teams[activeTeam].name}
+            stats={teams[activeTeam].stats}
+            onSave={teams[activeTeam].onSave}
+            teamEvidenceImage={teams[activeTeam].teamEvidenceImage}
+            teamPlayer={teams[activeTeam].teamPlayer}
+          />
         </div>
+      </div>
+
+      {/* 데스크톱: 2열 */}
+      <div className="hidden lg:grid grid-cols-2 gap-6">
+        {teams.map((team, index) => (
+          <TeamStatCard
+            key={index}
+            teamName={team.name}
+            stats={team.stats}
+            onSave={team.onSave}
+            teamEvidenceImage={team.teamEvidenceImage}
+            teamPlayer={team.teamPlayer}
+          />
+        ))}
       </div>
     </div>
   );

@@ -3,6 +3,7 @@ export const statLabels: Array<{
   label: string;
   isFile?: boolean;
   isPercentage?: boolean;
+  isMomField?: boolean;
 }> = [
   { key: "match_team_stats_our_score", label: "우리 팀 득점" },
   { key: "match_team_stats_other_score", label: "상대 팀 득점" },
@@ -20,7 +21,7 @@ export const statLabels: Array<{
   { key: "match_team_stats_cornerkick", label: "코너킥 횟수" },
   { key: "match_team_stats_freekick", label: "프리킥 횟수" },
   { key: "match_team_stats_penaltykick", label: "페널티킥 횟수" },
-  { key: "mom", label: "MOM 선수 인덱스" },
+  { key: "mom_player_idx", label: "MOM 선수", isMomField: true },
   {
     key: "match_team_stats_evidence_img",
     label: "팀 스탯 증빙 자료",

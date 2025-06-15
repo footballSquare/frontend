@@ -1,9 +1,16 @@
-type StatEvidenceImgFormProps = {
-  defaultValues?: Partial<{
+type StatEvidenceImgFormPanelProps = {
+  defaultValues?: {
     urls: string[];
-  }>;
-  onSubmit: (data: FinalData) => void;
+  };
+  matchIdx?: number;
+  onSubmit?: (data: FinalData) => void;
   onClose?: () => void;
+};
+
+type FinalData = {
+  urls: string[];
+  files: File[];
+  previewImages?: string[];
 };
 
 type StatsEvidenceFormValues = {

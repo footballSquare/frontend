@@ -1,10 +1,10 @@
-import usePostTeamStat from "../../../../../../../../../../../../../3_Entity/Match/usePostPlayerStats";
+import usePostPlayerStats from "../../../../../../../../../../../../../3_Entity/Match/usePostPlayerStats";
 
 const usePostPlayerStatsHandler = (
   cancelEdit: () => void,
   setBackupPlayerStats: (data: PlayerStatsFormValues) => void
 ) => {
-  const [postPlayerStats] = usePostTeamStat();
+  const [postPlayerStats] = usePostPlayerStats();
 
   const handlePostPlayerStats = async ({
     match_match_idx,
