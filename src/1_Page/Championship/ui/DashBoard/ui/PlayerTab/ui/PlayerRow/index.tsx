@@ -4,10 +4,10 @@ import denide from "../../../../../../../../4_Shared/assets/svg/denied.svg";
 import plus from "../../../../../../../../4_Shared/assets/svg/plus.svg";
 import imageIcon from "../../../../../../../../4_Shared/assets/svg/image.svg";
 import profileIcon from "../../../../../../../../4_Shared/assets/svg/profile.svg";
-
 import useToggleState from "../../../../../../../../4_Shared/model/useToggleState";
 import useChampionshipInfoContext from "../../../../../../../../4_Shared/model/useChampionshipInfoContext";
 import { calculatePossessionClipPath } from "./util/calculatePossessionClipPath";
+
 const PlayerRow = (props: PlayerRowProps) => {
   const { player, index } = props;
   const navigate = useNavigate();
@@ -19,14 +19,6 @@ const PlayerRow = (props: PlayerRowProps) => {
     player.match_player_stats_evidence_img &&
     typeof player.match_player_stats_evidence_img === "string" &&
     player.match_player_stats_evidence_img.trim() !== "";
-
-  const handleImageClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    // 증거 이미지가 있을 때만 모달 열기
-    if (hasEvidenceImage) {
-      handleToogleModal();
-    }
-  };
 
   return (
     <tr
@@ -119,7 +111,12 @@ const PlayerRow = (props: PlayerRowProps) => {
             className={`relative transition transform group-hover:scale-110 ${
               hasEvidenceImage ? "cursor-pointer" : "cursor-default opacity-50"
             }`}
-            onClick={handleImageClick}>
+            onClick={() => {
+              if (!hasEvidenceImage) {
+                return;
+              }
+              handleToogleModal();
+            }}>
             {hasEvidenceImage ? (
               <img
                 src={player.match_player_stats_evidence_img!}
