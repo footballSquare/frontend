@@ -1,6 +1,6 @@
 import { Controller, FieldArrayWithId } from "react-hook-form";
 import useToggleState from "../../4_Shared/model/useToggleState";
-import useHookForm from "./model/useHookForm";
+import useStatInputHookForm from "./model/useStatInputHookForm";
 import useEnlargedImage from "./model/useEnlargedImage";
 import uploadIcon from "../../4_Shared/assets/svg/upload.svg";
 import warningIcon from "../../4_Shared/assets/svg/warning.svg";
@@ -16,16 +16,14 @@ const StatEvidenceImgFormPanel = (props: StatEvidenceImgFormPanelProps) => {
   const { enlargedImage, handleImageEnlarge, closeEnlargedImage } =
     useEnlargedImage();
 
-  // useHookForm에서 필요한 값들을 모두 구조 분해로 받아옵니다.
+  const { methods, fields, handleDeleteImage, handleFileSelect } =
+    useStatInputHookForm(defaultValues);
   const {
-    control,
-    watch,
     handleSubmit,
-    fields,
-    handleDeleteImage,
-    handleFileSelect,
-    errors,
-  } = useHookForm(defaultValues);
+    watch,
+    control,
+    formState: { errors },
+  } = methods;
 
   // watch로 images 배열을 감시
   const watchedImages = watch("images") || [];

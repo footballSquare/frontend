@@ -1,8 +1,9 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useFieldArray, useForm } from "react-hook-form";
 import { statsEvidenceSchema } from "../schema";
+import React from "react";
 
-const useHookForm = (defaultValues?: DefaultValues) => {
+const useStatInputHookForm = (defaultValues?: DefaultValues) => {
   const methods = useForm<StatsEvidenceFormValues>({
     resolver: yupResolver(statsEvidenceSchema),
     defaultValues: {
@@ -13,14 +14,17 @@ const useHookForm = (defaultValues?: DefaultValues) => {
       })),
     },
   });
+  const { reset, control } = methods;
 
-  // 여기서 watch와 errors까지 함께 구조 분해합니다.
-  const {
-    control,
-    handleSubmit,
-    watch,
-    formState: { errors },
-  } = methods;
+  React.useEffect(() => {
+    reset({
+      images: (defaultValues?.urls || []).map((url: string, index: number) => ({
+        id: `existing-${index}`,
+        url,
+        type: "existing" as const,
+      })),
+    });
+  }, [defaultValues]);
 
   const { fields, append, remove } = useFieldArray({
     control,
@@ -67,14 +71,11 @@ const useHookForm = (defaultValues?: DefaultValues) => {
 
   // watch, errors를 반환값에 포함시켜 index.tsx에서 바로 사용 가능하게 합니다.
   return {
-    control,
-    watch,
-    handleSubmit,
+    methods,
     fields,
     handleDeleteImage,
     handleFileSelect,
-    errors,
   };
 };
 
-export default useHookForm;
+export default useStatInputHookForm;
