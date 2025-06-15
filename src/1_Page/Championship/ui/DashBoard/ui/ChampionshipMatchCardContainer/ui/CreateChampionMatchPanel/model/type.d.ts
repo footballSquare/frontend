@@ -18,3 +18,9 @@ type UsePostCreateChampionshipMatchHandlerReturn = {
 type UseCreateMatchFormProps = {
   filteredTeamList: ChampionshipTeamInfo[];
 };
+
+type UseTeamListHandlerReturn = {
+  selectedTeams: ChampionshipTeamInfo[];
+  handleAddTeam: (team: ChampionshipTeamInfo) => void;
+  handleRemoveTeam: (team: ChampionshipTeamInfo) => void;
+};
