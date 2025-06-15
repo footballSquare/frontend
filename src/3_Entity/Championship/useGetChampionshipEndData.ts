@@ -12,7 +12,7 @@ const useGetChampionshipEndData = (
     if (championshipListIdx < 0) return;
     const endPoint = `/championship/${championshipListIdx}/done`;
     request("GET", endPoint, null, true);
-  }, []);
+  }, [championshipListIdx, request]);
 
   React.useEffect(() => {
     if (!loading && serverState) {

@@ -1,6 +1,6 @@
 import * as yup from "yup";
 
-export const schema = yup.object().shape({
+export const postChampionshipMatchSchema = yup.object().shape({
   teams: yup
     .array()
     .of(yup.number().required())

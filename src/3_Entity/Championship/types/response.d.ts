@@ -35,43 +35,43 @@ type ChampionshipMatchFirst = {
   match_team_stats_other_score: number | null;
   common_status_idx: number;
 };
+type ChampionshipMatchSecond = {
+  match_match_idx: number;
+  team_list_idx: number;
+  championship_match_second_idx: number;
+  team_list_name: string;
+  team_list_short_name: string;
+  team_list_color: string;
+  team_list_emblem: string;
+  match_team_stats_our_score: number | null;
+  match_team_stats_other_score: number | null;
+  common_status_idx: number;
+};
+
 type ChampionshipMatchList = {
   championship_match_idx: number;
   championship_match_first: ChampionshipMatchFirst;
-  championship_match_second: {
-    match_match_idx: number;
-    team_list_idx: number;
-    championship_match_second_idx: number;
-    team_list_name: string;
-    team_list_short_name: string;
-    team_list_color: string;
-    team_list_emblem: string;
-    match_team_stats_our_score: number | null;
-    match_team_stats_other_score: number | null;
-    common_status_idx: number;
-  };
+  championship_match_second: ChampionshipMatchSecond;
+};
+type TeamEvidenceImg = {
+  match_match_idx: number;
+  team_list_idx: number;
+  match_team_stats_evidence_img: string;
 };
 
+type PlayerEvidenceImg = {
+  match_match_idx: number;
+  player_list_idx: number;
+  player_list_nickname: string;
+  match_player_stats_evidence_img: string;
+};
 type EvidenceImage = {
   championship_match_idx: number;
   first_match_idx: number;
   second_match_idx: number;
-  first_team_evidence: {
-    match_match_idx: number;
-    team_list_idx: number;
-    match_team_stats_evidence_img: string;
-  }[];
-  second_team_evidence: {
-    match_match_idx: number;
-    team_list_idx: number;
-    match_team_stats_evidence_img: string;
-  }[];
-  player_evidence: {
-    match_match_idx: number;
-    player_list_idx: number;
-    player_list_nickname: string;
-    match_player_stats_evidence_img: string;
-  }[];
+  first_team_evidence: TeamEvidenceImg[] | null;
+  second_team_evidence: TeamEvidenceImg[] | null;
+  player_evidence: PlayerEvidenceImg[] | null;
 };
 
 type ChampionshipMatchDetail = {

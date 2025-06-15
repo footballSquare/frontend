@@ -1,6 +1,6 @@
-import defaultTeamImg from "../../../../../../../../4_Shared/assets/svg/team.svg";
-import { useChampionshipContextInfo } from "../../../../../../model/useChampionshipContext";
+import useChampionshipInfoContext from "../../../../../../../../4_Shared/model/useChampionshipInfoContext";
 import { getTextColorFromBackground } from "../../../../../../../../4_Shared/lib/colorChecker";
+import DefaultTeamEmblem from "../../../../../../../../4_Shared/components/DefaultTeamEmblem";
 
 const TournamentMatchColumn = (props: TournamentMatchColumnProps) => {
   const { match } = props;
@@ -18,8 +18,8 @@ const TournamentMatchColumn = (props: TournamentMatchColumnProps) => {
     match.championship_match_first.common_status_idx === 4 ||
     match.championship_match_second.common_status_idx === 4;
 
-  const { championship_list_color } = useChampionshipContextInfo();
-  const textColor = getTextColorFromBackground(championship_list_color);
+  const { championshipListColor } = useChampionshipInfoContext();
+  const textColor = getTextColorFromBackground(championshipListColor);
 
   return (
     <div className="relative">
@@ -31,9 +31,9 @@ const TournamentMatchColumn = (props: TournamentMatchColumnProps) => {
             className="px-2 py-1 text-xs rounded-full"
             style={{
               backgroundColor: isFinished
-                ? championship_list_color
+                ? championshipListColor
                 : `${textColor}33`,
-              color: isFinished ? textColor : championship_list_color,
+              color: isFinished ? textColor : championshipListColor,
             }}>
             {isFinished ? "종료" : "진행 예정"}
           </span>
@@ -44,19 +44,21 @@ const TournamentMatchColumn = (props: TournamentMatchColumnProps) => {
           className="p-3 flex items-center"
           style={{
             backgroundColor:
-              team1Won && isFinished
-                ? `${championship_list_color}33`
-                : "#1F2937", // Tailwind gray‑800 to guarantee readability
+              team1Won && isFinished ? `${championshipListColor}33` : "#1F2937", // Tailwind gray‑800 to guarantee readability
           }}>
           <div className="w-10 h-10 rounded-full shadow-sm flex items-center justify-center p-1 mr-3">
-            <img
-              src={
-                match.championship_match_first.team_list_emblem ||
-                defaultTeamImg
-              }
-              alt={match.championship_match_first.team_list_name}
-              className="w-8 h-8 object-contain"
-            />
+            {match.championship_match_first.team_list_emblem ? (
+              <img
+                alt={match.championship_match_first.team_list_name}
+                src={match.championship_match_first.team_list_emblem}
+                className="w-8 h-8 object-contain"
+              />
+            ) : (
+              <DefaultTeamEmblem
+                text={match.championship_match_first.team_list_short_name}
+                bgColor={match.championship_match_first.team_list_color}
+              />
+            )}
           </div>
           <div className="flex-grow flex items-center gap-1">
             <span
@@ -76,7 +78,7 @@ const TournamentMatchColumn = (props: TournamentMatchColumnProps) => {
           <div
             className="w-8 h-8 flex items-center justify-center rounded-full font-bold"
             style={{
-              backgroundColor: team1Won ? championship_list_color : "#374151", // Tailwind gray-700
+              backgroundColor: team1Won ? championshipListColor : "#374151", // Tailwind gray-700
               color: team1Won && isFinished ? textColor : "#f3f4f6", // Tailwind gray-100
             }}>
             {team1Score}
@@ -91,18 +93,22 @@ const TournamentMatchColumn = (props: TournamentMatchColumnProps) => {
           className="p-3 flex items-center"
           style={{
             backgroundColor: team2Won
-              ? `${championship_list_color}33`
+              ? `${championshipListColor}33`
               : "#1F2937",
           }}>
           <div className="w-10 h-10 rounded-full shadow-sm flex items-center justify-center p-1 mr-3">
-            <img
-              src={
-                match.championship_match_second.team_list_emblem ||
-                defaultTeamImg
-              }
-              alt={match.championship_match_second.team_list_name}
-              className="w-8 h-8 object-contain"
-            />
+            {match.championship_match_second.team_list_emblem ? (
+              <img
+                alt={match.championship_match_second.team_list_name}
+                src={match.championship_match_second.team_list_emblem}
+                className="w-8 h-8 object-contain"
+              />
+            ) : (
+              <DefaultTeamEmblem
+                text={match.championship_match_second.team_list_short_name}
+                bgColor={match.championship_match_second.team_list_color}
+              />
+            )}
           </div>
           <div className="flex-grow flex items-center gap-1">
             <span
@@ -123,7 +129,7 @@ const TournamentMatchColumn = (props: TournamentMatchColumnProps) => {
             className="w-8 h-8 flex items-center justify-center rounded-full font-bold"
             style={{
               backgroundColor:
-                team2Won && isFinished ? championship_list_color : "#374151", // Tailwind gray-700
+                team2Won && isFinished ? championshipListColor : "#374151", // Tailwind gray-700
               color: team2Won && isFinished ? textColor : "#f3f4f6", // Tailwind gray-100
             }}>
             {team2Score}

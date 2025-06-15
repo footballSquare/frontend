@@ -1,34 +1,47 @@
-import useDeleteChampionshipMatch from "../../../../../../../../3_Entity/Championship/useDeleteChampionshipMatch";
-import usePutChampionshipMatchEnd from "../../../../../../../../3_Entity/Championship/usePutChampionshipMatchEnd";
 import { matchState } from "../../../../../../../../4_Shared/constant/matchState";
-import { useChampionshipContextInfo } from "../../../../../../model/useChampionshipContext";
+import useChampionshipInfoContext from "../../../../../../../../4_Shared/model/useChampionshipInfoContext";
 import { getTeamStyle } from "./lib/getStatusColor";
 import { getTextColorFromBackground } from "../../../../../../../../4_Shared/lib/colorChecker";
+import useDeleteChampionshipMatchHandler from "./model/useDeleteChampionshipMatchHandler";
+import usePutChampionshipMatchEndHandler from "./model/usePutChampionshipMatchEndHandler";
+import DefaultTeamEmblem from "../../../../../../../../4_Shared/components/DefaultTeamEmblem";
 
 const ChampionshipMatchCard = (props: ChampionshipMatchCardProps) => {
-  const { match, isSelected, handleSelect, handleDeleteMatch, handleEndMatch } =
-    props;
+  const {
+    match,
+    isSelected,
+    handleSelect,
+    handleDeleteMatch,
+    handleEndMatch,
+    handleCommitMatches,
+    handleRollBackMatchByIdx,
+  } = props;
   const home = match.championship_match_first;
   const away = match.championship_match_second;
-
-  // admin
-  const { isCommunityOperator, isCommunityManager } =
-    useChampionshipContextInfo();
-
-  const { championship_list_color } = useChampionshipContextInfo();
-  const accentColor = championship_list_color || "#2563eb"; // default blue-600
-  const accentText = getTextColorFromBackground(accentColor);
-
-  // 경기 종료 여부 (common_status_idx === 4)
   const isFinished = home.common_status_idx === 4;
+  // admin
+  const { isCommunityOperator, isCommunityManager, championshipListColor } =
+    useChampionshipInfoContext();
+
   // api
-  const [deleteChampionshipMatch] = useDeleteChampionshipMatch();
-  const [putChampionshipMatchEnd] = usePutChampionshipMatchEnd();
+  const { handleDeleteChampionshipMatch } = useDeleteChampionshipMatchHandler({
+    handleDeleteMatch,
+    handleCommitMatches,
+    handleRollBackMatchByIdx,
+  });
+  const { handlePutChampionshipMatchEnd } = usePutChampionshipMatchEndHandler({
+    handleEndMatch,
+    handleCommitMatches,
+    handleRollBackMatchByIdx,
+  });
+
+  const accentColor = championshipListColor || "#2563eb"; // default blue-600
+  const accentText = getTextColorFromBackground(accentColor);
 
   return (
     <li
       onClick={() => handleSelect(match.championship_match_idx)}
-      className={`relative flex flex-col w-full rounded-xl overflow-hidden
+      className={`relative flex flex-col w-full rounded-xl overflow-visible
         bg-gray-800 text-gray-100
         transform transition-all duration-200 hover:scale-102 hover:shadow-2xl
       `}
@@ -49,7 +62,7 @@ const ChampionshipMatchCard = (props: ChampionshipMatchCardProps) => {
       </div>
 
       {/* 메인 콘텐츠 */}
-      <div className="p-2 sm:p-6">
+      <div className="pr-2 pl-2 sm:pl-4 pt-2 pb-3 flex flex-col items-center">
         {/* VS 영역 */}
         <div className="flex items-center justify-between mb-3 relative">
           {/* 홈팀 */}
@@ -64,9 +77,10 @@ const ChampionshipMatchCard = (props: ChampionshipMatchCardProps) => {
                   className="w-6 h-6 sm:w-8 sm:h-8 object-cover rounded-full"
                 />
               ) : (
-                <span className="text-xs font-bold text-gray-800">
-                  {home.team_list_short_name?.charAt(0) || "H"}
-                </span>
+                <DefaultTeamEmblem
+                  text={home.team_list_short_name}
+                  bgColor={home.team_list_color}
+                />
               )}
             </div>
             <span
@@ -107,9 +121,10 @@ const ChampionshipMatchCard = (props: ChampionshipMatchCardProps) => {
                   className="w-6 h-6 sm:w-8 sm:h-8 object-cover rounded-full"
                 />
               ) : (
-                <span className="text-xs font-bold text-gray-800">
-                  {away.team_list_short_name?.charAt(0) || "A"}
-                </span>
+                <DefaultTeamEmblem
+                  text={away.team_list_short_name}
+                  bgColor={away.team_list_color}
+                />
               )}
             </div>
             <span
@@ -133,10 +148,8 @@ const ChampionshipMatchCard = (props: ChampionshipMatchCardProps) => {
           <div className="flex justify-end gap-2 p-2 bg-gray-800/80 backdrop-blur-sm">
             <button
               onClick={() => {
-                if (confirm("정말 삭제하시겠습니까?")) {
-                  deleteChampionshipMatch(match.championship_match_idx);
-                  handleDeleteMatch(match.championship_match_idx);
-                }
+                if (confirm("정말 삭제하시겠습니까?"))
+                  handleDeleteChampionshipMatch(match.championship_match_idx);
               }}
               className="text-xs px-2 py-1 rounded bg-red-600 text-white hover:bg-red-700 transition-colors">
               삭제
@@ -144,8 +157,7 @@ const ChampionshipMatchCard = (props: ChampionshipMatchCardProps) => {
             <button
               onClick={() => {
                 if (confirm("정말 종료하시겠습니까?")) {
-                  putChampionshipMatchEnd(match.championship_match_idx);
-                  handleEndMatch(match.championship_match_idx);
+                  handlePutChampionshipMatchEnd(match.championship_match_idx);
                 }
               }}
               className="text-xs px-2 py-1 rounded bg-gray-700 text-white hover:bg-gray-800 transition-colors">

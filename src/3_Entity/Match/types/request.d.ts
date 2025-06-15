@@ -79,22 +79,51 @@ type PutTeamMatchJoinProps = {
   teamIdx: number;
 };
 
+type PostPlayerStatProps = {
+  matchIdx: number;
+  playerStat: {
+    match_player_stats_goal: number;
+    match_player_stats_assist: number;
+    match_player_stats_successrate_pass: number;
+    match_player_stats_successrate_dribble: number;
+    match_player_stats_successrate_tackle: number;
+    match_player_stats_possession: number;
+    match_player_stats_standing_tackle: number;
+    match_player_stats_sliding_tackle: number;
+    match_player_stats_cutting: number;
+    match_player_stats_saved: number;
+    match_player_stats_successrate_saved: number;
+  };
+};
+
 type PostTeamStatProps = {
   matchIdx: number;
   teamStat: {
     match_team_stats_our_score: number;
     match_team_stats_other_score: number;
-    match_team_stats_possesion: number;
+    match_team_stats_possession: number;
     match_team_stats_total_shot: number;
-    match_team_stats_expected_goal: number;
     match_team_stats_total_pass: number;
     match_team_stats_total_tackle: number;
     match_team_stats_success_tackle: number;
+    match_team_stats_expected_goal: number;
     match_team_stats_saved: number;
     match_team_stats_cornerkick: number;
     match_team_stats_freekick: number;
     match_team_stats_penaltykick: number;
-    file: file;
-    mom: number;
+    match_team_stats_evidence_img?: FileList;
+    mom_player_idx: number;
   };
+};
+
+type PostPlayerStatsEvidenceProps = {
+  matchIdx: number;
+  file: File[];
+  url: string[];
+};
+
+type PostTeamStatsEvidenceProps = {
+  matchIdx: number;
+  file: File[];
+  url: string[];
 };

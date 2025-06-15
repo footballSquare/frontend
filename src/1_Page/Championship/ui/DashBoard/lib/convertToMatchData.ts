@@ -106,46 +106,52 @@ const convertToLeague = (
     const team1 = match.championship_match_first;
     const team2 = match.championship_match_second;
 
-    // 매치의 팀1의 데이터 업데이트
-    statsMap[team1.team_list_idx].matchesPlayed += 1;
-    statsMap[team1.team_list_idx].goalsFor +=
-      team1.match_team_stats_our_score || 0;
-    statsMap[team1.team_list_idx].goalsAgainst +=
-      team1.match_team_stats_other_score || 0;
-    if (
-      team1.match_team_stats_our_score ||
-      0 > (team1.match_team_stats_other_score || 0)
-    ) {
-      statsMap[team1.team_list_idx].wins += 1;
-      statsMap[team1.team_list_idx].points += 3;
-    } else if (
-      team1.match_team_stats_our_score === team1.match_team_stats_other_score
-    ) {
-      statsMap[team1.team_list_idx].draws += 1;
-      statsMap[team1.team_list_idx].points += 1;
-    } else {
-      statsMap[team1.team_list_idx].losses += 1;
+    // 팀1이 statsMap에 존재하는지 확인
+    if (statsMap[team1.team_list_idx]) {
+      // 매치의 팀1의 데이터 업데이트
+      statsMap[team1.team_list_idx].matchesPlayed += 1;
+      statsMap[team1.team_list_idx].goalsFor +=
+        team1.match_team_stats_our_score || 0;
+      statsMap[team1.team_list_idx].goalsAgainst +=
+        team1.match_team_stats_other_score || 0;
+      if (
+        team1.match_team_stats_our_score ||
+        0 > (team1.match_team_stats_other_score || 0)
+      ) {
+        statsMap[team1.team_list_idx].wins += 1;
+        statsMap[team1.team_list_idx].points += 3;
+      } else if (
+        team1.match_team_stats_our_score === team1.match_team_stats_other_score
+      ) {
+        statsMap[team1.team_list_idx].draws += 1;
+        statsMap[team1.team_list_idx].points += 1;
+      } else {
+        statsMap[team1.team_list_idx].losses += 1;
+      }
     }
 
-    // 매치의 팀2의 데이터 업데이트
-    statsMap[team2.team_list_idx].matchesPlayed += 1;
-    statsMap[team2.team_list_idx].goalsFor +=
-      team2.match_team_stats_our_score || 0;
-    statsMap[team2.team_list_idx].goalsAgainst +=
-      team2.match_team_stats_other_score || 0;
-    if (
-      team2.match_team_stats_our_score ||
-      0 > (team2.match_team_stats_other_score || 0)
-    ) {
-      statsMap[team2.team_list_idx].wins += 1;
-      statsMap[team2.team_list_idx].points += 3;
-    } else if (
-      team2.match_team_stats_our_score === team2.match_team_stats_other_score
-    ) {
-      statsMap[team2.team_list_idx].draws += 1;
-      statsMap[team2.team_list_idx].points += 1;
-    } else {
-      statsMap[team2.team_list_idx].losses += 1;
+    // 팀2가 statsMap에 존재하는지 확인
+    if (statsMap[team2.team_list_idx]) {
+      // 매치의 팀2의 데이터 업데이트
+      statsMap[team2.team_list_idx].matchesPlayed += 1;
+      statsMap[team2.team_list_idx].goalsFor +=
+        team2.match_team_stats_our_score || 0;
+      statsMap[team2.team_list_idx].goalsAgainst +=
+        team2.match_team_stats_other_score || 0;
+      if (
+        team2.match_team_stats_our_score ||
+        0 > (team2.match_team_stats_other_score || 0)
+      ) {
+        statsMap[team2.team_list_idx].wins += 1;
+        statsMap[team2.team_list_idx].points += 3;
+      } else if (
+        team2.match_team_stats_our_score === team2.match_team_stats_other_score
+      ) {
+        statsMap[team2.team_list_idx].draws += 1;
+        statsMap[team2.team_list_idx].points += 1;
+      } else {
+        statsMap[team2.team_list_idx].losses += 1;
+      }
     }
   });
 

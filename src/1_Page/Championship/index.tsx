@@ -4,7 +4,11 @@ import InfoHeader from "./ui/InfoHeader";
 import useGetChampionshipInfo from "../../3_Entity/Championship/useGetChampionshipInfo";
 import useValidParamInteger from "../../4_Shared/model/useValidParamInteger";
 
-import { useChampionshipContext } from "./model/useChampionshipContext";
+import { ChampionshipInfoContext } from "../../4_Shared/model/useChampionshipInfoContext";
+import {
+  useMyCommunityListIdx,
+  useMyCommunityRoleIdx,
+} from "../../4_Shared/lib/useMyInfo";
 
 const Championship = () => {
   const [championshipIdx] = useValidParamInteger("championshipIdx");
@@ -16,14 +20,23 @@ const Championship = () => {
     winner_team_color,
   } = championshipInfo;
 
-  const { value, ChampionshipInfoContext } = useChampionshipContext(
-    community_list_idx,
-    winner_team_color || championship_list_color
-  );
+  const [myCommunityListIdx] = useMyCommunityListIdx();
+  const [communityRoleIdx] = useMyCommunityRoleIdx();
+  const isCommunityOperator =
+    communityRoleIdx === 1 && myCommunityListIdx === community_list_idx;
+  const isCommunityManager = communityRoleIdx === 0;
 
   return (
     <div className="w-full min-h-full">
-      <ChampionshipInfoContext.Provider value={value}>
+      <ChampionshipInfoContext.Provider
+        value={{
+          isCommunityOperator,
+          isCommunityManager,
+          championshipListColor: winner_team_color
+            ? winner_team_color
+            : championship_list_color,
+          communityListIdx: community_list_idx,
+        }}>
         {/* 상단 배너 영역 */}
         <InfoHeader championshipInfo={championshipInfo} />
         {/* 하단 정보 영역 */}

@@ -1,5 +1,13 @@
-type VerticalTeamStatCardsProps = {
-  teamName: string;
+type TeamData = {
+  teamListIdx: number;
+  name: string;
   stats: TeamStats;
-  color: string;
+  players?: PlayerStats[];
+  evidenceImage?: TeamEvidenceImg[];
+  matchIdx: number;
+};
+
+type VerticalTeamStatCardsProps = {
+  firstTeam: TeamData;
+  secondTeam: TeamData;
 };
