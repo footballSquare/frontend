@@ -1,13 +1,7 @@
 import React from "react";
-import { useForm, UseFormReturn } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { playerDetailHistoryInputSchema } from "../../../../../../../../../../../../../../../4_Shared/hookForm/PlayerDetailHistoryInput/schema";
 import { yupResolver } from "@hookform/resolvers/yup";
-
-type UseTeamStatFormReturn = {
-  methods: UseFormReturn<PlayerStatsFormValues>;
-  cancelEdit: () => void;
-  setBackupPlayerStats: (data: PlayerStatsFormValues) => void;
-};
 
 const useTeamStatForm = (player: PlayerStats): UseTeamStatFormReturn => {
   const methods = useForm<PlayerStatsFormValues>({
@@ -27,7 +21,7 @@ const useTeamStatForm = (player: PlayerStats): UseTeamStatFormReturn => {
         player.match_player_stats_successrate_dribble ?? 0,
       match_player_stats_successrate_tackle:
         player.match_player_stats_successrate_tackle ?? 0,
-      match_player_stats_possesion: player.match_player_stats_possession ?? 0,
+      match_player_stats_possession: player.match_player_stats_possession ?? 0,
       match_player_stats_standing_tackle:
         player.match_player_stats_standing_tackle ?? 0,
       match_player_stats_sliding_tackle:

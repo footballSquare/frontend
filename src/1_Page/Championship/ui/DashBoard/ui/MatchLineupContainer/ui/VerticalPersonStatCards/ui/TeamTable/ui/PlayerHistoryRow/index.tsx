@@ -43,7 +43,7 @@ const PlayerHistoryRow = (props: PlayerHistoryRowProps) => {
         <td className="px-4 py-3 text-center text-gray-100">{assists}</td>
       </tr>
 
-      {isExpanded && <PlayerDetailRow player={p} />}
+      {isExpanded && <PlayerDetailRow player={p} isMine={isMine} />}
     </React.Fragment>
   );
 };

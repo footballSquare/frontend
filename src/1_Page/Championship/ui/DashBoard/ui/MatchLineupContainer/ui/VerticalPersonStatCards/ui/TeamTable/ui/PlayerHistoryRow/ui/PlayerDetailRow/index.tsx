@@ -1,5 +1,4 @@
 import { SubmitHandler } from "react-hook-form";
-import { useMyUserIdx } from "../../../../../../../../../../../../../../4_Shared/lib/useMyInfo";
 import useToggleState from "../../../../../../../../../../../../../../4_Shared/model/useToggleState";
 import StatProgressBar from "./ui/StatProgressBar";
 import { attackStats, rateStats } from "./constant/formValues";
@@ -7,11 +6,13 @@ import PlayerStatsDetailInput from "../../../../../../../../../../../../../../4_
 import StatEvidenceImgFormPanel from "./ui/StatEvidenceImg";
 import usePostTeamStatHandler from "./model/usePostTeamStatHandler";
 import useTeamStatForm from "./model/useTeamStatForm";
+import useChampionshipInfoContext from "../../../../../../../../../../../../../../4_Shared/model/useChampionshipInfoContext";
 
 const PlayerDetailRow = (props: PlayerDetailRowProps) => {
-  const { player } = props;
-  const [myUserIdx] = useMyUserIdx();
-  const isMyPlayer = player.player_list_idx === myUserIdx;
+  const { player, isMine } = props;
+  const { isCommunityManager, isCommunityOperator } =
+    useChampionshipInfoContext();
+
   const [isEditing, toggleIsEditing] = useToggleState();
 
   const { methods, cancelEdit, setBackupPlayerStats } = useTeamStatForm(player);
@@ -34,37 +35,40 @@ const PlayerDetailRow = (props: PlayerDetailRowProps) => {
   return (
     <tr className="bg-gray-800">
       <td colSpan={4} className="p-4">
-        {/* 편집 버튼 영역 */}
-        {!isMyPlayer && (
-          <div className="flex justify-end gap-2 mb-4">
-            {isEditing ? (
-              <div className="flex gap-2">
-                <button
-                  type="submit"
-                  className="px-2 py-1 text-sm bg-grass text-gray-900 rounded">
-                  💾 저장
-                </button>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          {/* 편집 버튼 영역 */}
+          {(isMine || isCommunityManager || isCommunityOperator) && (
+            <div className="flex justify-end gap-2 mb-4">
+              {isEditing ? (
+                <div className="flex gap-2">
+                  <button
+                    type="submit"
+                    className="px-2 py-1 text-sm bg-grass text-gray-900 rounded">
+                    💾 저장
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      cancelEdit();
+                      toggleIsEditing();
+                    }}
+                    className="px-2 py-1 text-sm bg-transparent border rounded">
+                    ✖ 취소
+                  </button>
+                </div>
+              ) : (
                 <button
                   type="button"
-                  onClick={cancelEdit}
+                  onClick={toggleIsEditing}
                   className="px-2 py-1 text-sm bg-transparent border rounded">
-                  ✖ 취소
+                  ✏ 수정
                 </button>
-              </div>
-            ) : (
-              <button
-                type="button"
-                onClick={toggleIsEditing}
-                className="px-2 py-1 text-sm bg-transparent border rounded">
-                ✏ 수정
-              </button>
-            )}
-          </div>
-        )}
+              )}
+            </div>
+          )}
 
-        {/* 공격 스탯 + 성공률 */}
-        {isEditing ? (
-          <form onSubmit={handleSubmit(onSubmit)}>
+          {/* 공격 스탯 + 성공률 */}
+          {isEditing ? (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-3">
                 <h4 className="font-semibold text-gray-100">공격 스탯</h4>
@@ -115,55 +119,55 @@ const PlayerDetailRow = (props: PlayerDetailRowProps) => {
                 )}
               </div>
             </div>
-          </form>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="space-y-3">
-              <h4 className="font-semibold text-gray-100">공격 스탯</h4>
-              {attackStats.map(({ key, label }) => (
-                <PlayerStatsDetailInput
-                  key={key}
-                  label={label}
-                  name={key}
-                  register={register}
-                  errors={errors}
-                  readOnly={true}>
-                  {player[key as keyof PlayerStats] ?? 0}
-                </PlayerStatsDetailInput>
-              ))}
-              {/* 읽기 모드에서도 증빙자료 버튼 표시 (선택적) */}
-              {player.match_player_stats_evidence_img && (
-                <div className="flex flex-col gap-1 text-sm mt-2">
-                  <span className="text-gray-400">증빙 자료:</span>
-                  <StatEvidenceImgFormPanel
-                    matchIdx={player.match_match_idx}
-                    defaultValues={{
-                      urls: Array.isArray(
-                        player.match_player_stats_evidence_img
-                      )
-                        ? player.match_player_stats_evidence_img
-                        : [player.match_player_stats_evidence_img],
-                    }}
-                  />
-                </div>
-              )}
-            </div>
-            <div className="space-y-3">
-              <h4 className="font-semibold text-gray-100">성공률 · 점유율</h4>
-              {rateStats.map(({ key, label, keeperOnly }) =>
-                keeperOnly && player.match_position_idx !== 1 ? null : (
-                  <StatProgressBar
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-3">
+                <h4 className="font-semibold text-gray-100">공격 스탯</h4>
+                {attackStats.map(({ key, label }) => (
+                  <PlayerStatsDetailInput
                     key={key}
                     label={label}
-                    percentage={
-                      (player[key as keyof PlayerStats] as number) ?? 0
-                    }
-                  />
-                )
-              )}
+                    name={key}
+                    register={register}
+                    errors={errors}
+                    readOnly={true}>
+                    {player[key as keyof PlayerStats] ?? 0}
+                  </PlayerStatsDetailInput>
+                ))}
+                {/* 읽기 모드에서도 증빙자료 버튼 표시 (선택적) */}
+                {player.match_player_stats_evidence_img && (
+                  <div className="flex flex-col gap-1 text-sm mt-2">
+                    <span className="text-gray-400">증빙 자료:</span>
+                    <StatEvidenceImgFormPanel
+                      matchIdx={player.match_match_idx}
+                      defaultValues={{
+                        urls: Array.isArray(
+                          player.match_player_stats_evidence_img
+                        )
+                          ? player.match_player_stats_evidence_img
+                          : [player.match_player_stats_evidence_img],
+                      }}
+                    />
+                  </div>
+                )}
+              </div>
+              <div className="space-y-3">
+                <h4 className="font-semibold text-gray-100">성공률 · 점유율</h4>
+                {rateStats.map(({ key, label, keeperOnly }) =>
+                  keeperOnly && player.match_position_idx !== 1 ? null : (
+                    <StatProgressBar
+                      key={key}
+                      label={label}
+                      percentage={
+                        (player[key as keyof PlayerStats] as number) ?? 0
+                      }
+                    />
+                  )
+                )}
+              </div>
             </div>
-          </div>
-        )}
+          )}
+        </form>
       </td>
     </tr>
   );

@@ -6,7 +6,7 @@ import TeamListPanel from "./ui/TeamListPanel";
 import MatchLineupContainer from "./ui/MatchLineupContainer";
 
 import useManageMatchList from "./model/useManageMatchList";
-import { convertToMatchData } from "./util/convertToMatchData";
+import { convertToMatchData } from "./lib/convertToMatchData";
 import { ACTIVE_TAB, activeTabList } from "./constant/activeTab";
 import useGetChampionshipTeams from "../../../../3_Entity/Championship/useGetChampionshipTeams";
 import useGetChampionshipMatchList from "../../../../3_Entity/Championship/useGetChampionshipMatchList";

@@ -1,5 +1,3 @@
-type StatProgressBarProps = { label: string; percentage: number };
-
 const StatProgressBar = (props: StatProgressBarProps) => {
   const { label, percentage } = props;
   return (

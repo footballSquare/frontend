@@ -25,7 +25,7 @@ export const playerDetailHistoryInputSchema = yup.object({
     .required("태클 성공률은 필수입니다.")
     .min(0, "0 이상이어야 합니다.")
     .max(100, "100 이하이어야 합니다."),
-  match_player_stats_possesion: yup
+  match_player_stats_possession: yup
     .number()
     .required("점유율은 필수입니다.")
     .min(0, "0 이상이어야 합니다.")
