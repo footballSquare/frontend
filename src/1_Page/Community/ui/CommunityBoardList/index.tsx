@@ -21,7 +21,7 @@ const CommunityBoardList = (props: ChampionshipListProps) => {
   const navigate = useNavigate();
 
   return (
-    <div className="rounded-xl shadow-lg w-full flex flex-col gap-4 p-4 overflow-auto h-[100%] text-gray">
+    <div className="rounded-xl shadow-lg w-full flex flex-wrap gap-4 p-4 overflow-auto text-gray bg-gray-700">
       {communityBoardList.map((elem, index) => {
         return (
           <div
@@ -32,7 +32,7 @@ const CommunityBoardList = (props: ChampionshipListProps) => {
             onClick={() => {
               navigate(`${PAGE_URI.POST}/${elem.board_list_idx}`);
             }}
-            className={`w-full bg-gray-800 shadow-md mb-3 transition-all rounded-r cursor-pointer hover:bg-gray-900`}
+            className={`w-full md:max-w-[32.5%] bg-gray-800 shadow-md transition-all rounded-r cursor-pointer hover:bg-gray-900`}
           >
             <div className="p-4 flex flex-col md:flex-row">
               {/* 왼쪽: 미리보기 이미지 */}
