@@ -21,6 +21,12 @@ const Nav = () => {
         {/* Navigation Btns */}
         <div className="lg:gap-[30px] gap-3 flex items-center justify-between ">
           <NavigationBtn
+            text={"TOPICS"}
+            navigationHandler={() => {
+              navigate(PAGE_URI.TOPICS);
+            }}
+          />
+          <NavigationBtn
             text={"TEAM LIST"}
             navigationHandler={() => {
               navigate(PAGE_URI.TEAMLIST);

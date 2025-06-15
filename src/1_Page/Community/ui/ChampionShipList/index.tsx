@@ -20,7 +20,7 @@ const ChampionshipList = (props: ChampionshipListProps) => {
   const navigate = useNavigate();
 
   return (
-    <div className="rounded-xl shadow-lg w-full flex flex-col gap-4 p-4 overflow-auto h-[100%] text-gray">
+    <div className="rounded-xl shadow-lg w-full flex flex-wrap gap-4 p-4 overflow-auto text-gray bg-gray-700">
       {championshipList.map((elem, index) => {
         return (
           <div
@@ -31,7 +31,7 @@ const ChampionshipList = (props: ChampionshipListProps) => {
                 `${PAGE_URI.CHAMPIONSHIP}/${elem.championship_list_idx}`
               );
             }}
-            className={`w-full bg-gray-800 shadow-md mb-3 transition-all rounded-r cursor-pointer hover:bg-gray-900`}
+            className={`w-full md:max-w-[32.5%] bg-gray-800 shadow-md transition-all rounded-r cursor-pointer hover:bg-gray-900`}
           >
             <div className="p-4 flex flex-col md:flex-row">
               {/* 왼쪽: 트로피 이미지 */}

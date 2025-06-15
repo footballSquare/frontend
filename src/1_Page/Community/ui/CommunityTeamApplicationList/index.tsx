@@ -17,7 +17,7 @@ const CommunityTeamApplicationList = (
     });
 
   return (
-    <div className="rounded-xl shadow-md w-full flex flex-col gap-4 p-4">
+    <div className="rounded-xl shadow-md w-full flex flex-col gap-4 p-4 bg-gray-700">
       {communityTeamApplicationList.map((application, index) => {
         return (
           <div
