@@ -1,5 +1,5 @@
-import useToggleState from "../../../../../../../../../../../../../../../../4_Shared/model/useToggleState";
-import StatEvidenceImgForm from "../../../../../../../../../../../../../../../../2_Widget/StatEvidenceImgForm";
+import useToggleState from "../../../../../../../../../../../../../../4_Shared/model/useToggleState";
+import StatEvidenceImgForm from "../../../../../../../../../../../../../../2_Widget/StatEvidenceImgForm";
 
 // 패널 컴포넌트 (기존 인터페이스 유지)
 const StatEvidenceImgFormPanel = (props: StatEvidenceImgFormPanelProps) => {

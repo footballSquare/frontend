@@ -4,12 +4,14 @@ import denide from "../../../../../../../../4_Shared/assets/svg/denied.svg";
 import plus from "../../../../../../../../4_Shared/assets/svg/plus.svg";
 import useToggleState from "../../../../../../../../4_Shared/model/useToggleState";
 import useChampionshipInfoContext from "../../../../../../../../4_Shared/model/useChampionshipInfoContext";
+import { calculatePossessionClipPath } from "./util/calculatePossessionClipPath";
 
 const PlayerRow = (props: PlayerRowProps) => {
   const { player, index } = props;
   const navigate = useNavigate();
   const [isModalOpen, handleToogleModal] = useToggleState();
 
+  console.log("PlayerRow", player);
   const { championshipListColor } = useChampionshipInfoContext();
 
   return (
@@ -81,25 +83,9 @@ const PlayerRow = (props: PlayerRowProps) => {
             <div
               className="absolute inset-0 rounded-full transition-colors duration-300"
               style={{
-                clipPath: `polygon(50% 50%, 50% 0%, ${
-                  50 +
-                  50 *
-                    Math.cos(
-                      (Math.PI *
-                        2 *
-                        (player.match_player_stats_possession || 0)) /
-                        100
-                    )
-                }% ${
-                  50 -
-                  50 *
-                    Math.sin(
-                      (Math.PI *
-                        2 *
-                        (player.match_player_stats_possession || 0)) /
-                        100
-                    )
-                }%, 100% 0%, 100% 0%, 100% 100%, 0% 100%, 0% 0%)`,
+                clipPath: calculatePossessionClipPath(
+                  player.match_player_stats_possession || 0
+                ),
                 backgroundColor: championshipListColor,
               }}
             />

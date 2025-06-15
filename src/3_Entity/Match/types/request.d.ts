@@ -87,7 +87,7 @@ type PostPlayerStatProps = {
     match_player_stats_successrate_pass: number;
     match_player_stats_successrate_dribble: number;
     match_player_stats_successrate_tackle: number;
-    match_player_stats_possesion: number;
+    match_player_stats_possession: number;
     match_player_stats_standing_tackle: number;
     match_player_stats_sliding_tackle: number;
     match_player_stats_cutting: number;

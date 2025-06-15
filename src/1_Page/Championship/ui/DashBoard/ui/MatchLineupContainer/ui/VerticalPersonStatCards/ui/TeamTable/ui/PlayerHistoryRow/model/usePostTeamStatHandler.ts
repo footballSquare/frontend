@@ -1,4 +1,4 @@
-import usePostTeamStat from "../../../../../../../../../../../../../../../3_Entity/Match/usePostPlayerStats";
+import usePostTeamStat from "../../../../../../../../../../../../../3_Entity/Match/usePostPlayerStats";
 
 const usePostPlayerStatsHandler = (
   cancelEdit: () => void,
@@ -18,11 +18,9 @@ const usePostPlayerStatsHandler = (
     switch (status) {
       case 200:
         setBackupPlayerStats(data);
-        console.log("Team stats posted successfully");
         break;
       default:
         cancelEdit();
-        alert("Failed to post team stats. Please try again.");
         break;
     }
   };

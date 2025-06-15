@@ -1,9 +1,9 @@
 type PlayerStatsDetailInputProps = {
   label: string;
-  name: keyof FormValues;
-  register: ReturnType<typeof useForm<FormValues>>["register"];
-  errors: FieldErrors<FieldValues>;
-  readOnly: boolean;
+  name: keyof PlayerStatsFormValues;
+  register: ReturnType<typeof useForm<PlayerStatsFormValues>>["register"];
+  errors: FieldErrors<PlayerStatsFormValues>;
+  isEditing: boolean;
   children?: React.ReactNode;
 };
 

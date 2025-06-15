@@ -1,9 +1,15 @@
 import React from "react";
-import PlayerDetailRow from "./ui/PlayerDetailRow";
+import { SubmitHandler } from "react-hook-form";
 import { getPositionColor } from "../../../../../../../../../../../../4_Shared/lib/getPositionColor";
 import { matchPosition } from "../../../../../../../../../../../../4_Shared/constant/matchPosition";
 import useToggleState from "../../../../../../../../../../../../4_Shared/model/useToggleState";
 import { useMyUserIdx } from "../../../../../../../../../../../../4_Shared/lib/useMyInfo";
+import useChampionshipInfoContext from "../../../../../../../../../../../../4_Shared/model/useChampionshipInfoContext";
+import { attackStats, rateStats } from "./constant/formValues";
+import PlayerStatsDetailInput from "../../../../../../../../../../../../4_Shared/hookForm/PlayerDetailHistoryInput";
+import StatEvidenceImgFormPanel from "./ui/StatEvidenceImg";
+import usePostTeamStatHandler from "./model/usePostTeamStatHandler";
+import useTeamStatForm from "./model/useTeamStatForm";
 
 const PlayerHistoryRow = (props: PlayerHistoryRowProps) => {
   const { p, maxGoal, maxAssist } = props;
@@ -11,10 +17,32 @@ const PlayerHistoryRow = (props: PlayerHistoryRowProps) => {
   const [myUserIdx] = useMyUserIdx();
   const isMine = p.player_list_idx === myUserIdx;
   const [isExpanded, toggleIsExpanded] = useToggleState();
+  const [isEditing, toggleIsEditing] = useToggleState();
+
+  const { isCommunityManager, isCommunityOperator } =
+    useChampionshipInfoContext();
 
   const goals = p.match_player_stats_goal ?? 0;
   const assists = p.match_player_stats_assist ?? 0;
   const highlight = goals === maxGoal || assists === maxAssist;
+
+  // PlayerDetailRow logic
+  const { methods, cancelEdit, setBackupPlayerStats } = useTeamStatForm(p);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = methods;
+
+  const [handlePostPlayerStats] = usePostTeamStatHandler(
+    cancelEdit,
+    setBackupPlayerStats
+  );
+
+  const onSubmit: SubmitHandler<PlayerStatsFormValues> = (data) => {
+    toggleIsEditing();
+    handlePostPlayerStats({ match_match_idx: p.match_match_idx, data });
+  };
 
   return (
     <React.Fragment key={p.player_list_idx}>
@@ -37,13 +65,100 @@ const PlayerHistoryRow = (props: PlayerHistoryRowProps) => {
             }}>
             {matchPosition[p.match_position_idx]}
           </span>
-          {}
         </td>
         <td className="px-4 py-3 text-center text-gray-100">{goals}</td>
         <td className="px-4 py-3 text-center text-gray-100">{assists}</td>
       </tr>
 
-      {isExpanded && <PlayerDetailRow player={p} isMine={isMine} />}
+      {isExpanded && (
+        <tr className="bg-gray-800">
+          <td colSpan={4} className="p-4">
+            <form onSubmit={handleSubmit(onSubmit)}>
+              {/* 편집 버튼 영역 */}
+              {(isMine || isCommunityManager || isCommunityOperator) && (
+                <div className="flex justify-end gap-2 mb-4">
+                  {isEditing ? (
+                    <div className="flex gap-2">
+                      <button
+                        type="submit"
+                        className="px-2 py-1 text-sm bg-grass text-gray-900 rounded">
+                        💾 저장
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          cancelEdit();
+                          toggleIsEditing();
+                        }}
+                        className="px-2 py-1 text-sm bg-transparent border rounded">
+                        ✖ 취소
+                      </button>
+                    </div>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={toggleIsEditing}
+                      className="px-2 py-1 text-sm bg-transparent border rounded">
+                      ✏ 수정
+                    </button>
+                  )}
+                </div>
+              )}
+
+              {/* 공격 스탯 + 성공률 */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-3">
+                  <h4 className="font-semibold text-gray-100">공격 스탯</h4>
+                  {attackStats.map(({ key, label }) => (
+                    <PlayerStatsDetailInput
+                      key={key}
+                      label={label}
+                      name={key}
+                      register={register}
+                      errors={errors}
+                      isEditing={isEditing}>
+                      {p[key as keyof PlayerStats] ?? 0}
+                    </PlayerStatsDetailInput>
+                  ))}
+                  {(isEditing || p.match_player_stats_evidence_img) && (
+                    <div className="flex flex-col gap-1 text-sm">
+                      <span className="text-gray-400">증빙 자료:</span>
+                      <StatEvidenceImgFormPanel
+                        matchIdx={p.match_match_idx}
+                        defaultValues={{
+                          urls: p.match_player_stats_evidence_img
+                            ? Array.isArray(p.match_player_stats_evidence_img)
+                              ? p.match_player_stats_evidence_img
+                              : [p.match_player_stats_evidence_img]
+                            : [],
+                        }}
+                      />
+                    </div>
+                  )}
+                </div>
+                <div className="space-y-3">
+                  <h4 className="font-semibold text-gray-100">
+                    성공률 · 점유율
+                  </h4>
+                  {rateStats.map(({ key, label, keeperOnly }) =>
+                    keeperOnly && p.match_position_idx !== 1 ? null : (
+                      <PlayerStatsDetailInput
+                        key={key}
+                        label={label}
+                        name={key}
+                        register={register}
+                        errors={errors}
+                        isEditing={isEditing}>
+                        {p[key as keyof PlayerStats] ?? 0}
+                      </PlayerStatsDetailInput>
+                    )
+                  )}
+                </div>
+              </div>
+            </form>
+          </td>
+        </tr>
+      )}
     </React.Fragment>
   );
 };
