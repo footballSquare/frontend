@@ -4,7 +4,6 @@ import { getPositionColor } from "../../../../../../../../../../../../4_Shared/l
 import { matchPosition } from "../../../../../../../../../../../../4_Shared/constant/matchPosition";
 import useToggleState from "../../../../../../../../../../../../4_Shared/model/useToggleState";
 import { useMyUserIdx } from "../../../../../../../../../../../../4_Shared/lib/useMyInfo";
-import useChampionshipInfoContext from "../../../../../../../../../../../../4_Shared/model/useChampionshipInfoContext";
 import { attackStats, rateStats } from "./constant/formValues";
 import PlayerStatsDetailInput from "../../../../../../../../../../../../4_Shared/hookForm/PlayerDetailHistoryInput";
 import StatEvidenceImgFormPanel from "./ui/StatEvidenceImgFormPanel";
@@ -19,9 +18,6 @@ const PlayerHistoryRow = (props: PlayerHistoryRowProps) => {
   const isMine = p.player_list_idx === myUserIdx;
   const [isExpanded, toggleIsExpanded] = useToggleState();
   const [isEditing, toggleIsEditing] = useToggleState();
-
-  const { isCommunityManager, isCommunityOperator } =
-    useChampionshipInfoContext();
 
   const goals = p.match_player_stats_goal ?? 0;
   const assists = p.match_player_stats_assist ?? 0;
@@ -90,7 +86,7 @@ const PlayerHistoryRow = (props: PlayerHistoryRowProps) => {
           <td colSpan={4} className="p-4">
             <form onSubmit={handleSubmit(onSubmit)}>
               {/* 편집 버튼 영역 */}
-              {(isMine || isCommunityManager || isCommunityOperator) && (
+              {isMine && (
                 <div className="flex justify-end gap-2 mb-4">
                   {isEditing ? (
                     <div className="flex gap-2">
