@@ -1,13 +1,36 @@
 import { useFormContext } from "react-hook-form";
 
 const TeamDetailHistoryInput = (props: TeamDetailHistoryInputProps) => {
-  const { registerType, isFile = false, isPercentage = false } = props;
+  const {
+    registerType,
+    isFile = false,
+    isPercentage = false,
+    isEditing = true,
+    getCurrentMomPlayer,
+  } = props;
   const {
     register,
     formState: { errors },
   } = useFormContext();
 
   const hasError = !!errors[registerType];
+
+  // MOM 선수 선택은 별도 UI로 표시
+  if (registerType === "mom_player_idx") {
+    return (
+      <div className="space-y-2">
+        <div className="flex items-center gap-2">
+          <span>👑</span>
+          <span>{getCurrentMomPlayer?.()?.player_list_nickname || "-"}</span>
+        </div>
+        {hasError && isEditing && (
+          <div className="flex items-center gap-2 text-sm text-red-400 bg-red-900/20 px-3 py-2 rounded-md border border-red-500/30">
+            <span>{errors[registerType]?.message as string}</span>
+          </div>
+        )}
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-2">
@@ -16,6 +39,7 @@ const TeamDetailHistoryInput = (props: TeamDetailHistoryInputProps) => {
           <input
             type="file"
             accept="image/jpeg,image/png,image/jpg,image/webp"
+            disabled={!isEditing}
             {...register(registerType)}
             className={`
               w-full text-sm text-gray-100 
@@ -31,6 +55,7 @@ const TeamDetailHistoryInput = (props: TeamDetailHistoryInputProps) => {
                   ? "border-red-500/70 bg-red-900/10 file:from-red-500 file:to-red-600"
                   : "border-gray-600 hover:bg-gray-800/70"
               }
+              ${!isEditing ? "opacity-60 cursor-not-allowed" : ""}
             `}
           />
           <div className="absolute top-1 right-2 text-xs text-gray-400">
@@ -41,8 +66,9 @@ const TeamDetailHistoryInput = (props: TeamDetailHistoryInputProps) => {
         <div className="relative">
           <input
             type="number"
+            disabled={!isEditing}
             step={
-              registerType === "match_team_stats_expectation_goal" ? "0.1" : "1"
+              registerType === "match_team_stats_expected_goal" ? "0.1" : "1"
             }
             min="0"
             max={isPercentage ? 100 : undefined}
@@ -60,6 +86,7 @@ const TeamDetailHistoryInput = (props: TeamDetailHistoryInputProps) => {
                   ? "border-red-500 bg-red-900/10 focus:ring-red-500/50 focus:border-red-500"
                   : "border-gray-600"
               }
+              ${!isEditing ? "opacity-60 cursor-not-allowed" : ""}
             `}
             placeholder={isPercentage ? "0-100%" : "숫자 입력"}
           />

@@ -7,12 +7,12 @@ const usePostPlayerStatsHandler = (
   const [postPlayerStats] = usePostPlayerStats();
 
   const handlePostPlayerStats = async ({
-    match_match_idx,
+    matchIdx,
     data,
-  }: HandlePostTeamStatProps) => {
+  }: HandlePostPlayerStatProps) => {
     const status = await postPlayerStats({
-      teamStat: data,
-      matchIdx: match_match_idx,
+      playerStat: data,
+      matchIdx,
     });
 
     switch (status) {

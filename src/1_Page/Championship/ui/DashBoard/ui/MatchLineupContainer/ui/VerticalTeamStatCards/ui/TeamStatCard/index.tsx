@@ -1,63 +1,63 @@
-import React from "react";
-import { FormProvider, useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
+import { FormProvider } from "react-hook-form";
 import { statLabels } from "../../constant/teamStatKeys";
 import TeamDetailHistoryInput from "../../../../../../../../../../4_Shared/hookForm/TeamDetailHistoryInput";
-import { teamStatsSchema } from "../../../../../../../../../../4_Shared/hookForm/TeamDetailHistoryInput/schema";
 import StatEvidenceImgFormPanel from "../../../../../../../../../../2_Widget/StatEvidenceImgFormPanel";
-import MomSelectionModal from "./ui/MomSelectionModalPanel";
 import editIcon from "../../../../../../../../../../4_Shared/assets/svg/edit.svg";
+import useTeamStatForm from "./model/useTeamStatForm";
+import MomSelectionModalPanel from "./ui/MomSelectionModalPanel";
+import {
+  useMyTeamIdx,
+  useMyTeamRoleIdx,
+} from "../../../../../../../../../../4_Shared/lib/useMyInfo";
+import useToggleState from "../../../../../../../../../../4_Shared/model/useToggleState";
+import usePostTeamStatsHandler from "./model/usePostTeamStatsHandler";
 
 const TeamStatCard = (props: TeamStatCardProps) => {
-  const { teamName, stats, onSave, teamEvidenceImage, teamPlayer } = props;
-  const [isEditing, setIsEditing] = React.useState(false);
+  const { teamData } = props;
+  const {
+    name: teamName,
+    stats,
+    evidenceImage: teamEvidenceImage,
+    players: teamPlayer,
+    teamListIdx,
+    matchIdx,
+  } = teamData;
 
-  const methods = useForm<PostTeamStatsForm>({
-    resolver: yupResolver(teamStatsSchema),
-    defaultValues: {
-      ...stats,
-    } as unknown as Partial<PostTeamStatsForm>,
-  });
-  const { handleSubmit, reset, watch } = methods;
+  const [isEditing, toggleIsEditing] = useToggleState();
+  const [myTeamRoleIdx] = useMyTeamRoleIdx();
+  const [myTeamIdx] = useMyTeamIdx();
+  const isTeamLeader = myTeamRoleIdx === 0 && myTeamIdx === teamListIdx;
 
-  const handleSave = (values: PostTeamStatsForm) => {
-    console.log("Saving team stats:", values);
-    onSave?.(values);
-    setIsEditing(false);
-  };
+  const { methods, cancelEdit, setBackupTeamStats } = useTeamStatForm(
+    stats,
+    matchIdx
+  );
+  const { handleSubmit, watch } = methods;
+  const [handlePostTeamStats] = usePostTeamStatsHandler(
+    cancelEdit,
+    setBackupTeamStats
+  );
 
-  const handleCancel = () => {
-    reset({
-      ...stats,
-      mom_player_idx: stats.mom_player_idx || 0,
-    } as unknown as PostTeamStatsForm);
-    setIsEditing(false);
+  const onSubmit = (values: PostTeamStatsForm) => {
+    handlePostTeamStats({
+      matchIdx,
+      data: values,
+    });
+    toggleIsEditing();
   };
 
   const handleEvidenceSubmit = (data: FinalData) => {
     console.log("Evidence data:", data);
     // 실제 구현에서는 여기서 증거 이미지를 저장
-    // data.urls: 기존 이미지 URL들
-    // data.files: 새로 업로드된 파일들
-    // data.previewImages: 새 이미지들의 미리보기 URL들 (optional)
   };
 
   const getCurrentMomPlayer = () => {
-    // 편집 모드일 때는 폼의 현재 값을 사용, 아닐 때는 props의 stats 사용
     const momIdx = isEditing ? watch("mom_player_idx") : stats.mom_player_idx;
     return teamPlayer?.find((player) => player.player_list_idx === momIdx);
   };
+
   const evidenceUrls =
     teamEvidenceImage?.map((item) => item.match_team_stats_evidence_img) || [];
-
-  const formatValue = (
-    value: number | null | undefined,
-    isPercentage = false
-  ): string => {
-    if (value === null || value === undefined || Number.isNaN(value))
-      return "-";
-    return isPercentage ? `${value}%` : value.toString();
-  };
 
   return (
     <div>
@@ -72,12 +72,14 @@ const TeamStatCard = (props: TeamStatCardProps) => {
                   defaultValues={{ urls: evidenceUrls }}
                   onSubmit={handleEvidenceSubmit}
                 />
-                <button
-                  onClick={() => setIsEditing(true)}
-                  className="flex items-center gap-2 px-3 py-1.5 text-sm text-gray-300 border border-gray-600 rounded-md hover:bg-gray-800 hover:text-grass transition-colors">
-                  <img className="w-[15px] h-[15px]" src={editIcon} />
-                  수정
-                </button>
+                {isTeamLeader && (
+                  <button
+                    onClick={toggleIsEditing}
+                    className="flex items-center gap-2 px-3 py-1.5 text-sm text-gray-300 border border-gray-600 rounded-md hover:bg-gray-800 hover:text-grass transition-colors">
+                    <img className="w-[15px] h-[15px]" src={editIcon} />
+                    수정
+                  </button>
+                )}
               </div>
             )}
           </div>
@@ -88,16 +90,13 @@ const TeamStatCard = (props: TeamStatCardProps) => {
           {isEditing ? (
             /* Edit Mode */
             <FormProvider {...methods}>
-              <form onSubmit={handleSubmit(handleSave)} className="space-y-4">
+              <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                 {/* Hidden input for MOM player idx */}
                 <input type="hidden" {...methods.register("mom_player_idx")} />
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {statLabels
-                    .filter(
-                      ({ key }) => key !== "match_team_stats_evidence_img"
-                    )
-                    .map(({ key, label, isPercentage, isMomField }) => (
+                  {statLabels.map(
+                    ({ key, label, isPercentage, isMomField }) => (
                       <div key={key} className="space-y-2">
                         <label className="block text-sm font-medium text-gray-300">
                           {label}
@@ -108,9 +107,11 @@ const TeamStatCard = (props: TeamStatCardProps) => {
                               {getCurrentMomPlayer()?.player_list_nickname ||
                                 "선택되지 않음"}
                             </div>
-                            <MomSelectionModal
+                            <MomSelectionModalPanel
                               teamPlayer={teamPlayer}
-                              currentMomIdx={stats.mom_player_idx}
+                              currentMomIdx={
+                                getCurrentMomPlayer()?.player_list_idx
+                              }
                             />
                           </div>
                         ) : (
@@ -118,10 +119,12 @@ const TeamStatCard = (props: TeamStatCardProps) => {
                             registerType={key}
                             isFile={false}
                             isPercentage={Boolean(isPercentage)}
+                            isEditing={true}
                           />
                         )}
                       </div>
-                    ))}
+                    )
+                  )}
                 </div>
 
                 {/* Action Buttons */}
@@ -134,7 +137,10 @@ const TeamStatCard = (props: TeamStatCardProps) => {
                   </button>
                   <button
                     type="button"
-                    onClick={handleCancel}
+                    onClick={() => {
+                      cancelEdit();
+                      toggleIsEditing();
+                    }}
                     className="flex items-center gap-2 px-4 py-2 text-gray-300 border border-gray-600 rounded-lg hover:bg-gray-800 transition-colors">
                     <span>×</span> 취소
                   </button>
@@ -142,41 +148,30 @@ const TeamStatCard = (props: TeamStatCardProps) => {
               </form>
             </FormProvider>
           ) : (
-            /* View Mode */
-            <div className="space-y-0">
-              <div className="grid gap-2">
-                {statLabels
-                  .filter(({ key }) => key !== "match_team_stats_evidence_img")
-                  .map(({ key, label, isPercentage, isMomField }) => (
+            <FormProvider {...methods}>
+              <div className="space-y-0">
+                <div className="grid gap-2">
+                  {statLabels.map(({ key, label, isPercentage }) => (
                     <div
                       key={key}
                       className="flex items-center justify-between py-3 px-4 rounded-lg hover:bg-gray-800/60 transition-colors group">
                       <span className="text-sm font-medium text-gray-300 group-hover:text-gray-200">
                         {label}
                       </span>
-                      <span className="inline-flex items-center px-3 py-1.5 rounded-lg text-sm font-semibold bg-gray-800 text-grass border border-gray-700">
-                        {isMomField ? (
-                          <div className="flex items-center gap-2">
-                            <span>👑</span>
-                            <span>
-                              {getCurrentMomPlayer()?.player_list_nickname ||
-                                "-"}
-                            </span>
-                          </div>
-                        ) : (
-                          formatValue(
-                            stats[key as keyof TeamStats] as
-                              | number
-                              | null
-                              | undefined,
-                            isPercentage
-                          )
-                        )}
-                      </span>
+                      <div className="inline-flex items-center">
+                        <TeamDetailHistoryInput
+                          registerType={key}
+                          isFile={false}
+                          isPercentage={Boolean(isPercentage)}
+                          isEditing={false}
+                          getCurrentMomPlayer={getCurrentMomPlayer}
+                        />
+                      </div>
                     </div>
                   ))}
+                </div>
               </div>
-            </div>
+            </FormProvider>
           )}
         </div>
       </div>

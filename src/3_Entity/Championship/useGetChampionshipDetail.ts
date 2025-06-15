@@ -37,6 +37,7 @@ const useGetChampionshipDetail = (
       const detail = (
         serverState as { championship_match: ChampionshipMatchDetail }
       ).championship_match;
+      console.log("detail", detail);
       cacheRef.current[championshipMatchIdx] = detail;
       setChampionshipDetail(detail);
       return;

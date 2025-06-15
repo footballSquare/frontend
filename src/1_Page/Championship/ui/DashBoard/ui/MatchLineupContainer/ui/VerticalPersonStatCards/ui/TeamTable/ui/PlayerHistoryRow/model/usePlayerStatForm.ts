@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { playerDetailHistoryInputSchema } from "../../../../../../../../../../../../../4_Shared/hookForm/PlayerDetailHistoryInput/schema";
 import { yupResolver } from "@hookform/resolvers/yup";
 
-const useTeamStatForm = (player: PlayerStats): UseTeamStatFormReturn => {
+const usePlayerStatForm = (player: PlayerStats): UsePlayerStatFormReturn => {
   const methods = useForm<PlayerStatsFormValues>({
     resolver: yupResolver(playerDetailHistoryInputSchema),
   });
@@ -49,4 +49,4 @@ const useTeamStatForm = (player: PlayerStats): UseTeamStatFormReturn => {
   };
 };
 
-export default useTeamStatForm;
+export default usePlayerStatForm;

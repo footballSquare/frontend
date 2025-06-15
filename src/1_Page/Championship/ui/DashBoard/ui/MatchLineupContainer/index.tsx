@@ -20,7 +20,7 @@ const MatchLineupContainer = (props: MatchLineupContainerProps) => {
 
   // admin
   const { championshipListColor } = useChampionshipInfoContext();
-  const [evidenceImage] = useGetChampionshipEvidence(matchIdx);
+  const [evidenceImage] = useGetChampionshipEvidence(championshipMatchIdx);
 
   // championshipMatchIdx에 해당하는 증거 이미지 필터링
   const accentColor = championshipListColor || "#3b82f6";
@@ -49,7 +49,7 @@ const MatchLineupContainer = (props: MatchLineupContainerProps) => {
           </p>
         </div>
       ) : (
-        <>
+        <div>
           {/* 상단 토글 버튼 그룹 */}
           <div className="flex justify-center mb-4 gap-4">
             <button
@@ -108,16 +108,30 @@ const MatchLineupContainer = (props: MatchLineupContainerProps) => {
             /* 팀 통계 카드 – 필터링된 증거 이미지 사용 */
             <div className="container mx-auto px-4 py-6">
               <VerticalTeamStatCards
-                teamEvidenceImage={getTeamEvidenceListByMatch(
-                  evidenceImage,
-                  championshipMatchIdx
-                )}
-                teamName1={selectedTeams.selectTeamList[0]}
-                teamName2={selectedTeams.selectTeamList[1]}
-                team1Player={championshipDetail?.first_team.player_stats}
-                team2Player={championshipDetail?.second_team.player_stats}
-                team1Stats={championshipDetail?.first_team?.stats}
-                team2Stats={championshipDetail?.second_team?.stats}
+                firstTeam={{
+                  teamListIdx:
+                    championshipDetail?.first_team?.team_list_idx || 0,
+                  name: selectedTeams.selectTeamList[0],
+                  stats: championshipDetail?.first_team?.stats,
+                  players: championshipDetail?.first_team.player_stats,
+                  evidenceImage: getTeamEvidenceListByMatch(
+                    evidenceImage,
+                    championshipMatchIdx
+                  )?.first_team_evidence,
+                  matchIdx,
+                }}
+                secondTeam={{
+                  teamListIdx:
+                    championshipDetail?.second_team?.team_list_idx || 0,
+                  name: selectedTeams.selectTeamList[1],
+                  stats: championshipDetail?.second_team?.stats,
+                  players: championshipDetail?.second_team.player_stats,
+                  evidenceImage: getTeamEvidenceListByMatch(
+                    evidenceImage,
+                    championshipMatchIdx
+                  )?.second_team_evidence,
+                  matchIdx,
+                }}
               />
             </div>
           ) : viewMode === ViewMode.Personal ? (
@@ -213,7 +227,7 @@ const MatchLineupContainer = (props: MatchLineupContainerProps) => {
               </div>
             </div>
           )}
-        </>
+        </div>
       )}
     </div>
   );

@@ -9,7 +9,7 @@ import PlayerStatsDetailInput from "../../../../../../../../../../../../4_Shared
 import StatEvidenceImgFormPanel from "../../../../../../../../../../../../2_Widget/StatEvidenceImgFormPanel";
 import StatProgressBar from "../../../../../../../../../../../../4_Shared/components/StatProgressBar";
 import usePostPlayerStatsHandler from "./model/usePostPlayerStatsHandler";
-import useTeamStatForm from "./model/useTeamStatForm";
+import usePlayerStatForm from "./model/usePlayerStatForm";
 
 const PlayerHistoryRow = (props: PlayerHistoryRowProps) => {
   const { p, maxGoal, maxAssist, personEvidenceImage } = props;
@@ -32,7 +32,7 @@ const PlayerHistoryRow = (props: PlayerHistoryRowProps) => {
   const isTopAssist = assists > 0 && assists === maxAssist;
   const highlight = isTopScorer || isTopAssist;
 
-  const { methods, cancelEdit, setBackupPlayerStats } = useTeamStatForm(p);
+  const { methods, cancelEdit, setBackupPlayerStats } = usePlayerStatForm(p);
   const {
     register,
     handleSubmit,
@@ -46,7 +46,7 @@ const PlayerHistoryRow = (props: PlayerHistoryRowProps) => {
 
   const onSubmit: SubmitHandler<PlayerStatsFormValues> = (data) => {
     toggleIsEditing();
-    handlePostPlayerStats({ match_match_idx: p.match_match_idx, data });
+    handlePostPlayerStats({ matchIdx: p.match_match_idx, data });
   };
 
   return (

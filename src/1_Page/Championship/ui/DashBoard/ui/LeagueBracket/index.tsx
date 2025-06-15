@@ -8,6 +8,14 @@ const LeagueBracket = (props: LeagueBracketProps) => {
   const navigate = useNavigate();
   const [showAllTeams, handleToggle] = useToggleState();
 
+  if (!leagueData || leagueData.length === 0) {
+    return (
+      <div className="text-gray-100 text-center p-6">
+        현재 리그 데이터가 없습니다.
+      </div>
+    );
+  }
+
   return (
     /* 전체 배경 */
     <div className="bg-gray-900 rounded-xl overflow-x-auto">

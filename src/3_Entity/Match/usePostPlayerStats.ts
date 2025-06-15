@@ -7,11 +7,11 @@ const usePostPlayerStats = (): [
   const [serverState, request, loading] = useFetchData();
 
   const postPlayerStats = async (props: PostPlayerStatProps) => {
-    const { matchIdx, teamStat } = props;
+    const { matchIdx, playerStat } = props;
     return await request(
       "POST",
       `/match/${matchIdx}/player_stats`,
-      teamStat,
+      playerStat,
       true
     );
   };
