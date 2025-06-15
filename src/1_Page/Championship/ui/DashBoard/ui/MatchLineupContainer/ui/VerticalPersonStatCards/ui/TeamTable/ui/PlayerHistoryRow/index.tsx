@@ -103,6 +103,7 @@ const PlayerHistoryRow = (props: PlayerHistoryRowProps) => {
                     onSubmit={postPlayerStats}
                     matchIdx={p.match_match_idx}
                     defaultValues={defaultEvidenceUrls}
+                    canChange={isMine}
                   />
                 </div>
 

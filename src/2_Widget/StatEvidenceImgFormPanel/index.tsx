@@ -13,7 +13,7 @@ import imageIcon from "../../4_Shared/assets/svg/image.svg";
 import bannedIcon from "../../4_Shared/assets/svg/banned.svg";
 
 const StatEvidenceImgFormPanel = (props: StatEvidenceImgFormPanelProps) => {
-  const { defaultValues, onSubmit, matchIdx } = props;
+  const { defaultValues, onSubmit, matchIdx, canChange = true } = props;
   const [isModalOpen, toggleModal] = useToggleState(false);
   const { enlargedImage, handleImageEnlarge, closeEnlargedImage } =
     useEnlargedImage();
@@ -57,7 +57,7 @@ const StatEvidenceImgFormPanel = (props: StatEvidenceImgFormPanelProps) => {
         onClick={toggleModal}
         className="px-4 py-2 bg-[var(--color-thick-grass)]/20 border border-[var(--color-grass)]/30 text-[var(--color-grass)] rounded-lg hover:bg-[var(--color-thick-grass)]/40 hover:border-[var(--color-grass)] transition-all duration-200 flex items-center gap-2 text-sm font-medium">
         <img src={uploadIcon} className="w-[15px] h-[15px]" />
-        증빙자료 ({totalImageCount}/5개)
+        {canChange ? "증빙자료" : "증빙자료 보기"} ({totalImageCount}/5개)
       </button>
 
       {isModalOpen && (
@@ -75,7 +75,8 @@ const StatEvidenceImgFormPanel = (props: StatEvidenceImgFormPanelProps) => {
                   <img src={uploadIcon} className="w-[15px] h-[15px]" />
                 </div>
                 <h2 className="text-xl font-bold text-gray-100">
-                  증빙자료 관리 ({totalImageCount}/5)
+                  {canChange ? "증빙자료 관리" : "증빙자료 보기"} (
+                  {totalImageCount}/5)
                 </h2>
               </div>
               <button
@@ -97,17 +98,27 @@ const StatEvidenceImgFormPanel = (props: StatEvidenceImgFormPanelProps) => {
                         className="w-[15px] h-[15px]"
                         alt="warning"
                       />
-                      총 {totalImageCount}개의 활성 이미지가 선택되었습니다.
-                      {watchedImages.filter((img) => img.deleted).length >
-                        0 && (
-                        <span className="text-red-400">
-                          ({watchedImages.filter((img) => img.deleted).length}개
-                          미포함 예정)
-                        </span>
+                      {canChange ? (
+                        <>
+                          총 {totalImageCount}개의 활성 이미지가 선택되었습니다.
+                          {watchedImages.filter((img) => img.deleted).length >
+                            0 && (
+                            <span className="text-red-400">
+                              (
+                              {
+                                watchedImages.filter((img) => img.deleted)
+                                  .length
+                              }
+                              개 미포함 예정)
+                            </span>
+                          )}
+                          {remainingSlots > 0
+                            ? ` ${remainingSlots}개 더 추가 가능합니다.`
+                            : " 최대 개수에 도달했습니다."}
+                        </>
+                      ) : (
+                        `총 ${totalImageCount}개의 증빙자료를 확인할 수 있습니다. (읽기 전용)`
                       )}
-                      {remainingSlots > 0
-                        ? ` ${remainingSlots}개 더 추가 가능합니다.`
-                        : " 최대 개수에 도달했습니다."}
                     </p>
                   </div>
 
@@ -198,28 +209,30 @@ const StatEvidenceImgFormPanel = (props: StatEvidenceImgFormPanelProps) => {
                                         {isExisting ? "기존" : "신규"}{" "}
                                         {index + 1}
                                       </span>
-                                      <button
-                                        type="button"
-                                        className={`pointer-events-auto text-white p-1.5 rounded-lg transition-colors duration-200 shadow-lg ${
-                                          isDeleted
-                                            ? "bg-green-500 hover:bg-green-600"
-                                            : "bg-red-500 hover:bg-red-600"
-                                        }`}
-                                        onClick={() =>
-                                          handleToggleDeleteImage(index)
-                                        }>
-                                        {isDeleted ? (
-                                          <span className="text-xs font-bold">
-                                            복원
-                                          </span>
-                                        ) : (
-                                          <img
-                                            src={closeIcon}
-                                            className="w-3 h-3"
-                                            alt="delete"
-                                          />
-                                        )}
-                                      </button>
+                                      {canChange && (
+                                        <button
+                                          type="button"
+                                          className={`pointer-events-auto text-white p-1.5 rounded-lg transition-colors duration-200 shadow-lg ${
+                                            isDeleted
+                                              ? "bg-green-500 hover:bg-green-600"
+                                              : "bg-red-500 hover:bg-red-600"
+                                          }`}
+                                          onClick={() =>
+                                            handleToggleDeleteImage(index)
+                                          }>
+                                          {isDeleted ? (
+                                            <span className="text-xs font-bold">
+                                              복원
+                                            </span>
+                                          ) : (
+                                            <img
+                                              src={closeIcon}
+                                              className="w-3 h-3"
+                                              alt="delete"
+                                            />
+                                          )}
+                                        </button>
+                                      )}
                                     </div>
                                   </div>
 
@@ -252,103 +265,105 @@ const StatEvidenceImgFormPanel = (props: StatEvidenceImgFormPanelProps) => {
                   </div>
 
                   {/* 새 증빙자료 업로드 섹션 */}
-                  <div>
-                    <label className="flex text-sm font-semibold text-gray-200 mb-4 items-center gap-2">
-                      <div className="w-2 h-2 rounded-full bg-[var(--color-grass)]"></div>
-                      새 증빙자료 추가 ({remainingSlots}개 더 가능)
-                    </label>
+                  {canChange && (
+                    <div>
+                      <label className="flex text-sm font-semibold text-gray-200 mb-4 items-center gap-2">
+                        <div className="w-2 h-2 rounded-full bg-[var(--color-grass)]"></div>
+                        새 증빙자료 추가 ({remainingSlots}개 더 가능)
+                      </label>
 
-                    <Controller
-                      name="images"
-                      control={control}
-                      render={() => (
-                        <>
-                          {isLimitReached ? (
-                            <div className="border-2 border-dashed border-gray-600 rounded-xl p-8 text-center bg-gray-800/50 opacity-50">
-                              <div className="w-16 h-16 rounded-full bg-gray-600 flex items-center justify-center mb-4 border border-gray-600 mx-auto">
-                                <img
-                                  src={bannedIcon}
-                                  className="w-8 h-8 text-gray-500"
-                                  alt="banned"
-                                />
-                              </div>
-                              <span className="text-gray-500 font-medium">
-                                총 5개 이미지 제한에 도달했습니다
-                              </span>
-                              <p className="text-xs text-gray-600 mt-1">
-                                기존 이미지를 삭제하면 새로 추가할 수 있습니다
-                              </p>
-                            </div>
-                          ) : (
-                            <div className="border-2 border-dashed border-[var(--color-grass)]/30 rounded-xl p-8 text-center hover:border-[var(--color-grass)]/50 hover:bg-[var(--color-thick-grass)]/5 transition-all duration-200 bg-gray-800/30">
-                              <input
-                                id="files"
-                                type="file"
-                                accept=".jpg,.jpeg,.png"
-                                multiple
-                                className="hidden"
-                                onChange={(e) =>
-                                  handleFileSelect(e.target.files)
-                                }
-                              />
-                              <label
-                                htmlFor="files"
-                                className="cursor-pointer flex flex-col items-center">
-                                <div className="w-16 h-16 rounded-full bg-[var(--color-thick-grass)]/20 flex items-center justify-center mb-4 border border-[var(--color-grass)]/30">
+                      <Controller
+                        name="images"
+                        control={control}
+                        render={() => (
+                          <>
+                            {isLimitReached ? (
+                              <div className="border-2 border-dashed border-gray-600 rounded-xl p-8 text-center bg-gray-800/50 opacity-50">
+                                <div className="w-16 h-16 rounded-full bg-gray-600 flex items-center justify-center mb-4 border border-gray-600 mx-auto">
                                   <img
-                                    src={uploadIcon}
-                                    className="w-8 h-8 text-[var(--color-grass)]"
-                                    alt="upload"
+                                    src={bannedIcon}
+                                    className="w-8 h-8 text-gray-500"
+                                    alt="banned"
                                   />
                                 </div>
-                                <span className="text-gray-200 font-medium mb-1">
-                                  클릭하여 파일을 선택하거나 드래그하여 업로드
+                                <span className="text-gray-500 font-medium">
+                                  총 5개 이미지 제한에 도달했습니다
                                 </span>
-                                <span className="text-xs text-gray-400">
-                                  JPG, JPEG, PNG (최대 1MB) • 최대{" "}
-                                  {remainingSlots}개 추가 가능
-                                </span>
-                              </label>
-                            </div>
-                          )}
-                        </>
-                      )}
-                    />
+                                <p className="text-xs text-gray-600 mt-1">
+                                  기존 이미지를 삭제하면 새로 추가할 수 있습니다
+                                </p>
+                              </div>
+                            ) : (
+                              <div className="border-2 border-dashed border-[var(--color-grass)]/30 rounded-xl p-8 text-center hover:border-[var(--color-grass)]/50 hover:bg-[var(--color-thick-grass)]/5 transition-all duration-200 bg-gray-800/30">
+                                <input
+                                  id="files"
+                                  type="file"
+                                  accept=".jpg,.jpeg,.png"
+                                  multiple
+                                  className="hidden"
+                                  onChange={(e) =>
+                                    handleFileSelect(e.target.files)
+                                  }
+                                />
+                                <label
+                                  htmlFor="files"
+                                  className="cursor-pointer flex flex-col items-center">
+                                  <div className="w-16 h-16 rounded-full bg-[var(--color-thick-grass)]/20 flex items-center justify-center mb-4 border border-[var(--color-grass)]/30">
+                                    <img
+                                      src={uploadIcon}
+                                      className="w-8 h-8 text-[var(--color-grass)]"
+                                      alt="upload"
+                                    />
+                                  </div>
+                                  <span className="text-gray-200 font-medium mb-1">
+                                    클릭하여 파일을 선택하거나 드래그하여 업로드
+                                  </span>
+                                  <span className="text-xs text-gray-400">
+                                    JPG, JPEG, PNG (최대 1MB) • 최대{" "}
+                                    {remainingSlots}개 추가 가능
+                                  </span>
+                                </label>
+                              </div>
+                            )}
+                          </>
+                        )}
+                      />
 
-                    {/* 에러 메시지 */}
-                    {errors?.images && (
-                      <div className="mt-3 p-3 bg-red-900/20 border border-red-500/30 rounded-lg">
-                        <div className="text-sm text-red-400">
-                          <div className="flex items-center gap-2 mb-2">
-                            <img
-                              src={warningIcon}
-                              className="w-4 h-4"
-                              alt="warning"
-                            />
-                            <span className="font-medium">이미지 오류</span>
+                      {/* 에러 메시지 */}
+                      {errors?.images && (
+                        <div className="mt-3 p-3 bg-red-900/20 border border-red-500/30 rounded-lg">
+                          <div className="text-sm text-red-400">
+                            <div className="flex items-center gap-2 mb-2">
+                              <img
+                                src={warningIcon}
+                                className="w-4 h-4"
+                                alt="warning"
+                              />
+                              <span className="font-medium">이미지 오류</span>
+                            </div>
+                            {Array.isArray(errors.images) ? (
+                              <ul className="space-y-1 pl-6">
+                                {errors.images.map((imageError, index) => (
+                                  <li key={index} className="text-xs">
+                                    <span className="font-medium">
+                                      이미지 {index + 1}:
+                                    </span>{" "}
+                                    {imageError?.url?.message ||
+                                      "알 수 없는 오류"}
+                                  </li>
+                                ))}
+                              </ul>
+                            ) : (
+                              <p className="text-xs pl-6">
+                                {errors.images.message ||
+                                  "이미지 관련 오류가 발생했습니다."}
+                              </p>
+                            )}
                           </div>
-                          {Array.isArray(errors.images) ? (
-                            <ul className="space-y-1 pl-6">
-                              {errors.images.map((imageError, index) => (
-                                <li key={index} className="text-xs">
-                                  <span className="font-medium">
-                                    이미지 {index + 1}:
-                                  </span>{" "}
-                                  {imageError?.url?.message ||
-                                    "알 수 없는 오류"}
-                                </li>
-                              ))}
-                            </ul>
-                          ) : (
-                            <p className="text-xs pl-6">
-                              {errors.images.message ||
-                                "이미지 관련 오류가 발생했습니다."}
-                            </p>
-                          )}
                         </div>
-                      </div>
-                    )}
-                  </div>
+                      )}
+                    </div>
+                  )}
 
                   {/* 폼 버튼 */}
                   <div className="flex justify-end space-x-3 pt-6 border-t border-gray-700">
@@ -356,15 +371,17 @@ const StatEvidenceImgFormPanel = (props: StatEvidenceImgFormPanelProps) => {
                       type="button"
                       onClick={toggleModal}
                       className="px-5 py-2.5 text-sm font-medium text-gray-300 bg-gray-700 border border-gray-600 rounded-lg hover:bg-gray-600 hover:text-gray-200 transition-all duration-200">
-                      취소
+                      {canChange ? "취소" : "닫기"}
                     </button>
-                    <button
-                      type="submit"
-                      disabled={totalImageCount === 0}
-                      className="px-5 py-2.5 text-sm font-medium text-gray-900 bg-[var(--color-grass)] border border-transparent rounded-lg hover:bg-[var(--color-thick-grass)] transition-all duration-200 shadow-lg flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed">
-                      <img src={checkIcon} className="w-4 h-4" alt="check" />
-                      저장 ({totalImageCount}개 활성 이미지)
-                    </button>
+                    {canChange && (
+                      <button
+                        type="submit"
+                        disabled={totalImageCount === 0}
+                        className="px-5 py-2.5 text-sm font-medium text-gray-900 bg-[var(--color-grass)] border border-transparent rounded-lg hover:bg-[var(--color-thick-grass)] transition-all duration-200 shadow-lg flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed">
+                        <img src={checkIcon} className="w-4 h-4" alt="check" />
+                        저장 ({totalImageCount}개 활성 이미지)
+                      </button>
+                    )}
                   </div>
                 </form>
 

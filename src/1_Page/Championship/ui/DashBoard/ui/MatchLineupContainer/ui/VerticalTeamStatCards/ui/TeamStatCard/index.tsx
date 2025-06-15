@@ -72,6 +72,7 @@ const TeamStatCard = (props: TeamStatCardProps) => {
                   matchIdx={matchIdx}
                   defaultValues={evidenceUrls}
                   onSubmit={postTeamStatsEvidence}
+                  canChange={isTeamLeader}
                 />
                 {isTeamLeader && (
                   <button

@@ -2,6 +2,7 @@ type StatEvidenceImgFormPanelProps = {
   defaultValues: string[];
   matchIdx: number;
   onSubmit: (data: FinalData) => Promise<number | undefined>;
+  canChange?: boolean; // 수정 가능 여부, 기본값은 true
 };
 
 type FinalData = {
