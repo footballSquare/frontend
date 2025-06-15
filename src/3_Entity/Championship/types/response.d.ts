@@ -69,9 +69,9 @@ type EvidenceImage = {
   championship_match_idx: number;
   first_match_idx: number;
   second_match_idx: number;
-  first_team_evidence: TeamEvidenceImg[];
-  second_team_evidence: TeamEvidenceImg[];
-  player_evidence: PlayerEvidenceImg[];
+  first_team_evidence: TeamEvidenceImg[] | null;
+  second_team_evidence: TeamEvidenceImg[] | null;
+  player_evidence: PlayerEvidenceImg[] | null;
 };
 
 type ChampionshipMatchDetail = {

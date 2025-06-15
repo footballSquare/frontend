@@ -9,10 +9,6 @@ import useMatchModalStore from "../../../../../../4_Shared/zustand/useMatchModal
 import { BUTTON_TEXT, ViewMode } from "./constant/tab";
 import VerticalPersonStatCards from "./ui/VerticalPersonStatCards";
 import useGetChampionshipEvidence from "../../../../../../3_Entity/Championship/useGetChampionshipEvidence";
-import {
-  getTeamEvidenceListByMatch,
-  getPlayerEvidenceListByMatch,
-} from "./lib/evidenceImageUtils";
 
 const MatchLineupContainer = (props: MatchLineupContainerProps) => {
   const { championshipMatchIdx, selectedTeams, championshipDetail, matchIdx } =
@@ -21,7 +17,6 @@ const MatchLineupContainer = (props: MatchLineupContainerProps) => {
   // admin
   const { championshipListColor } = useChampionshipInfoContext();
   const [evidenceImage] = useGetChampionshipEvidence(championshipMatchIdx);
-
   // championshipMatchIdx에 해당하는 증거 이미지 필터링
   const accentColor = championshipListColor || "#3b82f6";
   const accentText = getTextColorFromBackground(accentColor);
@@ -114,10 +109,7 @@ const MatchLineupContainer = (props: MatchLineupContainerProps) => {
                   name: selectedTeams.selectTeamList[0],
                   stats: championshipDetail?.first_team?.stats,
                   players: championshipDetail?.first_team.player_stats,
-                  evidenceImage: getTeamEvidenceListByMatch(
-                    evidenceImage,
-                    championshipMatchIdx
-                  )?.first_team_evidence,
+                  evidenceImage: evidenceImage?.first_team_evidence ?? [],
                   matchIdx,
                 }}
                 secondTeam={{
@@ -126,10 +118,7 @@ const MatchLineupContainer = (props: MatchLineupContainerProps) => {
                   name: selectedTeams.selectTeamList[1],
                   stats: championshipDetail?.second_team?.stats,
                   players: championshipDetail?.second_team.player_stats,
-                  evidenceImage: getTeamEvidenceListByMatch(
-                    evidenceImage,
-                    championshipMatchIdx
-                  )?.second_team_evidence,
+                  evidenceImage: evidenceImage?.second_team_evidence ?? [],
                   matchIdx,
                 }}
               />
@@ -138,10 +127,7 @@ const MatchLineupContainer = (props: MatchLineupContainerProps) => {
             /* 개인 기록 보기 – 필터링된 증거 이미지 사용 */
             <div className="container mx-auto px-4 py-6">
               <VerticalPersonStatCards
-                personEvidenceImage={getPlayerEvidenceListByMatch(
-                  evidenceImage,
-                  championshipMatchIdx
-                )}
+                personEvidenceImage={evidenceImage.player_evidence ?? []}
                 teamName1={selectedTeams.selectTeamList[0]}
                 teamName2={selectedTeams.selectTeamList[1]}
                 team1PlayerStats={championshipDetail?.first_team?.player_stats}

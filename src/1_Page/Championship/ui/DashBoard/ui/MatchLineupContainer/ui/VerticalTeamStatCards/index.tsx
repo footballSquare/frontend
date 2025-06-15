@@ -9,7 +9,6 @@ const VerticalTeamStatCards = (props: VerticalTeamStatCardsProps) => {
 
   return (
     <div className="w-full max-w-6xl mx-auto p-4 space-y-6">
-      {/* 모바일: 탭 전환 */}
       <div className="">
         <div className="flex space-x-1 bg-gray-800 p-1 rounded-lg">
           {teams.map((team, index) => (

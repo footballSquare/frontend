@@ -23,6 +23,7 @@ const TeamStatCard = (props: TeamStatCardProps) => {
     matchIdx,
   } = teamData;
 
+  console.log(teamEvidenceImage);
   const [isEditing, toggleIsEditing] = useToggleState();
   const [myTeamRoleIdx] = useMyTeamRoleIdx();
   const [myTeamIdx] = useMyTeamIdx();
