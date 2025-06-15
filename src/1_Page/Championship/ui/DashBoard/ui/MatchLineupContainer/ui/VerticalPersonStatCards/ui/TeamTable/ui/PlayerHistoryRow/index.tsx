@@ -7,7 +7,8 @@ import { useMyUserIdx } from "../../../../../../../../../../../../4_Shared/lib/u
 import useChampionshipInfoContext from "../../../../../../../../../../../../4_Shared/model/useChampionshipInfoContext";
 import { attackStats, rateStats } from "./constant/formValues";
 import PlayerStatsDetailInput from "../../../../../../../../../../../../4_Shared/hookForm/PlayerDetailHistoryInput";
-import StatEvidenceImgFormPanel from "./ui/StatEvidenceImg";
+import StatEvidenceImgFormPanel from "./ui/StatEvidenceImgFormPanel";
+import StatProgressBar from "./ui/StatProgressBar";
 import usePostTeamStatHandler from "./model/usePostTeamStatHandler";
 import useTeamStatForm from "./model/useTeamStatForm";
 
@@ -28,7 +29,6 @@ const PlayerHistoryRow = (props: PlayerHistoryRowProps) => {
   const isTopAssist = assists > 0 && assists === maxAssist;
   const highlight = isTopScorer || isTopAssist;
 
-  // PlayerDetailRow logic
   const { methods, cancelEdit, setBackupPlayerStats } = useTeamStatForm(p);
   const {
     register,
@@ -164,7 +164,9 @@ const PlayerHistoryRow = (props: PlayerHistoryRowProps) => {
                         register={register}
                         errors={errors}
                         isEditing={isEditing}>
-                        {p[key as keyof PlayerStats] ?? 0}
+                        <StatProgressBar
+                          value={(p[key as keyof PlayerStats] as number) ?? 0}
+                        />
                       </PlayerStatsDetailInput>
                     )
                   )}

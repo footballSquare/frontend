@@ -1,20 +1,30 @@
 const StatProgressBar = (props: StatProgressBarProps) => {
-  const { label, percentage } = props;
+  const {
+    value,
+    max = 100,
+    showPercentage = true,
+    color = "bg-grass",
+    height = "h-2",
+  } = props;
+  const percentage = Math.min(100, Math.max(0, (value / max) * 100));
+
   return (
-    <div className="space-y-1">
-      <div className="flex justify-between text-sm">
-        <span className="text-gray-400">{label}</span>
-        <span className="font-medium text-gray-100">
-          {percentage.toFixed(1)}%
-        </span>
-      </div>
-      <div className="w-full bg-gray-700 rounded-full h-2">
+    <div className="flex items-center space-x-3">
+      <div className={`flex-1 bg-gray-700 rounded-full ${height}`}>
         <div
-          className="bg-grass h-2 rounded-full"
-          style={{ width: `${Math.min(percentage, 100)}%` }}
+          className={`${color} ${height} rounded-full transition-all duration-300`}
+          style={{
+            width: `${percentage}%`,
+          }}
         />
       </div>
+      {showPercentage && (
+        <span className="text-sm font-semibold text-gray-100 min-w-[3rem]">
+          {value}%
+        </span>
+      )}
     </div>
   );
 };
+
 export default StatProgressBar;

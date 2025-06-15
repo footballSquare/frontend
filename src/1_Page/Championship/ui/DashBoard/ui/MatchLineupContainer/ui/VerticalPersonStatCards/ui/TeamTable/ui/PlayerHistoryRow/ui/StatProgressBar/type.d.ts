@@ -1,1 +1,7 @@
-type StatProgressBarProps = { label: string; percentage: number };
+type StatProgressBarProps = {
+  value: number;
+  max?: number;
+  showPercentage?: boolean;
+  color?: string;
+  height?: string;
+};

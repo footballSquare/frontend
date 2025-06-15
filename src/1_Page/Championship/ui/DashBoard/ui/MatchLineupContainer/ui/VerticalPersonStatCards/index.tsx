@@ -1,7 +1,6 @@
 import React from "react";
 import TeamTable from "./ui/TeamTable";
 
-/* ------------- 메인 컴포넌트 ------------- */
 const VerticalPersonStatCards = (props: VerticalPersonStatCardsProps) => {
   const { team1PlayerStats, team2PlayerStats, teamName1, teamName2 } = props;
   const [activeTeam, setActiveTeam] = React.useState<0 | 1>(0);
