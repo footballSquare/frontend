@@ -11,6 +11,42 @@
   --color-light-blue: #F8FAFC;
   --color-gray: #C7C7C7;
 }
+
+
+@theme {
+  --animate-fade-in-scale: fade-in-scale 0.5s ease-out;
+  @keyframes fade-in-scale {
+    0% {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  --animate-float: float 6s ease-in-out infinite;
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-20px);
+    }
+  }
+  --animate-float-delayed: float-delayed 6s ease-in-out infinite 2s;
+  @keyframes float-delayed {
+    0%,
+    100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-15px);
+    }
+  }
+}
+
 html {
   height: 100%;
   overflow: auto; /* Allow scrolling */

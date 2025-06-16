@@ -3,15 +3,14 @@ import useDeleteCommunityStaff from "../../../../3_Entity/Community/useDeleteCom
 import useGetCommunityStaffList from "../../../../3_Entity/Community/useGetCommunityStaffList";
 import usePostApplyCommunityStaff from "../../../../3_Entity/Community/usePostApplyCommunityStaff";
 import { communityRole } from "../../../../4_Shared/constant/communityRole";
-import useIsCommunityStaff from "./model/useIsCommunityStaff";
 import { useIsLogin } from "../../../../4_Shared/lib/useMyInfo";
+import SlidingButton from "../../../../4_Shared/components/SlidingButton";
 
 const CommunityStaffListPanel = (props: CommunityStaffListPanelProps) => {
-  const { communityIdx, modifyMode } = props;
+  const { communityIdx, modifyMode, isCommunityStaff } = props;
   const [communityStaffList, setCommunityStaffList] = useGetCommunityStaffList({
     communityIdx,
   });
-  const [isCommunityStaff] = useIsCommunityStaff(communityStaffList);
   const [postApplyCommunityStaff] = usePostApplyCommunityStaff();
   const [kickCommunityStaff] = useDeleteCommunityStaff();
   const navigate = useNavigate();
@@ -19,12 +18,13 @@ const CommunityStaffListPanel = (props: CommunityStaffListPanelProps) => {
 
   return (
     <div className="flex flex-col gap-2">
-      <div>
+      <div className="flex flex-col gap-1">
+        {/* 커뮤니티 운영진 목록 */}
         {communityStaffList.map((staff, index) => {
           return (
             <div
               key={index}
-              className="flex items-center space-x-2 border border-gray p-2 cursor-pointer hover:bg-grass hover:text-black rounded-lg"
+              className="flex items-center space-x-2 border border-gray p-2 cursor-pointer hover:bg-gray-900 rounded-lg hover:scale-[1.01] duration-300"
               onClick={() => {
                 navigate(`/profile/${staff.player_list_idx}`);
               }}
@@ -35,11 +35,12 @@ const CommunityStaffListPanel = (props: CommunityStaffListPanelProps) => {
                 className=" object-cover w-8 h-8 rounded-full overflow-hidden"
               />
               <div className="flex-1">
-                <p className="text-sm">@{staff.player_list_nickname}</p>
+                <p className="text-xs">@{staff.player_list_nickname}</p>
               </div>
-              <p className="text-xs text-gray-500">
+              <p className="text-xs text-white">
                 {communityRole[staff.community_role_idx]}
               </p>
+              {/* 수정모드 */}
               {modifyMode && staff.community_role_idx !== 0 && (
                 <button
                   onClick={(e) => {
@@ -64,15 +65,13 @@ const CommunityStaffListPanel = (props: CommunityStaffListPanelProps) => {
         })}
       </div>
 
-      {(!isCommunityStaff && isLogin) && (
-        <button
-          onClick={() => {
+      {!isCommunityStaff && isLogin && (
+        <SlidingButton
+          onClickHandler={() => {
             postApplyCommunityStaff({ communityIdx });
           }}
-          className="p-3 border border-gray-300 shadow-md rounded-lg text-sm bg-green-500 text-white hover:bg-green-600 transition"
-        >
-          커뮤니티 운영진 지원하기
-        </button>
+          text="커뮤니티 운영진 지원하기"
+        />
       )}
     </div>
   );

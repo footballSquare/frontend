@@ -1,0 +1,3 @@
+type TeamStatCardProps = {
+  teamData: TeamData;
+};

@@ -1,8 +1,11 @@
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import { create } from "zustand";
+import { persist, createJSONStorage } from "zustand/middleware";
+import { encryptedStorage } from "./encryptedStorage";
 
 type AuthState = {
+  playerStatus: string | null;
   accessToken: string | null;
   userIdx: number | null;
   communityRoleIdx: number | null;
@@ -11,6 +14,7 @@ type AuthState = {
   profileImg: string | null;
   nickname: string | null;
   communityListIdx: number | null;
+  isHydrated: boolean; // persist 상태 확인용
   login: (data: {
     accessToken: string | null;
     userIdx: number;
@@ -26,20 +30,22 @@ type AuthState = {
   leaveTeam: () => void;
   setTeamRoleIdx: (teamRoleIdx: number | null) => void;
   setTeamIdx: (teamIdx: number | null) => void;
+  setPlayerStatus: (playerStatus: string | null) => void;
+  setHydrated: () => void;
 };
 
-export const useAuthStore = create<AuthState>()((set) => ({
-  accessToken: null,
-  userIdx: null,
-  communityRoleIdx: null,
-  teamRoleIdx: null,
-  teamIdx: null,
-  profileImg: null,
-  nickname: null,
-  communityListIdx: null,
-  login: (data) => set({ ...data }),
-  logout: () =>
-    set({
+// 암호화된 storage 구현
+const encryptedPersistStorage = createJSONStorage(() => ({
+  getItem: (name: string) => encryptedStorage.getItem(name),
+  setItem: (name: string, value: string) =>
+    encryptedStorage.setItem(name, value),
+  removeItem: (name: string) => encryptedStorage.removeItem(name),
+}));
+
+export const useAuthStore = create<AuthState>()(
+  persist(
+    (set) => ({
+      playerStatus: null,
       accessToken: null,
       userIdx: null,
       communityRoleIdx: null,
@@ -48,15 +54,50 @@ export const useAuthStore = create<AuthState>()((set) => ({
       profileImg: null,
       nickname: null,
       communityListIdx: null,
+      isHydrated: false,
+      login: (data) => set({ ...data }),
+      logout: () =>
+        set({
+          playerStatus: null,
+          accessToken: null,
+          userIdx: null,
+          communityRoleIdx: null,
+          teamRoleIdx: null,
+          teamIdx: null,
+          profileImg: null,
+          nickname: null,
+          communityListIdx: null,
+        }),
+      leaveTeam: () =>
+        set({
+          teamRoleIdx: null,
+          teamIdx: null,
+        }),
+      setTeamRoleIdx: (teamRoleIdx) => set({ teamRoleIdx }),
+      setTeamIdx: (teamIdx) => set({ teamIdx }),
+      setPlayerStatus: (playerStatus) => set({ playerStatus }),
+      setHydrated: () => set({ isHydrated: true }),
     }),
-  leaveTeam: () =>
-    set({
-      teamRoleIdx: null,
-      teamIdx: null,
-    }),
-  setTeamRoleIdx: (teamRoleIdx) => set({ teamRoleIdx }),
-  setTeamIdx: (teamIdx) => set({ teamIdx }),
-}));
+    {
+      name: "auth-storage",
+      storage: encryptedPersistStorage,
+      onRehydrateStorage: () => (state) => {
+        state?.setHydrated();
+      }, // 민감하지 않은 정보만 저장
+      partialize: (state) => ({
+        playerStatus: state.playerStatus,
+        userIdx: state.userIdx,
+        communityRoleIdx: state.communityRoleIdx,
+        teamRoleIdx: state.teamRoleIdx,
+        teamIdx: state.teamIdx,
+        profileImg: state.profileImg,
+        nickname: state.nickname,
+        communityListIdx: state.communityListIdx,
+        // accessToken은 여전히 쿠키에만 저장
+      }),
+    }
+  )
+);
 
 // 로그인 여부 확인
 export const useIsLogin = (): [boolean] => {
@@ -97,6 +138,12 @@ export const useMyTeamIdx = (): [number | null] => {
   return [teamIdx];
 };
 
+// playerStatus 관리 hook 추가
+export const useMyPlayerStatus = (): [string | null] => {
+  const playerStatus = useAuthStore((state) => state.playerStatus);
+  return [playerStatus];
+};
+
 export const useMyProfileImg = (): [string | null] => {
   const profileImg = useAuthStore((state) => state.profileImg);
   return [profileImg];
@@ -107,40 +154,24 @@ export const useMyCommunityListIdx = (): [number | null] => {
   return [communityListIdx];
 };
 
+// hydration 상태 확인
+export const useIsHydrated = (): [boolean] => {
+  const isHydrated = useAuthStore((state) => state.isHydrated);
+  return [isHydrated];
+};
+
 export const useLogout = (): [() => void] => {
   const logout = useAuthStore((state) => state.logout);
   const navigate = useNavigate();
-  const [, , removeCookie] = useCookies(["access_token"]);
+  const [, , removeCookie] = useCookies(["access_token", "refresh_token"]);
 
   return [
     () => {
       logout();
       removeCookie("access_token", { path: "/" });
-      navigate("/");
-    },
-  ];
-};
-
-export const useRemoveAllCookie = () => {
-  const [, , removeCookie] = useCookies([
-    "access_token",
-    "community_role_idx",
-    "team_role_idx",
-    "team_idx",
-    "user_idx",
-    "profile_image",
-    "player_status",
-  ]);
-
-  return [
-    () => {
-      removeCookie("access_token", { path: "/" });
-      removeCookie("community_role_idx", { path: "/" });
-      removeCookie("team_role_idx", { path: "/" });
-      removeCookie("team_idx", { path: "/" });
-      removeCookie("user_idx", { path: "/" });
-      removeCookie("profile_image", { path: "/" });
-      removeCookie("player_status", { path: "/" });
+      removeCookie("refresh_token", { path: "/" });
+      encryptedStorage.clear(); // 암호화된 storage도 클리어
+      setTimeout(() => navigate("/"), 100);
     },
   ];
 };

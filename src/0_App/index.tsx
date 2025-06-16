@@ -3,13 +3,11 @@ import { BrowserRouter } from "react-router-dom";
 import Page from "../1_Page";
 import Nav from "./ui/Nav";
 import Modals from "./ui/Modals";
-import useLoadMyInfo from "./model/useLoadMyInfo";
 
 const App = () => {
-  useLoadMyInfo();
   return (
     <BrowserRouter>
-      <main className=" w-full m-auto h-full justify-center items-center bg-light-blue">
+      <main className="mt-[80px] w-full h-full justify-center items-center">
         <Nav />
         <Page />
         <Modals />
@@ -19,3 +17,5 @@ const App = () => {
 };
 
 export default App;
+
+

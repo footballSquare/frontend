@@ -2,7 +2,7 @@ import ChampionshipMatchCard from "./ui/ChampionshipMatchCard";
 import CreateChampionMatchPanel from "./ui/CreateChampionMatchPanel";
 import useSortHandler from "./model/useSortHandler";
 
-import { useChampionshipContextInfo } from "../../../../model/useChampionshipContext";
+import useChampionshipInfoContext from "../../../../../../4_Shared/model/useChampionshipInfoContext";
 
 const ChampionshipMatchCardContainer = (
   props: ChampionshipMatchCardContainerProps
@@ -17,7 +17,7 @@ const ChampionshipMatchCardContainer = (
 
   // admin
   const { isCommunityOperator, isCommunityManager } =
-    useChampionshipContextInfo();
+    useChampionshipInfoContext();
 
   // state
   const {
@@ -35,7 +35,12 @@ const ChampionshipMatchCardContainer = (
       <div className="flex justify-end">
         {isCommunityOperator ||
           (isCommunityManager && (
-            <CreateChampionMatchPanel filteredTeamList={filteredTeamList} />
+            <CreateChampionMatchPanel
+              handleSelect={handleSelect}
+              handleAddMatch={matchHandlers.handleAddMatch}
+              handleSyncMatchIdx={matchHandlers.handleSyncMatchIdx}
+              filteredTeamList={filteredTeamList}
+            />
           ))}
       </div>
       <div className="flex gap-4 mb-6  p-4 rounded-lg shadow-md">
@@ -65,8 +70,7 @@ const ChampionshipMatchCardContainer = (
         {sortedMatches.map((match, index) => (
           <ChampionshipMatchCard
             key={`match-list-${index}`}
-            handleEndMatch={matchHandlers.handleEndMatch}
-            handleDeleteMatch={matchHandlers.handleDeleteMatch}
+            {...matchHandlers}
             isSelected={selectedIdx === match.championship_match_idx}
             handleSelect={handleSelect}
             match={match}

@@ -7,7 +7,7 @@ import { useCookies } from "react-cookie";
 const useGetDiscordSiginIn = (): [(props: GetDiscordSiginIn) => void] => {
   const [serverState, request, loading] = useFetchData();
   const { login } = useAuthStore();
-  const [, setCookie] = useCookies(["access_token"]);
+  const [, setCookie] = useCookies(["access_token", "access_token_temporary"]);
   const navigate = useNavigate();
 
   const getDiscordSiginIn = (props: GetDiscordSiginIn) => {
@@ -22,45 +22,37 @@ const useGetDiscordSiginIn = (): [(props: GetDiscordSiginIn) => void] => {
 
   React.useEffect(() => {
     if (!loading && serverState) {
-      console.log("serverState", serverState);
       if (serverState.status === 200) {
         const {
           player_status,
           user_idx,
           access_token_temporary,
           access_token,
-          //nickname,
-          //platform,
-          //commmon_status_idx,
-          //message,
-          //discord_tag,
+          nickname,
           profile_image,
           team_idx,
           team_role_idx,
           community_role_idx,
           community_list_idx,
         } = serverState.data as SignInData;
-
         if (player_status === "active") {
           login({
             playerStatus: player_status,
-            accessToken: access_token || null,
+            accessToken: access_token,
             userIdx: user_idx,
-            communityRoleIdx: community_role_idx || null,
-            communityListIdx: community_list_idx || null,
-            teamRoleIdx: team_role_idx || null,
-            teamIdx: team_idx || null,
-            profileImg: profile_image || null,
-            nickname: null,
+            communityRoleIdx: community_role_idx,
+            communityListIdx: community_list_idx,
+            teamRoleIdx: team_role_idx,
+            teamIdx: team_idx,
+            profileImg: profile_image,
+            nickname: nickname,
           });
           const options = { path: "/", maxAge: 86400 };
           setCookie("access_token", access_token, options);
-          navigate("/");
+          setTimeout(() => navigate("/"), 100);
         } else if (player_status === "pending") {
-          console.log("pending");
-          console.log(serverState);
           const options = { path: "/signup", maxAge: 86400 / 24 / 6 };
-          setCookie("access_token", access_token_temporary, options);
+          setCookie("access_token_temporary", access_token_temporary, options);
           if (
             confirm(
               "가입이 완료되지 않았습니다. 가입 페이지로 이동하시겠습니까?"
@@ -73,7 +65,7 @@ const useGetDiscordSiginIn = (): [(props: GetDiscordSiginIn) => void] => {
         alert("아이디 또는 비밀번호를 확인해주세요.");
       }
     }
-  }, [loading, serverState]);
+  }, [loading, serverState, login, navigate, setCookie]);
 
   return [getDiscordSiginIn];
 };

@@ -14,7 +14,7 @@ const useGetChampionshipInfo = (
   React.useEffect(() => {
     const endPoint = `/championship/${championshipListIdx}`;
     request("GET", endPoint, null, true);
-  }, []);
+  }, [championshipListIdx, request]);
 
   React.useEffect(() => {
     if (!loading && serverState) {
