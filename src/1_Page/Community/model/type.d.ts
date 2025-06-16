@@ -17,3 +17,11 @@ type ChangeBannerProps = {
 type UseCommunityIdxProps = {
   currentCommunityIdx: number;
 };
+
+type UseCommunityStaffInfoProps = {
+  communityIdx: number;
+};
+
+type SetCommunityTabProps = {
+  newTab: "championship" | "boards" | "teamList";
+};

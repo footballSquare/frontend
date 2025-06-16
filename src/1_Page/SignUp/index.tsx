@@ -57,7 +57,7 @@ const SignUp = () => {
       {isTermOfUseModalOpen && (
         <TermOfUseModal toggleModalHandler={toggleIsTermOfUseModal} />
       )}
-      <div className="bg-gray-800 text-gray-100 p-8 rounded shadow-md w-full max-w-md">
+      <div className="bg-gray-600 text-gray-100 p-8 rounded shadow-md w-full max-w-md">
         {step === 1 && (
           <>
             <h1 className="text-2xl font-bold mb-6 text-center">회원가입</h1>

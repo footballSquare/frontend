@@ -27,23 +27,24 @@ type UserInfo = {
   team_name: string | null;
   team_short_name: string | null;
   match_position_idx: number;
+  community_list_idx: number | null;
 };
 
 type SignInData = {
   player_status: "pending" | "active" | "deleted";
   user_idx: number;
   access_token_temporary?: string;
-  access_token?: string;
-  nickname?: string;
-  platform?: string;
-  commmon_status_idx?: number;
-  message?: string;
-  discord_tag?: string;
-  profile_image?: string | null;
-  team_idx?: number | null;
-  team_role_idx?: number | null;
-  community_role_idx?: number | null;
-  community_list_idx?: number | null;
+  access_token: string;
+  nickname: string;
+  platform: string;
+  commmon_status_idx: number;
+  message: string;
+  discord_tag: string;
+  profile_image: string | null;
+  team_idx: number | null;
+  team_role_idx: number | null;
+  community_role_idx: number | null;
+  community_list_idx: number | null;
 };
 
 type DiscordOAuthUrl = {

@@ -19,6 +19,8 @@ const usePutOpenMatchJoin = (): [
   React.useEffect(() => {
     if (!loading && serverState) {
       switch (serverState.status) {
+        case 200:
+          break;
         default:
           alert(serverState.message);
           break;

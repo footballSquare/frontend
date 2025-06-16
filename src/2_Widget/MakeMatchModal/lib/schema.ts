@@ -54,5 +54,8 @@ export const schema = yup.object().shape({
 
   match_formation_idx: yup.number().required("포메이션을 선택해야 합니다."),
 
-  match_match_name: yup.string().required("매치 제목을 입력해야 합니다."),
+  match_match_name: yup
+    .string()
+    .required("매치 제목을 입력해야 합니다.")
+    .max(30, "매치 제목은 30자 이하여야 합니다."),
 });

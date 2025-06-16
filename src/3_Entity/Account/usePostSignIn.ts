@@ -19,7 +19,7 @@ const usePostSignIn = (): [(props: PostSignInProps) => void] => {
       false
     );
   };
-  const [, setCookie] = useCookies(["access_token"]);
+  const [, setCookie] = useCookies(["access_token", "access_token_temporary"]);
   const navigate = useNavigate();
 
   React.useEffect(() => {
@@ -30,11 +30,7 @@ const usePostSignIn = (): [(props: PostSignInProps) => void] => {
           user_idx,
           access_token_temporary,
           access_token,
-          //nickname,
-          //platform,
-          //commmon_status_idx,
-          //message,
-          //discord_tag,
+          nickname,
           profile_image,
           team_idx,
           team_role_idx,
@@ -45,28 +41,29 @@ const usePostSignIn = (): [(props: PostSignInProps) => void] => {
         if (player_status === "active") {
           login({
             playerStatus: player_status,
-            accessToken: access_token || null,
+            accessToken: access_token,
             userIdx: user_idx,
-            communityRoleIdx: community_role_idx || null,
-            communityListIdx: community_list_idx || null,
-            teamRoleIdx: team_role_idx || null,
-            teamIdx: team_idx || null,
-            profileImg: profile_image || null,
-            nickname: null,
+            communityRoleIdx: community_role_idx,
+            communityListIdx: community_list_idx,
+            teamRoleIdx: team_role_idx,
+            teamIdx: team_idx,
+            profileImg: profile_image,
+            nickname: nickname,
           });
-          const options = { path: "/", maxAge: 86400 };
-          setCookie("access_token", access_token, options);
-          navigate("/");
+          setCookie("access_token", access_token, { path: "/", maxAge: 86400 });
+          setTimeout(() => navigate("/"), 100);
         } else if (player_status === "pending") {
-          const options = { path: "/signup", maxAge: 86400 / 24 / 6 };
-          setCookie("access_token", access_token_temporary, options);
-          navigate(`/signup`);
+          setCookie("access_token_temporary", access_token_temporary, {
+            path: "/signup",
+            maxAge: 86400 / 24 / 6,
+          });
+          setTimeout(() => navigate("/signup"), 100);
         }
       } else {
         alert(serverState.message || "로그인에 실패했습니다.");
       }
     }
-  }, [loading, serverState]);
+  }, [loading, serverState, login, setCookie, navigate]);
 
   return [postSignIn];
 };

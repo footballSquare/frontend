@@ -30,7 +30,7 @@ const Login = () => {
         />
       )}
       <div className="flex flex-col gap-2 items-center justify-center min-h-screen">
-        <div className="bg-gray-800 text-gray-100 p-4 rounded shadow-md min-w-[300px]">
+        <div className="bg-gray-600 text-gray-100 p-4 rounded shadow-md min-w-[300px]">
           <h1 className="text-2xl font-bold mb-6 text-center">Login</h1>
           <form
             onSubmit={handleSubmit((data) => {

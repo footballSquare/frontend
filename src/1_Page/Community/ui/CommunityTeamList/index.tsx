@@ -21,7 +21,7 @@ const CommunityTeamList = (props: CommunityTeamListProps) => {
   const [deleteCommunityTeam] = useDeleteCommunityTeam();
 
   return (
-    <div className="rounded-xl shadow-md w-full flex flex-col gap-2 overflow-y-auto p-2 overflow-auto h-[100%] text-gray">
+    <div className="rounded-xl shadow-md w-full flex flex-col gap-2 overflow-y-auto p-2 overflow-auto text-gray bg-gray-700">
       {communityTeamList.map((team, index) => {
         return (
           <div
@@ -32,7 +32,7 @@ const CommunityTeamList = (props: CommunityTeamListProps) => {
             onClick={() => {
               navigate(`/team/${team.team_list_idx}`);
             }}
-            className=" max-h-[100px] w-full bg-gray-800 shadow-md mb-3 transition-all rounded-r cursor-pointer hover:bg-gray-900"
+            className="max-h-[100px] w-full bg-gray-800 shadow-md transition-all rounded-r cursor-pointer hover:bg-gray-900"
             style={{ borderLeft: `4px solid ${team.team_list_color}` }}
           >
             <div className="p-4 flex flex-col md:flex-row">

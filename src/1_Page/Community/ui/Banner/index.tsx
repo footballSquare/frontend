@@ -8,13 +8,13 @@ const Banner = (props: BannerProps) => {
 
   return (
     <div
-      className={`relative w-full bg-blue-500 flex items-center justify-center text-2xl font-semibold rounded-lg shadow-md`}
+      className={`relative w-full bg-gray-900 flex items-center justify-center text-2xl font-semibold rounded-lg shadow-md`}
     >
       {isBannerOpen && (
         <img
           src={bannerImg}
           alt="배너"
-          className={`${isBannerOpen ? "min-h-[544px]" : "h-0"}`}
+          className={`${isBannerOpen ? "max-h-[480px]" : "h-0"}`}
         />
       )}
       <button
