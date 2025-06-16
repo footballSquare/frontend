@@ -58,7 +58,7 @@ const InfoHeader = (props: InfoHeaderProps) => {
         </div>
 
         {isHeaderCollapsed ? (
-          <div className="h-full flex items-center px-6 relative z-10">
+          <div className="h-full flex items-center justify-between px-6 relative z-10">
             <div className="flex items-center space-x-3">
               <div className="relative">
                 <img
@@ -79,6 +79,12 @@ const InfoHeader = (props: InfoHeaderProps) => {
                 {championshipInfo.championship_list_name}
               </h1>
             </div>
+            {/* 접힌 상태에서 관리자 버튼들 */}
+            {isCommunityManager && !isChampionshipEnd && (
+              <div className="flex gap-2 items-center mr-14">
+                <AdminBtnPanel championshipInfo={championshipInfo} />
+              </div>
+            )}
           </div>
         ) : (
           <div className="flex flex-col items-center w-full gap-4 p-6 relative z-10">
@@ -138,19 +144,16 @@ const InfoHeader = (props: InfoHeaderProps) => {
           </div>
         )}
 
-        {/* 모던한 접기/펼치기 버튼 */}
+        {/* 적당히 눈에 띄는 접기/펼치기 버튼 - 우상단 모서리 */}
         {!isChampionshipEnd && (
-          <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2">
-            <button
-              onClick={toggleHeader}
-              className="w-12 h-12 flex items-center justify-center text-lg rounded-full bg-gradient-to-r from-gray-700 to-gray-800 shadow-2xl hover:from-gray-600 hover:to-gray-700 text-white border-2 border-gray-600 transition-all duration-300 hover:scale-110 group cursor-pointer relative z-50"
-              style={{ borderColor: `${championshipListColor}40` }}
-              aria-label={isHeaderCollapsed ? "펼치기" : "접기"}>
-              <span className="transition-transform duration-300 group-hover:scale-125 pointer-events-none">
-                {isHeaderCollapsed ? "▼" : "▲"}
-              </span>
-            </button>
-          </div>
+          <button
+            onClick={toggleHeader}
+            className="absolute top-4 right-4 w-9 h-9 flex items-center justify-center text-sm rounded-lg bg-gray-800/60 backdrop-blur-sm hover:bg-gray-700/80 text-gray-300 hover:text-white border border-gray-600/40 hover:border-gray-500/60 transition-all duration-300 hover:scale-105 group cursor-pointer z-50 shadow-lg"
+            aria-label={isHeaderCollapsed ? "펼치기" : "접기"}>
+            <span className="transition-transform duration-300 group-hover:scale-110 pointer-events-none">
+              {isHeaderCollapsed ? "▼" : "▲"}
+            </span>
+          </button>
         )}
       </header>
       {isChampionshipEnd && (
