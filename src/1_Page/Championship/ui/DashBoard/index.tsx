@@ -28,12 +28,27 @@ const DashBoard = (props: DashBoardProps) => {
 
   // state
   const [activeTab, setActiveTab] = React.useState(ACTIVE_TAB.PLAYERS);
+  const [isMatchDetailView, setIsMatchDetailView] = React.useState(false); // 매치 상세 보기 상태
   const [
     selectChampionshipMatchIdx,
     selectMatchIdx,
     selectedTeams,
     handleSelect,
   ] = useSelectHandler(matchList);
+
+  // 매치 선택 및 상세 보기로 전환하는 핸들러
+  const handleMatchSelect = React.useCallback(
+    (championshipMatchIdx: number) => {
+      handleSelect(championshipMatchIdx);
+      setIsMatchDetailView(true);
+    },
+    [handleSelect]
+  );
+
+  // 매치 리스트로 돌아가는 핸들러
+  const handleBackToList = React.useCallback(() => {
+    setIsMatchDetailView(false);
+  }, []);
 
   // optimistic state
   const [displayMatchList, matchHandlers] = useManageMatchList(matchList);
@@ -107,25 +122,83 @@ const DashBoard = (props: DashBoardProps) => {
 
         {/* 매치 목록 탭  */}
         {activeTab === ACTIVE_TAB.MATCHES && (
-          <section className="w-full mx-auto flex flex-col md:flex-row gap-4">
-            {/* 매치 결과 리스트 (좌측) */}
-            <ChampionshipMatchCardContainer
-              selectedIdx={selectChampionshipMatchIdx}
-              matchList={displayMatchList}
-              filteredTeamList={filteredTeamList}
-              matchHandlers={matchHandlers}
-              handleSelect={handleSelect}
-            />
-
-            {/* MatchLineup (반응형 적용) */}
-            <div className="flex-1 min-h-[500px] bg-gray-800 rounded-lg shadow-md p-4 overflow-hidden">
-              <MatchLineupContainer
-                championshipMatchIdx={selectChampionshipMatchIdx}
-                matchIdx={selectMatchIdx}
-                selectedTeams={selectedTeams}
-                championshipDetail={championshipDetail}
-              />
-            </div>
+          <section className="w-full mx-auto">
+            {!isMatchDetailView ? (
+              /* 매치 리스트 보기 */
+              <div className="bg-gray-800 rounded-lg shadow-md">
+                <div className="p-6 border-b border-gray-700">
+                  <h2 className="text-2xl font-bold text-white flex items-center gap-3 mb-2">
+                    <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center">
+                      <span className="text-xl">⚽</span>
+                    </div>
+                    매치 목록
+                  </h2>
+                  <p className="text-gray-400">
+                    대회의 모든 매치를 확인하고 상세 정보를 볼 수 있습니다.
+                    매치를 클릭하여 선수 라인업과 통계를 확인하세요.
+                  </p>
+                  {displayMatchList.length > 0 && (
+                    <div className="mt-3 flex items-center gap-4 text-sm text-gray-500">
+                      <span>총 {displayMatchList.length}개 매치</span>
+                      <span>•</span>
+                      <span>
+                        완료된 매치:{" "}
+                        {
+                          displayMatchList.filter(
+                            (m) =>
+                              m.championship_match_first.common_status_idx === 4
+                          ).length
+                        }
+                        개
+                      </span>
+                    </div>
+                  )}
+                </div>
+                <ChampionshipMatchCardContainer
+                  selectedIdx={selectChampionshipMatchIdx}
+                  matchList={displayMatchList}
+                  filteredTeamList={filteredTeamList}
+                  matchHandlers={matchHandlers}
+                  handleSelect={handleMatchSelect}
+                  isListViewMode={true}
+                />
+              </div>
+            ) : (
+              /* 매치 상세 보기 */
+              <div className="bg-gray-800 rounded-lg shadow-md">
+                <div className="p-6 border-b border-gray-700">
+                  <div className="flex items-center gap-4">
+                    <button
+                      onClick={handleBackToList}
+                      className="flex items-center gap-2 px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors text-gray-200 hover:text-white group">
+                      <span className="text-lg group-hover:translate-x-[-2px] transition-transform">
+                        ←
+                      </span>
+                      매치 목록으로
+                    </button>
+                    <div>
+                      <h2 className="text-2xl font-bold text-white flex items-center gap-3">
+                        <div className="w-10 h-10 bg-green-600 rounded-full flex items-center justify-center">
+                          <span className="text-xl">📊</span>
+                        </div>
+                        매치 상세 정보
+                      </h2>
+                      <p className="text-gray-400 mt-1">
+                        선수 포지션, 경기 통계, 그리고 상세 데이터를 확인하세요
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div className="p-6">
+                  <MatchLineupContainer
+                    championshipMatchIdx={selectChampionshipMatchIdx}
+                    matchIdx={selectMatchIdx}
+                    selectedTeams={selectedTeams}
+                    championshipDetail={championshipDetail}
+                  />
+                </div>
+              </div>
+            )}
           </section>
         )}
       </main>

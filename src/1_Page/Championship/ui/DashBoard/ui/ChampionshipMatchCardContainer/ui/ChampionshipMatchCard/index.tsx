@@ -1,7 +1,6 @@
 import { matchState } from "../../../../../../../../4_Shared/constant/matchState";
 import useChampionshipInfoContext from "../../../../../../../../4_Shared/model/useChampionshipInfoContext";
 import { getTeamStyle } from "./lib/getStatusColor";
-import { getTextColorFromBackground } from "../../../../../../../../4_Shared/lib/colorChecker";
 import useDeleteChampionshipMatchHandler from "./model/useDeleteChampionshipMatchHandler";
 import usePutChampionshipMatchEndHandler from "./model/usePutChampionshipMatchEndHandler";
 import DefaultTeamEmblem from "../../../../../../../../4_Shared/components/DefaultTeamEmblem";
@@ -15,12 +14,13 @@ const ChampionshipMatchCard = (props: ChampionshipMatchCardProps) => {
     handleEndMatch,
     handleCommitMatches,
     handleRollBackMatchByIdx,
+    isListViewMode = false,
   } = props;
   const home = match.championship_match_first;
   const away = match.championship_match_second;
   const isFinished = home.common_status_idx === 4;
   // admin
-  const { isCommunityOperator, isCommunityManager, championshipListColor } =
+  const { isCommunityOperator, isCommunityManager } =
     useChampionshipInfoContext();
 
   // api
@@ -35,145 +35,190 @@ const ChampionshipMatchCard = (props: ChampionshipMatchCardProps) => {
     handleRollBackMatchByIdx,
   });
 
-  const accentColor = championshipListColor || "#2563eb"; // default blue-600
-  const accentText = getTextColorFromBackground(accentColor);
+  // 점수 비교를 위한 안전한 값
+  const homeScore = home.match_team_stats_our_score || 0;
+  const awayScore = away.match_team_stats_our_score || 0;
 
   return (
-    <li
+    <div
       onClick={() => handleSelect(match.championship_match_idx)}
-      className={`relative flex flex-col w-full rounded-xl overflow-visible
-        bg-gray-800 text-gray-100
-        transform transition-all duration-200 hover:scale-102 hover:shadow-2xl
-      `}
-      style={{
-        borderColor: isSelected ? accentColor : "transparent",
-        borderWidth: isSelected ? 2 : 0,
-      }}>
-      {/* 상태 표시 배지 */}
-      <div className="flex justify-end">
-        <div
-          className="mr-2 mt-2 px-3 py-1 rounded-full text-xs font-semibold"
-          style={{
-            backgroundColor: isFinished ? accentColor : accentColor + "80", // 50% opaque for in-progress
-            color: accentText,
-          }}>
-          {matchState[home.common_status_idx] || ""}
+      className={`group relative rounded-2xl overflow-hidden cursor-pointer transition-all duration-300 ease-out backdrop-blur-sm
+        ${
+          isListViewMode
+            ? "bg-white/10 hover:bg-white/15 shadow-lg hover:shadow-xl transform hover:scale-[1.02] border border-white/20 hover:border-white/30"
+            : "bg-white/10 hover:bg-white/15 shadow-lg hover:shadow-xl transform hover:scale-105 border border-white/20 hover:border-white/30"
+        }
+        ${
+          isSelected
+            ? "ring-2 ring-blue-400/60 shadow-blue-400/25 bg-blue-500/10 border-blue-400/40"
+            : ""
+        }
+      `}>
+      {/* 글로우 효과 */}
+      {isSelected && (
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-400/5 via-purple-400/5 to-blue-400/5 animate-pulse rounded-2xl" />
+      )}
+
+      {/* 상단 헤더 */}
+      <div className="relative px-4 py-3 bg-white/5 backdrop-blur-sm border-b border-white/10">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <div className="w-2 h-2 bg-blue-400 rounded-full animate-pulse" />
+            <span className="text-xs font-semibold text-white tracking-wide uppercase">
+              Match #{match.championship_match_idx}
+            </span>
+          </div>
+          <div
+            className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide shadow-md
+              ${
+                isFinished
+                  ? "bg-emerald-500/20 text-emerald-200 border border-emerald-500/30"
+                  : "bg-amber-500/20 text-amber-200 border border-amber-500/30"
+              }
+            `}>
+            {matchState[home.common_status_idx] || "대기중"}
+          </div>
         </div>
       </div>
 
       {/* 메인 콘텐츠 */}
-      <div className="pr-2 pl-2 sm:pl-4 pt-2 pb-3 flex flex-col items-center">
-        {/* VS 영역 */}
-        <div className="flex items-center justify-between mb-3 relative">
+      <div className="relative p-4">
+        {/* 팀 vs 팀 */}
+        <div className="flex items-center justify-between gap-4">
           {/* 홈팀 */}
-          <div className="flex flex-col items-center w-2/5">
-            <div
-              className="w-8 h-8 sm:w-10 sm:h-10 rounded-full shadow-md flex items-center justify-center mb-1"
-              style={{ backgroundColor: accentColor + "20" }}>
-              {home.team_list_emblem ? (
-                <img
-                  src={home.team_list_emblem}
-                  alt={`${home.team_list_name} 엠블럼`}
-                  className="w-6 h-6 sm:w-8 sm:h-8 object-cover rounded-full"
-                />
-              ) : (
-                <DefaultTeamEmblem
-                  text={home.team_list_short_name}
-                  bgColor={home.team_list_color}
-                />
-              )}
+          <div className="flex-1 flex flex-col items-center text-center">
+            <div className="relative mb-3">
+              <div className="w-16 h-16 rounded-2xl flex items-center justify-center relative overflow-hidden bg-white/5 backdrop-blur-sm border border-white/10 shadow-lg">
+                {home.team_list_emblem ? (
+                  <img
+                    src={home.team_list_emblem}
+                    alt={`${home.team_list_name} 엠블럼`}
+                    className="w-12 h-12 object-cover rounded-xl"
+                  />
+                ) : (
+                  <DefaultTeamEmblem
+                    text={home.team_list_short_name}
+                    bgColor={home.team_list_color}
+                  />
+                )}
+                {/* 승리 표시 */}
+                {isFinished && homeScore > awayScore && (
+                  <div className="absolute -top-1 -right-1 w-6 h-6 bg-gradient-to-r from-yellow-400 to-amber-500 rounded-full flex items-center justify-center shadow-lg">
+                    <span className="text-xs">👑</span>
+                  </div>
+                )}
+              </div>
             </div>
-            <span
-              className={`text-sm font-semibold truncate max-w-full text-center ${getTeamStyle(
-                true,
-                isFinished,
-                home
-              )}`}>
-              <span className="hidden sm:inline">{home.team_list_name}</span>
-              <span className="inline sm:hidden">
-                {home.team_list_short_name}
-              </span>
-            </span>
+            <h3
+              className={`font-bold text-sm mb-1 transition-colors duration-300
+              ${getTeamStyle(true, isFinished, home)} 
+              ${isSelected ? "text-blue-200" : "text-white"}
+            `}>
+              {isListViewMode ? home.team_list_name : home.team_list_short_name}
+            </h3>
+            <p className="text-xs text-gray-400 uppercase tracking-wide">
+              Home
+            </p>
           </div>
 
-          {/* 점수 */}
-          <div
-            className="flex items-center justify-center px-3 py-2 rounded-lg shadow-md"
-            style={{ backgroundColor: accentColor, color: accentText }}>
-            <span className="text-lg sm:text-xl">
-              {home.match_team_stats_our_score}
-            </span>
-            <span className="mx-1 sm:mx-2 opacity-70">:</span>
-            <span className="text-lg sm:text-xl">
-              {away.match_team_stats_our_score}
-            </span>
+          {/* 점수 및 VS */}
+          <div className="flex flex-col items-center gap-2">
+            <div className="text-xs text-gray-400 font-medium uppercase tracking-widest">
+              VS
+            </div>
+            <div
+              className={`flex items-center gap-3 px-4 py-2 rounded-xl shadow-lg transition-all duration-300 border
+              ${
+                isFinished
+                  ? "bg-emerald-500/10 border-emerald-500/20"
+                  : "bg-white/5 border-white/20"
+              }
+            `}>
+              <span className="text-2xl font-black text-white">
+                {homeScore}
+              </span>
+              <div className="w-1 h-6 bg-gradient-to-b from-blue-400 to-purple-400 rounded-full" />
+              <span className="text-2xl font-black text-white">
+                {awayScore}
+              </span>
+            </div>
           </div>
 
           {/* 어웨이팀 */}
-          <div className="flex flex-col items-center w-2/5">
-            <div
-              className="w-8 h-8 sm:w-10 sm:h-10 rounded-full shadow-md flex items-center justify-center mb-1"
-              style={{ backgroundColor: accentColor + "20" }}>
-              {away.team_list_emblem ? (
-                <img
-                  src={away.team_list_emblem}
-                  alt={`${away.team_list_name} 엠블럼`}
-                  className="w-6 h-6 sm:w-8 sm:h-8 object-cover rounded-full"
-                />
-              ) : (
-                <DefaultTeamEmblem
-                  text={away.team_list_short_name}
-                  bgColor={away.team_list_color}
-                />
-              )}
+          <div className="flex-1 flex flex-col items-center text-center">
+            <div className="relative mb-3">
+              <div className="w-16 h-16 rounded-2xl flex items-center justify-center relative overflow-hidden bg-white/5 backdrop-blur-sm border border-white/10 shadow-lg">
+                {away.team_list_emblem ? (
+                  <img
+                    src={away.team_list_emblem}
+                    alt={`${away.team_list_name} 엠블럼`}
+                    className="w-12 h-12 object-cover rounded-xl"
+                  />
+                ) : (
+                  <DefaultTeamEmblem
+                    text={away.team_list_short_name}
+                    bgColor={away.team_list_color}
+                  />
+                )}
+                {/* 승리 표시 */}
+                {isFinished && awayScore > homeScore && (
+                  <div className="absolute -top-1 -right-1 w-6 h-6 bg-gradient-to-r from-yellow-400 to-amber-500 rounded-full flex items-center justify-center shadow-lg">
+                    <span className="text-xs">👑</span>
+                  </div>
+                )}
+              </div>
             </div>
-            <span
-              className={`text-sm font-semibold truncate max-w-full text-center ${getTeamStyle(
-                false,
-                isFinished,
-                home
-              )}`}>
-              <span className="hidden sm:inline">{away.team_list_name}</span>
-              <span className="inline sm:hidden">
-                {away.team_list_short_name}
-              </span>
-            </span>
+            <h3
+              className={`font-bold text-sm mb-1 transition-colors duration-300
+              ${getTeamStyle(false, isFinished, home)}
+              ${isSelected ? "text-purple-200" : "text-white"}
+            `}>
+              {isListViewMode ? away.team_list_name : away.team_list_short_name}
+            </h3>
+            <p className="text-xs text-gray-400 uppercase tracking-wide">
+              Away
+            </p>
           </div>
         </div>
+
+        {/* 하단 정보 */}
+        {isListViewMode && (
+          <div className="mt-4 pt-3 border-t border-white/10">
+            <div className="flex items-center justify-between text-xs">
+              <span className="text-gray-400">경기 일시</span>
+              <span className="text-gray-300">
+                {new Date().toLocaleDateString()}
+              </span>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* 관리자 버튼 영역 */}
-      {isCommunityOperator ||
-        (isCommunityManager && !isFinished && (
-          <div className="flex justify-end gap-2 p-2 bg-gray-800/80 backdrop-blur-sm">
-            <button
-              onClick={() => {
-                if (confirm("정말 삭제하시겠습니까?"))
-                  handleDeleteChampionshipMatch(match.championship_match_idx);
-              }}
-              className="text-xs px-2 py-1 rounded bg-red-600 text-white hover:bg-red-700 transition-colors">
-              삭제
-            </button>
-            <button
-              onClick={() => {
-                if (confirm("정말 종료하시겠습니까?")) {
-                  handlePutChampionshipMatchEnd(match.championship_match_idx);
-                }
-              }}
-              className="text-xs px-2 py-1 rounded bg-gray-700 text-white hover:bg-gray-800 transition-colors">
-              경기종료
-            </button>
-          </div>
-        ))}
-
-      {/* 선택 표시기 */}
-      {isSelected && (
-        <div
-          className="absolute inset-0 rounded-xl pointer-events-none"
-          style={{ boxShadow: `0 0 0 2px ${accentColor}` }}
-        />
+      {(isCommunityOperator || isCommunityManager) && !isFinished && (
+        <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              if (confirm("정말 삭제하시겠습니까?"))
+                handleDeleteChampionshipMatch(match.championship_match_idx);
+            }}
+            className="w-8 h-8 rounded-full bg-red-500/80 backdrop-blur-sm text-white hover:bg-red-600 transition-all duration-200 flex items-center justify-center shadow-lg hover:scale-110">
+            <span className="text-xs">🗑️</span>
+          </button>
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              if (confirm("정말 종료하시겠습니까?")) {
+                handlePutChampionshipMatchEnd(match.championship_match_idx);
+              }
+            }}
+            className="w-8 h-8 rounded-full bg-gray-600/80 backdrop-blur-sm text-white hover:bg-gray-700 transition-all duration-200 flex items-center justify-center shadow-lg hover:scale-110">
+            <span className="text-xs">⏹️</span>
+          </button>
+        </div>
       )}
-    </li>
+    </div>
   );
 };
 

@@ -22,15 +22,23 @@ const TeamTable = (props: TeamTableProps) => {
           </thead>
 
           <tbody className="divide-y divide-gray-700">
-            {players.map((p, index) => (
-              <PlayerHistoryRow
-                key={p.match_player_stats_idx || index}
-                p={p}
-                maxGoal={maxGoal}
-                maxAssist={maxAssist}
-                personEvidenceImage={personEvidenceImage}
-              />
-            ))}
+            {players.length === 0 ? (
+              <tr>
+                <td colSpan={4} className="px-4 py-6 text-center text-gray-400">
+                  선수 정보가 없습니다.
+                </td>
+              </tr>
+            ) : (
+              players.map((p, index) => (
+                <PlayerHistoryRow
+                  key={p.match_player_stats_idx || index}
+                  p={p}
+                  maxGoal={maxGoal}
+                  maxAssist={maxAssist}
+                  personEvidenceImage={personEvidenceImage}
+                />
+              ))
+            )}
           </tbody>
         </table>
       </div>
