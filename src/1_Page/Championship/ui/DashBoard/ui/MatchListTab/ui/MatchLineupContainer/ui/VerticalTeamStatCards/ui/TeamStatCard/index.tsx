@@ -27,9 +27,6 @@ const TeamStatCard = (props: TeamStatCardProps) => {
   const [isEditing, toggleIsEditing] = useToggleState();
   const [myTeamRoleIdx] = useMyTeamRoleIdx();
   const [myTeamIdx] = useMyTeamIdx();
-  console.log("myTeamRoleIdx", myTeamRoleIdx);
-  console.log("myTeamIdx", myTeamIdx);
-  console.log("teamListIdx", teamListIdx);
   const isTeamLeader = myTeamRoleIdx === 0 && myTeamIdx === teamListIdx;
 
   const { methods, cancelEdit, setBackupTeamStats } = useTeamStatForm(
