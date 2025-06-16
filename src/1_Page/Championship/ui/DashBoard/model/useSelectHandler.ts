@@ -2,9 +2,10 @@ import React from "react";
 
 const useSelectHandler = (
   matchList: ChampionshipMatchList[]
-): [number, number, SelectTeamMatchInfo, (idx: number) => void] => {
+): UseSelectHandlerReturn => {
   const [selectChampionshipMatchIdx, setSelectedIdx] =
     React.useState<number>(0);
+  const [isMatchDetailView, setIsMatchDetailView] = React.useState(false); // 매치 상세 보기 상태
 
   const selectMatchIdx =
     matchList.find(
@@ -17,53 +18,27 @@ const useSelectHandler = (
     setSelectedIdx(matchList[0].championship_match_idx);
   }, [matchList]);
 
-  const handleSelect = (idx: number) => setSelectedIdx(idx);
-
-  const selectedTeams = getSelectedMatchTeams(
-    matchList,
-    selectChampionshipMatchIdx
+  // 매치 선택 및 상세 보기로 전환하는 핸들러
+  const handleMatchSelect = React.useCallback(
+    (championshipMatchIdx: number) => {
+      setSelectedIdx(championshipMatchIdx);
+      setIsMatchDetailView(true);
+    },
+    [setSelectedIdx]
   );
 
-  return [
+  // 매치 리스트로 돌아가는 핸들러
+  const handleBackToList = React.useCallback(() => {
+    setIsMatchDetailView(false);
+  }, []);
+
+  return {
     selectChampionshipMatchIdx,
     selectMatchIdx,
-    selectedTeams,
-    handleSelect,
-  ];
+    isMatchDetailView,
+    handleMatchSelect,
+    handleBackToList,
+  };
 };
 
 export default useSelectHandler;
-
-const getSelectedMatchTeams = (
-  matchList: ChampionshipMatchList[],
-  selectedIdx: number
-): SelectTeamMatchInfo => {
-  if (!matchList || !Array.isArray(matchList) || matchList.length === 0) {
-    return { selectTeamList: [], selectTeamScore: [] };
-  }
-
-  const selectedMatch = matchList.find(
-    (match) => match.championship_match_idx === selectedIdx
-  );
-
-  const firstTeam = {
-    teamName: selectedMatch?.championship_match_first?.team_list_name ?? "",
-    teamScore:
-      selectedMatch?.championship_match_first?.match_team_stats_our_score ?? 0,
-  };
-
-  const secondTeam = {
-    teamName: selectedMatch?.championship_match_second?.team_list_name ?? "",
-    teamScore:
-      selectedMatch?.championship_match_second?.match_team_stats_our_score ?? 0,
-  };
-
-  const selectTeamList = [firstTeam.teamName, secondTeam.teamName];
-
-  const selectTeamScore = [firstTeam.teamScore, secondTeam.teamScore];
-
-  return {
-    selectTeamList,
-    selectTeamScore,
-  };
-};

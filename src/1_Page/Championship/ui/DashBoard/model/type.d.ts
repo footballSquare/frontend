@@ -10,3 +10,11 @@ type MatchHandlerReturn = {
   ) => void;
   handleAddMatch: (match: ChampionshipMatchList) => void;
 };
+
+type UseSelectHandlerReturn = {
+  selectChampionshipMatchIdx: number;
+  selectMatchIdx: number;
+  isMatchDetailView: boolean;
+  handleMatchSelect: (championshipMatchIdx: number) => void;
+  handleBackToList: () => void;
+};
