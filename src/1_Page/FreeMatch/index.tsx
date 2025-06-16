@@ -8,7 +8,7 @@ const FreeMatch = () => {
   const [isLogin] = useIsLogin();
   const { toggleMakeMatchModal } = useMakeMatchModalStore();
   return (
-    <div className="lg:px-[60px] max-w-[1680px] flex lg:flex-row justify-between flex-col w-full px-4 pt-4 gap-[32px]">
+    <div className="lg:px-[60px] max-w-[1680px] flex lg:flex-row justify-between flex-col w-full h-full px-4 pt-4 gap-[32px]">
       <div className="flex flex-col w-full gap-4">
         {/* 버튼 목록 */}
         {isLogin && (

@@ -7,7 +7,7 @@ import Modals from "./ui/Modals";
 const App = () => {
   return (
     <BrowserRouter>
-      <main className=" w-full m-auto h-full justify-center items-center bg-light-blue">
+      <main className="mt-[80px] w-full h-full justify-center items-center">
         <Nav />
         <Page />
         <Modals />
@@ -17,3 +17,5 @@ const App = () => {
 };
 
 export default App;
+
+

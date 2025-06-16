@@ -1,15 +1,15 @@
 @import "tailwindcss";
 @theme light {
-  --color-grass: #A7F256;
+  --color-grass: #a7f256;
   --color-thick-grass: #489433;
-  --color-blue: #3563E9;
-  --color-red: #FF0000;
-  --color-yellow: #FFFC00;
-  --color-white: #FFFFFF;
-  --color-cement: #1B1D1E;
+  --color-blue: #3563e9;
+  --color-red: #ff0000;
+  --color-yellow: #fffc00;
+  --color-white: #ffffff;
+  --color-cement: #1b1d1e;
   --color-black: #000000;
-  --color-light-blue: #F8FAFC;
-  --color-gray: #C7C7C7;
+  --color-light-blue: #f8fafc;
+  --color-gray: #c7c7c7;
 }
 
 @theme {
@@ -22,6 +22,26 @@
     100% {
       opacity: 1;
       transform: scale(1);
+    }
+  }
+  --animate-float: float 6s ease-in-out infinite;
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-20px);
+    }
+  }
+  --animate-float-delayed: float-delayed 6s ease-in-out infinite 2s;
+  @keyframes float-delayed {
+    0%,
+    100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-15px);
     }
   }
 }
@@ -37,10 +57,6 @@ body::-webkit-scrollbar {
   display: none; /* Hide scrollbar for WebKit browsers */
 }
 
-body {
-  height: calc(100% - 80px);
-  margin-top: 80px;
-}
 #root {
   height: 100%;
 }
