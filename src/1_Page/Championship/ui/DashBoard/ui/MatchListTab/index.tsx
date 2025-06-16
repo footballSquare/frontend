@@ -3,7 +3,7 @@ import CreateChampionMatchPanel from "./ui/CreateChampionMatchPanel";
 import useSortHandler from "./model/useSortHandler";
 
 import useChampionshipInfoContext from "../../../../../../4_Shared/model/useChampionshipInfoContext";
-import useSelectHandler from "../../model/useSelectHandler";
+import useSelectHandler from "./model/useSelectHandler";
 import useGetChampionshipDetail from "../../../../../../3_Entity/Championship/useGetChampionshipDetail";
 import MatchLineupContainer from "./ui/MatchLineupContainer";
 import EmptySearchResult from "./ui/EmptySearchResult";
