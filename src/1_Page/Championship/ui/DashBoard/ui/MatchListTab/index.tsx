@@ -24,7 +24,6 @@ const MatchListTab = (props: MatchListTabProps) => {
   const [championshipDetail] = useGetChampionshipDetail(
     selectChampionshipMatchIdx
   );
-  console.log("championshipDetail", championshipDetail);
 
   // admin
   const { isCommunityOperator, isCommunityManager } =

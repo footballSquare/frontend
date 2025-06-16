@@ -6,7 +6,8 @@ type MatchHandlerReturn = {
   handleSyncMatchIdx: (
     dummyChampMatchIdx: number,
     realChampMatchIdx: number,
-    realMatchIdx: number
+    firstMatchIdx: number,
+    secondMatchIdx: number
   ) => void;
   handleAddMatch: (match: ChampionshipMatchList) => void;
 };

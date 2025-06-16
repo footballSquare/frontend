@@ -4,7 +4,8 @@ type UseManageCreateChampionshipMatchProps = {
   handleSyncMatchIdx: (
     dummyChampMatchIdx: number,
     realChampMatchIdx: number,
-    realMatchIdx: number
+    firstMatchIdx: number,
+    secondMatchIdx: number
   ) => void;
   handleMatchSelect: (matchIdx: number) => void;
 };

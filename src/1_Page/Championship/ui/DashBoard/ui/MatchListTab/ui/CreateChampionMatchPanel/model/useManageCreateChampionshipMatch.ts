@@ -17,7 +17,7 @@ const usePostCreateChampionshipMatchHandler = (
 
   const postMatchIdxListRef = React.useRef<number[]>([]);
 
-  const [postCreateChampionshipMatch, serverState] =
+  const [postCreateChampionshipMatch, idxList] =
     usePostCreateChampionshipMatch(championshipIdx);
 
   const handlePostCreateChampionshipMatch = async (
@@ -38,15 +38,24 @@ const usePostCreateChampionshipMatchHandler = (
     const status = await postCreateChampionshipMatch(formData);
     switch (status) {
       case 200:
-        console.log("serverState", serverState);
-        handleSyncMatchIdx(postMatchIdxListRef.current[0], 2, 3);
-        handleMatchSelect(2);
         break;
       default:
         console.error("Failed to create championship match");
         break;
     }
   };
+  React.useEffect(() => {
+    if (idxList.length > 0) {
+      handleSyncMatchIdx(
+        postMatchIdxListRef.current[0],
+        idxList[0],
+        idxList[1],
+        idxList[2]
+      );
+      handleMatchSelect(idxList[0]);
+      postMatchIdxListRef.current = [];
+    }
+  }, [idxList, handleSyncMatchIdx, handleMatchSelect]);
   return { handlePostCreateChampionshipMatch };
 };
 
