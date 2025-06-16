@@ -43,12 +43,12 @@ const TeamDetailHistoryInput = (props: TeamDetailHistoryInputProps) => {
             {...register(registerType)}
             className={`
               w-full text-sm text-gray-100 
-              file:mr-4 file:px-4 file:py-3 file:rounded-lg file:border-0 
+              file:mr-3 file:px-3 file:py-2 file:rounded-md file:border-0 
               file:bg-gradient-to-r file:from-grass file:to-grass/80 
-              file:text-white file:font-medium file:shadow-sm
+              file:text-white file:font-medium file:shadow-sm file:text-xs
               hover:file:from-grass/90 hover:file:to-grass/70
               file:transition-all file:duration-200 file:cursor-pointer
-              bg-gray-800/50 border-2 border-dashed rounded-lg p-4
+              bg-gray-800/50 border border-dashed rounded-md p-3
               transition-all duration-200 hover:border-grass/50
               ${
                 hasError
@@ -74,10 +74,10 @@ const TeamDetailHistoryInput = (props: TeamDetailHistoryInputProps) => {
             max={isPercentage ? 100 : undefined}
             {...register(registerType, { valueAsNumber: true })}
             className={`
-              w-full px-4 py-3 bg-gray-800/80 border-2 rounded-lg 
+              w-full px-2 py-1.5 bg-gray-800/80 border rounded-md text-sm
               text-gray-100 placeholder-gray-400 font-medium
               transition-all duration-200 
-              focus:outline-none focus:ring-2 focus:ring-grass/50 
+              focus:outline-none focus:ring-1 focus:ring-grass/50 
               focus:border-grass focus:bg-gray-800
               hover:bg-gray-800 hover:border-gray-500
               [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none
@@ -91,7 +91,7 @@ const TeamDetailHistoryInput = (props: TeamDetailHistoryInputProps) => {
             placeholder={isPercentage ? "0-100%" : "숫자 입력"}
           />
           {isPercentage && (
-            <div className="absolute top-1/2 right-3 -translate-y-1/2 text-sm text-gray-400 pointer-events-none">
+            <div className="absolute top-1/2 right-2 -translate-y-1/2 text-xs text-gray-400 pointer-events-none">
               %
             </div>
           )}

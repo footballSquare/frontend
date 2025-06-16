@@ -103,7 +103,7 @@ const TeamStatCard = (props: TeamStatCardProps) => {
                 {/* Hidden input for MOM player idx */}
                 <input type="hidden" {...methods.register("mom_player_idx")} />
 
-                <div className="grid grid-cols-2 gap-3 lg:gap-2">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 lg:gap-2">
                   {statLabels.map(
                     ({ key, label, isPercentage, isMomField }) => (
                       <div key={key} className="space-y-1 lg:space-y-0.5">
@@ -162,7 +162,7 @@ const TeamStatCard = (props: TeamStatCardProps) => {
           ) : (
             <FormProvider {...methods}>
               <div className="space-y-1 lg:space-y-0">
-                <div className="grid grid-cols-2 gap-x-3 gap-y-1 lg:gap-x-2 lg:gap-y-0">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-3 gap-y-1 lg:gap-x-2 lg:gap-y-0">
                   {statLabels.map(({ key, label, isPercentage }) => (
                     <div
                       key={key}
