@@ -1,10 +1,10 @@
 const ModalLayer = (props: ModalLayerProps) => {
   const { children, toggleModalHandler, shape, mode } = props;
   return (
-    <div className="absolute top-0 left-0 w-full h-full flex justify-center items-center">
+    <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center">
       {/* 레이어 */}
       <div
-        className="absolute top-0 left-0 w-full h-full opacity-50 bg-gray"
+        className="fixed top-0 left-0 w-full h-full opacity-50 bg-gray"
         onClick={toggleModalHandler}
       ></div>
       {/* 모달 */}

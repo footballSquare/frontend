@@ -21,7 +21,7 @@ import Boards from "./Boards";
 const Page = () => {
   const [isLogin] = useIsLogin(); // accessToken 존재 여부 확인
   return (
-    <div className="w-full h-full bg-gray-900 flex justify-center overflow-auto">
+    <div className="w-full min-h-screen bg-gray-900 flex justify-center overflow-hidden">
       <Routes>
         <Route
           path="/"
@@ -62,7 +62,7 @@ const Page = () => {
           element={<PostEdit />}
         />
         <Route path={`${PAGE_URI.TOPICS}`} element={<Boards />} />
-        <Route path="/test/chat" element={<ChatTesting/>}/>
+        <Route path="/test/chat" element={<ChatTesting />} />
       </Routes>
     </div>
   );

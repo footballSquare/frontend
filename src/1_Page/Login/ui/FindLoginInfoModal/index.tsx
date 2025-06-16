@@ -1,4 +1,3 @@
-import ModalLayer from "../../../../4_Shared/components/ModalLayer";
 import useFindLoginInfoTab from "./model/useFindLoginInfoTab";
 import { useForm } from "react-hook-form";
 import usePostReceiveFindIdSms from "../../../../3_Entity/Account/usePostReceiveFindIdSms";
@@ -41,41 +40,56 @@ const FindLoginInfoModal = (props: FindLoginInfoModalProps) => {
   const [postReceiveFindIdSms] = usePostReceiveFindIdSms();
   const [postCheckFindIdSms] = usePostCheckFindIdSms();
   const [putUserPassword, ,] = usePutUserPassword();
-
   return (
-    <ModalLayer
-      toggleModalHandler={toggleModalHandler}
-      shape="narrow"
-      mode="dark"
-    >
-      <div className=" relative flex flex-col items-center gap-6 w-full">
-        <button onClick={toggleModalHandler} className=" absolute top-1 right-2 cursor-pointer text-xl">
-          x
-        </button>
-        {/* 아이디 찾기 / 비밀번호 찾기 탭 전환 버튼 */}
-        <div className="flex gap-4 w-full justify-center mt-2">
-          <button
-            className={`px-4 py-2 rounded-t-lg font-bold text-sm ${
-              tab === "id"
-                ? "bg-blue-600 text-white"
-                : "bg-gray-700 text-gray-300"
-            }`}
-            onClick={toggleTab}
-          >
-            아이디 찾기
-          </button>
-          <button
-            className={`px-4 py-2 rounded-t-lg font-bold text-sm ${
-              tab === "pw"
-                ? "bg-blue-600 text-white"
-                : "bg-gray-700 text-gray-300"
-            }`}
-            onClick={toggleTab}
-          >
-            비밀번호 수정하기
-          </button>
-        </div>
+    <div className="fixed inset-0 flex items-center justify-center p-4">
+      {/* Backdrop */}
+      <div
+        className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+        onClick={toggleModalHandler}
+      ></div>
 
+      {/* Modal Content */}
+      <div className="w-full max-w-md backdrop-blur-xl bg-white/10 border border-white/20 rounded-2xl p-6 shadow-2xl">
+        {/* Close Button */}
+        <button
+          onClick={toggleModalHandler}
+          className="absolute top-4 right-4 text-gray-300 hover:text-white transition-colors duration-200 text-xl font-bold"
+        >
+          ×
+        </button>
+        {/* Header */}
+        <div className="text-center mb-6">
+          <div className="inline-flex items-center justify-center w-12 h-12 bg-gradient-to-br from-gray-600 to-gray-800 rounded-xl mb-3 shadow-lg">
+            <span className="text-lg font-bold text-white">?</span>
+          </div>
+          <h2 className="text-xl font-bold text-white mb-2">
+            Account Recovery
+          </h2>
+          <p className="text-gray-300 text-sm">Find your login information</p>
+        </div>
+        {/* Tab Buttons */}
+        <div className="flex gap-1 mb-6 bg-gray-700/50 rounded-lg p-1">
+          <button
+            className={`flex-1 px-4 py-2 rounded-md font-medium text-sm transition-all duration-200 ${
+              tab === "id"
+                ? "bg-gradient-to-r from-gray-600 to-gray-800 text-white shadow-lg"
+                : "text-gray-300 hover:text-white"
+            }`}
+            onClick={toggleTab}
+          >
+            Find ID
+          </button>
+          <button
+            className={`flex-1 px-4 py-2 rounded-md font-medium text-sm transition-all duration-200 ${
+              tab === "pw"
+                ? "bg-gradient-to-r from-gray-600 to-gray-800 text-white shadow-lg"
+                : "text-gray-300 hover:text-white"
+            }`}
+            onClick={toggleTab}
+          >
+            Reset Password
+          </button>
+        </div>{" "}
         {tab === "id" ? (
           <form
             onSubmit={findIdHandleSubmit(() => {
@@ -84,52 +98,72 @@ const FindLoginInfoModal = (props: FindLoginInfoModalProps) => {
                 code: getValuesOfFindIdInput("code"),
               });
             })}
-            className="w-full flex flex-col items-center gap-4 bg-gray-900 rounded-b-lg p-6"
+            className="space-y-4"
           >
-            <label className="w-full flex flex-col gap-1">
-              <span className="text-sm text-gray-300">연락처</span>
-              <input
-                {...findIdRegister("phone")}
-                type="text"
-                placeholder="- 없이 숫자만 입력"
-                className="w-full p-2 rounded bg-gray-800 border border-gray-600 text-white focus:outline-none"
-              />
-              {findIdErrors["phone"] && (
-                <p className="text-red-500 text-sm mt-1">
-                  {findIdErrors["phone"].message}
-                </p>
-              )}
-            </label>
+            {/* Phone Input */}
+            <div className="space-y-1">
+              <label className="text-sm font-medium text-gray-200">
+                연락처
+              </label>
+              <div className="relative">
+                <input
+                  {...findIdRegister("phone")}
+                  type="text"
+                  placeholder="- 없이 숫자만 입력"
+                  className="w-full px-3 py-2.5 bg-gray-800/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-transparent transition-all duration-200 backdrop-blur-sm text-sm"
+                />
+                {findIdErrors["phone"] && (
+                  <div className="absolute -bottom-5 left-0">
+                    <p className="text-red-400 text-xs">
+                      {findIdErrors["phone"].message}
+                    </p>
+                  </div>
+                )}
+              </div>
+            </div>
 
-            <label className="w-full flex flex-col gap-1">
-              <span className="text-sm text-gray-300">인증번호</span>
-              <input
-                {...findIdRegister("code")}
-                type="text"
-                placeholder="인증번호 입력"
-                className="w-full p-2 rounded bg-gray-800 border border-gray-600 text-white focus:outline-none"
-              />
-              {findIdErrors["code"] && (
-                <p className="text-red-500 text-sm mt-1">
-                  {findIdErrors["code"].message}
-                </p>
-              )}
-            </label>
+            {/* Code Input */}
+            <div className="space-y-1 pt-1">
+              <label className="text-sm font-medium text-gray-200">
+                인증번호
+              </label>
+              <div className="relative">
+                <input
+                  {...findIdRegister("code")}
+                  type="text"
+                  placeholder="인증번호 입력"
+                  className="w-full px-3 py-2.5 bg-gray-800/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-transparent transition-all duration-200 backdrop-blur-sm text-sm"
+                />
+                {findIdErrors["code"] && (
+                  <div className="absolute -bottom-5 left-0">
+                    <p className="text-red-400 text-xs">
+                      {findIdErrors["code"].message}
+                    </p>
+                  </div>
+                )}
+              </div>
+            </div>
 
-            <button
-              type="button"
-              className="w-full rounded p-2 bg-gray-500 hover:bg-grass hover:text-black duration-300"
-              onClick={() => {
-                postReceiveFindIdSms({
-                  phone: getValuesOfFindIdInput("phone"),
-                });
-              }}
-            >
-              인증번호 전송
-            </button>
-            <button className="w-full rounded p-2 bg-gray-500 hover:bg-grass hover:text-black duration-300">
-              인증번호 확인
-            </button>
+            {/* Buttons */}
+            <div className="space-y-3 pt-3">
+              <button
+                type="button"
+                className="w-full py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                onClick={() => {
+                  postReceiveFindIdSms({
+                    phone: getValuesOfFindIdInput("phone"),
+                  });
+                }}
+              >
+                인증번호 전송
+              </button>
+              <button
+                type="submit"
+                className="w-full py-2.5 bg-gradient-to-r from-gray-600 to-gray-800 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transform hover:scale-[1.02] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 focus:ring-offset-transparent hover:from-gray-500 hover:to-gray-700 text-sm"
+              >
+                인증번호 확인
+              </button>
+            </div>
           </form>
         ) : (
           <form
@@ -140,72 +174,109 @@ const FindLoginInfoModal = (props: FindLoginInfoModalProps) => {
                 password: getValuesOfFindPwInput("newPassword"),
               });
             })}
-            className="w-full flex flex-col items-center gap-4 bg-gray-900 rounded-b-lg p-6"
+            className="space-y-4"
           >
-            <label className="w-full flex flex-col gap-1">
-              <span className="text-sm text-gray-300">아이디</span>
-              <input
-                {...findPwRegister("id")}
-                type="text"
-                placeholder="아이디 입력"
-                className="w-full p-2 rounded bg-gray-800 border border-gray-600 text-white focus:outline-none"
-              />
-              {findPwErrors["id"] && (
-                <p className="text-red-500 text-sm mt-1">
-                  {findPwErrors["id"].message}
-                </p>
-              )}
-            </label>
-            <label className="w-full flex flex-col gap-1">
-              <span className="text-sm text-gray-300">연락처</span>
-              <input
-                {...findPwRegister("phone")}
-                type="text"
-                placeholder="- 없이 숫자만 입력"
-                className="w-full p-2 rounded bg-gray-800 border border-gray-600 text-white focus:outline-none"
-              />
-              {findPwErrors["phone"] && (
-                <p className="text-red-500 text-sm mt-1">
-                  {findPwErrors["phone"].message}
-                </p>
-              )}
-            </label>
-            <label className="w-full flex flex-col gap-1">
-              <span className="text-sm text-gray-300">새 비밀번호</span>
-              <input
-                {...findPwRegister("newPassword")}
-                type="password"
-                placeholder="새 비밀번호 입력"
-                className="w-full p-2 rounded bg-gray-800 border border-gray-600 text-white focus:outline-none"
-              />
-              {findPwErrors["newPassword"] && (
-                <p className="text-red-500 text-sm mt-1">
-                  {findPwErrors["newPassword"].message}
-                </p>
-              )}
-            </label>
-            <label className="w-full flex flex-col gap-1">
-              <span className="text-sm text-gray-300">비밀번호 확인</span>
-              <input
-                {...findPwRegister("confirmNewPassword")}
-                type="password"
-                placeholder="비밀번호 확인"
-                className="w-full p-2 rounded bg-gray-800 border border-gray-600 text-white focus:outline-none"
-              />
-              {findPwErrors["confirmNewPassword"] && (
-                <p className="text-red-500 text-sm mt-1">
-                  {findPwErrors["confirmNewPassword"].message}
-                </p>
-              )}
-            </label>
+            {/* ID Input */}
+            <div className="space-y-1">
+              <label className="text-sm font-medium text-gray-200">
+                아이디
+              </label>
+              <div className="relative">
+                <input
+                  {...findPwRegister("id")}
+                  type="text"
+                  placeholder="아이디 입력"
+                  className="w-full px-3 py-2.5 bg-gray-800/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-transparent transition-all duration-200 backdrop-blur-sm text-sm"
+                />
+                {findPwErrors["id"] && (
+                  <div className="absolute -bottom-5 left-0">
+                    <p className="text-red-400 text-xs">
+                      {findPwErrors["id"].message}
+                    </p>
+                  </div>
+                )}
+              </div>
+            </div>
 
-            <button className="w-full rounded p-2 bg-gray-500 hover:bg-grass hover:text-black duration-300">
-              비밀번호 수정하기
-            </button>
+            {/* Phone Input */}
+            <div className="space-y-1 pt-1">
+              <label className="text-sm font-medium text-gray-200">
+                연락처
+              </label>
+              <div className="relative">
+                <input
+                  {...findPwRegister("phone")}
+                  type="text"
+                  placeholder="- 없이 숫자만 입력"
+                  className="w-full px-3 py-2.5 bg-gray-800/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-transparent transition-all duration-200 backdrop-blur-sm text-sm"
+                />
+                {findPwErrors["phone"] && (
+                  <div className="absolute -bottom-5 left-0">
+                    <p className="text-red-400 text-xs">
+                      {findPwErrors["phone"].message}
+                    </p>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* New Password Input */}
+            <div className="space-y-1 pt-1">
+              <label className="text-sm font-medium text-gray-200">
+                새 비밀번호
+              </label>
+              <div className="relative">
+                <input
+                  {...findPwRegister("newPassword")}
+                  type="password"
+                  placeholder="새 비밀번호 입력"
+                  className="w-full px-3 py-2.5 bg-gray-800/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-transparent transition-all duration-200 backdrop-blur-sm text-sm"
+                />
+                {findPwErrors["newPassword"] && (
+                  <div className="absolute -bottom-5 left-0">
+                    <p className="text-red-400 text-xs">
+                      {findPwErrors["newPassword"].message}
+                    </p>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Confirm Password Input */}
+            <div className="space-y-1 pt-1">
+              <label className="text-sm font-medium text-gray-200">
+                비밀번호 확인
+              </label>
+              <div className="relative">
+                <input
+                  {...findPwRegister("confirmNewPassword")}
+                  type="password"
+                  placeholder="비밀번호 확인"
+                  className="w-full px-3 py-2.5 bg-gray-800/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-transparent transition-all duration-200 backdrop-blur-sm text-sm"
+                />
+                {findPwErrors["confirmNewPassword"] && (
+                  <div className="absolute -bottom-5 left-0">
+                    <p className="text-red-400 text-xs">
+                      {findPwErrors["confirmNewPassword"].message}
+                    </p>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Submit Button */}
+            <div className="pt-3">
+              <button
+                type="submit"
+                className="w-full py-2.5 bg-gradient-to-r from-gray-600 to-gray-800 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transform hover:scale-[1.02] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 focus:ring-offset-transparent hover:from-gray-500 hover:to-gray-700 text-sm"
+              >
+                비밀번호 수정하기
+              </button>
+            </div>
           </form>
         )}
       </div>
-    </ModalLayer>
+    </div>
   );
 };
 
