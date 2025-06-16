@@ -6,21 +6,20 @@ const usePostCreateChampionshipMatch = (
 ): [
   postCreateChampionshipMatch: (
     championshipMatchForm: UsePostCreateChampionshipMatchProps
-  ) => void,
+  ) => Promise<number | undefined>,
   serverState: Record<string, unknown> | null
 ] => {
   const [serverState, request] = useFetchData();
 
-  const postCreateChampionshipMatch = (
+  const postCreateChampionshipMatch = async (
     championshipMatchForm: UsePostCreateChampionshipMatchProps
   ) => {
     const endPoint = `/championship/${championshipListIdx}/championship_match`;
-    request("POST", endPoint, championshipMatchForm, true);
+    return await request("POST", endPoint, championshipMatchForm, true);
   };
 
   React.useEffect(() => {
     if (!serverState) return;
-    console.log("serverState", serverState.data);
     switch (serverState.status) {
       case 200:
         break;

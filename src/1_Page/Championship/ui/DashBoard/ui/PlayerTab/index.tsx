@@ -1,9 +1,12 @@
 import PlayerRow from "./ui/PlayerRow";
 import useSearchHandler from "./model/useSearchHandler";
 import { sortColumns } from "./constant/sortColumns";
+import useGetPlayerStats from "../../../../../../3_Entity/Championship/useGetPlayerStats";
+import useParamInteger from "../../../../../../4_Shared/model/useParamInteger";
 
-const PlayerTab = (props: PlayerTabProps) => {
-  const { playerStats } = props;
+const PlayerTab = () => {
+  const championshipIdx = useParamInteger("championshipIdx");
+  const [playerStats] = useGetPlayerStats(championshipIdx);
 
   const {
     searchTerm,

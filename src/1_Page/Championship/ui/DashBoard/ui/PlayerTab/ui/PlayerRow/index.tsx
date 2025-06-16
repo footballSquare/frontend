@@ -2,15 +2,23 @@ import { useNavigate } from "react-router-dom";
 import { createPortal } from "react-dom";
 import denide from "../../../../../../../../4_Shared/assets/svg/denied.svg";
 import plus from "../../../../../../../../4_Shared/assets/svg/plus.svg";
+import imageIcon from "../../../../../../../../4_Shared/assets/svg/image.svg";
+import profileIcon from "../../../../../../../../4_Shared/assets/svg/profile.svg";
 import useToggleState from "../../../../../../../../4_Shared/model/useToggleState";
-import { useChampionshipContextInfo } from "../../../../../../model/useChampionshipContext";
+import useChampionshipInfoContext from "../../../../../../../../4_Shared/model/useChampionshipInfoContext";
+import { calculatePossessionClipPath } from "./util/calculatePossessionClipPath";
 
 const PlayerRow = (props: PlayerRowProps) => {
   const { player, index } = props;
   const navigate = useNavigate();
   const [isModalOpen, handleToogleModal] = useToggleState();
+  const { championshipListColor } = useChampionshipInfoContext();
 
-  const { championship_list_color } = useChampionshipContextInfo();
+  // 증거 이미지가 있는지 확인
+  const hasEvidenceImage =
+    player.match_player_stats_evidence_img &&
+    typeof player.match_player_stats_evidence_img === "string" &&
+    player.match_player_stats_evidence_img.trim() !== "";
 
   return (
     <tr
@@ -23,10 +31,10 @@ const PlayerRow = (props: PlayerRowProps) => {
           {/* 아바타 */}
           <div className="relative">
             <img
-              src={player.match_player_stats_evidence_img || ""}
+              src={profileIcon}
               alt="Player"
-              className="w-8 h-8 md:w-10 md:h-10 rounded-full object-cover shadow-md transition-all duration-300"
-              style={{ border: `2px solid ${championship_list_color}` }}
+              className="w-8 h-8 md:w-10 md:h-10 rounded-full object-cover shadow-md transition-all duration-300 bg-gray-600"
+              style={{ border: `2px solid ${championshipListColor}` }}
             />
             {/* 순위 뱃지 – 회색으로 환원 */}
             <div className="absolute -bottom-1 -right-1 w-4 h-4 md:w-5 md:h-5 bg-gray-600 rounded-full flex items-center justify-center shadow-sm transition-colors duration-300">
@@ -81,26 +89,10 @@ const PlayerRow = (props: PlayerRowProps) => {
             <div
               className="absolute inset-0 rounded-full transition-colors duration-300"
               style={{
-                clipPath: `polygon(50% 50%, 50% 0%, ${
-                  50 +
-                  50 *
-                    Math.cos(
-                      (Math.PI *
-                        2 *
-                        (player.match_player_stats_possession || 0)) /
-                        100
-                    )
-                }% ${
-                  50 -
-                  50 *
-                    Math.sin(
-                      (Math.PI *
-                        2 *
-                        (player.match_player_stats_possession || 0)) /
-                        100
-                    )
-                }%, 100% 0%, 100% 0%, 100% 100%, 0% 100%, 0% 0%)`,
-                backgroundColor: championship_list_color,
+                clipPath: calculatePossessionClipPath(
+                  player.match_player_stats_possession || 0
+                ),
+                backgroundColor: championshipListColor,
               }}
             />
             <div className="absolute inset-0 flex items-center justify-center">
@@ -116,25 +108,42 @@ const PlayerRow = (props: PlayerRowProps) => {
       <td className="px-3 py-3">
         <div className="flex justify-center">
           <div
-            className="relative cursor-pointer transition transform group-hover:scale-110"
-            onClick={(e) => {
-              e.stopPropagation();
+            className={`relative transition transform group-hover:scale-110 ${
+              hasEvidenceImage ? "cursor-pointer" : "cursor-default opacity-50"
+            }`}
+            onClick={() => {
+              if (!hasEvidenceImage) {
+                return;
+              }
               handleToogleModal();
             }}>
-            <img
-              src={player.match_player_stats_evidence_img || ""}
-              alt="증거 이미지"
-              className="w-10 h-10 md:w-14 md:h-14 rounded-lg object-cover shadow-sm border-2 border-gray-400 group-hover:border-gray-600 group-hover:shadow-md transition-all duration-300"
-            />
-            {/* '+' 뱃지 – 회색 계열로 환원 */}
-            <div className="absolute -top-1 -right-1 bg-gray-500 rounded-full w-4 h-4 flex items-center justify-center group-hover:bg-gray-600 group-hover:w-5 group-hover:h-5 transition-all duration-300">
-              <img src={plus} alt="plus" />
-            </div>
+            {hasEvidenceImage ? (
+              <img
+                src={player.match_player_stats_evidence_img!}
+                alt="증거 이미지"
+                className="w-10 h-10 md:w-14 md:h-14 rounded-lg object-cover shadow-sm border-2 border-gray-400 group-hover:border-gray-600 group-hover:shadow-md transition-all duration-300"
+              />
+            ) : (
+              <div className="w-10 h-10 md:w-14 md:h-14 rounded-lg bg-gray-600 border-2 border-gray-500 flex items-center justify-center">
+                <img
+                  src={imageIcon}
+                  alt="기본 이미지"
+                  className="w-6 h-6 opacity-50"
+                />
+              </div>
+            )}
+            {/* '+' 뱃지 – 증거 이미지가 있을 때만 표시 */}
+            {hasEvidenceImage && (
+              <div className="absolute -top-1 -right-1 bg-gray-500 rounded-full w-4 h-4 flex items-center justify-center group-hover:bg-gray-600 group-hover:w-5 group-hover:h-5 transition-all duration-300">
+                <img src={plus} alt="plus" />
+              </div>
+            )}
           </div>
         </div>
       </td>
 
       {isModalOpen &&
+        hasEvidenceImage &&
         createPortal(
           <div
             className="fixed inset-0 z-10 bg-black/50 flex items-center justify-center"
@@ -144,7 +153,7 @@ const PlayerRow = (props: PlayerRowProps) => {
               onClick={(e) => e.stopPropagation()}>
               <div className="relative">
                 <img
-                  src={player.match_player_stats_evidence_img || ""}
+                  src={player.match_player_stats_evidence_img!}
                   alt="증거 이미지 확대"
                   className="max-h-[80vh] max-w-full object-contain"
                 />
