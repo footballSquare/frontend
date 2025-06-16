@@ -10,6 +10,7 @@ const usePostCreateChampionshipMatch = (
   serverState: Record<string, unknown> | null
 ] => {
   const [serverState, request] = useFetchData();
+  const [matchIdx, setMatchIdx] = React.useState<number | null>(null);
 
   const postCreateChampionshipMatch = async (
     championshipMatchForm: UsePostCreateChampionshipMatchProps
