@@ -5,7 +5,7 @@ const Welcome = () => {
   const navigate = useNavigate();
   const [isLogin] = useIsLogin();
   return (
-    <div className="flex min-h-screen">
+    <div className="flex h-full">
       <div className="flex flex-col">
         <p className=" font-bold text-6xl mt-[100px] text-white">
           MAKE ONLY

@@ -21,7 +21,7 @@ import Boards from "./Boards";
 const Page = () => {
   const [isLogin] = useIsLogin(); // accessToken 존재 여부 확인
   return (
-    <div className="w-full min-h-screen bg-gray-900 flex justify-center overflow-hidden">
+    <div className="w-full h-full bg-gray-900 flex justify-center overflow-auto">
       <Routes>
         <Route
           path="/"
