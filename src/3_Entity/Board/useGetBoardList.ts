@@ -16,10 +16,7 @@ const useGetBoardList = (
 
   React.useEffect(() => {
     if (!loading && serverState) {
-      setBoardList((prev) => [
-        ...prev,
-        ...(serverState as { board_list: Board[] }).board_list,
-      ]);
+      setBoardList((serverState as { board_list: Board[] }).board_list);
       setHasMoreContent(
         (serverState as { board_list: Board[] }).board_list.length >=
           ITEMS_PER_PAGE
