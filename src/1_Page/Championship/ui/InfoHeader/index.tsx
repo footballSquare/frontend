@@ -140,7 +140,7 @@ const InfoHeader = (props: InfoHeaderProps) => {
 
         {/* 모던한 접기/펼치기 버튼 */}
         {!isChampionshipEnd && (
-          <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 z-50">
+          <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2">
             <button
               onClick={toggleHeader}
               className="w-12 h-12 flex items-center justify-center text-lg rounded-full bg-gradient-to-r from-gray-700 to-gray-800 shadow-2xl hover:from-gray-600 hover:to-gray-700 text-white border-2 border-gray-600 transition-all duration-300 hover:scale-110 group cursor-pointer relative z-50"
