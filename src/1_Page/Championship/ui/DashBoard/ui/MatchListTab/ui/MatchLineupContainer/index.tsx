@@ -2,9 +2,7 @@ import React from "react";
 import FootballGroundSection from "./ui/FootballGroundSection";
 import VerticalTeamStatCards from "./ui/VerticalTeamStatCards";
 
-import useToggleState from "../../../../../../../../4_Shared/model/useToggleState";
 import useChampionshipInfoContext from "../../../../../../../../4_Shared/model/useChampionshipInfoContext";
-import { getTextColorFromBackground } from "../../../../../../../../4_Shared/lib/colorChecker";
 import useMatchModalStore from "../../../../../../../../4_Shared/zustand/useMatchModal";
 import { BUTTON_TEXT, ViewMode } from "./constant/tab";
 import VerticalPersonStatCards from "./ui/VerticalPersonStatCards";
@@ -19,10 +17,7 @@ const MatchLineupContainer = (props: MatchLineupContainerProps) => {
   const [evidenceImage] = useGetChampionshipEvidence(championshipMatchIdx);
   // championshipMatchIdx에 해당하는 증거 이미지 필터링
   const accentColor = championshipListColor || "#3b82f6";
-  const accentText = getTextColorFromBackground(accentColor);
 
-  // state
-  const [isFormationView, toggleIsFormationView] = useToggleState();
   const [viewMode, setViewMode] = React.useState<ViewMode>(ViewMode.Lineup);
 
   // zustand
@@ -141,38 +136,6 @@ const MatchLineupContainer = (props: MatchLineupContainerProps) => {
               <h2 className="text-xl font-bold mb-4 text-center">
                 매치 #{championshipMatchIdx} 라인업
               </h2>
-
-              {/* 모바일 토글 – 회색 / 활성 블루 */}
-              <div className="md:hidden flex justify-center gap-4 mb-4">
-                <button
-                  className={`px-4 py-2 border rounded `}
-                  style={
-                    isFormationView
-                      ? {
-                          backgroundColor: accentColor,
-                          borderColor: accentColor,
-                          color: accentText,
-                        }
-                      : undefined
-                  }
-                  onClick={toggleIsFormationView}>
-                  포메이션 보기
-                </button>
-                <button
-                  className={`px-4 py-2 border rounded `}
-                  style={
-                    !isFormationView
-                      ? {
-                          backgroundColor: accentColor,
-                          borderColor: accentColor,
-                          color: accentText,
-                        }
-                      : undefined
-                  }
-                  onClick={toggleIsFormationView}>
-                  라인업 보기
-                </button>
-              </div>
 
               <div className="flex flex-col md:flex-row flex-wrap justify-center gap-4">
                 {/* FotMob 스타일 통합 축구장 */}

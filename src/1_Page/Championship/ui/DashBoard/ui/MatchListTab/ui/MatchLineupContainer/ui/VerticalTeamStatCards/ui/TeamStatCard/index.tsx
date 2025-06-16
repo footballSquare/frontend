@@ -27,6 +27,9 @@ const TeamStatCard = (props: TeamStatCardProps) => {
   const [isEditing, toggleIsEditing] = useToggleState();
   const [myTeamRoleIdx] = useMyTeamRoleIdx();
   const [myTeamIdx] = useMyTeamIdx();
+  console.log("myTeamRoleIdx", myTeamRoleIdx);
+  console.log("myTeamIdx", myTeamIdx);
+  console.log("teamListIdx", teamListIdx);
   const isTeamLeader = myTeamRoleIdx === 0 && myTeamIdx === teamListIdx;
 
   const { methods, cancelEdit, setBackupTeamStats } = useTeamStatForm(
@@ -61,13 +64,15 @@ const TeamStatCard = (props: TeamStatCardProps) => {
 
   return (
     <div>
-      <div className="bg-gray-900 border border-gray-700 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
+      <div className="bg-gray-900/80 backdrop-blur-sm border border-gray-700/60 rounded-md overflow-hidden shadow-sm hover:shadow-md transition-all duration-200">
         {/* Header */}
-        <div className="px-6 py-4 border-b border-gray-700 bg-gradient-to-r from-gray-800 to-gray-900">
+        <div className="px-2 py-1.5 border-b border-gray-700/50 bg-gradient-to-r from-gray-800/80 to-gray-900/80">
           <div className="flex items-center justify-between">
-            <h3 className="text-xl font-bold text-grass">{teamName}</h3>
+            <h3 className="text-xs font-semibold text-grass truncate">
+              {teamName}
+            </h3>
             {!isEditing && (
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-0.5">
                 <StatEvidenceImgFormPanel
                   matchIdx={matchIdx}
                   defaultValues={evidenceUrls}
@@ -77,9 +82,9 @@ const TeamStatCard = (props: TeamStatCardProps) => {
                 {isTeamLeader && (
                   <button
                     onClick={toggleIsEditing}
-                    className="flex items-center gap-2 px-3 py-1.5 text-sm text-gray-300 border border-gray-600 rounded-md hover:bg-gray-800 hover:text-grass transition-colors">
-                    <img className="w-[15px] h-[15px]" src={editIcon} />
-                    수정
+                    className="flex items-center gap-0.5 px-1.5 py-0.5 text-[10px] text-gray-400 hover:text-grass transition-colors">
+                    <img className="w-[10px] h-[10px]" src={editIcon} />
+                    편집
                   </button>
                 )}
               </div>
@@ -88,26 +93,26 @@ const TeamStatCard = (props: TeamStatCardProps) => {
         </div>
 
         {/* Content */}
-        <div className="p-6">
+        <div className="p-2">
           {isEditing ? (
             /* Edit Mode */
             <FormProvider {...methods}>
-              <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+              <form onSubmit={handleSubmit(onSubmit)} className="space-y-2">
                 {/* Hidden input for MOM player idx */}
                 <input type="hidden" {...methods.register("mom_player_idx")} />
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-2 gap-2">
                   {statLabels.map(
                     ({ key, label, isPercentage, isMomField }) => (
-                      <div key={key} className="space-y-2">
-                        <label className="block text-sm font-medium text-gray-300">
+                      <div key={key} className="space-y-0.5">
+                        <label className="block text-[10px] font-medium text-gray-400">
                           {label}
                         </label>
                         {isMomField ? (
-                          <div className="flex items-center gap-2">
-                            <div className="flex-1 px-3 py-2 bg-gray-800 border border-gray-600 rounded-lg text-gray-200">
+                          <div className="flex items-center gap-0.5">
+                            <div className="flex-1 px-1.5 py-0.5 bg-gray-800/80 border border-gray-600/50 rounded text-[10px] text-gray-300">
                               {getCurrentMomPlayer()?.player_list_nickname ||
-                                "선택되지 않음"}
+                                "미선택"}
                             </div>
                             <MomSelectionModalPanel
                               teamPlayer={teamPlayer}
@@ -130,11 +135,11 @@ const TeamStatCard = (props: TeamStatCardProps) => {
                 </div>
 
                 {/* Action Buttons */}
-                <div className="flex gap-3 pt-6 border-t border-gray-700">
+                <div className="flex gap-1 pt-2 border-t border-gray-700/50">
                   <button
                     type="submit"
-                    className="flex items-center gap-2 px-4 py-2 bg-grass text-white rounded-lg hover:bg-grass/90 transition-colors font-medium shadow-md">
-                    <img className="w-[15px] h-[15px]" src={editIcon} />
+                    className="flex items-center gap-0.5 px-2 py-1 bg-grass/90 text-white rounded text-[10px] hover:bg-grass transition-colors font-medium">
+                    <img className="w-[10px] h-[10px]" src={editIcon} />
                     저장
                   </button>
                   <button
@@ -143,8 +148,8 @@ const TeamStatCard = (props: TeamStatCardProps) => {
                       cancelEdit();
                       toggleIsEditing();
                     }}
-                    className="flex items-center gap-2 px-4 py-2 text-gray-300 border border-gray-600 rounded-lg hover:bg-gray-800 transition-colors">
-                    <span>×</span> 취소
+                    className="flex items-center gap-0.5 px-2 py-1 text-gray-400 border border-gray-600/50 rounded text-[10px] hover:bg-gray-800/50 transition-colors">
+                    <span className="text-[8px]">×</span> 취소
                   </button>
                 </div>
               </form>
@@ -152,12 +157,12 @@ const TeamStatCard = (props: TeamStatCardProps) => {
           ) : (
             <FormProvider {...methods}>
               <div className="space-y-0">
-                <div className="grid gap-2">
+                <div className="grid grid-cols-2 gap-x-2 gap-y-0">
                   {statLabels.map(({ key, label, isPercentage }) => (
                     <div
                       key={key}
-                      className="flex items-center justify-between py-3 px-4 rounded-lg hover:bg-gray-800/60 transition-colors group">
-                      <span className="text-sm font-medium text-gray-300 group-hover:text-gray-200">
+                      className="flex items-center justify-between py-1 px-1 rounded hover:bg-gray-800/40 transition-colors group">
+                      <span className="text-[10px] font-medium text-gray-400 group-hover:text-gray-300 truncate pr-1">
                         {label}
                       </span>
                       <div className="inline-flex items-center">

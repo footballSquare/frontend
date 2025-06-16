@@ -7,7 +7,7 @@ import useSelectHandler from "../../model/useSelectHandler";
 import useGetChampionshipDetail from "../../../../../../3_Entity/Championship/useGetChampionshipDetail";
 import MatchLineupContainer from "./ui/MatchLineupContainer";
 import EmptySearchResult from "./ui/EmptySearchResult";
-import { getSelectedMatchTeams } from "../../lib/getSelectedMatchTeams";
+import { getSelectedMatchTeams } from "./lib/getSelectedMatchTeams";
 
 const MatchListTab = (props: MatchListTabProps) => {
   const { matchList, filteredTeamList, matchHandlers } = props;
@@ -24,6 +24,7 @@ const MatchListTab = (props: MatchListTabProps) => {
   const [championshipDetail] = useGetChampionshipDetail(
     selectChampionshipMatchIdx
   );
+  console.log("championshipDetail", championshipDetail);
 
   // admin
   const { isCommunityOperator, isCommunityManager } =

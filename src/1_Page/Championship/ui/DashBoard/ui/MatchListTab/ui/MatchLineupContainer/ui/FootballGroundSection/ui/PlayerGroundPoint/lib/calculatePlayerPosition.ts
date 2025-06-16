@@ -1,11 +1,9 @@
 import { formations } from "../../../../../../../../../../../../../2_Widget/MatchModal/constant/formation";
 
-export const calculatePlayerPosition = ({
-  formation,
-  playerPositionIdx,
-  index,
-  teamType,
-}: CalculatePositionProps): CalculatedPositionReturn => {
+export const calculatePlayerPosition = (
+  props: CalculatePositionProps
+): CalculatedPositionReturn => {
+  const { formation, playerPositionIdx, index, teamType } = props;
   const formationData = formations[formation || 0] || formations[0];
   let position: PositionData | undefined = formationData.find(
     (f: PositionData) => f.positionIdx === playerPositionIdx

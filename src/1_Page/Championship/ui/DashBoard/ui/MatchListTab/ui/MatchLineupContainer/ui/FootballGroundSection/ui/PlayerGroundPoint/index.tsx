@@ -29,7 +29,7 @@ const PlayerGroundPoint = (props: PlayerGroundPointProps) => {
       }}
       onClick={() => toggleTooltip()}>
       <div
-        className={`relative w-10 h-10 sm:w-12 sm:h-12 rounded-full border-3 transition-all duration-200 hover:scale-110 ${
+        className={`relative w-8 h-8 rounded-full border-2 transition-all duration-200 hover:scale-110 ${
           isMOM
             ? "bg-yellow-400 border-yellow-600 shadow-lg shadow-yellow-400/50"
             : "border-opacity-80"
@@ -44,17 +44,17 @@ const PlayerGroundPoint = (props: PlayerGroundPointProps) => {
 
         {/* MOM 아이콘 */}
         {isMOM && (
-          <div className="absolute -top-2 -right-2 w-7 h-7 sm:w-9 sm:h-9 bg-black rounded-full flex items-center justify-center border-2 border-orange-500">
-            <span className="text-orange-500 text-lg sm:text-xl">👑</span>
+          <div className="absolute -top-1 -right-1 w-5 h-5 bg-black rounded-full flex items-center justify-center border border-orange-500">
+            <span className="text-orange-500 text-sm">👑</span>
           </div>
         )}
 
         {/* 골 이모지 */}
         {(player.match_player_stats_goal || 0) > 0 && (
-          <div className="absolute -top-1 -left-1 w-4 h-4 sm:w-5 sm:h-5 bg-black rounded-full flex items-center justify-center border border-white">
+          <div className="absolute -top-0.5 -left-0.5 w-3 h-3 bg-black rounded-full flex items-center justify-center border border-white">
             <span className="text-white text-xs">⚽</span>
             {(player.match_player_stats_goal || 0) > 1 && (
-              <span className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full flex items-center justify-center text-white text-xs font-bold">
+              <span className="absolute -top-0.5 -right-0.5 w-2 h-2 bg-red-500 rounded-full flex items-center justify-center text-white text-xs font-bold">
                 {player.match_player_stats_goal}
               </span>
             )}
@@ -63,10 +63,10 @@ const PlayerGroundPoint = (props: PlayerGroundPointProps) => {
 
         {/* 어시스트 이모지 */}
         {(player.match_player_stats_assist || 0) > 0 && (
-          <div className="absolute -bottom-1 -right-1 w-4 h-4 sm:w-5 sm:h-5 bg-black rounded-full flex items-center justify-center border border-white">
+          <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-black rounded-full flex items-center justify-center border border-white">
             <span className="text-white text-xs">🎯</span>
             {(player.match_player_stats_assist || 0) > 1 && (
-              <span className="absolute -top-1 -right-1 w-3 h-3 bg-blue-500 rounded-full flex items-center justify-center text-white text-xs font-bold">
+              <span className="absolute -top-0.5 -right-0.5 w-2 h-2 bg-blue-500 rounded-full flex items-center justify-center text-white text-xs font-bold">
                 {player.match_player_stats_assist}
               </span>
             )}
@@ -76,7 +76,7 @@ const PlayerGroundPoint = (props: PlayerGroundPointProps) => {
 
       {/* 선수 정보 */}
       <div className="text-white text-xs font-medium text-center mt-1">
-        <div className="px-1 py-0.5 bg-black/50 rounded mb-1 max-w-[80px] truncate">
+        <div className="px-1 py-0.5 bg-black/50 rounded mb-1 max-w-[60px] truncate">
           {player.player_list_nickname || "선수명 없음"}
         </div>
         <div
