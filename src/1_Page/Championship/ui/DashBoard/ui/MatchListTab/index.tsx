@@ -81,7 +81,7 @@ const MatchListTab = (props: MatchListTabProps) => {
           {/* 헤더 */}
           <div className="p-6 border-b border-gray-700">
             <h2 className="text-2xl font-bold text-white flex items-center gap-3 mb-2">
-              <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center">
+              <div className="w-10 h-10 rounded-full flex items-center justify-center">
                 <span className="text-xl">⚽</span>
               </div>
               매치 목록
