@@ -8,7 +8,7 @@ const SignBtns = () => {
   const [isLogin] = useIsLogin();
   const [logout] = useLogout();
   return (
-    <div className="sm:flex hidden lg:text-base lg:max-w-[206px] max-w-[168px] text-xs gap-4 w-full">
+    <div className="sm:flex lg:text-base lg:max-w-[206px] max-w-[168px] text-xs gap-4 w-full">
       {!isLogin ? (
         <Button
           text={"Login"}

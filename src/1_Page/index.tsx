@@ -62,7 +62,7 @@ const Page = () => {
           element={<PostEdit />}
         />
         <Route path={`${PAGE_URI.TOPICS}`} element={<Boards />} />
-        <Route path="/test/chat" element={<ChatTesting/>}/>
+        <Route path="/test/chat" element={<ChatTesting />} />
       </Routes>
     </div>
   );
