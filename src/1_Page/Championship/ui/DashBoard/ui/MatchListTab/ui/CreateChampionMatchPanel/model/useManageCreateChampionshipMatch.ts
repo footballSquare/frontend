@@ -59,7 +59,14 @@ const usePostCreateChampionshipMatchHandler = (
       alert("매치 생성에 실패했습니다. 다시 시도해주세요.");
       postMatchIdxListRef.current = [];
     }
-  }, [idxList, loading, handleSyncMatchIdx, handleMatchSelect]);
+  }, [
+    idxList,
+    loading,
+    handleSyncMatchIdx,
+    handleMatchSelect,
+    handleBackToList,
+    handleDeleteMatch,
+  ]);
   return { handlePostCreateChampionshipMatch };
 };
 

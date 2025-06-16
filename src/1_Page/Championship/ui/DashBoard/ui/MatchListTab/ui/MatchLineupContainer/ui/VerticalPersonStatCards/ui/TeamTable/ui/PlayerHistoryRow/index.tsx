@@ -57,34 +57,36 @@ const PlayerHistoryRow = (props: PlayerHistoryRowProps) => {
       <tr
         onClick={toggleIsExpanded}
         className="cursor-pointer hover:bg-grass/10">
-        <td className="px-4 py-3 font-medium text-gray-100">
-          <div className="flex items-center gap-2">
+        <td className="px-3 py-4 text-base lg:px-4 lg:py-3 lg:text-sm font-semibold text-gray-100 lg:font-medium">
+          <div className="flex items-center gap-2 lg:gap-2">
             {highlight && (
-              <span className="text-lg">
+              <span className="text-lg lg:text-lg">
                 {isTopScorer && isTopAssist ? "👑" : isTopScorer ? "⚽" : "🎯"}
               </span>
             )}
             <span>{p.player_list_nickname}</span>
           </div>
           {isMine && (
-            <span className="ml-2 text-xs text-grass font-semibold">(나)</span>
+            <span className="ml-2 text-xs text-grass font-bold lg:text-xs lg:font-semibold">
+              (나)
+            </span>
           )}
         </td>
-        <td className="px-4 py-3">
+        <td className="px-3 py-4 text-base lg:px-4 lg:py-3 lg:text-sm">
           <span
-            className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium`}
+            className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold lg:px-2 lg:py-1 lg:text-xs lg:font-medium`}
             style={{
               color: getPositionColor(p.match_position_idx),
             }}>
             {matchPosition[p.match_position_idx]}
           </span>
         </td>
-        <td className="px-4 py-3 text-center text-gray-100">
+        <td className="px-3 py-4 text-base lg:px-4 lg:py-3 lg:text-sm text-center text-gray-100">
           <span className={isTopScorer ? "font-bold text-yellow-400" : ""}>
             {goals}
           </span>
         </td>
-        <td className="px-4 py-3 text-center text-gray-100">
+        <td className="px-3 py-4 text-base lg:px-4 lg:py-3 lg:text-sm text-center text-gray-100">
           <span className={isTopAssist ? "font-bold text-blue-400" : ""}>
             {assists}
           </span>
@@ -93,9 +95,9 @@ const PlayerHistoryRow = (props: PlayerHistoryRowProps) => {
 
       {isExpanded && (
         <tr className="bg-gray-800">
-          <td colSpan={4} className="p-4">
+          <td colSpan={4} className="p-3 lg:p-4">
             {/* 증빙자료와 편집 버튼 영역 - form 밖으로 이동 */}
-            <div className="flex justify-between items-center mb-4">
+            <div className="flex flex-col gap-4 md:flex-row md:justify-between md:items-center mb-5 lg:gap-4 lg:mb-6">
               {/* 증빙자료 모달 - 모든 사용자가 볼 수 있음 */}
               <div>
                 <StatEvidenceImgFormPanel
@@ -108,13 +110,13 @@ const PlayerHistoryRow = (props: PlayerHistoryRowProps) => {
 
               {/* 편집 버튼들 - 본인만 볼 수 있음 */}
               {isMine && (
-                <div className="flex gap-2">
+                <div className="flex gap-2 lg:gap-2">
                   {isEditing ? (
                     <div>
                       <button
                         type="button"
                         onClick={handleSubmit(onSubmit)}
-                        className="px-3 py-1.5 text-sm bg-grass text-gray-900 rounded-lg hover:bg-grass/90 transition-colors font-medium flex items-center gap-1">
+                        className="px-3 py-2 text-sm lg:px-3 lg:py-1.5 lg:text-sm bg-grass text-gray-900 rounded-lg hover:bg-grass/90 transition-colors font-semibold lg:font-medium flex items-center gap-1 lg:gap-1">
                         💾 저장
                       </button>
                       <button
@@ -123,7 +125,7 @@ const PlayerHistoryRow = (props: PlayerHistoryRowProps) => {
                           cancelEdit();
                           toggleIsEditing();
                         }}
-                        className="px-3 py-1.5 text-sm text-gray-300 border border-gray-600 rounded-lg hover:bg-gray-700 transition-colors flex items-center gap-1">
+                        className="px-3 py-2 text-sm lg:px-3 lg:py-1.5 lg:text-sm text-gray-300 border border-gray-600 rounded-lg hover:bg-gray-700 transition-colors flex items-center gap-1 lg:gap-1">
                         ✖ 취소
                       </button>
                     </div>
@@ -131,7 +133,7 @@ const PlayerHistoryRow = (props: PlayerHistoryRowProps) => {
                     <button
                       type="button"
                       onClick={toggleIsEditing}
-                      className="px-3 py-1.5 text-sm text-gray-300 border border-gray-600 rounded-lg hover:bg-gray-700 hover:text-grass transition-colors flex items-center gap-1">
+                      className="px-3 py-2 text-sm lg:px-3 lg:py-1.5 lg:text-sm text-gray-300 border border-gray-600 rounded-lg hover:bg-gray-700 hover:text-grass transition-colors flex items-center gap-1 lg:gap-1">
                       ✏ 수정
                     </button>
                   )}
@@ -141,9 +143,11 @@ const PlayerHistoryRow = (props: PlayerHistoryRowProps) => {
 
             {/* 공격 스탯 + 성공률 */}
             <form onSubmit={handleSubmit(onSubmit)}>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-3">
-                  <h4 className="font-semibold text-gray-100">공격 스탯</h4>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-4">
+                <div className="space-y-3 lg:space-y-3">
+                  <h4 className="font-bold text-gray-100 text-base lg:font-semibold lg:text-base">
+                    공격 스탯
+                  </h4>
                   {attackStats.map(({ key, label }) => (
                     <PlayerStatsDetailInput
                       key={key}
@@ -156,8 +160,8 @@ const PlayerHistoryRow = (props: PlayerHistoryRowProps) => {
                     </PlayerStatsDetailInput>
                   ))}
                 </div>
-                <div className="space-y-3">
-                  <h4 className="font-semibold text-gray-100">
+                <div className="space-y-3 lg:space-y-3">
+                  <h4 className="font-bold text-gray-100 text-base lg:font-semibold lg:text-base">
                     성공률 · 점유율
                   </h4>
                   {rateStats.map(({ key, label, keeperOnly }) =>
