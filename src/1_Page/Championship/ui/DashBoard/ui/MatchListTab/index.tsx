@@ -55,9 +55,6 @@ const MatchListTab = (props: MatchListTabProps) => {
               </button>
               <div>
                 <h2 className="text-2xl font-bold text-white flex items-center gap-3">
-                  <div className="w-10 h-10 bg-green-600 rounded-full flex items-center justify-center">
-                    <span className="text-xl">📊</span>
-                  </div>
                   매치 상세 정보
                 </h2>
                 <p className="text-gray-400 mt-1">
