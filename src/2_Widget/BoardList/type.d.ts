@@ -1,3 +1,0 @@
-type BoardListProps = {
-  category: number;
-}
