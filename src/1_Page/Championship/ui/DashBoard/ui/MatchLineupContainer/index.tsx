@@ -186,30 +186,12 @@ const MatchLineupContainer = (props: MatchLineupContainerProps) => {
               </div>
 
               <div className="flex flex-col md:flex-row flex-wrap justify-center gap-4">
-                <FootballGroundSection
-                  teamFormation={
-                    championshipDetail?.match_info?.first_match_formation_idx ||
-                    0
-                  }
-                  momPlayerIdx={
-                    championshipDetail?.first_team?.stats?.mom_player_idx
-                  }
-                  players={championshipDetail?.first_team?.player_stats}
-                  isFirstTeam={true}
-                  isFormationView={isFormationView}
-                />
-                <FootballGroundSection
-                  teamFormation={
-                    championshipDetail?.match_info
-                      ?.second_match_formation_idx || 0
-                  }
-                  momPlayerIdx={
-                    championshipDetail?.second_team?.stats?.mom_player_idx
-                  }
-                  players={championshipDetail?.second_team?.player_stats}
-                  isFirstTeam={false}
-                  isFormationView={isFormationView}
-                />
+                {/* FotMob 스타일 통합 축구장 */}
+                <div className="w-full max-w-4xl mx-auto">
+                  <FootballGroundSection
+                    championshipDetail={championshipDetail}
+                  />
+                </div>
               </div>
             </div>
           )}
