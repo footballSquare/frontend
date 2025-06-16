@@ -13,11 +13,6 @@ const useSelectHandler = (
         matchData.championship_match_idx === selectChampionshipMatchIdx
     )?.championship_match_first.match_match_idx ?? 0;
 
-  React.useEffect(() => {
-    if (matchList.length === 0) return;
-    setSelectedIdx(matchList[0].championship_match_idx);
-  }, [matchList]);
-
   // 매치 선택 및 상세 보기로 전환하는 핸들러
   const handleMatchSelect = React.useCallback(
     (championshipMatchIdx: number) => {

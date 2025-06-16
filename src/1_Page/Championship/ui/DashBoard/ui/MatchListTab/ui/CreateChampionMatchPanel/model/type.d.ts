@@ -8,6 +8,8 @@ type UseManageCreateChampionshipMatchProps = {
     secondMatchIdx: number
   ) => void;
   handleMatchSelect: (matchIdx: number) => void;
+  handleBackToList: () => void;
+  handleDeleteMatch: (matchIdx: number) => void;
 };
 
 type UsePostCreateChampionshipMatchHandlerReturn = {

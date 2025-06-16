@@ -114,9 +114,11 @@ const MatchListTab = (props: MatchListTabProps) => {
           {(isCommunityOperator || isCommunityManager) && (
             <div className="p-6">
               <CreateChampionMatchPanel
+                handleBackToList={handleBackToList}
                 handleMatchSelect={handleMatchSelect}
                 handleAddMatch={matchHandlers.handleAddMatch}
                 handleSyncMatchIdx={matchHandlers.handleSyncMatchIdx}
+                handleDeleteMatch={matchHandlers.handleDeleteMatch}
                 filteredTeamList={filteredTeamList}
               />
             </div>

@@ -1,12 +1,15 @@
 type CreateChampionMatchPanelProps = {
+  handleBackToList: () => void;
   filteredTeamList: ChampionshipTeamInfo[];
   handleAddMatch: (match: ChampionshipMatchList) => void;
   handleSyncMatchIdx: (
     dummyChampMatchIdx: number,
     realChampMatchIdx: number,
-    realMatchIdx: number
+    firstTeamIdx: number,
+    secondTeamIdx: number
   ) => void;
   handleMatchSelect: (idx: number) => void;
+  handleDeleteMatch: (idx: number) => void;
 };
 
 type CreateChampionMatchFormValues = {

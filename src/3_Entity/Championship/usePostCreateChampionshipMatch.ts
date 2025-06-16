@@ -6,18 +6,18 @@ const usePostCreateChampionshipMatch = (
 ): [
   postCreateChampionshipMatch: (
     championshipMatchForm: UsePostCreateChampionshipMatchProps
-  ) => Promise<number | undefined>,
+  ) => void,
   idxList: number[],
   loading: boolean
 ] => {
   const [serverState, request, loading] = useFetchData();
   const [idxList, setIdxList] = React.useState<number[]>([]);
-  const postCreateChampionshipMatch = async (
+
+  const postCreateChampionshipMatch = (
     championshipMatchForm: UsePostCreateChampionshipMatchProps
   ) => {
     const endPoint = `/championship/${championshipListIdx}/championship_match`;
-    const result = await request("POST", endPoint, championshipMatchForm, true);
-    return result;
+    request("POST", endPoint, championshipMatchForm, true);
   };
 
   React.useEffect(() => {
@@ -30,12 +30,11 @@ const usePostCreateChampionshipMatch = (
             second_match_idx: number;
             championship_match_idx: number;
           };
-
         setIdxList([first_match_idx, second_match_idx, championship_match_idx]);
         break;
       }
       default:
-        console.log("알 수 없는 상태:", serverState.status);
+        console.log("Unknown status in serverState:", serverState.status);
     }
   }, [serverState]);
 
