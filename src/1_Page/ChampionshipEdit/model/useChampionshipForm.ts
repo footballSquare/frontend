@@ -24,13 +24,14 @@ const useChanpionshipForm = (props: UseChanpionshipFormProps) => {
   const [postChampionship] = usePostChampionship(communityIdx);
   const [putChampionship] = usePutChampionship(communityIdx);
 
-  // edit 모드인 경우 championshipIdx는 0으로 설정해 데이터 요청하지 않는다
+  // edit 모드가 아닌 경우 championshipIdx는 0으로 설정해 데이터를 요청하지 않는다
   const [searchParams] = useSearchParams();
   const championshipIdx = isEditMode
-    ? 0
-    : Number(searchParams.get("championshipIdx") ?? 0);
+    ? Number(searchParams.get("championshipIdx") ?? 0)
+    : 0;
   const [championshipEndData] = useGetChampionshipEndData(championshipIdx);
   const [championshipInfo] = useGetChampionshipInfo(championshipIdx);
+
   React.useEffect(() => {
     if (
       !championshipInfo ||
