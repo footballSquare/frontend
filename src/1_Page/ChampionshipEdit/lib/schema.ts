@@ -44,7 +44,7 @@ export const schema = Yup.object().shape({
         championship_award_name: Yup.string()
           .max(50, "수상명은 최대 50글자까지 입력 가능합니다.")
           .required("수상명을 입력해주세요."),
-        file: Yup.mixed<File>()
+        files: Yup.mixed<File>()
           .required("이미지를 선택해주세요.")
           .test("fileType", "JPG, PNG, SVG 형식만 가능합니다.", (value) => {
             return isFileExtension(value);
