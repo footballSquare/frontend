@@ -10,7 +10,6 @@ import BasicTab from "./ui/BasicTab";
 import DateTab from "./ui/DateTab";
 
 import { championshipTypes } from "../../4_Shared/constant/championshipTypes";
-import EditRequest from "./ui/EditRequest";
 import { calculateProgress } from "./lib/calculateProgress";
 import { getTextColorFromBackground } from "../../4_Shared/lib/colorChecker";
 import useChanpionshipForm from "./model/useChampionshipForm";
@@ -34,7 +33,7 @@ const ChampionshipForm = () => {
     setActiveTab,
   });
 
-  const { handleSubmit, control, watch, reset } = method;
+  const { handleSubmit, control, watch } = method;
   const { fields, append, remove } = useFieldArray({
     name: "championship_award",
     control,
@@ -155,8 +154,6 @@ const ChampionshipForm = () => {
 
         {/* 메인 컨텐츠 */}
         <div className="flex-1">
-          {isEditMode && <EditRequest reset={reset} />}
-
           {/* 모바일 헤더 */}
           <div
             className="lg:hidden p-6 relative rounded-t-xl"
