@@ -1,0 +1,3 @@
+type EmptySearchResultProps = {
+  searchTerm?: string;
+};

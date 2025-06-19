@@ -108,7 +108,8 @@ const useManageMatchList = (
     (
       dummyChampMatchIdx: number,
       realChampMatchIdx: number,
-      realMatchIdx: number
+      firstMatchIdx: number,
+      secondMatchIdx: number
     ) => {
       setDisplayMatchList((prev) =>
         prev.map((match) => {
@@ -119,11 +120,11 @@ const useManageMatchList = (
             championship_match_idx: realChampMatchIdx,
             championship_match_first: {
               ...match.championship_match_first,
-              match_match_idx: realMatchIdx,
+              match_match_idx: firstMatchIdx,
             },
             championship_match_second: {
               ...match.championship_match_second,
-              match_match_idx: realMatchIdx,
+              match_match_idx: secondMatchIdx,
             },
           };
         })
@@ -138,11 +139,11 @@ const useManageMatchList = (
           championship_match_idx: realChampMatchIdx,
           championship_match_first: {
             ...backup.championship_match_first,
-            match_match_idx: realMatchIdx,
+            match_match_idx: firstMatchIdx,
           },
           championship_match_second: {
             ...backup.championship_match_second,
-            match_match_idx: realMatchIdx,
+            match_match_idx: secondMatchIdx,
           },
         });
       }

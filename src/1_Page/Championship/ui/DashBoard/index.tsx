@@ -1,9 +1,8 @@
 import React from "react";
 import LeagueBracket from "./ui/LeagueBracket";
 import TournamentBracket from "./ui/TournamentBracket";
-import ChampionshipMatchCardContainer from "./ui/ChampionshipMatchCardContainer";
+import MatchListTab from "./ui/MatchListTab";
 import TeamListPanel from "./ui/TeamListPanel";
-import MatchLineupContainer from "./ui/MatchLineupContainer";
 
 import useManageMatchList from "./model/useManageMatchList";
 import { convertToMatchData } from "./lib/convertToMatchData";
@@ -11,8 +10,6 @@ import { ACTIVE_TAB, activeTabList } from "./constant/activeTab";
 import useGetChampionshipTeams from "../../../../3_Entity/Championship/useGetChampionshipTeams";
 import useGetChampionshipMatchList from "../../../../3_Entity/Championship/useGetChampionshipMatchList";
 import useParamInteger from "../../../../4_Shared/model/useParamInteger";
-import useSelectHandler from "./model/useSelectHandler";
-import useGetChampionshipDetail from "../../../../3_Entity/Championship/useGetChampionshipDetail";
 import PlayerTab from "./ui/PlayerTab";
 import useChampionshipInfoContext from "../../../../4_Shared/model/useChampionshipInfoContext";
 
@@ -28,12 +25,6 @@ const DashBoard = (props: DashBoardProps) => {
 
   // state
   const [activeTab, setActiveTab] = React.useState(ACTIVE_TAB.PLAYERS);
-  const [
-    selectChampionshipMatchIdx,
-    selectMatchIdx,
-    selectedTeams,
-    handleSelect,
-  ] = useSelectHandler(matchList);
 
   // optimistic state
   const [displayMatchList, matchHandlers] = useManageMatchList(matchList);
@@ -46,13 +37,9 @@ const DashBoard = (props: DashBoardProps) => {
     );
   }, [displayMatchList, teamList, championship_type_idx, isLeague]);
 
-  // api 이미 호출된 idx는 캐싱을 통해 데이터 최적화
-  const [championshipDetail] = useGetChampionshipDetail(
-    selectChampionshipMatchIdx
-  );
-
   return (
     <div className="w-full p-4 bg-gray-900 text-gray-100 min-h-screen">
+      {/* 대시보드 상단바 */}
       <nav className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
         <div className="flex overflow-x-auto space-x-2 p-2 rounded-md scrollbar-hide">
           {activeTabList.map(({ id, label }) => (
@@ -73,6 +60,7 @@ const DashBoard = (props: DashBoardProps) => {
             </button>
           ))}
         </div>
+        {/* 참가 팀 보기 패널 */}
         <TeamListPanel teamList={teamList} />
       </nav>
 
@@ -107,25 +95,12 @@ const DashBoard = (props: DashBoardProps) => {
 
         {/* 매치 목록 탭  */}
         {activeTab === ACTIVE_TAB.MATCHES && (
-          <section className="w-full mx-auto flex flex-col md:flex-row gap-4">
-            {/* 매치 결과 리스트 (좌측) */}
-            <ChampionshipMatchCardContainer
-              selectedIdx={selectChampionshipMatchIdx}
+          <section className="w-full mx-auto bg-gray-800 rounded-lg shadow-md">
+            <MatchListTab
               matchList={displayMatchList}
               filteredTeamList={filteredTeamList}
               matchHandlers={matchHandlers}
-              handleSelect={handleSelect}
             />
-
-            {/* MatchLineup (반응형 적용) */}
-            <div className="flex-1 min-h-[500px] bg-gray-800 rounded-lg shadow-md p-4 overflow-hidden">
-              <MatchLineupContainer
-                championshipMatchIdx={selectChampionshipMatchIdx}
-                matchIdx={selectMatchIdx}
-                selectedTeams={selectedTeams}
-                championshipDetail={championshipDetail}
-              />
-            </div>
           </section>
         )}
       </main>
