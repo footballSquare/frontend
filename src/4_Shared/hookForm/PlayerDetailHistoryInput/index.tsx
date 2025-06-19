@@ -12,7 +12,6 @@ const PlayerStatsDetailInput = (props: PlayerStatsDetailInputProps) => {
 
   // children이 React 요소인지 확인
   const isChildrenReactElement = React.isValidElement(children);
-  const defaultValue = isChildrenReactElement ? undefined : children;
 
   return (
     <div className="flex flex-col gap-1 text-sm">
@@ -28,7 +27,6 @@ const PlayerStatsDetailInput = (props: PlayerStatsDetailInputProps) => {
             className={isEditing ? editingInputCls : readOnlyInputCls}
             min="0"
             readOnly={!isEditing}
-            defaultValue={defaultValue}
             {...register(name, {
               valueAsNumber: true,
               min: { value: 0, message: "0 이상의 값을 입력해주세요" },
