@@ -461,7 +461,7 @@ const ProfileContent = ({ userInfo }: { userInfo: UserInfo }) => {
                   className={`w-full p-3 rounded-xl transition-all duration-200 ${
                     activeTab === tab.id
                       ? "bg-grass text-white shadow-lg"
-                      : "text-slate-400 hover:text-white hover:bg-grass hover:bg-opacity-30"
+                      : "text-slate-400 hover:text-white hover:bg-grass/30"
                   }`}>
                   <div className="text-sm font-medium">{tab.label}</div>
                 </button>
