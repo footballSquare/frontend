@@ -15,7 +15,7 @@ export const convertToAPIChampionship = (
   } = formDataInput;
 
   // 각각의 award의 파일과 트로피 이미지를 배열에 담습니다.
-  const awardFileList = championship_award.map((award) => award.files);
+  const awardFileList = championship_award.map((award) => award.file);
   const files = [championship_trophy_img, ...awardFileList];
 
   // 새로운 FormData 객체를 생성
@@ -74,7 +74,7 @@ export const convertToChampionshipForm = (
         championship_award_name: award.championship_award_name,
         championship_award_throphy_image:
           award.championship_award_throphy_image,
-        files: null as unknown as File, // TODO: Award image file 변환 로직 추가
+        file: null as unknown as File, // TODO: Award image file 변환 로직 추가
       };
     }),
 

@@ -11,7 +11,7 @@ const AwardRow = (props: AwardRowProps) => {
 
   const selectedFile = useWatch({
     control,
-    name: `championship_award.${index}.files`,
+    name: `championship_award.${index}.file`,
   });
   const filePreview = React.useMemo(
     () => imgConverter(selectedFile),
@@ -53,11 +53,11 @@ const AwardRow = (props: AwardRowProps) => {
           type="file"
           accept="image/*"
           className="hidden"
-          {...register(`championship_award.${index}.files` as const, {
+          {...register(`championship_award.${index}.file` as const, {
             onChange: (e) => {
               const file = e.target.files?.[0];
               if (file) {
-                setValue(`championship_award.${index}.files`, file, {
+                setValue(`championship_award.${index}.file`, file, {
                   shouldValidate: true,
                 });
               }

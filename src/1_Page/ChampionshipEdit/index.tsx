@@ -21,7 +21,7 @@ import awardIcon from "../../4_Shared/assets/svg/award.svg";
 import calendarIcon from "../../4_Shared/assets/svg/calendar.svg";
 import chevronRightIcon from "../../4_Shared/assets/svg/chevron-right.svg";
 
-const ChampionshipForm = () => {
+const ChampionshipEdit = () => {
   const { isEditMode, communityIdx } = useManageSearchParam();
 
   const [activeTab, setActiveTab] = React.useState<ChampionshipEditTab>(
@@ -32,7 +32,6 @@ const ChampionshipForm = () => {
     communityIdx,
     setActiveTab,
   });
-
   const { handleSubmit, control, watch } = method;
   const { fields, append, remove } = useFieldArray({
     name: "championship_award",
@@ -362,4 +361,4 @@ const ChampionshipForm = () => {
   );
 };
 
-export default ChampionshipForm;
+export default ChampionshipEdit;

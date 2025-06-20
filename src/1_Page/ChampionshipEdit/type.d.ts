@@ -4,7 +4,7 @@ type Award = {
 
 type AwardForm = {
   championship_award_name: string;
-  files: File;
+  file: File;
 };
 
 // 수정된 ChampionshipFormValues 타입

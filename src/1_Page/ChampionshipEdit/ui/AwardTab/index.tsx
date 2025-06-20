@@ -15,7 +15,7 @@ const AwardTab = (props: AwartTabProps) => {
         <button
           type="button"
           onClick={() =>
-            append({ championship_award_name: "", files: undefined })
+            append({ championship_award_name: "", file: undefined })
           }
           className="flex items-center text-sm font-medium text-blue-600 hover:text-blue-700 transition">
           <img src={plus} alt="추가 아이콘" className="h-4 w-4 mr-1" />
@@ -50,9 +50,9 @@ const AwardTab = (props: AwartTabProps) => {
               }
             </p>
           )}
-          {errors.championship_award[0]?.files && (
+          {errors.championship_award[0]?.file && (
             <p className="text-red-500 text-sm mt-1">
-              {errors.championship_award[0].files?.message as string}
+              {errors.championship_award[0].file?.message as string}
             </p>
           )}
         </div>
