@@ -1,7 +1,14 @@
 type PostSignInProps = {
   id: string;
   password: string;
+  signInPersist?: boolean;
+  deviceUUID?: string;
 };
+
+type UseGetDiscordOAuthUrlProps = {
+  signInPersist: boolean;
+  deviceUUID: string;
+}
 
 type UsePutUserInfoProps = {
   nickname: string;

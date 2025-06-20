@@ -7,20 +7,23 @@ import { useNavigate } from "react-router-dom";
 const usePostSignIn = (): [(props: PostSignInProps) => void] => {
   const [serverState, request, loading] = useFetchData();
   const { login } = useAuthStore();
+  const [, setCookie] = useCookies(["access_token", "access_token_temporary"]);
+  const navigate = useNavigate();
+
   const postSignIn = (props: PostSignInProps) => {
-    const { id, password } = props;
+    const { id, password, signInPersist, deviceUUID } = props;
     request(
       "POST",
       `/account/signin`,
       {
         id: id,
         password: password,
+        persistent: signInPersist,
+        device_uuid: deviceUUID,
       },
       false
     );
   };
-  const [, setCookie] = useCookies(["access_token", "access_token_temporary"]);
-  const navigate = useNavigate();
 
   React.useEffect(() => {
     if (!loading && serverState) {
