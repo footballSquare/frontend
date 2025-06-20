@@ -1,4 +1,4 @@
-import usePutUserInfo from "../../../../../3_Entity/Account/usePutUserInfo";
+import usePutUserInfo from "../../../3_Entity/Account/usePutUserInfo";
 
 const usePutUserInfoHandler = (
   props: UseManageServerStateProps
