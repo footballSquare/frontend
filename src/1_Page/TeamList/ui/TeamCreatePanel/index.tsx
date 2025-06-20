@@ -11,7 +11,7 @@ const TeamCreatePanel = () => {
   return (
     <div>
       <div
-        className="bg-gray-800 hover:bg-gray-700 rounded-xl p-4 flex items-center justify-between active:bg-gray-700 transition-colors"
+        className="cursor-pointer bg-gray-800 hover:bg-gray-700 rounded-xl p-4 flex items-center justify-between active:bg-gray-700 transition-colors"
         onClick={() => {
           if (teamIdx) {
             alert("팀 생성은 팀이 없는 상태에서만 가능합니다.");
