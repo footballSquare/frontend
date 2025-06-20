@@ -21,10 +21,9 @@ export const convertToAPIChampionship = (
   // 새로운 FormData 객체를 생성
   const formData = new FormData();
 
-  console.log("files", files);
   // 파일들을 append: 백엔드가 "file" 키로 여러 파일을 받도록 구성되어 있다면
   files.forEach((file) => {
-    formData.append("files", file);
+    formData.append("file", file);
   });
 
   // 텍스트/숫자/날짜 필드들도 FormData에 추가
