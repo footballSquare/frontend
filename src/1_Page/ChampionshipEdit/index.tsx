@@ -1,47 +1,38 @@
-import {
-  useForm,
-  SubmitHandler,
-  useFieldArray,
-  FormProvider,
-  SubmitErrorHandler,
-} from "react-hook-form";
+import { useFieldArray, FormProvider } from "react-hook-form";
 import React from "react";
-import { yupResolver } from "@hookform/resolvers/yup";
 import { matchCount } from "../../4_Shared/constant/matchCount";
 import { CHAMPIONSHIP_EDIT_TAB } from "./constant/tab";
-import { defaultValues, schema } from "./lib/schema";
-import { errorTabDetector } from "./lib/errors";
 import useManageSearchParam from "./lib/useManageSearchParam";
-import { convertToAPIChampionship } from "./util/convert";
 
 import TeamTab from "./ui/TeamTab";
 import AwardTab from "./ui/AwardTab";
 import BasicTab from "./ui/BasicTab";
 import DateTab from "./ui/DateTab";
 
-import usePostChampionship from "../../3_Entity/Community/usePostChampionship";
-import usePutChampionship from "../../3_Entity/Community/usePutChampionship";
 import { championshipTypes } from "../../4_Shared/constant/championshipTypes";
-import EditRequest from "./ui/EditRequest";
 import { calculateProgress } from "./lib/calculateProgress";
 import { getTextColorFromBackground } from "../../4_Shared/lib/colorChecker";
+import useChanpionshipForm from "./model/useChampionshipForm";
 
-const ChampionshipForm = () => {
+// SVG 아이콘 imports
+import menuLinesIcon from "../../4_Shared/assets/svg/menu-lines.svg";
+import usersGroupIcon from "../../4_Shared/assets/svg/users-group.svg";
+import awardIcon from "../../4_Shared/assets/svg/award.svg";
+import calendarIcon from "../../4_Shared/assets/svg/calendar.svg";
+import chevronRightIcon from "../../4_Shared/assets/svg/chevron-right.svg";
+
+const ChampionshipEdit = () => {
   const { isEditMode, communityIdx } = useManageSearchParam();
-
-  const [postChampionship] = usePostChampionship(communityIdx);
-  const [putChampionship] = usePutChampionship(communityIdx);
 
   const [activeTab, setActiveTab] = React.useState<ChampionshipEditTab>(
     CHAMPIONSHIP_EDIT_TAB.BASIC
   );
-
-  const method = useForm<ChampionshipFormValues>({
-    resolver: yupResolver(schema),
-    defaultValues,
+  const { method, onValid, onInvalid } = useChanpionshipForm({
+    isEditMode,
+    communityIdx,
+    setActiveTab,
   });
-  const { handleSubmit, control, watch, reset } = method;
-
+  const { handleSubmit, control, watch } = method;
   const { fields, append, remove } = useFieldArray({
     name: "championship_award",
     control,
@@ -51,26 +42,7 @@ const ChampionshipForm = () => {
   const championshipColor = watch("championship_list_color");
   const textColor = getTextColorFromBackground(championshipColor || "#1e293b");
   const teamsSelected = watch("participation_team_idxs");
-
   const progress = calculateProgress(watch, fields);
-
-  // 성공 시 처리
-  const onValid: SubmitHandler<ChampionshipFormValues> = (data) => {
-    const body = convertToAPIChampionship(data);
-    if (isEditMode) {
-      putChampionship(body);
-    } else {
-      postChampionship(body);
-    }
-  };
-
-  // 에러 발생 시 해당 에러 탭으로 이동
-  const onInvalid: SubmitErrorHandler<ChampionshipFormValues> = (errors) => {
-    const errorLocation = errorTabDetector(errors);
-    if (errorLocation) {
-      setActiveTab(errorLocation);
-    }
-  };
 
   return (
     <div className="flex justify-center items-start w-full min-h-screen bg-gray-950 py-8 px-4">
@@ -121,37 +93,21 @@ const ChampionshipForm = () => {
                 }>
                 {tab === CHAMPIONSHIP_EDIT_TAB.BASIC && (
                   <>
-                    <svg
+                    <img
+                      src={menuLinesIcon}
+                      alt="기본 정보"
                       className="w-5 h-5"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg">
-                      <path
-                        d="M4 6H20M4 12H20M4 18H12"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
+                    />
                     <span>기본 정보</span>
                   </>
                 )}
                 {tab === CHAMPIONSHIP_EDIT_TAB.TEAMS && (
                   <>
-                    <svg
+                    <img
+                      src={usersGroupIcon}
+                      alt="참가 팀"
                       className="w-5 h-5"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg">
-                      <path
-                        d="M17 20H22V18C22 16.3431 20.6569 15 19 15C18.0444 15 17.1931 15.4468 16.6438 16.1429M17 20H7M17 20V18C17 17.3438 16.8736 16.717 16.6438 16.1429M16.6438 16.1429C15.6563 14.4149 13.9568 13.2941 12 13.2941C10.0432 13.2941 8.34369 14.4149 7.35621 16.1429M7 20H2V18C2 16.3431 3.34315 15 5 15C5.95561 15 6.80686 15.4468 7.35621 16.1429M15 7C15 8.65685 13.6569 10 12 10C10.3431 10 9 8.65685 9 7C9 5.34315 10.3431 4 12 4C13.6569 4 15 5.34315 15 7ZM21 10C21 11.1046 20.1046 12 19 12C17.8954 12 17 11.1046 17 10C17 8.89543 17.8954 8 19 8C20.1046 8 21 8.89543 21 10ZM7 10C7 11.1046 6.10457 12 5 12C3.89543 12 3 11.1046 3 10C3 8.89543 3.89543 8 5 8C6.10457 8 7 8.89543 7 10Z"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
+                    />
                     <span>
                       참가 팀 ({teamsSelected.length}/
                       {matchCount[championshipType] || "?"})
@@ -160,44 +116,17 @@ const ChampionshipForm = () => {
                 )}
                 {tab === CHAMPIONSHIP_EDIT_TAB.AWARDS && (
                   <>
-                    <svg
-                      className="w-5 h-5"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg">
-                      <path
-                        d="M12 15C8.8299 15 6.01546 16.5306 4.52354 18.8765C4.17087 19.4642 4 20.1174 4 20.7864V22H20V20.7864C20 20.1174 19.8291 19.4642 19.4765 18.8765C17.9845 16.5306 15.1701 15 12 15Z"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                      <path
-                        d="M12 12C14.7614 12 17 9.76142 17 7V6C17 3.23858 14.7614 1 12 1C9.23858 1 7 3.23858 7 6V7C7 9.76142 9.23858 12 12 12Z"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
+                    <img src={awardIcon} alt="수상 항목" className="w-5 h-5" />
                     <span>수상 항목 ({fields.length})</span>
                   </>
                 )}
                 {tab === CHAMPIONSHIP_EDIT_TAB.DATES && (
                   <>
-                    <svg
+                    <img
+                      src={calendarIcon}
+                      alt="일정 및 설정"
                       className="w-5 h-5"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg">
-                      <path
-                        d="M8 7V3M16 7V3M7 11H17M5 21H19C20.1046 21 21 20.1046 21 19V7C21 5.89543 20.1046 5 19 5H5C3.89543 5 3 5.89543 3 7V19C3 20.1046 3.89543 21 5 21Z"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
+                    />
                     <span>일정 및 설정</span>
                   </>
                 )}
@@ -224,8 +153,6 @@ const ChampionshipForm = () => {
 
         {/* 메인 컨텐츠 */}
         <div className="flex-1">
-          {isEditMode && <EditRequest reset={reset} />}
-
           {/* 모바일 헤더 */}
           <div
             className="lg:hidden p-6 relative rounded-t-xl"
@@ -334,19 +261,11 @@ const ChampionshipForm = () => {
                       }}
                       className="px-6 py-2.5 text-white font-medium rounded-lg hover:opacity-90 transition flex items-center">
                       다음: 참가 팀 선택
-                      <svg
+                      <img
+                        src={chevronRightIcon}
+                        alt="다음"
                         className="w-4 h-4 ml-2"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path
-                          d="M9 6L15 12L9 18"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
+                      />
                     </button>
                   </div>
                 </div>
@@ -442,4 +361,4 @@ const ChampionshipForm = () => {
   );
 };
 
-export default ChampionshipForm;
+export default ChampionshipEdit;

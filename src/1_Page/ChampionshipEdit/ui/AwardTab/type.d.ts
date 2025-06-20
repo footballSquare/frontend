@@ -1,16 +1,9 @@
-type AwardField = {
-  championship_award_name: string;
-  file?: File;
-};
 type AwartTabProps = {
   fields: FieldArrayWithId<
     ChampionshipFormValues,
-    "championship_award_name",
+    "championship_award",
     "id"
   >[];
-  append: UseFieldArrayAppend<
-    ChampionshipFormValues,
-    "championship_award_name"
-  >;
+  append: UseFieldArrayAppend<ChampionshipFormValues, "championship_award">;
   remove: UseFieldArrayRemove;
 };
