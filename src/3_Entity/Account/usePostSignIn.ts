@@ -15,12 +15,17 @@ const usePostSignIn = (): [(props: PostSignInProps) => void] => {
     request(
       "POST",
       `/account/signin`,
-      {
-        id: id,
-        password: password,
-        persistent: signInPersist,
-        device_uuid: deviceUUID,
-      },
+      signInPersist
+        ? {
+            id: id,
+            password: password,
+            persistent: signInPersist,
+            device_uuid: deviceUUID,
+          }
+        : {
+            id: id,
+            password: password,
+          },
       false
     );
   };

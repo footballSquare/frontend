@@ -13,7 +13,9 @@ const useGetDiscordOAuthUrl = (
   React.useEffect(() => {
     request(
       "GET",
-      `/account/oauth/url/discord/?persistent=${signInPersist}&device_uuid=${deviceUUID}`,
+      signInPersist
+        ? `/account/oauth/url/discord/?persistent=${signInPersist}&device_uuid=${deviceUUID}`
+        : `/account/oauth/url/discord/`,
       null,
       false
     );
