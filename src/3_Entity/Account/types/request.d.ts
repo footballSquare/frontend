@@ -1,8 +1,8 @@
 type PostSignInProps = {
   id: string;
   password: string;
-  signInPersist?: boolean;
-  deviceUUID?: string;
+  signInPersist: boolean;
+  deviceUUID: string;
 };
 
 type UseGetDiscordOAuthUrlProps = {
