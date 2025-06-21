@@ -4,6 +4,8 @@ import { platform } from "../../constant/platform";
 import { matchPosition } from "../../constant/matchPosition";
 import { commonStatusIdx } from "../../constant/commonStatusIdx";
 import discord from "../../assets/svg/discord.svg";
+import user from "../../assets/svg/user.svg";
+import position from "../../assets/svg/position.svg";
 
 import { getPositionColor } from "../../lib/getPositionColor";
 import { getPlatformIcon } from "../../lib/getPlatformIcon";
@@ -41,12 +43,19 @@ const ProfileDashBoardInput = (props: ProfileDashBoardInputProps) => {
       {/* 닉네임 */}
       {registerType === "nickname" && (
         <FieldWrapper label={label} error={error} isModifyMode={isModifyMode}>
-          <input
-            {...register(name)}
-            disabled={!isModifyMode}
-            placeholder={placeholder ?? "Nickname"}
-            className="w-full bg-transparent outline-none text-sm"
-          />
+          <div className="flex items-center w-full p-3 text-sm gap-2">
+            <img
+              src={user}
+              className="w-[30px] h-[30px] object-cover"
+              alt="User Icon"
+            />
+            <input
+              {...register(name)}
+              disabled={!isModifyMode}
+              placeholder={placeholder ?? "Nickname"}
+              className="w-full bg-transparent outline-none text-sm"
+            />
+          </div>
         </FieldWrapper>
       )}
 
@@ -93,20 +102,27 @@ const ProfileDashBoardInput = (props: ProfileDashBoardInputProps) => {
 
       {registerType === "match_position_idx" && (
         <FieldWrapper label={label} error={error} isModifyMode={isModifyMode}>
-          <select
-            {...register(name)}
-            disabled={!isModifyMode}
-            style={{ color: getPositionColor(watchMatchPositionIdx) }}
-            className="w-full bg-transparent outline-none text-sm">
-            {matchPosition.map((pos, idx) => (
-              <option
-                key={idx}
-                value={idx}
-                style={{ color: getPositionColor(idx) }}>
-                {pos}
-              </option>
-            ))}
-          </select>
+          <div className="flex items-center w-full p-3 text-sm gap-2">
+            <img
+              src={position}
+              className="w-[30px] h-[30px] object-cover"
+              alt="Position Icon"
+            />
+            <select
+              {...register(name)}
+              disabled={!isModifyMode}
+              style={{ color: getPositionColor(watchMatchPositionIdx) }}
+              className="w-full bg-transparent outline-none text-sm">
+              {matchPosition.map((pos, idx) => (
+                <option
+                  key={idx}
+                  value={idx}
+                  style={{ color: getPositionColor(idx) }}>
+                  {pos}
+                </option>
+              ))}
+            </select>
+          </div>
         </FieldWrapper>
       )}
 

@@ -20,6 +20,7 @@ const PlayerCard = (props: PlayerCardProps) => {
     profile_image,
     team_name,
     match_position_idx,
+    onImageChange,
   } = props;
   const navigate = useNavigate();
 
@@ -47,19 +48,25 @@ const PlayerCard = (props: PlayerCardProps) => {
   const onSubmit: SubmitHandler<ProfileImageForm> = (data) => {
     handleSave();
     putProfileImage(data.file);
+    // 데이터 일관성을 위해 상위 컴포넌트에 이미지 변경 알림
+    if (onImageChange) {
+      onImageChange(data.file);
+    }
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="w-full h-full">
-      <div className="bg-gradient-to-br from-gray-900 to-gray-800 text-white rounded-xl overflow-hidden shadow-2xl border border-gray-700 transform transition-all hover:scale-[1.01] hover:shadow-grass/20">
+      <div className="bg-gradient-to-br from-gray-900 to-gray-800 text-white rounded-xl overflow-hidden shadow-2xl border border-gray-700 transform transition-all hover:scale-[1.01] hover:shadow-lg">
         {/* Header with position badge */}
-        <div className="relative h-16 bg-gradient-to-br from-grass to-grass/80 flex items-center px-4">
-          <div
-            className={`absolute top-3 right-3 ${getPositionColor(
-              match_position_idx
-            )} text-xs font-bold px-3 py-1 rounded-full shadow-md`}>
-            {match_position_idx && matchPosition[match_position_idx]}
-          </div>
+        <div className="relative h-16 bg-gradient-to-br from-slate-800 to-slate-700 flex items-center px-4">
+          {match_position_idx && (
+            <div
+              className={`absolute top-3 right-3 ${getPositionColor(
+                match_position_idx
+              )} text-xs font-bold px-3 py-1 rounded-full shadow-md border border-white/20`}>
+              {matchPosition[match_position_idx]}
+            </div>
+          )}
         </div>
 
         {/* Profile section */}
@@ -80,7 +87,7 @@ const PlayerCard = (props: PlayerCardProps) => {
                 is_mine ? "cursor-pointer group" : "cursor-default"
               }`}>
               <div className="relative">
-                <div className="w-20 h-20 rounded-full p-1 bg-gradient-to-br from-grass to-grass/80">
+                <div className="w-20 h-20 rounded-full p-1 bg-gradient-to-br from-slate-600 to-slate-700 shadow-lg">
                   <img
                     className="w-full h-full object-cover rounded-full border-2 border-gray-800 bg-white"
                     src={preview ? preview : profile}
@@ -88,8 +95,12 @@ const PlayerCard = (props: PlayerCardProps) => {
                   />
                 </div>
                 {is_mine && (
-                  <div className="absolute inset-0 bg-black bg-opacity-60 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                    <img src={camera} className="w-8 h-8" />
+                  <div className="absolute inset-0 bg-black/40 rounded-full flex items-center justify-center opacity-20 group-hover:opacity-100 transition-opacity duration-200">
+                    <img
+                      src={camera}
+                      className="w-8 h-8 filter invert"
+                      alt="카메라"
+                    />
                   </div>
                 )}
               </div>
@@ -98,7 +109,16 @@ const PlayerCard = (props: PlayerCardProps) => {
 
           <div className="ml-24">
             <div className="font-bold text-lg tracking-wide">{nickname}</div>
-            <div className="text-xs text-grass font-medium">#{user_idx}</div>
+            <div className="text-xs text-slate-400 font-medium">
+              #{user_idx}
+            </div>
+            {team_name && (
+              <div className="mt-2 inline-flex items-center px-2 py-1 bg-grass/20 border border-grass/30 rounded-full">
+                <span className="text-grass text-xs font-medium">
+                  {team_name}
+                </span>
+              </div>
+            )}
           </div>
         </div>
 
@@ -153,17 +173,6 @@ const PlayerCard = (props: PlayerCardProps) => {
             {errors.file.message}
           </div>
         )}
-
-        {/* Status indicator */}
-        <div className="flex items-center justify-between bg-gray-900 bg-opacity-70 px-4 py-3 border-t border-gray-700">
-          <div className="flex items-center">
-            <div className="w-3 h-3 rounded-full bg-green-500 shadow-md shadow-green-500/50 mr-2"></div>
-            <span className="text-xs font-medium text-gray-300">
-              {team_name}
-            </span>
-          </div>
-          <div className="text-xs text-gray-500">Online</div>
-        </div>
       </div>
     </form>
   );

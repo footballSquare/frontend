@@ -11,15 +11,11 @@ import { useLogout } from "../../4_Shared/lib/useMyInfo";
 import useToggleState from "../../4_Shared/model/useToggleState";
 import useDeleteUserHandler from "./model/useDeleteUserHandler";
 import usePutUserInfoHandler from "./model/usePutUserInfoHandler";
+import usePutProfileImage from "../../3_Entity/Account/usePutProfileImage";
 import ProfileImageCard from "./ui/ProfileImageCard";
-import {
-  MessageIcon,
-  UserIcon,
-  DesktopIcon,
-  TeamIcon,
-  DiscordIcon,
-  PlusIcon,
-} from "../../4_Shared/assets/svg/Icons";
+import ProfileDashBoardInput from "../../4_Shared/hookForm/ProfileDashBoardInput";
+import team_icon from "../../4_Shared/assets/svg/team.svg";
+import plus_icon from "../../4_Shared/assets/svg/plus.svg";
 
 // The Platform type from the global types, defined here for clarity as it's not explicitly imported.
 type Platform = "pc" | "xbox" | "playstation";
@@ -49,7 +45,6 @@ const ProfileContent = ({ userInfo }: { userInfo: UserInfo }) => {
     reset,
     getValues,
     watch,
-    register,
     formState: { isDirty },
   } = useFormContext<UserInfoForm>();
 
@@ -61,20 +56,18 @@ const ProfileContent = ({ userInfo }: { userInfo: UserInfo }) => {
     reset,
     inputBackupDataRef,
   });
+  const [putProfileImage] = usePutProfileImage();
   const [logOut] = useLogout();
 
-  const {
-    is_mine,
-    team_name,
-    team_short_name,
-    team_idx,
-    Awards,
-    message,
-    nickname,
-    platform,
-    match_position_idx,
-    discord_tag,
-  } = userInfo;
+  // 프로필 이미지 업데이트 핸들러
+  const handlePutImageHandle = (file: File | null) => {
+    if (file) {
+      putProfileImage(file);
+    }
+  };
+
+  const { is_mine, team_name, team_short_name, team_idx, Awards, nickname } =
+    userInfo;
 
   const watchNickname = watch("nickname", nickname);
   const awards: Award[] = (Awards ?? []).map((award) => ({
@@ -136,6 +129,7 @@ const ProfileContent = ({ userInfo }: { userInfo: UserInfo }) => {
             <ProfileImageCard
               userInfo={userInfo}
               forceShowPlayerCard={forceShowPlayerCard}
+              onImageChange={handlePutImageHandle}
             />
             <section className="bg-gradient-to-br from-slate-800 to-gray-800 rounded-2xl p-6 border border-slate-600/50 shadow-xl backdrop-blur-sm">
               <div className="flex items-center justify-between mb-6">
@@ -154,14 +148,14 @@ const ProfileContent = ({ userInfo }: { userInfo: UserInfo }) => {
                   {awards.map((award, index) => (
                     <div
                       key={award.championship_list_name}
-                      className="flex items-center gap-4 p-4 bg-slate-700/40 rounded-xl hover:bg-slate-700/60 transition-all duration-200 border border-slate-600/30 group">
-                      <div className="relative">
+                      className="flex items-center gap-4 p-4 bg-slate-700/40 rounded-xl hover:bg-slate-700/60 transition-colors duration-200 border border-slate-600/30 group">
+                      <div className="relative flex-shrink-0">
                         <img
                           src={
                             award.logo || "/placeholder.svg?height=48&width=48"
                           }
                           alt={award.championship_list_name}
-                          className="w-14 h-14 rounded-xl object-cover shadow-md group-hover:shadow-lg transition-all duration-200"
+                          className="w-14 h-14 rounded-xl object-cover shadow-md transition-shadow duration-200"
                         />
                         <div className="absolute -top-1 -right-1 w-6 h-6 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full flex items-center justify-center text-xs font-bold text-white shadow-lg">
                           {index + 1}
@@ -181,7 +175,7 @@ const ProfileContent = ({ userInfo }: { userInfo: UserInfo }) => {
               ) : (
                 <div className="flex flex-col items-center justify-center text-slate-400 py-12 bg-slate-700/20 rounded-xl border-2 border-dashed border-slate-600">
                   <div className="w-16 h-16 mb-4 bg-slate-600/50 rounded-full flex items-center justify-center">
-                    <PlusIcon className="w-8 h-8 text-slate-500" />
+                    <img src={plus_icon} className="w-8 h-8" alt="Add" />
                   </div>
                   <p className="text-sm font-medium">수상 기록이 없습니다</p>
                   <p className="text-xs text-slate-500 mt-1">
@@ -207,13 +201,17 @@ const ProfileContent = ({ userInfo }: { userInfo: UserInfo }) => {
                     <p
                       className="text-grass font-medium hover:text-grass hover:text-opacity-80 cursor-pointer transition-colors inline-flex items-center gap-2 group"
                       onClick={() => navigate(`/team/${team_idx}`)}>
-                      <TeamIcon className="w-4 h-4 group-hover:rotate-12 transition-transform" />
+                      <img
+                        src={team_icon}
+                        className="w-4 h-4 group-hover:rotate-12 transition-transform duration-200"
+                        alt="Team"
+                      />
                       {team_name} ({team_short_name})
                     </p>
                   )}
                 </div>
                 {is_mine && (
-                  <div className="flex gap-2">
+                  <div className="flex gap-2 min-w-[140px] justify-end">
                     {!isModifyMode ? (
                       <button
                         type="button"
@@ -226,12 +224,12 @@ const ProfileContent = ({ userInfo }: { userInfo: UserInfo }) => {
                         <button
                           type="button"
                           onClick={handleCancel}
-                          className="px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg font-medium transition-colors">
+                          className="px-3 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg font-medium transition-colors text-sm">
                           취소
                         </button>
                         <button
                           type="submit"
-                          className="px-4 py-2 bg-grass hover:bg-grass hover:bg-opacity-80 text-white rounded-lg font-medium transition-colors">
+                          className="px-3 py-2 bg-grass hover:bg-grass hover:bg-opacity-80 text-white rounded-lg font-medium transition-colors text-sm">
                           저장
                         </button>
                       </>
@@ -241,165 +239,44 @@ const ProfileContent = ({ userInfo }: { userInfo: UserInfo }) => {
               </div>
 
               <div className="space-y-8 pt-8 border-t border-slate-600/50">
-                <div>
-                  <label className="flex items-center gap-2 text-sm font-semibold text-slate-300 mb-3">
-                    <svg
-                      className="w-4 h-4 text-blue-400"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24">
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
-                      />
-                    </svg>
-                    상태 메시지
-                  </label>
-                  {isModifyMode ? (
-                    <input
-                      {...register("message")}
-                      type="text"
-                      className="w-full px-5 py-4 bg-slate-700/50 border border-slate-600 rounded-xl text-white placeholder-slate-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 backdrop-blur-sm"
-                      placeholder="당신의 상태를 알려주세요..."
-                    />
-                  ) : (
-                    <div className="px-5 py-4 bg-slate-700/30 rounded-xl text-slate-300 min-h-[56px] flex items-center border border-slate-600/30">
-                      {message || "상태 메시지가 없습니다"}
-                    </div>
-                  )}
-                </div>
+                <ProfileDashBoardInput
+                  label="상태 메시지"
+                  registerType="message"
+                  name="message"
+                  isModifyMode={isModifyMode}
+                  placeholder="당신의 상태를 알려주세요..."
+                />
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-4 sm:gap-6">
-                  <div>
-                    <label className="flex items-center gap-2 text-sm font-semibold text-slate-300 mb-3">
-                      <svg
-                        className="w-4 h-4 text-green-400"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24">
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                        />
-                      </svg>
-                      게임 ID
-                    </label>
-                    {isModifyMode ? (
-                      <input
-                        {...register("nickname")}
-                        type="text"
-                        className="w-full px-5 py-4 bg-slate-700/50 border border-slate-600 rounded-xl text-white placeholder-slate-400 focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200 backdrop-blur-sm"
-                        placeholder="닉네임을 입력하세요"
-                      />
-                    ) : (
-                      <div className="px-5 py-4 bg-slate-700/30 rounded-xl text-slate-300 min-h-[56px] flex items-center border border-slate-600/30 font-medium">
-                        {nickname}
-                      </div>
-                    )}
-                  </div>
+                  <ProfileDashBoardInput
+                    label="게임 ID"
+                    registerType="nickname"
+                    name="nickname"
+                    isModifyMode={isModifyMode}
+                    placeholder="닉네임을 입력하세요"
+                  />
 
-                  <div>
-                    <label className="flex items-center gap-2 text-sm font-semibold text-slate-300 mb-3">
-                      <svg
-                        className="w-4 h-4 text-purple-400"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24">
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                        />
-                      </svg>
-                      플랫폼
-                    </label>
-                    {isModifyMode ? (
-                      <select
-                        {...register("platform")}
-                        className="w-full px-5 py-4 bg-slate-700/50 border border-slate-600 rounded-xl text-white focus:ring-2 focus:ring-purple-500 focus:border-transparent appearance-none transition-all duration-200 backdrop-blur-sm">
-                        <option value="pc">PC</option>
-                        <option value="xbox">Xbox</option>
-                        <option value="playstation">PlayStation</option>
-                      </select>
-                    ) : (
-                      <div className="px-5 py-4 bg-slate-700/30 rounded-xl text-slate-300 min-h-[56px] flex items-center border border-slate-600/30 font-medium capitalize">
-                        {platform}
-                      </div>
-                    )}
-                  </div>
+                  <ProfileDashBoardInput
+                    label="플랫폼"
+                    registerType="platform"
+                    name="platform"
+                    isModifyMode={isModifyMode}
+                  />
 
-                  <div>
-                    <label className="flex items-center gap-2 text-sm font-semibold text-slate-300 mb-3">
-                      <svg
-                        className="w-4 h-4 text-orange-400"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24">
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
-                        />
-                      </svg>
-                      포지션
-                    </label>
-                    {isModifyMode ? (
-                      <select
-                        {...register("match_position_idx")}
-                        className="w-full px-5 py-4 bg-slate-700/50 border border-slate-600 rounded-xl text-white focus:ring-2 focus:ring-orange-500 focus:border-transparent appearance-none transition-all duration-200 backdrop-blur-sm">
-                        <option value={0}>미지정</option>
-                        <option value={1}>DPS</option>
-                        <option value={2}>Tank</option>
-                        <option value={3}>Support</option>
-                      </select>
-                    ) : (
-                      <div className="px-5 py-4 bg-slate-700/30 rounded-xl text-slate-300 min-h-[56px] flex items-center border border-slate-600/30 font-medium">
-                        <span
-                          className={`px-3 py-1 rounded-full text-xs font-bold ${
-                            match_position_idx === 1
-                              ? "bg-red-500/20 text-red-400"
-                              : match_position_idx === 2
-                              ? "bg-blue-500/20 text-blue-400"
-                              : match_position_idx === 3
-                              ? "bg-grass bg-opacity-20 text-grass"
-                              : "bg-slate-500/20 text-slate-400"
-                          }`}>
-                          {match_position_idx === 1
-                            ? "DPS"
-                            : match_position_idx === 2
-                            ? "Tank"
-                            : match_position_idx === 3
-                            ? "Support"
-                            : "미정"}
-                        </span>
-                      </div>
-                    )}
-                  </div>
+                  <ProfileDashBoardInput
+                    label="포지션"
+                    registerType="match_position_idx"
+                    name="match_position_idx"
+                    isModifyMode={isModifyMode}
+                  />
 
-                  <div>
-                    <label className="flex items-center gap-2 text-sm font-semibold text-slate-300 mb-3">
-                      <DiscordIcon className="w-4 h-4 text-indigo-400" />
-                      Discord 태그
-                    </label>
-                    {isModifyMode ? (
-                      <input
-                        {...register("discord_tag")}
-                        type="text"
-                        className="w-full px-5 py-4 bg-slate-700/50 border border-slate-600 rounded-xl text-white placeholder-slate-400 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200 backdrop-blur-sm"
-                        placeholder="Discord#1234"
-                      />
-                    ) : (
-                      <div className="px-5 py-4 bg-slate-700/30 rounded-xl text-slate-300 min-h-[56px] flex items-center border border-slate-600/30 font-medium">
-                        {discord_tag || "없음"}
-                      </div>
-                    )}
-                  </div>
+                  <ProfileDashBoardInput
+                    label="Discord 태그"
+                    registerType="discord_tag"
+                    name="discord_tag"
+                    isModifyMode={isModifyMode}
+                    placeholder="Discord#1234"
+                  />
                 </div>
               </div>
             </section>
@@ -477,6 +354,7 @@ const ProfileContent = ({ userInfo }: { userInfo: UserInfo }) => {
                 <ProfileImageCard
                   userInfo={userInfo}
                   forceShowPlayerCard={forceShowPlayerCard}
+                  onImageChange={handlePutImageHandle}
                 />
               </div>
             )}
@@ -498,15 +376,15 @@ const ProfileContent = ({ userInfo }: { userInfo: UserInfo }) => {
                     {awards.map((award, index) => (
                       <div
                         key={award.championship_list_name}
-                        className="flex items-center gap-4 p-4 bg-slate-700/40 rounded-xl hover:bg-slate-700/60 transition-all duration-200 border border-slate-600/30 group">
-                        <div className="relative">
+                        className="flex items-center gap-4 p-4 bg-slate-700/40 rounded-xl hover:bg-slate-700/60 transition-colors duration-200 border border-slate-600/30 group">
+                        <div className="relative flex-shrink-0">
                           <img
                             src={
                               award.logo ||
                               "/placeholder.svg?height=48&width=48"
                             }
                             alt={award.championship_list_name}
-                            className="w-14 h-14 rounded-xl object-cover shadow-md group-hover:shadow-lg transition-all duration-200"
+                            className="w-14 h-14 rounded-xl object-cover shadow-md transition-shadow duration-200"
                           />
                           <div className="absolute -top-1 -right-1 w-6 h-6 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full flex items-center justify-center text-xs font-bold text-white shadow-lg">
                             {index + 1}
@@ -526,7 +404,7 @@ const ProfileContent = ({ userInfo }: { userInfo: UserInfo }) => {
                 ) : (
                   <div className="flex flex-col items-center justify-center text-slate-400 py-12 bg-slate-700/20 rounded-xl border-2 border-dashed border-slate-600">
                     <div className="w-16 h-16 mb-4 bg-slate-600/50 rounded-full flex items-center justify-center">
-                      <PlusIcon className="w-8 h-8 text-slate-500" />
+                      <img src={plus_icon} className="w-8 h-8" alt="Add" />
                     </div>
                     <p className="text-sm font-medium">수상 기록이 없습니다</p>
                     <p className="text-xs text-slate-500 mt-1">
@@ -553,7 +431,11 @@ const ProfileContent = ({ userInfo }: { userInfo: UserInfo }) => {
                         <p
                           className="text-grass font-medium hover:text-grass hover:text-opacity-80 cursor-pointer transition-colors inline-flex items-center gap-2 group"
                           onClick={() => navigate(`/team/${team_idx}`)}>
-                          <TeamIcon className="w-4 h-4 group-hover:rotate-12 transition-transform" />
+                          <img
+                            src={team_icon}
+                            alt="Team"
+                            className="w-4 h-4 group-hover:rotate-12 transition-transform duration-200"
+                          />
                           {team_name} ({team_short_name})
                         </p>
                       )}
@@ -587,132 +469,44 @@ const ProfileContent = ({ userInfo }: { userInfo: UserInfo }) => {
                   </div>
 
                   <div className="space-y-6 pt-6 border-t border-slate-600/50">
-                    <div>
-                      <label className="flex items-center gap-2 text-sm font-semibold text-slate-300 mb-3">
-                        <MessageIcon className="w-4 h-4 text-blue-400" />
-                        상태 메시지
-                      </label>
-                      {isModifyMode ? (
-                        <input
-                          {...register("message")}
-                          type="text"
-                          className="w-full px-4 py-3 bg-slate-700/50 border border-slate-600 rounded-xl text-white placeholder-slate-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 backdrop-blur-sm"
-                          placeholder="당신의 상태를 알려주세요..."
-                        />
-                      ) : (
-                        <div className="px-4 py-3 bg-slate-700/30 rounded-xl text-slate-300 min-h-[48px] flex items-center border border-slate-600/30">
-                          {message || "상태 메시지가 없습니다"}
-                        </div>
-                      )}
-                    </div>
+                    <ProfileDashBoardInput
+                      label="상태 메시지"
+                      registerType="message"
+                      name="message"
+                      isModifyMode={isModifyMode}
+                      placeholder="당신의 상태를 알려주세요..."
+                    />
 
                     <div className="grid grid-cols-1 gap-4">
-                      <div>
-                        <label className="flex items-center gap-2 text-sm font-semibold text-slate-300 mb-3">
-                          <UserIcon className="w-4 h-4 text-grass" />
-                          게임 ID
-                        </label>
-                        {isModifyMode ? (
-                          <input
-                            {...register("nickname")}
-                            type="text"
-                            className="w-full px-4 py-3 bg-slate-700/50 border border-slate-600 rounded-xl text-white placeholder-slate-400 focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200 backdrop-blur-sm"
-                            placeholder="닉네임을 입력하세요"
-                          />
-                        ) : (
-                          <div className="px-4 py-3 bg-slate-700/30 rounded-xl text-slate-300 min-h-[48px] flex items-center border border-slate-600/30 font-medium">
-                            {nickname}
-                          </div>
-                        )}
-                      </div>
+                      <ProfileDashBoardInput
+                        label="게임 ID"
+                        registerType="nickname"
+                        name="nickname"
+                        isModifyMode={isModifyMode}
+                        placeholder="닉네임을 입력하세요"
+                      />
 
-                      <div>
-                        <label className="flex items-center gap-2 text-sm font-semibold text-slate-300 mb-3">
-                          <DesktopIcon className="w-4 h-4 text-purple-400" />
-                          플랫폼
-                        </label>
-                        {isModifyMode ? (
-                          <select
-                            {...register("platform")}
-                            className="w-full px-4 py-3 bg-slate-700/50 border border-slate-600 rounded-xl text-white focus:ring-2 focus:ring-purple-500 focus:border-transparent appearance-none transition-all duration-200 backdrop-blur-sm">
-                            <option value="pc">PC</option>
-                            <option value="xbox">Xbox</option>
-                            <option value="playstation">PlayStation</option>
-                          </select>
-                        ) : (
-                          <div className="px-4 py-3 bg-slate-700/30 rounded-xl text-slate-300 min-h-[48px] flex items-center border border-slate-600/30 font-medium capitalize">
-                            {platform}
-                          </div>
-                        )}
-                      </div>
+                      <ProfileDashBoardInput
+                        label="플랫폼"
+                        registerType="platform"
+                        name="platform"
+                        isModifyMode={isModifyMode}
+                      />
 
-                      <div>
-                        <label className="flex items-center gap-2 text-sm font-semibold text-slate-300 mb-3">
-                          <svg
-                            className="w-4 h-4 text-orange-400"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24">
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
-                            />
-                          </svg>
-                          포지션
-                        </label>
-                        {isModifyMode ? (
-                          <select
-                            {...register("match_position_idx")}
-                            className="w-full px-4 py-3 bg-slate-700/50 border border-slate-600 rounded-xl text-white focus:ring-2 focus:ring-orange-500 focus:border-transparent appearance-none transition-all duration-200 backdrop-blur-sm">
-                            <option value={0}>미지정</option>
-                            <option value={1}>DPS</option>
-                            <option value={2}>Tank</option>
-                            <option value={3}>Support</option>
-                          </select>
-                        ) : (
-                          <div className="px-4 py-3 bg-slate-700/30 rounded-xl text-slate-300 min-h-[48px] flex items-center border border-slate-600/30 font-medium">
-                            <span
-                              className={`px-3 py-1 rounded-full text-xs font-bold ${
-                                match_position_idx === 1
-                                  ? "bg-red-500/20 text-red-400"
-                                  : match_position_idx === 2
-                                  ? "bg-blue-500/20 text-blue-400"
-                                  : match_position_idx === 3
-                                  ? "bg-grass bg-opacity-20 text-grass"
-                                  : "bg-slate-500/20 text-slate-400"
-                              }`}>
-                              {match_position_idx === 1
-                                ? "DPS"
-                                : match_position_idx === 2
-                                ? "Tank"
-                                : match_position_idx === 3
-                                ? "Support"
-                                : "미정"}
-                            </span>
-                          </div>
-                        )}
-                      </div>
+                      <ProfileDashBoardInput
+                        label="포지션"
+                        registerType="match_position_idx"
+                        name="match_position_idx"
+                        isModifyMode={isModifyMode}
+                      />
 
-                      <div>
-                        <label className="flex items-center gap-2 text-sm font-semibold text-slate-300 mb-3">
-                          <DiscordIcon className="w-4 h-4 text-indigo-400" />
-                          Discord 태그
-                        </label>
-                        {isModifyMode ? (
-                          <input
-                            {...register("discord_tag")}
-                            type="text"
-                            className="w-full px-4 py-3 bg-slate-700/50 border border-slate-600 rounded-xl text-white placeholder-slate-400 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200 backdrop-blur-sm"
-                            placeholder="Discord#1234"
-                          />
-                        ) : (
-                          <div className="px-4 py-3 bg-slate-700/30 rounded-xl text-slate-300 min-h-[48px] flex items-center border border-slate-600/30 font-medium">
-                            {discord_tag || "없음"}
-                          </div>
-                        )}
-                      </div>
+                      <ProfileDashBoardInput
+                        label="Discord 태그"
+                        registerType="discord_tag"
+                        name="discord_tag"
+                        isModifyMode={isModifyMode}
+                        placeholder="Discord#1234"
+                      />
                     </div>
                   </div>
                 </div>
