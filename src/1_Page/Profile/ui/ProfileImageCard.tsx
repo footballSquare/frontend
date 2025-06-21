@@ -87,7 +87,7 @@ const ProfileImageCard: React.FC<ProfileImageCardProps> = ({
               <img
                 src={profile_image || profileSvg}
                 alt={nickname}
-                className="w-full h-56 sm:h-64 lg:h-80 object-contain lg:object-cover bg-slate-900"
+                className="w-full h-48 sm:h-56 md:h-64 lg:h-80 object-contain lg:object-cover bg-slate-900"
               />
               {/* Position Badge - 이미지 위에 오버레이로 배치 */}
               {match_position_idx && (
