@@ -301,7 +301,7 @@ const Profile = () => {
             {/* Tab Content */}
             <div className="space-y-6">
               {/* Profile Tab */}
-              {activeTab === "profile" && (
+              {activeTab === PROFILE_TAB.PROFILE && (
                 <div className="bg-gradient-to-br from-slate-800 to-gray-800 rounded-2xl p-4 border border-slate-600/50 shadow-xl backdrop-blur-sm w-full">
                   <ProfileImageCard
                     userInfo={userInfo}
@@ -312,7 +312,7 @@ const Profile = () => {
               )}
 
               {/* Awards Tab */}
-              {activeTab === "awards" && (
+              {activeTab === PROFILE_TAB.AWARDS && (
                 <div className="bg-gradient-to-br from-slate-800 to-gray-800 rounded-2xl p-6 border border-slate-600/50 shadow-xl backdrop-blur-sm w-full">
                   <div className="flex items-center justify-between mb-6">
                     <h3 className="text-xl font-bold text-white flex items-center gap-3">
@@ -378,7 +378,7 @@ const Profile = () => {
               )}
 
               {/* Info Tab */}
-              {activeTab === "info" && (
+              {activeTab === PROFILE_TAB.INFO && (
                 <form
                   onSubmit={handleSubmit(handlePutUserInfo)}
                   className="space-y-6">
@@ -478,39 +478,46 @@ const Profile = () => {
               )}
 
               {/* Account Tab */}
-              {activeTab === "account" && is_mine && (
-                <div className="bg-gradient-to-br from-slate-800 to-gray-800 rounded-2xl p-6 border border-slate-600/50 shadow-xl backdrop-blur-sm w-full">
-                  <h3 className="text-lg font-semibold text-white mb-6 pb-4 border-b border-slate-600/50">
-                    계정 관리
-                  </h3>
-                  <div className="flex flex-col gap-3">
-                    <button
-                      type="button"
-                      className="w-full px-4 py-3 border border-slate-600 text-slate-300 font-medium rounded-lg hover:bg-slate-700 hover:text-white transition-colors"
-                      onClick={() => {
-                        if (confirm("로그아웃 하시겠습니까?")) {
-                          logOut();
-                        }
-                      }}>
-                      로그아웃
-                    </button>
-                    <button
-                      type="button"
-                      className="w-full px-4 py-3 border border-red-600 text-red-400 font-medium rounded-lg hover:bg-red-600 hover:text-white transition-colors"
-                      onClick={() => {
-                        if (
-                          confirm(
-                            "정말로 계정을 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다."
-                          )
-                        ) {
-                          handleDeleteUser();
-                        }
-                      }}>
-                      회원 탈퇴
-                    </button>
+              {activeTab === PROFILE_TAB.ACCOUNT &&
+                (is_mine ? (
+                  <div className="bg-gradient-to-br from-slate-800 to-gray-800 rounded-2xl p-6 border border-slate-600/50 shadow-xl backdrop-blur-sm w-full">
+                    <h3 className="text-lg font-semibold text-white mb-6 pb-4 border-b border-slate-600/50">
+                      계정 관리
+                    </h3>
+                    <div className="flex flex-col gap-3">
+                      <button
+                        type="button"
+                        className="w-full px-4 py-3 border border-slate-600 text-slate-300 font-medium rounded-lg hover:bg-slate-700 hover:text-white transition-colors"
+                        onClick={() => {
+                          if (confirm("로그아웃 하시겠습니까?")) {
+                            logOut();
+                          }
+                        }}>
+                        로그아웃
+                      </button>
+                      <button
+                        type="button"
+                        className="w-full px-4 py-3 border border-red-600 text-red-400 font-medium rounded-lg hover:bg-red-600 hover:text-white transition-colors"
+                        onClick={() => {
+                          if (
+                            confirm(
+                              "정말로 계정을 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다."
+                            )
+                          ) {
+                            handleDeleteUser();
+                          }
+                        }}>
+                        회원 탈퇴
+                      </button>
+                    </div>
                   </div>
-                </div>
-              )}
+                ) : (
+                  <div>
+                    <p className="text-center text-slate-400">
+                      본인의 계정이 아닙니다.
+                    </p>
+                  </div>
+                ))}
             </div>
           </div>
         </main>
