@@ -12,8 +12,8 @@ export const BUTTON_TEXT = {
 } as const;
 
 export const VIEW_MODE_BUTTONS = [
-  { id: ViewMode.Team, label: BUTTON_TEXT[ViewMode.Team] },
   { id: ViewMode.Lineup, label: BUTTON_TEXT[ViewMode.Lineup] },
+  { id: ViewMode.Team, label: BUTTON_TEXT[ViewMode.Team] },
   {
     id: ViewMode.Personal,
     label: BUTTON_TEXT[ViewMode.Personal],

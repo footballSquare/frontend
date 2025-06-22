@@ -15,13 +15,12 @@ const MomSelectionModalPanel = (props: MomSelectionModalPanelProps) => {
         <span>👑</span>
       </button>
       {isMomModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center">
+        <div className="fixed inset-0 z-[10] flex items-center justify-center p-4">
           {/* Backdrop */}
           <div
-            className="absolute inset-0 bg-black/60"
+            className="fixed inset-0 bg-black/70 backdrop-blur-md "
             onClick={toggleModalState}
           />
-
           {/* Modal Content */}
           <div className="relative bg-gray-900 rounded-xl shadow-2xl border border-gray-700 max-w-md w-full mx-4 max-h-[80vh] overflow-hidden">
             {/* Header */}

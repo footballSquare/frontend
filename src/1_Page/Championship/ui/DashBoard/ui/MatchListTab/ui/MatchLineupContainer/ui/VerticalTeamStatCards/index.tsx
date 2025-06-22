@@ -75,7 +75,7 @@ const VerticalTeamStatCards = (props: VerticalTeamStatCardsProps) => {
 
         <div className="mt-4 lg:mt-6">
           <div>
-            <div className="bg-gray-900/80 backdrop-blur-sm border border-gray-700/60 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-all duration-200 lg:rounded-md">
+            <div className="bg-gray-900/80  border border-gray-700/60 rounded-lg shadow-sm ">
               {/* Header */}
               <div className="px-3 py-2.5 border-b border-gray-700/50 bg-gradient-to-r from-gray-800/80 to-gray-900/80 lg:px-2 lg:py-1.5">
                 <div className="flex items-center justify-between">
