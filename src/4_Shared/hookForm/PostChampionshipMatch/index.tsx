@@ -39,7 +39,10 @@ const PostChampionshipMatch = (props: PostChampionshipMatchProps) => {
               const hourString = hour.toString().padStart(2, "0");
               const minuteString = minutes.toString().padStart(2, "0");
               return (
-                <option key={i} value={`${hourString}:${minuteString}`}>
+                <option
+                  className="w-full p-2 border border-gray-300 rounded mt-1 bg-white text-black dark:bg-black dark:text-white"
+                  key={i}
+                  value={`${hourString}:${minuteString}`}>
                   {`${hourString}:${minuteString}`}
                 </option>
               );
