@@ -48,7 +48,7 @@ const PlayerHistoryRow = (props: PlayerHistoryRowProps) => {
   );
 
   return (
-    <React.Fragment key={player.player_list_idx}>
+    <React.Fragment>
       <tr
         onClick={toggleIsExpanded}
         className="cursor-pointer hover:bg-grass/10">

@@ -2,7 +2,8 @@ import usePostTeamStat from "../../../../../../../../../3_Entity/Match/usePostTe
 
 const usePostTeamStatsHandler = (
   cancelEdit: () => void,
-  setBackupTeamStats: (data: PostTeamStatsForm) => void
+  setBackupTeamStats: (data: PostTeamStatsForm) => void,
+  toggleIsEditing: () => void
 ) => {
   const [postTeamMatch] = usePostTeamStat();
 
@@ -10,6 +11,7 @@ const usePostTeamStatsHandler = (
     matchIdx,
     data,
   }: HandlePostTeamStatProps) => {
+    toggleIsEditing();
     const status = await postTeamMatch({
       matchIdx,
       teamStat: data,

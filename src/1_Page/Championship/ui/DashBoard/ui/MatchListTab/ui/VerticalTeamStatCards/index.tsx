@@ -45,7 +45,8 @@ const VerticalTeamStatCards = (props: VerticalTeamStatCardsProps) => {
   const { handleSubmit } = methods;
   const [handlePostTeamStats] = usePostTeamStatsHandler(
     cancelEdit,
-    setBackupTeamStats
+    setBackupTeamStats,
+    toggleIsEditing
   );
 
   const [postTeamStatsEvidence, responseUrl] = usePostTeamStatsEvidence();
@@ -55,6 +56,7 @@ const VerticalTeamStatCards = (props: VerticalTeamStatCardsProps) => {
     teamPlayer,
     methods.getValues("mom_player_idx")
   );
+
   return (
     <div className="w-full max-w-6xl mx-auto px-2 py-3 space-y-4 lg:p-4 lg:space-y-6">
       <div className="">
@@ -117,7 +119,6 @@ const VerticalTeamStatCards = (props: VerticalTeamStatCardsProps) => {
                           matchIdx,
                           data,
                         });
-                        toggleIsEditing();
                       })}
                       className="space-y-3 lg:space-y-2">
                       {/* Hidden input for MOM player idx */}
