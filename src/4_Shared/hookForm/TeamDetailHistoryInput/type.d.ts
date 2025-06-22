@@ -1,6 +1,5 @@
 type TeamDetailHistoryInputProps = {
   registerType: keyof PostTeamStatsForm;
-  isFile?: boolean;
   isPercentage?: boolean;
   isEditing?: boolean;
   currentMomPlayer?: PlayerStats | undefined;
