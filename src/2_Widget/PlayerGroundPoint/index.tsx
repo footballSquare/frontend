@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
-import { matchPosition } from "../../../../../../../../../../../../4_Shared/constant/matchPosition";
-import { getPositionColor } from "../../../../../../../../../../../../4_Shared/lib/getPositionColor";
-import useToggleState from "../../../../../../../../../../../../4_Shared/model/useToggleState";
+import { matchPosition } from "../../4_Shared/constant/matchPosition";
+import { getPositionColor } from "../../4_Shared/lib/getPositionColor";
+import useToggleState from "../../4_Shared/model/useToggleState";
 import { calculatePlayerPosition } from "./lib/calculatePlayerPosition";
 
 const PlayerGroundPoint = (props: PlayerGroundPointProps) => {
@@ -94,7 +94,7 @@ const PlayerGroundPoint = (props: PlayerGroundPointProps) => {
         <div
           className={`absolute ${
             teamType === "home" ? "top-full mt-2" : "bottom-full mb-2"
-          } left-1/2 transform -translate-x-1/2 z-50`}>
+          } left-1/2 transform -translate-x-1/2`}>
           <div
             className={`bg-gray-900 text-white px-3 py-2 rounded-lg shadow-lg border ${
               teamType === "home" ? "border-blue-500" : "border-red-500"

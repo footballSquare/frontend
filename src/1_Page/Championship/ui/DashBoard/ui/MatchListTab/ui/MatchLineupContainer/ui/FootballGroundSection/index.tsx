@@ -1,5 +1,5 @@
 import { formation } from "../../../../../../../../../../4_Shared/constant/formation";
-import PlayerGroundPoint from "./ui/PlayerGroundPoint";
+import PlayerGroundPoint from "../../../../../../../../../../2_Widget/PlayerGroundPoint";
 
 const FootballGroundSection = (props: FootballGroundSectionProps) => {
   const { championshipDetail } = props;

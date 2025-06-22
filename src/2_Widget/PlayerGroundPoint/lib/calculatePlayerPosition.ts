@@ -1,4 +1,4 @@
-import { formations } from "../../../../../../../../../../../../../2_Widget/MatchModal/constant/formation";
+import { formations } from "../../../2_Widget/MatchModal/constant/formation";
 
 export const calculatePlayerPosition = (
   props: CalculatePositionProps
