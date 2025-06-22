@@ -6,7 +6,7 @@ import CreateChampionMatchPanel from "./ui/CreateChampionMatchPanel";
 import EmptySearchResult from "./ui/EmptySearchResult";
 
 import { BUTTON_TEXT, VIEW_MODE, VIEW_MODE_BUTTONS } from "./constant/tab";
-import useSortHandler from "./model/useSortHandler";
+import useSearchTeamHandler from "./model/useSearchTeamHandler";
 import useSelectHandler from "./model/useSelectHandler";
 import { getSelectedMatchTeams } from "./lib/getSelectedMatchTeams";
 import { getMatchMaxStats } from "./lib/getMatchMaxStats";
@@ -40,13 +40,9 @@ const MatchListTab = (props: MatchListTabProps) => {
     handleMatchSelect,
     handleBackToList,
   } = useSelectHandler(matchList);
-  const {
-    searchTerm,
-    sortOption,
-    handleSearchChange,
-    handleSortChange,
-    sortedMatches,
-  } = useSortHandler(matchList);
+  // 검색 관련 훅
+  const { filteredMatches, searchTerm, handleSearchChange } =
+    useSearchTeamHandler(matchList);
   const [activeTeam, setActiveTeam] = React.useState<0 | 1>(0);
   const [viewMode, setViewMode] = React.useState<VIEW_MODE>(VIEW_MODE.Lineup);
   const [isMyMatchesOpen, setIsMyMatchesOpen] = React.useState(true);
@@ -390,40 +386,17 @@ const MatchListTab = (props: MatchListTabProps) => {
                 className="w-full pl-14 pr-4 py-4 bg-white/10 border border-white/20 rounded-2xl text-white placeholder-gray-300 focus:outline-none focus:bg-white/20 focus:border-white/40 transition-all duration-300 group-hover:bg-white/15"
               />
             </div>
-
-            {/* 정렬 선택 */}
-            <div className="relative group">
-              <select
-                value={sortOption}
-                onChange={handleSortChange}
-                className="w-full appearance-none bg-white/10 border border-white/20 rounded-2xl px-4 py-4 text-white cursor-pointer focus:outline-none focus:bg-white/20 focus:border-white/40 transition-all duration-300 group-hover:bg-white/15">
-                <option value="default" className="bg-gray-800">
-                  🎲 기본 순서
-                </option>
-                <option value="asc" className="bg-gray-800">
-                  ⬆️ 번호 순 (오름차순)
-                </option>
-                <option value="desc" className="bg-gray-800">
-                  ⬇️ 번호 순 (내림차순)
-                </option>
-              </select>
-              <div className="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
-                <div className="w-6 h-6 rounded-full bg-gradient-to-r from-blue-400 to-purple-400 flex items-center justify-center">
-                  <span className="text-white text-xs">▼</span>
-                </div>
-              </div>
-            </div>
           </div>
 
           {/* 매치 카드 리스트 */}
           {/* 데스크톱: Grid */}
           <div className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 p-6">
-            {sortedMatches.length === 0 ? (
+            {filteredMatches.length === 0 ? (
               <div className="col-span-full">
                 <EmptySearchResult searchTerm={searchTerm} />
               </div>
             ) : (
-              sortedMatches.map((match, index) => (
+              filteredMatches.map((match, index) => (
                 <div
                   key={`match-list-${index}`}
                   className="transform transition-all duration-500 hover:scale-[1.03] hover:-translate-y-2">
@@ -445,10 +418,10 @@ const MatchListTab = (props: MatchListTabProps) => {
           {/* 모바일: List */}
           <div className="md:hidden p-6">
             <div className="space-y-6 max-h-[500px] overflow-y-auto modern-scrollbar pr-2">
-              {sortedMatches.length === 0 ? (
+              {filteredMatches.length === 0 ? (
                 <EmptySearchResult searchTerm={searchTerm} />
               ) : (
-                sortedMatches.map((match, index) => (
+                filteredMatches.map((match, index) => (
                   <div
                     key={`match-list-${index}`}
                     className="transform transition-all duration-500 hover:scale-[1.02] hover:-translate-y-1">
