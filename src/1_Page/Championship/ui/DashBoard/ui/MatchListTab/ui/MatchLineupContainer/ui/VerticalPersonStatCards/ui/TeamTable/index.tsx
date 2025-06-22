@@ -33,10 +33,10 @@ const TeamTable = (props: TeamTableProps) => {
                 </td>
               </tr>
             ) : (
-              players.map((p, index) => (
+              players.map((player, index) => (
                 <PlayerHistoryRow
-                  key={p.match_player_stats_idx || index}
-                  p={p}
+                  key={player.match_player_stats_idx || index}
+                  player={player}
                   maxGoal={maxGoal}
                   maxAssist={maxAssist}
                   personEvidenceImage={personEvidenceImage}

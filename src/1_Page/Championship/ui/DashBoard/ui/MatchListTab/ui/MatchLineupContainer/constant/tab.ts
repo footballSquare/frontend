@@ -10,3 +10,12 @@ export const BUTTON_TEXT = {
   [ViewMode.Personal]: "개인 기록 보기",
   DETAIL: "매치 상세 보기",
 } as const;
+
+export const VIEW_MODE_BUTTONS = [
+  { id: ViewMode.Team, label: BUTTON_TEXT[ViewMode.Team] },
+  { id: ViewMode.Lineup, label: BUTTON_TEXT[ViewMode.Lineup] },
+  {
+    id: ViewMode.Personal,
+    label: BUTTON_TEXT[ViewMode.Personal],
+  },
+];

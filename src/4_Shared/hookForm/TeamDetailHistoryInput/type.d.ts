@@ -3,7 +3,7 @@ type TeamDetailHistoryInputProps = {
   isFile?: boolean;
   isPercentage?: boolean;
   isEditing?: boolean;
-  getCurrentMomPlayer?: () => { player_list_nickname: string } | undefined;
+  currentMomPlayer?: PlayerStats | undefined;
 };
 
 type PostTeamStatsForm = {

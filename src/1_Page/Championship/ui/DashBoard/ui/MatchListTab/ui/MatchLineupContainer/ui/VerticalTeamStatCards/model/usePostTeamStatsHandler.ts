@@ -1,4 +1,4 @@
-import usePostTeamStat from "../../../../../../../../../../../../../3_Entity/Match/usePostTeamStat";
+import usePostTeamStat from "../../../../../../../../../../../3_Entity/Match/usePostTeamStat";
 
 const usePostTeamStatsHandler = (
   cancelEdit: () => void,

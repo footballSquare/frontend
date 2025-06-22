@@ -27,6 +27,7 @@ const usePostTeamStatsEvidence = (): [
       formData.append("file", fileObj);
     });
 
+    setResponseUrl(null); // 초기화
     return await request(
       "POST",
       `/match/${matchIdx}/team_stats/evidence_img`,

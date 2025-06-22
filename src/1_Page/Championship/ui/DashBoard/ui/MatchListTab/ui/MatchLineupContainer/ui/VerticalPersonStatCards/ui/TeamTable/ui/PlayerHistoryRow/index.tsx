@@ -13,20 +13,21 @@ import usePlayerStatForm from "./model/usePlayerStatForm";
 import usePostPlayerStatsEvidence from "../../../../../../../../../../../../../../3_Entity/Match/usePostPlayerStatsEvidence";
 
 const PlayerHistoryRow = (props: PlayerHistoryRowProps) => {
-  const { p, maxGoal, maxAssist, personEvidenceImage } = props;
+  const { player, maxGoal, maxAssist, personEvidenceImage } = props;
 
   const [myUserIdx] = useMyUserIdx();
-  const isMine = p.player_list_idx === myUserIdx;
+  const isMine = player.player_list_idx === myUserIdx;
   const [isExpanded, toggleIsExpanded] = useToggleState();
   const [isEditing, toggleIsEditing] = useToggleState();
 
-  const goals = p.match_player_stats_goal ?? 0;
-  const assists = p.match_player_stats_assist ?? 0;
+  const goals = player.match_player_stats_goal ?? 0;
+  const assists = player.match_player_stats_assist ?? 0;
   const isTopScorer = goals > 0 && goals === maxGoal;
   const isTopAssist = assists > 0 && assists === maxAssist;
   const highlight = isTopScorer || isTopAssist;
 
-  const { methods, cancelEdit, setBackupPlayerStats } = usePlayerStatForm(p);
+  const { methods, cancelEdit, setBackupPlayerStats } =
+    usePlayerStatForm(player);
   const {
     register,
     handleSubmit,
@@ -38,7 +39,7 @@ const PlayerHistoryRow = (props: PlayerHistoryRowProps) => {
   const defaultEvidenceUrls =
     responseUrl ||
     personEvidenceImage
-      ?.filter((item) => item.player_list_idx === p.player_list_idx)
+      ?.filter((item) => item.player_list_idx === player.player_list_idx)
       .map((item) => item.match_player_stats_evidence_img) ||
     [];
 
@@ -49,11 +50,11 @@ const PlayerHistoryRow = (props: PlayerHistoryRowProps) => {
 
   const onSubmit: SubmitHandler<PlayerStatsFormValues> = (data) => {
     toggleIsEditing();
-    handlePostPlayerStats({ matchIdx: p.match_match_idx, data });
+    handlePostPlayerStats({ matchIdx: player.match_match_idx, data });
   };
 
   return (
-    <React.Fragment key={p.player_list_idx}>
+    <React.Fragment key={player.player_list_idx}>
       <tr
         onClick={toggleIsExpanded}
         className="cursor-pointer hover:bg-grass/10">
@@ -64,7 +65,7 @@ const PlayerHistoryRow = (props: PlayerHistoryRowProps) => {
                 {isTopScorer && isTopAssist ? "👑" : isTopScorer ? "⚽" : "🎯"}
               </span>
             )}
-            <span>{p.player_list_nickname}</span>
+            <span>{player.player_list_nickname}</span>
           </div>
           {isMine && (
             <span className="ml-2 text-xs text-grass font-bold lg:text-xs lg:font-semibold">
@@ -76,9 +77,9 @@ const PlayerHistoryRow = (props: PlayerHistoryRowProps) => {
           <span
             className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold lg:px-2 lg:py-1 lg:text-xs lg:font-medium`}
             style={{
-              color: getPositionColor(p.match_position_idx),
+              color: getPositionColor(player.match_position_idx),
             }}>
-            {matchPosition[p.match_position_idx]}
+            {matchPosition[player.match_position_idx]}
           </span>
         </td>
         <td className="px-3 py-4 text-base lg:px-4 lg:py-3 lg:text-sm text-center text-gray-100">
@@ -102,7 +103,7 @@ const PlayerHistoryRow = (props: PlayerHistoryRowProps) => {
               <div>
                 <StatEvidenceImgFormPanel
                   onSubmit={postPlayerStats}
-                  matchIdx={p.match_match_idx}
+                  matchIdx={player.match_match_idx}
                   defaultValues={defaultEvidenceUrls}
                   canChange={isMine}
                 />
@@ -156,7 +157,7 @@ const PlayerHistoryRow = (props: PlayerHistoryRowProps) => {
                       register={register}
                       errors={errors}
                       isEditing={isEditing}>
-                      {p[key as keyof PlayerStats] ?? 0}
+                      {player[key as keyof PlayerStats] ?? 0}
                     </PlayerStatsDetailInput>
                   ))}
                 </div>
@@ -165,7 +166,7 @@ const PlayerHistoryRow = (props: PlayerHistoryRowProps) => {
                     성공률 · 점유율
                   </h4>
                   {rateStats.map(({ key, label, keeperOnly }) =>
-                    keeperOnly && p.match_position_idx !== 1 ? null : (
+                    keeperOnly && player.match_position_idx !== 1 ? null : (
                       <PlayerStatsDetailInput
                         key={key}
                         label={label}
@@ -174,7 +175,9 @@ const PlayerHistoryRow = (props: PlayerHistoryRowProps) => {
                         errors={errors}
                         isEditing={isEditing}>
                         <StatProgressBar
-                          value={(p[key as keyof PlayerStats] as number) ?? 0}
+                          value={
+                            (player[key as keyof PlayerStats] as number) ?? 0
+                          }
                         />
                       </PlayerStatsDetailInput>
                     )

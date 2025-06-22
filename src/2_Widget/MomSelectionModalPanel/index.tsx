@@ -1,5 +1,5 @@
 import { useFormContext } from "react-hook-form";
-import useToggleState from "../../../../../../../../../../../../../../4_Shared/model/useToggleState";
+import useToggleState from "../../4_Shared/model/useToggleState";
 
 const MomSelectionModalPanel = (props: MomSelectionModalPanelProps) => {
   const { teamPlayer, currentMomIdx } = props;

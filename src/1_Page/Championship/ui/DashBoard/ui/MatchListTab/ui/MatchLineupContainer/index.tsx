@@ -4,7 +4,7 @@ import VerticalTeamStatCards from "./ui/VerticalTeamStatCards";
 
 import useChampionshipInfoContext from "../../../../../../../../4_Shared/model/useChampionshipInfoContext";
 import useMatchModalStore from "../../../../../../../../4_Shared/zustand/useMatchModal";
-import { BUTTON_TEXT, ViewMode } from "./constant/tab";
+import { BUTTON_TEXT, VIEW_MODE_BUTTONS, ViewMode } from "./constant/tab";
 import VerticalPersonStatCards from "./ui/VerticalPersonStatCards";
 import useGetChampionshipEvidence from "../../../../../../../../3_Entity/Championship/useGetChampionshipEvidence";
 
@@ -44,16 +44,7 @@ const MatchLineupContainer = (props: MatchLineupContainerProps) => {
           <nav className="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 gap-3 lg:mb-6 lg:gap-4">
             {/* 스크롤 가능한 탭 버튼 목록 */}
             <div className="flex overflow-x-auto space-x-2 p-1 rounded-lg scrollbar-hide w-full lg:w-auto lg:p-2 lg:rounded-md">
-              {(
-                [
-                  { id: ViewMode.Team, label: BUTTON_TEXT[ViewMode.Team] },
-                  { id: ViewMode.Lineup, label: BUTTON_TEXT[ViewMode.Lineup] },
-                  {
-                    id: ViewMode.Personal,
-                    label: BUTTON_TEXT[ViewMode.Personal],
-                  },
-                ] as { id: ViewMode; label: string }[]
-              ).map(({ id, label }) => (
+              {VIEW_MODE_BUTTONS.map(({ id, label }) => (
                 <button
                   key={id}
                   onClick={() => setViewMode(id)}

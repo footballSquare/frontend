@@ -6,7 +6,7 @@ const TeamDetailHistoryInput = (props: TeamDetailHistoryInputProps) => {
     isFile = false,
     isPercentage = false,
     isEditing = true,
-    getCurrentMomPlayer,
+    currentMomPlayer,
   } = props;
   const {
     register,
@@ -21,7 +21,7 @@ const TeamDetailHistoryInput = (props: TeamDetailHistoryInputProps) => {
       <div className="space-y-2">
         <div className="flex items-center gap-2">
           <span>👑</span>
-          <span>{getCurrentMomPlayer?.()?.player_list_nickname || "-"}</span>
+          <span>{currentMomPlayer?.player_list_nickname || "-"}</span>
         </div>
         {hasError && isEditing && (
           <div className="flex items-center gap-2 text-sm text-red-400 bg-red-900/20 px-3 py-2 rounded-md border border-red-500/30">

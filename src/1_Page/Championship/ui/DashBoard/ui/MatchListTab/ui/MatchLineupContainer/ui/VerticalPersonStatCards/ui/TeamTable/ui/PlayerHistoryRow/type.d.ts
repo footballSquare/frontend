@@ -1,5 +1,5 @@
 type PlayerHistoryRowProps = {
-  p: PlayerStats;
+  player: PlayerStats;
   maxGoal: number;
   maxAssist: number;
   personEvidenceImage?: PlayerEvidenceImg[];
