@@ -44,7 +44,7 @@ const VerticalTeamStatCards = (props: VerticalTeamStatCardsProps) => {
     stats,
     matchIdx
   );
-  const { handleSubmit, getValues } = methods;
+  const { handleSubmit, watch } = methods;
   const [handlePostTeamStats] = usePostTeamStatsHandler(
     cancelEdit,
     setBackupTeamStats,
@@ -54,10 +54,9 @@ const VerticalTeamStatCards = (props: VerticalTeamStatCardsProps) => {
   const [postTeamStatsEvidence, responseUrl] = usePostTeamStatsEvidence();
 
   const evidenceUrls = getEvidenceUrls(responseUrl, evidenceImage);
-  const momPlayer = getCurrentMomPlayer(
-    teamPlayer,
-    methods.getValues("mom_player_idx")
-  );
+
+  const momPlyaerIdx = watch("mom_player_idx");
+  const momPlayer = getCurrentMomPlayer(teamPlayer, momPlyaerIdx);
 
   return (
     <div className="w-full max-w-6xl mx-auto px-2 py-3 space-y-4 lg:p-4 lg:space-y-6">
@@ -143,7 +142,7 @@ const VerticalTeamStatCards = (props: VerticalTeamStatCardsProps) => {
                                 />
                                 <MomSelectionModalPanel
                                   teamPlayer={teamPlayer}
-                                  currentMomIdx={getValues("mom_player_idx")}
+                                  currentMomIdx={momPlyaerIdx}
                                 />
                               </div>
                             ) : (

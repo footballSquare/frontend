@@ -1,6 +1,6 @@
 export function getCurrentMomPlayer(
   players: PlayerStats[] | undefined,
-  momIdx: number | undefined
+  momIdx: number
 ) {
   return players?.find((p) => p.player_list_idx === momIdx);
 }
