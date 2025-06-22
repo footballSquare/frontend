@@ -14,6 +14,7 @@ import { PROFILE_TAB, PROFILE_TAB_LIST } from "./constant/tab";
 import { FormProvider } from "react-hook-form";
 import teamIcon from "../../4_Shared/assets/svg/team.svg";
 import plusIcon from "../../4_Shared/assets/svg/plus.svg";
+import useToggleState from "../../4_Shared/model/useToggleState";
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -25,29 +26,31 @@ const Profile = () => {
     team_short_name,
     team_idx,
     Awards = [],
-  } = userInfo || {};
+  } = userInfo;
+
+  const [isModifyMode, toggleIsModifyMode] = useToggleState();
+
+  // 훅폼 관리
   const {
     form,
-    isModifyMode,
     inputBackupDataRef,
     handleEdit,
     handleCancel,
-    toggleIsModifyMode,
     handleImageChange,
-  } = useProfileDashBoardHookform(userInfo);
+  } = useProfileDashBoardHookform({ userInfo, toggleIsModifyMode });
   const {
     handleSubmit,
     reset,
     watch,
     formState: { isDirty },
   } = form;
+  const watchNickname = watch("nickname");
 
   const [activeTab, setActiveTab] = React.useState<PROFILE_TAB>(
     PROFILE_TAB.PROFILE
   );
 
-  const watchNickname = watch("nickname");
-
+  // API 핸들러
   const [handleDeleteUser] = useDeleteUserHandler();
   const [handlePutUserInfo] = usePutUserInfoHandler({
     reset,

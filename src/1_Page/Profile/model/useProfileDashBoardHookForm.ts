@@ -2,11 +2,11 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { profileDashBoardInputSchema } from "../../../4_Shared/hookForm/ProfileDashBoardInput/schema";
-import useToggleState from "../../../4_Shared/model/useToggleState";
 
 const useProfileDashBoardHookform = (
-  initUserInfo: UserInfo
+  props: UseProfileDashBoardHookformProps
 ): UseProfileDashBoardHookformReturn => {
+  const { userInfo: initUserInfo, toggleIsModifyMode } = props;
   const form = useForm<UsePutUserInfoProps>({
     resolver: yupResolver(profileDashBoardInputSchema),
     mode: "onChange",
@@ -24,8 +24,6 @@ const useProfileDashBoardHookform = (
       match_position_idx: initUserInfo.match_position_idx,
     });
   }, [initUserInfo, reset]); // 초기값 설정
-
-  const [isModifyMode, toggleIsModifyMode] = useToggleState();
 
   const handleEdit = () => {
     inputBackupDataRef.current = getValues();
@@ -58,11 +56,9 @@ const useProfileDashBoardHookform = (
 
   return {
     form,
-    isModifyMode,
     inputBackupDataRef,
     handleEdit,
     handleCancel,
-    toggleIsModifyMode,
     handleImageChange,
   };
 };

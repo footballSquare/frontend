@@ -9,6 +9,7 @@ const ProfileImageCard = (props: ProfileImageCardProps) => {
   const { userInfo, isModifyMode, onImageChange } = props;
   const { watch } = useFormContext();
 
+  // form 값을 watch하여 현재 상태를 가져옵니다.
   const nickname = watch("nickname", userInfo.nickname);
   const message = watch("message", userInfo.message);
   const platform = watch("platform", userInfo.platform);
@@ -18,9 +19,9 @@ const ProfileImageCard = (props: ProfileImageCardProps) => {
   );
   const profileImage = watch("profile_image", userInfo.profile_image);
 
+  // 수정모드 또는 플레이어 카드 보기 상태
   const [showPlayerCard, toggleShowPlayerCard] = useToggleState();
   const isShowingPlayerCard = isModifyMode || showPlayerCard;
-  const positionName = matchPosition[matchPositionIdx] || "미정";
 
   return (
     <div className="relative bg-gradient-to-br from-slate-800 to-gray-800 rounded-2xl border border-slate-600/50 shadow-xl backdrop-blur-sm overflow-hidden hover:shadow-2xl transition-all duration-300">
@@ -58,7 +59,7 @@ const ProfileImageCard = (props: ProfileImageCardProps) => {
             style={{
               backgroundColor: getPositionColor(matchPositionIdx),
             }}>
-            {positionName}
+            {matchPosition[matchPositionIdx] || "미정"}
           </div>
 
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none" />
