@@ -1,4 +1,4 @@
-import { formation } from "../../../../../../../../4_Shared/constant/formation";
+import { formation } from "../../4_Shared/constant/formation";
 import PlayerGroundPoint from "./ui/PlayerGroundPoint";
 
 const FootballGroundSection = (props: FootballGroundSectionProps) => {

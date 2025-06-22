@@ -1,21 +1,21 @@
+import React from "react";
+import PlayerHistoryTable from "./ui/PlayerHistoryTable";
+import VerticalTeamStatCards from "./ui/VerticalTeamStatCards";
 import ChampionshipMatchCard from "./ui/ChampionshipMatchCard";
 import CreateChampionMatchPanel from "./ui/CreateChampionMatchPanel";
-import useSortHandler from "./model/useSortHandler";
-
-import useChampionshipInfoContext from "../../../../../../4_Shared/model/useChampionshipInfoContext";
-import useSelectHandler from "./model/useSelectHandler";
-import useGetChampionshipDetail from "../../../../../../3_Entity/Championship/useGetChampionshipDetail";
-
 import EmptySearchResult from "./ui/EmptySearchResult";
-import { getSelectedMatchTeams } from "./lib/getSelectedMatchTeams";
-import useGetChampionshipEvidence from "../../../../../../3_Entity/Championship/useGetChampionshipEvidence";
-import React from "react";
-import useMatchModalStore from "../../../../../../4_Shared/zustand/useMatchModal";
+
 import { BUTTON_TEXT, VIEW_MODE, VIEW_MODE_BUTTONS } from "./constant/tab";
-import VerticalTeamStatCards from "./ui/VerticalTeamStatCards";
-import FootballGroundSection from "./ui/FootballGroundSection";
+import useSortHandler from "./model/useSortHandler";
+import useSelectHandler from "./model/useSelectHandler";
+import { getSelectedMatchTeams } from "./lib/getSelectedMatchTeams";
 import { getMatchMaxStats } from "./lib/getMatchMaxStats";
-import PlayerHistoryTable from "./ui/PlayerHistoryTable";
+
+import FootballGroundSection from "../../../../../../2_Widget/FootballGroundSection";
+import useGetChampionshipDetail from "../../../../../../3_Entity/Championship/useGetChampionshipDetail";
+import useGetChampionshipEvidence from "../../../../../../3_Entity/Championship/useGetChampionshipEvidence";
+import useChampionshipInfoContext from "../../../../../../4_Shared/model/useChampionshipInfoContext";
+import useMatchModalStore from "../../../../../../4_Shared/zustand/useMatchModal";
 
 const MatchListTab = (props: MatchListTabProps) => {
   const { matchList, filteredTeamList, matchHandlers } = props;
@@ -51,7 +51,6 @@ const MatchListTab = (props: MatchListTabProps) => {
   // admin
   const { isCommunityOperator, isCommunityManager, championshipListColor } =
     useChampionshipInfoContext();
-  const accentColor = championshipListColor || "#3b82f6";
 
   // zustand
   const { setMatchIdx, toggleMatchModal } = useMatchModalStore();
@@ -127,7 +126,7 @@ const MatchListTab = (props: MatchListTabProps) => {
                           }`}
                           style={
                             viewMode === id
-                              ? { backgroundColor: accentColor }
+                              ? { backgroundColor: championshipListColor }
                               : undefined
                           }>
                           {label}

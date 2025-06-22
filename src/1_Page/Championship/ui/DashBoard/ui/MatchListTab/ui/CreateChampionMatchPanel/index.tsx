@@ -1,9 +1,10 @@
+import useCreateMatchForm from "./model/useCreateMatchForm";
+import usePostCreateChampionshipMatchHandler from "./model/useManageCreateChampionshipMatch";
+
 import useToggleState from "../../../../../../../../4_Shared/model/useToggleState";
 import useChampionshipInfoContext from "../../../../../../../../4_Shared/model/useChampionshipInfoContext";
 import { getTextColorFromBackground } from "../../../../../../../../4_Shared/lib/colorChecker";
-import usePostCreateChampionshipMatchHandler from "./model/useManageCreateChampionshipMatch";
 import PostChampionshipMatch from "../../../../../../../../4_Shared/hookForm/PostChampionshipMatch";
-import useCreateMatchForm from "./model/useCreateMatchForm";
 import DefaultTeamEmblem from "../../../../../../../../4_Shared/components/DefaultTeamEmblem";
 
 const CreateChampionMatchPanel = (props: CreateChampionMatchPanelProps) => {
@@ -42,8 +43,7 @@ const CreateChampionMatchPanel = (props: CreateChampionMatchPanelProps) => {
     });
 
   const { championshipListColor } = useChampionshipInfoContext();
-  const accentColor = championshipListColor || "#3b82f6"; // fallback blue‑500
-  const accentText = getTextColorFromBackground(accentColor);
+  const accentText = getTextColorFromBackground(championshipListColor);
 
   return (
     <div>
@@ -52,9 +52,9 @@ const CreateChampionMatchPanel = (props: CreateChampionMatchPanelProps) => {
         onClick={handleToggleModal}
         className="inline-flex items-center justify-center px-6 py-3 text-sm font-bold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-opacity-50 border-2 border-transparent"
         style={{
-          backgroundColor: accentColor,
+          backgroundColor: championshipListColor,
           color: accentText,
-          borderColor: `${accentColor}40`,
+          borderColor: `${championshipListColor}40`,
         }}>
         <span className="mr-2">⚽</span>
         매치 생성
@@ -158,7 +158,7 @@ const CreateChampionMatchPanel = (props: CreateChampionMatchPanelProps) => {
                                     onClick={() => handleAddTeam(team)}
                                     className="inline-flex items-center justify-center px-4 py-2 text-sm font-bold rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
                                     style={{
-                                      backgroundColor: accentColor,
+                                      backgroundColor: championshipListColor,
                                       color: accentText,
                                     }}>
                                     <span className="mr-1">➕</span>
@@ -330,7 +330,7 @@ const CreateChampionMatchPanel = (props: CreateChampionMatchPanelProps) => {
                     type="submit"
                     className="inline-flex items-center justify-center px-8 py-3 text-base font-bold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-opacity-50 order-2 sm:order-1 transform hover:scale-105"
                     style={{
-                      backgroundColor: accentColor,
+                      backgroundColor: championshipListColor,
                       color: accentText,
                     }}>
                     <span className="mr-2">🚀</span>

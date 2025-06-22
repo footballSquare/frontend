@@ -1,8 +1,10 @@
 import React from "react";
-import useToggleState from "../../../../../../4_Shared/model/useToggleState";
-import EndChampionshipModal from "./ui/EndChampionshipModal";
-import useParamInteger from "../../../../../../4_Shared/model/useParamInteger";
 import { useNavigate } from "react-router-dom";
+
+import EndChampionshipModal from "./ui/EndChampionshipModal";
+
+import useToggleState from "../../../../../../4_Shared/model/useToggleState";
+import useParamInteger from "../../../../../../4_Shared/model/useParamInteger";
 
 const AdminBtnPanel = (props: EndChampionshipPanelProps) => {
   const { championshipInfo } = props;

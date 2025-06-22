@@ -3,14 +3,15 @@ import LeagueBracket from "./ui/LeagueBracket";
 import TournamentBracket from "./ui/TournamentBracket";
 import MatchListTab from "./ui/MatchListTab";
 import TeamListPanel from "./ui/TeamListPanel";
+import PlayerTab from "./ui/PlayerTab";
 
 import useManageMatchList from "./model/useManageMatchList";
 import { convertToMatchData } from "./lib/convertToMatchData";
 import { ACTIVE_TAB, activeTabList } from "./constant/activeTab";
+
 import useGetChampionshipTeams from "../../../../3_Entity/Championship/useGetChampionshipTeams";
 import useGetChampionshipMatchList from "../../../../3_Entity/Championship/useGetChampionshipMatchList";
 import useParamInteger from "../../../../4_Shared/model/useParamInteger";
-import PlayerTab from "./ui/PlayerTab";
 import useChampionshipInfoContext from "../../../../4_Shared/model/useChampionshipInfoContext";
 
 const DashBoard = (props: DashBoardProps) => {

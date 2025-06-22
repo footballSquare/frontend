@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
-import { matchPosition } from "../../../../.../../../../../../../../4_Shared/constant/matchPosition";
-import { getPositionColor } from "../../../../../../../../../../4_Shared/lib/getPositionColor";
-import useToggleState from "../../../../../../../../../../4_Shared/model/useToggleState";
+import { matchPosition } from "../../../../4_Shared/constant/matchPosition";
+import { getPositionColor } from "../../../../4_Shared/lib/getPositionColor";
+import useToggleState from "../../../../4_Shared/model/useToggleState";
 import { calculatePlayerPosition } from "./lib/calculatePlayerPosition";
 
 const PlayerGroundPoint = (props: PlayerGroundPointProps) => {
