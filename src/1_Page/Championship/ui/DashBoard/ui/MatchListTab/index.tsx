@@ -355,24 +355,10 @@ const MatchListTab = (props: MatchListTabProps) => {
             </div>
           )}
 
-          {/* 관리자 전용 매치 생성 패널 */}
-          {(isCommunityOperator || isCommunityManager) && (
-            <div className="p-6">
-              <CreateChampionMatchPanel
-                handleBackToList={handleBackToList}
-                handleMatchSelect={handleMatchSelect}
-                handleAddMatch={matchHandlers.handleAddMatch}
-                handleSyncMatchIdx={matchHandlers.handleSyncMatchIdx}
-                handleDeleteMatch={matchHandlers.handleDeleteMatch}
-                filteredTeamList={filteredTeamList}
-              />
-            </div>
-          )}
-
-          {/* 검색 및 정렬 영역 */}
-          <div className="p-6 space-y-4">
+          {/* 검색 및 관리자 기능 영역 */}
+          <div className="p-6 flex flex-col md:flex-row items-center gap-6">
             {/* 검색창 */}
-            <div className="relative group">
+            <div className="relative group w-full md:flex-1">
               <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                 <div className="w-5 h-5 rounded-full bg-gradient-to-r from-blue-400 to-purple-400 flex items-center justify-center">
                   <span className="text-white text-xs">🔍</span>
@@ -386,6 +372,20 @@ const MatchListTab = (props: MatchListTabProps) => {
                 className="w-full pl-14 pr-4 py-4 bg-white/10 border border-white/20 rounded-2xl text-white placeholder-gray-300 focus:outline-none focus:bg-white/20 focus:border-white/40 transition-all duration-300 group-hover:bg-white/15"
               />
             </div>
+
+            {/* 관리자 전용 매치 생성 패널 */}
+            {(isCommunityOperator || isCommunityManager) && (
+              <div className="w-full md:w-auto">
+                <CreateChampionMatchPanel
+                  handleBackToList={handleBackToList}
+                  handleMatchSelect={handleMatchSelect}
+                  handleAddMatch={matchHandlers.handleAddMatch}
+                  handleSyncMatchIdx={matchHandlers.handleSyncMatchIdx}
+                  handleDeleteMatch={matchHandlers.handleDeleteMatch}
+                  filteredTeamList={filteredTeamList}
+                />
+              </div>
+            )}
           </div>
 
           {/* 매치 카드 리스트 */}
