@@ -17,6 +17,8 @@ import useGetChampionshipEvidence from "../../../../../../3_Entity/Championship/
 import useChampionshipInfoContext from "../../../../../../4_Shared/model/useChampionshipInfoContext";
 import useMatchModalStore from "../../../../../../4_Shared/zustand/useMatchModal";
 import { useAuthStore } from "../../../../../../4_Shared/lib/useMyInfo";
+import ChevronDownIcon from "../../../../../../4_Shared/assets/svg/ChevronDown.svg";
+import ChevronUpIcon from "../../../../../../4_Shared/assets/svg/ChevronUp.svg";
 
 const MatchListTab = (props: MatchListTabProps) => {
   const { matchList, filteredTeamList, matchHandlers } = props;
@@ -47,6 +49,7 @@ const MatchListTab = (props: MatchListTabProps) => {
   } = useSortHandler(matchList);
   const [activeTeam, setActiveTeam] = React.useState<0 | 1>(0);
   const [viewMode, setViewMode] = React.useState<VIEW_MODE>(VIEW_MODE.Lineup);
+  const [isMyMatchesOpen, setIsMyMatchesOpen] = React.useState(true);
 
   // api 이미 호출된 idx는 캐싱을 통해 데이터 최적화
   const [championshipDetail] = useGetChampionshipDetail(
@@ -311,35 +314,48 @@ const MatchListTab = (props: MatchListTabProps) => {
           {/* 내 팀 목록 */}
           {myMatchList.length > 0 && (
             <div className="p-6 border-b border-gray-700">
-              <div className="flex items-center justify-between mb-4">
+              <div
+                className="flex items-center justify-between mb-4 cursor-pointer"
+                onClick={() => setIsMyMatchesOpen((prev) => !prev)}>
                 <h3 className="text-xl font-bold text-white flex items-center gap-2">
                   <span className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center text-lg">
                     ⭐
                   </span>
                   내 팀 경기 목록
                 </h3>
-                <span className="text-gray-400 text-sm">
-                  총 {myMatchList.length}개 경기
-                </span>
-              </div>
-              <div className="flex overflow-x-auto space-x-6 pb-4 -mx-6 px-6 modern-scrollbar">
-                {myMatchList.map((match, index) => (
-                  <div
-                    key={`my-match-${index}`}
-                    className="w-80 flex-shrink-0 transform transition-all duration-300 hover:scale-[1.03]">
-                    <ChampionshipMatchCard
-                      {...matchHandlers}
-                      isSelected={
-                        selectChampionshipMatchIdx ===
-                        match.championship_match_idx
-                      }
-                      handleSelect={handleMatchSelect}
-                      match={match}
-                      isListViewMode={true}
+                <div className="flex items-center gap-4">
+                  <span className="text-gray-400 text-sm">
+                    총 {myMatchList.length}개 경기
+                  </span>
+                  <button className="p-1 rounded-full hover:bg-gray-700 transition-colors">
+                    <img
+                      src={isMyMatchesOpen ? ChevronUpIcon : ChevronDownIcon}
+                      alt={isMyMatchesOpen ? "접기" : "펼치기"}
+                      className="w-6 h-6"
                     />
-                  </div>
-                ))}
+                  </button>
+                </div>
               </div>
+              {isMyMatchesOpen && (
+                <div className="flex overflow-x-auto space-x-6 pb-4 -mx-6 px-6 modern-scrollbar">
+                  {myMatchList.map((match, index) => (
+                    <div
+                      key={`my-match-${index}`}
+                      className="w-80 flex-shrink-0 transform transition-all duration-300 hover:scale-[1.03]">
+                      <ChampionshipMatchCard
+                        {...matchHandlers}
+                        isSelected={
+                          selectChampionshipMatchIdx ===
+                          match.championship_match_idx
+                        }
+                        handleSelect={handleMatchSelect}
+                        match={match}
+                        isListViewMode={true}
+                      />
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           )}
 
