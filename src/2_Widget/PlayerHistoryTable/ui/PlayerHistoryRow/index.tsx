@@ -1,16 +1,16 @@
 import React from "react";
 import { SubmitHandler } from "react-hook-form";
-import { getPositionColor } from "../../../../../../../../../../../../../../4_Shared/lib/getPositionColor";
-import { matchPosition } from "../../../../../../../../../../../../../../4_Shared/constant/matchPosition";
-import useToggleState from "../../../../../../../../../../../../../../4_Shared/model/useToggleState";
-import { useMyUserIdx } from "../../../../../../../../../../../../../../4_Shared/lib/useMyInfo";
+import { getPositionColor } from "../../../../4_Shared/lib/getPositionColor";
+import { matchPosition } from "../../../../4_Shared/constant/matchPosition";
+import useToggleState from "../../../../4_Shared/model/useToggleState";
+import { useMyUserIdx } from "../../../../4_Shared/lib/useMyInfo";
 import { attackStats, rateStats } from "./constant/formValues";
-import PlayerStatsDetailInput from "../../../../../../../../../../../../../../4_Shared/hookForm/PlayerDetailHistoryInput";
-import StatEvidenceImgFormPanel from "../../../../../../../../../../../../../../2_Widget/StatEvidenceImgFormPanel";
-import StatProgressBar from "../../../../../../../../../../../../../../4_Shared/components/StatProgressBar";
+import PlayerStatsDetailInput from "../../../../4_Shared/hookForm/PlayerDetailHistoryInput";
+import StatEvidenceImgFormPanel from "../../../StatEvidenceImgFormPanel";
+import StatProgressBar from "../../../../4_Shared/components/StatProgressBar";
 import usePostPlayerStatsHandler from "./model/usePostPlayerStatsHandler";
 import usePlayerStatForm from "./model/usePlayerStatForm";
-import usePostPlayerStatsEvidence from "../../../../../../../../../../../../../../3_Entity/Match/usePostPlayerStatsEvidence";
+import usePostPlayerStatsEvidence from "../../../../3_Entity/Match/usePostPlayerStatsEvidence";
 
 const PlayerHistoryRow = (props: PlayerHistoryRowProps) => {
   const { player, maxGoal, maxAssist, personEvidenceImage } = props;

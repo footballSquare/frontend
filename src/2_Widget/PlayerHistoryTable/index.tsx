@@ -1,6 +1,6 @@
 import PlayerHistoryRow from "./ui/PlayerHistoryRow";
 
-const TeamTable = (props: TeamTableProps) => {
+const PlayerHistoryTable = (props: PlayerHistoryTableProps) => {
   const { players, teamLabel, maxGoal, maxAssist, personEvidenceImage } = props;
 
   return (
@@ -50,4 +50,4 @@ const TeamTable = (props: TeamTableProps) => {
   );
 };
 
-export default TeamTable;
+export default PlayerHistoryTable;

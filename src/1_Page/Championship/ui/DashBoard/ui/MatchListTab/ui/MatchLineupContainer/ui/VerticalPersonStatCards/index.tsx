@@ -1,5 +1,5 @@
 import React from "react";
-import TeamTable from "./ui/TeamTable";
+import PlayerHistoryTableProps from "../../../../../../../../../../2_Widget/PlayerHistoryTable";
 
 const VerticalPersonStatCards = (props: VerticalPersonStatCardsProps) => {
   const {
@@ -41,7 +41,7 @@ const VerticalPersonStatCards = (props: VerticalPersonStatCardsProps) => {
         </div>
 
         <div className="mt-6 overflow-x-auto lg:mt-10">
-          <TeamTable
+          <PlayerHistoryTableProps
             players={activeTeam === 1 ? team1PlayerStats : team2PlayerStats}
             teamLabel={activeTeam === 1 ? teamName1 : teamName2}
             maxGoal={maxGoal}
@@ -53,14 +53,14 @@ const VerticalPersonStatCards = (props: VerticalPersonStatCardsProps) => {
 
       {/* 데스크톱: 2열 */}
       <div className="hidden lg:grid grid-cols-2 gap-6">
-        <TeamTable
+        <PlayerHistoryTableProps
           players={team1PlayerStats}
           teamLabel={teamName1}
           maxGoal={maxGoal}
           maxAssist={maxAssist}
           personEvidenceImage={personEvidenceImage}
         />
-        <TeamTable
+        <PlayerHistoryTableProps
           players={team2PlayerStats}
           teamLabel={teamName2}
           maxGoal={maxGoal}

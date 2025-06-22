@@ -1,4 +1,4 @@
-import usePostPlayerStats from "../../../../../../../../../../../../../../../3_Entity/Match/usePostPlayerStats";
+import usePostPlayerStats from "../../../../../3_Entity/Match/usePostPlayerStats";
 
 const usePostPlayerStatsHandler = (
   cancelEdit: () => void,

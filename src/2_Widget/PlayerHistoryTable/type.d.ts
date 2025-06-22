@@ -1,4 +1,4 @@
-type TeamTableProps = {
+type PlayerHistoryTableProps = {
   players: PlayerStats[];
   teamLabel: string;
   maxGoal: number;
