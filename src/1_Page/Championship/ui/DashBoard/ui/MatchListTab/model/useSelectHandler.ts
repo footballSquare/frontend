@@ -7,11 +7,10 @@ const useSelectHandler = (
     React.useState<number>(0);
   const [isMatchDetailView, setIsMatchDetailView] = React.useState(false); // 매치 상세 보기 상태
 
-  const selectMatchIdx =
-    matchList.find(
-      (matchData) =>
-        matchData.championship_match_idx === selectChampionshipMatchIdx
-    )?.championship_match_first.match_match_idx ?? 0;
+  const selectedMatch = matchList.find(
+    (matchData) =>
+      matchData.championship_match_idx === selectChampionshipMatchIdx
+  );
 
   // 매치 선택 및 상세 보기로 전환하는 핸들러
   const handleMatchSelect = React.useCallback(
@@ -29,7 +28,7 @@ const useSelectHandler = (
 
   return {
     selectChampionshipMatchIdx,
-    selectMatchIdx,
+    selectedMatch,
     isMatchDetailView,
     handleMatchSelect,
     handleBackToList,

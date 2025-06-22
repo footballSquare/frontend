@@ -26,7 +26,6 @@ type ChampionshipTeamInfo = {
 type ChampionshipMatchFirst = {
   match_match_idx: number;
   team_list_idx: number;
-  championship_match_first_idx: number;
   team_list_name: string;
   team_list_short_name: string;
   team_list_color: string;
@@ -38,7 +37,6 @@ type ChampionshipMatchFirst = {
 type ChampionshipMatchSecond = {
   match_match_idx: number;
   team_list_idx: number;
-  championship_match_second_idx: number;
   team_list_name: string;
   team_list_short_name: string;
   team_list_color: string;

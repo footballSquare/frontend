@@ -8,7 +8,6 @@ import EmptySearchResult from "./ui/EmptySearchResult";
 import { BUTTON_TEXT, VIEW_MODE, VIEW_MODE_BUTTONS } from "./constant/tab";
 import useSearchTeamHandler from "./model/useSearchTeamHandler";
 import useSelectHandler from "./model/useSelectHandler";
-import { getSelectedMatchTeams } from "./lib/getSelectedMatchTeams";
 import { getMatchMaxStats } from "./lib/getMatchMaxStats";
 
 import FootballGroundSection from "../../../../../../2_Widget/FootballGroundSection";
@@ -25,11 +24,13 @@ const MatchListTab = (props: MatchListTabProps) => {
   // state
   const {
     selectChampionshipMatchIdx,
-    selectMatchIdx,
+    selectedMatch,
     isMatchDetailView,
     handleMatchSelect,
     handleBackToList,
   } = useSelectHandler(matchList);
+  const firstTeam = selectedMatch?.championship_match_first;
+  const secondTeam = selectedMatch?.championship_match_second;
   // 필터링 매치 훅
   const { filteredMatches, searchTerm, myMatchList, handleSearchChange } =
     useSearchTeamHandler(matchList);
@@ -55,10 +56,12 @@ const MatchListTab = (props: MatchListTabProps) => {
   const { setMatchIdx, toggleMatchModal } = useMatchModalStore();
 
   const { maxGoal, maxAssist } = getMatchMaxStats(championshipDetail);
-  const { selectTeamList, selectTeamScore } = getSelectedMatchTeams(
-    matchList,
-    selectChampionshipMatchIdx
-  );
+
+  const selectTeamList = [
+    firstTeam?.team_list_name,
+    secondTeam?.team_list_name,
+  ];
+
   const team1PlayerStats = championshipDetail?.first_team?.player_stats || [];
   const team2PlayerStats = championshipDetail?.second_team?.player_stats || [];
   const personEvidenceImage = evidenceImage.player_evidence || [];
@@ -90,7 +93,7 @@ const MatchListTab = (props: MatchListTabProps) => {
           </div>
           <div className="p-6">
             <div className="px-2 py-3 text-gray-100 lg:p-4">
-              {!selectMatchIdx ? (
+              {!selectChampionshipMatchIdx ? (
                 /* 매치 미선택 안내 – 어두운 배경·밝은 텍스트 */
                 <div className="flex flex-col items-center justify-center h-full py-8 lg:py-10">
                   <div className="bg-gray-800 rounded-full p-3 mb-3 lg:p-4 lg:mb-4">
@@ -134,14 +137,32 @@ const MatchListTab = (props: MatchListTabProps) => {
                     </div>
 
                     {/* 상세 보기 버튼 */}
-                    <button
-                      className="px-5 py-3 rounded-full text-base font-semibold bg-gray-800 text-gray-200 border border-gray-600 hover:bg-gray-700 transition-colors duration-200 w-full md:w-auto lg:px-4 lg:py-2 lg:text-sm lg:font-medium"
-                      onClick={() => {
-                        setMatchIdx(selectChampionshipMatchIdx);
-                        toggleMatchModal();
-                      }}>
-                      {BUTTON_TEXT.DETAIL}
-                    </button>
+                    {selectedMatch && firstTeam && secondTeam && (
+                      <div className="flex flex-col sm:flex-row gap-2 w-full md:w-auto">
+                        <button
+                          className="px-4 py-2 rounded-lg text-sm font-semibold border-2 transition-colors duration-200 w-full"
+                          style={{
+                            borderColor: firstTeam.team_list_color,
+                          }}
+                          onClick={() => {
+                            setMatchIdx(firstTeam.match_match_idx);
+                            toggleMatchModal();
+                          }}>
+                          {firstTeam.team_list_name} {BUTTON_TEXT.DETAIL}
+                        </button>
+                        <button
+                          className="px-4 py-2 rounded-lg text-sm font-semibold border-2 transition-colors duration-200 w-full"
+                          style={{
+                            borderColor: secondTeam.team_list_color,
+                          }}
+                          onClick={() => {
+                            setMatchIdx(secondTeam.match_match_idx);
+                            toggleMatchModal();
+                          }}>
+                          {secondTeam.team_list_name} {BUTTON_TEXT.DETAIL}
+                        </button>
+                      </div>
+                    )}
                   </nav>
 
                   {viewMode === VIEW_MODE.Team ? (
@@ -151,22 +172,22 @@ const MatchListTab = (props: MatchListTabProps) => {
                         firstTeam={{
                           teamListIdx:
                             championshipDetail?.first_team?.team_list_idx || 0,
-                          name: selectTeamList[0],
+                          name: firstTeam?.team_list_name || "",
                           stats: championshipDetail?.first_team?.stats,
-                          players: championshipDetail?.first_team.player_stats,
+                          players: team1PlayerStats,
                           evidenceImage:
                             evidenceImage?.first_team_evidence ?? [],
-                          matchIdx: selectMatchIdx,
+                          matchIdx: firstTeam?.match_match_idx || 0,
                         }}
                         secondTeam={{
                           teamListIdx:
                             championshipDetail?.second_team?.team_list_idx || 0,
-                          name: selectTeamList[1],
+                          name: secondTeam?.team_list_name || "",
                           stats: championshipDetail?.second_team?.stats,
-                          players: championshipDetail?.second_team.player_stats,
+                          players: team2PlayerStats,
                           evidenceImage:
                             evidenceImage?.second_team_evidence ?? [],
-                          matchIdx: selectMatchIdx,
+                          matchIdx: secondTeam?.match_match_idx || 0,
                         }}
                       />
                     </div>
@@ -177,7 +198,7 @@ const MatchListTab = (props: MatchListTabProps) => {
                         {/* 모바일: 탭 전환 */}
                         <div className="lg:hidden">
                           <div className="flex w-full space-x-1 bg-gray-800 p-1.5 rounded-xl lg:space-x-2 lg:p-2">
-                            {selectTeamList.map((teamName, index) => (
+                            {(selectTeamList || []).map((teamName, index) => (
                               <button
                                 key={index}
                                 onClick={() => setActiveTeam(index as 0 | 1)}
@@ -194,14 +215,14 @@ const MatchListTab = (props: MatchListTabProps) => {
                           <div className="mt-6 overflow-x-auto lg:mt-10">
                             <PlayerHistoryTable
                               players={
-                                activeTeam === 1
+                                activeTeam === 0
                                   ? team1PlayerStats
                                   : team2PlayerStats
                               }
                               teamLabel={
-                                activeTeam === 1
-                                  ? selectTeamList[0]
-                                  : selectTeamList[1]
+                                (activeTeam === 0
+                                  ? firstTeam?.team_list_name
+                                  : secondTeam?.team_list_name) || ""
                               }
                               maxGoal={maxGoal}
                               maxAssist={maxAssist}
@@ -214,14 +235,14 @@ const MatchListTab = (props: MatchListTabProps) => {
                         <div className="hidden lg:grid grid-cols-2 gap-6">
                           <PlayerHistoryTable
                             players={team1PlayerStats}
-                            teamLabel={selectTeamList[0]}
+                            teamLabel={firstTeam?.team_list_name || ""}
                             maxGoal={maxGoal}
                             maxAssist={maxAssist}
                             personEvidenceImage={personEvidenceImage}
                           />
                           <PlayerHistoryTable
                             players={team2PlayerStats}
-                            teamLabel={selectTeamList[1]}
+                            teamLabel={secondTeam?.team_list_name || ""}
                             maxGoal={maxGoal}
                             maxAssist={maxAssist}
                             personEvidenceImage={personEvidenceImage}
@@ -234,15 +255,15 @@ const MatchListTab = (props: MatchListTabProps) => {
                     <div>
                       <div className="flex justify-center items-center gap-3 mb-3 lg:gap-4 lg:mb-4">
                         <h2 className="text-lg font-bold lg:text-xl">
-                          {selectTeamList[0] || ""}
-                          {`(${selectTeamScore[0] || ""})`}
+                          {firstTeam?.team_list_name || ""}
+                          {`(${firstTeam?.match_team_stats_our_score ?? ""})`}
                         </h2>
                         <span className="text-lg font-bold text-gray-300 lg:text-xl">
                           VS
                         </span>
                         <h2 className="text-lg font-bold lg:text-xl">
-                          {selectTeamList[1] || ""}{" "}
-                          {`(${selectTeamScore[1] || ""})`}
+                          {secondTeam?.team_list_name || ""}{" "}
+                          {`(${secondTeam?.match_team_stats_our_score ?? ""})`}
                         </h2>
                       </div>
 
