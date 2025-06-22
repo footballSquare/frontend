@@ -115,7 +115,7 @@ const PlayerGroundPoint = (props: PlayerGroundPointProps) => {
                 className="cursor-pointer hover:underline"
                 onClick={(e) => {
                   e.stopPropagation();
-                  navigate(`/player/${player.player_list_idx}`);
+                  navigate(`/profile/${player.player_list_idx}`);
                 }}>
                 {player.player_list_nickname}
               </span>
