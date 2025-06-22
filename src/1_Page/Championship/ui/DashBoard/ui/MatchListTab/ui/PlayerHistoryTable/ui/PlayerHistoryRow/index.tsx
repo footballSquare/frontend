@@ -92,12 +92,15 @@ const PlayerHistoryRow = (props: PlayerHistoryRowProps) => {
 
       {isExpanded && (
         <tr className="bg-gray-800">
-          <form
-            onSubmit={handleSubmit((data: PlayerStatsFormValues) =>
-              handlePostPlayerStats({ matchIdx: player.match_match_idx, data })
-            )}>
-            <td colSpan={4} className="p-3 lg:p-4">
-              {/* 증빙자료와 편집 버튼 영역 - form 밖으로 이동 */}
+          <td colSpan={4} className="p-3 lg:p-4">
+            {/* 증빙자료와 편집 버튼 영역 - form 밖으로 이동 */}
+            <form
+              onSubmit={handleSubmit((data: PlayerStatsFormValues) =>
+                handlePostPlayerStats({
+                  matchIdx: player.match_match_idx,
+                  data,
+                })
+              )}>
               <div className="flex flex-col gap-4 md:flex-row md:justify-between md:items-center mb-5 lg:gap-4 lg:mb-6">
                 {/* 증빙자료 모달 - 모든 사용자가 볼 수 있음 */}
                 <div>
@@ -181,8 +184,8 @@ const PlayerHistoryRow = (props: PlayerHistoryRowProps) => {
                   )}
                 </div>
               </div>
-            </td>
-          </form>
+            </form>
+          </td>
         </tr>
       )}
     </React.Fragment>
