@@ -1,7 +1,7 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { teamStatsSchema } from "../../../../../../../../../../../4_Shared/hookForm/TeamDetailHistoryInput/schema";
+import { teamStatsSchema } from "../../../../../../../../../4_Shared/hookForm/TeamDetailHistoryInput/schema";
 
 const useTeamStatForm = (
   teamStats: TeamStats,

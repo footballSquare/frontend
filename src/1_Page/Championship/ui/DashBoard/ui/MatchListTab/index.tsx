@@ -5,13 +5,22 @@ import useSortHandler from "./model/useSortHandler";
 import useChampionshipInfoContext from "../../../../../../4_Shared/model/useChampionshipInfoContext";
 import useSelectHandler from "./model/useSelectHandler";
 import useGetChampionshipDetail from "../../../../../../3_Entity/Championship/useGetChampionshipDetail";
-import MatchLineupContainer from "./ui/MatchLineupContainer";
+
 import EmptySearchResult from "./ui/EmptySearchResult";
 import { getSelectedMatchTeams } from "./lib/getSelectedMatchTeams";
+import useGetChampionshipEvidence from "../../../../../../3_Entity/Championship/useGetChampionshipEvidence";
+import React from "react";
+import useMatchModalStore from "../../../../../../4_Shared/zustand/useMatchModal";
+import { BUTTON_TEXT, VIEW_MODE, VIEW_MODE_BUTTONS } from "./constant/tab";
+import VerticalTeamStatCards from "./ui/VerticalTeamStatCards";
+import FootballGroundSection from "./ui/FootballGroundSection";
+import { getMatchMaxStats } from "./lib/getMatchMaxStats";
+import PlayerHistoryTable from "./ui/PlayerHistoryTable";
 
 const MatchListTab = (props: MatchListTabProps) => {
   const { matchList, filteredTeamList, matchHandlers } = props;
 
+  // state
   const {
     selectChampionshipMatchIdx,
     selectMatchIdx,
@@ -19,17 +28,6 @@ const MatchListTab = (props: MatchListTabProps) => {
     handleMatchSelect,
     handleBackToList,
   } = useSelectHandler(matchList);
-
-  // api 이미 호출된 idx는 캐싱을 통해 데이터 최적화
-  const [championshipDetail] = useGetChampionshipDetail(
-    selectChampionshipMatchIdx
-  );
-
-  // admin
-  const { isCommunityOperator, isCommunityManager } =
-    useChampionshipInfoContext();
-
-  // state
   const {
     searchTerm,
     sortOption,
@@ -37,6 +35,35 @@ const MatchListTab = (props: MatchListTabProps) => {
     handleSortChange,
     sortedMatches,
   } = useSortHandler(matchList);
+  const [activeTeam, setActiveTeam] = React.useState<0 | 1>(0);
+  const [viewMode, setViewMode] = React.useState<VIEW_MODE>(VIEW_MODE.Lineup);
+
+  // api 이미 호출된 idx는 캐싱을 통해 데이터 최적화
+  const [championshipDetail] = useGetChampionshipDetail(
+    selectChampionshipMatchIdx
+  );
+
+  // championshipMatchIdx에 해당하는 증거 이미지 필터링
+  const [evidenceImage] = useGetChampionshipEvidence(
+    selectChampionshipMatchIdx
+  );
+
+  // admin
+  const { isCommunityOperator, isCommunityManager, championshipListColor } =
+    useChampionshipInfoContext();
+  const accentColor = championshipListColor || "#3b82f6";
+
+  // zustand
+  const { setMatchIdx, toggleMatchModal } = useMatchModalStore();
+
+  const { maxGoal, maxAssist } = getMatchMaxStats(championshipDetail);
+  const { selectTeamList, selectTeamScore } = getSelectedMatchTeams(
+    matchList,
+    selectChampionshipMatchIdx
+  );
+  const team1PlayerStats = championshipDetail?.first_team?.player_stats || [];
+  const team2PlayerStats = championshipDetail?.second_team?.player_stats || [];
+  const personEvidenceImage = evidenceImage.player_evidence || [];
 
   return (
     <div>
@@ -64,15 +91,180 @@ const MatchListTab = (props: MatchListTabProps) => {
             </div>
           </div>
           <div className="p-6">
-            <MatchLineupContainer
-              championshipMatchIdx={selectChampionshipMatchIdx}
-              matchIdx={selectMatchIdx}
-              selectedTeams={getSelectedMatchTeams(
-                matchList,
-                selectChampionshipMatchIdx
+            <div className="px-2 py-3 text-gray-100 lg:p-4">
+              {!selectMatchIdx ? (
+                /* 매치 미선택 안내 – 어두운 배경·밝은 텍스트 */
+                <div className="flex flex-col items-center justify-center h-full py-8 lg:py-10">
+                  <div className="bg-gray-800 rounded-full p-3 mb-3 lg:p-4 lg:mb-4">
+                    <span className="text-gray-300 text-xl lg:text-2xl">
+                      {"⚽"}
+                    </span>
+                  </div>
+                  <h3 className="text-base font-semibold text-gray-100 mb-2 lg:text-lg lg:font-medium">
+                    매치를 선택해주세요
+                  </h3>
+                  <p className="text-sm text-gray-400 text-center max-w-md px-4 lg:px-0">
+                    왼쪽 패널에서 확인하고 싶은 매치를 선택하면 상세 정보가
+                    표시됩니다.
+                  </p>
+                </div>
+              ) : (
+                <div>
+                  {/* 매치 선택시 */}
+
+                  {/* 상단 탭 네비게이션 */}
+                  <nav className="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 gap-3 lg:mb-6 lg:gap-4">
+                    {/* 스크롤 가능한 탭 버튼 목록 */}
+                    <div className="flex overflow-x-auto space-x-2 p-1 rounded-lg scrollbar-hide w-full lg:w-auto lg:p-2 lg:rounded-md">
+                      {VIEW_MODE_BUTTONS.map(({ id, label }) => (
+                        <button
+                          key={id}
+                          onClick={() => setViewMode(id)}
+                          className={`flex-shrink-0 px-5 py-3 rounded-full text-base font-semibold transition lg:px-4 lg:py-2 lg:text-sm lg:font-medium ${
+                            viewMode === id
+                              ? "bg-blue-600 text-white"
+                              : "bg-gray-700 text-gray-200 hover:bg-gray-600"
+                          }`}
+                          style={
+                            viewMode === id
+                              ? { backgroundColor: accentColor }
+                              : undefined
+                          }>
+                          {label}
+                        </button>
+                      ))}
+                    </div>
+
+                    {/* 상세 보기 버튼 */}
+                    <button
+                      className="px-5 py-3 rounded-full text-base font-semibold bg-gray-800 text-gray-200 border border-gray-600 hover:bg-gray-700 transition-colors duration-200 w-full md:w-auto lg:px-4 lg:py-2 lg:text-sm lg:font-medium"
+                      onClick={() => {
+                        setMatchIdx(selectChampionshipMatchIdx);
+                        toggleMatchModal();
+                      }}>
+                      {BUTTON_TEXT.DETAIL}
+                    </button>
+                  </nav>
+
+                  {viewMode === VIEW_MODE.Team ? (
+                    /* 팀 통계 카드 – 필터링된 증거 이미지 사용 */
+                    <div className="container mx-auto px-0 py-3 lg:px-4 lg:py-6">
+                      <VerticalTeamStatCards
+                        firstTeam={{
+                          teamListIdx:
+                            championshipDetail?.first_team?.team_list_idx || 0,
+                          name: selectTeamList[0],
+                          stats: championshipDetail?.first_team?.stats,
+                          players: championshipDetail?.first_team.player_stats,
+                          evidenceImage:
+                            evidenceImage?.first_team_evidence ?? [],
+                          matchIdx: selectMatchIdx,
+                        }}
+                        secondTeam={{
+                          teamListIdx:
+                            championshipDetail?.second_team?.team_list_idx || 0,
+                          name: selectTeamList[1],
+                          stats: championshipDetail?.second_team?.stats,
+                          players: championshipDetail?.second_team.player_stats,
+                          evidenceImage:
+                            evidenceImage?.second_team_evidence ?? [],
+                          matchIdx: selectMatchIdx,
+                        }}
+                      />
+                    </div>
+                  ) : viewMode === VIEW_MODE.Personal ? (
+                    /* 개인 기록 보기 – 필터링된 증거 이미지 사용 */
+                    <div className="container mx-auto px-0 py-3 lg:px-4 lg:py-6">
+                      <div className="w-full mx-auto px-2 py-4 space-y-6 lg:p-4 lg:space-y-6 lg:max-w-6xl">
+                        {/* 모바일: 탭 전환 */}
+                        <div className="lg:hidden">
+                          <div className="flex w-full space-x-1 bg-gray-800 p-1.5 rounded-xl lg:space-x-2 lg:p-2">
+                            {selectTeamList.map((teamName, index) => (
+                              <button
+                                key={index}
+                                onClick={() => setActiveTeam(index as 0 | 1)}
+                                className={`flex-1 py-3 px-3 text-lg font-semibold rounded-lg transition-colors lg:py-4 lg:px-6 ${
+                                  activeTeam === index
+                                    ? "bg-gray-700 text-gray-100 shadow-sm"
+                                    : "text-gray-400 hover:text-gray-100"
+                                }`}>
+                                {teamName}
+                              </button>
+                            ))}
+                          </div>
+
+                          <div className="mt-6 overflow-x-auto lg:mt-10">
+                            <PlayerHistoryTable
+                              players={
+                                activeTeam === 1
+                                  ? team1PlayerStats
+                                  : team2PlayerStats
+                              }
+                              teamLabel={
+                                activeTeam === 1
+                                  ? selectTeamList[0]
+                                  : selectTeamList[1]
+                              }
+                              maxGoal={maxGoal}
+                              maxAssist={maxAssist}
+                              personEvidenceImage={personEvidenceImage}
+                            />
+                          </div>
+                        </div>
+
+                        {/* 데스크톱: 2열 */}
+                        <div className="hidden lg:grid grid-cols-2 gap-6">
+                          <PlayerHistoryTable
+                            players={team1PlayerStats}
+                            teamLabel={selectTeamList[0]}
+                            maxGoal={maxGoal}
+                            maxAssist={maxAssist}
+                            personEvidenceImage={personEvidenceImage}
+                          />
+                          <PlayerHistoryTable
+                            players={team2PlayerStats}
+                            teamLabel={selectTeamList[1]}
+                            maxGoal={maxGoal}
+                            maxAssist={maxAssist}
+                            personEvidenceImage={personEvidenceImage}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    /* 라인업/포메이션 영역 – 기존 코드 그대로 */
+                    <div>
+                      <div className="flex justify-center items-center gap-3 mb-3 lg:gap-4 lg:mb-4">
+                        <h2 className="text-lg font-bold lg:text-xl">
+                          {selectTeamList[0] || ""}
+                          {`(${selectTeamScore[0] || ""})`}
+                        </h2>
+                        <span className="text-lg font-bold text-gray-300 lg:text-xl">
+                          VS
+                        </span>
+                        <h2 className="text-lg font-bold lg:text-xl">
+                          {selectTeamList[1] || ""}{" "}
+                          {`(${selectTeamScore[1] || ""})`}
+                        </h2>
+                      </div>
+
+                      <h2 className="text-lg font-bold mb-3 text-center lg:text-xl lg:mb-4">
+                        매치 #{selectChampionshipMatchIdx} 라인업
+                      </h2>
+
+                      <div className="flex flex-col md:flex-row flex-wrap justify-center gap-3 lg:gap-4">
+                        {/* FotMob 스타일 통합 축구장 */}
+                        <div className="w-full max-w-4xl mx-auto">
+                          <FootballGroundSection
+                            championshipDetail={championshipDetail}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
               )}
-              championshipDetail={championshipDetail}
-            />
+            </div>
           </div>
         </div>
       ) : (

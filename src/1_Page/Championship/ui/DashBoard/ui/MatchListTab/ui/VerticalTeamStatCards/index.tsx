@@ -1,18 +1,18 @@
 import React from "react";
-import useToggleState from "../../../../../../../../../../4_Shared/model/useToggleState";
+import useToggleState from "../../../../../../../../4_Shared/model/useToggleState";
 import {
   useMyTeamIdx,
   useMyTeamRoleIdx,
-} from "../../../../../../../../../../4_Shared/lib/useMyInfo";
+} from "../../../../../../../../4_Shared/lib/useMyInfo";
 import useTeamStatForm from "./model/useTeamStatForm";
 import usePostTeamStatsHandler from "./model/usePostTeamStatsHandler";
-import usePostTeamStatsEvidence from "../../../../../../../../../../3_Entity/Match/usePostTeamStatsEvidence";
-import StatEvidenceImgFormPanel from "../../../../../../../../../../2_Widget/StatEvidenceImgFormPanel";
+import usePostTeamStatsEvidence from "../../../../../../../../3_Entity/Match/usePostTeamStatsEvidence";
+import StatEvidenceImgFormPanel from "../../../../../../../../2_Widget/StatEvidenceImgFormPanel";
 import { FormProvider } from "react-hook-form";
 import { statLabels } from "./constant/teamStatKeys";
-import TeamDetailHistoryInput from "../../../../../../../../../../4_Shared/hookForm/TeamDetailHistoryInput";
-import editIcon from "../../../../../../../../../../4_Shared/assets/svg/edit.svg";
-import MomSelectionModalPanel from "../../../../../../../../../../2_Widget/MomSelectionModalPanel";
+import TeamDetailHistoryInput from "../../../../../../../../4_Shared/hookForm/TeamDetailHistoryInput";
+import editIcon from "../../../../../../../../4_Shared/assets/svg/edit.svg";
+import MomSelectionModalPanel from "../../../../../../../../2_Widget/MomSelectionModalPanel";
 import {
   getCurrentMomPlayer,
   getEvidenceUrls,

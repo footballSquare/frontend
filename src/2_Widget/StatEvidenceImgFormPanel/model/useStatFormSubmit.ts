@@ -42,7 +42,7 @@ const useStatFormSubmit = (props: UseStatFormSubmitProps) => {
       file: newFiles,
     };
 
-    onModalClose();
+    onModalClose?.();
 
     const result = await onSubmit(finalData);
 

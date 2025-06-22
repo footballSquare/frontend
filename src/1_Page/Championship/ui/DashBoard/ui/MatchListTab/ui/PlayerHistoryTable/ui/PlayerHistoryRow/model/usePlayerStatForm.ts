@@ -1,6 +1,6 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { playerDetailHistoryInputSchema } from "../../../../../4_Shared/hookForm/PlayerDetailHistoryInput/schema";
+import { playerDetailHistoryInputSchema } from "../../../../../../../../../../../4_Shared/hookForm/PlayerDetailHistoryInput/schema";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 const usePlayerStatForm = (player: PlayerStats): UsePlayerStatFormReturn => {
