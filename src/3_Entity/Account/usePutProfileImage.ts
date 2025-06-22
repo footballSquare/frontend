@@ -1,13 +1,13 @@
 import { useFetchData } from "../../4_Shared/util/apiUtil";
 
 const usePutProfileImage = (): [
-  putProfileImage: (file: File | null) => void,
+  putProfileImage: (file: File | null) => Promise<number | undefined>,
   serverState: unknown,
   loading: boolean
 ] => {
   const [serverState, request, loading] = useFetchData();
 
-  const putProfileImage = (file: File | null) => {
+  const putProfileImage = async (file: File | null) => {
     const endPoint = "/account/profileimage";
     let payload: FormData | null = null;
 
@@ -17,7 +17,7 @@ const usePutProfileImage = (): [
       payload = formData;
     }
 
-    request("PUT", endPoint, payload, true);
+    return request("PUT", endPoint, payload, true);
   };
 
   return [putProfileImage, serverState, loading];

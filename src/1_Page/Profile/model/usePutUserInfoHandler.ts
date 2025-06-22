@@ -1,13 +1,17 @@
 import usePutUserInfo from "../../../3_Entity/Account/usePutUserInfo";
 
 const usePutUserInfoHandler = (
-  props: UseManageServerStateProps
+  props: UsePutUserInfoHandlerProps
 ): [(data: UserInfoForm) => void] => {
-  const { reset, inputBackupDataRef } = props;
+  const { reset, inputBackupDataRef, isDirty, toggleIsModifyMode } = props;
 
   const [putUserInfo] = usePutUserInfo();
 
   const handlePutUserInfo = async (formData: UserInfoForm) => {
+    toggleIsModifyMode?.();
+    if (!isDirty) {
+      return;
+    }
     const result = await putUserInfo(formData);
     if (result === 200) {
       inputBackupDataRef.current = formData;

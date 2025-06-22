@@ -2,18 +2,17 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { profileDashBoardInputSchema } from "../../../4_Shared/hookForm/ProfileDashBoardInput/schema";
+import useToggleState from "../../../4_Shared/model/useToggleState";
 
 const useProfileDashBoardHookform = (
   initUserInfo: UserInfo
 ): UseProfileDashBoardHookformReturn => {
-  const form = useForm<UserInfoForm>({
+  const form = useForm<UsePutUserInfoProps>({
     resolver: yupResolver(profileDashBoardInputSchema),
     mode: "onChange",
   });
-  const { reset, watch } = form;
-
-  const nickname = watch("nickname");
-  const matchPositionIdx = watch("match_position_idx");
+  const { reset, getValues } = form;
+  const inputBackupDataRef = React.useRef<UserInfoForm>({} as UserInfoForm);
 
   React.useEffect(() => {
     reset({
@@ -24,12 +23,47 @@ const useProfileDashBoardHookform = (
       message: initUserInfo.message,
       match_position_idx: initUserInfo.match_position_idx,
     });
-  }, [initUserInfo]); // 초기값 설정
+  }, [initUserInfo, reset]); // 초기값 설정
+
+  const [isModifyMode, toggleIsModifyMode] = useToggleState();
+
+  const handleEdit = () => {
+    inputBackupDataRef.current = getValues();
+    toggleIsModifyMode();
+  };
+
+  const handleCancel = () => {
+    toggleIsModifyMode();
+    reset(inputBackupDataRef.current);
+  };
+
+  const handleImageChange = (file: File | null) => {
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const imageUrl = reader.result as string;
+        reset((prev) => ({
+          ...prev,
+          profile_image: imageUrl,
+        }));
+      };
+      reader.readAsDataURL(file);
+    } else {
+      reset((prev) => ({
+        ...prev,
+        profile_image: null, // 이미지 제거 시 null로 설정
+      }));
+    }
+  };
 
   return {
     form,
-    watchNickname: nickname,
-    watchMatchPositionIdx: matchPositionIdx,
+    isModifyMode,
+    inputBackupDataRef,
+    handleEdit,
+    handleCancel,
+    toggleIsModifyMode,
+    handleImageChange,
   };
 };
 export default useProfileDashBoardHookform;
