@@ -21,7 +21,7 @@ const ProfileImageCard = (props: ProfileImageCardProps) => {
 
   // 수정모드 또는 플레이어 카드 보기 상태
   const [showPlayerCard, toggleShowPlayerCard] = useToggleState();
-  const isShowingPlayerCard = isModifyMode || showPlayerCard;
+  const isShowingPlayerCard = showPlayerCard || isModifyMode;
 
   return (
     <div className="relative bg-gradient-to-br from-slate-800 to-gray-800 rounded-2xl border border-slate-600/50 shadow-xl backdrop-blur-sm overflow-hidden hover:shadow-2xl transition-all duration-300">
@@ -30,7 +30,7 @@ const ProfileImageCard = (props: ProfileImageCardProps) => {
         onClick={toggleShowPlayerCard}
         className="absolute top-4 right-4 px-3 py-1.5 bg-slate-700/80 hover:bg-slate-600/80 text-slate-300 hover:text-white text-xs font-medium rounded-lg transition-colors border border-slate-600/50 z-10"
         type="button">
-        {isShowingPlayerCard ? "기본 보기" : "상세 보기"}
+        {isShowingPlayerCard ? "기본 보기" : "수정 보기"}
       </button>
 
       {isShowingPlayerCard ? (
@@ -44,6 +44,11 @@ const ProfileImageCard = (props: ProfileImageCardProps) => {
             nickname={nickname}
             onImageChange={onImageChange}
           />
+          {isModifyMode && (
+            <div className="text-center text-sm text-slate-400 mt-4">
+              프로필 이미지를 클릭하여 수정할 수 있습니다.
+            </div>
+          )}
         </div>
       ) : (
         <div className="relative">
@@ -74,6 +79,18 @@ const ProfileImageCard = (props: ProfileImageCardProps) => {
               </p>
             )}
           </div>
+        </div>
+      )}
+      {isShowingPlayerCard && (
+        <div className="p-3 text-center bg-slate-900 border-t border-slate-700">
+          <p className="text-sm text-slate-300">
+            <span
+              className="font-semibold text-grass cursor-pointer hover:underline"
+              onClick={toggleShowPlayerCard}>
+              '프로필 이미지'
+            </span>
+            를 클릭하여 이미지를 수정하세요.
+          </p>
         </div>
       )}
     </div>
