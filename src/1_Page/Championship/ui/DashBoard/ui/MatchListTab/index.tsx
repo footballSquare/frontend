@@ -16,9 +16,19 @@ import useGetChampionshipDetail from "../../../../../../3_Entity/Championship/us
 import useGetChampionshipEvidence from "../../../../../../3_Entity/Championship/useGetChampionshipEvidence";
 import useChampionshipInfoContext from "../../../../../../4_Shared/model/useChampionshipInfoContext";
 import useMatchModalStore from "../../../../../../4_Shared/zustand/useMatchModal";
+import { useAuthStore } from "../../../../../../4_Shared/lib/useMyInfo";
 
 const MatchListTab = (props: MatchListTabProps) => {
   const { matchList, filteredTeamList, matchHandlers } = props;
+
+  const teamIdx = useAuthStore((state) => state.teamIdx);
+  const myMatchList = React.useMemo(() => {
+    return matchList.filter(
+      (match) =>
+        match.championship_match_first.team_list_idx === teamIdx ||
+        match.championship_match_second.team_list_idx === teamIdx
+    );
+  }, [matchList, teamIdx]);
 
   // state
   const {
@@ -297,6 +307,41 @@ const MatchListTab = (props: MatchListTabProps) => {
               </div>
             )}
           </div>
+
+          {/* 내 팀 목록 */}
+          {myMatchList.length > 0 && (
+            <div className="p-6 border-b border-gray-700">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-xl font-bold text-white flex items-center gap-2">
+                  <span className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center text-lg">
+                    ⭐
+                  </span>
+                  내 팀 경기 목록
+                </h3>
+                <span className="text-gray-400 text-sm">
+                  총 {myMatchList.length}개 경기
+                </span>
+              </div>
+              <div className="flex overflow-x-auto space-x-6 pb-4 -mx-6 px-6 modern-scrollbar">
+                {myMatchList.map((match, index) => (
+                  <div
+                    key={`my-match-${index}`}
+                    className="w-80 flex-shrink-0 transform transition-all duration-300 hover:scale-[1.03]">
+                    <ChampionshipMatchCard
+                      {...matchHandlers}
+                      isSelected={
+                        selectChampionshipMatchIdx ===
+                        match.championship_match_idx
+                      }
+                      handleSelect={handleMatchSelect}
+                      match={match}
+                      isListViewMode={true}
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
 
           {/* 관리자 전용 매치 생성 패널 */}
           {(isCommunityOperator || isCommunityManager) && (

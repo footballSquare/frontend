@@ -25,7 +25,7 @@ const DashBoard = (props: DashBoardProps) => {
   const [teamList] = useGetChampionshipTeams(championshipIdx); // 대회 참가 팀리스트
 
   // state
-  const [activeTab, setActiveTab] = React.useState(ACTIVE_TAB.PLAYERS);
+  const [activeTab, setActiveTab] = React.useState(ACTIVE_TAB.MATCHES);
 
   // optimistic state
   const [displayMatchList, matchHandlers] = useManageMatchList(matchList);
