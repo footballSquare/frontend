@@ -2,7 +2,8 @@ import usePostPlayerStats from "../../../../../../../../../../../3_Entity/Match/
 
 const usePostPlayerStatsHandler = (
   cancelEdit: () => void,
-  setBackupPlayerStats: (data: PlayerStatsFormValues) => void
+  setBackupPlayerStats: (data: PlayerStatsFormValues) => void,
+  toggleIsEditing: () => void
 ) => {
   const [postPlayerStats] = usePostPlayerStats();
 
@@ -10,6 +11,7 @@ const usePostPlayerStatsHandler = (
     matchIdx,
     data,
   }: HandlePostPlayerStatProps) => {
+    toggleIsEditing();
     const status = await postPlayerStats({
       playerStat: data,
       matchIdx,

@@ -1,5 +1,4 @@
 import React from "react";
-import { SubmitHandler } from "react-hook-form";
 import { getPositionColor } from "../../../../../../../../../../4_Shared/lib/getPositionColor";
 import { matchPosition } from "../../../../../../../../../../4_Shared/constant/matchPosition";
 import useToggleState from "../../../../../../../../../../4_Shared/model/useToggleState";
@@ -36,7 +35,6 @@ const PlayerHistoryRow = (props: PlayerHistoryRowProps) => {
   } = methods;
 
   const [postPlayerStats, responseUrl] = usePostPlayerStatsEvidence();
-
   const defaultEvidenceUrls = getDefaultEvidenceUrls(
     responseUrl,
     personEvidenceImage,
@@ -45,13 +43,9 @@ const PlayerHistoryRow = (props: PlayerHistoryRowProps) => {
 
   const [handlePostPlayerStats] = usePostPlayerStatsHandler(
     cancelEdit,
-    setBackupPlayerStats
+    setBackupPlayerStats,
+    toggleIsEditing
   );
-
-  const onSubmit: SubmitHandler<PlayerStatsFormValues> = (data) => {
-    toggleIsEditing();
-    handlePostPlayerStats({ matchIdx: player.match_match_idx, data });
-  };
 
   return (
     <React.Fragment key={player.player_list_idx}>
@@ -96,54 +90,55 @@ const PlayerHistoryRow = (props: PlayerHistoryRowProps) => {
 
       {isExpanded && (
         <tr className="bg-gray-800">
-          <td colSpan={4} className="p-3 lg:p-4">
-            {/* 증빙자료와 편집 버튼 영역 - form 밖으로 이동 */}
-            <div className="flex flex-col gap-4 md:flex-row md:justify-between md:items-center mb-5 lg:gap-4 lg:mb-6">
-              {/* 증빙자료 모달 - 모든 사용자가 볼 수 있음 */}
-              <div>
-                <StatEvidenceImgFormPanel
-                  onSubmit={postPlayerStats}
-                  matchIdx={player.match_match_idx}
-                  defaultValues={defaultEvidenceUrls}
-                  canChange={isMine}
-                />
+          <form
+            onSubmit={handleSubmit((data: PlayerStatsFormValues) =>
+              handlePostPlayerStats({ matchIdx: player.match_match_idx, data })
+            )}>
+            <td colSpan={4} className="p-3 lg:p-4">
+              {/* 증빙자료와 편집 버튼 영역 - form 밖으로 이동 */}
+              <div className="flex flex-col gap-4 md:flex-row md:justify-between md:items-center mb-5 lg:gap-4 lg:mb-6">
+                {/* 증빙자료 모달 - 모든 사용자가 볼 수 있음 */}
+                <div>
+                  <StatEvidenceImgFormPanel
+                    onSubmit={postPlayerStats}
+                    matchIdx={player.match_match_idx}
+                    defaultValues={defaultEvidenceUrls}
+                    canChange={isMine}
+                  />
+                </div>
+
+                {/* 편집 버튼들 - 본인만 볼 수 있음 */}
+                {isMine && (
+                  <div className="flex gap-2 lg:gap-2">
+                    {isEditing ? (
+                      <div>
+                        <button className="px-3 py-2 text-sm lg:px-3 lg:py-1.5 lg:text-sm bg-grass text-gray-900 rounded-lg hover:bg-grass/90 transition-colors font-semibold lg:font-medium flex items-center gap-1 lg:gap-1">
+                          💾 저장
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            cancelEdit();
+                            toggleIsEditing();
+                          }}
+                          className="px-3 py-2 text-sm lg:px-3 lg:py-1.5 lg:text-sm text-gray-300 border border-gray-600 rounded-lg hover:bg-gray-700 transition-colors flex items-center gap-1 lg:gap-1">
+                          ✖ 취소
+                        </button>
+                      </div>
+                    ) : (
+                      <button
+                        type="button"
+                        onClick={toggleIsEditing}
+                        className="px-3 py-2 text-sm lg:px-3 lg:py-1.5 lg:text-sm text-gray-300 border border-gray-600 rounded-lg hover:bg-gray-700 hover:text-grass transition-colors flex items-center gap-1 lg:gap-1">
+                        ✏ 수정
+                      </button>
+                    )}
+                  </div>
+                )}
               </div>
 
-              {/* 편집 버튼들 - 본인만 볼 수 있음 */}
-              {isMine && (
-                <div className="flex gap-2 lg:gap-2">
-                  {isEditing ? (
-                    <div>
-                      <button
-                        type="button"
-                        onClick={handleSubmit(onSubmit)}
-                        className="px-3 py-2 text-sm lg:px-3 lg:py-1.5 lg:text-sm bg-grass text-gray-900 rounded-lg hover:bg-grass/90 transition-colors font-semibold lg:font-medium flex items-center gap-1 lg:gap-1">
-                        💾 저장
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          cancelEdit();
-                          toggleIsEditing();
-                        }}
-                        className="px-3 py-2 text-sm lg:px-3 lg:py-1.5 lg:text-sm text-gray-300 border border-gray-600 rounded-lg hover:bg-gray-700 transition-colors flex items-center gap-1 lg:gap-1">
-                        ✖ 취소
-                      </button>
-                    </div>
-                  ) : (
-                    <button
-                      type="button"
-                      onClick={toggleIsEditing}
-                      className="px-3 py-2 text-sm lg:px-3 lg:py-1.5 lg:text-sm text-gray-300 border border-gray-600 rounded-lg hover:bg-gray-700 hover:text-grass transition-colors flex items-center gap-1 lg:gap-1">
-                      ✏ 수정
-                    </button>
-                  )}
-                </div>
-              )}
-            </div>
+              {/* 공격 스탯 + 성공률 */}
 
-            {/* 공격 스탯 + 성공률 */}
-            <form onSubmit={handleSubmit(onSubmit)}>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-4">
                 <div className="space-y-3 lg:space-y-3">
                   <h4 className="font-bold text-gray-100 text-base lg:font-semibold lg:text-base">
@@ -184,8 +179,8 @@ const PlayerHistoryRow = (props: PlayerHistoryRowProps) => {
                   )}
                 </div>
               </div>
-            </form>
-          </td>
+            </td>
+          </form>
         </tr>
       )}
     </React.Fragment>
