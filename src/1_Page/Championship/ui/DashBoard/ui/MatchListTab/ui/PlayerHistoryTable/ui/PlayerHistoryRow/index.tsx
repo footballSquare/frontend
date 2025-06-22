@@ -34,6 +34,7 @@ const PlayerHistoryRow = (props: PlayerHistoryRowProps) => {
     register,
     handleSubmit,
     formState: { errors },
+    getValues,
   } = methods;
 
   const [postPlayerStats, responseUrl] = usePostPlayerStatsEvidence();
@@ -175,9 +176,7 @@ const PlayerHistoryRow = (props: PlayerHistoryRowProps) => {
                         errors={errors}
                         isEditing={isEditing}>
                         <StatProgressBar
-                          value={
-                            (player[key as keyof PlayerStats] as number) ?? 0
-                          }
+                          value={getValues(key as keyof PlayerStats) ?? 0}
                         />
                       </PlayerStatsDetailInput>
                     )
