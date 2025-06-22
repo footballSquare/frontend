@@ -39,6 +39,8 @@ const ChampionshipMatchCard = (props: ChampionshipMatchCardProps) => {
   const homeScore = home.match_team_stats_our_score || 0;
   const awayScore = away.match_team_stats_our_score || 0;
 
+  console.log("ChampionshipMatchCard render", match);
+
   return (
     <div
       onClick={() => handleSelect(match.championship_match_idx)}

@@ -16,21 +16,11 @@ import useGetChampionshipDetail from "../../../../../../3_Entity/Championship/us
 import useGetChampionshipEvidence from "../../../../../../3_Entity/Championship/useGetChampionshipEvidence";
 import useChampionshipInfoContext from "../../../../../../4_Shared/model/useChampionshipInfoContext";
 import useMatchModalStore from "../../../../../../4_Shared/zustand/useMatchModal";
-import { useAuthStore } from "../../../../../../4_Shared/lib/useMyInfo";
 import ChevronDownIcon from "../../../../../../4_Shared/assets/svg/ChevronDown.svg";
 import ChevronUpIcon from "../../../../../../4_Shared/assets/svg/ChevronUp.svg";
 
 const MatchListTab = (props: MatchListTabProps) => {
   const { matchList, filteredTeamList, matchHandlers } = props;
-
-  const teamIdx = useAuthStore((state) => state.teamIdx);
-  const myMatchList = React.useMemo(() => {
-    return matchList.filter(
-      (match) =>
-        match.championship_match_first.team_list_idx === teamIdx ||
-        match.championship_match_second.team_list_idx === teamIdx
-    );
-  }, [matchList, teamIdx]);
 
   // state
   const {
@@ -40,8 +30,8 @@ const MatchListTab = (props: MatchListTabProps) => {
     handleMatchSelect,
     handleBackToList,
   } = useSelectHandler(matchList);
-  // 검색 관련 훅
-  const { filteredMatches, searchTerm, handleSearchChange } =
+  // 필터링 매치 훅
+  const { filteredMatches, searchTerm, myMatchList, handleSearchChange } =
     useSearchTeamHandler(matchList);
   const [activeTeam, setActiveTeam] = React.useState<0 | 1>(0);
   const [viewMode, setViewMode] = React.useState<VIEW_MODE>(VIEW_MODE.Lineup);

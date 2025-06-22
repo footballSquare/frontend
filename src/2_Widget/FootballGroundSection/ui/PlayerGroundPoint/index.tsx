@@ -25,7 +25,6 @@ const PlayerGroundPoint = (props: PlayerGroundPointProps) => {
       style={{
         top: `${finalTop}%`,
         left: `${finalLeft}%`,
-        zIndex: isTooltipOpen ? 50 : 10,
       }}
       onClick={() => toggleTooltip()}>
       <div

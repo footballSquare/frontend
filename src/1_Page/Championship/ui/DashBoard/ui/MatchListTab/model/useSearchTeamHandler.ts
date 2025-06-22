@@ -1,4 +1,5 @@
 import React from "react";
+import { useAuthStore } from "../../../../../../../4_Shared/lib/useMyInfo";
 
 const useSearchTeamHandler = (
   matchList: ChampionshipMatchList[]
@@ -27,8 +28,18 @@ const useSearchTeamHandler = (
     });
   }, [matchList, searchTerm]);
 
+  const teamIdx = useAuthStore((state) => state.teamIdx);
+  const myMatchList = React.useMemo(() => {
+    return matchList.filter(
+      (match) =>
+        match.championship_match_first.team_list_idx === teamIdx ||
+        match.championship_match_second.team_list_idx === teamIdx
+    );
+  }, [matchList, teamIdx]);
+
   return {
     filteredMatches,
+    myMatchList,
     searchTerm,
     handleSearchChange,
   };
