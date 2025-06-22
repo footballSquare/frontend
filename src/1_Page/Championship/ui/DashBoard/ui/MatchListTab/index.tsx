@@ -5,7 +5,7 @@ import ChampionshipMatchCard from "./ui/ChampionshipMatchCard";
 import CreateChampionMatchPanel from "./ui/CreateChampionMatchPanel";
 import EmptySearchResult from "./ui/EmptySearchResult";
 
-import { BUTTON_TEXT, VIEW_MODE, VIEW_MODE_BUTTONS } from "./constant/tab";
+import { VIEW_MODE, VIEW_MODE_BUTTONS } from "./constant/tab";
 import useSearchTeamHandler from "./model/useSearchTeamHandler";
 import useSelectHandler from "./model/useSelectHandler";
 import { getMatchMaxStats } from "./lib/getMatchMaxStats";
@@ -17,6 +17,7 @@ import useChampionshipInfoContext from "../../../../../../4_Shared/model/useCham
 import useMatchModalStore from "../../../../../../4_Shared/zustand/useMatchModal";
 import ChevronDownIcon from "../../../../../../4_Shared/assets/svg/ChevronDown.svg";
 import ChevronUpIcon from "../../../../../../4_Shared/assets/svg/ChevronUp.svg";
+import { useAuthStore } from "../../../../../../4_Shared/lib/useMyInfo";
 
 const MatchListTab = (props: MatchListTabProps) => {
   const { matchList, filteredTeamList, matchHandlers } = props;
@@ -37,6 +38,7 @@ const MatchListTab = (props: MatchListTabProps) => {
   const [activeTeam, setActiveTeam] = React.useState<0 | 1>(0);
   const [viewMode, setViewMode] = React.useState<VIEW_MODE>(VIEW_MODE.Lineup);
   const [isMyMatchesOpen, setIsMyMatchesOpen] = React.useState(true);
+  const myTeamIdx = useAuthStore((state) => state.teamIdx);
 
   // api 이미 호출된 idx는 캐싱을 통해 데이터 최적화
   const [championshipDetail] = useGetChampionshipDetail(
@@ -139,28 +141,32 @@ const MatchListTab = (props: MatchListTabProps) => {
                     {/* 상세 보기 버튼 */}
                     {selectedMatch && firstTeam && secondTeam && (
                       <div className="flex flex-col sm:flex-row gap-2 w-full md:w-auto">
-                        <button
-                          className="px-4 py-2 rounded-lg text-sm font-semibold border-2 transition-colors duration-200 w-full"
-                          style={{
-                            borderColor: firstTeam.team_list_color,
-                          }}
-                          onClick={() => {
-                            setMatchIdx(firstTeam.match_match_idx);
-                            toggleMatchModal();
-                          }}>
-                          {firstTeam.team_list_name} {BUTTON_TEXT.DETAIL}
-                        </button>
-                        <button
-                          className="px-4 py-2 rounded-lg text-sm font-semibold border-2 transition-colors duration-200 w-full"
-                          style={{
-                            borderColor: secondTeam.team_list_color,
-                          }}
-                          onClick={() => {
-                            setMatchIdx(secondTeam.match_match_idx);
-                            toggleMatchModal();
-                          }}>
-                          {secondTeam.team_list_name} {BUTTON_TEXT.DETAIL}
-                        </button>
+                        {firstTeam.team_list_idx === myTeamIdx && (
+                          <button
+                            className="px-4 py-2 rounded-lg text-sm font-semibold border-2 transition-colors duration-200 w-full"
+                            style={{
+                              borderColor: firstTeam.team_list_color,
+                            }}
+                            onClick={() => {
+                              setMatchIdx(firstTeam.match_match_idx);
+                              toggleMatchModal();
+                            }}>
+                            {firstTeam.team_list_name} {"스탯을 입력하세요"}
+                          </button>
+                        )}
+                        {secondTeam.team_list_idx === myTeamIdx && (
+                          <button
+                            className="px-4 py-2 rounded-lg text-sm font-semibold border-2 transition-colors duration-200 w-full"
+                            style={{
+                              borderColor: secondTeam.team_list_color,
+                            }}
+                            onClick={() => {
+                              setMatchIdx(secondTeam.match_match_idx);
+                              toggleMatchModal();
+                            }}>
+                            {secondTeam.team_list_name} {"스탯을 입력하세요"}
+                          </button>
+                        )}
                       </div>
                     )}
                   </nav>
