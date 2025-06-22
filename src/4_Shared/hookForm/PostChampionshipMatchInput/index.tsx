@@ -1,4 +1,4 @@
-const PostChampionshipMatch = (props: PostChampionshipMatchProps) => {
+const PostChampionshipMatchInput = (props: PostChampionshipMatchInputProps) => {
   const {
     registerType,
     register,
@@ -59,4 +59,4 @@ const PostChampionshipMatch = (props: PostChampionshipMatchProps) => {
   );
 };
 
-export default PostChampionshipMatch;
+export default PostChampionshipMatchInput;

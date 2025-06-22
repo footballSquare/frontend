@@ -4,7 +4,7 @@ import usePostCreateChampionshipMatchHandler from "./model/useManageCreateChampi
 import useToggleState from "../../../../../../../../4_Shared/model/useToggleState";
 import useChampionshipInfoContext from "../../../../../../../../4_Shared/model/useChampionshipInfoContext";
 import { getTextColorFromBackground } from "../../../../../../../../4_Shared/lib/colorChecker";
-import PostChampionshipMatch from "../../../../../../../../4_Shared/hookForm/PostChampionshipMatch";
+import PostChampionshipMatch from "../../../../../../../../4_Shared/hookForm/PostChampionshipMatchInput";
 import DefaultTeamEmblem from "../../../../../../../../4_Shared/components/DefaultTeamEmblem";
 
 const CreateChampionMatchPanel = (props: CreateChampionMatchPanelProps) => {
@@ -25,6 +25,8 @@ const CreateChampionMatchPanel = (props: CreateChampionMatchPanelProps) => {
     useCreateMatchForm({
       filteredTeamList,
     });
+  const fistTeam = selectedTeams[0];
+  const secondTeam = selectedTeams[1];
   const {
     register,
     handleSubmit,
@@ -195,39 +197,38 @@ const CreateChampionMatchPanel = (props: CreateChampionMatchPanelProps) => {
                           {/* 첫 번째 팀 */}
                           <div className="flex items-center gap-4 bg-gray-800 border-2 border-gray-600 p-4 rounded-xl shadow-lg min-w-0 flex-1 max-w-xs">
                             <div className="flex items-center gap-2">
-                              {selectedTeams[0].team_list_emblem ? (
+                              {fistTeam.team_list_emblem ? (
                                 <img
                                   className="w-10 h-10 object-cover rounded-xl border-2 border-gray-600 shadow-sm flex-shrink-0"
-                                  src={selectedTeams[0].team_list_emblem}
-                                  alt={`${selectedTeams[0].team_list_name} emblem`}
+                                  src={fistTeam.team_list_emblem}
+                                  alt={`${fistTeam.team_list_name} emblem`}
                                 />
                               ) : (
                                 <DefaultTeamEmblem
-                                  text={selectedTeams[0].team_list_short_name}
-                                  bgColor={selectedTeams[0].team_list_color}
+                                  text={fistTeam.team_list_short_name}
+                                  bgColor={fistTeam.team_list_color}
                                 />
                               )}
                               <div
                                 className="w-3 h-3 rounded-full border border-white shadow-sm"
                                 style={{
-                                  backgroundColor:
-                                    selectedTeams[0].team_list_color,
+                                  backgroundColor: fistTeam.team_list_color,
                                 }}
                               />
                             </div>
                             <div className="flex-1 min-w-0">
                               <h4
                                 style={{
-                                  color: selectedTeams[0].team_list_color,
+                                  color: fistTeam.team_list_color,
                                 }}
                                 className="text-sm font-bold truncate"
-                                title={selectedTeams[0].team_list_name}>
-                                {selectedTeams[0].team_list_name}
+                                title={fistTeam.team_list_name}>
+                                {fistTeam.team_list_name}
                               </h4>
                             </div>
                             <button
                               type="button"
-                              onClick={() => handleRemoveTeam(selectedTeams[0])}
+                              onClick={() => handleRemoveTeam(fistTeam)}
                               className="inline-flex items-center justify-center w-8 h-8 text-sm text-white bg-red-500 hover:bg-red-600 rounded-xl transition-colors flex-shrink-0 shadow-md">
                               ×
                             </button>
@@ -241,47 +242,43 @@ const CreateChampionMatchPanel = (props: CreateChampionMatchPanelProps) => {
                           )}
 
                           {/* 두 번째 팀 */}
-                          {selectedTeams[1] && (
+                          {secondTeam && (
                             <div className="flex items-center gap-4 bg-gray-800 border-2 border-gray-600 p-4 rounded-xl shadow-lg min-w-0 flex-1 max-w-xs">
                               <div className="flex items-center gap-2">
-                                {selectedTeams[1].team_list_emblem ? (
+                                {secondTeam.team_list_emblem ? (
                                   <img
                                     className="w-10 h-10 object-cover rounded-xl border-2 border-gray-600 shadow-sm flex-shrink-0"
-                                    src={selectedTeams[1].team_list_emblem}
-                                    alt={`${selectedTeams[1].team_list_name} emblem`}
+                                    src={secondTeam.team_list_emblem}
+                                    alt={`${secondTeam.team_list_name} emblem`}
                                   />
                                 ) : (
                                   <DefaultTeamEmblem
-                                    text={selectedTeams[1].team_list_short_name}
+                                    text={secondTeam.team_list_short_name}
                                     bgColor={
-                                      selectedTeams[1].team_list_color ||
-                                      "#ffffff"
+                                      secondTeam.team_list_color || "#ffffff"
                                     }
                                   />
                                 )}
                                 <div
                                   className="w-3 h-3 rounded-full border border-white shadow-sm"
                                   style={{
-                                    backgroundColor:
-                                      selectedTeams[1].team_list_color,
+                                    backgroundColor: secondTeam.team_list_color,
                                   }}
                                 />
                               </div>
                               <div className="flex-1 min-w-0">
                                 <h4
                                   style={{
-                                    color: selectedTeams[1].team_list_color,
+                                    color: secondTeam.team_list_color,
                                   }}
                                   className="text-sm font-bold truncate"
-                                  title={selectedTeams[1].team_list_name}>
-                                  {selectedTeams[1].team_list_name}
+                                  title={secondTeam.team_list_name}>
+                                  {secondTeam.team_list_name}
                                 </h4>
                               </div>
                               <button
                                 type="button"
-                                onClick={() =>
-                                  handleRemoveTeam(selectedTeams[1])
-                                }
+                                onClick={() => handleRemoveTeam(secondTeam)}
                                 className="inline-flex items-center justify-center w-8 h-8 text-sm text-white bg-red-500 hover:bg-red-600 rounded-xl transition-colors flex-shrink-0 shadow-md">
                                 ×
                               </button>

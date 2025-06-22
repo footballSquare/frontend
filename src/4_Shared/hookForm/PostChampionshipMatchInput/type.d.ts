@@ -1,4 +1,4 @@
-type PostChampionshipMatchProps = {
+type PostChampionshipMatchInputProps = {
   registerType: RegisterType;
   register: UseFormRegister<FieldValues>;
   formState: {
