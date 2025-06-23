@@ -9,7 +9,11 @@ import { VIEW_MODE, VIEW_MODE_BUTTONS } from "./constant/tab";
 import useSearchTeamHandler from "./model/useSearchTeamHandler";
 import useSelectHandler from "./model/useSelectHandler";
 import { getMatchMaxStats } from "./lib/getMatchMaxStats";
-import { formatDateForDisplay, isMatchOnDate } from "./lib/dateUtils";
+import {
+  formatDateForDisplay,
+  isMatchOnDate,
+  isSameDate,
+} from "./lib/dateUtils";
 
 import FootballGroundSection from "../../../../../../2_Widget/FootballGroundSection";
 import useGetChampionshipEvidence from "../../../../../../3_Entity/Championship/useGetChampionshipEvidence";
@@ -465,9 +469,8 @@ const MatchListTab = (props: MatchListTabProps) => {
             {/* 날짜 스크롤 네비게이션 */}
             <div className="flex overflow-x-auto space-x-2 pb-2 scrollbar-hide">
               {availableDates.map((date, index) => {
-                const isSelected = date.getTime() === selectedDate.getTime();
-                const isToday =
-                  date.getTime() === new Date().setHours(0, 0, 0, 0);
+                const isSelected = isSameDate(date, selectedDate);
+                const isToday = isSameDate(date, new Date());
                 // 해당 날짜에 매치가 있는지 확인
                 const hasMatches = filteredMatches.some((match) =>
                   isMatchOnDate(match, date)

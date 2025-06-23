@@ -8,6 +8,12 @@ const useDateIndexHandler = (
   // 초기 선택 날짜 설정
   const [selectedDate, setSelectedDate] = React.useState<Date>(new Date());
 
+  React.useEffect(() => {
+    const today = new Date();
+    // 컴포넌트가 마운트될 때 현재 날짜로 초기화
+    setSelectedDate(today);
+  }, []);
+
   const handleSetSelectedDate = (date: Date) => {
     setSelectedDate(date);
   };
