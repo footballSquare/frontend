@@ -47,6 +47,7 @@ const DashBoard = (props: DashBoardProps) => {
     sortConfig,
     handleSort,
     displayPlayerStats,
+    handleUpdatePlayer,
   } = useSearchHandler(playerStats);
 
   return (
@@ -205,6 +206,7 @@ const DashBoard = (props: DashBoardProps) => {
               matchList={displayMatchList}
               filteredTeamList={filteredTeamList}
               matchHandlers={matchHandlers}
+              handleUpdatePlayer={handleUpdatePlayer}
             />
           </section>
         )}

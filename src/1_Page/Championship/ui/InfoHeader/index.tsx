@@ -23,7 +23,7 @@ const InfoHeader = (props: InfoHeaderProps) => {
   return (
     <div>
       <header
-        className={`relative rounded-xl shadow-2xl transition-all duration-500 overflow-hidden ${
+        className={`relative rounded-xl ${
           isHeaderCollapsed ? "h-16" : ""
         } bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-gray-100 border border-gray-700/50`}>
         {/* 모던한 배경 패턴 */}
@@ -58,7 +58,7 @@ const InfoHeader = (props: InfoHeaderProps) => {
         </div>
 
         {isHeaderCollapsed ? (
-          <div className="h-full flex items-center justify-between px-6 relative z-10">
+          <div className="h-full flex items-center justify-between px-6 relative">
             <div className="flex items-center space-x-3">
               <div className="relative">
                 <img
@@ -87,7 +87,7 @@ const InfoHeader = (props: InfoHeaderProps) => {
             )}
           </div>
         ) : (
-          <div className="flex flex-col items-center w-full gap-4 p-6 relative z-10">
+          <div className="flex flex-col items-center w-full gap-4 p-6 relative">
             <div className="flex items-center space-x-4 mb-2">
               <div className="relative group">
                 <img

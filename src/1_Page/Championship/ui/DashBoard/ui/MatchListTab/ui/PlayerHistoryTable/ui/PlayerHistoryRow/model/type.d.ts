@@ -1,6 +1,10 @@
+type PlayerStatsFormValuesWithIdx = PlayerStatsFormValues & {
+  player_list_idx: number;
+};
+
 type HandlePostPlayerStatProps = {
   matchIdx: number;
-  data: PlayerStatsFormValues;
+  data: PlayerStatsFormValuesWithIdx;
 };
 
 type UsePlayerStatFormReturn = {

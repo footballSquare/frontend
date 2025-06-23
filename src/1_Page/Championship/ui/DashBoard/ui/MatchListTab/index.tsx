@@ -20,7 +20,8 @@ import ChevronUpIcon from "../../../../../../4_Shared/assets/svg/ChevronUp.svg";
 import { useAuthStore } from "../../../../../../4_Shared/lib/useMyInfo";
 
 const MatchListTab = (props: MatchListTabProps) => {
-  const { matchList, filteredTeamList, matchHandlers } = props;
+  const { matchList, filteredTeamList, matchHandlers, handleUpdatePlayer } =
+    props;
 
   // state
   const {
@@ -233,6 +234,7 @@ const MatchListTab = (props: MatchListTabProps) => {
                               maxGoal={maxGoal}
                               maxAssist={maxAssist}
                               personEvidenceImage={personEvidenceImage}
+                              handleUpdatePlayer={handleUpdatePlayer}
                             />
                           </div>
                         </div>
@@ -245,6 +247,7 @@ const MatchListTab = (props: MatchListTabProps) => {
                             maxGoal={maxGoal}
                             maxAssist={maxAssist}
                             personEvidenceImage={personEvidenceImage}
+                            handleUpdatePlayer={handleUpdatePlayer}
                           />
                           <PlayerHistoryTable
                             players={team2PlayerStats}
@@ -252,6 +255,7 @@ const MatchListTab = (props: MatchListTabProps) => {
                             maxGoal={maxGoal}
                             maxAssist={maxAssist}
                             personEvidenceImage={personEvidenceImage}
+                            handleUpdatePlayer={handleUpdatePlayer}
                           />
                         </div>
                       </div>

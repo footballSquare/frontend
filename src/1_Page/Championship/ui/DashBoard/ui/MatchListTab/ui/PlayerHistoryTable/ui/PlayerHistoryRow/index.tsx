@@ -15,7 +15,13 @@ import PlayerStatsDetailInput from "../../../../../../../../../../4_Shared/hookF
 import StatProgressBar from "../../../../../../../../../../4_Shared/components/StatProgressBar";
 
 const PlayerHistoryRow = (props: PlayerHistoryRowProps) => {
-  const { player, maxGoal, maxAssist, personEvidenceImage } = props;
+  const {
+    player,
+    maxGoal,
+    maxAssist,
+    personEvidenceImage,
+    handleUpdatePlayer,
+  } = props;
 
   const [myUserIdx] = useMyUserIdx();
   const isMine = player.player_list_idx === myUserIdx;
@@ -47,7 +53,8 @@ const PlayerHistoryRow = (props: PlayerHistoryRowProps) => {
   const [handlePostPlayerStats] = usePostPlayerStatsHandler(
     cancelEdit,
     setBackupPlayerStats,
-    toggleIsEditing
+    toggleIsEditing,
+    handleUpdatePlayer
   );
 
   return (
@@ -99,7 +106,7 @@ const PlayerHistoryRow = (props: PlayerHistoryRowProps) => {
               onSubmit={handleSubmit((data: PlayerStatsFormValues) =>
                 handlePostPlayerStats({
                   matchIdx: player.match_match_idx,
-                  data,
+                  data: { ...data, player_list_idx: player.player_list_idx },
                 })
               )}>
               <div className="flex flex-col gap-4 md:flex-row md:justify-between md:items-center mb-5 lg:gap-4 lg:mb-6">

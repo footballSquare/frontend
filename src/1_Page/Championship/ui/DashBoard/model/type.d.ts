@@ -19,3 +19,18 @@ type UseSelectHandlerReturn = {
   handleMatchSelect: (championshipMatchIdx: number) => void;
   handleBackToList: () => void;
 };
+
+type UseSearchHandlerReturn = {
+  searchTerm: string;
+  setSearchTerm: React.Dispatch<React.SetStateAction<string>>;
+  sortConfig: {
+    key: keyof PlayerStats;
+    direction: "asc" | "desc";
+  };
+  handleSort: (key: keyof PlayerStats) => void;
+  displayPlayerStats: PlayerStats[];
+  handleUpdatePlayer: (
+    playerListIdx: number,
+    updatedStats: Partial<PlayerStats>
+  ) => void;
+};

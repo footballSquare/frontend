@@ -1,7 +1,14 @@
 import PlayerHistoryRow from "./ui/PlayerHistoryRow";
 
 const PlayerHistoryTable = (props: PlayerHistoryTableProps) => {
-  const { players, teamLabel, maxGoal, maxAssist, personEvidenceImage } = props;
+  const {
+    players,
+    teamLabel,
+    maxGoal,
+    maxAssist,
+    personEvidenceImage,
+    handleUpdatePlayer,
+  } = props;
 
   return (
     <div className="space-y-4 lg:space-y-4">
@@ -40,6 +47,7 @@ const PlayerHistoryTable = (props: PlayerHistoryTableProps) => {
                   maxGoal={maxGoal}
                   maxAssist={maxAssist}
                   personEvidenceImage={personEvidenceImage}
+                  handleUpdatePlayer={handleUpdatePlayer}
                 />
               ))
             )}

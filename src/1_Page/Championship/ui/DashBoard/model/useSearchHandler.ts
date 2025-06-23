@@ -1,9 +1,34 @@
 import React from "react";
 
-const useSearchHandler = (playerStats: PlayerStats[]) => {
-  // 검색 및 필터링 상태
-  const [searchTerm, setSearchTerm] = React.useState<string>("");
+const useSearchHandler = (
+  initialPlayerStats: PlayerStats[]
+): UseSearchHandlerReturn => {
+  // playerStats를 내부 상태로 관리
+  const [playerStats, setPlayerStats] = React.useState<PlayerStats[]>(
+    initialPlayerStats || []
+  );
 
+  // 초기값 설정
+  React.useEffect(() => {
+    setPlayerStats(initialPlayerStats || []);
+  }, [initialPlayerStats]);
+
+  // idx를 통해 특정 선수 정보만 수정하는 핸들러 함수
+  const handleUpdatePlayer = (
+    playerListIdx: number,
+    updatedStats: Partial<PlayerStats>
+  ) => {
+    setPlayerStats((prevStats) =>
+      prevStats.map((player) =>
+        player.player_list_idx === playerListIdx
+          ? { ...player, ...updatedStats }
+          : player
+      )
+    );
+  };
+
+  // 기존 검색 및 정렬 로직은 유지
+  const [searchTerm, setSearchTerm] = React.useState<string>("");
   const [sortConfig, setSortConfig] = React.useState<{
     key: keyof PlayerStats;
     direction: "asc" | "desc";
@@ -16,7 +41,7 @@ const useSearchHandler = (playerStats: PlayerStats[]) => {
     }));
   };
 
-  // 선수 데이터 필터링 및 정렬
+  // displayPlayerStats는 이제 내부 상태(playerStats)를 기반으로 계산
   const displayPlayerStats = React.useMemo(() => {
     if (!playerStats) return [];
 
@@ -55,6 +80,7 @@ const useSearchHandler = (playerStats: PlayerStats[]) => {
     sortConfig,
     handleSort,
     displayPlayerStats,
+    handleUpdatePlayer, // 새로 추가된 핸들러
   };
 };
 export default useSearchHandler;
