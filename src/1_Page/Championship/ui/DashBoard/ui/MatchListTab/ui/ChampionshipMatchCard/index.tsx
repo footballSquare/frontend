@@ -57,33 +57,62 @@ const ChampionshipMatchCard = (props: ChampionshipMatchCardProps) => {
             } as React.CSSProperties)
           : undefined
       }>
+      {/* 관리자 버튼 - 우측 상단 */}
+      {(isCommunityOperator || isCommunityManager) &&
+        match.championship_match_first.common_status_idx !== 4 && (
+          <div className="absolute top-2 right-2 flex gap-2 z-10">
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                if (confirm("정말 종료하시겠습니까?")) {
+                  handlePutChampionshipMatchEnd(match.championship_match_idx);
+                }
+              }}
+              className="px-3 py-1 rounded-lg bg-green-500/90 text-white text-xs font-medium hover:bg-green-600 transition-all duration-200 shadow-lg backdrop-blur-sm border border-green-400/30"
+              title="경기 종료">
+              종료
+            </button>
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                if (confirm("정말 삭제하시겠습니까?")) {
+                  handleDeleteChampionshipMatch(match.championship_match_idx);
+                }
+              }}
+              className="px-3 py-1 rounded-lg bg-red-500/90 text-white text-xs font-medium hover:bg-red-600 transition-all duration-200 shadow-lg backdrop-blur-sm border border-red-400/30"
+              title="경기 삭제">
+              삭제
+            </button>
+          </div>
+        )}
+
       {isMyTeam ? (
         /* 내 팀 매치 카드 스타일 */
         <div className="bg-white/5 rounded-xl p-4 border border-white/10 hover:border-white/20 transition-all duration-300">
           {/* 매치 날짜 및 시간, 상태 */}
           <div className="flex items-center justify-between mb-3">
-            <div className="flex flex-col">
+            <div className="flex items-center gap-2">
               <div className="text-xs text-gray-400 font-medium">
                 {utcFormatter(match.match_match_start_time)}
               </div>
-            </div>
-            <div
-              className={`px-2 py-1 rounded-full text-xs font-bold ${
-                match.championship_match_first.common_status_idx === 4
-                  ? "text-white"
-                  : "bg-amber-500/20 text-amber-200"
-              }`}
-              style={
-                match.championship_match_first.common_status_idx === 4
-                  ? {
-                      backgroundColor: `${championshipListColor}33`,
-                      color: championshipListColor,
-                    }
-                  : undefined
-              }>
-              {match.championship_match_first.common_status_idx === 4
-                ? "종료"
-                : "예정"}
+              <div
+                className={`px-2 py-1 rounded-full text-xs font-bold ${
+                  match.championship_match_first.common_status_idx === 4
+                    ? "text-white"
+                    : "bg-amber-500/20 text-amber-200"
+                }`}
+                style={
+                  match.championship_match_first.common_status_idx === 4
+                    ? {
+                        backgroundColor: `${championshipListColor}33`,
+                        color: championshipListColor,
+                      }
+                    : undefined
+                }>
+                {match.championship_match_first.common_status_idx === 4
+                  ? "종료"
+                  : "예정"}
+              </div>
             </div>
           </div>
 
@@ -161,33 +190,35 @@ const ChampionshipMatchCard = (props: ChampionshipMatchCardProps) => {
         <>
           {/* 매치 시간 및 상태 */}
           <div className="flex items-center justify-between mb-3">
-            <div className="text-sm text-gray-400">
-              {new Date(match.match_match_start_time).toLocaleTimeString(
-                "ko-KR",
-                {
-                  hour: "2-digit",
-                  minute: "2-digit",
-                  hour12: false,
-                }
-              )}
-            </div>
-            <div
-              className={`px-3 py-1 rounded-full text-xs font-bold ${
-                match.championship_match_first.common_status_idx === 4
-                  ? "text-white"
-                  : "bg-amber-500/20 text-amber-200"
-              }`}
-              style={
-                match.championship_match_first.common_status_idx === 4
-                  ? {
-                      backgroundColor: `${championshipListColor}33`,
-                      color: championshipListColor,
-                    }
-                  : undefined
-              }>
-              {match.championship_match_first.common_status_idx === 4
-                ? "종료"
-                : "예정"}
+            <div className="flex items-center gap-3">
+              <div className="text-sm text-gray-400">
+                {new Date(match.match_match_start_time).toLocaleTimeString(
+                  "ko-KR",
+                  {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    hour12: false,
+                  }
+                )}
+              </div>
+              <div
+                className={`px-3 py-1 rounded-full text-xs font-bold ${
+                  match.championship_match_first.common_status_idx === 4
+                    ? "text-white"
+                    : "bg-amber-500/20 text-amber-200"
+                }`}
+                style={
+                  match.championship_match_first.common_status_idx === 4
+                    ? {
+                        backgroundColor: `${championshipListColor}33`,
+                        color: championshipListColor,
+                      }
+                    : undefined
+                }>
+                {match.championship_match_first.common_status_idx === 4
+                  ? "종료"
+                  : "예정"}
+              </div>
             </div>
           </div>
 
@@ -255,39 +286,6 @@ const ChampionshipMatchCard = (props: ChampionshipMatchCardProps) => {
               </div>
             </div>
           </div>
-
-          {/* 호버 효과 및 관리자 버튼 */}
-          {(isCommunityOperator || isCommunityManager) &&
-            match.championship_match_first.common_status_idx !== 4 && (
-              <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    if (confirm("정말 삭제하시겠습니까?")) {
-                      handleDeleteChampionshipMatch(
-                        match.championship_match_idx
-                      );
-                    }
-                  }}
-                  className="w-6 h-6 rounded-full bg-red-500/80 text-white text-xs hover:bg-red-600 transition-colors">
-                  ×
-                </button>
-                {
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      if (confirm("정말 종료하시겠습니까?")) {
-                        handlePutChampionshipMatchEnd(
-                          match.championship_match_idx
-                        );
-                      }
-                    }}
-                    className="w-6 h-6 rounded-full bg-gray-600/80 text-white text-xs hover:bg-gray-700 transition-colors">
-                    종료
-                  </button>
-                }
-              </div>
-            )}
         </>
       )}
     </div>

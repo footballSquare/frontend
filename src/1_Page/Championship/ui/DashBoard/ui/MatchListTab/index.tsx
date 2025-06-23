@@ -88,8 +88,18 @@ const MatchListTab = (props: MatchListTabProps) => {
       {isMatchDetailView ? (
         /* 매치 상세 보기 */
         <div className="bg-gray-800 rounded-lg shadow-md">
+          {/* 헤더 */}
           <div className="p-6 border-b border-gray-700">
-            <div className="flex items-center gap-4">
+            <h2 className="text-2xl font-bold text-white flex items-center gap-3 mb-2">
+              <div className="w-10 h-10 rounded-full flex items-center justify-center">
+                <span className="text-xl">⚽</span>
+              </div>
+              매치 상세 정보
+            </h2>
+            <p className="text-gray-400">
+              선수 포지션, 경기 통계, 그리고 상세 데이터를 확인하세요.
+            </p>
+            <div className="mt-3 flex items-center gap-4 text-sm text-gray-500">
               <button
                 onClick={handleBackToList}
                 className="flex items-center gap-2 px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors text-gray-200 hover:text-white group">
@@ -98,14 +108,6 @@ const MatchListTab = (props: MatchListTabProps) => {
                 </span>
                 매치 목록으로
               </button>
-              <div>
-                <h2 className="text-2xl font-bold text-white flex items-center gap-3">
-                  매치 상세 정보
-                </h2>
-                <p className="text-gray-400 mt-1">
-                  선수 포지션, 경기 통계, 그리고 상세 데이터를 확인하세요
-                </p>
-              </div>
             </div>
           </div>
           <div className="p-6">

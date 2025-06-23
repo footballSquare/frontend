@@ -368,6 +368,7 @@ const DashBoard = (props: DashBoardProps) => {
                               backgroundColor: `${team.team_list_color}20`,
                               color: team.team_list_color,
                             }}>
+                            <span>👆</span>
                             <span>팀 페이지 보기</span>
                           </div>
                         </div>
