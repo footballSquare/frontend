@@ -6,3 +6,8 @@ type UseSearchTeamHandlerReturn = {
 };
 
 type useSortHandlerProps = ChampionshipMatchList[];
+
+type UseManageChampionshipDetailReturn = {
+  displayMatchDetail: ChampionshipMatchDetail;
+  handleUpdateTeamStats: (teamIdx: number, formData: PostTeamStatsForm) => void;
+};
