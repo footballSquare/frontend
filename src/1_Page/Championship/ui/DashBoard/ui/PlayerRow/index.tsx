@@ -192,7 +192,7 @@ const PlayerRow = (props: PlayerRowProps) => {
           hasEvidenceImage &&
           createPortal(
             <div
-              className="fixed inset-0 z-50 bg-black/70 flex items-center justify-center backdrop-blur-sm"
+              className="fixed inset-0 z-10 bg-black/70 flex items-center justify-center backdrop-blur-sm"
               onClick={handleToogleModal}>
               <div
                 className="bg-gray-800 p-4 rounded-2xl max-w-4xl max-h-[90vh] shadow-2xl border border-gray-600"

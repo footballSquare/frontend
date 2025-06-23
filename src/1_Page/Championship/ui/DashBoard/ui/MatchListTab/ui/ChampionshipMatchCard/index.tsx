@@ -4,6 +4,7 @@ import usePutChampionshipMatchEndHandler from "./model/usePutChampionshipMatchEn
 import DefaultTeamEmblem from "../../../../../../../../4_Shared/components/DefaultTeamEmblem";
 import useChampionshipInfoContext from "../../../../../../../../4_Shared/model/useChampionshipInfoContext";
 import { matchState } from "../../../../../../../../4_Shared/constant/matchState";
+import { formatDateKoreanDate } from "../../../../../../../../4_Shared/lib/dateFormatter";
 
 const ChampionshipMatchCard = (props: ChampionshipMatchCardProps) => {
   const {
@@ -39,23 +40,13 @@ const ChampionshipMatchCard = (props: ChampionshipMatchCardProps) => {
   const homeScore = home.match_team_stats_our_score || 0;
   const awayScore = away.match_team_stats_our_score || 0;
 
-  // MOD: 승/패/무에 따른 배경색 결정
-  const getMatchResultBg = () => {
-    if (!isFinished) return "bg-white/10";
-    if (homeScore > awayScore) return "bg-green-700/70"; // 홈팀 승리
-    if (homeScore < awayScore) return "bg-red-700/70"; // 어웨이팀 승리
-    return "bg-yellow-700/70"; // 무승부
-  };
-
-  // MOD: 날짜/시간 포맷팅 함수 (임시로 현재 날짜 사용)
-  const formatMatchDateTime = () => {
-    const today = new Date();
-    const month = today.getMonth() + 1;
-    const day = today.getDate();
-    const hour = today.getHours();
-    const minute = today.getMinutes().toString().padStart(2, "0");
-    return `${month}/${day} ${hour}:${minute}`;
-  };
+  const getMatchBgColor = !isFinished
+    ? "bg-white/10"
+    : homeScore > awayScore
+    ? "bg-green-700/70"
+    : homeScore < awayScore
+    ? "bg-red-700/70"
+    : "bg-yellow-700/70";
 
   return (
     <div
@@ -63,8 +54,8 @@ const ChampionshipMatchCard = (props: ChampionshipMatchCardProps) => {
       className={`group relative rounded-2xl overflow-hidden cursor-pointer transition-all duration-300 ease-out backdrop-blur-sm
         ${
           isListViewMode
-            ? `${getMatchResultBg()} hover:bg-white/15 shadow-lg hover:shadow-xl transform hover:scale-[1.02] border border-white/20 hover:border-white/30`
-            : `${getMatchResultBg()} hover:bg-white/15 shadow-lg hover:shadow-xl transform hover:scale-105 border border-white/20 hover:border-white/30`
+            ? `${getMatchBgColor} hover:bg-white/15 shadow-lg hover:shadow-xl transform hover:scale-[1.02] border border-white/20 hover:border-white/30`
+            : `${getMatchBgColor} hover:bg-white/15 shadow-lg hover:shadow-xl transform hover:scale-105 border border-white/20 hover:border-white/30`
         }
         ${
           isSelected
@@ -89,7 +80,7 @@ const ChampionshipMatchCard = (props: ChampionshipMatchCardProps) => {
           {/* MOD: 날짜/시간을 큰 서체로 표시 */}
           <div className="text-right">
             <div className="text-lg font-bold text-white">
-              {formatMatchDateTime()}
+              {formatDateKoreanDate(new Date())}
             </div>
             <div
               className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide shadow-md
@@ -227,7 +218,7 @@ const ChampionshipMatchCard = (props: ChampionshipMatchCardProps) => {
                 handleDeleteChampionshipMatch(match.championship_match_idx);
             }}
             className="w-8 h-8 rounded-full bg-red-500/80 backdrop-blur-sm text-white hover:bg-red-600 transition-all duration-200 flex items-center justify-center shadow-lg hover:scale-110">
-            <span className="text-xs">🗑️</span>
+            <span className="text-xs">삭제</span>
           </button>
           <button
             onClick={(e) => {
@@ -237,7 +228,7 @@ const ChampionshipMatchCard = (props: ChampionshipMatchCardProps) => {
               }
             }}
             className="w-8 h-8 rounded-full bg-gray-600/80 backdrop-blur-sm text-white hover:bg-gray-700 transition-all duration-200 flex items-center justify-center shadow-lg hover:scale-110">
-            <span className="text-xs">⏹️</span>
+            <span className="text-xs">종료</span>
           </button>
         </div>
       )}

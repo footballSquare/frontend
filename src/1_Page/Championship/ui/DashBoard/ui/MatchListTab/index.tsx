@@ -1,75 +1,15 @@
 import React from "react";
 import PlayerHistoryTable from "./ui/PlayerHistoryTable";
 import VerticalTeamStatCards from "./ui/VerticalTeamStatCards";
-import ChampionshipMatchCard from "./ui/ChampionshipMatchCard";
 import CreateChampionMatchPanel from "./ui/CreateChampionMatchPanel";
 import EmptySearchResult from "./ui/EmptySearchResult";
+import { utcFormatter } from "../../../../../../4_Shared/lib/utcFormatter";
 
 import { VIEW_MODE, VIEW_MODE_BUTTONS } from "./constant/tab";
 import useSearchTeamHandler from "./model/useSearchTeamHandler";
 import useSelectHandler from "./model/useSelectHandler";
 import { getMatchMaxStats } from "./lib/getMatchMaxStats";
-
-// MOD: 날짜 네비게이션 및 매치 분류 유틸 함수
-const generateDateNavigation = (matches: ChampionshipMatchList[]) => {
-  // 매치 데이터에서 실제 날짜 추출
-  const matchDates = matches.map(match => {
-    const date = new Date(match.match_match_start_time);
-    return new Date(date.getFullYear(), date.getMonth(), date.getDate());
-  });
-
-  // 중복 제거 및 정렬
-  const uniqueDates = Array.from(new Set(matchDates.map(date => date.getTime())))
-    .map(time => new Date(time))
-    .sort((a, b) => a.getTime() - b.getTime());
-
-  // 오늘 날짜 추가 (매치가 없어도 표시)
-  const today = new Date();
-  const todayDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-  
-  if (!uniqueDates.some(date => date.getTime() === todayDate.getTime())) {
-    uniqueDates.push(todayDate);
-    uniqueDates.sort((a, b) => a.getTime() - b.getTime());
-  }
-
-  return uniqueDates;
-};
-
-const categorizeMatchesByDate = (matches: ChampionshipMatchList[], selectedDate: Date) => {
-  // 선택된 날짜와 같은 날의 매치만 필터링
-  const selectedDateMatches = matches.filter(match => {
-    const matchDate = new Date(match.match_match_start_time);
-    const matchDateOnly = new Date(matchDate.getFullYear(), matchDate.getMonth(), matchDate.getDate());
-    const selectedDateOnly = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate());
-    
-    return matchDateOnly.getTime() === selectedDateOnly.getTime();
-  });
-
-  // 시간순으로 정렬
-  selectedDateMatches.sort((a, b) => 
-    new Date(a.match_match_start_time).getTime() - new Date(b.match_match_start_time).getTime()
-  );
-
-  return { selectedDateMatches };
-};
-
-const formatDateForDisplay = (date: Date) => {
-  const today = new Date();
-  const tomorrow = new Date(today);
-  tomorrow.setDate(today.getDate() + 1);
-  const yesterday = new Date(today);
-  yesterday.setDate(today.getDate() - 1);
-
-  if (date.toDateString() === today.toDateString()) {
-    return "오늘";
-  } else if (date.toDateString() === tomorrow.toDateString()) {
-    return "내일";
-  } else if (date.toDateString() === yesterday.toDateString()) {
-    return "어제";
-  }
-
-  return `${date.getMonth() + 1}월 ${date.getDate()}일`;
-};
+import { formatDateForDisplay, isMatchOnDate } from "./lib/dateUtils";
 
 import FootballGroundSection from "../../../../../../2_Widget/FootballGroundSection";
 import useGetChampionshipEvidence from "../../../../../../3_Entity/Championship/useGetChampionshipEvidence";
@@ -79,14 +19,12 @@ import ChevronDownIcon from "../../../../../../4_Shared/assets/svg/ChevronDown.s
 import ChevronUpIcon from "../../../../../../4_Shared/assets/svg/ChevronUp.svg";
 import { useAuthStore } from "../../../../../../4_Shared/lib/useMyInfo";
 import useGetChampionshipDetail from "../../../../../../3_Entity/Championship/useGetChampionshipDetail";
-import { utcFormatter } from "../../../../../../4_Shared/lib/utcFormatter";
+import useDateIndexHandler from "./model/useDateIndexHandler";
 
 const MatchListTab = (props: MatchListTabProps) => {
   const { matchList, filteredTeamList, matchHandlers, handleUpdatePlayer } =
     props;
-
-  console.log(matchList);
-  // state
+  // 1. 매치 선택 관련 상태 및 핸들러
   const {
     selectChampionshipMatchIdx,
     selectedMatch,
@@ -96,73 +34,45 @@ const MatchListTab = (props: MatchListTabProps) => {
   } = useSelectHandler(matchList);
   const firstTeam = selectedMatch?.championship_match_first;
   const secondTeam = selectedMatch?.championship_match_second;
-  // 필터링 매치 훅
+
+  // 2. 매치 검색 및 필터링
   const { filteredMatches, searchTerm, myMatchList, handleSearchChange } =
     useSearchTeamHandler(matchList);
 
-  // MOD: 날짜별로 매치 분류 및 날짜 네비게이션
-  const [selectedDate, setSelectedDate] = React.useState(new Date());
-  const availableDates = generateDateNavigation();
-  const { selectedDateMatches } = categorizeMatchesByDate(filteredMatches);
-  const dateScrollRef = React.useRef<HTMLDivElement>(null);
+  // 3. 날짜 선택 및 필터링된 날짜별 매치 목록
+  const {
+    availableDates,
+    selectedDate,
+    selectedDateMatches,
+    handleSetSelectedDate,
+  } = useDateIndexHandler(filteredMatches);
 
-  // 오늘 날짜를 중앙에 위치시키는 useEffect
-  React.useEffect(() => {
-    const scrollToToday = () => {
-      if (dateScrollRef.current) {
-        const today = new Date();
-        const todayIndex = availableDates.findIndex(
-          (date) => date.toDateString() === today.toDateString()
-        );
-
-        if (todayIndex !== -1) {
-          const scrollContainer = dateScrollRef.current;
-          const buttonWidth = 86; // min-w-[70px] + padding 추정값
-          const containerWidth = scrollContainer.clientWidth;
-          const scrollPosition =
-            todayIndex * buttonWidth - containerWidth / 2 + buttonWidth / 2;
-
-          scrollContainer.scrollTo({
-            left: Math.max(0, scrollPosition),
-            behavior: "smooth",
-          });
-        }
-      }
-    };
-
-    // 컴포넌트 마운트 후 스크롤 위치 조정
-    const timer = setTimeout(scrollToToday, 100);
-    return () => clearTimeout(timer);
-  }, [availableDates]);
-
+  // 4. 로컬 상태 (탭/모드/내 팀 경기 리스트 접힘 여부)
   const [activeTeam, setActiveTeam] = React.useState<0 | 1>(0);
   const [viewMode, setViewMode] = React.useState<VIEW_MODE>(VIEW_MODE.Lineup);
   const [isMyMatchesOpen, setIsMyMatchesOpen] = React.useState(true);
+
   const myTeamIdx = useAuthStore((state) => state.teamIdx);
 
+  //api
   const [championshipMatchDetail] = useGetChampionshipDetail(
     selectChampionshipMatchIdx
   );
-
-  // championshipMatchIdx에 해당하는 증거 이미지 필터링
   const [evidenceImage] = useGetChampionshipEvidence(
     selectChampionshipMatchIdx
   );
-
-  // admin
+  // context
   const { isCommunityOperator, isCommunityManager, championshipListColor } =
     useChampionshipInfoContext();
-
-  // zustand
+  //zustand
   const { setMatchIdx, toggleMatchModal } = useMatchModalStore();
 
+  // value
   const { maxGoal, maxAssist } = getMatchMaxStats(championshipMatchDetail);
-
   const selectTeamList = [
     firstTeam?.team_list_name,
     secondTeam?.team_list_name,
   ];
-
   const team1PlayerStats =
     championshipMatchDetail?.first_team?.player_stats || [];
   const team2PlayerStats =
@@ -215,7 +125,6 @@ const MatchListTab = (props: MatchListTabProps) => {
               ) : (
                 <div>
                   {/* 매치 선택시 */}
-
                   {/* 상단 탭 네비게이션 */}
                   <nav className="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 gap-3 lg:mb-6 lg:gap-4">
                     {/* 스크롤 가능한 탭 버튼 목록 */}
@@ -440,7 +349,11 @@ const MatchListTab = (props: MatchListTabProps) => {
                 className="flex items-center justify-between mb-4 cursor-pointer"
                 onClick={() => setIsMyMatchesOpen((prev) => !prev)}>
                 <h3 className="text-xl font-bold text-white flex items-center gap-2">
-                  <span className="w-8 h-8 rounded-full bg-gradient-to-r from-grass to-grass/80 flex items-center justify-center text-lg">
+                  <span
+                    className="w-8 h-8 rounded-full flex items-center justify-center text-lg"
+                    style={{
+                      background: `linear-gradient(135deg, ${championshipListColor}, ${championshipListColor}CC)`,
+                    }}>
                     ⭐
                   </span>
                   내 팀 경기 목록
@@ -459,21 +372,146 @@ const MatchListTab = (props: MatchListTabProps) => {
                 </div>
               </div>
               {isMyMatchesOpen && (
-                <div className="flex overflow-x-auto space-x-6 pb-4 -mx-6 px-6 modern-scrollbar">
+                <div className="flex overflow-x-auto space-x-4 pb-4 -mx-6 px-6 modern-scrollbar">
                   {myMatchList.map((match, index) => (
                     <div
                       key={`my-match-${index}`}
-                      className="w-80 flex-shrink-0 transform transition-all duration-300 hover:scale-[1.03]">
-                      <ChampionshipMatchCard
-                        {...matchHandlers}
-                        isSelected={
-                          selectChampionshipMatchIdx ===
-                          match.championship_match_idx
-                        }
-                        handleSelect={handleMatchSelect}
-                        match={match}
-                        isListViewMode={true}
-                      />
+                      onClick={() =>
+                        handleMatchSelect(match.championship_match_idx)
+                      }
+                      className={`w-64 flex-shrink-0 cursor-pointer transition-all duration-300 hover:scale-[1.02] ${
+                        selectChampionshipMatchIdx ===
+                        match.championship_match_idx
+                          ? "ring-2 ring-opacity-60"
+                          : ""
+                      }`}
+                      style={
+                        selectChampionshipMatchIdx ===
+                        match.championship_match_idx
+                          ? ({
+                              "--tw-ring-color": `${championshipListColor}99`,
+                            } as React.CSSProperties)
+                          : undefined
+                      }>
+                      <div className="bg-white/5 rounded-xl p-4 border border-white/10 hover:border-white/20 transition-all duration-300">
+                        {/* 매치 날짜 및 시간, 상태 */}
+                        <div className="flex items-center justify-between mb-3">
+                          <div className="flex flex-col">
+                            <div className="text-xs text-gray-400 font-medium">
+                              {utcFormatter(match.match_match_start_time)}
+                            </div>
+                          </div>
+                          <div
+                            className={`px-2 py-1 rounded-full text-xs font-bold ${
+                              match.championship_match_first
+                                .common_status_idx === 4
+                                ? "text-white"
+                                : "bg-amber-500/20 text-amber-200"
+                            }`}
+                            style={
+                              match.championship_match_first
+                                .common_status_idx === 4
+                                ? {
+                                    backgroundColor: `${championshipListColor}33`,
+                                    color: championshipListColor,
+                                  }
+                                : undefined
+                            }>
+                            {match.championship_match_first
+                              .common_status_idx === 4
+                              ? "종료"
+                              : "예정"}
+                          </div>
+                        </div>
+
+                        {/* 팀 정보 및 점수 */}
+                        <div className="space-y-2">
+                          {/* 홈팀 */}
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center space-x-2 flex-1 min-w-0">
+                              <div className="w-6 h-6 rounded-full overflow-hidden bg-white/10 flex items-center justify-center flex-shrink-0">
+                                {match.championship_match_first
+                                  .team_list_emblem ? (
+                                  <img
+                                    src={
+                                      match.championship_match_first
+                                        .team_list_emblem
+                                    }
+                                    alt="홈팀"
+                                    className="w-full h-full object-cover"
+                                  />
+                                ) : (
+                                  <div
+                                    className="w-full h-full rounded-full flex items-center justify-center text-white text-xs font-bold"
+                                    style={{
+                                      backgroundColor:
+                                        match.championship_match_first
+                                          .team_list_color,
+                                    }}>
+                                    {
+                                      match.championship_match_first
+                                        .team_list_short_name
+                                    }
+                                  </div>
+                                )}
+                              </div>
+                              <div className="text-white font-medium text-sm truncate">
+                                {match.championship_match_first.team_list_name}
+                              </div>
+                            </div>
+                            <div className="text-lg font-bold text-white">
+                              {match.championship_match_first
+                                .match_team_stats_our_score || 0}
+                            </div>
+                          </div>
+
+                          {/* VS 구분선 */}
+                          <div className="flex items-center justify-center py-1">
+                            <div className="text-gray-500 text-xs font-medium">
+                              VS
+                            </div>
+                          </div>
+
+                          {/* 어웨이팀 */}
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center space-x-2 flex-1 min-w-0">
+                              <div className="w-6 h-6 rounded-full overflow-hidden bg-white/10 flex items-center justify-center flex-shrink-0">
+                                {match.championship_match_second
+                                  .team_list_emblem ? (
+                                  <img
+                                    src={
+                                      match.championship_match_second
+                                        .team_list_emblem
+                                    }
+                                    alt="어웨이팀"
+                                    className="w-full h-full object-cover"
+                                  />
+                                ) : (
+                                  <div
+                                    className="w-full h-full rounded-full flex items-center justify-center text-white text-xs font-bold"
+                                    style={{
+                                      backgroundColor:
+                                        match.championship_match_second
+                                          .team_list_color,
+                                    }}>
+                                    {
+                                      match.championship_match_second
+                                        .team_list_short_name
+                                    }
+                                  </div>
+                                )}
+                              </div>
+                              <div className="text-white font-medium text-sm truncate">
+                                {match.championship_match_second.team_list_name}
+                              </div>
+                            </div>
+                            <div className="text-lg font-bold text-white">
+                              {match.championship_match_second
+                                .match_team_stats_our_score || 0}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -486,7 +524,11 @@ const MatchListTab = (props: MatchListTabProps) => {
             {/* 검색창 */}
             <div className="relative group w-full md:flex-1">
               <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                <div className="w-5 h-5 rounded-full bg-gradient-to-r from-grass to-grass/80 flex items-center justify-center">
+                <div
+                  className="w-5 h-5 rounded-full flex items-center justify-center"
+                  style={{
+                    background: `linear-gradient(135deg, ${championshipListColor}, ${championshipListColor}CC)`,
+                  }}>
                   <span className="text-white text-xs">🔍</span>
                 </div>
               </div>
@@ -495,7 +537,18 @@ const MatchListTab = (props: MatchListTabProps) => {
                 value={searchTerm}
                 onChange={handleSearchChange}
                 placeholder="팀명으로 검색하세요..."
-                className="w-full pl-14 pr-4 py-4 bg-white/10 border border-white/20 rounded-2xl text-white placeholder-gray-300 focus:outline-none focus:bg-white/20 focus:border-grass/40 focus:ring-2 focus:ring-grass/20 transition-all duration-300 group-hover:bg-white/15"
+                className="w-full pl-14 pr-4 py-4 bg-white/10 border border-white/20 rounded-2xl text-white placeholder-gray-300 focus:outline-none focus:bg-white/20 focus:ring-2 transition-all duration-300 group-hover:bg-white/15"
+                style={
+                  {
+                    "--tw-ring-color": `${championshipListColor}33`,
+                  } as React.CSSProperties
+                }
+                onFocus={(e) => {
+                  e.target.style.borderColor = `${championshipListColor}66`;
+                }}
+                onBlur={(e) => {
+                  e.target.style.borderColor = "rgba(255, 255, 255, 0.2)";
+                }}
               />
             </div>
 
@@ -518,32 +571,57 @@ const MatchListTab = (props: MatchListTabProps) => {
           <div className="p-6 border-b border-gray-700">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-bold text-white">경기 일정</h3>
-              <div className="text-sm text-grass font-medium">
-                {formatDateForDisplay(selectedDate)}
+              <div className="flex items-center gap-3">
+                <div
+                  className="text-sm font-medium"
+                  style={{ color: championshipListColor }}>
+                  {formatDateForDisplay(selectedDate)}
+                </div>
+                {selectedDateMatches.length > 0 && (
+                  <div
+                    className="px-2 py-1 rounded-full text-xs font-bold"
+                    style={{
+                      backgroundColor: `${championshipListColor}33`,
+                      color: championshipListColor,
+                    }}>
+                    {selectedDateMatches.length}경기
+                  </div>
+                )}
               </div>
             </div>
 
             {/* 날짜 스크롤 네비게이션 */}
-            <div
-              ref={dateScrollRef}
-              className="flex overflow-x-auto space-x-2 pb-2 scrollbar-hide">
+            <div className="flex overflow-x-auto space-x-2 pb-2 scrollbar-hide">
               {availableDates.map((date, index) => {
-                const isSelected =
-                  date.toDateString() === selectedDate.toDateString();
+                const isSelected = date.getTime() === selectedDate.getTime();
                 const isToday =
-                  date.toDateString() === new Date().toDateString();
+                  date.getTime() === new Date().setHours(0, 0, 0, 0);
+                // 해당 날짜에 매치가 있는지 확인
+                const hasMatches = filteredMatches.some((match) =>
+                  isMatchOnDate(match, date)
+                );
 
                 return (
                   <button
                     key={index}
-                    onClick={() => setSelectedDate(date)}
-                    className={`flex-shrink-0 flex flex-col items-center px-4 py-3 rounded-xl transition-all duration-200 min-w-[70px] ${
+                    onClick={() => handleSetSelectedDate(date)}
+                    className={`flex-shrink-0 flex flex-col items-center px-4 py-3 rounded-xl transition-all duration-200 min-w-[70px] relative ${
                       isSelected
-                        ? "bg-grass text-gray-900 shadow-lg"
+                        ? "text-gray-900 shadow-lg"
                         : isToday
-                        ? "bg-grass/20 text-grass hover:bg-grass/30"
+                        ? "text-gray-300 hover:bg-gray-600/50"
                         : "bg-gray-700/50 text-gray-300 hover:bg-gray-600/50"
-                    }`}>
+                    }`}
+                    style={
+                      isSelected
+                        ? { backgroundColor: championshipListColor }
+                        : isToday
+                        ? {
+                            backgroundColor: `${championshipListColor}33`,
+                            color: championshipListColor,
+                          }
+                        : undefined
+                    }>
                     <div className="text-xs font-medium mb-1">
                       {
                         ["일", "월", "화", "수", "목", "금", "토"][
@@ -553,12 +631,24 @@ const MatchListTab = (props: MatchListTabProps) => {
                     </div>
                     <div
                       className={`text-lg font-bold ${
-                        isToday && !isSelected ? "text-grass" : ""
-                      }`}>
+                        isToday && !isSelected ? "" : ""
+                      }`}
+                      style={
+                        isToday && !isSelected
+                          ? { color: championshipListColor }
+                          : undefined
+                      }>
                       {date.getDate()}
                     </div>
                     {isToday && (
-                      <div className="w-1 h-1 bg-grass rounded-full mt-1"></div>
+                      <div
+                        className="w-1 h-1 rounded-full mt-1"
+                        style={{
+                          backgroundColor: championshipListColor,
+                        }}></div>
+                    )}
+                    {hasMatches && !isSelected && (
+                      <div className="absolute top-1 right-1 w-2 h-2 bg-blue-400 rounded-full"></div>
                     )}
                   </button>
                 );
@@ -567,7 +657,7 @@ const MatchListTab = (props: MatchListTabProps) => {
           </div>
 
           {/* MOD: 선택된 날짜의 매치 리스트 */}
-          <div className="p-6">
+          <div className="p-6 min-h-[600px]">
             {selectedDateMatches.length > 0 ? (
               <div className="space-y-4">
                 {selectedDateMatches.map((match, index) => (
@@ -579,23 +669,44 @@ const MatchListTab = (props: MatchListTabProps) => {
                     className={`group relative bg-white/5 rounded-2xl p-4 cursor-pointer transition-all duration-300 hover:bg-white/10 border border-white/10 hover:border-white/20 ${
                       selectChampionshipMatchIdx ===
                       match.championship_match_idx
-                        ? "ring-2 ring-grass/60 bg-grass/10 border-grass/40"
+                        ? `ring-2 bg-white/10 border-white/40`
                         : ""
-                    }`}>
+                    }`}
+                    style={
+                      selectChampionshipMatchIdx ===
+                      match.championship_match_idx
+                        ? ({
+                            "--tw-ring-color": `${championshipListColor}99`,
+                            backgroundColor: `${championshipListColor}1A`,
+                            borderColor: `${championshipListColor}66`,
+                          } as React.CSSProperties)
+                        : undefined
+                    }>
                     {/* 매치 시간 및 상태 */}
                     <div className="flex items-center justify-between mb-3">
                       <div className="text-sm text-gray-400">
-                        {`${String(new Date().getHours()).padStart(
-                          2,
-                          "0"
-                        )}:${String(new Date().getMinutes()).padStart(2, "0")}`}
+                        {new Date(
+                          match.match_match_start_time
+                        ).toLocaleTimeString("ko-KR", {
+                          hour: "2-digit",
+                          minute: "2-digit",
+                          hour12: false,
+                        })}
                       </div>
                       <div
                         className={`px-3 py-1 rounded-full text-xs font-bold ${
                           match.championship_match_first.common_status_idx === 4
-                            ? "bg-grass/20 text-grass"
+                            ? "text-white"
                             : "bg-amber-500/20 text-amber-200"
-                        }`}>
+                        }`}
+                        style={
+                          match.championship_match_first.common_status_idx === 4
+                            ? {
+                                backgroundColor: `${championshipListColor}33`,
+                                color: championshipListColor,
+                              }
+                            : undefined
+                        }>
                         {match.championship_match_first.common_status_idx === 4
                           ? "종료"
                           : "예정"}

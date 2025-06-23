@@ -108,7 +108,9 @@ const DashBoard = (props: DashBoardProps) => {
               {displayPlayerStats.length > 0 && (
                 <div className="flex flex-wrap items-center gap-6 text-sm">
                   <div className="flex items-center gap-2 bg-white/10 px-4 py-2 rounded-xl">
-                    <div className="w-3 h-3 bg-grass rounded-full"></div>
+                    <div
+                      className="w-3 h-3 rounded-full"
+                      style={{ backgroundColor: championshipListColor }}></div>
                     <span className="text-white font-medium">
                       총 {displayPlayerStats.length}명의 선수
                     </span>
@@ -130,7 +132,11 @@ const DashBoard = (props: DashBoardProps) => {
               <div className="flex flex-col md:flex-row gap-6 items-center">
                 <div className="relative group flex-1">
                   <div className="absolute inset-y-0 left-0 pl-6 flex items-center pointer-events-none">
-                    <div className="w-6 h-6 rounded-full bg-gradient-to-r from-grass to-emerald-400 flex items-center justify-center shadow-lg">
+                    <div
+                      className="w-6 h-6 rounded-full flex items-center justify-center shadow-lg"
+                      style={{
+                        background: `linear-gradient(135deg, ${championshipListColor}, ${championshipListColor}CC)`,
+                      }}>
                       <span className="text-white text-sm font-bold">🔍</span>
                     </div>
                   </div>
@@ -139,17 +145,27 @@ const DashBoard = (props: DashBoardProps) => {
                     placeholder="선수명 또는 팀명으로 검색하세요..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="w-full pl-16 pr-6 py-5 bg-white/10 border-2 border-white/20 rounded-2xl text-white placeholder-gray-300 focus:outline-none focus:bg-white/20 focus:border-grass/60 focus:ring-4 focus:ring-grass/20 transition-all duration-300 group-hover:bg-white/15 text-lg backdrop-blur-sm"
+                    className="w-full pl-16 pr-6 py-5 bg-white/10 border-2 border-white/20 rounded-2xl text-white placeholder-gray-300 focus:outline-none focus:bg-white/20 transition-all duration-300 group-hover:bg-white/15 text-lg backdrop-blur-sm"
+                    style={
+                      {
+                        "--focus-border-color": `${championshipListColor}99`,
+                        "--focus-ring-color": `${championshipListColor}33`,
+                      } as React.CSSProperties
+                    }
+                    onFocus={(e) => {
+                      e.target.style.borderColor = `${championshipListColor}99`;
+                      e.target.style.boxShadow = `0 0 0 4px ${championshipListColor}33`;
+                    }}
+                    onBlur={(e) => {
+                      e.target.style.borderColor = "rgba(255, 255, 255, 0.2)";
+                      e.target.style.boxShadow = "none";
+                    }}
                   />
-                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-grass/5 to-emerald-400/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
-                </div>
-                <div className="flex gap-3">
-                  <button
-                    onClick={() => setSearchTerm("")}
-                    className="px-8 py-5 bg-gradient-to-r from-gray-600 to-gray-700 hover:from-gray-500 hover:to-gray-600 border-2 border-gray-500 hover:border-gray-400 rounded-2xl flex items-center gap-3 transition-all duration-300 text-gray-200 hover:text-white font-semibold shadow-lg hover:shadow-xl transform hover:scale-[1.02]">
-                    <span className="text-xl">🔄</span>
-                    <span>초기화</span>
-                  </button>
+                  <div
+                    className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+                    style={{
+                      background: `linear-gradient(135deg, ${championshipListColor}0D, ${championshipListColor}0D)`,
+                    }}></div>
                 </div>
               </div>
             </div>
@@ -175,7 +191,16 @@ const DashBoard = (props: DashBoardProps) => {
                     {searchTerm && (
                       <button
                         onClick={() => setSearchTerm("")}
-                        className="mt-6 px-8 py-4 bg-gradient-to-r from-grass to-emerald-400 hover:from-grass/90 hover:to-emerald-400/90 text-gray-900 rounded-2xl font-bold transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-[1.05]">
+                        className="mt-6 px-8 py-4 text-gray-900 rounded-2xl font-bold transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-[1.05]"
+                        style={{
+                          background: `linear-gradient(135deg, ${championshipListColor}, ${championshipListColor}CC)`,
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.background = `linear-gradient(135deg, ${championshipListColor}E6, ${championshipListColor}B3)`;
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.background = `linear-gradient(135deg, ${championshipListColor}, ${championshipListColor}CC)`;
+                        }}>
                         <span className="flex items-center gap-2">
                           <span>🔍</span>
                           전체 선수 보기
@@ -195,16 +220,42 @@ const DashBoard = (props: DashBoardProps) => {
                             key={col.key}
                             className={`${col.thClass} first:rounded-tl-xl last:rounded-tr-xl`}>
                             <button
-                              className={`${col.buttonClass} hover:text-grass transition-colors group flex items-center gap-2`}
+                              className={`${col.buttonClass} transition-colors group flex items-center gap-2`}
                               onClick={() => handleSort(col.key)}
-                              aria-label={col.ariaLabel}>
+                              aria-label={col.ariaLabel}
+                              style={
+                                {
+                                  "--hover-color": championshipListColor,
+                                } as React.CSSProperties
+                              }
+                              onMouseEnter={(e) => {
+                                e.currentTarget.style.color =
+                                  championshipListColor;
+                              }}
+                              onMouseLeave={(e) => {
+                                e.currentTarget.style.color = "";
+                              }}>
                               <span>{col.label}</span>
                               {sortConfig.key === col.key ? (
-                                <span className="text-grass text-lg">
+                                <span
+                                  className="text-lg"
+                                  style={{ color: championshipListColor }}>
                                   {sortConfig.direction === "asc" ? "↑" : "↓"}
                                 </span>
                               ) : (
-                                <span className="text-gray-500 group-hover:text-grass/50 text-sm">
+                                <span
+                                  className="text-gray-500 text-sm transition-colors"
+                                  style={
+                                    {
+                                      "--hover-color": `${championshipListColor}80`,
+                                    } as React.CSSProperties
+                                  }
+                                  onMouseEnter={(e) => {
+                                    e.currentTarget.style.color = `${championshipListColor}80`;
+                                  }}
+                                  onMouseLeave={(e) => {
+                                    e.currentTarget.style.color = "";
+                                  }}>
                                   ↕
                                 </span>
                               )}

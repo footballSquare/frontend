@@ -30,11 +30,18 @@ const useSearchTeamHandler = (
 
   const teamIdx = useAuthStore((state) => state.teamIdx);
   const myMatchList = React.useMemo(() => {
-    return matchList.filter(
+    const filteredMyMatches = matchList.filter(
       (match) =>
         match.championship_match_first.team_list_idx === teamIdx ||
         match.championship_match_second.team_list_idx === teamIdx
     );
+
+    // Sort by nearest date (ascending)
+    return filteredMyMatches.sort((a, b) => {
+      const dateA = new Date(a.match_match_start_time).getTime();
+      const dateB = new Date(b.match_match_start_time).getTime();
+      return dateA - dateB;
+    });
   }, [matchList, teamIdx]);
 
   return {

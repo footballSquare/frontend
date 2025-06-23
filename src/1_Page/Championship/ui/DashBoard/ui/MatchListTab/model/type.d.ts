@@ -11,3 +11,9 @@ type UseManageChampionshipDetailReturn = {
   displayMatchDetail: ChampionshipMatchDetail;
   handleUpdateTeamStats: (teamIdx: number, formData: PostTeamStatsForm) => void;
 };
+type UseDateIndexReturn = {
+  availableDates: Date[];
+  selectedDate: Date;
+  selectedDateMatches: ChampionshipMatchList[];
+  handleSetSelectedDate: (date: Date) => void;
+};
