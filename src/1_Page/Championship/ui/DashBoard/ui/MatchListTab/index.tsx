@@ -11,23 +11,44 @@ import useSelectHandler from "./model/useSelectHandler";
 import { getMatchMaxStats } from "./lib/getMatchMaxStats";
 
 // MOD: 날짜 네비게이션 및 매치 분류 유틸 함수
-const generateDateNavigation = () => {
-  const today = new Date();
-  const dates: Date[] = [];
+const generateDateNavigation = (matches: ChampionshipMatchList[]) => {
+  // 매치 데이터에서 실제 날짜 추출
+  const matchDates = matches.map(match => {
+    const date = new Date(match.match_match_start_time);
+    return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+  });
 
-  // 현재 날짜 기준 ±7일 생성 (실제로는 매치 데이터의 날짜를 사용)
-  for (let i = -7; i <= 7; i++) {
-    const date = new Date(today);
-    date.setDate(today.getDate() + i);
-    dates.push(date);
+  // 중복 제거 및 정렬
+  const uniqueDates = Array.from(new Set(matchDates.map(date => date.getTime())))
+    .map(time => new Date(time))
+    .sort((a, b) => a.getTime() - b.getTime());
+
+  // 오늘 날짜 추가 (매치가 없어도 표시)
+  const today = new Date();
+  const todayDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+  
+  if (!uniqueDates.some(date => date.getTime() === todayDate.getTime())) {
+    uniqueDates.push(todayDate);
+    uniqueDates.sort((a, b) => a.getTime() - b.getTime());
   }
 
-  return dates;
+  return uniqueDates;
 };
 
-const categorizeMatchesByDate = (matches: ChampionshipMatchList[]) => {
-  // 임시로 모든 매치를 선택된 날짜로 분류 (실제로는 match.match_date 사용)
-  const selectedDateMatches: ChampionshipMatchList[] = matches;
+const categorizeMatchesByDate = (matches: ChampionshipMatchList[], selectedDate: Date) => {
+  // 선택된 날짜와 같은 날의 매치만 필터링
+  const selectedDateMatches = matches.filter(match => {
+    const matchDate = new Date(match.match_match_start_time);
+    const matchDateOnly = new Date(matchDate.getFullYear(), matchDate.getMonth(), matchDate.getDate());
+    const selectedDateOnly = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate());
+    
+    return matchDateOnly.getTime() === selectedDateOnly.getTime();
+  });
+
+  // 시간순으로 정렬
+  selectedDateMatches.sort((a, b) => 
+    new Date(a.match_match_start_time).getTime() - new Date(b.match_match_start_time).getTime()
+  );
 
   return { selectedDateMatches };
 };
@@ -58,6 +79,7 @@ import ChevronDownIcon from "../../../../../../4_Shared/assets/svg/ChevronDown.s
 import ChevronUpIcon from "../../../../../../4_Shared/assets/svg/ChevronUp.svg";
 import { useAuthStore } from "../../../../../../4_Shared/lib/useMyInfo";
 import useGetChampionshipDetail from "../../../../../../3_Entity/Championship/useGetChampionshipDetail";
+import { utcFormatter } from "../../../../../../4_Shared/lib/utcFormatter";
 
 const MatchListTab = (props: MatchListTabProps) => {
   const { matchList, filteredTeamList, matchHandlers, handleUpdatePlayer } =

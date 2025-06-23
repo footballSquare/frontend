@@ -26,6 +26,7 @@ const DashBoard = (props: DashBoardProps) => {
 
   // api
   const [matchList] = useGetChampionshipMatchList(championshipIdx); // 대회 생성된 매치 리스트
+
   const [teamList] = useGetChampionshipTeams(championshipIdx); // 대회 참가 팀리스트
   const [playerStats] = useGetPlayerStats(championshipIdx);
 
@@ -79,95 +80,154 @@ const DashBoard = (props: DashBoardProps) => {
       <main className="pt-2">
         {/* 출전선수 목록 */}
         <div hidden={activeTab !== ACTIVE_TAB.PLAYERS}>
-          <section className="w-full mx-auto bg-gray-900 text-gray-100 rounded-lg shadow-md overflow-hidden">
-            <div className="mb-4 flex flex-col md:flex-row gap-2 items-center">
-              <div className="relative flex-grow">
-                <input
-                  type="text"
-                  placeholder="선수 또는 팀 검색..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full px-4 py-2 pl-10 pr-4 rounded-lg bg-gray-700 border border-gray-600 text-gray-100 placeholder-gray-400"
-                />
-                <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
-                  🔍
-                </span>
+          <section className="bg-gradient-to-br from-gray-800 via-gray-800 to-gray-700 rounded-2xl shadow-2xl border border-gray-600/50">
+            {/* 헤더 */}
+            <div className="p-8 border-b border-gray-600/50 bg-gradient-to-r from-gray-800/90 to-gray-700/90 rounded-t-2xl">
+              <div className="flex items-center gap-4 mb-4">
+                <div
+                  className="w-16 h-16 rounded-2xl flex items-center justify-center shadow-xl relative overflow-hidden"
+                  style={{ backgroundColor: championshipListColor }}>
+                  <div className="absolute inset-0 bg-white/10 backdrop-blur-sm"></div>
+                  <span className="text-3xl relative z-10">⚽</span>
+                </div>
+                <div className="flex-1">
+                  <h2 className="text-3xl font-bold text-white mb-2 flex items-center gap-3">
+                    출전 선수 통계
+                    <div className="flex items-center gap-1">
+                      <div className="w-2 h-2 bg-grass rounded-full animate-pulse"></div>
+                      <div className="w-2 h-2 bg-grass/60 rounded-full animate-pulse delay-100"></div>
+                      <div className="w-2 h-2 bg-grass/30 rounded-full animate-pulse delay-200"></div>
+                    </div>
+                  </h2>
+                  <p className="text-gray-300 text-lg">
+                    대회에 참가한 모든 선수들의 경기 통계를 확인할 수 있습니다.
+                  </p>
+                </div>
               </div>
-              <button
-                className="px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg flex items-center gap-2 hover:bg-gray-600 text-gray-100"
-                onClick={() => setSearchTerm("")}
-                aria-label="검색 초기화">
-                <span>필터 초기화</span>
-              </button>
-            </div>
-            <div className="p-4 rounded-t-lg bg-gray-600">
-              <h2 className="font-bold text-lg md:text-xl">
-                <span>선수 통계</span>
-              </h2>
-              <p className="text-xs md:text-sm">
-                클릭하여 선수 프로필을 확인하세요
-              </p>
-            </div>
-            <hr className="border-gray-700" />
-            <div className="overflow-x-hidden">
-              <table className="w-full bg-gray-700 min-w-[600px] text-gray-100">
-                {/* 헤더 */}
-                <thead className="text-xs bg-gray-600 text-gray-400 uppercase tracking-wider">
-                  <tr>
-                    {sortColumns.map((col) => (
-                      <th key={col.key} className={col.thClass}>
-                        <button
-                          className={col.buttonClass}
-                          onClick={() => handleSort(col.key)}
-                          aria-label={col.ariaLabel}>
-                          {col.label}
-                          {sortConfig.key === col.key && (
-                            <span className="ml-1">
-                              {sortConfig.direction === "asc" ? "↑" : "↓"}
-                            </span>
-                          )}
-                        </button>
-                      </th>
-                    ))}
-                    <th className="px-3 py-3 w-1/6 font-semibold">증거</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {displayPlayerStats.length === 0 ? (
-                    <tr>
-                      <td colSpan={8} className="py-10 text-center">
-                        <div className="flex flex-col items-center justify-center gap-3">
-                          <div className="bg-gray-700 rounded-full p-4 mb-2">
-                            <span className="text-gray-400 text-xl">📊</span>
-                          </div>
-                          <p className="text-lg font-medium text-gray-100 mb-2">
-                            {searchTerm
-                              ? "검색 결과가 없습니다."
-                              : "선수 통계가 없습니다."}
-                          </p>
-                          <p className="text-sm text-gray-400">
-                            {searchTerm
-                              ? "다른 검색어로 시도해보세요."
-                              : "대회가 시작되면 통계가 추가됩니다."}
-                          </p>
-                        </div>
-                      </td>
-                    </tr>
-                  ) : (
-                    displayPlayerStats.map((player, index) => (
-                      <PlayerRow
-                        key={player.player_list_idx || index}
-                        player={player}
-                        index={index}
-                      />
-                    ))
-                  )}
-                </tbody>
-              </table>
+
               {displayPlayerStats.length > 0 && (
-                <div className="px-4 py-3 bg-gray-700 border-t border-gray-600 text-xs text-gray-400">
-                  총 {displayPlayerStats.length}명의 선수{" "}
-                  {searchTerm && `(검색: "${searchTerm}")`}
+                <div className="flex flex-wrap items-center gap-6 text-sm">
+                  <div className="flex items-center gap-2 bg-white/10 px-4 py-2 rounded-xl">
+                    <div className="w-3 h-3 bg-grass rounded-full"></div>
+                    <span className="text-white font-medium">
+                      총 {displayPlayerStats.length}명의 선수
+                    </span>
+                  </div>
+                  {searchTerm && (
+                    <div className="flex items-center gap-2 bg-blue-500/20 px-4 py-2 rounded-xl">
+                      <div className="w-3 h-3 bg-blue-400 rounded-full"></div>
+                      <span className="text-blue-200 font-medium">
+                        검색: "{searchTerm}"
+                      </span>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+
+            {/* 검색 영역 */}
+            <div className="p-8 border-b border-gray-600/50 bg-gradient-to-r from-gray-700/30 to-gray-600/30">
+              <div className="flex flex-col md:flex-row gap-6 items-center">
+                <div className="relative group flex-1">
+                  <div className="absolute inset-y-0 left-0 pl-6 flex items-center pointer-events-none">
+                    <div className="w-6 h-6 rounded-full bg-gradient-to-r from-grass to-emerald-400 flex items-center justify-center shadow-lg">
+                      <span className="text-white text-sm font-bold">🔍</span>
+                    </div>
+                  </div>
+                  <input
+                    type="text"
+                    placeholder="선수명 또는 팀명으로 검색하세요..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="w-full pl-16 pr-6 py-5 bg-white/10 border-2 border-white/20 rounded-2xl text-white placeholder-gray-300 focus:outline-none focus:bg-white/20 focus:border-grass/60 focus:ring-4 focus:ring-grass/20 transition-all duration-300 group-hover:bg-white/15 text-lg backdrop-blur-sm"
+                  />
+                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-grass/5 to-emerald-400/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+                </div>
+                <div className="flex gap-3">
+                  <button
+                    onClick={() => setSearchTerm("")}
+                    className="px-8 py-5 bg-gradient-to-r from-gray-600 to-gray-700 hover:from-gray-500 hover:to-gray-600 border-2 border-gray-500 hover:border-gray-400 rounded-2xl flex items-center gap-3 transition-all duration-300 text-gray-200 hover:text-white font-semibold shadow-lg hover:shadow-xl transform hover:scale-[1.02]">
+                    <span className="text-xl">🔄</span>
+                    <span>초기화</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* 테이블 영역 */}
+            <div className="overflow-hidden p-4">
+              {displayPlayerStats.length === 0 ? (
+                <div className="py-20 text-center">
+                  <div className="flex flex-col items-center justify-center gap-4">
+                    <div className="bg-gradient-to-br from-gray-600 to-gray-700 rounded-3xl p-8 mb-6 shadow-2xl">
+                      <span className="text-gray-300 text-5xl">📊</span>
+                    </div>
+                    <h3 className="text-2xl font-bold text-white mb-3">
+                      {searchTerm
+                        ? "검색 결과가 없습니다"
+                        : "선수 통계가 없습니다"}
+                    </h3>
+                    <p className="text-gray-400 text-center max-w-md text-lg leading-relaxed">
+                      {searchTerm
+                        ? "다른 검색어로 시도해보시거나 검색어를 확인해주세요."
+                        : "대회가 시작되면 선수들의 경기 통계가 여기에 표시됩니다."}
+                    </p>
+                    {searchTerm && (
+                      <button
+                        onClick={() => setSearchTerm("")}
+                        className="mt-6 px-8 py-4 bg-gradient-to-r from-grass to-emerald-400 hover:from-grass/90 hover:to-emerald-400/90 text-gray-900 rounded-2xl font-bold transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-[1.05]">
+                        <span className="flex items-center gap-2">
+                          <span>🔍</span>
+                          전체 선수 보기
+                        </span>
+                      </button>
+                    )}
+                  </div>
+                </div>
+              ) : (
+                <div className="overflow-x-auto ">
+                  <table className="w-full min-w-[900px] text-gray-100">
+                    {/* 헤더 */}
+                    <thead>
+                      <tr className="bg-gradient-to-r from-gray-700/80 to-gray-700/60 border-b border-gray-600">
+                        {sortColumns.map((col) => (
+                          <th
+                            key={col.key}
+                            className={`${col.thClass} first:rounded-tl-xl last:rounded-tr-xl`}>
+                            <button
+                              className={`${col.buttonClass} hover:text-grass transition-colors group flex items-center gap-2`}
+                              onClick={() => handleSort(col.key)}
+                              aria-label={col.ariaLabel}>
+                              <span>{col.label}</span>
+                              {sortConfig.key === col.key ? (
+                                <span className="text-grass text-lg">
+                                  {sortConfig.direction === "asc" ? "↑" : "↓"}
+                                </span>
+                              ) : (
+                                <span className="text-gray-500 group-hover:text-grass/50 text-sm">
+                                  ↕
+                                </span>
+                              )}
+                            </button>
+                          </th>
+                        ))}
+                        <th className="px-6 py-5 text-left font-bold text-gray-200 uppercase tracking-wider text-sm first:rounded-tl-xl last:rounded-tr-xl">
+                          <div className="flex items-center gap-2">
+                            <span>증거</span>
+                          </div>
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-700/30 bg-gray-800/30">
+                      {displayPlayerStats.map((player, index) => (
+                        <PlayerRow
+                          key={player.player_list_idx || index}
+                          player={player}
+                          index={index}
+                        />
+                      ))}
+                    </tbody>
+                  </table>
                 </div>
               )}
             </div>
@@ -211,91 +271,112 @@ const DashBoard = (props: DashBoardProps) => {
 
         {/* 참가 팀 목록 탭 */}
         {activeTab === ACTIVE_TAB.TEAM_LIST && (
-          <section className="bg-gray-800 rounded-lg shadow-md p-6">
-            <div className="mb-6">
-              <div className="flex items-center gap-3 mb-2">
+          <section className="bg-gradient-to-br from-gray-800 via-gray-800 to-gray-700 rounded-2xl shadow-2xl border border-gray-600/50">
+            <div className="p-8 border-b border-gray-600/50 bg-gradient-to-r from-gray-800/90 to-gray-700/90 rounded-t-2xl mb-6">
+              <div className="flex items-center gap-4 mb-4">
                 <div
-                  className="w-10 h-10 rounded-full flex items-center justify-center"
+                  className="w-16 h-16 rounded-2xl flex items-center justify-center shadow-xl relative overflow-hidden"
                   style={{ backgroundColor: championshipListColor }}>
-                  <span className="text-xl">🏆</span>
+                  <div className="absolute inset-0 bg-white/10 backdrop-blur-sm"></div>
+                  <span className="text-3xl relative z-10">🏆</span>
                 </div>
-                <h2 className="text-2xl font-bold text-white">참가 팀 목록</h2>
+                <div className="flex-1">
+                  <h2 className="text-3xl font-bold text-white mb-2 flex items-center gap-3">
+                    참가 팀 목록
+                    <div className="flex items-center gap-1">
+                      <div className="w-2 h-2 bg-grass rounded-full animate-pulse"></div>
+                      <div className="w-2 h-2 bg-grass/60 rounded-full animate-pulse delay-100"></div>
+                      <div className="w-2 h-2 bg-grass/30 rounded-full animate-pulse delay-200"></div>
+                    </div>
+                  </h2>
+                  <p className="text-gray-300 text-lg">
+                    대회에 참가 중인 모든 팀을 확인하고 팀 페이지로 이동할 수
+                    있습니다.
+                  </p>
+                </div>
               </div>
-              <p className="text-gray-400">
-                대회에 참가 중인 모든 팀을 확인하고 팀 페이지로 이동할 수
-                있습니다.
-              </p>
+
               {teamList.length > 0 && (
-                <div className="mt-3 flex items-center gap-4 text-sm text-gray-500">
-                  <span>총 {teamList.length}개 팀 참가</span>
+                <div className="flex flex-wrap items-center gap-6 text-sm">
+                  <div className="flex items-center gap-2 bg-white/10 px-4 py-2 rounded-xl">
+                    <div className="w-3 h-3 bg-grass rounded-full"></div>
+                    <span className="text-white font-medium">
+                      총 {teamList.length}개 팀 참가
+                    </span>
+                  </div>
                 </div>
               )}
             </div>
 
             {teamList.length === 0 ? (
-              <div className="flex flex-col items-center justify-center py-16">
-                <div className="bg-gray-700 rounded-full p-6 mb-4">
-                  <span className="text-gray-400 text-3xl">🏆</span>
+              <div className="py-20 text-center">
+                <div className="flex flex-col items-center justify-center gap-4">
+                  <div className="bg-gradient-to-br from-gray-600 to-gray-700 rounded-3xl p-8 mb-6 shadow-2xl">
+                    <span className="text-gray-300 text-5xl">🏆</span>
+                  </div>
+                  <h3 className="text-2xl font-bold text-white mb-3">
+                    참가 팀이 없습니다
+                  </h3>
+                  <p className="text-gray-400 text-center max-w-md text-lg leading-relaxed">
+                    아직 대회에 참가한 팀이 없습니다. 팀 등록이 완료되면 여기에
+                    표시됩니다.
+                  </p>
                 </div>
-                <h3 className="text-xl font-medium text-white mb-2">
-                  참가 팀이 없습니다
-                </h3>
-                <p className="text-gray-400 text-center max-w-md">
-                  아직 대회에 참가한 팀이 없습니다. 팀 등록이 완료되면 여기에
-                  표시됩니다.
-                </p>
               </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {teamList.map((team) => (
-                  <div
-                    key={team.team_list_idx}
-                    className="group bg-white/5 rounded-xl p-4 cursor-pointer transition-all duration-300 hover:bg-white/10 border border-white/10 hover:border-white/20 hover:scale-[1.02]"
-                    onClick={() => {
-                      navigate(`/team/${team.team_list_idx}`);
-                    }}>
-                    <div className="flex items-center space-x-4">
-                      <div className="flex-shrink-0">
-                        {team.team_list_emblem ? (
-                          <img
-                            src={team.team_list_emblem}
-                            alt={team.team_list_name}
-                            className="w-16 h-16 object-contain rounded-xl bg-white/10 p-2"
-                          />
-                        ) : (
-                          <div
-                            className="w-16 h-16 rounded-xl flex items-center justify-center text-white text-sm font-bold"
-                            style={{ backgroundColor: team.team_list_color }}>
-                            {team.team_list_short_name}
-                          </div>
-                        )}
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <h3 className="text-white font-bold text-lg group-hover:text-grass transition-colors">
-                          {team.team_list_name}
-                        </h3>
-                        <p className="text-gray-400 text-sm font-medium">
-                          {team.team_list_short_name}
-                        </p>
-                        <div
-                          className="inline-block mt-2 px-2 py-1 rounded-md text-xs font-medium"
-                          style={{
-                            backgroundColor: `${team.team_list_color}20`,
-                            color: team.team_list_color,
-                          }}>
-                          팀 페이지 보기
+              <div className="p-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {teamList.map((team) => (
+                    <div
+                      key={team.team_list_idx}
+                      className="group bg-white/5 rounded-2xl p-6 cursor-pointer transition-all duration-300 hover:bg-white/10 border border-white/10 hover:border-white/20 hover:scale-[1.02] shadow-lg hover:shadow-xl"
+                      onClick={() => {
+                        navigate(`/team/${team.team_list_idx}`);
+                      }}>
+                      <div className="flex items-center space-x-4">
+                        <div className="flex-shrink-0">
+                          {team.team_list_emblem ? (
+                            <img
+                              src={team.team_list_emblem}
+                              alt={team.team_list_name}
+                              className="w-16 h-16 object-contain rounded-2xl bg-white/10 p-2 group-hover:scale-110 transition-transform duration-300"
+                            />
+                          ) : (
+                            <div
+                              className="w-16 h-16 rounded-2xl flex items-center justify-center text-white text-sm font-bold group-hover:scale-110 transition-transform duration-300 shadow-lg"
+                              style={{ backgroundColor: team.team_list_color }}>
+                              {team.team_list_short_name}
+                            </div>
+                          )}
                         </div>
-                      </div>
-                      <div className="flex-shrink-0">
-                        <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center group-hover:bg-grass/20 transition-colors">
-                          <span className="text-gray-400 group-hover:text-grass text-lg">
-                            →
-                          </span>
+                        <div className="flex-1 min-w-0">
+                          <h3 className="text-white font-bold text-lg group-hover:text-grass transition-colors">
+                            {team.team_list_name}
+                          </h3>
+                          <p className="text-gray-400 text-sm font-medium mb-2">
+                            {team.team_list_short_name}
+                          </p>
+                          <div
+                            className="inline-flex items-center gap-2 px-3 py-1 rounded-xl text-xs font-medium transition-all duration-300 group-hover:scale-105"
+                            style={{
+                              backgroundColor: `${team.team_list_color}20`,
+                              color: team.team_list_color,
+                            }}>
+                            <span>👆</span>
+                            <span>팀 페이지 보기</span>
+                          </div>
+                        </div>
+                        <div className="flex-shrink-0">
+                          <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center group-hover:bg-grass/20 transition-all duration-300 group-hover:scale-110">
+                            <span className="text-gray-400 group-hover:text-grass text-xl">
+                              →
+                            </span>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
             )}
           </section>

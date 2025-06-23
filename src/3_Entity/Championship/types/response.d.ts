@@ -50,6 +50,7 @@ type ChampionshipMatchList = {
   championship_match_idx: number;
   championship_match_first: ChampionshipMatchFirst;
   championship_match_second: ChampionshipMatchSecond;
+  match_match_start_time: string;
 };
 type TeamEvidenceImg = {
   match_match_idx: number;
