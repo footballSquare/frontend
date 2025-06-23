@@ -13,7 +13,6 @@ const InfoHeader = (props: InfoHeaderProps) => {
   const { championshipInfo } = props;
 
   const isChampionshipEnd = championshipInfo.common_status_idx === 4;
-  // 어드민
   const { isCommunityManager, championshipListColor } =
     useChampionshipInfoContext();
 
@@ -23,97 +22,48 @@ const InfoHeader = (props: InfoHeaderProps) => {
   return (
     <div>
       <header
-        className={`relative rounded-xl ${
-          isHeaderCollapsed ? "h-16" : ""
-        } bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-gray-100 border border-gray-700/50`}>
-        {/* 모던한 배경 패턴 */}
-        <div className="absolute inset-0 pointer-events-none opacity-5">
-          <div
-            className="absolute inset-0"
-            style={{
-              backgroundImage: `radial-gradient(circle at 25% 25%, ${championshipListColor} 0%, transparent 50%), 
-              radial-gradient(circle at 75% 75%, ${championshipListColor} 0%, transparent 50%)`,
-            }}
-          />
-        </div>
+        className={`rounded-xl bg-gray-800 text-gray-100 border border-gray-700/80 shadow-md transition-all duration-300 ease-in-out overflow-hidden`}>
+        <div className="flex items-center justify-between w-full h-16 px-4 sm:px-6">
+          <div className="flex items-center gap-3 truncate">
+            <img
+              className="w-9 h-9 object-cover rounded-lg border-2 flex-shrink-0"
+              style={{ borderColor: championshipListColor }}
+              src={
+                championshipInfo.championship_list_throphy_img ||
+                defaultTrophyImg
+              }
+              alt="Trophy"
+            />
+            <h1 className="text-lg font-bold tracking-wide text-white truncate">
+              {championshipInfo.championship_list_name}
+            </h1>
+          </div>
 
-        {/* 글래스모피즘 장식 요소 */}
-        <div className="absolute inset-0 pointer-events-none">
-          <div
-            className="absolute top-[-60px] left-[-60px] w-32 h-32 rounded-full border border-white/10 backdrop-blur-sm"
-            style={{
-              background: `linear-gradient(135deg, ${championshipListColor}20, transparent)`,
-            }}
-          />
-          <div
-            className="absolute bottom-[-60px] right-[-60px] w-32 h-32 rounded-full border border-white/10 backdrop-blur-sm"
-            style={{
-              background: `linear-gradient(135deg, ${championshipListColor}20, transparent)`,
-            }}
-          />
-          <div
-            className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-2 rounded-full opacity-10"
-            style={{ backgroundColor: championshipListColor }}
-          />
-        </div>
-
-        {isHeaderCollapsed ? (
-          <div className="h-full flex items-center justify-between px-6 relative">
-            <div className="flex items-center space-x-3">
-              <div className="relative">
-                <img
-                  className="w-8 h-8 object-cover rounded-lg shadow-lg border-2"
-                  style={{ borderColor: championshipListColor }}
-                  src={
-                    championshipInfo.championship_list_throphy_img ||
-                    defaultTrophyImg
-                  }
-                  alt="Trophy"
-                />
-                <div
-                  className="absolute -top-0.5 -right-0.5 w-3 h-3 rounded-full"
-                  style={{ backgroundColor: championshipListColor }}
-                />
-              </div>
-              <h1 className="text-xl font-bold tracking-wide truncate bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
-                {championshipInfo.championship_list_name}
-              </h1>
-            </div>
-            {/* 접힌 상태에서 관리자 버튼들 */}
+          <div className="flex items-center gap-2 sm:gap-4">
             {isCommunityManager && !isChampionshipEnd && (
-              <div className="flex gap-2 items-center mr-14">
-                <AdminBtnPanel championshipInfo={championshipInfo} />
-              </div>
+              <AdminBtnPanel championshipInfo={championshipInfo} />
+            )}
+
+            {!isChampionshipEnd && (
+              <button
+                onClick={toggleHeader}
+                className="w-9 h-9 flex-shrink-0 flex items-center justify-center text-sm rounded-lg bg-gray-700/80 hover:bg-gray-600/80 text-gray-300 hover:text-white border border-gray-600/80 transition-all"
+                aria-label={isHeaderCollapsed ? "펼치기" : "접기"}>
+                <span
+                  className={`transform transition-transform duration-300 ${
+                    isHeaderCollapsed ? "rotate-0" : "rotate-180"
+                  }`}>
+                  ▼
+                </span>
+              </button>
             )}
           </div>
-        ) : (
-          <div className="flex flex-col items-center w-full gap-4 p-6 relative">
-            <div className="flex items-center space-x-4 mb-2">
-              <div className="relative group">
-                <img
-                  className="w-12 h-12 object-cover rounded-xl shadow-2xl border-2 transition-transform duration-300 group-hover:scale-105"
-                  style={{
-                    borderColor: championshipListColor,
-                  }}
-                  src={
-                    championshipInfo.championship_list_throphy_img ||
-                    defaultTrophyImg
-                  }
-                  alt="Trophy"
-                />
-                <div
-                  className="absolute -top-1 -right-1 w-4 h-4 rounded-full shadow-lg"
-                  style={{ backgroundColor: championshipListColor }}
-                />
-                <div className="absolute inset-0 rounded-xl bg-gradient-to-tr from-white/20 to-transparent pointer-events-none" />
-              </div>
-              <h1 className="text-3xl font-black tracking-wide text-center bg-gradient-to-r from-white via-gray-100 to-gray-300 bg-clip-text text-transparent">
-                {championshipInfo.championship_list_name}
-              </h1>
-            </div>
+        </div>
 
-            <div className="w-full flex flex-wrap justify-center gap-2">
-              <span className="px-4 py-2 text-sm rounded-xl border border-white/20 bg-white/10 backdrop-blur-sm text-inherit shadow-lg hover:bg-white/20 transition-all duration-300">
+        {!isHeaderCollapsed && (
+          <div className="px-4 sm:px-6 pb-4 pt-2">
+            <div className="w-full flex flex-wrap justify-center gap-2 mb-4">
+              <span className="px-3 py-1 text-xs rounded-full bg-gray-700 text-gray-300">
                 📅{" "}
                 {`${utcFormatter(
                   championshipInfo.championship_list_start_date
@@ -121,39 +71,19 @@ const InfoHeader = (props: InfoHeaderProps) => {
                   championshipInfo.championship_list_end_date
                 )}`}
               </span>
-              <span className="px-4 py-2 text-sm rounded-xl border border-white/20 bg-white/10 backdrop-blur-sm text-inherit shadow-lg hover:bg-white/20 transition-all duration-300">
+              <span className="px-3 py-1 text-xs rounded-full bg-gray-700 text-gray-300">
                 🏆 {championshipTypes[championshipInfo.championship_type_idx]}
               </span>
-              <span className="px-4 py-2 text-sm rounded-xl border border-white/20 bg-white/10 backdrop-blur-sm text-inherit shadow-lg hover:bg-white/20 transition-all duration-300">
+              <span className="px-3 py-1 text-xs rounded-full bg-gray-700 text-gray-300">
                 ⚽ {matchType[championshipInfo.match_type_idx]}
               </span>
             </div>
-
-            <div className="w-full flex flex-col sm:flex-row gap-4 mt-2">
-              <div className="flex-1 bg-white/10 backdrop-blur-sm p-4 rounded-xl border border-white/20 shadow-lg">
-                <p className="text-sm text-inherit max-h-20 overflow-y-auto">
-                  {championshipInfo.championship_list_description}
-                </p>
-              </div>
-              {isCommunityManager && !isChampionshipEnd && (
-                <div className="flex gap-3 items-center justify-center">
-                  <AdminBtnPanel championshipInfo={championshipInfo} />
-                </div>
-              )}
+            <div className="bg-gray-900/70 p-3 rounded-lg">
+              <p className="text-sm text-gray-300 max-h-24 overflow-y-auto">
+                {championshipInfo.championship_list_description}
+              </p>
             </div>
           </div>
-        )}
-
-        {/* 적당히 눈에 띄는 접기/펼치기 버튼 - 우상단 모서리 */}
-        {!isChampionshipEnd && (
-          <button
-            onClick={toggleHeader}
-            className="absolute top-4 right-4 w-9 h-9 flex items-center justify-center text-sm rounded-lg bg-gray-800/60 backdrop-blur-sm hover:bg-gray-700/80 text-gray-300 hover:text-white border border-gray-600/40 hover:border-gray-500/60 transition-all duration-300 hover:scale-105 group cursor-pointer z-50 shadow-lg"
-            aria-label={isHeaderCollapsed ? "펼치기" : "접기"}>
-            <span className="transition-transform duration-300 group-hover:scale-110 pointer-events-none">
-              {isHeaderCollapsed ? "▼" : "▲"}
-            </span>
-          </button>
         )}
       </header>
       {isChampionshipEnd && (
@@ -206,7 +136,7 @@ const InfoHeader = (props: InfoHeaderProps) => {
       )}
       {/* 모던한 승자 축하 모달 */}
       {isChampionshipEnd && isEndModalOpen && (
-        <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-md flex items-center justify-center">
+        <div className="fixed inset-0 z-10 bg-black/70 backdrop-blur-md flex items-center justify-center">
           <div className="bg-gradient-to-br from-gray-800 via-gray-900 to-gray-800 p-8 rounded-2xl shadow-2xl max-w-sm w-full transform transition-all duration-500 scale-100 border border-gray-600/50 backdrop-blur-sm">
             <div className="relative flex justify-center mb-6">
               <div className="text-6xl filter drop-shadow-lg">🏆</div>
