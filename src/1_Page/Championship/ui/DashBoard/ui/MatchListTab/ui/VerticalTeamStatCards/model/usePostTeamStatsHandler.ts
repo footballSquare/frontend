@@ -1,10 +1,12 @@
 import usePostTeamStat from "../../../../../../../../../3_Entity/Match/usePostTeamStat";
 
-const usePostTeamStatsHandler = (
-  cancelEdit: () => void,
-  setBackupTeamStats: (data: PostTeamStatsForm) => void,
-  toggleIsEditing: () => void
-) => {
+const usePostTeamStatsHandler = (props: UsePostTeamStatsHandlerProps) => {
+  const {
+    cancelEdit,
+    setBackupTeamStats,
+    toggleIsEditing,
+    handleUpdateMatchScore,
+  } = props;
   const [postTeamMatch] = usePostTeamStat();
 
   const handlePostPlayerStats = async ({
@@ -20,6 +22,11 @@ const usePostTeamStatsHandler = (
     switch (status) {
       case 200:
         setBackupTeamStats(data);
+        handleUpdateMatchScore(
+          matchIdx,
+          data.match_team_stats_our_score,
+          data.match_team_stats_other_score
+        );
         break;
       default:
         cancelEdit();

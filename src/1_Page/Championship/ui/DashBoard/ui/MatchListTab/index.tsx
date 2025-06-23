@@ -11,14 +11,13 @@ import useSelectHandler from "./model/useSelectHandler";
 import { getMatchMaxStats } from "./lib/getMatchMaxStats";
 
 import FootballGroundSection from "../../../../../../2_Widget/FootballGroundSection";
-import useGetChampionshipDetail from "../../../../../../3_Entity/Championship/useGetChampionshipDetail";
 import useGetChampionshipEvidence from "../../../../../../3_Entity/Championship/useGetChampionshipEvidence";
 import useChampionshipInfoContext from "../../../../../../4_Shared/model/useChampionshipInfoContext";
 import useMatchModalStore from "../../../../../../4_Shared/zustand/useMatchModal";
 import ChevronDownIcon from "../../../../../../4_Shared/assets/svg/ChevronDown.svg";
 import ChevronUpIcon from "../../../../../../4_Shared/assets/svg/ChevronUp.svg";
 import { useAuthStore } from "../../../../../../4_Shared/lib/useMyInfo";
-import useManageChampionshipDetail from "./model/useManageChampionshipDetail";
+import useGetChampionshipDetail from "../../../../../../3_Entity/Championship/useGetChampionshipDetail";
 
 const MatchListTab = (props: MatchListTabProps) => {
   const { matchList, filteredTeamList, matchHandlers, handleUpdatePlayer } =
@@ -42,12 +41,9 @@ const MatchListTab = (props: MatchListTabProps) => {
   const [isMyMatchesOpen, setIsMyMatchesOpen] = React.useState(true);
   const myTeamIdx = useAuthStore((state) => state.teamIdx);
 
-  // api 이미 호출된 idx는 캐싱을 통해 데이터 최적화
-  const [championshipDetail] = useGetChampionshipDetail(
+  const [championshipMatchDetail] = useGetChampionshipDetail(
     selectChampionshipMatchIdx
   );
-  const { displayMatchDetail, handleUpdateTeamStats } =
-    useManageChampionshipDetail(championshipDetail);
 
   // championshipMatchIdx에 해당하는 증거 이미지 필터링
   const [evidenceImage] = useGetChampionshipEvidence(
@@ -61,15 +57,17 @@ const MatchListTab = (props: MatchListTabProps) => {
   // zustand
   const { setMatchIdx, toggleMatchModal } = useMatchModalStore();
 
-  const { maxGoal, maxAssist } = getMatchMaxStats(displayMatchDetail);
+  const { maxGoal, maxAssist } = getMatchMaxStats(championshipMatchDetail);
 
   const selectTeamList = [
     firstTeam?.team_list_name,
     secondTeam?.team_list_name,
   ];
 
-  const team1PlayerStats = displayMatchDetail?.first_team?.player_stats || [];
-  const team2PlayerStats = displayMatchDetail?.second_team?.player_stats || [];
+  const team1PlayerStats =
+    championshipMatchDetail?.first_team?.player_stats || [];
+  const team2PlayerStats =
+    championshipMatchDetail?.second_team?.player_stats || [];
   const personEvidenceImage = evidenceImage.player_evidence || [];
 
   return (
@@ -181,9 +179,10 @@ const MatchListTab = (props: MatchListTabProps) => {
                       <VerticalTeamStatCards
                         firstTeam={{
                           teamListIdx:
-                            displayMatchDetail?.first_team?.team_list_idx || 0,
+                            championshipMatchDetail?.first_team
+                              ?.team_list_idx || 0,
                           name: firstTeam?.team_list_name || "",
-                          stats: displayMatchDetail?.first_team?.stats,
+                          stats: championshipMatchDetail?.first_team?.stats,
                           players: team1PlayerStats,
                           evidenceImage:
                             evidenceImage?.first_team_evidence ?? [],
@@ -191,14 +190,18 @@ const MatchListTab = (props: MatchListTabProps) => {
                         }}
                         secondTeam={{
                           teamListIdx:
-                            displayMatchDetail?.second_team?.team_list_idx || 0,
+                            championshipMatchDetail?.second_team
+                              ?.team_list_idx || 0,
                           name: secondTeam?.team_list_name || "",
-                          stats: displayMatchDetail?.second_team?.stats,
+                          stats: championshipMatchDetail?.second_team?.stats,
                           players: team2PlayerStats,
                           evidenceImage:
                             evidenceImage?.second_team_evidence ?? [],
                           matchIdx: secondTeam?.match_match_idx || 0,
                         }}
+                        handleUpdateMatchScore={
+                          matchHandlers.handleUpdateMatchScore
+                        }
                       />
                     </div>
                   ) : viewMode === VIEW_MODE.Personal ? (
@@ -288,7 +291,7 @@ const MatchListTab = (props: MatchListTabProps) => {
                         {/* FotMob 스타일 통합 축구장 */}
                         <div className="w-full max-w-4xl mx-auto">
                           <FootballGroundSection
-                            displayMatchDetail={displayMatchDetail}
+                            championshipDetail={championshipMatchDetail}
                           />
                         </div>
                       </div>

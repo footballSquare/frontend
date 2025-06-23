@@ -10,4 +10,9 @@ type TeamData = {
 type VerticalTeamStatCardsProps = {
   firstTeam: TeamData;
   secondTeam: TeamData;
+  handleUpdateMatchScore: (
+    matchIdx: number,
+    ourScore: number,
+    otherScore: number
+  ) => void;
 };

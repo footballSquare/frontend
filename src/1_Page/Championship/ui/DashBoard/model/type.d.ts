@@ -10,6 +10,11 @@ type MatchHandlerReturn = {
     secondMatchIdx: number
   ) => void;
   handleAddMatch: (match: ChampionshipMatchList) => void;
+  handleUpdateMatchScore: (
+    matchIdx: number,
+    ourScore: number,
+    otherScore: number
+  ) => void;
 };
 
 type UseSelectHandlerReturn = {

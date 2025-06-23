@@ -21,7 +21,7 @@ import TeamDetailHistoryInput from "../../../../../../../../4_Shared/hookForm/Te
 import editIcon from "../../../../../../../../4_Shared/assets/svg/edit.svg";
 
 const VerticalTeamStatCards = (props: VerticalTeamStatCardsProps) => {
-  const { firstTeam, secondTeam } = props;
+  const { firstTeam, secondTeam, handleUpdateMatchScore } = props;
   const [activeTeam, setActiveTeam] = React.useState<0 | 1>(0);
   const teams = [firstTeam, secondTeam];
   const teamData = teams[activeTeam];
@@ -45,11 +45,12 @@ const VerticalTeamStatCards = (props: VerticalTeamStatCardsProps) => {
     matchIdx
   );
   const { handleSubmit, watch } = methods;
-  const [handlePostTeamStats] = usePostTeamStatsHandler(
+  const [handlePostTeamStats] = usePostTeamStatsHandler({
     cancelEdit,
     setBackupTeamStats,
-    toggleIsEditing
-  );
+    toggleIsEditing,
+    handleUpdateMatchScore,
+  });
 
   const [postTeamStatsEvidence, responseUrl] = usePostTeamStatsEvidence();
 
