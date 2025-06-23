@@ -7,6 +7,8 @@ import useGetDiscordOAuthUrl from "../../3_Entity/Account/useGetDiscordOAuthUrl"
 import { useNavigate } from "react-router-dom";
 import useFindLoginInfoModal from "./model/useFindLoginInfoModal";
 import FindLoginInfoModal from "./ui/FindLoginInfoModal";
+import useSignInPersist from "./model/useSignInPersist";
+import getDeviceUUID from "../../4_Shared/lib/getDeviceUUID";
 
 const Login = () => {
   const {
@@ -17,7 +19,13 @@ const Login = () => {
     resolver: yupResolver(loginInputSchema),
   });
   const [postSignIn] = usePostSignIn();
-  const [discordOAuthUrl, discordLoading] = useGetDiscordOAuthUrl();
+  const [signInPersist, toggleSignInPersist] = useSignInPersist();
+  const deviceUUID = getDeviceUUID();
+  const [discordOAuthUrl, discordLoading] = useGetDiscordOAuthUrl({
+    signInPersist,
+    deviceUUID,
+  });
+
   const [isFindLoginInfoModalOpen, toggleIsFindLoginInfoModalOpen] =
     useFindLoginInfoModal();
   const navigate = useNavigate();
@@ -40,7 +48,12 @@ const Login = () => {
           {/* Login Form */}
           <form
             onSubmit={handleSubmit((data) => {
-              postSignIn({ id: data.id, password: data.password });
+              postSignIn({
+                id: data.id,
+                password: data.password,
+                signInPersist,
+                deviceUUID,
+              });
             })}
             className="space-y-4"
           >
@@ -100,6 +113,18 @@ const Login = () => {
               Create Account
             </button>
           </form>
+          {/* signIn Persistent set */}
+          <div className="flex items-center justify-between mt-4">
+            <label className="text-gray-300 text-sm">
+              자동 로그인
+            </label>
+            <input
+              type="checkbox"
+              checked={signInPersist}
+              onChange={toggleSignInPersist}
+              className="w-4 h-4 text-blue-600 bg-gray-700 border-gray-600 rounded focus:ring-blue-500 focus:ring-offset-gray-800 focus:ring-2 transition-all duration-200"
+            />
+          </div>
           {/* Forgot Password Link */}
           <button
             onClick={toggleIsFindLoginInfoModalOpen}
