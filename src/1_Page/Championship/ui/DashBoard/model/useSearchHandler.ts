@@ -17,7 +17,7 @@ const useSearchHandler = (playerStats: PlayerStats[]) => {
   };
 
   // 선수 데이터 필터링 및 정렬
-  const filteredPlayerStats = React.useMemo(() => {
+  const displayPlayerStats = React.useMemo(() => {
     if (!playerStats) return [];
 
     let filteredData = [...playerStats];
@@ -54,7 +54,7 @@ const useSearchHandler = (playerStats: PlayerStats[]) => {
     setSearchTerm,
     sortConfig,
     handleSort,
-    filteredPlayerStats,
+    displayPlayerStats,
   };
 };
 export default useSearchHandler;
