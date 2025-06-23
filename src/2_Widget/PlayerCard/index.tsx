@@ -1,8 +1,7 @@
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 import useProfileImageHandler from "./model/useProfileImageHandler";
-import usePutProfileImage from "../../3_Entity/Account/usePutProfileImage";
 
 import { optionalFileSchema } from "../../4_Shared/lib/imgSchema";
 import { matchPosition } from "../../4_Shared/constant/matchPosition";
@@ -10,16 +9,18 @@ import profile from "../../4_Shared/assets/svg/profile.svg";
 import camera from "../../4_Shared/assets/svg/camera.svg";
 import { getPositionColor } from "../../4_Shared/lib/getPositionColor";
 import { useNavigate } from "react-router-dom";
+import usePutProfileImageHandler from "./model/usePutProfileImageHandler";
 
 const PlayerCard = (props: PlayerCardProps) => {
-  // is_mine = true : 수정가능 / = false 수정 불가능
+  // isMine = true : 수정가능 / = false 수정 불가능
   const {
-    is_mine,
-    user_idx,
+    isMine,
+    userIdx,
+    profileImage,
+    teamName,
     nickname,
-    profile_image,
-    team_name,
-    match_position_idx,
+    matchPositionIdx,
+    onImageChange,
   } = props;
   const navigate = useNavigate();
 
@@ -38,28 +39,36 @@ const PlayerCard = (props: PlayerCardProps) => {
     modifyMode,
     handleImageChange,
     handleCancel,
-    handleSave,
     handleSetDefaultImage,
-  } = useProfileImageHandler({ profile_image, setValue, clearErrors });
+    handleBackup,
+    handleCloseModifyMode,
+  } = useProfileImageHandler({ profileImage, setValue, clearErrors });
 
-  const [putProfileImage] = usePutProfileImage();
-
-  const onSubmit: SubmitHandler<ProfileImageForm> = (data) => {
-    handleSave();
-    putProfileImage(data.file);
-  };
+  const [handlePutProfileImage] = usePutProfileImageHandler({
+    handleBackup,
+    handleCloseModifyMode,
+    handleCancel,
+    onImageChange,
+  });
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="w-full h-full">
-      <div className="bg-gradient-to-br from-gray-900 to-gray-800 text-white rounded-xl overflow-hidden shadow-2xl border border-gray-700 transform transition-all hover:scale-[1.01] hover:shadow-grass/20">
+    <form
+      onSubmit={handleSubmit((data) => {
+        handlePutProfileImage(data.file);
+      })}
+      className="w-full h-full">
+      <div className="bg-gradient-to-br from-gray-900 to-gray-800 text-white rounded-xl overflow-hidden shadow-2xl border border-gray-700 transform transition-all hover:scale-[1.01] hover:shadow-lg">
         {/* Header with position badge */}
-        <div className="relative h-16 bg-gradient-to-br from-grass to-grass/80 flex items-center px-4">
-          <div
-            className={`absolute top-3 right-3 ${getPositionColor(
-              match_position_idx
-            )} text-xs font-bold px-3 py-1 rounded-full shadow-md`}>
-            {match_position_idx && matchPosition[match_position_idx]}
-          </div>
+        <div className="relative h-16 bg-gradient-to-br from-slate-800 to-slate-700 flex items-center px-4">
+          {matchPositionIdx && (
+            <div
+              style={{
+                color: getPositionColor(matchPositionIdx),
+              }}
+              className={`absolute top-3 right-3  text-xs font-bold px-3 py-1 rounded-full shadow-md border border-white/20`}>
+              {matchPosition[matchPositionIdx]}
+            </div>
+          )}
         </div>
 
         {/* Profile section */}
@@ -71,25 +80,29 @@ const PlayerCard = (props: PlayerCardProps) => {
               accept="image/*"
               className="hidden"
               {...register("file")}
-              onChange={is_mine ? handleImageChange : undefined}
-              disabled={!is_mine}
+              onChange={isMine ? handleImageChange : undefined}
+              disabled={!isMine}
             />
             <label
               htmlFor="profileImg"
               className={`block ${
-                is_mine ? "cursor-pointer group" : "cursor-default"
+                isMine ? "cursor-pointer group" : "cursor-default"
               }`}>
               <div className="relative">
-                <div className="w-20 h-20 rounded-full p-1 bg-gradient-to-br from-grass to-grass/80">
+                <div className="w-20 h-20 rounded-full p-1 bg-gradient-to-br from-slate-600 to-slate-700 shadow-lg">
                   <img
                     className="w-full h-full object-cover rounded-full border-2 border-gray-800 bg-white"
                     src={preview ? preview : profile}
                     alt="프로필 미리보기"
                   />
                 </div>
-                {is_mine && (
-                  <div className="absolute inset-0 bg-black bg-opacity-60 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                    <img src={camera} className="w-8 h-8" />
+                {isMine && (
+                  <div className="absolute inset-0 bg-black/40 rounded-full flex items-center justify-center opacity-20 group-hover:opacity-100 transition-opacity duration-200">
+                    <img
+                      src={camera}
+                      className="w-8 h-8 filter invert"
+                      alt="카메라"
+                    />
                   </div>
                 )}
               </div>
@@ -98,12 +111,19 @@ const PlayerCard = (props: PlayerCardProps) => {
 
           <div className="ml-24">
             <div className="font-bold text-lg tracking-wide">{nickname}</div>
-            <div className="text-xs text-grass font-medium">#{user_idx}</div>
+            <div className="text-xs text-slate-400 font-medium">#{userIdx}</div>
+            {teamName && (
+              <div className="mt-2 inline-flex items-center px-2 py-1 bg-grass/20 border border-grass/30 rounded-full">
+                <span className="text-grass text-xs font-medium">
+                  {teamName}
+                </span>
+              </div>
+            )}
           </div>
         </div>
 
         {/* Control buttons */}
-        {is_mine ? (
+        {isMine ? (
           <div className="bg-gray-900 bg-opacity-50 px-4 py-3">
             {modifyMode ? (
               <div className="flex justify-between gap-2">
@@ -140,7 +160,7 @@ const PlayerCard = (props: PlayerCardProps) => {
               className="w-full text-xs py-2 font-medium bg-grass hover:bg-grass/80 rounded-md mx-4 transition-colors shadow-md"
               onClick={(e) => {
                 e.preventDefault();
-                navigate(`/profile/${user_idx}`);
+                navigate(`/profile/${userIdx}`);
               }}>
               프로필 상세보기
             </button>
@@ -153,17 +173,6 @@ const PlayerCard = (props: PlayerCardProps) => {
             {errors.file.message}
           </div>
         )}
-
-        {/* Status indicator */}
-        <div className="flex items-center justify-between bg-gray-900 bg-opacity-70 px-4 py-3 border-t border-gray-700">
-          <div className="flex items-center">
-            <div className="w-3 h-3 rounded-full bg-green-500 shadow-md shadow-green-500/50 mr-2"></div>
-            <span className="text-xs font-medium text-gray-300">
-              {team_name}
-            </span>
-          </div>
-          <div className="text-xs text-gray-500">Online</div>
-        </div>
       </div>
     </form>
   );

@@ -1,5 +1,5 @@
-import useDeleteUser from "../../../../../3_Entity/Account/useDeleteUser";
-import { useLogout } from "../../../../../4_Shared/lib/useMyInfo";
+import useDeleteUser from "../../../3_Entity/Account/useDeleteUser";
+import { useLogout } from "../../../4_Shared/lib/useMyInfo";
 
 const useDeleteUserHandler = (): [() => void] => {
   const [deleteUser] = useDeleteUser();
