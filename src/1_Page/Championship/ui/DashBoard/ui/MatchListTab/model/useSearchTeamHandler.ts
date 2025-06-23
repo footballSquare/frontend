@@ -29,6 +29,7 @@ const useSearchTeamHandler = (
   }, [matchList, searchTerm]);
 
   const teamIdx = useAuthStore((state) => state.teamIdx);
+  // 내 팀의 경기만 필터링
   const myMatchList = React.useMemo(() => {
     const filteredMyMatches = matchList.filter(
       (match) =>
@@ -36,11 +37,10 @@ const useSearchTeamHandler = (
         match.championship_match_second.team_list_idx === teamIdx
     );
 
-    // Sort by nearest date (ascending)
     return filteredMyMatches.sort((a, b) => {
       const dateA = new Date(a.match_match_start_time).getTime();
       const dateB = new Date(b.match_match_start_time).getTime();
-      return dateA - dateB;
+      return dateB - dateA;
     });
   }, [matchList, teamIdx]);
 
