@@ -39,44 +39,68 @@ const ChampionshipMatchCard = (props: ChampionshipMatchCardProps) => {
   const homeScore = home.match_team_stats_our_score || 0;
   const awayScore = away.match_team_stats_our_score || 0;
 
+  // MOD: 승/패/무에 따른 배경색 결정
+  const getMatchResultBg = () => {
+    if (!isFinished) return "bg-white/10";
+    if (homeScore > awayScore) return "bg-green-700/70"; // 홈팀 승리
+    if (homeScore < awayScore) return "bg-red-700/70"; // 어웨이팀 승리
+    return "bg-yellow-700/70"; // 무승부
+  };
+
+  // MOD: 날짜/시간 포맷팅 함수 (임시로 현재 날짜 사용)
+  const formatMatchDateTime = () => {
+    const today = new Date();
+    const month = today.getMonth() + 1;
+    const day = today.getDate();
+    const hour = today.getHours();
+    const minute = today.getMinutes().toString().padStart(2, "0");
+    return `${month}/${day} ${hour}:${minute}`;
+  };
+
   return (
     <div
       onClick={() => handleSelect(match.championship_match_idx)}
       className={`group relative rounded-2xl overflow-hidden cursor-pointer transition-all duration-300 ease-out backdrop-blur-sm
         ${
           isListViewMode
-            ? "bg-white/10 hover:bg-white/15 shadow-lg hover:shadow-xl transform hover:scale-[1.02] border border-white/20 hover:border-white/30"
-            : "bg-white/10 hover:bg-white/15 shadow-lg hover:shadow-xl transform hover:scale-105 border border-white/20 hover:border-white/30"
+            ? `${getMatchResultBg()} hover:bg-white/15 shadow-lg hover:shadow-xl transform hover:scale-[1.02] border border-white/20 hover:border-white/30`
+            : `${getMatchResultBg()} hover:bg-white/15 shadow-lg hover:shadow-xl transform hover:scale-105 border border-white/20 hover:border-white/30`
         }
         ${
           isSelected
-            ? "ring-2 ring-blue-400/60 shadow-blue-400/25 bg-blue-500/10 border-blue-400/40"
+            ? "ring-2 ring-grass/60 shadow-grass/25 bg-grass/10 border-grass/40"
             : ""
         }
       `}>
       {/* 글로우 효과 */}
       {isSelected && (
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-400/5 via-purple-400/5 to-blue-400/5 animate-pulse rounded-2xl" />
+        <div className="absolute inset-0 bg-gradient-to-r from-grass/5 via-grass/5 to-grass/5 animate-pulse rounded-2xl" />
       )}
 
       {/* 상단 헤더 */}
       <div className="relative px-4 py-3 bg-white/5 backdrop-blur-sm border-b border-white/10">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <div className="w-2 h-2 bg-blue-400 rounded-full animate-pulse" />
+            <div className="w-2 h-2 bg-grass rounded-full animate-pulse" />
             <span className="text-xs font-semibold text-white tracking-wide uppercase">
               Match #{match.championship_match_idx}
             </span>
           </div>
-          <div
-            className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide shadow-md
-              ${
-                isFinished
-                  ? "bg-emerald-500/20 text-emerald-200 border border-emerald-500/30"
-                  : "bg-amber-500/20 text-amber-200 border border-amber-500/30"
-              }
-            `}>
-            {matchState[home.common_status_idx] || "대기중"}
+          {/* MOD: 날짜/시간을 큰 서체로 표시 */}
+          <div className="text-right">
+            <div className="text-lg font-bold text-white">
+              {formatMatchDateTime()}
+            </div>
+            <div
+              className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide shadow-md
+                ${
+                  isFinished
+                    ? "bg-grass/20 text-grass border border-grass/30"
+                    : "bg-amber-500/20 text-amber-200 border border-amber-500/30"
+                }
+              `}>
+              {matchState[home.common_status_idx] || "대기중"}
+            </div>
           </div>
         </div>
       </div>
@@ -103,7 +127,7 @@ const ChampionshipMatchCard = (props: ChampionshipMatchCardProps) => {
                 )}
                 {/* 승리 표시 */}
                 {isFinished && homeScore > awayScore && (
-                  <div className="absolute -top-1 -right-1 w-6 h-6 bg-gradient-to-r from-yellow-400 to-amber-500 rounded-full flex items-center justify-center shadow-lg">
+                  <div className="absolute -top-1 -right-1 w-6 h-6 bg-gradient-to-r from-grass to-grass/80 rounded-full flex items-center justify-center shadow-lg">
                     <span className="text-xs">👑</span>
                   </div>
                 )}
@@ -112,7 +136,7 @@ const ChampionshipMatchCard = (props: ChampionshipMatchCardProps) => {
             <h3
               className={`font-bold text-sm mb-1 transition-colors duration-300
               ${getTeamStyle(true, isFinished, home)} 
-              ${isSelected ? "text-blue-200" : "text-white"}
+              ${isSelected ? "text-grass" : "text-white"}
             `}>
               {isListViewMode ? home.team_list_name : home.team_list_short_name}
             </h3>
@@ -130,14 +154,14 @@ const ChampionshipMatchCard = (props: ChampionshipMatchCardProps) => {
               className={`flex items-center gap-3 px-4 py-2 rounded-xl shadow-lg transition-all duration-300 border
               ${
                 isFinished
-                  ? "bg-emerald-500/10 border-emerald-500/20"
+                  ? "bg-grass/10 border-grass/20"
                   : "bg-white/5 border-white/20"
               }
             `}>
               <span className="text-2xl font-black text-white">
                 {homeScore}
               </span>
-              <div className="w-1 h-6 bg-gradient-to-b from-blue-400 to-purple-400 rounded-full" />
+              <div className="w-1 h-6 bg-gradient-to-b from-grass to-grass/80 rounded-full" />
               <span className="text-2xl font-black text-white">
                 {awayScore}
               </span>
@@ -162,7 +186,7 @@ const ChampionshipMatchCard = (props: ChampionshipMatchCardProps) => {
                 )}
                 {/* 승리 표시 */}
                 {isFinished && awayScore > homeScore && (
-                  <div className="absolute -top-1 -right-1 w-6 h-6 bg-gradient-to-r from-yellow-400 to-amber-500 rounded-full flex items-center justify-center shadow-lg">
+                  <div className="absolute -top-1 -right-1 w-6 h-6 bg-gradient-to-r from-grass to-grass/80 rounded-full flex items-center justify-center shadow-lg">
                     <span className="text-xs">👑</span>
                   </div>
                 )}
@@ -171,7 +195,7 @@ const ChampionshipMatchCard = (props: ChampionshipMatchCardProps) => {
             <h3
               className={`font-bold text-sm mb-1 transition-colors duration-300
               ${getTeamStyle(false, isFinished, home)}
-              ${isSelected ? "text-purple-200" : "text-white"}
+              ${isSelected ? "text-grass" : "text-white"}
             `}>
               {isListViewMode ? away.team_list_name : away.team_list_short_name}
             </h3>
@@ -181,13 +205,12 @@ const ChampionshipMatchCard = (props: ChampionshipMatchCardProps) => {
           </div>
         </div>
 
-        {/* 하단 정보 */}
+        {/* 하단 정보 - MOD: 간소화 */}
         {isListViewMode && (
           <div className="mt-4 pt-3 border-t border-white/10">
-            <div className="flex items-center justify-between text-xs">
-              <span className="text-gray-400">경기 일시</span>
-              <span className="text-gray-300">
-                {new Date().toLocaleDateString()}
+            <div className="flex items-center justify-center text-xs">
+              <span className="text-gray-400">
+                팀 상세 정보를 보려면 클릭하세요
               </span>
             </div>
           </div>

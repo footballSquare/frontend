@@ -10,6 +10,46 @@ import useSearchTeamHandler from "./model/useSearchTeamHandler";
 import useSelectHandler from "./model/useSelectHandler";
 import { getMatchMaxStats } from "./lib/getMatchMaxStats";
 
+// MOD: 날짜 네비게이션 및 매치 분류 유틸 함수
+const generateDateNavigation = () => {
+  const today = new Date();
+  const dates: Date[] = [];
+
+  // 현재 날짜 기준 ±7일 생성 (실제로는 매치 데이터의 날짜를 사용)
+  for (let i = -7; i <= 7; i++) {
+    const date = new Date(today);
+    date.setDate(today.getDate() + i);
+    dates.push(date);
+  }
+
+  return dates;
+};
+
+const categorizeMatchesByDate = (matches: ChampionshipMatchList[]) => {
+  // 임시로 모든 매치를 선택된 날짜로 분류 (실제로는 match.match_date 사용)
+  const selectedDateMatches: ChampionshipMatchList[] = matches;
+
+  return { selectedDateMatches };
+};
+
+const formatDateForDisplay = (date: Date) => {
+  const today = new Date();
+  const tomorrow = new Date(today);
+  tomorrow.setDate(today.getDate() + 1);
+  const yesterday = new Date(today);
+  yesterday.setDate(today.getDate() - 1);
+
+  if (date.toDateString() === today.toDateString()) {
+    return "오늘";
+  } else if (date.toDateString() === tomorrow.toDateString()) {
+    return "내일";
+  } else if (date.toDateString() === yesterday.toDateString()) {
+    return "어제";
+  }
+
+  return `${date.getMonth() + 1}월 ${date.getDate()}일`;
+};
+
 import FootballGroundSection from "../../../../../../2_Widget/FootballGroundSection";
 import useGetChampionshipEvidence from "../../../../../../3_Entity/Championship/useGetChampionshipEvidence";
 import useChampionshipInfoContext from "../../../../../../4_Shared/model/useChampionshipInfoContext";
@@ -23,6 +63,7 @@ const MatchListTab = (props: MatchListTabProps) => {
   const { matchList, filteredTeamList, matchHandlers, handleUpdatePlayer } =
     props;
 
+  console.log(matchList);
   // state
   const {
     selectChampionshipMatchIdx,
@@ -36,6 +77,42 @@ const MatchListTab = (props: MatchListTabProps) => {
   // 필터링 매치 훅
   const { filteredMatches, searchTerm, myMatchList, handleSearchChange } =
     useSearchTeamHandler(matchList);
+
+  // MOD: 날짜별로 매치 분류 및 날짜 네비게이션
+  const [selectedDate, setSelectedDate] = React.useState(new Date());
+  const availableDates = generateDateNavigation();
+  const { selectedDateMatches } = categorizeMatchesByDate(filteredMatches);
+  const dateScrollRef = React.useRef<HTMLDivElement>(null);
+
+  // 오늘 날짜를 중앙에 위치시키는 useEffect
+  React.useEffect(() => {
+    const scrollToToday = () => {
+      if (dateScrollRef.current) {
+        const today = new Date();
+        const todayIndex = availableDates.findIndex(
+          (date) => date.toDateString() === today.toDateString()
+        );
+
+        if (todayIndex !== -1) {
+          const scrollContainer = dateScrollRef.current;
+          const buttonWidth = 86; // min-w-[70px] + padding 추정값
+          const containerWidth = scrollContainer.clientWidth;
+          const scrollPosition =
+            todayIndex * buttonWidth - containerWidth / 2 + buttonWidth / 2;
+
+          scrollContainer.scrollTo({
+            left: Math.max(0, scrollPosition),
+            behavior: "smooth",
+          });
+        }
+      }
+    };
+
+    // 컴포넌트 마운트 후 스크롤 위치 조정
+    const timer = setTimeout(scrollToToday, 100);
+    return () => clearTimeout(timer);
+  }, [availableDates]);
+
   const [activeTeam, setActiveTeam] = React.useState<0 | 1>(0);
   const [viewMode, setViewMode] = React.useState<VIEW_MODE>(VIEW_MODE.Lineup);
   const [isMyMatchesOpen, setIsMyMatchesOpen] = React.useState(true);
@@ -341,7 +418,7 @@ const MatchListTab = (props: MatchListTabProps) => {
                 className="flex items-center justify-between mb-4 cursor-pointer"
                 onClick={() => setIsMyMatchesOpen((prev) => !prev)}>
                 <h3 className="text-xl font-bold text-white flex items-center gap-2">
-                  <span className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center text-lg">
+                  <span className="w-8 h-8 rounded-full bg-gradient-to-r from-grass to-grass/80 flex items-center justify-center text-lg">
                     ⭐
                   </span>
                   내 팀 경기 목록
@@ -387,7 +464,7 @@ const MatchListTab = (props: MatchListTabProps) => {
             {/* 검색창 */}
             <div className="relative group w-full md:flex-1">
               <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                <div className="w-5 h-5 rounded-full bg-gradient-to-r from-blue-400 to-purple-400 flex items-center justify-center">
+                <div className="w-5 h-5 rounded-full bg-gradient-to-r from-grass to-grass/80 flex items-center justify-center">
                   <span className="text-white text-xs">🔍</span>
                 </div>
               </div>
@@ -396,7 +473,7 @@ const MatchListTab = (props: MatchListTabProps) => {
                 value={searchTerm}
                 onChange={handleSearchChange}
                 placeholder="팀명으로 검색하세요..."
-                className="w-full pl-14 pr-4 py-4 bg-white/10 border border-white/20 rounded-2xl text-white placeholder-gray-300 focus:outline-none focus:bg-white/20 focus:border-white/40 transition-all duration-300 group-hover:bg-white/15"
+                className="w-full pl-14 pr-4 py-4 bg-white/10 border border-white/20 rounded-2xl text-white placeholder-gray-300 focus:outline-none focus:bg-white/20 focus:border-grass/40 focus:ring-2 focus:ring-grass/20 transition-all duration-300 group-hover:bg-white/15"
               />
             </div>
 
@@ -415,57 +492,198 @@ const MatchListTab = (props: MatchListTabProps) => {
             )}
           </div>
 
-          {/* 매치 카드 리스트 */}
-          {/* 데스크톱: Grid */}
-          <div className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 p-6">
-            {filteredMatches.length === 0 ? (
-              <div className="col-span-full">
-                <EmptySearchResult searchTerm={searchTerm} />
+          {/* MOD: 날짜 네비게이션 */}
+          <div className="p-6 border-b border-gray-700">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-lg font-bold text-white">경기 일정</h3>
+              <div className="text-sm text-grass font-medium">
+                {formatDateForDisplay(selectedDate)}
               </div>
-            ) : (
-              filteredMatches.map((match, index) => (
-                <div
-                  key={`match-list-${index}`}
-                  className="transform transition-all duration-500 hover:scale-[1.03] hover:-translate-y-2">
-                  <ChampionshipMatchCard
-                    {...matchHandlers}
-                    isSelected={
-                      selectChampionshipMatchIdx ===
-                      match.championship_match_idx
-                    }
-                    handleSelect={handleMatchSelect}
-                    match={match}
-                    isListViewMode={true}
-                  />
-                </div>
-              ))
-            )}
+            </div>
+
+            {/* 날짜 스크롤 네비게이션 */}
+            <div
+              ref={dateScrollRef}
+              className="flex overflow-x-auto space-x-2 pb-2 scrollbar-hide">
+              {availableDates.map((date, index) => {
+                const isSelected =
+                  date.toDateString() === selectedDate.toDateString();
+                const isToday =
+                  date.toDateString() === new Date().toDateString();
+
+                return (
+                  <button
+                    key={index}
+                    onClick={() => setSelectedDate(date)}
+                    className={`flex-shrink-0 flex flex-col items-center px-4 py-3 rounded-xl transition-all duration-200 min-w-[70px] ${
+                      isSelected
+                        ? "bg-grass text-gray-900 shadow-lg"
+                        : isToday
+                        ? "bg-grass/20 text-grass hover:bg-grass/30"
+                        : "bg-gray-700/50 text-gray-300 hover:bg-gray-600/50"
+                    }`}>
+                    <div className="text-xs font-medium mb-1">
+                      {
+                        ["일", "월", "화", "수", "목", "금", "토"][
+                          date.getDay()
+                        ]
+                      }
+                    </div>
+                    <div
+                      className={`text-lg font-bold ${
+                        isToday && !isSelected ? "text-grass" : ""
+                      }`}>
+                      {date.getDate()}
+                    </div>
+                    {isToday && (
+                      <div className="w-1 h-1 bg-grass rounded-full mt-1"></div>
+                    )}
+                  </button>
+                );
+              })}
+            </div>
           </div>
 
-          {/* 모바일: List */}
-          <div className="md:hidden p-6">
-            <div className="space-y-6 max-h-[500px] overflow-y-auto modern-scrollbar pr-2">
-              {filteredMatches.length === 0 ? (
-                <EmptySearchResult searchTerm={searchTerm} />
-              ) : (
-                filteredMatches.map((match, index) => (
+          {/* MOD: 선택된 날짜의 매치 리스트 */}
+          <div className="p-6">
+            {selectedDateMatches.length > 0 ? (
+              <div className="space-y-4">
+                {selectedDateMatches.map((match, index) => (
                   <div
-                    key={`match-list-${index}`}
-                    className="transform transition-all duration-500 hover:scale-[1.02] hover:-translate-y-1">
-                    <ChampionshipMatchCard
-                      {...matchHandlers}
-                      isSelected={
-                        selectChampionshipMatchIdx ===
-                        match.championship_match_idx
-                      }
-                      handleSelect={handleMatchSelect}
-                      match={match}
-                      isListViewMode={false}
-                    />
+                    key={`selected-date-match-${index}`}
+                    onClick={() =>
+                      handleMatchSelect(match.championship_match_idx)
+                    }
+                    className={`group relative bg-white/5 rounded-2xl p-4 cursor-pointer transition-all duration-300 hover:bg-white/10 border border-white/10 hover:border-white/20 ${
+                      selectChampionshipMatchIdx ===
+                      match.championship_match_idx
+                        ? "ring-2 ring-grass/60 bg-grass/10 border-grass/40"
+                        : ""
+                    }`}>
+                    {/* 매치 시간 및 상태 */}
+                    <div className="flex items-center justify-between mb-3">
+                      <div className="text-sm text-gray-400">
+                        {`${String(new Date().getHours()).padStart(
+                          2,
+                          "0"
+                        )}:${String(new Date().getMinutes()).padStart(2, "0")}`}
+                      </div>
+                      <div
+                        className={`px-3 py-1 rounded-full text-xs font-bold ${
+                          match.championship_match_first.common_status_idx === 4
+                            ? "bg-grass/20 text-grass"
+                            : "bg-amber-500/20 text-amber-200"
+                        }`}>
+                        {match.championship_match_first.common_status_idx === 4
+                          ? "종료"
+                          : "예정"}
+                      </div>
+                    </div>
+
+                    {/* 팀 정보 및 점수 */}
+                    <div className="flex items-center justify-between">
+                      {/* 홈팀 */}
+                      <div className="flex items-center space-x-3 flex-1">
+                        <div className="w-8 h-8 rounded-full overflow-hidden bg-white/10 flex items-center justify-center">
+                          {match.championship_match_first.team_list_emblem ? (
+                            <img
+                              src={
+                                match.championship_match_first.team_list_emblem
+                              }
+                              alt="홈팀"
+                              className="w-full h-full object-cover"
+                            />
+                          ) : (
+                            <div
+                              className="w-full h-full rounded-full flex items-center justify-center text-white text-xs font-bold"
+                              style={{
+                                backgroundColor:
+                                  match.championship_match_first
+                                    .team_list_color,
+                              }}>
+                              {
+                                match.championship_match_first
+                                  .team_list_short_name
+                              }
+                            </div>
+                          )}
+                        </div>
+                        <div className="text-white font-medium text-left">
+                          {match.championship_match_first.team_list_name}
+                        </div>
+                      </div>
+
+                      {/* 점수 */}
+                      <div className="flex items-center space-x-4 mx-6">
+                        <div className="text-2xl font-bold text-white">
+                          {match.championship_match_first
+                            .match_team_stats_our_score || 0}
+                        </div>
+                        <div className="text-gray-500">-</div>
+                        <div className="text-2xl font-bold text-white">
+                          {match.championship_match_second
+                            .match_team_stats_our_score || 0}
+                        </div>
+                      </div>
+
+                      {/* 어웨이팀 */}
+                      <div className="flex items-center space-x-3 flex-1 justify-end">
+                        <div className="text-white font-medium text-right">
+                          {match.championship_match_second.team_list_name}
+                        </div>
+                        <div className="w-8 h-8 rounded-full overflow-hidden bg-white/10 flex items-center justify-center">
+                          {match.championship_match_second.team_list_emblem ? (
+                            <img
+                              src={
+                                match.championship_match_second.team_list_emblem
+                              }
+                              alt="어웨이팀"
+                              className="w-full h-full object-cover"
+                            />
+                          ) : (
+                            <div
+                              className="w-full h-full rounded-full flex items-center justify-center text-white text-xs font-bold"
+                              style={{
+                                backgroundColor:
+                                  match.championship_match_second
+                                    .team_list_color,
+                              }}>
+                              {
+                                match.championship_match_second
+                                  .team_list_short_name
+                              }
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* 호버 효과 및 관리자 버튼 */}
+                    {(isCommunityOperator || isCommunityManager) &&
+                      match.championship_match_first.common_status_idx !==
+                        4 && (
+                        <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              if (confirm("정말 삭제하시겠습니까?"))
+                                matchHandlers.handleDeleteMatch(
+                                  match.championship_match_idx
+                                );
+                            }}
+                            className="w-6 h-6 rounded-full bg-red-500/80 text-white text-xs hover:bg-red-600 transition-colors">
+                            ×
+                          </button>
+                        </div>
+                      )}
                   </div>
-                ))
-              )}
-            </div>
+                ))}
+              </div>
+            ) : (
+              <EmptySearchResult
+                searchTerm={formatDateForDisplay(selectedDate)}
+              />
+            )}
           </div>
         </div>
       )}
