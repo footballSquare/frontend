@@ -6,7 +6,7 @@ import closeIcon from "../../4_Shared/assets/svg/close.svg";
 import menuIcon from "../../4_Shared/assets/svg/menu.svg";
 import { useNavigate } from "react-router-dom";
 
-const rooms = [{ id: "team-normal", name: "팀 일반", unread: 0 }];
+const rooms = [{ id: "팀 일반", unread: 0 }];
 
 const ChatPage = () => {
   const [selectedRoomId, setSelectedRoomId] = React.useState(rooms[0].id);
@@ -17,7 +17,7 @@ const ChatPage = () => {
   const navigate = useNavigate();
 
   return !isLogin ? (
-    <div className="min-h-screen flex items-center justify-center bg-gray-900">
+    <div className="flex items-center justify-center bg-gray-900">
       <div className="bg-gray-800 rounded-2xl shadow-2xl px-10 py-12 flex flex-col items-center max-w-xs w-full border border-gray-700/40">
         <div className="text-4xl mb-4">🔒</div>
         <h2 className="text-2xl font-bold text-white mb-2">
@@ -36,14 +36,23 @@ const ChatPage = () => {
       </div>
     </div>
   ) : (
-    <div className="min-h-screen flex bg-gray-900">
+    <div
+      className="
+        flex bg-gray-900 w-full
+        md:px-6 md:py-4
+        lg:px-10 lg:py-6
+      ">
       {/* 사이드바 */}
       <div
         className={`
-          w-80 bg-gray-800 border-r border-gray-700/50 
-          flex flex-col transition-transform duration-300 relative
-          ${isMobileSidebarOpen ? "translate-x-0" : "-translate-x-full"}
-          md:translate-x-0 md:relative fixed inset-y-0 left-0
+          w-64 md:w-80 bg-gray-800 border-r border-gray-700/50
+          flex flex-col transition-transform duration-300
+          fixed md:relative inset-y-0 left-0 z-50
+          ${
+            isMobileSidebarOpen
+              ? "translate-x-0"
+              : "-translate-x-full md:translate-x-0"
+          }
         `}>
         <div className="p-6 border-b border-gray-700/50 bg-gray-800">
           <div className="flex items-center justify-between">
@@ -80,12 +89,12 @@ const ChatPage = () => {
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center">
                     <span className="text-sm font-medium text-gray-300">
-                      {room.name.substring(0, 2)}
+                      {room.id.substring(0, 2)}
                     </span>
                   </div>
                   <div>
                     <span className="font-medium text-gray-100 block">
-                      {room.name}
+                      {room.id}
                     </span>
                     <span className="text-xs text-gray-400">
                       최근 활동: 방금 전
@@ -123,7 +132,7 @@ const ChatPage = () => {
       </div>
 
       {/* 메인 채팅 영역 */}
-      <div className="flex-1 flex flex-col relative">
+      <div className="flex-1 flex flex-col relative w-full">
         {/* 모바일 헤더 */}
         <div className="md:hidden p-4 bg-gray-800 border-b border-gray-700/50 flex items-center justify-between">
           <button
@@ -132,13 +141,13 @@ const ChatPage = () => {
             <img src={menuIcon} alt="메뉴" className="w-6 h-6" />
           </button>
           <h2 className="text-lg font-semibold text-white">
-            {rooms.find((room) => room.id === selectedRoomId)?.name || "채팅"}
+            {rooms.find((room) => room.id === selectedRoomId)?.id || "채팅"}
           </h2>
           <div className="w-10"></div>
         </div>
 
         {/* 채팅 위젯 */}
-        <div className="flex-1 p-4">
+        <div className="flex-1 flex flex-col p-0 lg:pl-6 w-full">
           <ChatWidget roomName={selectedRoomId} />
         </div>
       </div>
@@ -146,7 +155,7 @@ const ChatPage = () => {
       {/* 모바일 사이드바 오버레이 */}
       {isMobileSidebarOpen && (
         <div
-          className="fixed inset-0 bg-black/50 md:hidden"
+          className="fixed inset-0 bg-black/60 z-40 md:hidden"
           onClick={() => setIsMobileSidebarOpen(false)}
         />
       )}

@@ -7,6 +7,7 @@ import sendIcon from "../../4_Shared/assets/svg/send.svg";
 import closeIcon from "../../4_Shared/assets/svg/close.svg";
 import messageIcon from "../../4_Shared/assets/svg/message-circle.svg";
 import io, { Socket } from "socket.io-client";
+import { utcFormatter } from "../../4_Shared/lib/utcFormatter";
 
 interface ChatWidgetProps {
   roomName?: string;
@@ -224,7 +225,7 @@ const ChatWidget = (props: ChatWidgetProps) => {
   // 플로팅 모드가 아닌 경우 (인라인)
   if (!isFloating) {
     return (
-      <div className="bg-gray-900 border border-gray-700/50 h-full rounded-lg shadow-lg flex flex-col transition-all duration-200 relative">
+      <div className="bg-gray-900 border border-gray-700/50 w-full h-full rounded-lg shadow-lg flex flex-col transition-all duration-200 relative">
         {/* 헤더 */}
         <div className="flex items-center justify-between p-4 border-b border-gray-700/50 bg-gray-800 rounded-t-lg">
           <div className="flex items-center gap-3">
