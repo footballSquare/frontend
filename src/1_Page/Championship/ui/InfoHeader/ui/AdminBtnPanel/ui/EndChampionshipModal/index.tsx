@@ -1,14 +1,15 @@
+import AwardPlayerSelector from "./ui/AwardPlayerSelector";
+
 import { isInvalidEnd } from "./util/valid";
 import { convertToPutAwardData } from "./util/convert";
 import useTeamSelect from "./model/useTeamSelect";
 import useAwardPlayers from "./model/useAwardPlayers";
+import useManageChampionshipEndData from "./model/useManageChampionshipEndData";
 
 import usePutChampionshipEnd from "../../../../../../../../3_Entity/Championship/usePutChampionshipEnd";
-import useManageChampionshipEndData from "./model/useManageChampionshipEndData";
 import useParamInteger from "../../../../../../../../4_Shared/model/useParamInteger";
 import check_white from "../../../../../../../../4_Shared/assets/svg/check_white.svg";
 import closeBtn from "../../../../../../../../4_Shared/assets/svg/closeBtn.svg";
-import AwardPlayerSelector from "./ui/AwardPlayerSelector";
 
 const EndChampionshipModal = (props: EndChampionshipModalProps) => {
   const { onClose, cachedChampionshipEndDataRef } = props;

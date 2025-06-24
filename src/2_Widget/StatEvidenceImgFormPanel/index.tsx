@@ -55,15 +55,16 @@ const StatEvidenceImgFormPanel = (props: StatEvidenceImgFormPanelProps) => {
       <button
         type="button"
         onClick={toggleModal}
-        className="px-4 py-2 bg-[var(--color-thick-grass)]/20 border border-[var(--color-grass)]/30 text-[var(--color-grass)] rounded-lg hover:bg-[var(--color-thick-grass)]/40 hover:border-[var(--color-grass)] transition-all duration-200 flex items-center gap-2 text-sm font-medium">
+        className="px-4 py-2 bg-grass/20 border border-grass/30 text-grass rounded-lg hover:bg-thick-grass/40 hover:border-grass transition-all duration-200 flex items-center gap-2 text-sm font-medium">
         <img src={uploadIcon} className="w-[15px] h-[15px]" />
         {canChange ? "증빙자료" : "증빙자료 보기"} ({totalImageCount}/5개)
       </button>
 
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center">
+        <div className="fixed inset-0 z-[10] flex items-center justify-center p-4">
+          {/* Backdrop */}
           <div
-            className="absolute inset-0 bg-black/70 backdrop-blur-sm"
+            className="fixed inset-0 bg-black/70 backdrop-blur-md "
             onClick={toggleModal}
           />
 

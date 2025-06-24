@@ -7,11 +7,19 @@ const usePostCreateChampionshipMatch = (
   postCreateChampionshipMatch: (
     championshipMatchForm: UsePostCreateChampionshipMatchProps
   ) => void,
-  idxList: number[],
+  idxList: {
+    first_match_idx: number;
+    second_match_idx: number;
+    championship_match_idx: number;
+  },
   loading: boolean
 ] => {
   const [serverState, request, loading] = useFetchData();
-  const [idxList, setIdxList] = React.useState<number[]>([]);
+  const [idxList, setIdxList] = React.useState<{
+    first_match_idx: number;
+    second_match_idx: number;
+    championship_match_idx: number;
+  }>({ first_match_idx: 0, second_match_idx: 0, championship_match_idx: 0 });
 
   const postCreateChampionshipMatch = (
     championshipMatchForm: UsePostCreateChampionshipMatchProps
@@ -30,7 +38,11 @@ const usePostCreateChampionshipMatch = (
             second_match_idx: number;
             championship_match_idx: number;
           };
-        setIdxList([first_match_idx, second_match_idx, championship_match_idx]);
+        setIdxList({
+          first_match_idx,
+          second_match_idx,
+          championship_match_idx,
+        });
         break;
       }
       default:

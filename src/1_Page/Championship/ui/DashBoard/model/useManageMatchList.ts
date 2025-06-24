@@ -151,6 +151,52 @@ const useManageMatchList = (
     []
   );
 
+  const handleUpdateMatchScore = React.useCallback(
+    (matchIdx: number, ourScore: number, otherScore: number) => {
+      setDisplayMatchList((prev) =>
+        prev.map((match) => {
+          const isFirstTeam =
+            match.championship_match_first.match_match_idx === matchIdx;
+          const isSecondTeam =
+            match.championship_match_second.match_match_idx === matchIdx;
+
+          if (!isFirstTeam && !isSecondTeam) {
+            return match;
+          }
+
+          const newMatch = { ...match };
+          if (isFirstTeam) {
+            newMatch.championship_match_first = {
+              ...newMatch.championship_match_first,
+              match_team_stats_our_score: ourScore,
+              match_team_stats_other_score: otherScore,
+            };
+            newMatch.championship_match_second = {
+              ...newMatch.championship_match_second,
+              match_team_stats_our_score: otherScore,
+              match_team_stats_other_score: ourScore,
+            };
+          } else {
+            // isSecondTeam
+            newMatch.championship_match_second = {
+              ...newMatch.championship_match_second,
+              match_team_stats_our_score: ourScore,
+              match_team_stats_other_score: otherScore,
+            };
+            newMatch.championship_match_first = {
+              ...newMatch.championship_match_first,
+              match_team_stats_our_score: otherScore,
+              match_team_stats_other_score: ourScore,
+            };
+          }
+
+          return newMatch;
+        })
+      );
+    },
+    []
+  );
+
   const matchHandlers = React.useMemo(
     () => ({
       handleAddMatch,
@@ -159,6 +205,7 @@ const useManageMatchList = (
       handleRollBackMatchByIdx,
       handleCommitMatches,
       handleSyncMatchIdx,
+      handleUpdateMatchScore,
     }),
     [
       handleAddMatch,
@@ -167,6 +214,7 @@ const useManageMatchList = (
       handleRollBackMatchByIdx,
       handleCommitMatches,
       handleSyncMatchIdx,
+      handleUpdateMatchScore,
     ]
   );
 

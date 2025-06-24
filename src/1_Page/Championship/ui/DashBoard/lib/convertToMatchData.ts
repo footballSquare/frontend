@@ -270,11 +270,11 @@ const convertToTournamentFormat = (
         }
 
         const dummyMatch: ChampionshipMatchList = {
+          match_match_start_time: "",
           championship_match_idx: 0,
           championship_match_first: {
             match_match_idx: 0,
             team_list_idx: -1,
-            championship_match_first_idx: 0,
             team_list_name: firstTeamName,
             team_list_short_name: "",
             team_list_color: "#cccccc",
@@ -286,7 +286,6 @@ const convertToTournamentFormat = (
           championship_match_second: {
             match_match_idx: 0,
             team_list_idx: -1,
-            championship_match_second_idx: 0,
             team_list_name: secondTeamName,
             team_list_short_name: "",
             team_list_color: "#cccccc",

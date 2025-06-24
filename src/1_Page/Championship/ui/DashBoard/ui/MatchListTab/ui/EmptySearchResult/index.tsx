@@ -15,13 +15,6 @@ const EmptySearchResult = (props: EmptySearchResultProps) => {
               ? `"${searchTerm}"에 대한 검색 결과를 찾을 수 없습니다. 다른 키워드로 시도해보세요.`
               : "아직 생성된 매치가 없습니다. 새로운 매치를 생성하여 대회를 시작해보세요."}
           </p>
-          {searchTerm && (
-            <button
-              onClick={() => window.location.reload()}
-              className="mt-6 px-8 py-4 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white rounded-2xl transition-all duration-500 transform hover:scale-105 shadow-2xl hover:shadow-blue-500/25 font-semibold">
-              전체 매치 보기
-            </button>
-          )}
         </div>
       </div>
     </div>
