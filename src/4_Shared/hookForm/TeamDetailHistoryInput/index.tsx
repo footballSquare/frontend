@@ -3,10 +3,9 @@ import { useFormContext } from "react-hook-form";
 const TeamDetailHistoryInput = (props: TeamDetailHistoryInputProps) => {
   const {
     registerType,
-    isFile = false,
     isPercentage = false,
     isEditing = true,
-    getCurrentMomPlayer,
+    currentMomPlayer,
   } = props;
   const {
     register,
@@ -21,7 +20,7 @@ const TeamDetailHistoryInput = (props: TeamDetailHistoryInputProps) => {
       <div className="space-y-2">
         <div className="flex items-center gap-2">
           <span>👑</span>
-          <span>{getCurrentMomPlayer?.()?.player_list_nickname || "-"}</span>
+          <span>{currentMomPlayer?.player_list_nickname || "-"}</span>
         </div>
         {hasError && isEditing && (
           <div className="flex items-center gap-2 text-sm text-red-400 bg-red-900/20 px-3 py-2 rounded-md border border-red-500/30">
@@ -34,46 +33,15 @@ const TeamDetailHistoryInput = (props: TeamDetailHistoryInputProps) => {
 
   return (
     <div className="space-y-2">
-      {isFile ? (
-        <div className="relative">
-          <input
-            type="file"
-            accept="image/jpeg,image/png,image/jpg,image/webp"
-            disabled={!isEditing}
-            {...register(registerType)}
-            className={`
-              w-full text-sm text-gray-100 
-              file:mr-3 file:px-3 file:py-2 file:rounded-md file:border-0 
-              file:bg-gradient-to-r file:from-grass file:to-grass/80 
-              file:text-white file:font-medium file:shadow-sm file:text-xs
-              hover:file:from-grass/90 hover:file:to-grass/70
-              file:transition-all file:duration-200 file:cursor-pointer
-              bg-gray-800/50 border border-dashed rounded-md p-3
-              transition-all duration-200 hover:border-grass/50
-              ${
-                hasError
-                  ? "border-red-500/70 bg-red-900/10 file:from-red-500 file:to-red-600"
-                  : "border-gray-600 hover:bg-gray-800/70"
-              }
-              ${!isEditing ? "opacity-60 cursor-not-allowed" : ""}
-            `}
-          />
-          <div className="absolute top-1 right-2 text-xs text-gray-400">
-            JPG, PNG, WEBP
-          </div>
-        </div>
-      ) : (
-        <div className="relative">
-          <input
-            type="number"
-            disabled={!isEditing}
-            step={
-              registerType === "match_team_stats_expected_goal" ? "0.1" : "1"
-            }
-            min="0"
-            max={isPercentage ? 100 : undefined}
-            {...register(registerType, { valueAsNumber: true })}
-            className={`
+      <div className="relative">
+        <input
+          type="number"
+          disabled={!isEditing}
+          step={registerType === "match_team_stats_expected_goal" ? "0.1" : "1"}
+          min="0"
+          max={isPercentage ? 100 : undefined}
+          {...register(registerType, { valueAsNumber: true })}
+          className={`
               w-full px-2 py-1.5 bg-gray-800/80 border rounded-md text-sm
               text-gray-100 placeholder-gray-400 font-medium
               transition-all duration-200 
@@ -88,15 +56,14 @@ const TeamDetailHistoryInput = (props: TeamDetailHistoryInputProps) => {
               }
               ${!isEditing ? "opacity-60 cursor-not-allowed" : ""}
             `}
-            placeholder={isPercentage ? "0-100%" : "숫자 입력"}
-          />
-          {isPercentage && (
-            <div className="absolute top-1/2 right-2 -translate-y-1/2 text-xs text-gray-400 pointer-events-none">
-              %
-            </div>
-          )}
-        </div>
-      )}
+          placeholder={isPercentage ? "0-100%" : "숫자 입력"}
+        />
+        {isPercentage && (
+          <div className="absolute top-1/2 right-2 -translate-y-1/2 text-xs text-gray-400 pointer-events-none">
+            %
+          </div>
+        )}
+      </div>
 
       {hasError && (
         <div className="flex items-center gap-2 text-sm text-red-400 bg-red-900/20 px-3 py-2 rounded-md border border-red-500/30">

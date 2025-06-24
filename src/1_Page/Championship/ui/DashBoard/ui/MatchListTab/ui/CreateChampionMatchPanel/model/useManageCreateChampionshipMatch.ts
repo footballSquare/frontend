@@ -41,16 +41,21 @@ const usePostCreateChampionshipMatchHandler = (
 
   React.useEffect(() => {
     // 아직 요청 중이거나 응답이 없는 경우 아무 것도 하지 않음
-    if (loading || idxList.length === 0) return;
+    if (loading || !idxList) return;
     // 로딩이 끝났고 응답 값이 정상적인 경우(성공)
-    if (idxList.length >= 3) {
+    if (
+      idxList.championship_match_idx &&
+      idxList.first_match_idx &&
+      idxList.second_match_idx
+    ) {
       handleSyncMatchIdx(
         postMatchIdxListRef.current[0],
-        idxList[2],
-        idxList[1],
-        idxList[0]
+        idxList.championship_match_idx,
+        idxList.first_match_idx,
+        idxList.second_match_idx
       );
-      handleMatchSelect(idxList[2]);
+
+      handleMatchSelect(idxList.championship_match_idx);
 
       postMatchIdxListRef.current = [];
     } else {

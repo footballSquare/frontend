@@ -1,6 +1,6 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, useWatch } from "react-hook-form";
-import { postChampionshipMatchSchema } from "../../../../../../../../../4_Shared/hookForm/PostChampionshipMatch/schema";
+import { postChampionshipMatchSchema } from "../../../../../../../../../4_Shared/hookForm/PostChampionshipMatchInput/schema";
 import React from "react";
 
 const useCreateMatchForm = (props: UseCreateMatchFormProps) => {

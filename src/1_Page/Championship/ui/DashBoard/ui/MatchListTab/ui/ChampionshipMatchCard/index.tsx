@@ -1,222 +1,292 @@
-import { matchState } from "../../../../../../../../4_Shared/constant/matchState";
-import useChampionshipInfoContext from "../../../../../../../../4_Shared/model/useChampionshipInfoContext";
-import { getTeamStyle } from "./lib/getStatusColor";
+import React from "react";
+import { utcFormatter } from "../../../../../../../../4_Shared/lib/utcFormatter";
 import useDeleteChampionshipMatchHandler from "./model/useDeleteChampionshipMatchHandler";
 import usePutChampionshipMatchEndHandler from "./model/usePutChampionshipMatchEndHandler";
-import DefaultTeamEmblem from "../../../../../../../../4_Shared/components/DefaultTeamEmblem";
+import useChampionshipInfoContext from "../../../../../../../../4_Shared/model/useChampionshipInfoContext";
 
 const ChampionshipMatchCard = (props: ChampionshipMatchCardProps) => {
   const {
     match,
-    isSelected,
-    handleSelect,
-    handleDeleteMatch,
-    handleEndMatch,
+    isMyTeam = false,
+    isSelected = false,
+    handleMatchSelect,
     handleCommitMatches,
     handleRollBackMatchByIdx,
-    isListViewMode = false,
+    handleEndMatch,
+    handleDeleteMatch,
   } = props;
-  const home = match.championship_match_first;
-  const away = match.championship_match_second;
-  const isFinished = home.common_status_idx === 4;
-  // admin
-  const { isCommunityOperator, isCommunityManager } =
+
+  const { isCommunityManager, isCommunityOperator, championshipListColor } =
     useChampionshipInfoContext();
 
-  // api
+  // api - 기존 로직이 있으면 사용 (optional로 처리)
   const { handleDeleteChampionshipMatch } = useDeleteChampionshipMatchHandler({
-    handleDeleteMatch,
     handleCommitMatches,
+    handleDeleteMatch,
     handleRollBackMatchByIdx,
   });
+
   const { handlePutChampionshipMatchEnd } = usePutChampionshipMatchEndHandler({
     handleEndMatch,
     handleCommitMatches,
     handleRollBackMatchByIdx,
   });
 
-  // 점수 비교를 위한 안전한 값
-  const homeScore = home.match_team_stats_our_score || 0;
-  const awayScore = away.match_team_stats_our_score || 0;
-
   return (
     <div
-      onClick={() => handleSelect(match.championship_match_idx)}
-      className={`group relative rounded-2xl overflow-hidden cursor-pointer transition-all duration-300 ease-out backdrop-blur-sm
-        ${
-          isListViewMode
-            ? "bg-white/10 hover:bg-white/15 shadow-lg hover:shadow-xl transform hover:scale-[1.02] border border-white/20 hover:border-white/30"
-            : "bg-white/10 hover:bg-white/15 shadow-lg hover:shadow-xl transform hover:scale-105 border border-white/20 hover:border-white/30"
-        }
-        ${
-          isSelected
-            ? "ring-2 ring-blue-400/60 shadow-blue-400/25 bg-blue-500/10 border-blue-400/40"
-            : ""
-        }
-      `}>
-      {/* 글로우 효과 */}
-      {isSelected && (
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-400/5 via-purple-400/5 to-blue-400/5 animate-pulse rounded-2xl" />
-      )}
-
-      {/* 상단 헤더 */}
-      <div className="relative px-4 py-3 bg-white/5 backdrop-blur-sm border-b border-white/10">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="w-2 h-2 bg-blue-400 rounded-full animate-pulse" />
-            <span className="text-xs font-semibold text-white tracking-wide uppercase">
-              Match #{match.championship_match_idx}
-            </span>
-          </div>
-          <div
-            className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide shadow-md
-              ${
-                isFinished
-                  ? "bg-emerald-500/20 text-emerald-200 border border-emerald-500/30"
-                  : "bg-amber-500/20 text-amber-200 border border-amber-500/30"
-              }
-            `}>
-            {matchState[home.common_status_idx] || "대기중"}
-          </div>
-        </div>
-      </div>
-
-      {/* 메인 콘텐츠 */}
-      <div className="relative p-4">
-        {/* 팀 vs 팀 */}
-        <div className="flex items-center justify-between gap-4">
-          {/* 홈팀 */}
-          <div className="flex-1 flex flex-col items-center text-center">
-            <div className="relative mb-3">
-              <div className="w-16 h-16 rounded-2xl flex items-center justify-center relative overflow-hidden bg-white/5 backdrop-blur-sm border border-white/10 shadow-lg">
-                {home.team_list_emblem ? (
-                  <img
-                    src={home.team_list_emblem}
-                    alt={`${home.team_list_name} 엠블럼`}
-                    className="w-12 h-12 object-cover rounded-xl"
-                  />
-                ) : (
-                  <DefaultTeamEmblem
-                    text={home.team_list_short_name}
-                    bgColor={home.team_list_color}
-                  />
-                )}
-                {/* 승리 표시 */}
-                {isFinished && homeScore > awayScore && (
-                  <div className="absolute -top-1 -right-1 w-6 h-6 bg-gradient-to-r from-yellow-400 to-amber-500 rounded-full flex items-center justify-center shadow-lg">
-                    <span className="text-xs">👑</span>
-                  </div>
-                )}
-              </div>
-            </div>
-            <h3
-              className={`font-bold text-sm mb-1 transition-colors duration-300
-              ${getTeamStyle(true, isFinished, home)} 
-              ${isSelected ? "text-blue-200" : "text-white"}
-            `}>
-              {isListViewMode ? home.team_list_name : home.team_list_short_name}
-            </h3>
-            <p className="text-xs text-gray-400 uppercase tracking-wide">
-              Home
-            </p>
-          </div>
-
-          {/* 점수 및 VS */}
-          <div className="flex flex-col items-center gap-2">
-            <div className="text-xs text-gray-400 font-medium uppercase tracking-widest">
-              VS
-            </div>
-            <div
-              className={`flex items-center gap-3 px-4 py-2 rounded-xl shadow-lg transition-all duration-300 border
-              ${
-                isFinished
-                  ? "bg-emerald-500/10 border-emerald-500/20"
-                  : "bg-white/5 border-white/20"
-              }
-            `}>
-              <span className="text-2xl font-black text-white">
-                {homeScore}
-              </span>
-              <div className="w-1 h-6 bg-gradient-to-b from-blue-400 to-purple-400 rounded-full" />
-              <span className="text-2xl font-black text-white">
-                {awayScore}
-              </span>
-            </div>
-          </div>
-
-          {/* 어웨이팀 */}
-          <div className="flex-1 flex flex-col items-center text-center">
-            <div className="relative mb-3">
-              <div className="w-16 h-16 rounded-2xl flex items-center justify-center relative overflow-hidden bg-white/5 backdrop-blur-sm border border-white/10 shadow-lg">
-                {away.team_list_emblem ? (
-                  <img
-                    src={away.team_list_emblem}
-                    alt={`${away.team_list_name} 엠블럼`}
-                    className="w-12 h-12 object-cover rounded-xl"
-                  />
-                ) : (
-                  <DefaultTeamEmblem
-                    text={away.team_list_short_name}
-                    bgColor={away.team_list_color}
-                  />
-                )}
-                {/* 승리 표시 */}
-                {isFinished && awayScore > homeScore && (
-                  <div className="absolute -top-1 -right-1 w-6 h-6 bg-gradient-to-r from-yellow-400 to-amber-500 rounded-full flex items-center justify-center shadow-lg">
-                    <span className="text-xs">👑</span>
-                  </div>
-                )}
-              </div>
-            </div>
-            <h3
-              className={`font-bold text-sm mb-1 transition-colors duration-300
-              ${getTeamStyle(false, isFinished, home)}
-              ${isSelected ? "text-purple-200" : "text-white"}
-            `}>
-              {isListViewMode ? away.team_list_name : away.team_list_short_name}
-            </h3>
-            <p className="text-xs text-gray-400 uppercase tracking-wide">
-              Away
-            </p>
-          </div>
-        </div>
-
-        {/* 하단 정보 */}
-        {isListViewMode && (
-          <div className="mt-4 pt-3 border-t border-white/10">
-            <div className="flex items-center justify-between text-xs">
-              <span className="text-gray-400">경기 일시</span>
-              <span className="text-gray-300">
-                {new Date().toLocaleDateString()}
-              </span>
-            </div>
+      onClick={() => handleMatchSelect(match.championship_match_idx)}
+      className={`group relative cursor-pointer transition-all duration-300 ${
+        isMyTeam
+          ? `w-64 flex-shrink-0 hover:scale-[1.02] ${
+              isSelected ? "ring-2 ring-opacity-60" : ""
+            }`
+          : `bg-white/5 rounded-2xl p-4 hover:bg-white/10 border border-white/10 hover:border-white/20 ${
+              isSelected ? `ring-2 bg-white/10 border-white/40` : ""
+            }`
+      }`}
+      style={
+        isSelected
+          ? ({
+              "--tw-ring-color": `${championshipListColor}99`,
+              ...(isMyTeam
+                ? {}
+                : {
+                    backgroundColor: `${championshipListColor}1A`,
+                    borderColor: `${championshipListColor}66`,
+                  }),
+            } as React.CSSProperties)
+          : undefined
+      }>
+      {/* 관리자 버튼 - 우측 상단 */}
+      {(isCommunityOperator || isCommunityManager) &&
+        match.championship_match_first.common_status_idx !== 4 && (
+          <div className="absolute top-2 right-2 flex gap-2 z-10">
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                if (confirm("정말 종료하시겠습니까?")) {
+                  handlePutChampionshipMatchEnd(match.championship_match_idx);
+                }
+              }}
+              className="px-3 py-1 rounded-lg bg-green-500/90 text-white text-xs font-medium hover:bg-green-600 transition-all duration-200 shadow-lg backdrop-blur-sm border border-green-400/30"
+              title="경기 종료">
+              종료
+            </button>
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                if (confirm("정말 삭제하시겠습니까?")) {
+                  handleDeleteChampionshipMatch(match.championship_match_idx);
+                }
+              }}
+              className="px-3 py-1 rounded-lg bg-red-500/90 text-white text-xs font-medium hover:bg-red-600 transition-all duration-200 shadow-lg backdrop-blur-sm border border-red-400/30"
+              title="경기 삭제">
+              삭제
+            </button>
           </div>
         )}
-      </div>
 
-      {/* 관리자 버튼 영역 */}
-      {(isCommunityOperator || isCommunityManager) && !isFinished && (
-        <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              if (confirm("정말 삭제하시겠습니까?"))
-                handleDeleteChampionshipMatch(match.championship_match_idx);
-            }}
-            className="w-8 h-8 rounded-full bg-red-500/80 backdrop-blur-sm text-white hover:bg-red-600 transition-all duration-200 flex items-center justify-center shadow-lg hover:scale-110">
-            <span className="text-xs">🗑️</span>
-          </button>
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              if (confirm("정말 종료하시겠습니까?")) {
-                handlePutChampionshipMatchEnd(match.championship_match_idx);
-              }
-            }}
-            className="w-8 h-8 rounded-full bg-gray-600/80 backdrop-blur-sm text-white hover:bg-gray-700 transition-all duration-200 flex items-center justify-center shadow-lg hover:scale-110">
-            <span className="text-xs">⏹️</span>
-          </button>
+      {isMyTeam ? (
+        /* 내 팀 매치 카드 스타일 */
+        <div className="bg-white/5 rounded-xl p-4 border border-white/10 hover:border-white/20 transition-all duration-300">
+          {/* 매치 날짜 및 시간, 상태 */}
+          <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center gap-2">
+              <div className="text-xs text-gray-400 font-medium">
+                {utcFormatter(match.match_match_start_time)}
+              </div>
+              <div
+                className={`px-2 py-1 rounded-full text-xs font-bold ${
+                  match.championship_match_first.common_status_idx === 4
+                    ? "text-white"
+                    : "bg-amber-500/20 text-amber-200"
+                }`}
+                style={
+                  match.championship_match_first.common_status_idx === 4
+                    ? {
+                        backgroundColor: `${championshipListColor}33`,
+                        color: championshipListColor,
+                      }
+                    : undefined
+                }>
+                {match.championship_match_first.common_status_idx === 4
+                  ? "종료"
+                  : "예정"}
+              </div>
+            </div>
+          </div>
+
+          {/* 팀 정보 및 점수 */}
+          <div className="space-y-2">
+            {/* 홈팀 */}
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-2 flex-1 min-w-0">
+                <div className="w-6 h-6 rounded-full overflow-hidden bg-white/10 flex items-center justify-center flex-shrink-0">
+                  {match.championship_match_first.team_list_emblem ? (
+                    <img
+                      src={match.championship_match_first.team_list_emblem}
+                      alt="홈팀"
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <div
+                      className="w-full h-full rounded-full flex items-center justify-center text-white text-xs font-bold"
+                      style={{
+                        backgroundColor:
+                          match.championship_match_first.team_list_color,
+                      }}>
+                      {match.championship_match_first.team_list_short_name}
+                    </div>
+                  )}
+                </div>
+                <div className="text-white font-medium text-sm truncate">
+                  {match.championship_match_first.team_list_name}
+                </div>
+              </div>
+              <div className="text-lg font-bold text-white">
+                {match.championship_match_first.match_team_stats_our_score || 0}
+              </div>
+            </div>
+
+            {/* VS 구분선 */}
+            <div className="flex items-center justify-center py-1">
+              <div className="text-gray-500 text-xs font-medium">VS</div>
+            </div>
+
+            {/* 어웨이팀 */}
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-2 flex-1 min-w-0">
+                <div className="w-6 h-6 rounded-full overflow-hidden bg-white/10 flex items-center justify-center flex-shrink-0">
+                  {match.championship_match_second.team_list_emblem ? (
+                    <img
+                      src={match.championship_match_second.team_list_emblem}
+                      alt="어웨이팀"
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <div
+                      className="w-full h-full rounded-full flex items-center justify-center text-white text-xs font-bold"
+                      style={{
+                        backgroundColor:
+                          match.championship_match_second.team_list_color,
+                      }}>
+                      {match.championship_match_second.team_list_short_name}
+                    </div>
+                  )}
+                </div>
+                <div className="text-white font-medium text-sm truncate">
+                  {match.championship_match_second.team_list_name}
+                </div>
+              </div>
+              <div className="text-lg font-bold text-white">
+                {match.championship_match_second.match_team_stats_our_score ||
+                  0}
+              </div>
+            </div>
+          </div>
         </div>
+      ) : (
+        /* 일반 매치 리스트 카드 스타일 */
+        <>
+          {/* 매치 시간 및 상태 */}
+          <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center gap-3">
+              <div className="text-sm text-gray-400">
+                {new Date(match.match_match_start_time).toLocaleTimeString(
+                  "ko-KR",
+                  {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    hour12: false,
+                  }
+                )}
+              </div>
+              <div
+                className={`px-3 py-1 rounded-full text-xs font-bold ${
+                  match.championship_match_first.common_status_idx === 4
+                    ? "text-white"
+                    : "bg-amber-500/20 text-amber-200"
+                }`}
+                style={
+                  match.championship_match_first.common_status_idx === 4
+                    ? {
+                        backgroundColor: `${championshipListColor}33`,
+                        color: championshipListColor,
+                      }
+                    : undefined
+                }>
+                {match.championship_match_first.common_status_idx === 4
+                  ? "종료"
+                  : "예정"}
+              </div>
+            </div>
+          </div>
+
+          {/* 팀 정보 및 점수 */}
+          <div className="flex items-center justify-between">
+            {/* 홈팀 */}
+            <div className="flex items-center space-x-3 flex-1">
+              <div className="w-8 h-8 rounded-full overflow-hidden bg-white/10 flex items-center justify-center">
+                {match.championship_match_first.team_list_emblem ? (
+                  <img
+                    src={match.championship_match_first.team_list_emblem}
+                    alt="홈팀"
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <div
+                    className="w-full h-full rounded-full flex items-center justify-center text-white text-xs font-bold"
+                    style={{
+                      backgroundColor:
+                        match.championship_match_first.team_list_color,
+                    }}>
+                    {match.championship_match_first.team_list_short_name}
+                  </div>
+                )}
+              </div>
+              <div className="text-white font-medium text-left">
+                {match.championship_match_first.team_list_name}
+              </div>
+            </div>
+
+            {/* 점수 */}
+            <div className="flex items-center space-x-4 mx-6">
+              <div className="text-2xl font-bold text-white">
+                {match.championship_match_first.match_team_stats_our_score || 0}
+              </div>
+              <div className="text-gray-500">-</div>
+              <div className="text-2xl font-bold text-white">
+                {match.championship_match_second.match_team_stats_our_score ||
+                  0}
+              </div>
+            </div>
+
+            {/* 어웨이팀 */}
+            <div className="flex items-center space-x-3 flex-1 justify-end">
+              <div className="text-white font-medium text-right">
+                {match.championship_match_second.team_list_name}
+              </div>
+              <div className="w-8 h-8 rounded-full overflow-hidden bg-white/10 flex items-center justify-center">
+                {match.championship_match_second.team_list_emblem ? (
+                  <img
+                    src={match.championship_match_second.team_list_emblem}
+                    alt="어웨이팀"
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <div
+                    className="w-full h-full rounded-full flex items-center justify-center text-white text-xs font-bold"
+                    style={{
+                      backgroundColor:
+                        match.championship_match_second.team_list_color,
+                    }}>
+                    {match.championship_match_second.team_list_short_name}
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </>
       )}
     </div>
   );

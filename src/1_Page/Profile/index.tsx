@@ -68,10 +68,10 @@ const Profile = () => {
     );
   }
   return (
-    <div className="min-h-0 lg:min-h-screen bg-gradient-to-br from-slate-900 via-gray-900 to-slate-800 text-white overflow-x-hidden">
+    <div className="min-h-0 lg:min-h-screen bg-gradient-to-br from-slate-900 via-gray-900 to-slate-800 text-white ">
       <FormProvider {...form}>
         {/* Main Content */}
-        <main className="lg:max-w-6xl lg:mx-auto py-8 px-4 lg:px-6 max-w-full overflow-x-hidden">
+        <main className="lg:max-w-6xl lg:mx-auto py-8 px-4 lg:px-6 max-w-full ">
           {/* Desktop Layout (LG and above) */}
           <div className="hidden lg:grid grid-cols-[320px_1fr] gap-8 items-start">
             {/* Left Column: Profile Card and Awards */}

@@ -39,13 +39,12 @@ export const buildDummyChampionshipMatch = (
   };
 
   return {
+    match_match_start_time: new Date(dummyMatchIdx).toISOString(),
     championship_match_idx,
     championship_match_first: {
-      championship_match_first_idx: championship_match_idx * 2,
       ...buildBase(formData.first_team_idx, championship_match_idx * 2),
     },
     championship_match_second: {
-      championship_match_second_idx: championship_match_idx * 2 + 1,
       ...buildBase(formData.second_team_idx, championship_match_idx * 2 + 1),
     },
   };
