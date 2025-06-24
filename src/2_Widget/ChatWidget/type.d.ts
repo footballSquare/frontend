@@ -19,3 +19,7 @@ type ErrorResponse = {
 type ChatFormData = {
   chatInput: string;
 };
+
+type JoinSuccessResponse = {
+  messages?: ChatMessage[];
+};
