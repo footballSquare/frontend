@@ -1,7 +1,7 @@
 import React from "react";
 import { useFetchData } from "../../4_Shared/util/apiUtil";
 import { useNavigate } from "react-router-dom";
-import { useAuthStore } from "../../4_Shared/lib/useMyInfo";
+import { useLogout } from "../../4_Shared/lib/useMyInfo";
 
 const useDeleteLoginInfo = (): [
   deleteLoginInfo: () => Promise<number | undefined>,
@@ -10,7 +10,7 @@ const useDeleteLoginInfo = (): [
 ] => {
   const [serverState, request, loading] = useFetchData();
   const navigate = useNavigate();
-  const { logout } = useAuthStore();
+  const [logout] = useLogout();
 
   const deleteLoginInfo = async () => {
     logout();

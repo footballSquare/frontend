@@ -163,13 +163,12 @@ export const useIsHydrated = (): [boolean] => {
 export const useLogout = (): [() => void] => {
   const logout = useAuthStore((state) => state.logout);
   const navigate = useNavigate();
-  const [, , removeCookie] = useCookies(["access_token", "refresh_token"]);
+  const [, , removeCookie] = useCookies(["access_token"]);
 
   return [
     () => {
       logout();
       removeCookie("access_token", { path: "/" });
-      removeCookie("refresh_token", { path: "/" });
       encryptedStorage.clear(); // 암호화된 storage도 클리어
       setTimeout(() => navigate("/"), 100);
     },
