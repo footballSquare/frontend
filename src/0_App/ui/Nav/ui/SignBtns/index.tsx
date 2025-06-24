@@ -22,9 +22,7 @@ const SignBtns = () => {
         <Button
           textColor="white"
           text={"Logout"}
-          onClickHandler={() => {
-            logout();
-          }}
+          onClickHandler={logout}
         />
       )}
     </div>

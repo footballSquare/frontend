@@ -21,7 +21,6 @@ const useDeleteLoginInfo = (): [
     if (!loading && serverState) {
       switch (serverState.status) {
         case 200:
-          navigate("/");
           break;
         default:
           alert("다시 시도해주세요.");
