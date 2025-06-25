@@ -3,12 +3,12 @@ type ChatWidgetProps = {
   isFloating?: boolean;
 };
 
-type ChatMessage = {
+type ChatMessageSocket = {
   sender_idx: number;
   sender_nickname: string;
   sender_profile_image: string;
   message: string;
-  timestamp?: string;
+  timestamp?: Date;
 };
 
 type ErrorResponse = {
@@ -18,8 +18,4 @@ type ErrorResponse = {
 
 type ChatFormData = {
   chatInput: string;
-};
-
-type JoinSuccessResponse = {
-  messages?: ChatMessage[];
 };

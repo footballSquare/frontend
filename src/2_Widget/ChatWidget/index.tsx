@@ -6,10 +6,9 @@ import sendIcon from "../../4_Shared/assets/svg/send.svg";
 import closeIcon from "../../4_Shared/assets/svg/close.svg";
 import messageIcon from "../../4_Shared/assets/svg/message-circle.svg";
 import useSocketHandler from "./model/useSocketHandler";
-import useGetTeamChatHistory from "../../3_Entity/Chat/useGetTeamChatHistory";
-import useInfiniteScrollPaging from "../../4_Shared/model/useInfiniteScrollPaging";
 import { utcFormatter } from "../../4_Shared/lib/utcFormatter";
 import loadingIcon from "../../4_Shared/assets/svg/loading.svg";
+import useGetChatHistoryHandler from "./model/useGetChatHistoryHandler";
 
 const ChatWidget = (props: ChatWidgetProps) => {
   const { roomName, isFloating = false } = props;
@@ -30,46 +29,8 @@ const ChatWidget = (props: ChatWidgetProps) => {
     setUnreadCount,
   } = useSocketHandler({ reset, isFloating, isExpanded });
 
-  const [page, setPage] = React.useState<number>(0);
-  const [chatHistory, hasMoreContent, loading] = useGetTeamChatHistory(page);
-  const [pageRef] = useInfiniteScrollPaging(setPage, loading, hasMoreContent);
-
-  /**
-   * 팀 채팅 히스토리를 실시간 소켓 채팅 로그와 결합한다.
-   * 서버에서 내려온 히스토리는 `chatHistory`(DB row) 형태이므로
-   * 프론트에서 사용하는 메시지 형태로 매핑한다.
-   */
-
-  const mappedChatHistory = React.useMemo(
-    () =>
-      chatHistory
-        .map((msg) => ({
-          sender_idx: msg.player_list_idx,
-          sender_nickname: msg.player_list_nickname,
-          sender_profile_image: msg.player_list_profile_image,
-          message: msg.team_chat_message_content,
-          timestamp: new Date(msg.team_chat_message_created_at),
-        }))
-        // 오래된 순으로 정렬 (가장 오래된 → 최신)
-        .sort((a, b) => a.timestamp.getTime() - b.timestamp.getTime()),
-    [chatHistory]
-  );
-
-  /** 화면에 보여줄 최종 메시지 목록 = 과거 기록 + 소켓 실시간 메시지 */
-  const displayedMessages = React.useMemo(
-    () => [...mappedChatHistory, ...chatLog],
-    [mappedChatHistory, chatLog]
-  );
-
-  React.useEffect(() => {
-    // 최초 마운트
-    messagesEndRef.current?.scrollIntoView({ behavior: "auto" });
-  }, [chatHistory]);
-
-  React.useEffect(() => {
-    // 새로운 실시간 메시지 수신 시
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [chatLog]);
+  const { displayedMessages, mappedChatHistory, pageRef, loading } =
+    useGetChatHistoryHandler({ chatLog, messagesEndRef });
 
   // 플로팅 모드가 아닌 경우 (인라인)
   if (!isFloating) {
@@ -123,11 +84,68 @@ const ChatWidget = (props: ChatWidgetProps) => {
                   />
                 </div>
               )}
-              {displayedMessages.map((msg, index) => {
+              {/* 과거 히스토리 메시지 */}
+              {mappedChatHistory.map((msg: TeamChatMessage, index: number) => {
+                const isOwn = msg.player_list_nickname === myNickname;
+                return (
+                  <div
+                    key={`history-${msg.team_chat_message_idx}-${index}`}
+                    className={`flex ${
+                      isOwn ? "justify-end" : "justify-start"
+                    }`}>
+                    <div
+                      className={`max-w-[70%] ${
+                        isOwn
+                          ? "bg-grass/50 text-white rounded-lg rounded-br-sm"
+                          : "bg-gray-700/70 text-gray-100 rounded-lg rounded-bl-sm"
+                      } px-4 py-2 shadow-sm`}>
+                      {!isOwn && (
+                        <div className="flex items-center gap-2 mb-1">
+                          <DefaultProfile
+                            src={msg.player_list_profile_image}
+                            nickname={msg.player_list_nickname}
+                            width="24px"
+                            height="24px"
+                            textSize="12px"
+                          />
+                          <span className="text-xs text-gray-300 font-medium">
+                            {msg.player_list_nickname}
+                          </span>
+                        </div>
+                      )}
+                      <div className="text-sm leading-relaxed">
+                        {msg.team_chat_message_content}
+                      </div>
+                      <div
+                        className={`text-xs mt-1 ${
+                          isOwn ? "text-gray-200" : "text-gray-400"
+                        }`}>
+                        {utcFormatter(msg.team_chat_message_created_at)}
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+
+              {/* '이전 기록' 구분선 */}
+              {mappedChatHistory.length > 0 && chatLog.length > 0 && (
+                <div className="flex items-center my-4">
+                  <div className="flex-grow h-px bg-gray-600/50" />
+                  <span className="mx-2 text-xs text-gray-400 whitespace-nowrap">
+                    이전 기록
+                  </span>
+                  <div className="flex-grow h-px bg-gray-600/50" />
+                </div>
+              )}
+
+              {/* 실시간 로그 메시지 */}
+              {chatLog.map((msg: ChatMessageSocket, index) => {
                 const isOwn = msg.sender_nickname === myNickname;
                 return (
                   <div
-                    key={`${msg.sender_idx}-${index}`}
+                    key={`live-${
+                      msg.sender_idx
+                    }-${index}-${msg.timestamp?.valueOf?.()}`}
                     className={`flex ${
                       isOwn ? "justify-end" : "justify-start"
                     }`}>
@@ -154,18 +172,14 @@ const ChatWidget = (props: ChatWidgetProps) => {
                       <div className="text-sm leading-relaxed">
                         {msg.message}
                       </div>
-                      <div
-                        className={`text-xs mt-1 ${
-                          isOwn ? "text-gray-200" : "text-gray-500"
-                        }`}>
-                        {msg.timestamp
-                          ? utcFormatter(
-                              typeof msg.timestamp === "string"
-                                ? msg.timestamp
-                                : msg.timestamp.toISOString()
-                            )
-                          : ""}
-                      </div>
+                      {!!msg.timestamp && (
+                        <div
+                          className={`text-xs mt-1 ${
+                            isOwn ? "text-gray-200" : "text-gray-500"
+                          }`}>
+                          {utcFormatter(msg.timestamp.toISOString())}
+                        </div>
+                      )}
                     </div>
                   </div>
                 );
@@ -287,11 +301,70 @@ const ChatWidget = (props: ChatWidgetProps) => {
                     />
                   </div>
                 )}
-                {displayedMessages.map((msg, index) => {
+                {/* 과거 히스토리 메시지 */}
+                {mappedChatHistory.map(
+                  (msg: TeamChatMessage, index: number) => {
+                    const isOwn = msg.player_list_nickname === myNickname;
+                    return (
+                      <div
+                        key={`history-${msg.team_chat_message_idx}-${index}`}
+                        className={`flex ${
+                          isOwn ? "justify-end" : "justify-start"
+                        }`}>
+                        <div
+                          className={`max-w-[70%] ${
+                            isOwn
+                              ? "bg-grass/50 text-white rounded-lg rounded-br-sm"
+                              : "bg-gray-700/70 text-gray-100 rounded-lg rounded-bl-sm"
+                          } px-4 py-2 shadow-sm`}>
+                          {!isOwn && (
+                            <div className="flex items-center gap-2 mb-1">
+                              <DefaultProfile
+                                src={msg.player_list_profile_image}
+                                nickname={msg.player_list_nickname}
+                                width="24px"
+                                height="24px"
+                                textSize="12px"
+                              />
+                              <span className="text-xs text-gray-300 font-medium">
+                                {msg.player_list_nickname}
+                              </span>
+                            </div>
+                          )}
+                          <div className="text-sm leading-relaxed">
+                            {msg.team_chat_message_content}
+                          </div>
+                          <div
+                            className={`text-xs mt-1 ${
+                              isOwn ? "text-gray-200" : "text-gray-400"
+                            }`}>
+                            {utcFormatter(msg.team_chat_message_created_at)}
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  }
+                )}
+
+                {/* '이전 기록' 구분선 */}
+                {mappedChatHistory.length > 0 && chatLog.length > 0 && (
+                  <div className="flex items-center my-4">
+                    <div className="flex-grow h-px bg-gray-600/50" />
+                    <span className="mx-2 text-xs text-gray-400 whitespace-nowrap">
+                      이전 기록
+                    </span>
+                    <div className="flex-grow h-px bg-gray-600/50" />
+                  </div>
+                )}
+
+                {/* 실시간 로그 메시지 */}
+                {chatLog.map((msg: ChatMessageSocket, index) => {
                   const isOwn = msg.sender_nickname === myNickname;
                   return (
                     <div
-                      key={`${msg.sender_idx}-${index}`}
+                      key={`live-${
+                        msg.sender_idx
+                      }-${index}-${msg.timestamp?.valueOf?.()}`}
                       className={`flex ${
                         isOwn ? "justify-end" : "justify-start"
                       }`}>
@@ -318,18 +391,14 @@ const ChatWidget = (props: ChatWidgetProps) => {
                         <div className="text-sm leading-relaxed">
                           {msg.message}
                         </div>
-                        <div
-                          className={`text-xs mt-1 ${
-                            isOwn ? "text-gray-200" : "text-gray-500"
-                          }`}>
-                          {msg.timestamp
-                            ? utcFormatter(
-                                typeof msg.timestamp === "string"
-                                  ? msg.timestamp
-                                  : msg.timestamp.toISOString()
-                              )
-                            : ""}
-                        </div>
+                        {!!msg.timestamp && (
+                          <div
+                            className={`text-xs mt-1 ${
+                              isOwn ? "text-gray-200" : "text-gray-500"
+                            }`}>
+                            {utcFormatter(msg.timestamp.toISOString())}
+                          </div>
+                        )}
                       </div>
                     </div>
                   );

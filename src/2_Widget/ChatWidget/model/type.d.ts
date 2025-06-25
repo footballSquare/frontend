@@ -1,6 +1,6 @@
 type UseSocketHandlerReturn = {
   connectionStatus: string;
-  chatLog: ChatMessage[];
+  chatLog: ChatMessageSocket[];
   sendMessage: (data: ChatFormData) => void;
   error: string;
   messagesEndRef: React.RefObject<HTMLDivElement>;
@@ -13,3 +13,16 @@ type UseSocketHandlerProps = {
   isFloating: boolean;
   isExpanded: boolean;
 };
+
+type UseGetChatHistoryHandlerProps = {
+  chatLog: ChatMessageSocket[];
+  messagesEndRef: React.RefObject<HTMLDivElement>;
+};
+type UseGetChatHistoryHandlerReturn = {
+  mappedChatHistory: TeamChatMessage[];
+  displayedMessages: DisplayedMessage[];
+  pageRef: (node?: Element | null) => void;
+  loading: boolean;
+};
+
+type DisplayedMessage = ChatMessageSocket | TeamChatMessage;

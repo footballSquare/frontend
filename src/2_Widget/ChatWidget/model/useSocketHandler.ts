@@ -5,15 +5,16 @@ import { useCookies } from "react-cookie";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-const useSocketHandler = (
-  props: UseSocketHandlerProps
-): UseSocketHandlerReturn => {
-  const { reset, isFloating, isExpanded } = props;
+const useSocketHandler = ({
+  reset,
+  isFloating,
+  isExpanded,
+}: UseSocketHandlerProps): UseSocketHandlerReturn => {
   const [isLogin] = useIsLogin();
   const myNickname = useAuthStore((state) => state.nickname);
   const [cookies] = useCookies(["access_token"]);
   const accessToken = cookies.access_token;
-  const [chatLog, setChatLog] = React.useState<ChatMessage[]>([]);
+  const [chatLog, setChatLog] = React.useState<ChatMessageSocket[]>([]);
   const socketRef = React.useRef<Socket | null>(null);
   const messagesEndRef = React.useRef<HTMLDivElement>(null);
 
@@ -46,8 +47,6 @@ const useSocketHandler = (
       setConnectionStatus("연결됨");
       setError("");
       socket.emit("join");
-      // 이전 채팅 기록 요청 (선택적)
-      socket.emit("get_messages", { limit: 50 }); // 최근 50개 메시지 요청
     });
 
     // 연결 에러
@@ -62,20 +61,6 @@ const useSocketHandler = (
       setConnectionStatus("입장 실패");
     });
 
-    // join 성공 (서버에서 이전 메시지와 함께 응답할 수 있음)
-    socket.on("join_success", (data: JoinSuccessResponse) => {
-      if (data.messages && Array.isArray(data.messages)) {
-        const messagesWithTimestamp = data.messages.map((msg: ChatMessage) => ({
-          ...msg,
-          timestamp:
-            typeof msg.timestamp === "string"
-              ? msg.timestamp
-              : (msg.timestamp ?? new Date()).toISOString(),
-        }));
-        setChatLog(messagesWithTimestamp);
-      }
-    });
-
     // notJoin 에러
     socket.on("notJoin_error", (err: ErrorResponse) => {
       setError(err.message);
@@ -87,10 +72,10 @@ const useSocketHandler = (
     });
 
     // 메시지 수신
-    socket.on("message", (data: ChatMessage) => {
+    socket.on("message", (data: ChatMessageSocket) => {
       const messageWithTimestamp = {
         ...data,
-        timestamp: new Date().toISOString(),
+        timestamp: new Date(),
       };
       setChatLog((prev) => [...prev, messageWithTimestamp]);
 
@@ -98,18 +83,6 @@ const useSocketHandler = (
       if (!isExpanded && isFloating && data.sender_nickname !== myNickname) {
         setUnreadCount((prev) => prev + 1);
       }
-    });
-
-    // 이전 메시지들 수신
-    socket.on("messages", (messages: ChatMessage[]) => {
-      const messagesWithTimestamp = messages.map((msg) => ({
-        ...msg,
-        timestamp:
-          typeof msg.timestamp === "string"
-            ? msg.timestamp
-            : (msg.timestamp ?? new Date()).toISOString(),
-      }));
-      setChatLog(messagesWithTimestamp);
     });
 
     // 연결 해제
@@ -151,6 +124,10 @@ const useSocketHandler = (
       setUnreadCount(0);
     }
   };
+  React.useEffect(() => {
+    // 새로운 실시간 메시지 수신 시
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [chatLog]);
 
   return {
     connectionStatus,
