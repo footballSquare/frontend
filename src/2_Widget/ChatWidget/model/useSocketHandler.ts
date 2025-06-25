@@ -67,7 +67,10 @@ const useSocketHandler = (
       if (data.messages && Array.isArray(data.messages)) {
         const messagesWithTimestamp = data.messages.map((msg: ChatMessage) => ({
           ...msg,
-          timestamp: msg.timestamp ? new Date(msg.timestamp) : new Date(),
+          timestamp:
+            typeof msg.timestamp === "string"
+              ? msg.timestamp
+              : (msg.timestamp ?? new Date()).toISOString(),
         }));
         setChatLog(messagesWithTimestamp);
       }
@@ -87,7 +90,7 @@ const useSocketHandler = (
     socket.on("message", (data: ChatMessage) => {
       const messageWithTimestamp = {
         ...data,
-        timestamp: new Date(),
+        timestamp: new Date().toISOString(),
       };
       setChatLog((prev) => [...prev, messageWithTimestamp]);
 
@@ -101,7 +104,10 @@ const useSocketHandler = (
     socket.on("messages", (messages: ChatMessage[]) => {
       const messagesWithTimestamp = messages.map((msg) => ({
         ...msg,
-        timestamp: msg.timestamp ? new Date(msg.timestamp) : new Date(),
+        timestamp:
+          typeof msg.timestamp === "string"
+            ? msg.timestamp
+            : (msg.timestamp ?? new Date()).toISOString(),
       }));
       setChatLog(messagesWithTimestamp);
     });

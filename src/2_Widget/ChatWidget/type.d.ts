@@ -8,7 +8,7 @@ type ChatMessage = {
   sender_nickname: string;
   sender_profile_image: string;
   message: string;
-  timestamp?: Date;
+  timestamp?: string;
 };
 
 type ErrorResponse = {
