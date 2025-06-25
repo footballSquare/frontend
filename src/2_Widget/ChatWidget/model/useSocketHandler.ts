@@ -5,11 +5,10 @@ import { useCookies } from "react-cookie";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-const useSocketHandler = ({
-  reset,
-  isFloating,
-  isExpanded,
-}: UseSocketHandlerProps): UseSocketHandlerReturn => {
+const useSocketHandler = (
+  props: UseSocketHandlerProps
+): UseSocketHandlerReturn => {
+  const { isExpanded, isFloating, reset } = props;
   const [isLogin] = useIsLogin();
   const myNickname = useAuthStore((state) => state.nickname);
   const [cookies] = useCookies(["access_token"]);
@@ -128,6 +127,12 @@ const useSocketHandler = ({
     // 새로운 실시간 메시지 수신 시
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [chatLog]);
+
+  // 채팅방 확장시 스크롤을 맨 아래로
+  React.useEffect(() => {
+    if (!isExpanded) return;
+    messagesEndRef.current?.scrollIntoView({ behavior: "auto" });
+  }, [isExpanded, isFloating]);
 
   return {
     connectionStatus,

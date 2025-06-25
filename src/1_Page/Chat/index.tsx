@@ -5,8 +5,7 @@ import ChatWidget from "../../2_Widget/ChatWidget";
 import closeIcon from "../../4_Shared/assets/svg/close.svg";
 import menuIcon from "../../4_Shared/assets/svg/menu.svg";
 import { useNavigate } from "react-router-dom";
-
-const rooms = [{ id: "팀 일반", unread: 0 }];
+import { rooms } from "./constant/room";
 
 const ChatPage = () => {
   const [selectedRoomId, setSelectedRoomId] = React.useState(rooms[0].id);
@@ -148,7 +147,7 @@ const ChatPage = () => {
 
         {/* 채팅 위젯 */}
         <div className="flex-1 flex flex-col p-0 lg:pl-6 w-full">
-          <ChatWidget roomName={selectedRoomId} />
+          <ChatWidget isPage />
         </div>
       </div>
 

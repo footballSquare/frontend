@@ -26,3 +26,11 @@ type UseGetChatHistoryHandlerReturn = {
 };
 
 type DisplayedMessage = ChatMessageSocket | TeamChatMessage;
+
+type UseIsExpandedProps = {
+  isFloating: boolean;
+};
+type UseIsExpandedReturn = {
+  isExpanded: boolean;
+  toggleExpanded: () => void;
+};

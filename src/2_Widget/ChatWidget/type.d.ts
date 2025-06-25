@@ -1,6 +1,6 @@
 type ChatWidgetProps = {
   roomName?: string;
-  isFloating?: boolean;
+  isModal?: boolean;
 };
 
 type ChatMessageSocket = {
