@@ -1,4 +1,4 @@
-type TeamChatMessage = {
+type ChatMessageTeam = {
   team_chat_message_idx: number;
   team_list_idx: number;
   player_list_idx: number;

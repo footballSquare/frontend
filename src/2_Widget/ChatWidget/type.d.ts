@@ -1,8 +1,6 @@
 type ChatWidgetProps = {
-  roomName?: string;
-  isModal?: boolean;
+  isPage?: boolean;
 };
-
 type ChatMessageSocket = {
   sender_idx: number;
   sender_nickname: string;
@@ -19,3 +17,5 @@ type ErrorResponse = {
 type ChatFormData = {
   chatInput: string;
 };
+
+type DisplayedMessage = ChatMessageSocket | TeamChatMessage;

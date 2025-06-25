@@ -5,9 +5,9 @@ const ITEMS_PER_PAGE = 30;
 
 const useGetTeamChatHistory = (
   page: number
-): [TeamChatMessage[], boolean, boolean] => {
+): [ChatMessageTeam[], boolean, boolean] => {
   const [serverState, request, loading] = useFetchData();
-  const [chatHistory, setChatHistory] = React.useState<TeamChatMessage[]>([]);
+  const [chatHistory, setChatHistory] = React.useState<ChatMessageTeam[]>([]);
   const [hasMoreContent, setHasMoreContent] = React.useState<boolean>(true);
 
   React.useEffect(() => {
@@ -17,7 +17,7 @@ const useGetTeamChatHistory = (
 
   React.useEffect(() => {
     if (!loading && serverState && "chat" in serverState) {
-      const fetchedData = (serverState as { chat: TeamChatMessage[] }).chat;
+      const fetchedData = (serverState as { chat: ChatMessageTeam[] }).chat;
       setChatHistory((prev) => [...prev, ...fetchedData]);
       setHasMoreContent(fetchedData.length >= ITEMS_PER_PAGE);
     }
