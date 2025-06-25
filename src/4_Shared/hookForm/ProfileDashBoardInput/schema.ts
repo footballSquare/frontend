@@ -19,13 +19,19 @@ export const profileDashBoardInputSchema = yup.object().shape({
 
   message: yup
     .string()
+    .nullable()
     .transform((v, orig) => (orig === null ? null : v))
     .notRequired()
     .max(50, "상태메시지는 최대 50글자를 초과할 수 없습니다.")
     .default(null),
   discord_tag: yup
     .string()
-    .required("디스코드 태그는 필수값입니다.")
-    .max(40, "디스코드 태그는 최대 40글자를 초과할 수 없습니다."),
+    .nullable()
+    .transform((v, orig) =>
+      orig === "" || orig === null || orig === undefined ? null : v
+    )
+    .notRequired()
+    .max(40, "디스코드 태그는 최대 40글자를 초과할 수 없습니다.")
+    .default(null),
   match_position_idx: yup.number().required("포지션은 필수값입니다."),
 });
