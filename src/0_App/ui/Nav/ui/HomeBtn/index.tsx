@@ -7,16 +7,15 @@ const HomeBtn = () => {
   const { setPage } = usePageStore();
   return (
     <button
-      className="flex items-center justify-center"
+      className="flex items-center justify-center hover:scale-105 transition-transform duration-200"
       onClick={() => {
         navigate("/");
         setPage("HOME");
       }}
-    >
-      <img
-        className="lg:min-w-[140px] w-[140px]"
+    >      <img
+        className="w-36 object-contain"
         src={logo}
-        alt="home button"
+        alt="Football Square"
       />
     </button>
   );

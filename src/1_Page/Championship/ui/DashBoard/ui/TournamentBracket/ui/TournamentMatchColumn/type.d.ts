@@ -1,3 +1,0 @@
-type TournamentMatchColumnProps = {
-  match: ChampionshipMatchList;
-};

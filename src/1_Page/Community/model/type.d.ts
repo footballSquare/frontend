@@ -21,3 +21,7 @@ type UseCommunityIdxProps = {
 type UseCommunityStaffInfoProps = {
   communityIdx: number;
 };
+
+type SetCommunityTabProps = {
+  newTab: "championship" | "boards" | "teamList";
+};

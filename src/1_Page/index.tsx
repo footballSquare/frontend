@@ -16,11 +16,13 @@ import OAuthHub from "./OAuthHub";
 import PostEdit from "./PostEdit";
 import PostDetail from "./PostDetail";
 import ChatTesting from "./ChatTesting";
+import Boards from "./Boards";
+import Chat from "./Chat";
 
 const Page = () => {
   const [isLogin] = useIsLogin(); // accessToken 존재 여부 확인
   return (
-    <div className="w-full h-full bg-cement flex justify-center overflow-auto">
+    <div className="w-full h-full bg-gray-900 flex justify-center overflow-auto">
       <Routes>
         <Route
           path="/"
@@ -60,7 +62,9 @@ const Page = () => {
           path={`${PAGE_URI.POST}/write/new/:category`}
           element={<PostEdit />}
         />
-        <Route path="/test/chat" element={<ChatTesting/>}/>
+        <Route path={`${PAGE_URI.TOPICS}`} element={<Boards />} />
+        <Route path="/test/chat" element={<ChatTesting />} />
+        <Route path={`${PAGE_URI.CHAT}`} element={<Chat />} />
       </Routes>
     </div>
   );

@@ -1,86 +1,100 @@
-import PAGE_URI from "../../../4_Shared/constant/pageUri";
-import {
-  useIsLogin,
-  useMyTeamIdx,
-  useMyUserIdx,
-} from "../../../4_Shared/lib/useMyInfo";
 import HomeBtn from "./ui/HomeBtn";
 import NavigationBtn from "./ui/NavigationBtn";
 import SignBtns from "./ui/SignBtns";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import useNavigationBtns from "./model/useNavigationBtns";
+
 const Nav = () => {
-  const navigate = useNavigate();
-  const [isLogin] = useIsLogin();
-  const [teamIdx] = useMyTeamIdx();
-  const [userIdx] = useMyUserIdx();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [navigationBtns] = useNavigationBtns();
+
   return (
-    <nav className=" fixed top-0 left-0 flex h-[80px] w-full justify-center items-center bg-black text-white shadow-md">
-      <div className="sm:justify-between flex justify-center max-w-[1280px] w-full items-center">
-        {/* HomeBtn(Logo) */}
-        <HomeBtn />
-        {/* Navigation Btns */}
-        <div className="lg:gap-[30px] gap-3 flex items-center justify-between ">
-          <NavigationBtn
-            text={"TEAM LIST"}
-            navigationHandler={() => {
-              navigate(PAGE_URI.TEAMLIST);
-            }}
-          />
-          <NavigationBtn
-            text={"MY TEAM"}
-            navigationHandler={() => {
-              if (!isLogin) {
-                navigate(`${PAGE_URI.LOGIN}`);
-              } else if (teamIdx) {
-                navigate(`${PAGE_URI.TEAM}/${teamIdx}`);
-              } else {
-                alert("소속 팀이 없습니다.");
-              }
-            }}
-          />
-          <NavigationBtn
-            text={"FIND MATCH"}
-            navigationHandler={() => {
-              navigate(PAGE_URI.FREEMATCH);
-            }}
-          />
-          <div className="relative group">
-            <NavigationBtn
-              text={"COMMUNITY"}
-              navigationHandler={() => {
-                navigate(`${PAGE_URI.COMMUNITY}/0`);
-              }}
-            />
-            <div className="absolute left-0 hidden group-hover:flex flex-col gap-2 bg-white text-black shadow-md border border-gray w-[132px] p-2">
-              <NavigationBtn
-                text={"KFPL"}
-                navigationHandler={() => {
-                  navigate(`${PAGE_URI.COMMUNITY}/0`);
-                }}
-              />
+    <>
+      <nav className="fixed top-0 left-0 w-full h-20 bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 backdrop-blur-xl border-b border-gray-700/50 shadow-2xl">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
+          <div className="flex items-center justify-between h-full">
+            {/* Logo */}
+            <HomeBtn />
+
+            {/* Desktop Navigation */}
+            <div className="hidden lg:flex items-center space-x-1">
+              {navigationBtns.map((item) => (
+                <NavigationBtn
+                  key={item.text}
+                  text={item.text}
+                  navigationHandler={item.handler}
+                />
+              ))}
+            </div>
+            {/* Desktop Sign Buttons */}
+            <div className="hidden lg:flex items-center">
+              <SignBtns />
+            </div>
+
+            {/* Mobile menu button */}
+            <div className="lg:hidden flex items-center space-x-4">
+              <SignBtns />
+              <button
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                className="inline-flex items-center justify-center p-2 rounded-xl bg-gray-800/50 text-gray-300 hover:text-white hover:bg-gray-700/50 transition-all duration-200"
+                aria-expanded="false"
+              >
+                <span className="sr-only">Open main menu</span>
+                {!isMobileMenuOpen ? (
+                  <svg
+                    className="block h-6 w-6"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth="1.5"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+                    />
+                  </svg>
+                ) : (
+                  <svg
+                    className="block h-6 w-6"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth="1.5"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                )}
+              </button>
             </div>
           </div>
-          {/* <NavigationBtn
-            text={"RANKING"}
-            navigationHandler={() => {
-              navigate(PAGE_URI.RANKING);
-            }}
-          /> */}
-          <NavigationBtn
-            text={"MY PROFILE"}
-            navigationHandler={() => {
-              if (isLogin) {
-                navigate(`${PAGE_URI.PROFILE}/${userIdx}`);
-              } else {
-                navigate(`${PAGE_URI.LOGIN}`);
-              }
-            }}
-          />
         </div>
-        {/* SignUp/out LogIn/Out Btns */}
-        <SignBtns />
-      </div>
-    </nav>
+
+        {/* Mobile Navigation Menu */}
+        {isMobileMenuOpen && (
+          <div className="lg:hidden absolute top-20 left-0 right-0 bg-gray-900/95 backdrop-blur-xl border-b border-gray-700/50 shadow-2xl">
+            <div className="px-4 pt-2 pb-6 space-y-1">
+              {navigationBtns.map((item) => (
+                <button
+                  key={item.text}
+                  onClick={() => {
+                    item.handler();
+                    setIsMobileMenuOpen(false);
+                  }}
+                  className="block w-full text-left px-4 py-3 rounded-xl text-gray-300 hover:text-white hover:bg-gray-800/50 transition-all duration-200 font-medium"
+                >
+                  {item.text}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+      </nav>
+    </>
   );
 };
 

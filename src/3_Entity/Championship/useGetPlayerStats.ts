@@ -10,7 +10,7 @@ const useGetPlayerStats = (
   React.useEffect(() => {
     const endPoint = `/championship/${championshipListIdx}/player_stats`;
     request("GET", endPoint, null, true);
-  }, []);
+  }, [championshipListIdx, request]);
 
   React.useEffect(() => {
     if (!loading && serverState && "result" in serverState) {

@@ -11,3 +11,9 @@ type ProfileDashBoardInputProps = {
   isModifyMode: boolean;
   placeholder?: string;
 };
+
+type UserInfoForm = UsePutUserInfoProps;
+
+type Award = {
+  championship_list_name: string;
+};

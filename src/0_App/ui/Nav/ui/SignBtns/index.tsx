@@ -1,14 +1,15 @@
 import { useNavigate } from "react-router-dom";
-import { useIsLogin, useLogout } from "../../../../../4_Shared/lib/useMyInfo";
+import { useIsLogin } from "../../../../../4_Shared/lib/useMyInfo";
 import PAGE_URI from "../../../../../4_Shared/constant/pageUri";
 import Button from "../../../../../4_Shared/components/Button";
+import useDeleteLoginInfo from "../../../../../3_Entity/Account/useDeleteLoginInfo";
 
 const SignBtns = () => {
   const navigate = useNavigate();
   const [isLogin] = useIsLogin();
-  const [logout] = useLogout();
+  const [logout, ,] = useDeleteLoginInfo();
   return (
-    <div className="sm:flex hidden lg:text-base lg:max-w-[206px] max-w-[168px] text-xs gap-4 w-full">
+    <div className="sm:flex lg:text-base lg:max-w-[206px] max-w-[168px] text-xs gap-4 w-full">
       {!isLogin ? (
         <Button
           text={"Login"}

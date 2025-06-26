@@ -7,20 +7,28 @@ import { useNavigate } from "react-router-dom";
 const usePostSignIn = (): [(props: PostSignInProps) => void] => {
   const [serverState, request, loading] = useFetchData();
   const { login } = useAuthStore();
+  const [, setCookie] = useCookies(["access_token", "access_token_temporary"]);
+  const navigate = useNavigate();
+
   const postSignIn = (props: PostSignInProps) => {
-    const { id, password } = props;
+    const { id, password, signInPersist, deviceUUID } = props;
     request(
       "POST",
       `/account/signin`,
-      {
-        id: id,
-        password: password,
-      },
+      signInPersist
+        ? {
+            id: id,
+            password: password,
+            persistent: signInPersist,
+            device_uuid: deviceUUID,
+          }
+        : {
+            id: id,
+            password: password,
+          },
       false
     );
   };
-  const [, setCookie] = useCookies(["access_token", "access_token_temporary"]);
-  const navigate = useNavigate();
 
   React.useEffect(() => {
     if (!loading && serverState) {
@@ -31,10 +39,6 @@ const usePostSignIn = (): [(props: PostSignInProps) => void] => {
           access_token_temporary,
           access_token,
           nickname,
-          //platform,
-          //commmon_status_idx,
-          //message,
-          //discord_tag,
           profile_image,
           team_idx,
           team_role_idx,
@@ -54,13 +58,14 @@ const usePostSignIn = (): [(props: PostSignInProps) => void] => {
             profileImg: profile_image,
             nickname: nickname,
           });
-          const options = { path: "/", maxAge: 86400 };
-          setCookie("access_token", access_token, options);
-          navigate("/");
+          setCookie("access_token", access_token, { path: "/", maxAge: 86400 });
+          setTimeout(() => navigate("/"), 100);
         } else if (player_status === "pending") {
-          const options = { path: "/signup", maxAge: 86400 / 24 / 6 };
-          setCookie("access_token_temporary", access_token_temporary, options);
-          navigate(`/signup`);
+          setCookie("access_token_temporary", access_token_temporary, {
+            path: "/signup",
+            maxAge: 86400 / 24 / 6,
+          });
+          setTimeout(() => navigate("/signup"), 100);
         }
       } else {
         alert(serverState.message || "로그인에 실패했습니다.");

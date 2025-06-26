@@ -7,9 +7,19 @@ const usePostCreateChampionshipMatch = (
   postCreateChampionshipMatch: (
     championshipMatchForm: UsePostCreateChampionshipMatchProps
   ) => void,
-  serverState: Record<string, unknown> | null
+  idxList: {
+    first_match_idx: number;
+    second_match_idx: number;
+    championship_match_idx: number;
+  },
+  loading: boolean
 ] => {
-  const [serverState, request] = useFetchData();
+  const [serverState, request, loading] = useFetchData();
+  const [idxList, setIdxList] = React.useState<{
+    first_match_idx: number;
+    second_match_idx: number;
+    championship_match_idx: number;
+  }>({ first_match_idx: 0, second_match_idx: 0, championship_match_idx: 0 });
 
   const postCreateChampionshipMatch = (
     championshipMatchForm: UsePostCreateChampionshipMatchProps
@@ -20,15 +30,27 @@ const usePostCreateChampionshipMatch = (
 
   React.useEffect(() => {
     if (!serverState) return;
-    console.log("serverState", serverState.data);
     switch (serverState.status) {
-      case 200:
+      case 200: {
+        const { first_match_idx, second_match_idx, championship_match_idx } =
+          serverState as {
+            first_match_idx: number;
+            second_match_idx: number;
+            championship_match_idx: number;
+          };
+        setIdxList({
+          first_match_idx,
+          second_match_idx,
+          championship_match_idx,
+        });
         break;
-      case "403":
+      }
+      default:
+        console.log("Unknown status in serverState:", serverState.status);
     }
   }, [serverState]);
 
-  return [postCreateChampionshipMatch, serverState];
+  return [postCreateChampionshipMatch, idxList, loading];
 };
 
 export default usePostCreateChampionshipMatch;

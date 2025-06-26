@@ -51,146 +51,197 @@ const SignUp = () => {
   const [isValidAuthSms, postCheckAuthSms] = usePostCheckAuthSms();
   const [authPhone, setAuthPhone] = React.useState<string>("");
   const [isSmsSent, postReceiveAuthSms] = useReceiveAuthSms();
-
   return (
-    <div className="flex flex-col gap-4 items-center justify-center min-h-screen ">
+    <div className="min-h-screen w-full flex items-center justify-center p-4">
+      <div className="w-full max-w-sm">
+        {/* Glass Card */}
+        <div className="bg-white/10 border border-white/20 rounded-2xl p-6 shadow-2xl">
+          {step === 1 && (
+            <>
+              {/* Header */}
+              <div className="text-center mb-6">
+                <div className="inline-flex items-center justify-center w-12 h-12 bg-gradient-to-br from-gray-600 to-gray-800 rounded-xl mb-3 shadow-lg">
+                  <span className="text-lg font-bold text-white">FS</span>
+                </div>
+                <h1 className="text-2xl font-bold text-white mb-1">Join Us</h1>
+                <p className="text-gray-300 text-sm">
+                  Create your Football Square account
+                </p>
+              </div>
+
+              {/* Sign Up Form - Step 1 */}
+              <form
+                onSubmit={firstStepHandleSubmit((data) => {
+                  if (!idValidation) {
+                    alert("ID 중복 확인이 필요합니다.");
+                  } else {
+                    postTemporalSignUp({
+                      id: data.id,
+                      password: data.password,
+                    });
+                    setStep(2);
+                  }
+                })}
+                className="space-y-4"
+              >
+                <SignUpInput
+                  register={firstStepRegister}
+                  registerType="id"
+                  errors={firstStepErrors}
+                  type="text"
+                  placeholder="영문/숫자 8-20 글자"
+                />
+                <SignUpInput
+                  register={firstStepRegister}
+                  registerType="password"
+                  errors={firstStepErrors}
+                  type="password"
+                  placeholder="영문/숫자/특수기호 포함, 8-20 글자"
+                />
+                <SignUpInput
+                  register={firstStepRegister}
+                  registerType="confirmPassword"
+                  errors={firstStepErrors}
+                  type="password"
+                  placeholder="비밀번호 확인"
+                />
+
+                {/* ID Check Button */}
+                <button
+                  type="button"
+                  onClick={() => {
+                    postCheckId({ id: getFirstStepValues("id") });
+                  }}
+                  className={`w-full py-2.5 font-semibold rounded-lg text-sm transition-all duration-200 focus:outline-none focus:ring-2 ${
+                    idValidation
+                      ? "bg-green-600 hover:bg-green-700 text-white focus:ring-green-500"
+                      : "bg-red-600 hover:bg-red-700 text-white focus:ring-red-500"
+                  }`}
+                >
+                  아이디 중복 확인
+                </button>
+
+                {/* Submit Button */}
+                <button
+                  type="submit"
+                  className="w-full py-2.5 bg-gradient-to-r from-gray-600 to-gray-800 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transform hover:scale-[1.02] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 focus:ring-offset-transparent hover:from-gray-500 hover:to-gray-700 text-sm"
+                >
+                  다음 단계
+                </button>
+              </form>
+            </>
+          )}
+
+          {step === 2 && (
+            <>
+              {/* Header */}
+              <div className="text-center mb-6">
+                <div className="inline-flex items-center justify-center w-12 h-12 bg-gradient-to-br from-gray-600 to-gray-800 rounded-xl mb-3 shadow-lg">
+                  <span className="text-lg font-bold text-white">FS</span>
+                </div>
+                <h1 className="text-2xl font-bold text-white mb-1">
+                  Phone Verification
+                </h1>
+                <p className="text-gray-300 text-sm">
+                  Verify your phone number to complete signup
+                </p>
+              </div>
+
+              {/* Sign Up Form - Step 2 */}
+              <form
+                onSubmit={secondStepHandleSubmit(() => {
+                  if (isValidAuthSms) {
+                    alert("회원가입 완료!");
+                    navigate(`/`);
+                  } else {
+                    alert("핸드폰 번호 인증이 완료되어야 합니다..");
+                  }
+                })}
+                className="space-y-4"
+              >
+                <SignUpInput
+                  register={secondStepRegister}
+                  registerType="phone"
+                  errors={secondStepErrors}
+                  type="text"
+                  placeholder="- 없이 번호만 입력"
+                />
+                <SignUpInput
+                  register={secondStepRegister}
+                  registerType="sms"
+                  errors={secondStepErrors}
+                  type="text"
+                  placeholder="인증번호 입력"
+                />
+
+                {/* SMS Send Button */}
+                <button
+                  type="button"
+                  onClick={() => {
+                    const phone = getSecondStepValues("phone");
+                    if (secondStepErrors.phone) {
+                      alert("핸드폰 번호 형식이 올바르지 않습니다.");
+                      return;
+                    }
+                    if (!phone) {
+                      alert("핸드폰 번호를 입력해주세요.");
+                      return;
+                    }
+                    postReceiveAuthSms({ phone });
+                    setAuthPhone(phone);
+                  }}
+                  className="w-full py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                >
+                  {isSmsSent ? "인증번호 재전송" : "인증번호 전송"}
+                </button>
+
+                {/* SMS Verification Button */}
+                <button
+                  type="button"
+                  onClick={() => {
+                    postCheckAuthSms({
+                      phone: authPhone,
+                      code: getSecondStepValues("sms"),
+                    });
+                  }}
+                  className={`w-full py-2.5 font-semibold rounded-lg text-sm transition-all duration-200 focus:outline-none focus:ring-2 ${
+                    isValidAuthSms
+                      ? "bg-green-600 hover:bg-green-700 text-white focus:ring-green-500"
+                      : "bg-gray-600 hover:bg-gray-700 text-white focus:ring-gray-500"
+                  }`}
+                >
+                  인증번호 확인
+                </button>
+
+                {/* Complete Button */}
+                <button
+                  type="submit"
+                  className="w-full py-2.5 bg-gradient-to-r from-gray-600 to-gray-800 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transform hover:scale-[1.02] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 focus:ring-offset-transparent hover:from-gray-500 hover:to-gray-700 text-sm"
+                >
+                  가입 완료
+                </button>
+              </form>
+            </>
+          )}
+        </div>
+
+        {/* Footer */}
+        <div className="text-center mt-6">
+          <p className="text-gray-400 text-xs">
+            Already have an account?
+            <button
+              onClick={() => navigate("/login")}
+              className="text-gray-300 hover:text-white transition-colors duration-200"
+            >
+              Sign in here
+            </button>
+          </p>
+        </div>
+      </div>
+      {/* Modal */}
       {isTermOfUseModalOpen && (
         <TermOfUseModal toggleModalHandler={toggleIsTermOfUseModal} />
       )}
-      <div className="bg-gray-800 text-gray-100 p-8 rounded shadow-md w-full max-w-md">
-        {step === 1 && (
-          <>
-            <h1 className="text-2xl font-bold mb-6 text-center">회원가입</h1>
-            <form
-              onSubmit={firstStepHandleSubmit((data) => {
-                if (!idValidation) {
-                  alert("ID 중복 확인이 필요합니다.");
-                } else {
-                  postTemporalSignUp({ id: data.id, password: data.password });
-                  setStep(2);
-                }
-              })}
-              className="flex flex-col gap-4 w-[320px]"
-            >
-              <SignUpInput
-                register={firstStepRegister}
-                registerType="id"
-                errors={firstStepErrors}
-                type="text"
-                placeholder="영문/숫자 8-20 글자"
-              />
-              <SignUpInput
-                register={firstStepRegister}
-                registerType="password"
-                errors={firstStepErrors}
-                type="password"
-                placeholder="영문/숫자/특수기호 포함, 8-20 글자"
-              />
-              <SignUpInput
-                register={firstStepRegister}
-                registerType="confirmPassword"
-                errors={firstStepErrors}
-                type="password"
-                placeholder="비밀번호 확인"
-              />
-              <button
-                type="button"
-                onClick={() => {
-                  postCheckId({ id: getFirstStepValues("id") });
-                }}
-                className={`w-full p-2 rounded duration-300 focus:outline-none focus:ring-2 ${
-                  idValidation
-                    ? "bg-green-500 hover:bg-green-600 text-white focus:ring-green-500"
-                    : "bg-red-500 hover:bg-red-600 text-white focus:ring-red-500"
-                }`}
-              >
-                아이디 중복 확인
-              </button>
-              <button
-                type="submit"
-                className="mt-4 w-full bg-gray-500 text-white py-2 px-4 rounded hover:bg-blue-600 duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                회원가입 진행
-              </button>
-            </form>
-          </>
-        )}
-
-        {step === 2 && (
-          <>
-            <h1 className="text-2xl font-bold mb-6 text-center">핸드폰 인증</h1>
-            <form
-              onSubmit={secondStepHandleSubmit(() => {
-                if (isValidAuthSms) {
-                  alert("회원가입 완료!");
-                  navigate(`/`);
-                } else {
-                  alert("핸드폰 번호 인증이 완료되어야 합니다..");
-                }
-              })}
-              className="flex flex-col gap-4 w-[320px]"
-            >
-              <SignUpInput
-                register={secondStepRegister}
-                registerType="phone"
-                errors={secondStepErrors}
-                type="text"
-                placeholder="- 없이 번호만 입력"
-              />
-              <SignUpInput
-                register={secondStepRegister}
-                registerType="sms"
-                errors={secondStepErrors}
-                type="text"
-                placeholder="인증번호 입력"
-              />
-              <button
-                type="button"
-                onClick={() => {
-                  const phone = getSecondStepValues("phone");
-                  if (secondStepErrors.phone) {
-                    alert("핸드폰 번호 형식이 올바르지 않습니다.");
-                    return;
-                  }
-                  if (!phone) {
-                    alert("핸드폰 번호를 입력해주세요.");
-                    return;
-                  }
-                  postReceiveAuthSms({ phone });
-                  setAuthPhone(phone);
-                }}
-                className="mt-4 w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                {isSmsSent ? "인증번호 재전송" : "인증번호 전송"}
-              </button>
-
-              <button
-                type="button"
-                onClick={() => {
-                  postCheckAuthSms({
-                    phone: authPhone,
-                    code: getSecondStepValues("sms"),
-                  });
-                }}
-                className={`w-full p-2 rounded duration-300 focus:outline-none focus:ring-2 ${
-                  isValidAuthSms
-                    ? "bg-green-500 hover:bg-green-600 text-white focus:ring-green-500"
-                    : "bg-gray-500 hover:bg-gray-600 text-white focus:ring-gray-500"
-                }`}
-              >
-                인증번호 확인
-              </button>
-
-              <button
-                type="submit"
-                className="mt-4 w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                가입 완료
-              </button>
-            </form>
-          </>
-        )}
-      </div>
     </div>
   );
 };

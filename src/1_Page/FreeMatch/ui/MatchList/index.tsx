@@ -13,7 +13,7 @@ const MatchList = () => {
   );
 
   return (
-    <div className="flex flex-col gap-2 overflow-y-auto h-[70vh]">
+    <div className="flex flex-col gap-2 overflow-y-auto h-[75vh] bg-gray-500 p-4 rounded-lg">
       {openMatchList.map((elem, index) => {
         return (
           <MatchCard

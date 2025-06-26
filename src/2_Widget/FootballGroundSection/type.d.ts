@@ -1,0 +1,3 @@
+type FootballGroundSectionProps = {
+  championshipDetail: ChampionshipMatchDetail;
+};

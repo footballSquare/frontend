@@ -27,7 +27,8 @@ type AuthState = {
     nickname: string | null;
   }) => void;
   logout: () => void;
-  leaveTeam: () => void;  setTeamRoleIdx: (teamRoleIdx: number | null) => void;
+  leaveTeam: () => void;
+  setTeamRoleIdx: (teamRoleIdx: number | null) => void;
   setTeamIdx: (teamIdx: number | null) => void;
   setPlayerStatus: (playerStatus: string | null) => void;
   setHydrated: () => void;
@@ -36,7 +37,8 @@ type AuthState = {
 // 암호화된 storage 구현
 const encryptedPersistStorage = createJSONStorage(() => ({
   getItem: (name: string) => encryptedStorage.getItem(name),
-  setItem: (name: string, value: string) => encryptedStorage.setItem(name, value),
+  setItem: (name: string, value: string) =>
+    encryptedStorage.setItem(name, value),
   removeItem: (name: string) => encryptedStorage.removeItem(name),
 }));
 
@@ -77,11 +79,11 @@ export const useAuthStore = create<AuthState>()(
       setHydrated: () => set({ isHydrated: true }),
     }),
     {
-      name: 'auth-storage',
+      name: "auth-storage",
       storage: encryptedPersistStorage,
       onRehydrateStorage: () => (state) => {
         state?.setHydrated();
-      },      // 민감하지 않은 정보만 저장
+      }, // 민감하지 않은 정보만 저장
       partialize: (state) => ({
         playerStatus: state.playerStatus,
         userIdx: state.userIdx,
@@ -168,32 +170,7 @@ export const useLogout = (): [() => void] => {
       logout();
       removeCookie("access_token", { path: "/" });
       encryptedStorage.clear(); // 암호화된 storage도 클리어
-      navigate("/");
-    },
-  ];
-};
-
-export const useRemoveAllCookie = () => {
-  const [, , removeCookie] = useCookies([
-    "access_token",
-    "community_role_idx",
-    "team_role_idx",
-    "team_idx",
-    "user_idx",
-    "profile_image",
-    "player_status",
-  ]);
-
-  return [
-    () => {
-      removeCookie("access_token", { path: "/" });
-      removeCookie("community_role_idx", { path: "/" });
-      removeCookie("team_role_idx", { path: "/" });
-      removeCookie("team_idx", { path: "/" });
-      removeCookie("user_idx", { path: "/" });
-      removeCookie("profile_image", { path: "/" });
-      removeCookie("player_status", { path: "/" });
-      encryptedStorage.clear();
+      setTimeout(() => navigate("/"), 100);
     },
   ];
 };

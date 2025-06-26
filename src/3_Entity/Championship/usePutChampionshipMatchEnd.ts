@@ -2,14 +2,14 @@ import React from "react";
 import { useFetchData } from "../../4_Shared/util/apiUtil";
 
 const usePutChampionshipMatchEnd = (): [
-  (championshipMatchIdx: number) => void,
+  (championshipMatchIdx: number) => Promise<number | undefined>,
   Record<string, unknown> | null
 ] => {
   const [serverState, request, loading] = useFetchData();
 
-  const putChampionshipMatchEnd = (championshipMatchIdx: number) => {
+  const putChampionshipMatchEnd = async (championshipMatchIdx: number) => {
     const endPoint = `/championship/championship_match/${championshipMatchIdx}/done`;
-    request("PUT", endPoint, null, true);
+    return await request("PUT", endPoint, null, true);
   };
 
   React.useEffect(() => {

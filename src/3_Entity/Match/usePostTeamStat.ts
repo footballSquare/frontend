@@ -15,14 +15,14 @@ const usePostTeamStat = (): [
       true
     );
   };
+
   React.useEffect(() => {
     if (!loading && serverState) {
       switch (serverState.status) {
         case 200:
-          alert("팀 스탯이 등록되었습니다.");
           break;
         default:
-          alert("팀 스탯이 등록이 완료되지 못했습니다.");
+          alert(serverState.message || "팀 스탯 저장에 실패했습니다.");
           break;
       }
     }
