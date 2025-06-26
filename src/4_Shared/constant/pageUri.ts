@@ -15,6 +15,7 @@ const PAGE_URI = {
   OAUTH: "/oauth/redirect",
   POST: "/post",
   TOPICS: "/topics",
+  CHAT: "/chat",
 };
 
 export default PAGE_URI;
