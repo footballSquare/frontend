@@ -97,18 +97,17 @@ const BtnGroupManageModalPanel = (props: BtnGroupManageModalPanelProps) => {
         )}
 
         {/* 팀장 또는 부팀장일떄 */}
-        {isTeamCaptain ||
-          (isTeamSubLeader && (
-            <button
-              className="text-white text-sm font-medium py-2 px-4 rounded-lg shadow-md transition flex items-center"
-              style={{
-                backgroundColor: teamListColor,
-                color: getTextColorFromBackground(teamListColor),
-              }}
-              onClick={toggleMakeMatchModal}>
-              + 매치 생성
-            </button>
-          ))}
+        {(isTeamCaptain || isTeamSubLeader) && (
+          <button
+            className="text-white text-sm font-medium py-2 px-4 rounded-lg shadow-md transition flex items-center"
+            style={{
+              backgroundColor: teamListColor,
+              color: getTextColorFromBackground(teamListColor),
+            }}
+            onClick={toggleMakeMatchModal}>
+            + 매치 생성
+          </button>
+        )}
       </div>
 
       {isModalOpen && (
