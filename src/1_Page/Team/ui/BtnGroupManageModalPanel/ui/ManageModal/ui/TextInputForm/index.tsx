@@ -6,6 +6,8 @@ import TeamManageTextInput from "../../../../../../../../4_Shared/hookForm/TeamM
 import useToggleState from "../../../../../../../../4_Shared/model/useToggleState";
 import usePutTeamInfoHandler from "./model/usePutTeamInfoHandler";
 import SubmitBtn from "./ui/SubmitBtn";
+import useTeamInfoContext from "../../../../../../../../4_Shared/model/useTeamInfoContext";
+import { getTextColorFromBackground } from "../../../../../../../../4_Shared/lib/colorChecker";
 
 const TextInputForm = (props: TextInputFormProps) => {
   const { teamInfo, handleSetTeamInfoPreview } = props;
@@ -21,6 +23,7 @@ const TextInputForm = (props: TextInputFormProps) => {
     handleSetTeamInfoPreview,
   });
   const [modifyMode, toggleModifyMode] = useToggleState();
+  const { teamListColor } = useTeamInfoContext();
 
   return (
     <FormProvider {...forms}>
@@ -75,7 +78,12 @@ const TextInputForm = (props: TextInputFormProps) => {
         {/* 제출 버튼 */}
         <div className="flex justify-end gap-4 mt-4">
           {!modifyMode ? (
-            <button className="py-2 px-4 bg-grass text-white rounded-md">
+            <button
+              style={{
+                backgroundColor: teamListColor,
+                color: getTextColorFromBackground(teamListColor),
+              }}
+              className="py-2 px-4  text-white rounded-md">
               수정하기
             </button>
           ) : (

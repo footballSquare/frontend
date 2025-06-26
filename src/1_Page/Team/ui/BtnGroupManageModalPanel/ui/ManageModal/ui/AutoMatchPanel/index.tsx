@@ -4,10 +4,12 @@ import { yupResolver } from "@hookform/resolvers/yup";
 
 import useToggleState from "../../../../../../../../4_Shared/model/useToggleState";
 import { autoMatchScehma } from "../../../../../../../../4_Shared/hookForm/AutoMatchModalInput/schema";
+import useTeamInfoContext from "../../../../../../../../4_Shared/model/useTeamInfoContext";
 
 const AutoMatchPanel = () => {
   const disableFlag = true;
   const [isModalOpen, handleToggle] = useToggleState();
+  const { teamListColor } = useTeamInfoContext();
 
   const methods = useForm<AutoMatchFormValues>({
     resolver: yupResolver(autoMatchScehma),
@@ -25,12 +27,17 @@ const AutoMatchPanel = () => {
 
   return (
     <div className="flex flex-col">
-      <h2 className="text-lg font-semibold text-grass mb-1">자동 매치</h2>
+      <h2
+        className="text-lg font-semibold mb-1"
+        style={{ color: teamListColor }}>
+        자동 매치
+      </h2>
       <p className="text-sm ">자동 매치 설정 하려면 버튼을 클릭하세요.</p>
       <button
         type="button"
         onClick={handleToggle}
-        className="py-2 px-6 bg-grass text-white rounded-md shadow-md hover:bg-grass/80 transition duration-300 focus:outline-none focus:ring-2 focus:ring-grass/50">
+        className="py-2 px-6 text-white rounded-md shadow-md transition duration-300 focus:outline-none"
+        style={{ backgroundColor: teamListColor }}>
         팀 매치 자동화
       </button>
 
@@ -44,7 +51,9 @@ const AutoMatchPanel = () => {
                 className="absolute top-0 right-0 text-gray-400 hover:text-gray-600 transition-colors duration-200 text-2xl font-bold leading-none">
                 ×
               </button>
-              <h2 className="text-2xl font-bold text-center text-grass">
+              <h2
+                className="text-2xl font-bold text-center"
+                style={{ color: teamListColor }}>
                 자동 매치 생성
               </h2>
             </div>
@@ -87,8 +96,13 @@ const AutoMatchPanel = () => {
                       ${
                         disableFlag
                           ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                          : "bg-grass text-white hover:bg-grass/80"
-                      }`}>
+                          : "text-white"
+                      }`}
+                    style={
+                      disableFlag
+                        ? undefined
+                        : { backgroundColor: teamListColor }
+                    }>
                     자동 매치 설정 저장
                   </button>
                 </div>
