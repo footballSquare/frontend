@@ -18,14 +18,14 @@ const TeamApplicationItem = (props: TeamApplicationItemProps) => {
   });
 
   return (
-    <div className="flex items-center justify-between bg-gray-50 p-4 rounded-lg hover:bg-gray-100 transition-colors">
+    <div className="flex items-center justify-between bg-gray-800 p-4 rounded-lg hover:bg-gray-700 transition-colors border border-gray-700">
       <div className="flex items-center space-x-4">
         <img
           src={player.player_list_profile_image || defaultProfileImage}
-          className="w-12 h-12 rounded-full object-cover border-2 border-blue-300"
+          className="w-12 h-12 rounded-full object-cover border-2 border-blue-400"
         />
         <div>
-          <p className="font-medium text-gray-800">
+          <p className="font-medium text-gray-100">
             {player.player_list_nickname}
           </p>
           <img
@@ -33,7 +33,7 @@ const TeamApplicationItem = (props: TeamApplicationItemProps) => {
             alt={player.player_list_platform}
             className="w-12 h-12"
           />
-          <p className="text-sm text-gray-500">{player.player_list_platform}</p>
+          <p className="text-sm text-gray-400">{player.player_list_platform}</p>
         </div>
       </div>
 
@@ -42,14 +42,14 @@ const TeamApplicationItem = (props: TeamApplicationItemProps) => {
           onClick={() => {
             handlePostApproveMember(player.player_list_idx);
           }}
-          className="px-3 py-1 text-sm bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors">
+          className="px-3 py-1 text-sm bg-grass/50 text-white rounded-md hover:bg-grass transition-colors shadow-md">
           수락
         </button>
         <button
           onClick={() => {
             handleDeleteApproveMember(player.player_list_idx);
           }}
-          className="px-3 py-1 text-sm bg-white text-red-500 border border-red-300 rounded-md hover:bg-red-50 transition-colors">
+          className="px-3 py-1 text-sm bg-gray-700 text-red-400 border border-red-400 rounded-md hover:bg-red-900 hover:text-red-300 transition-colors shadow-md">
           거절
         </button>
       </div>
