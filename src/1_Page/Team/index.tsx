@@ -12,7 +12,7 @@ import useManageTeamInfo from "./model/useManagePage";
 import { useMyTeamIdx } from "../../4_Shared/lib/useMyInfo";
 import EmptyBanner from "../../4_Shared/components/EmptyBanner";
 import { MOBILE_TABS, MobileTabKey } from "./constant/mobileTab";
-import { useTeamInfoContext } from "./model/useTeamContext";
+import { TeamInfoContext } from "../../4_Shared/model/useTeamInfoContext";
 import DefaultTeamEmblem from "../../4_Shared/components/DefaultTeamEmblem";
 
 const Team = () => {
@@ -37,11 +37,12 @@ const Team = () => {
     team_list_announcement,
   } = displayTeamInfo;
 
-  const { value, TeamInfoContext } = useTeamInfoContext(team_list_color);
-
   return (
     <main className="w-full">
-      <TeamInfoContext.Provider value={value}>
+      <TeamInfoContext.Provider
+        value={{
+          teamListColor: team_list_color,
+        }}>
         <div className="bg-gray-900 text-white flex flex-col w-full min-h-[100vh] ">
           <div className="w-full sm:w-[90%] max-w-7xl mx-auto text-sm pt-5 px-2 sm:px-0">
             {loading ? (

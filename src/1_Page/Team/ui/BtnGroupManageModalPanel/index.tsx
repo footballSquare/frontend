@@ -1,4 +1,4 @@
-import { useTeamInfo } from "../../model/useTeamContext";
+import useTeamInfoContext from "../../../../4_Shared/model/useTeamInfoContext";
 import useJoinAction from "./model/useJoinAction";
 import useMakeTeamMatchModalStore from "../../../../4_Shared/zustand/useMakeMatchModalStore";
 import { useIsLogin } from "../../../../4_Shared/lib/useMyInfo";
@@ -22,7 +22,7 @@ const BtnGroupManageModalPanel = (props: BtnGroupManageModalPanelProps) => {
 
   // 팀 권한과
 
-  const { team_list_color } = useTeamInfo();
+  const { teamListColor } = useTeamInfoContext();
 
   // 팀 가입 신청 상태
   const {
@@ -102,8 +102,8 @@ const BtnGroupManageModalPanel = (props: BtnGroupManageModalPanelProps) => {
             <button
               className="text-white text-sm font-medium py-2 px-4 rounded-lg shadow-md transition flex items-center"
               style={{
-                backgroundColor: team_list_color,
-                color: getTextColorFromBackground(team_list_color),
+                backgroundColor: teamListColor,
+                color: getTextColorFromBackground(teamListColor),
               }}
               onClick={toggleMakeMatchModal}>
               + 매치 생성
