@@ -46,43 +46,47 @@ const BtnGroupManageModalPanel = (props: BtnGroupManageModalPanelProps) => {
 
   return (
     <div className="flex flex-col items-center gap-3 mt-4">
-      <div className="w-full max-w-xs">
-        {isJoinRequestPending ? (
-          <button className="w-full bg-gray-700 text-gray-300 text-sm font-medium py-2.5 px-6 rounded-lg shadow-lg border border-gray-600 flex items-center justify-center gap-2 cursor-not-allowed">
-            <span className="inline-block w-2 h-2 bg-blue-400 rounded-full animate-pulse"></span>
-            가입신청중
-          </button>
-        ) : isCurrentTeamMember ? (
-          // 팀원일때
-          <button
-            className="w-full bg-gradient-to-r from-red-700 to-red-600 hover:from-red-800 hover:to-red-700 text-white text-sm font-medium py-2.5 px-6 rounded-lg shadow-lg transition transform hover:translate-y-px duration-200 flex items-center justify-center"
-            onClick={() => {
-              if (confirm(`정말로 팀을 탈퇴 하시겠습니까?`)) {
-                handleDeleteLeaveTeam();
-                setMembershipToUnavailable();
-              }
-            }}>
-            <img src={exitIcon} alt="팀 탈퇴" className="h-4 w-4 mr-2" />팀 탈퇴
-          </button>
-        ) : (
-          // 팀원이 아닐때
-          <button
-            className="w-full bg-gradient-to-r from-blue-700 to-blue-600 hover:from-blue-800 hover:to-blue-700 text-white text-sm font-medium py-2.5 px-6 rounded-lg shadow-lg transition transform hover:translate-y-px duration-200 flex items-center justify-center"
-            onClick={() => {
-              if (!isLogin) {
-                alert("로그인 후 이용해주세요.");
-                navigate("/login");
-                return;
-              }
-              if (confirm(`정말로 팀을 가입 하시겠습니까?`)) {
-                handlePutSignTeam();
-                setMembershipToPending();
-              }
-            }}>
-            <img src={joinIcon} alt="팀 가입" className="h-4 w-4 mr-2" />팀 가입
-          </button>
-        )}
-      </div>
+      {!isTeamCaptain && (
+        <div className="w-full max-w-xs">
+          {isJoinRequestPending ? (
+            <button className="w-full bg-gray-700 text-gray-300 text-sm font-medium py-2.5 px-6 rounded-lg shadow-lg border border-gray-600 flex items-center justify-center gap-2 cursor-not-allowed">
+              <span className="inline-block w-2 h-2 bg-blue-400 rounded-full animate-pulse"></span>
+              가입신청중
+            </button>
+          ) : isCurrentTeamMember ? (
+            // 팀원일때
+            <button
+              className="w-full bg-gradient-to-r from-red-700 to-red-600 hover:from-red-800 hover:to-red-700 text-white text-sm font-medium py-2.5 px-6 rounded-lg shadow-lg transition transform hover:translate-y-px duration-200 flex items-center justify-center"
+              onClick={() => {
+                if (confirm(`정말로 팀을 탈퇴 하시겠습니까?`)) {
+                  handleDeleteLeaveTeam();
+                  setMembershipToUnavailable();
+                }
+              }}>
+              <img src={exitIcon} alt="팀 탈퇴" className="h-4 w-4 mr-2" />팀
+              탈퇴
+            </button>
+          ) : (
+            // 팀원이 아닐때
+            <button
+              className="w-full bg-gradient-to-r from-blue-700 to-blue-600 hover:from-blue-800 hover:to-blue-700 text-white text-sm font-medium py-2.5 px-6 rounded-lg shadow-lg transition transform hover:translate-y-px duration-200 flex items-center justify-center"
+              onClick={() => {
+                if (!isLogin) {
+                  alert("로그인 후 이용해주세요.");
+                  navigate("/login");
+                  return;
+                }
+                if (confirm(`정말로 팀을 가입 하시겠습니까?`)) {
+                  handlePutSignTeam();
+                  setMembershipToPending();
+                }
+              }}>
+              <img src={joinIcon} alt="팀 가입" className="h-4 w-4 mr-2" />팀
+              가입
+            </button>
+          )}
+        </div>
+      )}
 
       {/* 팀 리더 및 매치 생성 버튼 그룹 */}
       <div className="flex gap-3">
