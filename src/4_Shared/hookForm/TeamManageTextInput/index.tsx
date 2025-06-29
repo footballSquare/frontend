@@ -1,10 +1,11 @@
-import { useFormContext } from "react-hook-form";
+import { useFormContext, Controller } from "react-hook-form";
 
 const TeamManageTextInput = (props: TeamManageTextInputProps) => {
   const { modifyMode, registerType, repeatType } = props;
   const {
     watch,
     register,
+    control,
     formState: { errors },
     getValues,
   } = useFormContext();
@@ -109,43 +110,56 @@ const TeamManageTextInput = (props: TeamManageTextInputProps) => {
 
       {/* 팀 색상 선택 */}
       {registerType === "team_list_color" && (
-        <div className="mb-4">
-          <label
-            htmlFor="team_list_color"
-            className="block mb-1.5 text-sm font-medium text-gray-700">
-            Team Color
-          </label>
-          <div className="flex items-center gap-2 mb-2">
-            <input
-              id="team_list_color"
-              type="color"
-              {...register("team_list_color")}
-              disabled={!modifyMode}
-              className={`w-[48px] h-[48px] p-1 border-2 rounded-xl outline-none transition-all duration-200 ${
-                modifyMode
-                  ? "border-indigo-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200"
-                  : "bg-gray-700 text-gray-200 border-gray-100 opacity-50 cursor-not-allowed"
-              }`}
-            />
-            <input
-              id="team_list_color_text"
-              type="text"
-              {...register("team_list_color")}
-              disabled={!modifyMode}
-              placeholder="#FFFFFF"
-              className={`flex-1 p-3 text-sm border-2 rounded-xl outline-none transition-all duration-200 ${
-                modifyMode
-                  ? "border-indigo-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-gray-200"
-                  : "bg-gray-700 text-gray-200 border-gray-100 opacity-50 cursor-not-allowed"
-              }`}
-            />
-          </div>
-          {errors.team_list_color && (
-            <p className="mt-1.5 text-rose-500 text-xs font-medium">
-              {String(errors.team_list_color?.message || "")}
-            </p>
+        <Controller
+          name="team_list_color"
+          control={control}
+          defaultValue="#FFFFFF"
+          render={({ field }) => (
+            <div className="mb-4">
+              <label
+                htmlFor="team_list_color"
+                className="block mb-1.5 text-sm font-medium text-gray-700">
+                Team Color
+              </label>
+
+              <div className="flex items-center gap-2 mb-2">
+                {/* Color picker */}
+                <input
+                  id="team_list_color"
+                  type="color"
+                  disabled={!modifyMode}
+                  {...field}
+                  className={`w-[48px] h-[48px] p-1 border-2 rounded-xl outline-none transition-all duration-200 ${
+                    modifyMode
+                      ? "border-indigo-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200"
+                      : "bg-gray-700 text-gray-200 border-gray-100 opacity-50 cursor-not-allowed"
+                  }`}
+                />
+
+                {/* Hex value text box */}
+                <input
+                  id="team_list_color_text"
+                  type="text"
+                  disabled={!modifyMode}
+                  value={field.value}
+                  onChange={field.onChange}
+                  placeholder="#FFFFFF"
+                  className={`flex-1 p-3 text-sm border-2 rounded-xl outline-none transition-all duration-200 ${
+                    modifyMode
+                      ? "border-indigo-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-gray-200"
+                      : "bg-gray-700 text-gray-200 border-gray-100 opacity-50 cursor-not-allowed"
+                  }`}
+                />
+              </div>
+
+              {errors.team_list_color && (
+                <p className="mt-1.5 text-rose-500 text-xs font-medium">
+                  {String(errors.team_list_color?.message || "")}
+                </p>
+              )}
+            </div>
           )}
-        </div>
+        />
       )}
 
       {/* 팀 공지 입력 */}

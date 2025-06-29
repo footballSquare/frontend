@@ -1,3 +1,5 @@
+import { getTextColorFromBackground } from "../../../../../../../../4_Shared/lib/colorChecker";
+import useTeamInfoContext from "../../../../../../../../4_Shared/model/useTeamInfoContext";
 import useTeamImageInputForm from "./model/useTeamImageInputForm";
 
 const TeamImageInput = (props: TeamImageInputProps) => {
@@ -10,6 +12,8 @@ const TeamImageInput = (props: TeamImageInputProps) => {
     putImage,
     handleChangePreview,
   } = props;
+
+  const { teamListColor } = useTeamInfoContext();
 
   const {
     method,
@@ -32,7 +36,9 @@ const TeamImageInput = (props: TeamImageInputProps) => {
 
   return (
     <form onSubmit={handleSubmit(onSubmitHandler)} className="space-y-2">
-      <label className="text-sm font-medium text-grass">{label}</label>
+      <label style={{ color: teamListColor }} className="text-sm font-medium ">
+        {label}
+      </label>
 
       <div className="relative p-4 rounded-md shadow-md bg-gray-800/40">
         {preview ? (
@@ -54,7 +60,11 @@ const TeamImageInput = (props: TeamImageInputProps) => {
             </button>
             <button
               type="submit"
-              className="py-2 px-5 rounded-md bg-grass hover:bg-grass/80 text-white text-sm">
+              style={{
+                backgroundColor: teamListColor,
+                color: getTextColorFromBackground(teamListColor),
+              }}
+              className="py-2 px-5 rounded-md  text-white text-sm">
               저장
             </button>
           </div>
@@ -62,7 +72,11 @@ const TeamImageInput = (props: TeamImageInputProps) => {
           <button
             type="button"
             onClick={openFileDialog}
-            className="absolute bottom-4 right-4 py-2 px-5 rounded-md bg-grass hover:bg-grass/80 text-white text-sm">
+            style={{
+              backgroundColor: teamListColor,
+              color: getTextColorFromBackground(teamListColor),
+            }}
+            className="absolute bottom-4 right-4 py-2 px-5 rounded-md text-white text-sm">
             수정하기
           </button>
         )}

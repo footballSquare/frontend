@@ -14,12 +14,14 @@ import autoMatchIcon from "../../../../../../4_Shared/assets/svg/auto-match.svg"
 import editIcon from "../../../../../../4_Shared/assets/svg/edit.svg";
 import applicationsIcon from "../../../../../../4_Shared/assets/svg/application.svg";
 import useDeleteTeamHadnler from "./model/useDeleteTeamHadnler";
+import useTeamInfoContext from "../../../../../../4_Shared/model/useTeamInfoContext";
 
 const ManageModal = (props: ManageModalProps) => {
   const { teamInfo, handleToggleManageModal, handlers } = props;
 
-  const [handleDeleteTeam] = useDeleteTeamHadnler();
+  const { teamListColor } = useTeamInfoContext();
 
+  const [handleDeleteTeam] = useDeleteTeamHadnler();
   const [putTeamBanner] = usePutTeamBanner(teamInfo.team_list_idx);
   const [putTeamEmblem] = usePutTeamEmblem(teamInfo.team_list_idx);
 
@@ -30,7 +32,9 @@ const ManageModal = (props: ManageModalProps) => {
         <div className="bg-gradient-to-r from-gray-900 to-gray-800 p-6 rounded-t-xl border-b border-gray-700 flex flex-row justify-between items-center sticky top-0 z-10 backdrop-filter backdrop-blur">
           {/* 타이틀 영역 */}
           <div className="mr-6">
-            <h2 className="text-grass font-semibold tracking-wider text-lg uppercase mb-1">
+            <h2
+              style={{ color: teamListColor }}
+              className="font-semibold tracking-wider text-lg uppercase mb-1">
               Team Management
             </h2>
             <h1 className="text-gray-100 font-bold text-3xl flex items-center">
