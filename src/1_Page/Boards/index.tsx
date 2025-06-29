@@ -211,9 +211,9 @@ const Boards = () => {
           <div className="flex items-center justify-between">
             <button
               onClick={() => currentCategory.decrease()}
-              disabled={currentCategory.page === 1}
+              disabled={currentCategory.page === 0}
               className={`px-6 py-2 rounded-lg font-medium transition-all duration-200 ${
-                currentCategory.page === 1
+                currentCategory.page === 0
                   ? "bg-gray-700/50 text-gray-500 cursor-not-allowed"
                   : "bg-gray-700 text-white hover:bg-gray-600"
               }`}
