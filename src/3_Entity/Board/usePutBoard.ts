@@ -4,13 +4,14 @@ import { useNavigate } from "react-router-dom";
 
 const usePutBoard = (
   boardListIdx: number
-): [(data: PostEditFormFields) => void, Record<string, unknown> | null] => {
+): [(data: UsePutBoardProps) => void, Record<string, unknown> | null] => {
   const [serverState, request] = useFetchData();
   const navigate = useNavigate();
 
-  const putBoard = (data: PostEditFormFields) => {
+  const putBoard = (props: UsePutBoardProps) => {
+    const { formData } = props;
     const endPoint = `/board/${boardListIdx}`;
-    request("PUT", endPoint, data, true);
+    request("PUT", endPoint, formData, true);
   };
 
   React.useEffect(() => {

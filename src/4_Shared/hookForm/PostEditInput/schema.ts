@@ -15,15 +15,11 @@ export const postEditSchema = yup
       .required("내용을 입력해주세요")
       .max(1000, "내용은 1000자 이하로 입력해주세요"),
     board_list_img: yup
-      .mixed<FileList>()
-      .test("fileSize", "3MB 이하만 업로드 가능합니다", (value) => {
-        if (!value || value.length === 0) return true;
-        return value[0].size <= 3 * 1024 * 1024;
-      })
+      .mixed<File>()
       .test(
-        "fileCount",
-        "이미지는 최대 1개만 업로드 가능합니다",
-        (value) => !value || value.length <= 1
+        "fileSize",
+        "3MB 이하만 업로드 가능합니다",
+        (file) => !file || file.size <= 3 * 1024 * 1024
       ),
   })
   .required();

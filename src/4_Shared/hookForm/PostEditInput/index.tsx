@@ -38,12 +38,18 @@ const PostEditInput = (props: PostEditInputProps) => {
           <Controller
             name="board_list_img"
             control={control}
-            render={({ field }) => (
+            defaultValue={undefined}
+            render={({ field: { onChange, ref } }) => (
               <input
+                id="board_list_img"
                 type="file"
                 accept="image/*"
+                ref={ref}
                 className="hidden"
-                onChange={(e) => field.onChange(e.target.files)}
+                onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  onChange(file); // ✅ 폼 상태에 File 주입
+                }}
               />
             )}
           />

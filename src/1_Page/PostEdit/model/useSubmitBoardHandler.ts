@@ -9,11 +9,20 @@ const useSubmitBoardHandler = (
   const [putBoard] = usePutBoard(postId!);
 
   return [
-    (data: PostEditFormFields, categoryIndex: number) => {
+    (data: PostEditFormFields, category: number) => {
+      // 모든 필드를 FormData 로 직렬화
+      const formData = new FormData();
+      formData.append("board_list_title", data.board_list_title);
+      formData.append("board_list_content", data.board_list_content);
+      if (data.board_list_img) {
+        formData.append("board_list_img", data.board_list_img);
+      }
+      console.log(data);
+
       if (isNew) {
-        postBoard(data, categoryIndex);
+        postBoard({ formData, category });
       } else {
-        putBoard(data);
+        putBoard({ formData });
       }
     },
   ];
