@@ -3,15 +3,16 @@ import { useFetchData } from "../../4_Shared/util/apiUtil";
 import { useNavigate } from "react-router-dom";
 
 const usePostBoard = (): [
-  (data: PostEditFormFields, category: number) => void,
+  (props: UsePostBoardProps) => void,
   serverState: Record<string, unknown> | null
 ] => {
   const [serverState, request] = useFetchData();
   const navigate = useNavigate();
 
-  const postBoard = (data: PostEditFormFields, category: number) => {
+  const postBoard = (props: UsePostBoardProps) => {
+    const { formData, category } = props;
     const endPoint = `/board/?category=${category}`;
-    request("POST", endPoint, data, true);
+    request("POST", endPoint, formData, true);
   };
 
   React.useEffect(() => {

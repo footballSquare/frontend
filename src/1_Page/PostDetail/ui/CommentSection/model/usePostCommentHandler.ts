@@ -4,7 +4,7 @@ import useParamInteger from "../../../../../4_Shared/model/useParamInteger";
 
 const usePostCommentHandler = (
   handleSetCommentsIdx: (newIdx: number) => void
-) => {
+): UsePostCommentHandlerReturn => {
   const boardListIdx = useParamInteger("postId");
 
   const [postComment, postServerState] = usePostComment(boardListIdx);

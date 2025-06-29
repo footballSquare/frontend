@@ -16,7 +16,7 @@ const useDeleteBoard = (boardListIdx: number): [() => void] => {
       switch (serverState.status) {
         case 200:
           alert("게시글 삭제가 완료되었습니다");
-          navigate(-1);
+          navigate(`/topics`);
           break;
         default:
           alert("삭제가 실패했습니다. (서버 애러)");

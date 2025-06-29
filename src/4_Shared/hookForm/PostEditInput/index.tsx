@@ -36,23 +36,27 @@ const PostEditInput = (props: PostEditInputProps) => {
             <p className="text-xs text-gray-400">PNG, JPG, GIF (최대 3MB)</p>
           </div>
           <Controller
-            name="board_list_img"
+            name="file"
             control={control}
-            render={({ field }) => (
+            defaultValue={undefined}
+            render={({ field: { onChange, ref } }) => (
               <input
+                id="file"
                 type="file"
                 accept="image/*"
+                ref={ref}
                 className="hidden"
-                onChange={(e) => field.onChange(e.target.files)}
+                onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  onChange(file); // ✅ 폼 상태에 File 주입
+                }}
               />
             )}
           />
         </label>
       </div>
-      {errors.board_list_img && (
-        <p className="text-red-400 text-sm">
-          {errors.board_list_img.message as string}
-        </p>
+      {errors.file && (
+        <p className="text-red-400 text-sm">{errors.file.message as string}</p>
       )}
     </div>
   ) : registerType === "content" ? (

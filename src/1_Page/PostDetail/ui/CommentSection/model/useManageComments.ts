@@ -5,7 +5,9 @@ import {
   useMyUserIdx,
 } from "../../../../../4_Shared/lib/useMyInfo";
 
-const useManageComments = (initialComments: BoardComment[]) => {
+const useManageComments = (
+  initialComments: BoardComment[]
+): UseManageCommentsReturn => {
   const [myIdx] = useMyUserIdx();
   const [myNickname] = useMyNickname();
   const [myProfileImage] = useMyProfileImg();
