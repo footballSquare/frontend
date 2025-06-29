@@ -14,7 +14,7 @@ export const postEditSchema = yup
       .string()
       .required("내용을 입력해주세요")
       .max(1000, "내용은 1000자 이하로 입력해주세요"),
-    board_list_img: yup
+    file: yup
       .mixed<File>()
       .test(
         "fileSize",

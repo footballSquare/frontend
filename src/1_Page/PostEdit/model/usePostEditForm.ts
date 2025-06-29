@@ -19,7 +19,7 @@ const usePostEditForm = (
 
   const form = { reset, watch, ...rest };
   // watch 결과가 File | undefined 로 들어오도록 Controller에서 이미 변환했으므로
-  const imageFile = watch("board_list_img") as File | undefined;
+  const imageFile = watch("file") as File | undefined;
 
   // 초기 데이터 설정
   React.useEffect(() => {

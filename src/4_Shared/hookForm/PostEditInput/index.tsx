@@ -36,12 +36,12 @@ const PostEditInput = (props: PostEditInputProps) => {
             <p className="text-xs text-gray-400">PNG, JPG, GIF (최대 3MB)</p>
           </div>
           <Controller
-            name="board_list_img"
+            name="file"
             control={control}
             defaultValue={undefined}
             render={({ field: { onChange, ref } }) => (
               <input
-                id="board_list_img"
+                id="file"
                 type="file"
                 accept="image/*"
                 ref={ref}
@@ -55,10 +55,8 @@ const PostEditInput = (props: PostEditInputProps) => {
           />
         </label>
       </div>
-      {errors.board_list_img && (
-        <p className="text-red-400 text-sm">
-          {errors.board_list_img.message as string}
-        </p>
+      {errors.file && (
+        <p className="text-red-400 text-sm">{errors.file.message as string}</p>
       )}
     </div>
   ) : registerType === "content" ? (

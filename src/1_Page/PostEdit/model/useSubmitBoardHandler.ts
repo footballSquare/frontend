@@ -14,8 +14,8 @@ const useSubmitBoardHandler = (
       const formData = new FormData();
       formData.append("board_list_title", data.board_list_title);
       formData.append("board_list_content", data.board_list_content);
-      if (data.board_list_img) {
-        formData.append("board_list_img", data.board_list_img);
+      if (data.file) {
+        formData.append("file", data.file);
       }
       console.log(data);
 
