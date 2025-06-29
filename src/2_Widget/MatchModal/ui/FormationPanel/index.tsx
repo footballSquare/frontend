@@ -46,7 +46,7 @@ const FormationPanel = React.memo((props: FormationPanelProps) => {
             style={{ top: pos.top, left: pos.left }} // 동적 스타일
           >
             <div className=" bg-white rounded-[32px] w-[36px] flex flex-col items-center">
-              {/* 프로필 이미지 */}
+              {/* 참가자 프로필 이미지 */}
               <img
                 src={
                   matchParticipants.find(
@@ -69,14 +69,15 @@ const FormationPanel = React.memo((props: FormationPanelProps) => {
               />
               <span className="text-xs">{matchPosition[pos.positionIdx]}</span>
             </div>
-            {/* 참가자 이름 */}
+            {/* 참가자 이름 및 참가 취소 버튼 */}
             {matchParticipants.map((elem, index) => {
               if (elem.match_position_idx === pos.positionIdx) {
                 return (
                   <div
-                    className=" flex border gap-4 px-2 items-center bg-gray rounded-lg w-[80px] text-xs"
+                    className=" flex border gap-4 px-2 items-center bg-gray rounded-lg min-w-[80px] text-xs justify-between"
                     key={index}
                   >
+                    {/* 매치 참가 취소 버튼 - 매치 호스트와, 참가자만 사용 가능 */}
                     {(isMatchLeader || elem.player_list_idx === userIdx) && (
                       <button
                         onClick={() => {
@@ -85,7 +86,8 @@ const FormationPanel = React.memo((props: FormationPanelProps) => {
                               player_list_idx: elem.player_list_idx,
                               player_list_nickname: elem.player_list_nickname,
                               player_list_url: elem.player_list_url,
-                              match_waitlist_created_at: new Date().toISOString(),
+                              match_waitlist_created_at:
+                                new Date().toISOString(),
                             },
                             matchPosition: elem.match_position_idx,
                             isFree: matchParticipationType === 1,

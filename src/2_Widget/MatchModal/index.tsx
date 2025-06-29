@@ -9,7 +9,6 @@ import useGetMatchParticipants from "../../3_Entity/Match/useGetMatchParticipant
 import useGetMatchWaitlist from "../../3_Entity/Match/useGetMatchWaitList";
 import useMatchApprove from "./model/useMatchApprove";
 import useMatchApply from "./model/useMatchApply";
-import StatPanel from "./ui/StatPanel";
 import { useIsLogin, useMyUserIdx } from "../../4_Shared/lib/useMyInfo";
 import useDeleteMatch from "../../3_Entity/Match/useDeleteMatch";
 import { useNavigate } from "react-router-dom";
@@ -111,7 +110,8 @@ const MatchModal = () => {
               toggleMatchModal();
               navigate(`profile/${player_list_idx}`);
             }}
-            className="flex justify-center items-center w-[164px] h-[32px] border border-gray-500 rounded-[4px] cursor-pointer">
+            className="flex justify-center items-center w-[164px] h-[32px] border border-gray-500 rounded-[4px] cursor-pointer"
+          >
             <h2>{player_list_nickname}</h2>
             <img
               src={player_list_profile_image || undefined}
@@ -179,18 +179,13 @@ const MatchModal = () => {
                     matchApplyHandler={matchApplyHandler}
                     isMatchLeader={isMatchLeader}
                   />
-                ) : common_status_idx === 1 && matchParticipants.length > 0 ? (
-                  <StatPanel
-                    matchParticipants={matchParticipants}
-                    isMatchLeader={isMatchLeader}
-                  />
                 ) : common_status_idx === 1 ? (
-                  <StatPanel
-                    matchParticipants={matchParticipants}
-                    isMatchLeader={isMatchLeader}
-                  />
+                  <p>대회 페이지에서 스탯을 입력할 수 있습니다.</p>
                 ) : (
-                  <div>마감된 대회입니다. 스탯 입력 기능은 곧 추가됩니다.</div>
+                  <p>
+                    마감된 대회입니다. 대회 페이지에서 상세 정보를 확인할 수
+                    있습니다.
+                  </p>
                 ))
               )}
             </div>
@@ -231,36 +226,43 @@ const MatchModal = () => {
                 matchFormationIdx={match_formation_idx}
               />
             ) : common_status_idx === 1 ? (
-              <StatPanel
-                matchParticipants={matchParticipants}
-                isMatchLeader={isMatchLeader}
-              />
+              <p>대회 페이지에서 스탯을 입력할 수 있습니다.</p>
             ) : (
-              <div>마감된 대회입니다. 스탯 입력 기능은 곧 추가됩니다.</div>
+              <p>
+                마감된 대회입니다. 대회 페이지에서 상세 정보를 확인할 수
+                있습니다.
+              </p>
             ))
           ))}
       </div>
-      {/* 매치 마감&삭제 버튼*/}
+      {/* 매치 마감&삭제 버튼 - 매치 호스트만 사용 가능*/}
       {isMatchLeader && (
         <div className="flex gap-4 justify-end">
+          {/* 매치 마감 버튼 */}
           {common_status_idx === 0 && (
             <button
               className="border border-gray shadow-lg p-[2px] hover:bg-blue hover:text-white"
               onClick={() => {
                 matchEndHandler({ matchIdx });
-              }}>
+              }}
+            >
               매치 마감
             </button>
           )}
-          <button
-            className="border border-gray shadow-lg p-[2px] hover:bg-blue hover:text-white"
-            onClick={() => {
-              if (confirm("매치를 삭제하시겠습니까?")) {
-                deleteMatch({ matchIdx });
-              }
-            }}>
-            매치 삭제
-          </button>
+          {/* 매치 삭제 버튼 */}
+          {/*대회 매치가 아닌 경우에만 매치 삭제 버튼 노출*/}
+          {match_match_attribute !== 2 && (
+            <button
+              className="border border-gray shadow-lg p-[2px] hover:bg-blue hover:text-white"
+              onClick={() => {
+                if (confirm("매치를 삭제하시겠습니까?")) {
+                  deleteMatch({ matchIdx });
+                }
+              }}
+            >
+              매치 삭제
+            </button>
+          )}
         </div>
       )}
     </ModalLayer>
