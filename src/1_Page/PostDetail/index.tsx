@@ -62,6 +62,7 @@ const PostDetail = () => {
           <LikeToggle boardLikeCount={board_list_likecount} isLike={is_liked} />
         </div>
 
+        {/* 작성자 정보 */}
         <div className="flex items-center space-x-2">
           <div className="w-8 h-8 rounded-full bg-gray-800 overflow-hidden flex items-center justify-center text-gray-300">
             {player_list_profile_image ? (
@@ -84,6 +85,7 @@ const PostDetail = () => {
           {board_list_content}
         </p>
 
+        {/* 게시글 이미지 */}
         {firstImage && (
           <div className="p-2 border border-gray-700 rounded">
             <img
@@ -118,8 +120,7 @@ const PostDetail = () => {
         )}
         <button
           className="text-gray-400 hover:underline cursor-pointer ml-auto"
-          // to do 목록 페이지 구현시 설정할것
-          onClick={() => navigate(-1)}>
+          onClick={() => navigate(`/topics`)}>
           목록
         </button>
       </div>

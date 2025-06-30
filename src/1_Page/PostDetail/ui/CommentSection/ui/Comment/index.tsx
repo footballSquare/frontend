@@ -5,7 +5,7 @@ import { useMyUserIdx } from "../../../../../../4_Shared/lib/useMyInfo";
 import useToggleState from "../../../../../../4_Shared/model/useToggleState";
 import useCommentPutHandler from "./model/usePutCommentHandler";
 import useDeleteCommentHandler from "./model/useDeleteCommentHandler";
-import { getIsLong } from "./util/getIsLong";
+import { getPreview } from "./util/getPreview";
 import { commentSchema } from "../../../../../../4_Shared/hookForm/PostCommentInput/schema";
 import { utcFormatter } from "../../../../../../4_Shared/lib/utcFormatter";
 import PostCommentInput from "../../../../../../4_Shared/hookForm/PostCommentInput";
@@ -44,9 +44,7 @@ const Comment = (props: CommentProps) => {
     defaultValues: { content: comment.board_comment_content },
   });
 
-  const previewLimit = 100;
-  const lines = comment.board_comment_content.split(/\r?\n/);
-  const isLong = getIsLong(comment.board_comment_content);
+  const { preview, isLong } = getPreview(comment.board_comment_content);
 
   return (
     <div
@@ -88,8 +86,11 @@ const Comment = (props: CommentProps) => {
             putComment(data.content);
           })}
           className="space-y-3 mt-3">
-          <PostCommentInput register={register} errors={errors} isCommentEdit />
+          {/* 수정 모드 */}
 
+          {/* 입력 창  */}
+          <PostCommentInput register={register} errors={errors} isCommentEdit />
+          {/* 버튼 */}
           <div className="flex space-x-2 justify-end">
             <button
               type="submit"
@@ -109,12 +110,9 @@ const Comment = (props: CommentProps) => {
         </form>
       ) : (
         <div className="mt-2">
+          {/* 수정모드가 아닐때 */}
           <p className="whitespace-pre-wrap text-gray-300">
-            {isExpanded || !isLong
-              ? comment.board_comment_content
-              : lines.length > 4
-              ? lines.slice(0, 4).join("\n")
-              : comment.board_comment_content.slice(0, previewLimit)}
+            {isExpanded || !isLong ? comment.board_comment_content : preview}
           </p>
           {isLong && (
             <button
