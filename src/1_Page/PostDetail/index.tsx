@@ -89,7 +89,8 @@ const PostDetail = () => {
             <img
               src={firstImage}
               alt="게시글 이미지"
-              className="w-full h-auto mx-auto rounded object-contain"
+              className="mx-auto object-scale-down max-w-full h-auto"
+              loading="lazy"
             />
           </div>
         )}
