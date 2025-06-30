@@ -42,35 +42,35 @@ const convertToFilterMatchList = (
 
   matchList.forEach((match) => {
     // 종료되지 않은 경기라면 제거해야할 팀에 두팀 모두 추가
-    if (match.championship_match_first.common_status_idx !== 4) {
-      eliminatedTeams.push(match.championship_match_second.team_list_idx);
-      eliminatedTeams.push(match.championship_match_first.team_list_idx);
+    if (match?.championship_match_first?.common_status_idx !== 4) {
+      eliminatedTeams.push(match?.championship_match_second?.team_list_idx);
+      eliminatedTeams.push(match?.championship_match_first?.team_list_idx);
     } else if (
-      match.championship_match_first.match_team_stats_our_score === null ||
-      match.championship_match_second.match_team_stats_our_score === null
+      match?.championship_match_first?.match_team_stats_our_score === null ||
+      match?.championship_match_second?.match_team_stats_our_score === null
     ) {
-      eliminatedTeams.push(match.championship_match_second.team_list_idx);
-      eliminatedTeams.push(match.championship_match_first.team_list_idx);
+      eliminatedTeams.push(match?.championship_match_second?.team_list_idx);
+      eliminatedTeams.push(match?.championship_match_first?.team_list_idx);
     }
     // 승자 결정 후 진팀만 제거해야할 리스트에 추가
     else if (
       match.championship_match_first.match_team_stats_our_score >
       match.championship_match_second.match_team_stats_our_score
     ) {
-      eliminatedTeams.push(match.championship_match_second.team_list_idx);
+      eliminatedTeams.push(match?.championship_match_second?.team_list_idx);
     } else if (
       match.championship_match_first.match_team_stats_our_score <
       match.championship_match_second.match_team_stats_our_score
     ) {
-      eliminatedTeams.push(match.championship_match_first.team_list_idx);
+      eliminatedTeams.push(match?.championship_match_first?.team_list_idx);
     }
   });
 
   // 경기 결과가 끝난 후, 패배팀을 제외한 팀들만 필터링
   const filteredTeamList = teamList.filter(
     (team) =>
-      !eliminatedTeams.includes(team.team_list_idx) &&
-      !teams.includes(team.team_list_idx)
+      !eliminatedTeams.includes(team?.team_list_idx) &&
+      !teams.includes(team?.team_list_idx)
   );
 
   return filteredTeamList;
@@ -200,16 +200,16 @@ const convertToTournamentFormat = (
   // 팀별 등장 횟수 계산
   const teamAppearanceCount: Record<number, number> = {};
   matchList.forEach((match) => {
-    const fId = match.championship_match_first.team_list_idx;
-    const sId = match.championship_match_second.team_list_idx;
+    const fId = match?.championship_match_first?.team_list_idx;
+    const sId = match?.championship_match_second?.team_list_idx;
     teamAppearanceCount[fId] = (teamAppearanceCount[fId] || 0) + 1;
     teamAppearanceCount[sId] = (teamAppearanceCount[sId] || 0) + 1;
   });
 
   // minAppear에 따라 라운드 배정
   matchList.forEach((match) => {
-    const fId = match.championship_match_first.team_list_idx;
-    const sId = match.championship_match_second.team_list_idx;
+    const fId = match?.championship_match_first?.team_list_idx;
+    const sId = match?.championship_match_second?.team_list_idx;
     const minAppear = Math.min(
       teamAppearanceCount[fId] || 0,
       teamAppearanceCount[sId] || 0
@@ -393,8 +393,8 @@ const getHighestRoundTeamIndices = (
   // 만약 해당 라운드의 모든 경기에서 양쪽 팀의 인덱스가 유효하다면, 즉 경기가 완료되었다면 빈 배열 반환
   const allMatchesComplete = validRound.matchList.every(
     (match) =>
-      match.championship_match_first.team_list_idx !== -1 &&
-      match.championship_match_second.team_list_idx !== -1
+      match?.championship_match_first?.team_list_idx !== -1 &&
+      match?.championship_match_second?.team_list_idx !== -1
   );
 
   if (allMatchesComplete) return [];

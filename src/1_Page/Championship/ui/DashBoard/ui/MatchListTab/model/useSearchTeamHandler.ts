@@ -33,8 +33,8 @@ const useSearchTeamHandler = (
   const myMatchList = React.useMemo(() => {
     const filteredMyMatches = matchList.filter(
       (match) =>
-        match.championship_match_first.team_list_idx === teamIdx ||
-        match.championship_match_second.team_list_idx === teamIdx
+        match?.championship_match_first?.team_list_idx === teamIdx ||
+        match?.championship_match_second?.team_list_idx === teamIdx
     );
 
     return filteredMyMatches.sort((a, b) => {

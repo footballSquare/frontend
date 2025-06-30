@@ -11,7 +11,7 @@ const useGetChampionshipDetail = (
     React.useState<ChampionshipMatchDetail>({} as ChampionshipMatchDetail);
 
   React.useEffect(() => {
-    if (championshipMatchIdx < 0) return;
+    if (championshipMatchIdx <= 0) return;
 
     const endPoint = `/championship/championship_match/${championshipMatchIdx}/detail`;
     request("GET", endPoint, null, true);
