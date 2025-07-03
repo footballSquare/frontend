@@ -6,8 +6,8 @@ import denide from "../../../../../../4_Shared/assets/svg/denied.svg";
 import plus from "../../../../../../4_Shared/assets/svg/plus.svg";
 import imageIcon from "../../../../../../4_Shared/assets/svg/image.svg";
 import profileIcon from "../../../../../../4_Shared/assets/svg/profile.svg";
-import useToggleState from "../../../../../../4_Shared/model/useToggleState";
-import useChampionshipInfoContext from "../../../../../../4_Shared/model/useChampionshipInfoContext";
+import useToggleState from "../../../../../../../../4_Shared/model/useToggleState";
+import useChampionshipInfoContext from "../../../../../../../../4_Shared/model/useChampionshipInfoContext";
 
 const PlayerRow = (props: PlayerRowProps) => {
   const { player, index } = props;

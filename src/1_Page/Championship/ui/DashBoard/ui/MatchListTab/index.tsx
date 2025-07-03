@@ -339,7 +339,8 @@ const MatchListTab = (props: MatchListTabProps) => {
                   완료된 매치:{" "}
                   {
                     matchList.filter(
-                      (m) => m.championship_match_first.common_status_idx === 4
+                      (match) =>
+                        match?.championship_match_first?.common_status_idx === 4
                     ).length
                   }
                   개

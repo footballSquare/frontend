@@ -16,6 +16,32 @@ const ChampionshipMatchCard = (props: ChampionshipMatchCardProps) => {
     handleDeleteMatch,
   } = props;
 
+  const {
+    championship_match_idx,
+    match_match_start_time,
+    championship_match_first,
+    championship_match_second,
+  } = match;
+
+  // 두 팀 정보를 한 번에 구조 분해
+  const {
+    team_list_emblem: firstEmblem,
+    team_list_color: firstColor,
+    team_list_short_name: firstShortName,
+    team_list_name: firstName,
+    match_team_stats_our_score: firstScore = 0,
+  } = championship_match_first;
+
+  const {
+    team_list_emblem: secondEmblem,
+    team_list_color: secondColor,
+    team_list_short_name: secondShortName,
+    team_list_name: secondName,
+    match_team_stats_our_score: secondScore = 0,
+  } = championship_match_second;
+
+  const isEndMatch = championship_match_first?.common_status_idx === 4;
+
   const { isCommunityManager, isCommunityOperator, championshipListColor } =
     useChampionshipInfoContext();
 
@@ -34,7 +60,7 @@ const ChampionshipMatchCard = (props: ChampionshipMatchCardProps) => {
 
   return (
     <div
-      onClick={() => handleMatchSelect(match.championship_match_idx)}
+      onClick={() => handleMatchSelect(championship_match_idx)}
       className={`group relative cursor-pointer transition-all duration-300 ${
         isMyTeam
           ? `w-64 flex-shrink-0 hover:scale-[1.02] ${
@@ -58,33 +84,32 @@ const ChampionshipMatchCard = (props: ChampionshipMatchCardProps) => {
           : undefined
       }>
       {/* 관리자 버튼 - 우측 상단 */}
-      {(isCommunityOperator || isCommunityManager) &&
-        match.championship_match_first.common_status_idx !== 4 && (
-          <div className="absolute top-2 right-2 flex gap-2 z-10">
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                if (confirm("정말 종료하시겠습니까?")) {
-                  handlePutChampionshipMatchEnd(match.championship_match_idx);
-                }
-              }}
-              className="px-3 py-1 rounded-lg bg-green-500/90 text-white text-xs font-medium hover:bg-green-600 transition-all duration-200 shadow-lg backdrop-blur-sm border border-green-400/30"
-              title="경기 종료">
-              종료
-            </button>
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                if (confirm("정말 삭제하시겠습니까?")) {
-                  handleDeleteChampionshipMatch(match.championship_match_idx);
-                }
-              }}
-              className="px-3 py-1 rounded-lg bg-red-500/90 text-white text-xs font-medium hover:bg-red-600 transition-all duration-200 shadow-lg backdrop-blur-sm border border-red-400/30"
-              title="경기 삭제">
-              삭제
-            </button>
-          </div>
-        )}
+      {(isCommunityOperator || isCommunityManager) && !isEndMatch && (
+        <div className="absolute top-2 right-2 flex gap-2 z-10">
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              if (confirm("정말 종료하시겠습니까?")) {
+                handlePutChampionshipMatchEnd(championship_match_idx);
+              }
+            }}
+            className="px-3 py-1 rounded-lg bg-green-500/90 text-white text-xs font-medium hover:bg-green-600 transition-all duration-200 shadow-lg backdrop-blur-sm border border-green-400/30"
+            title="경기 종료">
+            종료
+          </button>
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              if (confirm("정말 삭제하시겠습니까?")) {
+                handleDeleteChampionshipMatch(championship_match_idx);
+              }
+            }}
+            className="px-3 py-1 rounded-lg bg-red-500/90 text-white text-xs font-medium hover:bg-red-600 transition-all duration-200 shadow-lg backdrop-blur-sm border border-red-400/30"
+            title="경기 삭제">
+            삭제
+          </button>
+        </div>
+      )}
 
       {isMyTeam ? (
         /* 내 팀 매치 카드 스타일 */
@@ -93,25 +118,21 @@ const ChampionshipMatchCard = (props: ChampionshipMatchCardProps) => {
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-2">
               <div className="text-xs text-gray-400 font-medium">
-                {utcFormatter(match.match_match_start_time)}
+                {utcFormatter(match_match_start_time)}
               </div>
               <div
                 className={`px-2 py-1 rounded-full text-xs font-bold ${
-                  match.championship_match_first.common_status_idx === 4
-                    ? "text-white"
-                    : "bg-amber-500/20 text-amber-200"
+                  isEndMatch ? "text-white" : "bg-amber-500/20 text-amber-200"
                 }`}
                 style={
-                  match.championship_match_first.common_status_idx === 4
+                  isEndMatch
                     ? {
                         backgroundColor: `${championshipListColor}33`,
                         color: championshipListColor,
                       }
                     : undefined
                 }>
-                {match.championship_match_first.common_status_idx === 4
-                  ? "종료"
-                  : "예정"}
+                {isEndMatch ? "종료" : "예정"}
               </div>
             </div>
           </div>
@@ -122,9 +143,9 @@ const ChampionshipMatchCard = (props: ChampionshipMatchCardProps) => {
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-2 flex-1 min-w-0">
                 <div className="w-6 h-6 rounded-full overflow-hidden bg-white/10 flex items-center justify-center flex-shrink-0">
-                  {match.championship_match_first.team_list_emblem ? (
+                  {firstEmblem ? (
                     <img
-                      src={match.championship_match_first.team_list_emblem}
+                      src={firstEmblem}
                       alt="홈팀"
                       className="w-full h-full object-cover"
                     />
@@ -132,19 +153,18 @@ const ChampionshipMatchCard = (props: ChampionshipMatchCardProps) => {
                     <div
                       className="w-full h-full rounded-full flex items-center justify-center text-white text-xs font-bold"
                       style={{
-                        backgroundColor:
-                          match.championship_match_first.team_list_color,
+                        backgroundColor: firstColor,
                       }}>
-                      {match.championship_match_first.team_list_short_name}
+                      {firstShortName}
                     </div>
                   )}
                 </div>
                 <div className="text-white font-medium text-sm truncate">
-                  {match.championship_match_first.team_list_name}
+                  {firstName}
                 </div>
               </div>
               <div className="text-lg font-bold text-white">
-                {match.championship_match_first.match_team_stats_our_score || 0}
+                {firstScore || 0}
               </div>
             </div>
 
@@ -157,9 +177,9 @@ const ChampionshipMatchCard = (props: ChampionshipMatchCardProps) => {
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-2 flex-1 min-w-0">
                 <div className="w-6 h-6 rounded-full overflow-hidden bg-white/10 flex items-center justify-center flex-shrink-0">
-                  {match.championship_match_second.team_list_emblem ? (
+                  {secondEmblem ? (
                     <img
-                      src={match.championship_match_second.team_list_emblem}
+                      src={secondEmblem}
                       alt="어웨이팀"
                       className="w-full h-full object-cover"
                     />
@@ -167,20 +187,18 @@ const ChampionshipMatchCard = (props: ChampionshipMatchCardProps) => {
                     <div
                       className="w-full h-full rounded-full flex items-center justify-center text-white text-xs font-bold"
                       style={{
-                        backgroundColor:
-                          match.championship_match_second.team_list_color,
+                        backgroundColor: secondColor,
                       }}>
-                      {match.championship_match_second.team_list_short_name}
+                      {secondShortName}
                     </div>
                   )}
                 </div>
                 <div className="text-white font-medium text-sm truncate">
-                  {match.championship_match_second.team_list_name}
+                  {secondName}
                 </div>
               </div>
               <div className="text-lg font-bold text-white">
-                {match.championship_match_second.match_team_stats_our_score ||
-                  0}
+                {secondScore || 0}
               </div>
             </div>
           </div>
@@ -192,32 +210,25 @@ const ChampionshipMatchCard = (props: ChampionshipMatchCardProps) => {
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-3">
               <div className="text-sm text-gray-400">
-                {new Date(match.match_match_start_time).toLocaleTimeString(
-                  "ko-KR",
-                  {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                    hour12: false,
-                  }
-                )}
+                {new Date(match_match_start_time).toLocaleTimeString("ko-KR", {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                  hour12: false,
+                })}
               </div>
               <div
                 className={`px-3 py-1 rounded-full text-xs font-bold ${
-                  match.championship_match_first.common_status_idx === 4
-                    ? "text-white"
-                    : "bg-amber-500/20 text-amber-200"
+                  isEndMatch ? "text-white" : "bg-amber-500/20 text-amber-200"
                 }`}
                 style={
-                  match.championship_match_first.common_status_idx === 4
+                  isEndMatch
                     ? {
                         backgroundColor: `${championshipListColor}33`,
                         color: championshipListColor,
                       }
                     : undefined
                 }>
-                {match.championship_match_first.common_status_idx === 4
-                  ? "종료"
-                  : "예정"}
+                {isEndMatch ? "종료" : "예정"}
               </div>
             </div>
           </div>
@@ -227,9 +238,9 @@ const ChampionshipMatchCard = (props: ChampionshipMatchCardProps) => {
             {/* 홈팀 */}
             <div className="flex items-center space-x-3 flex-1">
               <div className="w-8 h-8 rounded-full overflow-hidden bg-white/10 flex items-center justify-center">
-                {match.championship_match_first.team_list_emblem ? (
+                {firstEmblem ? (
                   <img
-                    src={match.championship_match_first.team_list_emblem}
+                    src={firstEmblem}
                     alt="홈팀"
                     className="w-full h-full object-cover"
                   />
@@ -237,39 +248,37 @@ const ChampionshipMatchCard = (props: ChampionshipMatchCardProps) => {
                   <div
                     className="w-full h-full rounded-full flex items-center justify-center text-white text-xs font-bold"
                     style={{
-                      backgroundColor:
-                        match.championship_match_first.team_list_color,
+                      backgroundColor: firstColor,
                     }}>
-                    {match.championship_match_first.team_list_short_name}
+                    {firstShortName}
                   </div>
                 )}
               </div>
               <div className="text-white font-medium text-left">
-                {match.championship_match_first.team_list_name}
+                {firstName}
               </div>
             </div>
 
             {/* 점수 */}
             <div className="flex items-center space-x-4 mx-6">
               <div className="text-2xl font-bold text-white">
-                {match.championship_match_first.match_team_stats_our_score || 0}
+                {firstScore || 0}
               </div>
               <div className="text-gray-500">-</div>
               <div className="text-2xl font-bold text-white">
-                {match.championship_match_second.match_team_stats_our_score ||
-                  0}
+                {secondScore || 0}
               </div>
             </div>
 
             {/* 어웨이팀 */}
             <div className="flex items-center space-x-3 flex-1 justify-end">
               <div className="text-white font-medium text-right">
-                {match.championship_match_second.team_list_name}
+                {secondName}
               </div>
               <div className="w-8 h-8 rounded-full overflow-hidden bg-white/10 flex items-center justify-center">
-                {match.championship_match_second.team_list_emblem ? (
+                {secondEmblem ? (
                   <img
-                    src={match.championship_match_second.team_list_emblem}
+                    src={secondEmblem}
                     alt="어웨이팀"
                     className="w-full h-full object-cover"
                   />
@@ -277,10 +286,9 @@ const ChampionshipMatchCard = (props: ChampionshipMatchCardProps) => {
                   <div
                     className="w-full h-full rounded-full flex items-center justify-center text-white text-xs font-bold"
                     style={{
-                      backgroundColor:
-                        match.championship_match_second.team_list_color,
+                      backgroundColor: secondColor,
                     }}>
-                    {match.championship_match_second.team_list_short_name}
+                    {secondShortName}
                   </div>
                 )}
               </div>

@@ -17,6 +17,11 @@ type MatchHandlerReturn = {
   ) => void;
 };
 
+type UseGetChampionshipMatchListHandlerReturn = {
+  optimisticMatchList: ChampionshipMatchList[];
+  matchHandlers: MatchHandlerReturn;
+};
+
 type UseSelectHandlerReturn = {
   selectChampionshipMatchIdx: number;
   selectedMatch: ChampionshipMatchList | undefined;
@@ -25,15 +30,8 @@ type UseSelectHandlerReturn = {
   handleBackToList: () => void;
 };
 
-type UseSearchHandlerReturn = {
-  searchTerm: string;
-  setSearchTerm: React.Dispatch<React.SetStateAction<string>>;
-  sortConfig: {
-    key: keyof PlayerStats;
-    direction: "asc" | "desc";
-  };
-  handleSort: (key: keyof PlayerStats) => void;
-  displayPlayerStats: PlayerStats[];
+type UseGetPlayerStatsHandlerReturn = {
+  optimisticPlayerStats: PlayerStats[];
   handleUpdatePlayer: (
     playerListIdx: number,
     updatedStats: Partial<PlayerStats>
