@@ -1,7 +1,7 @@
 import useScale from "./model/useScale";
-import useChampionshipInfoContext from "../../../../../../4_Shared/model/useChampionshipInfoContext";
-import { getTextColorFromBackground } from "../../../../../../4_Shared/lib/colorChecker";
-import DefaultTeamEmblem from "../../../../../../4_Shared/components/DefaultTeamEmblem";
+import useChampionshipInfoContext from "../../../../../../../../4_Shared/model/useChampionshipInfoContext";
+import { getTextColorFromBackground } from "../../../../../../../../4_Shared/lib/colorChecker";
+import DefaultTeamEmblem from "../../../../../../../../4_Shared/components/DefaultTeamEmblem";
 
 const TournamentBracket = (props: TournamentBracketProps) => {
   const { tournamentData } = props;
