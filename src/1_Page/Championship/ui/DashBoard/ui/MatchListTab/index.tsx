@@ -84,7 +84,7 @@ const MatchListTab = (props: MatchListTabProps) => {
   const personEvidenceImage = evidenceImage.player_evidence || [];
 
   return (
-    <div>
+    <section className="w-full mx-auto bg-gray-800 rounded-lg shadow-md">
       {isMatchDetailView ? (
         /* 매치 상세 보기 */
         <div className="bg-gray-800 rounded-lg shadow-md">
@@ -560,7 +560,7 @@ const MatchListTab = (props: MatchListTabProps) => {
           </div>
         </div>
       )}
-    </div>
+    </section>
   );
 };
 
