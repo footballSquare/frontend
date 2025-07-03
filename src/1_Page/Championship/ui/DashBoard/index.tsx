@@ -1,10 +1,8 @@
 import React from "react";
 import MatchListTab from "./ui/MatchListTab";
-
 import useGetChampionshipMatchListHandler from "./model/useGetChampionshipMatchListHandler";
 import { convertToMatchData } from "./lib/convertToMatchData";
 import { ACTIVE_TAB, activeTabList } from "./constant/activeTab";
-
 import useGetChampionshipTeams from "../../../../3_Entity/Championship/useGetChampionshipTeams";
 
 import useParamInteger from "../../../../4_Shared/model/useParamInteger";
@@ -17,14 +15,11 @@ import TeamListTab from "./ui/TeamListTab";
 const DashBoard = (props: DashBoardProps) => {
   const { championship_type_idx } = props;
   const isLeague = championship_type_idx === 0;
-  const championshipIdx = useParamInteger("championshipIdx");
   const { championshipListColor } = useChampionshipInfoContext();
 
   // api
+  const championshipIdx = useParamInteger("championshipIdx");
   const [teamList] = useGetChampionshipTeams(championshipIdx); // 대회 참가 팀리스트
-
-  // state
-  const [activeTab, setActiveTab] = React.useState(ACTIVE_TAB.MATCHES);
 
   // API with optimistic state
   const { optimisticPlayerStats, handleUpdatePlayer } =
@@ -40,6 +35,9 @@ const DashBoard = (props: DashBoardProps) => {
       isLeague
     );
   }, [optimisticMatchList, teamList, championship_type_idx, isLeague]);
+
+  // state
+  const [activeTab, setActiveTab] = React.useState(ACTIVE_TAB.MATCHES);
 
   return (
     <div className="w-full p-4 bg-gray-900 text-gray-100 min-h-screen">
