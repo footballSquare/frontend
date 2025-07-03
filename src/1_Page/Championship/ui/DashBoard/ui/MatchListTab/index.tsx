@@ -2,7 +2,6 @@ import React from "react";
 import PlayerHistoryTable from "./ui/PlayerHistoryTable";
 import VerticalTeamStatCards from "./ui/VerticalTeamStatCards";
 import CreateChampionMatchPanel from "./ui/CreateChampionMatchPanel";
-
 import ChampionshipMatchCard from "./ui/ChampionshipMatchCard";
 
 import { VIEW_MODE, VIEW_MODE_BUTTONS } from "./constant/tab";
@@ -28,6 +27,10 @@ import useDateIndexHandler from "./model/useDateIndexHandler";
 const MatchListTab = (props: MatchListTabProps) => {
   const { matchList, filteredTeamList, matchHandlers, handleUpdatePlayer } =
     props;
+  // context
+  const { isCommunityOperator, isCommunityManager, championshipListColor } =
+    useChampionshipInfoContext();
+
   // 1. 매치 선택 관련 상태 및 핸들러
   const {
     selectChampionshipMatchIdx,
@@ -36,8 +39,6 @@ const MatchListTab = (props: MatchListTabProps) => {
     handleMatchSelect,
     handleBackToList,
   } = useSelectHandler(matchList);
-  const firstTeam = selectedMatch?.championship_match_first;
-  const secondTeam = selectedMatch?.championship_match_second;
 
   // 2. 매치 검색 및 필터링
   const { filteredMatches, searchTerm, myMatchList, handleSearchChange } =
@@ -51,11 +52,6 @@ const MatchListTab = (props: MatchListTabProps) => {
     handleSetSelectedDate,
   } = useDateIndexHandler(filteredMatches);
 
-  // 4. 로컬 상태 (탭/모드/내 팀 경기 리스트 접힘 여부)
-  const [activeTeam, setActiveTeam] = React.useState<0 | 1>(0);
-  const [viewMode, setViewMode] = React.useState<VIEW_MODE>(VIEW_MODE.Lineup);
-  const [isMyMatchesOpen, setIsMyMatchesOpen] = React.useState(true);
-
   const myTeamIdx = useAuthStore((state) => state.teamIdx);
 
   //api
@@ -65,18 +61,21 @@ const MatchListTab = (props: MatchListTabProps) => {
   const [evidenceImage] = useGetChampionshipEvidence(
     selectChampionshipMatchIdx
   );
-  // context
-  const { isCommunityOperator, isCommunityManager, championshipListColor } =
-    useChampionshipInfoContext();
+
   //zustand
   const { setMatchIdx, toggleMatchModal } = useMatchModalStore();
 
+  // state
+  const [activeTeam, setActiveTeam] = React.useState<0 | 1>(0);
+  const [viewMode, setViewMode] = React.useState<VIEW_MODE>(VIEW_MODE.Lineup);
+  const [isMyMatchesOpen, setIsMyMatchesOpen] = React.useState(true);
+
   // value
   const { maxGoal, maxAssist } = getMatchMaxStats(championshipMatchDetail);
-  const selectTeamList = [
-    firstTeam?.team_list_name,
-    secondTeam?.team_list_name,
-  ];
+
+  const firstTeam = selectedMatch?.championship_match_first;
+  const secondTeam = selectedMatch?.championship_match_second;
+
   const team1PlayerStats =
     championshipMatchDetail?.first_team?.player_stats || [];
   const team2PlayerStats =
@@ -225,7 +224,7 @@ const MatchListTab = (props: MatchListTabProps) => {
                         {/* 모바일: 탭 전환 */}
                         <div className="lg:hidden">
                           <div className="flex w-full space-x-1 bg-gray-800 p-1.5 rounded-xl lg:space-x-2 lg:p-2">
-                            {(selectTeamList || []).map((teamName, index) => (
+                            {[firstTeam, secondTeam].map((team, index) => (
                               <button
                                 key={index}
                                 onClick={() => setActiveTeam(index as 0 | 1)}
@@ -233,8 +232,13 @@ const MatchListTab = (props: MatchListTabProps) => {
                                   activeTeam === index
                                     ? "bg-gray-700 text-gray-100 shadow-sm"
                                     : "text-gray-400 hover:text-gray-100"
-                                }`}>
-                                {teamName}
+                                }`}
+                                style={
+                                  activeTeam === index && team?.team_list_color
+                                    ? { backgroundColor: team.team_list_color }
+                                    : undefined
+                                }>
+                                {team?.team_list_name || ""}
                               </button>
                             ))}
                           </div>
