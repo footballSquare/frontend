@@ -15,6 +15,7 @@ const AdminBtnPanel = (props: EndChampionshipPanelProps) => {
   const cachedChampionshipEndDataRef = React.useRef<ChampionshipEndData>(
     {} as ChampionshipEndData
   );
+
   return (
     <div>
       <button
@@ -31,6 +32,8 @@ const AdminBtnPanel = (props: EndChampionshipPanelProps) => {
         className="px-3 py-1 text-sm border border-current rounded-md hover:bg-white/10 transition-colors">
         대회 종료
       </button>
+
+      {/* 대회 종료 버튼 클릭시 */}
       {isModalOpen && (
         <EndChampionshipModal
           onClose={handleToggleModal}

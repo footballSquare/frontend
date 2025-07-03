@@ -45,7 +45,7 @@ const ChampionshipMatchCard = (props: ChampionshipMatchCardProps) => {
   const { isCommunityManager, isCommunityOperator, championshipListColor } =
     useChampionshipInfoContext();
 
-  // api - 기존 로직이 있으면 사용 (optional로 처리)
+  // api
   const { handleDeleteChampionshipMatch } = useDeleteChampionshipMatchHandler({
     handleCommitMatches,
     handleDeleteMatch,

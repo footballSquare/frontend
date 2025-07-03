@@ -21,28 +21,37 @@ import TeamDetailHistoryInput from "../../../../../../../../4_Shared/hookForm/Te
 import editIcon from "../../../../../../../../4_Shared/assets/svg/edit.svg";
 
 const VerticalTeamStatCards = (props: VerticalTeamStatCardsProps) => {
-  const { firstTeam, secondTeam, handleUpdateMatchScore } = props;
-  const [activeTeam, setActiveTeam] = React.useState<0 | 1>(0);
-  const teams = [firstTeam, secondTeam];
-  const teamData = teams[activeTeam];
+  const { championshipMatchDetail, evidenceImage, handleUpdateMatchScore } =
+    props;
 
-  const {
-    name: teamName,
-    stats,
-    evidenceImage,
-    players: teamPlayer,
-    teamListIdx,
-    matchIdx,
-  } = teamData;
+  const [activeTeam, setActiveTeam] = React.useState<0 | 1>(0);
+
+  // 팀 데이터 추출
+  const firstTeam = championshipMatchDetail.first_team;
+  const secondTeam = championshipMatchDetail.second_team;
+  const teams = [firstTeam, secondTeam];
+  const currentTeam = teams[activeTeam];
+
+  // 매치 정보 추출
+  const firstMatchIdx = evidenceImage.first_match_idx;
+  const secondMatchIdx = evidenceImage.second_match_idx;
+  const currentMatchIdx = activeTeam === 0 ? firstMatchIdx : secondMatchIdx;
+
+  // 팀 이름 추출 (임시로 팀 인덱스 사용, 실제로는 별도 팀 정보가 필요할 수 있음)
+  const teamNames = [
+    `팀 ${firstTeam.team_list_idx}`,
+    `팀 ${secondTeam.team_list_idx}`,
+  ];
 
   const [isEditing, toggleIsEditing] = useToggleState();
   const [myTeamRoleIdx] = useMyTeamRoleIdx();
   const [myTeamIdx] = useMyTeamIdx();
-  const isTeamLeader = myTeamRoleIdx === 0 && myTeamIdx === teamListIdx;
+  const isTeamLeader =
+    myTeamRoleIdx === 0 && myTeamIdx === currentTeam.team_list_idx;
 
   const { methods, cancelEdit, setBackupTeamStats } = useTeamStatForm(
-    stats,
-    matchIdx
+    currentTeam.stats,
+    currentMatchIdx
   );
   const { handleSubmit, watch } = methods;
   const [handlePostTeamStats] = usePostTeamStatsHandler({
@@ -54,16 +63,22 @@ const VerticalTeamStatCards = (props: VerticalTeamStatCardsProps) => {
 
   const [postTeamStatsEvidence, responseUrl] = usePostTeamStatsEvidence();
 
-  const evidenceUrls = getEvidenceUrls(responseUrl, evidenceImage);
+  // 현재 팀의 증거 이미지 추출
+  const currentTeamEvidence =
+    activeTeam === 0
+      ? evidenceImage.first_team_evidence
+      : evidenceImage.second_team_evidence;
 
-  const momPlyaerIdx = watch("mom_player_idx");
-  const momPlayer = getCurrentMomPlayer(teamPlayer, momPlyaerIdx);
+  const evidenceUrls = getEvidenceUrls(responseUrl, currentTeamEvidence || []);
+
+  const momPlayerIdx = watch("mom_player_idx");
+  const momPlayer = getCurrentMomPlayer(currentTeam.player_stats, momPlayerIdx);
 
   return (
     <div className="w-full max-w-6xl mx-auto px-2 py-3 space-y-4 lg:p-4 lg:space-y-6">
       <FormProvider {...methods}>
         <div className="flex space-x-1 bg-gray-800 p-1 rounded-lg">
-          {teams.map((team, index) => (
+          {teams.map((_, index) => (
             <button
               key={index}
               onClick={() => setActiveTeam(index as 0 | 1)}
@@ -72,7 +87,7 @@ const VerticalTeamStatCards = (props: VerticalTeamStatCardsProps) => {
                   ? "bg-gray-700 text-gray-100 shadow-sm"
                   : "text-gray-400 hover:text-gray-100"
               }`}>
-              {team.name}
+              {teamNames[index]}
             </button>
           ))}
         </div>
@@ -84,12 +99,12 @@ const VerticalTeamStatCards = (props: VerticalTeamStatCardsProps) => {
               <div className="px-3 py-2.5 border-b border-gray-700/50 bg-gradient-to-r from-gray-800/80 to-gray-900/80 lg:px-2 lg:py-1.5">
                 <div className="flex items-center justify-between">
                   <h3 className="text-sm font-bold text-grass truncate lg:text-xs lg:font-semibold">
-                    {teamName}
+                    {teamNames[activeTeam]}
                   </h3>
                   {!isEditing && (
                     <div className="flex items-center gap-1 lg:gap-0.5">
                       <StatEvidenceImgFormPanel
-                        matchIdx={matchIdx}
+                        matchIdx={currentMatchIdx}
                         defaultValues={evidenceUrls}
                         onSubmit={postTeamStatsEvidence}
                         canChange={isTeamLeader}
@@ -117,7 +132,7 @@ const VerticalTeamStatCards = (props: VerticalTeamStatCardsProps) => {
                   <form
                     onSubmit={handleSubmit((data: PostTeamStatsForm) => {
                       handlePostTeamStats({
-                        matchIdx,
+                        matchIdx: currentMatchIdx,
                         data,
                       });
                     })}
@@ -142,8 +157,8 @@ const VerticalTeamStatCards = (props: VerticalTeamStatCardsProps) => {
                                   isEditing
                                 />
                                 <MomSelectionModalPanel
-                                  teamPlayer={teamPlayer}
-                                  currentMomIdx={momPlyaerIdx}
+                                  teamPlayer={currentTeam.player_stats}
+                                  currentMomIdx={momPlayerIdx}
                                 />
                               </div>
                             ) : (
