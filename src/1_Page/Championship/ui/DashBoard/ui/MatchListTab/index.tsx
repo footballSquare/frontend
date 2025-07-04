@@ -8,7 +8,6 @@ import { VIEW_MODE, VIEW_MODE_BUTTONS } from "./constant/tab";
 import useSearchTeamHandler from "./model/useSearchTeamHandler";
 import useSelectHandler from "./model/useSelectHandler";
 import { getMatchMaxStats } from "./lib/getMatchMaxStats";
-import { formatDateForDisplay, isSameDate } from "./lib/dateUtils";
 
 import FootballGroundSection from "../../../../../../2_Widget/FootballGroundSection";
 import useGetChampionshipEvidence from "../../../../../../3_Entity/Championship/useGetChampionshipEvidence";
@@ -18,6 +17,8 @@ import { useAuthStore } from "../../../../../../4_Shared/lib/useMyInfo";
 import useGetChampionshipDetail from "../../../../../../3_Entity/Championship/useGetChampionshipDetail";
 import { days } from "./constant/days";
 import { getTextColorFromBackground } from "../../../../../../4_Shared/lib/colorChecker";
+import { formatDateForDisplay } from "../../../../../../4_Shared/lib/dateFormatter";
+import { isSameDate } from "../../../../../../4_Shared/lib/dateUtil";
 
 const MatchListTab = (props: MatchListTabProps) => {
   const { matchList, filteredTeamList, matchHandlers, handleUpdatePlayer } =
@@ -35,7 +36,7 @@ const MatchListTab = (props: MatchListTabProps) => {
   } = useSelectHandler(matchList);
 
   const {
-    searchTerm,
+    searchMessage,
     handleSearchChange,
     selectedDate,
     handleSetSelectedDate,
@@ -321,7 +322,7 @@ const MatchListTab = (props: MatchListTabProps) => {
               </div>
               <input
                 type="text"
-                value={searchTerm}
+                value={searchMessage}
                 onChange={handleSearchChange}
                 placeholder="팀명으로 검색하세요..."
                 className="w-full pl-14 pr-4 py-4 bg-white/10 border border-white/20 rounded-2xl text-white focus:outline-none focus:bg-white/20 "

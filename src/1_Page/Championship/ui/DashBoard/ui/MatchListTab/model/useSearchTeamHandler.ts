@@ -1,19 +1,19 @@
 import React from "react";
 import { useAuthStore } from "../../../../../../../4_Shared/lib/useMyInfo";
 import { utcFormatter } from "../../../../../../../4_Shared/lib/utcFormatter";
-import { isSameDate } from "../lib/dateUtils";
+import { isSameDate } from "../../../../../../../4_Shared/lib/dateUtil";
 
 const useSearchTeamHandler = (
   matchList: ChampionshipMatchList[]
 ): UseSearchTeamHandlerReturn => {
-  const [searchTerm, setSearchTerm] = React.useState<string>("");
+  const [searchMessage, setSearchMessage] = React.useState<string>("");
   const [selectedDate, setSelectedDate] = React.useState<Date>(new Date());
 
   const myTeamIdx = useAuthStore((state) => state.teamIdx);
 
   // 검색어 변경 핸들러
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(e.target.value);
+    setSearchMessage(e.target.value);
   };
 
   // 날짜 선택 핸들러
@@ -23,7 +23,7 @@ const useSearchTeamHandler = (
 
   // 검색어로 필터링된 매치 (isMyTeamMatch 추가)
   const filteredMatches = React.useMemo(() => {
-    const lowercasedSearchTerm = searchTerm.toLowerCase();
+    const lowercasedSearchTerm = searchMessage.toLowerCase();
     const baseMatches = lowercasedSearchTerm
       ? matchList.filter((match) => {
           const team1Name =
@@ -43,20 +43,18 @@ const useSearchTeamHandler = (
         match.championship_match_first.team_list_idx === myTeamIdx ||
         match.championship_match_second.team_list_idx === myTeamIdx,
     }));
-  }, [matchList, searchTerm, myTeamIdx]);
+  }, [matchList, searchMessage, myTeamIdx]);
 
   // 날짜 네비게이션 데이터 생성
   const availableDates = React.useMemo(() => {
     // 매치 데이터에서 날짜 추출
     const matchDates = filteredMatches.map(
-      (match) => new Date(match.match_match_start_time)
+      (match) => new Date(utcFormatter(match.match_match_start_time))
     );
+    // 오늘 추가
+    matchDates.push(new Date());
 
-    // 오늘 날짜 추가 (매치가 없어도 표시)
-    const today = new Date();
-    matchDates.push(today);
-
-    // 같은 날짜 중복 제거 및 정렬 (시간 무시, 날짜만 비교)
+    // 같은 날짜 중복 제거 및 정렬
     const uniqueDates = Array.from(
       new Set(
         matchDates.map((date) => {
@@ -94,16 +92,11 @@ const useSearchTeamHandler = (
   }, [filteredMatches, selectedDate]);
 
   return {
-    // 검색 관련
-    searchTerm,
+    searchMessage,
     handleSearchChange,
-
-    // 날짜 관련
     selectedDate,
     handleSetSelectedDate,
     availableDates,
-
-    // 매치 데이터
     selectedDateMatches,
   };
 };

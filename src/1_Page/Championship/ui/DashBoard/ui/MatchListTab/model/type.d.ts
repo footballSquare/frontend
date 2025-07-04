@@ -1,5 +1,5 @@
 type UseSearchTeamHandlerReturn = {
-  searchTerm: string;
+  searchMessage: string;
   handleSearchChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   availableDates: Date[];
   selectedDate: Date;
