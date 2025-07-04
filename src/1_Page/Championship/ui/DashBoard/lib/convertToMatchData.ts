@@ -114,6 +114,8 @@ const convertToLeague = (
   matchList.forEach(
     ({ championship_match_first: team1, championship_match_second: team2 }) => {
       if (!team1 || !team2) return; // 더미 경기 건너뜀
+      if (team1.common_status_idx !== 4 && team2.common_status_idx !== 4)
+        return; // 매치가 끝나지 않은 경우 건너뜀
       // 팀1이 statsMap에 존재하는지 확인
       if (statsMap[team1.team_list_idx]) {
         // 매치의 팀1의 데이터 업데이트
