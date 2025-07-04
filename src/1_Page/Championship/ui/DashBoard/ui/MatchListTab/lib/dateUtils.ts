@@ -51,14 +51,6 @@ export const generateDateNavigation = (
 
 //  * 특정 날짜에 매치가 있는지 확인합니다
 
-export const isMatchOnDate = (
-  match: ChampionshipMatchList,
-  targetDate: Date
-): boolean => {
-  const matchDate = new Date(match.match_match_start_time);
-  return matchDate.getTime() === targetDate.getTime();
-};
-
 export const isSameDate = (date1: Date, date2: Date): boolean => {
   return (
     date1.getFullYear() === date2.getFullYear() &&

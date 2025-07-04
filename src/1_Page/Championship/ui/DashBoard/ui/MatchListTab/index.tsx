@@ -8,21 +8,14 @@ import { VIEW_MODE, VIEW_MODE_BUTTONS } from "./constant/tab";
 import useSearchTeamHandler from "./model/useSearchTeamHandler";
 import useSelectHandler from "./model/useSelectHandler";
 import { getMatchMaxStats } from "./lib/getMatchMaxStats";
-import {
-  formatDateForDisplay,
-  isMatchOnDate,
-  isSameDate,
-} from "./lib/dateUtils";
+import { formatDateForDisplay, isSameDate } from "./lib/dateUtils";
 
 import FootballGroundSection from "../../../../../../2_Widget/FootballGroundSection";
 import useGetChampionshipEvidence from "../../../../../../3_Entity/Championship/useGetChampionshipEvidence";
 import useChampionshipInfoContext from "../../../../../../4_Shared/model/useChampionshipInfoContext";
 import useMatchModalStore from "../../../../../../4_Shared/zustand/useMatchModal";
-import ChevronDownIcon from "../../../../../../4_Shared/assets/svg/ChevronDown.svg";
-import ChevronUpIcon from "../../../../../../4_Shared/assets/svg/ChevronUp.svg";
 import { useAuthStore } from "../../../../../../4_Shared/lib/useMyInfo";
 import useGetChampionshipDetail from "../../../../../../3_Entity/Championship/useGetChampionshipDetail";
-import useDateIndexHandler from "./model/useDateIndexHandler";
 
 const MatchListTab = (props: MatchListTabProps) => {
   const { matchList, filteredTeamList, matchHandlers, handleUpdatePlayer } =
@@ -41,16 +34,16 @@ const MatchListTab = (props: MatchListTabProps) => {
   } = useSelectHandler(matchList);
 
   // 2. 매치 검색 및 필터링
-  const { filteredMatches, searchTerm, myMatchList, handleSearchChange } =
-    useSearchTeamHandler(matchList);
-
-  // 3. 날짜 선택 및 필터링된 날짜별 매치 목록
   const {
-    availableDates,
+    searchTerm,
+    handleSearchChange,
+
     selectedDate,
-    selectedDateMatches,
     handleSetSelectedDate,
-  } = useDateIndexHandler(filteredMatches);
+    availableDates,
+
+    selectedDateMatches,
+  } = useSearchTeamHandler(matchList);
 
   const myTeamIdx = useAuthStore((state) => state.teamIdx);
 
@@ -68,7 +61,6 @@ const MatchListTab = (props: MatchListTabProps) => {
   // state
   const [activeTeam, setActiveTeam] = React.useState<0 | 1>(0);
   const [viewMode, setViewMode] = React.useState<VIEW_MODE>(VIEW_MODE.Lineup);
-  const [isMyMatchesOpen, setIsMyMatchesOpen] = React.useState(true);
 
   // value
   const { maxGoal, maxAssist } = getMatchMaxStats(championshipMatchDetail);
@@ -87,7 +79,6 @@ const MatchListTab = (props: MatchListTabProps) => {
       {isMatchDetailView ? (
         /* 매치 상세 보기 */
         <div className="bg-gray-800 rounded-lg shadow-md">
-          {/* 헤더 */}
           <div className="p-6 border-b border-gray-700">
             <h2 className="text-2xl font-bold text-white flex items-center gap-3 mb-2">
               <div className="w-10 h-10 rounded-full flex items-center justify-center">
@@ -112,7 +103,7 @@ const MatchListTab = (props: MatchListTabProps) => {
           <div className="p-6">
             <div className="px-2 py-3 text-gray-100 lg:p-4">
               {!selectChampionshipMatchIdx ? (
-                /* 매치 미선택 안내 – 어두운 배경·밝은 텍스트 */
+                /* 매치 미선택 안내  */
                 <div className="flex flex-col items-center justify-center h-full py-8 lg:py-10">
                   <div className="bg-gray-800 rounded-full p-3 mb-3 lg:p-4 lg:mb-4">
                     <span className="text-gray-300 text-xl lg:text-2xl">
@@ -282,7 +273,7 @@ const MatchListTab = (props: MatchListTabProps) => {
                       </div>
                     </div>
                   ) : (
-                    /* 라인업/포메이션 영역 – 기존 코드 그대로 */
+                    /* 라인업/포메이션 영역 */
                     <div>
                       <div className="flex justify-center items-center gap-3 mb-3 lg:gap-4 lg:mb-4">
                         <h2 className="text-lg font-bold lg:text-xl">
@@ -354,55 +345,6 @@ const MatchListTab = (props: MatchListTabProps) => {
               </div>
             )}
           </div>
-
-          {/* 내 팀 목록 */}
-          {myMatchList.length > 0 && (
-            <div className="p-6 border-b border-gray-700">
-              <div
-                className="flex items-center justify-between mb-4 cursor-pointer"
-                onClick={() => setIsMyMatchesOpen((prev) => !prev)}>
-                <h3 className="text-xl font-bold text-white flex items-center gap-2">
-                  <span
-                    className="w-8 h-8 rounded-full flex items-center justify-center text-lg"
-                    style={{
-                      background: `linear-gradient(135deg, ${championshipListColor}, ${championshipListColor}CC)`,
-                    }}>
-                    ⭐
-                  </span>
-                  내 팀 경기 목록
-                </h3>
-                <div className="flex items-center gap-4">
-                  <span className="text-gray-400 text-sm">
-                    총 {myMatchList.length}개 경기
-                  </span>
-                  <button className="p-1 rounded-full hover:bg-gray-700 transition-colors">
-                    <img
-                      src={isMyMatchesOpen ? ChevronUpIcon : ChevronDownIcon}
-                      alt={isMyMatchesOpen ? "접기" : "펼치기"}
-                      className="w-6 h-6"
-                    />
-                  </button>
-                </div>
-              </div>
-              {isMyMatchesOpen && (
-                <div className="flex overflow-x-auto space-x-4 pb-4 -mx-6 px-6 modern-scrollbar">
-                  {myMatchList.map((match, index) => (
-                    <ChampionshipMatchCard
-                      key={`my-match-${index}`}
-                      match={match}
-                      isSelected={
-                        selectChampionshipMatchIdx ===
-                        match.championship_match_idx
-                      }
-                      handleMatchSelect={handleMatchSelect}
-                      isMyTeam={true}
-                      {...matchHandlers}
-                    />
-                  ))}
-                </div>
-              )}
-            </div>
-          )}
 
           {/* 검색 및 관리자 기능 영역 */}
           <div className="p-6 flex flex-col md:flex-row items-center gap-6">
@@ -480,10 +422,6 @@ const MatchListTab = (props: MatchListTabProps) => {
               {availableDates.map((date, index) => {
                 const isSelected = isSameDate(date, selectedDate);
                 const isToday = isSameDate(date, new Date());
-                // 해당 날짜에 매치가 있는지 확인
-                const hasMatches = filteredMatches.some((match) =>
-                  isMatchOnDate(match, date)
-                );
 
                 return (
                   <button
@@ -531,7 +469,7 @@ const MatchListTab = (props: MatchListTabProps) => {
                           backgroundColor: championshipListColor,
                         }}></div>
                     )}
-                    {hasMatches && !isSelected && (
+                    {!isSelected && (
                       <div className="absolute top-1 right-1 w-2 h-2 bg-blue-400 rounded-full"></div>
                     )}
                   </button>
@@ -548,12 +486,7 @@ const MatchListTab = (props: MatchListTabProps) => {
                   <ChampionshipMatchCard
                     key={`selected-date-match-${index}`}
                     match={match}
-                    isSelected={
-                      selectChampionshipMatchIdx ===
-                      match.championship_match_idx
-                    }
                     handleMatchSelect={handleMatchSelect}
-                    isMyTeam={false}
                     {...matchHandlers}
                   />
                 ))}
