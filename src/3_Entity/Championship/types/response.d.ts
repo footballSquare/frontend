@@ -154,3 +154,9 @@ type EndAwards = {
 };
 
 type EndTeamInfo = { team_list_idx: number; team_list_name: string };
+
+type CreateChampionMatchResponse = {
+  first_match_idx: number;
+  second_match_idx: number;
+  championship_match_idx: number;
+};

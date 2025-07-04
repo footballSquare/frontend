@@ -1,0 +1,3 @@
+type TeamListTabProps = {
+  teamList: ChampionshipTeamInfo[];
+};

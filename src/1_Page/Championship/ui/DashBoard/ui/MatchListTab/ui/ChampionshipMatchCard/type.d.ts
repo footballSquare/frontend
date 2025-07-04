@@ -1,7 +1,7 @@
 type ChampionshipMatchCardProps = {
-  match: ChampionshipMatchList;
-  isSelected: boolean;
-  isMyTeam: boolean;
+  match: ExpandedMatchList;
   handleMatchSelect: (idx: number) => void;
   isListViewMode?: boolean;
+  isMyTeam?: boolean;
+  isSelected?: boolean;
 } & MatchHandlerReturn;

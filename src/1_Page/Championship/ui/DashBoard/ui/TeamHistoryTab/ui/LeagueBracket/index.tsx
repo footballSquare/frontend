@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { headerList } from "./constant/header";
-import DefaultTeamEmblem from "../../../../../../4_Shared/components/DefaultTeamEmblem";
-import useToggleState from "../../../../../../4_Shared/model/useToggleState";
+import DefaultTeamEmblem from "../../../../../../../../4_Shared/components/DefaultTeamEmblem";
+import useToggleState from "../../../../../../../../4_Shared/model/useToggleState";
 
 const LeagueBracket = (props: LeagueBracketProps) => {
   const { leagueData } = props;

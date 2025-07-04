@@ -2,7 +2,7 @@ import React from "react";
 import { useFetchData } from "../../4_Shared/util/apiUtil.ts";
 
 const useGetChampionshipEvidence = (
-  championshipMatchIdx: number
+  championshipMatchIdx: number | null
 ): [EvidenceImage, boolean] => {
   const [serverState, request, loading] = useFetchData();
   const [evidenceImage, setEvidenceImage] = React.useState<EvidenceImage>(
@@ -10,7 +10,7 @@ const useGetChampionshipEvidence = (
   );
 
   React.useEffect(() => {
-    if (championshipMatchIdx <= 0) return;
+    if (championshipMatchIdx && championshipMatchIdx <= 0) return;
     const endPoint = `/championship/championship_match/${championshipMatchIdx}/evidance_img`;
     request("GET", endPoint, null, true);
   }, [championshipMatchIdx, request]);

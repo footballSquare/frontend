@@ -40,31 +40,40 @@ const convertToFilterMatchList = (
   const eliminatedTeams: number[] = [];
   const teams = getHighestRoundTeamIndices(tournamentData);
 
-  matchList.forEach((match) => {
-    // 종료되지 않은 경기라면 제거해야할 팀에 두팀 모두 추가
-    if (match.championship_match_first.common_status_idx !== 4) {
-      eliminatedTeams.push(match.championship_match_second.team_list_idx);
-      eliminatedTeams.push(match.championship_match_first.team_list_idx);
-    } else if (
-      match.championship_match_first.match_team_stats_our_score === null ||
-      match.championship_match_second.match_team_stats_our_score === null
-    ) {
-      eliminatedTeams.push(match.championship_match_second.team_list_idx);
-      eliminatedTeams.push(match.championship_match_first.team_list_idx);
+  matchList.forEach(
+    ({
+      championship_match_first: first,
+      championship_match_second: second,
+    }) => {
+      if (!first || !second) {
+        // 더미(bye) 경기이거나 데이터가 불완전한 경우
+        if (first) eliminatedTeams.push(first.team_list_idx);
+        if (second) eliminatedTeams.push(second.team_list_idx);
+        return;
+      }
+      // 종료되지 않은 경기라면 제거해야할 팀에 두팀 모두 추가
+      if (first.common_status_idx !== 4) {
+        eliminatedTeams.push(second.team_list_idx);
+        eliminatedTeams.push(first.team_list_idx);
+      } else if (
+        first.match_team_stats_our_score === null ||
+        second.match_team_stats_our_score === null
+      ) {
+        eliminatedTeams.push(second.team_list_idx);
+        eliminatedTeams.push(first.team_list_idx);
+      }
+      // 승자 결정 후 진팀만 제거해야할 리스트에 추가
+      else if (
+        first.match_team_stats_our_score > second.match_team_stats_our_score
+      ) {
+        eliminatedTeams.push(second.team_list_idx);
+      } else if (
+        first.match_team_stats_our_score < second.match_team_stats_our_score
+      ) {
+        eliminatedTeams.push(first.team_list_idx);
+      }
     }
-    // 승자 결정 후 진팀만 제거해야할 리스트에 추가
-    else if (
-      match.championship_match_first.match_team_stats_our_score >
-      match.championship_match_second.match_team_stats_our_score
-    ) {
-      eliminatedTeams.push(match.championship_match_second.team_list_idx);
-    } else if (
-      match.championship_match_first.match_team_stats_our_score <
-      match.championship_match_second.match_team_stats_our_score
-    ) {
-      eliminatedTeams.push(match.championship_match_first.team_list_idx);
-    }
-  });
+  );
 
   // 경기 결과가 끝난 후, 패배팀을 제외한 팀들만 필터링
   const filteredTeamList = teamList.filter(
@@ -102,58 +111,62 @@ const convertToLeague = (
   });
 
   // 매치 리스트를 통해 팀 리스트 데이터 업데이트
-  matchList.forEach((match) => {
-    const team1 = match.championship_match_first;
-    const team2 = match.championship_match_second;
+  matchList.forEach(
+    ({ championship_match_first: team1, championship_match_second: team2 }) => {
+      if (!team1 || !team2) return; // 더미 경기 건너뜀
+      if (team1.common_status_idx !== 4 && team2.common_status_idx !== 4)
+        return; // 매치가 끝나지 않은 경우 건너뜀
+      // 팀1이 statsMap에 존재하는지 확인
+      if (statsMap[team1.team_list_idx]) {
+        // 매치의 팀1의 데이터 업데이트
+        statsMap[team1.team_list_idx].matchesPlayed += 1;
+        statsMap[team1.team_list_idx].goalsFor +=
+          team1.match_team_stats_our_score || 0;
+        statsMap[team1.team_list_idx].goalsAgainst +=
+          team1.match_team_stats_other_score || 0;
+        if (
+          team1.match_team_stats_our_score ||
+          0 > (team1.match_team_stats_other_score || 0)
+        ) {
+          statsMap[team1.team_list_idx].wins += 1;
+          statsMap[team1.team_list_idx].points += 3;
+        } else if (
+          team1.match_team_stats_our_score ===
+          team1.match_team_stats_other_score
+        ) {
+          statsMap[team1.team_list_idx].draws += 1;
+          statsMap[team1.team_list_idx].points += 1;
+        } else {
+          statsMap[team1.team_list_idx].losses += 1;
+        }
+      }
 
-    // 팀1이 statsMap에 존재하는지 확인
-    if (statsMap[team1.team_list_idx]) {
-      // 매치의 팀1의 데이터 업데이트
-      statsMap[team1.team_list_idx].matchesPlayed += 1;
-      statsMap[team1.team_list_idx].goalsFor +=
-        team1.match_team_stats_our_score || 0;
-      statsMap[team1.team_list_idx].goalsAgainst +=
-        team1.match_team_stats_other_score || 0;
-      if (
-        team1.match_team_stats_our_score ||
-        0 > (team1.match_team_stats_other_score || 0)
-      ) {
-        statsMap[team1.team_list_idx].wins += 1;
-        statsMap[team1.team_list_idx].points += 3;
-      } else if (
-        team1.match_team_stats_our_score === team1.match_team_stats_other_score
-      ) {
-        statsMap[team1.team_list_idx].draws += 1;
-        statsMap[team1.team_list_idx].points += 1;
-      } else {
-        statsMap[team1.team_list_idx].losses += 1;
+      // 팀2가 statsMap에 존재하는지 확인
+      if (statsMap[team2.team_list_idx]) {
+        // 매치의 팀2의 데이터 업데이트
+        statsMap[team2.team_list_idx].matchesPlayed += 1;
+        statsMap[team2.team_list_idx].goalsFor +=
+          team2.match_team_stats_our_score || 0;
+        statsMap[team2.team_list_idx].goalsAgainst +=
+          team2.match_team_stats_other_score || 0;
+        if (
+          team2.match_team_stats_our_score ||
+          0 > (team2.match_team_stats_other_score || 0)
+        ) {
+          statsMap[team2.team_list_idx].wins += 1;
+          statsMap[team2.team_list_idx].points += 3;
+        } else if (
+          team2.match_team_stats_our_score ===
+          team2.match_team_stats_other_score
+        ) {
+          statsMap[team2.team_list_idx].draws += 1;
+          statsMap[team2.team_list_idx].points += 1;
+        } else {
+          statsMap[team2.team_list_idx].losses += 1;
+        }
       }
     }
-
-    // 팀2가 statsMap에 존재하는지 확인
-    if (statsMap[team2.team_list_idx]) {
-      // 매치의 팀2의 데이터 업데이트
-      statsMap[team2.team_list_idx].matchesPlayed += 1;
-      statsMap[team2.team_list_idx].goalsFor +=
-        team2.match_team_stats_our_score || 0;
-      statsMap[team2.team_list_idx].goalsAgainst +=
-        team2.match_team_stats_other_score || 0;
-      if (
-        team2.match_team_stats_our_score ||
-        0 > (team2.match_team_stats_other_score || 0)
-      ) {
-        statsMap[team2.team_list_idx].wins += 1;
-        statsMap[team2.team_list_idx].points += 3;
-      } else if (
-        team2.match_team_stats_our_score === team2.match_team_stats_other_score
-      ) {
-        statsMap[team2.team_list_idx].draws += 1;
-        statsMap[team2.team_list_idx].points += 1;
-      } else {
-        statsMap[team2.team_list_idx].losses += 1;
-      }
-    }
-  });
+  );
 
   // 골득실 계산
   Object.values(statsMap).forEach((team) => {
@@ -199,31 +212,42 @@ const convertToTournamentFormat = (
 
   // 팀별 등장 횟수 계산
   const teamAppearanceCount: Record<number, number> = {};
-  matchList.forEach((match) => {
-    const fId = match.championship_match_first.team_list_idx;
-    const sId = match.championship_match_second.team_list_idx;
-    teamAppearanceCount[fId] = (teamAppearanceCount[fId] || 0) + 1;
-    teamAppearanceCount[sId] = (teamAppearanceCount[sId] || 0) + 1;
-  });
+  matchList.forEach(
+    ({ championship_match_first, championship_match_second }) => {
+      if (!championship_match_first || !championship_match_second) return; // 더미 경기 무시
+      const fId = championship_match_first.team_list_idx;
+      const sId = championship_match_second.team_list_idx;
+      teamAppearanceCount[fId] = (teamAppearanceCount[fId] || 0) + 1;
+      teamAppearanceCount[sId] = (teamAppearanceCount[sId] || 0) + 1;
+    }
+  );
 
   // minAppear에 따라 라운드 배정
-  matchList.forEach((match) => {
-    const fId = match.championship_match_first.team_list_idx;
-    const sId = match.championship_match_second.team_list_idx;
-    const minAppear = Math.min(
-      teamAppearanceCount[fId] || 0,
-      teamAppearanceCount[sId] || 0
-    );
+  matchList.forEach(
+    ({ championship_match_first, championship_match_second }) => {
+      if (!championship_match_first || !championship_match_second) return; // 더미 경기 무시
+      const fId = championship_match_first.team_list_idx;
+      const sId = championship_match_second.team_list_idx;
+      const minAppear = Math.min(
+        teamAppearanceCount[fId] || 0,
+        teamAppearanceCount[sId] || 0
+      );
 
-    // 4회 이상이면 결승(2강)
-    const effectiveAppear = Math.min(minAppear, 4);
-    // ex) 16 → 8 → 4 → 2
-    const roundKey = startingRoundSize / Math.pow(2, effectiveAppear - 1);
+      // 4회 이상이면 결승(2강)
+      const effectiveAppear = Math.min(minAppear, 4);
+      // ex) 16 → 8 → 4 → 2
+      const roundKey = startingRoundSize / Math.pow(2, effectiveAppear - 1);
 
-    if (rounds[roundKey]) {
-      rounds[roundKey].push(match);
+      if (rounds[roundKey]) {
+        rounds[roundKey].push({
+          championship_match_first,
+          championship_match_second,
+          championship_match_idx: championship_match_first.match_match_idx || 0,
+          match_match_start_time: "",
+        });
+      }
     }
-  });
+  );
 
   // 라운드별 idx 오름차순 정렬
   Object.keys(rounds).forEach((k) => {

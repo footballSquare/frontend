@@ -39,6 +39,7 @@ const InfoHeader = (props: InfoHeaderProps) => {
             </h1>
           </div>
 
+          {/* 커뮤니티 매니저의 경우 대회 종료 , 수정 버튼 출력 */}
           <div className="flex items-center gap-2 sm:gap-4">
             {isCommunityManager && !isChampionshipEnd && (
               <AdminBtnPanel championshipInfo={championshipInfo} />
@@ -86,6 +87,7 @@ const InfoHeader = (props: InfoHeaderProps) => {
           </div>
         )}
       </header>
+      {/* 대회 종료시 승자 출력 */}
       {isChampionshipEnd && (
         <div className="w-full p-4">
           <div
@@ -134,7 +136,7 @@ const InfoHeader = (props: InfoHeaderProps) => {
           </div>
         </div>
       )}
-      {/* 모던한 승자 축하 모달 */}
+      {/* 승자 축하 모달 */}
       {isChampionshipEnd && isEndModalOpen && (
         <div className="fixed inset-0 z-10 bg-black/70 backdrop-blur-md flex items-center justify-center">
           <div className="bg-gradient-to-br from-gray-800 via-gray-900 to-gray-800 p-8 rounded-2xl shadow-2xl max-w-sm w-full transform transition-all duration-500 scale-100 border border-gray-600/50 backdrop-blur-sm">
