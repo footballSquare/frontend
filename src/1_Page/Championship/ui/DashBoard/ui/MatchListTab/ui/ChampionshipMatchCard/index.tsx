@@ -66,12 +66,7 @@ const ChampionshipMatchCard = (props: ChampionshipMatchCardProps) => {
       {/* 매치 정보 */}
       <div className="space-y-3">
         {/* 시간 및 상태 */}
-        <div
-          className={`flex items-center justify-between ${
-            (isCommunityOperator || isCommunityManager) && !isEndMatch
-              ? "pr-20"
-              : ""
-          }`}>
+        <div className={`flex items-center justify-between`}>
           <div className="flex items-center gap-2">
             {isMyTeam && (
               <div className="px-2 py-1 bg-blue-500 text-white text-xs rounded-full font-bold">
