@@ -522,7 +522,7 @@ const MatchListTab = (props: MatchListTabProps) => {
                           ? { color: championshipListColor }
                           : undefined
                       }>
-                      {date.getDate()}
+                      {formatDateForDisplay(date)}
                     </div>
                     {isToday && (
                       <div

@@ -29,19 +29,22 @@ export const generateDateNavigation = (
     (match) => new Date(match.match_match_start_time)
   );
 
-  // 중복 제거 및 정렬
+  // 오늘 날짜 추가 (매치가 없어도 표시)
+  const today = new Date();
+  matchDates.push(today);
+
+  // 같은 날짜 중복 제거 및 정렬 (시간 무시, 날짜만 비교)
   const uniqueDates = Array.from(
-    new Set(matchDates.map((date) => date.getTime()))
+    new Set(
+      matchDates.map((date) => {
+        const dateOnly = new Date(date);
+        dateOnly.setHours(0, 0, 0, 0); // 시간을 00:00:00으로 설정
+        return dateOnly.getTime();
+      })
+    )
   )
     .map((time) => new Date(time))
     .sort((a, b) => a.getTime() - b.getTime());
-
-  // 오늘 날짜 추가 (매치가 없어도 표시)
-  const today = new Date();
-  if (!uniqueDates.some((date) => date.getTime() === today.getTime())) {
-    uniqueDates.push(today);
-    uniqueDates.sort((a, b) => a.getTime() - b.getTime());
-  }
 
   return uniqueDates;
 };
