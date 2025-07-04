@@ -24,7 +24,7 @@ type UseGetChampionshipMatchListHandlerReturn = {
 
 type UseSelectHandlerReturn = {
   selectChampionshipMatchIdx: number | null;
-  selectedMatch: ChampionshipMatchList | undefined;
+  selectedMatchList: ChampionshipMatchList | undefined;
   handleMatchSelect: (championshipMatchIdx: number) => void;
   handleBackToList: () => void;
 };

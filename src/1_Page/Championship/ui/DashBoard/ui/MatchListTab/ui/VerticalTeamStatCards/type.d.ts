@@ -1,6 +1,6 @@
 type VerticalTeamStatCardsProps = {
   championshipMatchDetail: ChampionshipMatchDetail;
-  matchList: ChampionshipMatchList | undefined;
+  selectedMatchList: ChampionshipMatchList | undefined;
   evidenceImage: EvidenceImage;
   handleUpdateMatchScore: (
     matchIdx: number,

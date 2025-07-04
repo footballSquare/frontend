@@ -30,7 +30,7 @@ const MatchListTab = (props: MatchListTabProps) => {
   // 1. 매치 선택 관련 상태 및 핸들러
   const {
     selectChampionshipMatchIdx,
-    selectedMatch,
+    selectedMatchList,
     handleMatchSelect,
     handleBackToList,
   } = useSelectHandler(matchList);
@@ -64,8 +64,8 @@ const MatchListTab = (props: MatchListTabProps) => {
   // value
   const { maxGoal, maxAssist } = getMatchMaxStats(championshipMatchDetail);
 
-  const firstTeamMatchInfo = selectedMatch?.championship_match_first;
-  const secondTeamMatchInfo = selectedMatch?.championship_match_second;
+  const firstTeamMatchInfo = selectedMatchList?.championship_match_first;
+  const secondTeamMatchInfo = selectedMatchList?.championship_match_second;
 
   const team1PlayerStats =
     championshipMatchDetail?.first_team?.player_stats || [];
@@ -126,38 +126,40 @@ const MatchListTab = (props: MatchListTabProps) => {
               </div>
 
               {/* 내 팀 매치 상세보기 버튼 */}
-              {selectedMatch && firstTeamMatchInfo && secondTeamMatchInfo && (
-                <div className="flex flex-col sm:flex-row gap-2 w-full md:w-auto">
-                  {firstTeamMatchInfo.team_list_idx === myTeamIdx && (
-                    <button
-                      className="min-w-[200px] px-4 py-2 rounded border-2"
-                      style={{
-                        borderColor: firstTeamMatchInfo.team_list_color,
-                      }}
-                      onClick={() => {
-                        setMatchIdx(firstTeamMatchInfo.match_match_idx);
-                        toggleMatchModal();
-                      }}>
-                      {firstTeamMatchInfo.team_list_name}
-                      <div>매치 상세보기</div>
-                    </button>
-                  )}
-                  {secondTeamMatchInfo.team_list_idx === myTeamIdx && (
-                    <button
-                      className="min-w-[200px] px-4 py-2 rounded border-2"
-                      style={{
-                        borderColor: secondTeamMatchInfo.team_list_color,
-                      }}
-                      onClick={() => {
-                        setMatchIdx(secondTeamMatchInfo.match_match_idx);
-                        toggleMatchModal();
-                      }}>
-                      {secondTeamMatchInfo.team_list_name}
-                      <div>매치 상세보기</div>
-                    </button>
-                  )}
-                </div>
-              )}
+              {selectedMatchList &&
+                firstTeamMatchInfo &&
+                secondTeamMatchInfo && (
+                  <div className="flex flex-col sm:flex-row gap-2 w-full md:w-auto">
+                    {firstTeamMatchInfo.team_list_idx === myTeamIdx && (
+                      <button
+                        className="min-w-[200px] px-4 py-2 rounded border-2"
+                        style={{
+                          borderColor: firstTeamMatchInfo.team_list_color,
+                        }}
+                        onClick={() => {
+                          setMatchIdx(firstTeamMatchInfo.match_match_idx);
+                          toggleMatchModal();
+                        }}>
+                        {firstTeamMatchInfo.team_list_name}
+                        <div>매치 상세보기</div>
+                      </button>
+                    )}
+                    {secondTeamMatchInfo.team_list_idx === myTeamIdx && (
+                      <button
+                        className="min-w-[200px] px-4 py-2 rounded border-2"
+                        style={{
+                          borderColor: secondTeamMatchInfo.team_list_color,
+                        }}
+                        onClick={() => {
+                          setMatchIdx(secondTeamMatchInfo.match_match_idx);
+                          toggleMatchModal();
+                        }}>
+                        {secondTeamMatchInfo.team_list_name}
+                        <div>매치 상세보기</div>
+                      </button>
+                    )}
+                  </div>
+                )}
             </nav>
 
             {/* 뷰 모드별 컨텐츠 */}
@@ -165,7 +167,7 @@ const MatchListTab = (props: MatchListTabProps) => {
               <div className="container mx-auto px-0 py-3 lg:px-4 lg:py-6">
                 <VerticalTeamStatCards
                   championshipMatchDetail={championshipMatchDetail}
-                  matchList={selectedMatch}
+                  selectedMatchList={selectedMatchList}
                   evidenceImage={evidenceImage}
                   handleUpdateMatchScore={matchHandlers.handleUpdateMatchScore}
                 />

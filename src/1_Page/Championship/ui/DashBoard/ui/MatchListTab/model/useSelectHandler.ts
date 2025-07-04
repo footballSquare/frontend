@@ -6,7 +6,7 @@ const useSelectHandler = (
   const [selectChampionshipMatchIdx, setSelectChampionshipMatchIdx] =
     React.useState<number | null>(null);
 
-  const selectedMatch = matchList.find(
+  const selectedMatchList = matchList.find(
     (matchData) =>
       matchData.championship_match_idx === selectChampionshipMatchIdx
   );
@@ -26,7 +26,7 @@ const useSelectHandler = (
 
   return {
     selectChampionshipMatchIdx,
-    selectedMatch,
+    selectedMatchList,
     handleMatchSelect,
     handleBackToList,
   };
