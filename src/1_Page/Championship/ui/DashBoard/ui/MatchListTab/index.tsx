@@ -324,18 +324,7 @@ const MatchListTab = (props: MatchListTabProps) => {
                 value={searchTerm}
                 onChange={handleSearchChange}
                 placeholder="팀명으로 검색하세요..."
-                className="w-full pl-14 pr-4 py-4 bg-white/10 border border-white/20 rounded-2xl text-white placeholder-gray-300 focus:outline-none focus:bg-white/20 focus:ring-2 transition-all duration-300 group-hover:bg-white/15"
-                style={
-                  {
-                    "--tw-ring-color": `${championshipListColor}33`,
-                  } as React.CSSProperties
-                }
-                onFocus={(e) => {
-                  e.target.style.borderColor = `${championshipListColor}66`;
-                }}
-                onBlur={(e) => {
-                  e.target.style.borderColor = "rgba(255, 255, 255, 0.2)";
-                }}
+                className="w-full pl-14 pr-4 py-4 bg-white/10 border border-white/20 rounded-2xl text-white focus:outline-none focus:bg-white/20 "
               />
             </div>
 
