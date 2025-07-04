@@ -310,40 +310,42 @@ const MatchListTab = (props: MatchListTabProps) => {
           </div>
 
           {/* 검색 및 관리자 기능 영역 */}
-          <div className="p-6 flex flex-col md:flex-row items-center gap-6">
-            {/* 검색창 */}
-            <div className="relative group w-full md:flex-1">
-              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                <div
-                  className="w-5 h-5 rounded-full flex items-center justify-center"
-                  style={{
-                    background: `linear-gradient(135deg, ${championshipListColor}, ${championshipListColor}CC)`,
-                  }}>
-                  <span className="text-white text-xs">🔍</span>
+          <div className="p-6">
+            <div className="flex flex-col md:flex-row items-start md:items-end gap-4">
+              {/* 검색창 */}
+              <div className="relative w-full md:flex-1">
+                <label className="block text-sm font-medium text-white mb-2">
+                  팀명으로 매치 검색
+                </label>
+                <div className="text-xs text-gray-400 mb-3">
+                  참가한 팀의 이름을 입력하여 해당 팀이 참여한 매치를 찾아보세요
+                </div>
+                <div className="flex items-center gap-3 pl-4 pr-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white">
+                  <span className="text-gray-400 text-lg">🔍</span>
+                  <input
+                    type="text"
+                    value={searchMessage}
+                    onChange={handleSearchChange}
+                    placeholder="예: 맨체스터 유나이티드, 바르셀로나..."
+                    className="flex-1 bg-transparent placeholder-gray-500 focus:outline-none"
+                  />
                 </div>
               </div>
-              <input
-                type="text"
-                value={searchMessage}
-                onChange={handleSearchChange}
-                placeholder="팀명으로 검색하세요..."
-                className="w-full pl-14 pr-4 py-4 bg-white/10 border border-white/20 rounded-2xl text-white focus:outline-none focus:bg-white/20 "
-              />
-            </div>
 
-            {/* 관리자 전용 매치 생성 패널 */}
-            {(isCommunityOperator || isCommunityManager) && (
-              <div className="w-full md:w-auto">
-                <CreateChampionMatchPanel
-                  handleBackToList={handleBackToList}
-                  handleMatchSelect={handleMatchSelect}
-                  handleAddMatch={matchHandlers.handleAddMatch}
-                  handleSyncMatchIdx={matchHandlers.handleSyncMatchIdx}
-                  handleDeleteMatch={matchHandlers.handleDeleteMatch}
-                  filteredTeamList={filteredTeamList}
-                />
-              </div>
-            )}
+              {/* 관리자 전용 매치 생성 패널 */}
+              {!(isCommunityOperator || isCommunityManager) && (
+                <div className="flex-shrink-0">
+                  <CreateChampionMatchPanel
+                    handleBackToList={handleBackToList}
+                    handleMatchSelect={handleMatchSelect}
+                    handleAddMatch={matchHandlers.handleAddMatch}
+                    handleSyncMatchIdx={matchHandlers.handleSyncMatchIdx}
+                    handleDeleteMatch={matchHandlers.handleDeleteMatch}
+                    filteredTeamList={filteredTeamList}
+                  />
+                </div>
+              )}
+            </div>
           </div>
 
           {/* 날짜 네비게이션 */}
