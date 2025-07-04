@@ -2,7 +2,7 @@ import React from "react";
 import { useFetchData } from "../../4_Shared/util/apiUtil.ts";
 
 const useGetChampionshipDetail = (
-  championshipMatchIdx: number
+  championshipMatchIdx: number | null
 ): [ChampionshipMatchDetail, boolean] => {
   const [serverState, request, loading] = useFetchData();
 
@@ -11,7 +11,7 @@ const useGetChampionshipDetail = (
     React.useState<ChampionshipMatchDetail>({} as ChampionshipMatchDetail);
 
   React.useEffect(() => {
-    if (championshipMatchIdx <= 0) return;
+    if (championshipMatchIdx && championshipMatchIdx <= 0) return;
 
     const endPoint = `/championship/championship_match/${championshipMatchIdx}/detail`;
     request("GET", endPoint, null, true);

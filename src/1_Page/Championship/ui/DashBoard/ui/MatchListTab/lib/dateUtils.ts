@@ -20,35 +20,6 @@ export const formatDateForDisplay = (date: Date): string => {
   return `${inputNormalized.getMonth() + 1}월 ${inputNormalized.getDate()}일`;
 };
 
-//  매치 데이터로부터 날짜 네비게이션 배열을 생성합니다
-export const generateDateNavigation = (
-  matches: ChampionshipMatchList[]
-): Date[] => {
-  // 매치 데이터에서 날짜 추출
-  const matchDates = matches.map(
-    (match) => new Date(match.match_match_start_time)
-  );
-
-  // 오늘 날짜 추가 (매치가 없어도 표시)
-  const today = new Date();
-  matchDates.push(today);
-
-  // 같은 날짜 중복 제거 및 정렬 (시간 무시, 날짜만 비교)
-  const uniqueDates = Array.from(
-    new Set(
-      matchDates.map((date) => {
-        const dateOnly = new Date(date);
-        dateOnly.setHours(0, 0, 0, 0); // 시간을 00:00:00으로 설정
-        return dateOnly.getTime();
-      })
-    )
-  )
-    .map((time) => new Date(time))
-    .sort((a, b) => a.getTime() - b.getTime());
-
-  return uniqueDates;
-};
-
 //  * 특정 날짜에 매치가 있는지 확인합니다
 
 export const isSameDate = (date1: Date, date2: Date): boolean => {

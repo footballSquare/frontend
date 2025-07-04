@@ -16,6 +16,8 @@ import useChampionshipInfoContext from "../../../../../../4_Shared/model/useCham
 import useMatchModalStore from "../../../../../../4_Shared/zustand/useMatchModal";
 import { useAuthStore } from "../../../../../../4_Shared/lib/useMyInfo";
 import useGetChampionshipDetail from "../../../../../../3_Entity/Championship/useGetChampionshipDetail";
+import { days } from "./constant/days";
+import { getTextColorFromBackground } from "../../../../../../4_Shared/lib/colorChecker";
 
 const MatchListTab = (props: MatchListTabProps) => {
   const { matchList, filteredTeamList, matchHandlers, handleUpdatePlayer } =
@@ -28,20 +30,16 @@ const MatchListTab = (props: MatchListTabProps) => {
   const {
     selectChampionshipMatchIdx,
     selectedMatch,
-    isMatchDetailView,
     handleMatchSelect,
     handleBackToList,
   } = useSelectHandler(matchList);
 
-  // 2. 매치 검색 및 필터링
   const {
     searchTerm,
     handleSearchChange,
-
     selectedDate,
     handleSetSelectedDate,
     availableDates,
-
     selectedDateMatches,
   } = useSearchTeamHandler(matchList);
 
@@ -75,10 +73,10 @@ const MatchListTab = (props: MatchListTabProps) => {
   const personEvidenceImage = evidenceImage.player_evidence || [];
 
   return (
-    <section className="w-full mx-auto bg-gray-800 rounded-lg shadow-md">
-      {isMatchDetailView ? (
-        /* 매치 상세 보기 */
-        <div className="bg-gray-800 rounded-lg shadow-md">
+    <div>
+      {selectChampionshipMatchIdx ? (
+        <section className="w-full mx-auto bg-gray-800 rounded-lg shadow-md">
+          {/* 매치 상세 정보 헤더 */}
           <div className="p-6 border-b border-gray-700">
             <h2 className="text-2xl font-bold text-white flex items-center gap-3 mb-2">
               <div className="w-10 h-10 rounded-full flex items-center justify-center">
@@ -100,223 +98,185 @@ const MatchListTab = (props: MatchListTabProps) => {
               </button>
             </div>
           </div>
+
+          {/* 매치 상세 컨텐츠 */}
           <div className="p-6">
-            <div className="px-2 py-3 text-gray-100 lg:p-4">
-              {!selectChampionshipMatchIdx ? (
-                /* 매치 미선택 안내  */
-                <div className="flex flex-col items-center justify-center h-full py-8 lg:py-10">
-                  <div className="bg-gray-800 rounded-full p-3 mb-3 lg:p-4 lg:mb-4">
-                    <span className="text-gray-300 text-xl lg:text-2xl">
-                      {"⚽"}
-                    </span>
-                  </div>
-                  <h3 className="text-base font-semibold text-gray-100 mb-2 lg:text-lg lg:font-medium">
-                    매치를 선택해주세요
-                  </h3>
-                  <p className="text-sm text-gray-400 text-center max-w-md px-4 lg:px-0">
-                    왼쪽 패널에서 확인하고 싶은 매치를 선택하면 상세 정보가
-                    표시됩니다.
-                  </p>
-                </div>
-              ) : (
-                <div>
-                  {/* 매치 선택시 */}
-                  {/* 상단 탭 네비게이션 */}
-                  <nav className="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 gap-3 lg:mb-6 lg:gap-4">
-                    {/* 탭 버튼 목록 (라인업 , 팀기록 , 개인기록 ) */}
-                    <div className="flex overflow-x-auto space-x-2 p-1 rounded-lg scrollbar-hide w-full lg:w-auto lg:p-2 lg:rounded-md">
-                      {VIEW_MODE_BUTTONS.map(({ id, label }) => (
-                        <button
-                          key={id}
-                          onClick={() => setViewMode(id)}
-                          className={`flex-shrink-0 px-5 py-3 rounded-full text-base font-semibold transition lg:px-4 lg:py-2 lg:text-sm lg:font-medium ${
-                            viewMode === id
-                              ? "bg-blue-600 text-white"
-                              : "bg-gray-700 text-gray-200 hover:bg-gray-600"
-                          }`}
-                          // 해당 버튼 활성화 상태일때 대회색상 OR bg-blue 그 외의 경우 회색
-                          style={
-                            viewMode === id
-                              ? { backgroundColor: championshipListColor }
-                              : undefined
-                          }>
-                          {label}
-                        </button>
-                      ))}
-                    </div>
+            {/* 상단 네비게이션 */}
+            <nav className="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 gap-3 lg:mb-6 lg:gap-4">
+              {/* 뷰 모드 탭 버튼 */}
+              <div className="flex overflow-x-auto space-x-2 p-1 rounded-lg scrollbar-hide w-full lg:w-auto lg:p-2 lg:rounded-md">
+                {VIEW_MODE_BUTTONS.map(({ id, label }) => (
+                  <button
+                    key={id}
+                    onClick={() => setViewMode(id)}
+                    className={`flex-shrink-0 px-5 py-3 rounded-full text-base font-semibold transition lg:px-4 lg:py-2 lg:text-sm lg:font-medium ${
+                      viewMode === id
+                        ? "bg-blue-600 text-white"
+                        : "bg-gray-700 text-gray-200 hover:bg-gray-600"
+                    }`}
+                    style={
+                      viewMode === id
+                        ? { backgroundColor: championshipListColor }
+                        : undefined
+                    }>
+                    {label}
+                  </button>
+                ))}
+              </div>
 
-                    {/* 매치 클릭된 경우*/}
-                    {/* 내 팀인경우에만 매치 모달출력 */}
-                    {selectedMatch &&
-                      firstTeamMatchInfo &&
-                      secondTeamMatchInfo && (
-                        <div className="flex flex-col sm:flex-row gap-2 w-full md:w-auto">
-                          {firstTeamMatchInfo.team_list_idx === myTeamIdx && (
-                            <button
-                              className="min-w-[200px] px-4 py-2 rounded border-2"
-                              style={{
-                                borderColor: firstTeamMatchInfo.team_list_color,
-                              }}
-                              onClick={() => {
-                                setMatchIdx(firstTeamMatchInfo.match_match_idx);
-                                toggleMatchModal();
-                              }}>
-                              {firstTeamMatchInfo.team_list_name}
-                              <div>매치 상세보기</div>
-                            </button>
-                          )}
-                          {secondTeamMatchInfo.team_list_idx === myTeamIdx && (
-                            <button
-                              className="min-w-[200px] px-4 py-2 rounded border-2"
-                              style={{
-                                borderColor:
-                                  secondTeamMatchInfo.team_list_color,
-                              }}
-                              onClick={() => {
-                                setMatchIdx(
-                                  secondTeamMatchInfo.match_match_idx
-                                );
-                                toggleMatchModal();
-                              }}>
-                              {secondTeamMatchInfo.team_list_name}
-                              <div>매치 상세보기</div>
-                            </button>
-                          )}
-                        </div>
-                      )}
-                  </nav>
-
-                  {viewMode === VIEW_MODE.Team ? (
-                    /* 팀 통계 카드 – 필터링된 증거 이미지 사용 */
-                    <div className="container mx-auto px-0 py-3 lg:px-4 lg:py-6">
-                      <VerticalTeamStatCards
-                        championshipMatchDetail={championshipMatchDetail}
-                        matchList={selectedMatch}
-                        evidenceImage={evidenceImage}
-                        handleUpdateMatchScore={
-                          matchHandlers.handleUpdateMatchScore
-                        }
-                      />
-                    </div>
-                  ) : viewMode === VIEW_MODE.Personal ? (
-                    /* 개인 기록 보기 – 필터링된 증거 이미지 사용 */
-                    <div className="container mx-auto px-0 py-3 lg:px-4 lg:py-6">
-                      <div className="w-full mx-auto px-2 py-4 space-y-6 lg:p-4 lg:space-y-6 lg:max-w-6xl">
-                        {/* 모바일: 탭 전환 */}
-                        <div className="lg:hidden">
-                          <div className="flex w-full space-x-1 bg-gray-800 p-1.5 rounded-xl lg:space-x-2 lg:p-2">
-                            {[firstTeamMatchInfo, secondTeamMatchInfo].map(
-                              (team, index) => (
-                                <button
-                                  key={index}
-                                  onClick={() => setActiveTeam(index as 0 | 1)}
-                                  className={`flex-1 py-3 px-3 text-lg font-semibold rounded-lg transition-colors lg:py-4 lg:px-6 ${
-                                    activeTeam === index
-                                      ? "bg-gray-700 text-gray-100 shadow-sm"
-                                      : "text-gray-400 hover:text-gray-100"
-                                  }`}
-                                  style={
-                                    activeTeam === index &&
-                                    team?.team_list_color
-                                      ? {
-                                          backgroundColor: team.team_list_color,
-                                        }
-                                      : undefined
-                                  }>
-                                  {team?.team_list_name || ""}
-                                </button>
-                              )
-                            )}
-                          </div>
-
-                          <div className="mt-6 overflow-x-auto lg:mt-10">
-                            <PlayerHistoryTable
-                              players={
-                                activeTeam === 0
-                                  ? team1PlayerStats
-                                  : team2PlayerStats
-                              }
-                              teamLabel={
-                                (activeTeam === 0
-                                  ? firstTeamMatchInfo?.team_list_name
-                                  : secondTeamMatchInfo?.team_list_name) || ""
-                              }
-                              maxGoal={maxGoal}
-                              maxAssist={maxAssist}
-                              personEvidenceImage={personEvidenceImage}
-                              handleUpdatePlayer={handleUpdatePlayer}
-                            />
-                          </div>
-                        </div>
-
-                        {/* 데스크톱: 2열 */}
-                        <div className="hidden lg:grid grid-cols-2 gap-6">
-                          <PlayerHistoryTable
-                            players={team1PlayerStats}
-                            teamLabel={firstTeamMatchInfo?.team_list_name || ""}
-                            maxGoal={maxGoal}
-                            maxAssist={maxAssist}
-                            personEvidenceImage={personEvidenceImage}
-                            handleUpdatePlayer={handleUpdatePlayer}
-                          />
-                          <PlayerHistoryTable
-                            players={team2PlayerStats}
-                            teamLabel={
-                              secondTeamMatchInfo?.team_list_name || ""
-                            }
-                            maxGoal={maxGoal}
-                            maxAssist={maxAssist}
-                            personEvidenceImage={personEvidenceImage}
-                            handleUpdatePlayer={handleUpdatePlayer}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  ) : (
-                    /* 라인업/포메이션 영역 */
-                    <div>
-                      <div className="flex justify-center items-center gap-3 mb-3 lg:gap-4 lg:mb-4">
-                        <h2 className="text-lg font-bold lg:text-xl">
-                          {firstTeamMatchInfo?.team_list_name || ""}
-                          {`(${
-                            firstTeamMatchInfo?.match_team_stats_our_score ?? ""
-                          })`}
-                        </h2>
-                        <span className="text-lg font-bold text-gray-300 lg:text-xl">
-                          VS
-                        </span>
-                        <h2 className="text-lg font-bold lg:text-xl">
-                          {secondTeamMatchInfo?.team_list_name || ""}{" "}
-                          {`(${
-                            secondTeamMatchInfo?.match_team_stats_our_score ??
-                            ""
-                          })`}
-                        </h2>
-                      </div>
-
-                      <h2 className="text-lg font-bold mb-3 text-center lg:text-xl lg:mb-4">
-                        매치 #{selectChampionshipMatchIdx} 라인업
-                      </h2>
-
-                      <div className="flex flex-col md:flex-row flex-wrap justify-center gap-3 lg:gap-4">
-                        {/* FotMob 스타일 통합 축구장 */}
-                        <div className="w-full max-w-4xl mx-auto">
-                          <FootballGroundSection
-                            championshipDetail={championshipMatchDetail}
-                          />
-                        </div>
-                      </div>
-                    </div>
+              {/* 내 팀 매치 상세보기 버튼 */}
+              {selectedMatch && firstTeamMatchInfo && secondTeamMatchInfo && (
+                <div className="flex flex-col sm:flex-row gap-2 w-full md:w-auto">
+                  {firstTeamMatchInfo.team_list_idx === myTeamIdx && (
+                    <button
+                      className="min-w-[200px] px-4 py-2 rounded border-2"
+                      style={{
+                        borderColor: firstTeamMatchInfo.team_list_color,
+                      }}
+                      onClick={() => {
+                        setMatchIdx(firstTeamMatchInfo.match_match_idx);
+                        toggleMatchModal();
+                      }}>
+                      {firstTeamMatchInfo.team_list_name}
+                      <div>매치 상세보기</div>
+                    </button>
+                  )}
+                  {secondTeamMatchInfo.team_list_idx === myTeamIdx && (
+                    <button
+                      className="min-w-[200px] px-4 py-2 rounded border-2"
+                      style={{
+                        borderColor: secondTeamMatchInfo.team_list_color,
+                      }}
+                      onClick={() => {
+                        setMatchIdx(secondTeamMatchInfo.match_match_idx);
+                        toggleMatchModal();
+                      }}>
+                      {secondTeamMatchInfo.team_list_name}
+                      <div>매치 상세보기</div>
+                    </button>
                   )}
                 </div>
               )}
-            </div>
+            </nav>
+
+            {/* 뷰 모드별 컨텐츠 */}
+            {viewMode === VIEW_MODE.Team && (
+              <div className="container mx-auto px-0 py-3 lg:px-4 lg:py-6">
+                <VerticalTeamStatCards
+                  championshipMatchDetail={championshipMatchDetail}
+                  matchList={selectedMatch}
+                  evidenceImage={evidenceImage}
+                  handleUpdateMatchScore={matchHandlers.handleUpdateMatchScore}
+                />
+              </div>
+            )}
+
+            {viewMode === VIEW_MODE.Personal && (
+              <div className="container mx-auto px-0 py-3 lg:px-4 lg:py-6">
+                <div className="w-full mx-auto px-2 py-4 space-y-6 lg:p-4 lg:space-y-6 lg:max-w-6xl">
+                  {/* 모바일: 탭 전환 */}
+                  <div className="lg:hidden">
+                    <div className="flex w-full space-x-1 bg-gray-800 p-1.5 rounded-xl lg:space-x-2 lg:p-2">
+                      {[firstTeamMatchInfo, secondTeamMatchInfo].map(
+                        (team, index) => (
+                          <button
+                            key={index}
+                            onClick={() => setActiveTeam(index as 0 | 1)}
+                            className={`flex-1 py-3 px-3 text-lg font-semibold rounded-lg transition-colors lg:py-4 lg:px-6 ${
+                              activeTeam === index
+                                ? "bg-gray-700 text-gray-100 shadow-sm"
+                                : "text-gray-400 hover:text-gray-100"
+                            }`}
+                            style={
+                              activeTeam === index && team?.team_list_color
+                                ? { backgroundColor: team.team_list_color }
+                                : undefined
+                            }>
+                            {team?.team_list_name || ""}
+                          </button>
+                        )
+                      )}
+                    </div>
+
+                    <div className="mt-6 overflow-x-auto lg:mt-10">
+                      <PlayerHistoryTable
+                        players={
+                          activeTeam === 0 ? team1PlayerStats : team2PlayerStats
+                        }
+                        teamLabel={
+                          (activeTeam === 0
+                            ? firstTeamMatchInfo?.team_list_name
+                            : secondTeamMatchInfo?.team_list_name) || ""
+                        }
+                        maxGoal={maxGoal}
+                        maxAssist={maxAssist}
+                        personEvidenceImage={personEvidenceImage}
+                        handleUpdatePlayer={handleUpdatePlayer}
+                      />
+                    </div>
+                  </div>
+
+                  {/* 데스크톱: 2열 */}
+                  <div className="hidden lg:grid grid-cols-2 gap-6">
+                    <PlayerHistoryTable
+                      players={team1PlayerStats}
+                      teamLabel={firstTeamMatchInfo?.team_list_name || ""}
+                      maxGoal={maxGoal}
+                      maxAssist={maxAssist}
+                      personEvidenceImage={personEvidenceImage}
+                      handleUpdatePlayer={handleUpdatePlayer}
+                    />
+                    <PlayerHistoryTable
+                      players={team2PlayerStats}
+                      teamLabel={secondTeamMatchInfo?.team_list_name || ""}
+                      maxGoal={maxGoal}
+                      maxAssist={maxAssist}
+                      personEvidenceImage={personEvidenceImage}
+                      handleUpdatePlayer={handleUpdatePlayer}
+                    />
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {viewMode === VIEW_MODE.Lineup && (
+              <div>
+                <div className="flex justify-center items-center gap-3 mb-3 lg:gap-4 lg:mb-4">
+                  <h2 className="text-lg font-bold lg:text-xl">
+                    {firstTeamMatchInfo?.team_list_name || ""}
+                    {`(${
+                      firstTeamMatchInfo?.match_team_stats_our_score ?? ""
+                    })`}
+                  </h2>
+                  <span className="text-lg font-bold text-gray-300 lg:text-xl">
+                    VS
+                  </span>
+                  <h2 className="text-lg font-bold lg:text-xl">
+                    {secondTeamMatchInfo?.team_list_name || ""}{" "}
+                    {`(${
+                      secondTeamMatchInfo?.match_team_stats_our_score ?? ""
+                    })`}
+                  </h2>
+                </div>
+
+                <h2 className="text-lg font-bold mb-3 text-center lg:text-xl lg:mb-4">
+                  매치 #{selectChampionshipMatchIdx} 라인업
+                </h2>
+
+                <div className="flex flex-col md:flex-row flex-wrap justify-center gap-3 lg:gap-4">
+                  <div className="w-full max-w-4xl mx-auto">
+                    <FootballGroundSection
+                      championshipDetail={championshipMatchDetail}
+                    />
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
-        </div>
+        </section>
       ) : (
-        /* 매치 리스트 보기 */
-        <div className="bg-gray-800 rounded-lg shadow-md">
-          {/* 헤더 */}
+        <section className="w-full mx-auto bg-gray-800 rounded-lg shadow-md">
+          {/* 매치 목록 헤더 */}
           <div className="p-6 border-b border-gray-700">
             <h2 className="text-2xl font-bold text-white flex items-center gap-3 mb-2">
               <div className="w-10 h-10 rounded-full flex items-center justify-center">
@@ -394,7 +354,7 @@ const MatchListTab = (props: MatchListTabProps) => {
             )}
           </div>
 
-          {/* MOD: 날짜 네비게이션 */}
+          {/* 날짜 네비게이션 */}
           <div className="p-6 border-b border-gray-700">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-bold text-white">경기 일정</h3>
@@ -422,7 +382,6 @@ const MatchListTab = (props: MatchListTabProps) => {
               {availableDates.map((date, index) => {
                 const isSelected = isSameDate(date, selectedDate);
                 const isToday = isSameDate(date, new Date());
-
                 return (
                   <button
                     key={index}
@@ -440,21 +399,17 @@ const MatchListTab = (props: MatchListTabProps) => {
                         : isToday
                         ? {
                             backgroundColor: `${championshipListColor}33`,
-                            color: championshipListColor,
+                            color: getTextColorFromBackground(
+                              championshipListColor
+                            ),
                           }
                         : undefined
                     }>
                     <div className="text-xs font-medium mb-1">
-                      {
-                        ["일", "월", "화", "수", "목", "금", "토"][
-                          date.getDay()
-                        ]
-                      }
+                      {days[date.getDay()]}
                     </div>
                     <div
-                      className={`text-lg font-bold ${
-                        isToday && !isSelected ? "" : ""
-                      }`}
+                      className={`text-lg font-bold`}
                       style={
                         isToday && !isSelected
                           ? { color: championshipListColor }
@@ -478,7 +433,7 @@ const MatchListTab = (props: MatchListTabProps) => {
             </div>
           </div>
 
-          {/* MOD: 선택된 날짜의 매치 리스트 */}
+          {/* 매치 목록 또는 빈 상태 */}
           <div className="p-6 min-h-[600px]">
             {selectedDateMatches.length > 0 ? (
               <div className="space-y-4">
@@ -487,6 +442,12 @@ const MatchListTab = (props: MatchListTabProps) => {
                     key={`selected-date-match-${index}`}
                     match={match}
                     handleMatchSelect={handleMatchSelect}
+                    isMyTeam={
+                      match.championship_match_first?.team_list_idx ===
+                        myTeamIdx ||
+                      match.championship_match_second?.team_list_idx ===
+                        myTeamIdx
+                    }
                     {...matchHandlers}
                   />
                 ))}
@@ -517,9 +478,9 @@ const MatchListTab = (props: MatchListTabProps) => {
               </div>
             )}
           </div>
-        </div>
+        </section>
       )}
-    </section>
+    </div>
   );
 };
 

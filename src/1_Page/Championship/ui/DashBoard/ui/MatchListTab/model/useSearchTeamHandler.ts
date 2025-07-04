@@ -1,7 +1,7 @@
 import React from "react";
 import { useAuthStore } from "../../../../../../../4_Shared/lib/useMyInfo";
-import { generateDateNavigation } from "../lib/dateUtils";
 import { utcFormatter } from "../../../../../../../4_Shared/lib/utcFormatter";
+import { isSameDate } from "../lib/dateUtils";
 
 const useSearchTeamHandler = (
   matchList: ChampionshipMatchList[]
@@ -18,17 +18,8 @@ const useSearchTeamHandler = (
 
   // 날짜 선택 핸들러
   const handleSetSelectedDate = (date: Date) => {
-    const normalizedDate = new Date(date);
-    normalizedDate.setHours(0, 0, 0, 0);
-    setSelectedDate(normalizedDate);
+    setSelectedDate(date);
   };
-
-  // 초기 선택 날짜 설정
-  React.useEffect(() => {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    setSelectedDate(today);
-  }, []);
 
   // 검색어로 필터링된 매치 (isMyTeamMatch 추가)
   const filteredMatches = React.useMemo(() => {
@@ -55,22 +46,37 @@ const useSearchTeamHandler = (
   }, [matchList, searchTerm, myTeamIdx]);
 
   // 날짜 네비게이션 데이터 생성
-  const availableDates = React.useMemo(
-    () => generateDateNavigation(filteredMatches),
-    [filteredMatches]
-  );
+  const availableDates = React.useMemo(() => {
+    // 매치 데이터에서 날짜 추출
+    const matchDates = filteredMatches.map(
+      (match) => new Date(match.match_match_start_time)
+    );
+
+    // 오늘 날짜 추가 (매치가 없어도 표시)
+    const today = new Date();
+    matchDates.push(today);
+
+    // 같은 날짜 중복 제거 및 정렬 (시간 무시, 날짜만 비교)
+    const uniqueDates = Array.from(
+      new Set(
+        matchDates.map((date) => {
+          const dateOnly = new Date(date);
+          dateOnly.setHours(0, 0, 0, 0); // 시간을 00:00:00으로 설정
+          return dateOnly.getTime();
+        })
+      )
+    )
+      .map((time) => new Date(time))
+      .sort((a, b) => a.getTime() - b.getTime());
+
+    return uniqueDates;
+  }, [filteredMatches]);
 
   // 선택된 날짜의 매치만 필터링
   const selectedDateMatches = React.useMemo(() => {
     const matches = filteredMatches.filter((match) => {
-      const formattedDateTime = utcFormatter(match.match_match_start_time);
-      const matchDate = new Date(formattedDateTime);
-      matchDate.setHours(0, 0, 0, 0);
-
-      const selectedDateNormalized = new Date(selectedDate);
-      selectedDateNormalized.setHours(0, 0, 0, 0);
-
-      return matchDate.getTime() === selectedDateNormalized.getTime();
+      const matchDate = new Date(utcFormatter(match.match_match_start_time));
+      return isSameDate(matchDate, selectedDate);
     });
 
     // 내 팀 매치를 위로, 그 다음 시간순으로 정렬
