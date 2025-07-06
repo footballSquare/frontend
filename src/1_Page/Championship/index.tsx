@@ -22,7 +22,8 @@ const Championship = () => {
   const [communityRoleIdx] = useMyCommunityRoleIdx();
   const isCommunityOperator =
     communityRoleIdx === 1 && myCommunityListIdx === community_list_idx;
-  const isCommunityManager = communityRoleIdx === 0;
+  const isCommunityManager =
+    communityRoleIdx === 0 && myCommunityListIdx === community_list_idx;
 
   return (
     <div className="w-full min-h-full">
