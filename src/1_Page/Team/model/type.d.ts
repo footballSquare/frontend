@@ -1,5 +1,6 @@
-type UseManageTeamInfoReturn = {
+type useGetTeamInfoHandlerReturn = {
   displayTeamInfo: TeamInfo;
+  loading: boolean;
   handlers: ManageHandlers;
 };
 

@@ -1,6 +1,12 @@
 import React from "react";
+import useGetTeamInfo from "../../../3_Entity/Team/useGetTeamInfo";
+import useValidParamInteger from "../../../4_Shared/model/useValidParamInteger";
 
-const useManageTeamInfo = (teamInfo: TeamInfo): UseManageTeamInfoReturn => {
+const useGetTeamInfoHandler = (): useGetTeamInfoHandlerReturn => {
+  const [teamIdx] = useValidParamInteger("teamIdx");
+
+  const [teamInfo, loading] = useGetTeamInfo(teamIdx);
+
   const [displayTeamInfo, setDisplayTeamInfo] = React.useState<TeamInfo>(
     {} as TeamInfo
   );
@@ -35,8 +41,9 @@ const useManageTeamInfo = (teamInfo: TeamInfo): UseManageTeamInfoReturn => {
 
   return {
     displayTeamInfo,
+    loading,
     handlers,
   };
 };
 
-export default useManageTeamInfo;
+export default useGetTeamInfoHandler;
