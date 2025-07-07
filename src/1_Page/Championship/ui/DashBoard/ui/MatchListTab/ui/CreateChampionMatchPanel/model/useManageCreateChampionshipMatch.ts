@@ -19,7 +19,7 @@ const usePostCreateChampionshipMatchHandler = (
 
   const postMatchIdxListRef = React.useRef<number[]>([]);
 
-  const [postCreateChampionshipMatch, idxList, loading] =
+  const [postCreateChampionshipMatch, responseIdxList, loading] =
     usePostCreateChampionshipMatch(championshipIdx);
 
   const handlePostCreateChampionshipMatch = async (
@@ -33,29 +33,32 @@ const usePostCreateChampionshipMatchHandler = (
 
     const dummyMatchIdx = Date.now(); // 더미용 unique key
     postMatchIdxListRef.current.push(dummyMatchIdx);
+    // 부족 데이터를 더미로 해서 매치 UI 생성
+    // 이후 side Effect로 의존성 주입
     handleAddMatch(
       buildDummyChampionshipMatch(dummyMatchIdx, formData, filteredTeamList)
     );
     postCreateChampionshipMatch(formData);
   };
 
+  // 의존성 주입
   React.useEffect(() => {
     // 아직 요청 중이거나 응답이 없는 경우 아무 것도 하지 않음
-    if (loading || !idxList) return;
+    if (loading || !responseIdxList) return;
     // 로딩이 끝났고 응답 값이 정상적인 경우(성공)
     if (
-      idxList.championship_match_idx &&
-      idxList.first_match_idx &&
-      idxList.second_match_idx
+      responseIdxList.championship_match_idx &&
+      responseIdxList.first_match_idx &&
+      responseIdxList.second_match_idx
     ) {
       handleSyncMatchIdx(
         postMatchIdxListRef.current[0],
-        idxList.championship_match_idx,
-        idxList.first_match_idx,
-        idxList.second_match_idx
+        responseIdxList.championship_match_idx,
+        responseIdxList.first_match_idx,
+        responseIdxList.second_match_idx
       );
 
-      handleMatchSelect(idxList.championship_match_idx);
+      handleMatchSelect(responseIdxList.championship_match_idx);
 
       postMatchIdxListRef.current = [];
     } else {
@@ -65,7 +68,7 @@ const usePostCreateChampionshipMatchHandler = (
       postMatchIdxListRef.current = [];
     }
   }, [
-    idxList,
+    responseIdxList,
     loading,
     handleSyncMatchIdx,
     handleMatchSelect,
