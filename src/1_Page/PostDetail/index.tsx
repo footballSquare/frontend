@@ -3,9 +3,11 @@ import useGetBoardDetail from "../../3_Entity/Board/useGetBoardDetail";
 import useParamInteger from "../../4_Shared/model/useParamInteger";
 import CommentSection from "./ui/CommentSection";
 import useDeleteBoard from "../../3_Entity/Board/useDeleteBoard";
-import { utcFormatter } from "../../4_Shared/lib/utcFormatter";
-import { useMyUserIdx } from "../../4_Shared/lib/useMyInfo";
+
+import { useAuthStore } from "../../4_Shared/lib/useMyInfo";
 import LikeToggle from "./ui/LikeToggle";
+import useGoBackHandler from "./model/useGobackHandler";
+import { formatDateKorean } from "../../4_Shared/lib/dateFormatter";
 
 const PostDetail = () => {
   const navigate = useNavigate();
@@ -13,27 +15,7 @@ const PostDetail = () => {
   const postId = useParamInteger("postId");
   const [board] = useGetBoardDetail(postId);
   const [deleteBoard] = useDeleteBoard(postId);
-
-  // 뒤로가기 핸들러
-  const handleGoBack = () => {
-    const referrer = document.referrer;
-
-    if (referrer.includes("/team/")) {
-      // 팀 페이지에서 왔으면 해당 팀 페이지로
-      const teamMatch = referrer.match(/\/team\/(\d+)/);
-      if (teamMatch) {
-        navigate(`/team/${teamMatch[1]}`);
-      } else {
-        navigate("/topics");
-      }
-    } else if (referrer.includes("/topics")) {
-      // topics 페이지에서 왔으면 topics로
-      navigate("/topics");
-    } else {
-      // 직접 접근한 경우 기본 페이지로
-      navigate("/topics");
-    }
-  };
+  const { handleGoBack } = useGoBackHandler();
 
   const {
     board_category_idx,
@@ -49,7 +31,7 @@ const PostDetail = () => {
     is_liked,
   } = board;
 
-  const [myIdx] = useMyUserIdx();
+  const myUserIdx = useAuthStore((state) => state.userIdx);
   const player_list_idx = player?.player_list_idx ?? null;
   const player_list_profile_image = player?.player_list_profile_image ?? null;
   const player_list_nickname = player?.player_list_nickname ?? "";
@@ -59,13 +41,33 @@ const PostDetail = () => {
     <div className="w-full max-w-5xl mx-auto mt-8 mb-16 space-y-12 text-gray-200 px-4 sm:px-6">
       {/* 게시글 헤더 */}
       <div className="space-y-3 border-b border-gray-700 pb-6">
-        <div className="flex justify-between items-center">
-          <span
-            className={`inline-block px-3 py-1 text-sm rounded-full text-white bg-grass`}>
-            {board_category_idx === 1 ? "공지" : "자유"}
-          </span>
+        {/* 뒤로가기 버튼과 카테고리/날짜 */}
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <button
+              className="flex items-center gap-1 text-gray-400 hover:text-gray-200 transition-colors p-1 -ml-1"
+              onClick={handleGoBack}>
+              <svg
+                className="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24">
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M15 19l-7-7 7-7"
+                />
+              </svg>
+              <span className="text-sm">뒤로</span>
+            </button>
+            <span
+              className={`inline-block px-3 py-1 text-sm rounded-full text-white bg-grass`}>
+              {board_category_idx === 1 ? "공지" : "자유"}
+            </span>
+          </div>
           <p className="text-sm text-gray-400">
-            {utcFormatter(board_list_created_at)}
+            {formatDateKorean(board_list_created_at)}
           </p>
         </div>
 
@@ -76,15 +78,20 @@ const PostDetail = () => {
         <div className="flex items-center justify-between space-x-4 text-sm text-gray-400">
           <div className="flex items-center space-x-4">
             <span>조회수 {board_list_view_count}</span>
-            {board_list_updated_at && (
-              <span>수정: {utcFormatter(board_list_updated_at)}</span>
-            )}
+            {board_list_updated_at &&
+              board_list_created_at !== board_list_updated_at && (
+                <span>수정: {formatDateKorean(board_list_updated_at)}</span>
+              )}
           </div>
           <LikeToggle boardLikeCount={board_list_likecount} isLike={is_liked} />
         </div>
 
         {/* 작성자 정보 */}
-        <div className="flex items-center space-x-2">
+        <div
+          className="flex items-center space-x-2 cursor-pointer hover:underline"
+          onClick={() => {
+            navigate(`/profile/${player_list_idx}`);
+          }}>
           <div className="w-8 h-8 rounded-full bg-gray-800 overflow-hidden flex items-center justify-center text-gray-300">
             {player_list_profile_image ? (
               <img
@@ -121,7 +128,7 @@ const PostDetail = () => {
 
       {/* 게시글 작업 버튼 */}
       <div className="flex flex-wrap gap-2 pt-2">
-        {myIdx === player_list_idx && (
+        {myUserIdx === player_list_idx && (
           <div className="flex gap-2">
             <button
               className="text-grass hover:underline cursor-pointer"
@@ -139,23 +146,6 @@ const PostDetail = () => {
             </button>
           </div>
         )}
-        <button
-          className="text-gray-400 hover:underline cursor-pointer ml-auto flex items-center gap-1"
-          onClick={handleGoBack}>
-          <svg
-            className="w-4 h-4"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24">
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M15 19l-7-7 7-7"
-            />
-          </svg>
-          뒤로가기
-        </button>
       </div>
 
       <CommentSection initialComments={board.comments || []} />

@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 
-import { useMyUserIdx } from "../../../../../../4_Shared/lib/useMyInfo";
+import { useAuthStore } from "../../../../../../4_Shared/lib/useMyInfo";
 import useToggleState from "../../../../../../4_Shared/model/useToggleState";
 import useCommentPutHandler from "./model/usePutCommentHandler";
 import useDeleteCommentHandler from "./model/useDeleteCommentHandler";
@@ -19,7 +19,7 @@ const Comment = (props: CommentProps) => {
     discardLastHistory,
   } = props;
 
-  const [myIdx] = useMyUserIdx();
+  const myUserIdx = useAuthStore((state) => state.userIdx);
   const { board_comment_idx } = comment;
 
   const handlerProps = {
@@ -121,7 +121,7 @@ const Comment = (props: CommentProps) => {
               {isExpanded ? "간략히 보기" : "... 자세히 보기"}
             </button>
           )}
-          {myIdx === comment.player_list_idx && (
+          {myUserIdx === comment.player_list_idx && (
             <div className="flex space-x-2 mt-3 justify-end">
               <button
                 type="button"
