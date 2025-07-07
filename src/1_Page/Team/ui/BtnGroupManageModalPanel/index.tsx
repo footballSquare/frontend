@@ -24,10 +24,8 @@ const BtnGroupManageModalPanel = (props: BtnGroupManageModalPanelProps) => {
   const {
     isTeamCaptain,
     isTeamSubLeader,
-    isJoinRequestPending,
     isCurrentTeamMember,
     setMembershipToAvailable,
-    setMembershipToPending,
     setMembershipToUnavailable,
   } = useJoinAction();
 
@@ -36,10 +34,7 @@ const BtnGroupManageModalPanel = (props: BtnGroupManageModalPanelProps) => {
     setMembershipToAvailable,
     setMembershipToUnavailable,
   });
-  const [handlePutSignTeam] = usePutSignTeamHandler({
-    setMembershipToUnavailable,
-    setMembershipToPending,
-  });
+  const [handlePutSignTeam] = usePutSignTeamHandler();
 
   // 팀매치 생성 모달 전역으로 관리
   const { toggleMakeMatchModal } = useMakeTeamMatchModalStore(); // 팀매치 생성 모달 전역으로 관리
@@ -48,12 +43,7 @@ const BtnGroupManageModalPanel = (props: BtnGroupManageModalPanelProps) => {
     <div className="flex flex-col items-center gap-3 mt-4">
       {!isTeamCaptain && (
         <div className="w-full max-w-xs">
-          {isJoinRequestPending ? (
-            <button className="w-full bg-gray-700 text-gray-300 text-sm font-medium py-2.5 px-6 rounded-lg shadow-lg border border-gray-600 flex items-center justify-center gap-2 cursor-not-allowed">
-              <span className="inline-block w-2 h-2 bg-blue-400 rounded-full animate-pulse"></span>
-              가입신청중
-            </button>
-          ) : isCurrentTeamMember ? (
+          {isCurrentTeamMember ? (
             // 팀원일때
             <button
               className="w-full bg-gradient-to-r from-red-700 to-red-600 hover:from-red-800 hover:to-red-700 text-white text-sm font-medium py-2.5 px-6 rounded-lg shadow-lg transition transform hover:translate-y-px duration-200 flex items-center justify-center"

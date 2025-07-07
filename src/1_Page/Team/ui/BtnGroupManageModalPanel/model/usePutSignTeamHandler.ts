@@ -6,13 +6,7 @@ import {
   useIsLogin,
 } from "../../../../../4_Shared/lib/useMyInfo";
 
-type UsePutSignTeamHandlerProps = {
-  setMembershipToPending: () => void;
-  setMembershipToUnavailable: () => void;
-};
-
-const usePutSignTeamHandler = (props: UsePutSignTeamHandlerProps) => {
-  const { setMembershipToPending, setMembershipToUnavailable } = props;
+const usePutSignTeamHandler = () => {
   const teamIdx = useParamInteger("teamIdx");
   const [putSignTeam] = usePutSignTeam(teamIdx);
   const navigate = useNavigate();
@@ -31,20 +25,7 @@ const usePutSignTeamHandler = (props: UsePutSignTeamHandlerProps) => {
       return;
     }
     if (!confirm(`정말로 팀을 가입 하시겠습니까?`)) return;
-    setMembershipToPending();
-    const status = await putSignTeam();
-    switch (status) {
-      case 200:
-        break;
-      case 403:
-        alert("이미 가입한 팀이 있습니다");
-        setMembershipToUnavailable();
-        break;
-      default:
-        setMembershipToUnavailable();
-        alert("서버 오류");
-        break;
-    }
+    putSignTeam();
   };
   return [handlePutSignTeam];
 };

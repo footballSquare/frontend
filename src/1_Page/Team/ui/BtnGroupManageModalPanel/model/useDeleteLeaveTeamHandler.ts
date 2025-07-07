@@ -2,11 +2,6 @@ import { useAuthStore } from "../../../../../4_Shared/lib/useMyInfo";
 import useDeleteLeaveTeam from "../../../../../3_Entity/Team/useDeleteLeaveTeam";
 import useParamInteger from "../../../../../4_Shared/model/useParamInteger";
 
-type UseDeleteLeaveTeamHandlerProps = {
-  setMembershipToAvailable: () => void;
-  setMembershipToUnavailable: () => void;
-};
-
 const useDeleteLeaveTeamHandler = (props: UseDeleteLeaveTeamHandlerProps) => {
   const { setMembershipToAvailable, setMembershipToUnavailable } = props;
   const teamIdx = useParamInteger("teamIdx");
