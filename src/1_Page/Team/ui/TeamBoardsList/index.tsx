@@ -53,20 +53,22 @@ const TeamBoardsList = () => {
               onClick={() => navigate(`/post/${board.board_list_idx}`)}
               className="bg-gray-800 rounded-lg p-3 hover:bg-gray-700 transition-colors cursor-pointer flex items-center gap-3">
               {/* 게시글 이미지 (있는 경우만) */}
-              {board.board_list_img && board.board_list_img.length > 0 && (
-                <div className="w-12 h-12 bg-gray-700 rounded-lg flex-shrink-0 relative overflow-hidden">
-                  <img
-                    src={board.board_list_img[0]}
-                    alt={board.board_list_title}
-                    className="w-full h-full object-cover"
-                  />
-                  {board.board_list_img.length > 1 && (
-                    <div className="absolute top-0 right-0 bg-black/70 text-white text-xs px-1 rounded-bl">
-                      +{board.board_list_img.length - 1}
-                    </div>
-                  )}
-                </div>
-              )}
+              {board.board_list_img &&
+                board.board_list_img.length > 0 &&
+                board.board_list_img[0] && (
+                  <div className="w-12 h-12 bg-gray-700 rounded-lg flex-shrink-0 relative overflow-hidden">
+                    <img
+                      src={board.board_list_img[0]}
+                      alt={board.board_list_title}
+                      className="w-full h-full object-cover"
+                    />
+                    {board.board_list_img.length > 1 && (
+                      <div className="absolute top-0 right-0 bg-black/70 text-white text-xs px-1 rounded-bl">
+                        +{board.board_list_img.length - 1}
+                      </div>
+                    )}
+                  </div>
+                )}
 
               {/* 게시글 내용 */}
               <div className="flex-1 min-w-0">
