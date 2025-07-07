@@ -14,6 +14,27 @@ const PostDetail = () => {
   const [board] = useGetBoardDetail(postId);
   const [deleteBoard] = useDeleteBoard(postId);
 
+  // 뒤로가기 핸들러
+  const handleGoBack = () => {
+    const referrer = document.referrer;
+
+    if (referrer.includes("/team/")) {
+      // 팀 페이지에서 왔으면 해당 팀 페이지로
+      const teamMatch = referrer.match(/\/team\/(\d+)/);
+      if (teamMatch) {
+        navigate(`/team/${teamMatch[1]}`);
+      } else {
+        navigate("/topics");
+      }
+    } else if (referrer.includes("/topics")) {
+      // topics 페이지에서 왔으면 topics로
+      navigate("/topics");
+    } else {
+      // 직접 접근한 경우 기본 페이지로
+      navigate("/topics");
+    }
+  };
+
   const {
     board_category_idx,
     board_list_created_at,
@@ -119,9 +140,21 @@ const PostDetail = () => {
           </div>
         )}
         <button
-          className="text-gray-400 hover:underline cursor-pointer ml-auto"
-          onClick={() => navigate(`/topics`)}>
-          목록
+          className="text-gray-400 hover:underline cursor-pointer ml-auto flex items-center gap-1"
+          onClick={handleGoBack}>
+          <svg
+            className="w-4 h-4"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24">
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M15 19l-7-7 7-7"
+            />
+          </svg>
+          뒤로가기
         </button>
       </div>
 
