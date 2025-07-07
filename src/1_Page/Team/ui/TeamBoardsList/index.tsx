@@ -2,17 +2,20 @@ import React from "react";
 import useGetBoardList from "../../../../3_Entity/Board/useGetBoardList";
 import useInfiniteScrollPaging from "../../../../4_Shared/model/useInfiniteScrollPaging";
 import { formatDateKoreanDate } from "../../../../4_Shared/lib/dateFormatter";
-import { utcFormatter } from "../../../../4_Shared/lib/utcFormatter";
 import likeIcon from "../../../../4_Shared/assets/svg/likeFill.svg";
 import { useNavigate } from "react-router-dom";
+import useTeamInfoContext from "../../../../4_Shared/model/useTeamInfoContext";
+import { getTextColorFromBackground } from "../../../../4_Shared/lib/colorChecker";
 
 const TeamBoardsList = () => {
   const [page, setPage] = React.useState<number>(0);
   const [boardList, hasMoreContent, loading] = useGetBoardList({
-    category: 1,
+    category: 2,
     page,
   });
   const navigate = useNavigate();
+  const { teamListColor } = useTeamInfoContext();
+  const teamTextColor = getTextColorFromBackground(teamListColor);
 
   const [observeRef] = useInfiniteScrollPaging(
     setPage,
@@ -22,6 +25,19 @@ const TeamBoardsList = () => {
 
   return (
     <div className="flex flex-col gap-4">
+      <div className="flex items-center justify-between">
+        <h2 className="text-lg font-semibold text-white">팀 게시글</h2>
+        <button
+          onClick={() => navigate("/post/write/new/team")}
+          className="px-3 py-1 text-sm rounded-lg transition-colors hover:opacity-80"
+          style={{
+            backgroundColor: teamListColor,
+            color: teamTextColor,
+          }}>
+          글쓰기
+        </button>
+      </div>
+
       <div className="flex flex-col space-y-2 overflow-y-auto max-h-[600px]">
         {boardList.length === 0 ? (
           <div className="text-center py-12">
@@ -65,7 +81,7 @@ const TeamBoardsList = () => {
                     <span>•</span>
                     <span>
                       {formatDateKoreanDate(
-                        new Date(utcFormatter(board.board_list_created_at))
+                        new Date(board.board_list_created_at)
                       )}
                     </span>
                   </div>
