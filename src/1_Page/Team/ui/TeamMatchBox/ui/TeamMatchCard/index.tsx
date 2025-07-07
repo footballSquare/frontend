@@ -1,6 +1,5 @@
 import { matchAttribute } from "../../../../../../4_Shared/constant/matchAttribute";
 import { matchParticipation } from "../../../../../../4_Shared/constant/matchParticipation";
-import { useMyTeamIdx } from "../../../../../../4_Shared/lib/useMyInfo";
 import { utcFormatter } from "../../../../../../4_Shared/lib/utcFormatter";
 import useMatchModalStore from "../../../../../../4_Shared/zustand/useMatchModal";
 
@@ -16,23 +15,16 @@ const TeamMatchCard = (props: TeamMatchCardProps) => {
     match_match_duration,
     observeRef,
     common_status_idx,
-    team_list_idx,
   } = props;
 
   const { toggleMatchModal, setMatchIdx } = useMatchModalStore();
-  const [myTeamIdx] = useMyTeamIdx();
 
   const isNotEndMatch = common_status_idx === 0;
-  const isMyTeamMatch = myTeamIdx === team_list_idx;
 
   return (
     <div
       ref={observeRef}
       onClick={() => {
-        if (!isMyTeamMatch) {
-          alert("팀 소속이 아닙니다");
-          return;
-        }
         setMatchIdx(match_match_idx);
         toggleMatchModal();
       }}

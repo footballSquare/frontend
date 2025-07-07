@@ -161,7 +161,22 @@ const Team = () => {
                     </>
                   )}
 
-                  {mobileTab === MobileTabKey.Boards && <TeamBoardsList />}
+                  {mobileTab === MobileTabKey.Boards && (
+                    <>
+                      {team_list_idx === myTeamIdx ? (
+                        <TeamBoardsList />
+                      ) : (
+                        <div className="rounded-lg shadow p-4 bg-gray-800">
+                          <h2 className="text-base font-semibold mb-2">
+                            팀 게시판
+                          </h2>
+                          <p className="text-gray-600 text-sm whitespace-pre-line leading-relaxed">
+                            팀 게시판은 팀원만 확인할 수 있습니다.
+                          </p>
+                        </div>
+                      )}
+                    </>
+                  )}
                 </div>
 
                 {/* 본문: 그리드 레이아웃 */}
@@ -251,7 +266,22 @@ const Team = () => {
                       </div>
                     )}
 
-                    {desktopTab === DesktopTabKey.Boards && <TeamBoardsList />}
+                    {desktopTab === DesktopTabKey.Boards && (
+                      <div>
+                        {team_list_idx === myTeamIdx ? (
+                          <TeamBoardsList />
+                        ) : (
+                          <div className="rounded-lg shadow p-4 bg-gray-800">
+                            <h2 className="text-base font-semibold mb-2">
+                              팀 게시판
+                            </h2>
+                            <p className="text-gray-600 text-sm whitespace-pre-line leading-relaxed">
+                              팀 게시판은 팀원만 확인할 수 있습니다.
+                            </p>
+                          </div>
+                        )}
+                      </div>
+                    )}
                   </div>
                 </article>
               </div>

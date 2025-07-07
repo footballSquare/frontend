@@ -1,12 +1,10 @@
 import useTeamInfoContext from "../../../../4_Shared/model/useTeamInfoContext";
 import useJoinAction from "./model/useJoinAction";
 import useMakeTeamMatchModalStore from "../../../../4_Shared/zustand/useMakeMatchModalStore";
-import { useIsLogin } from "../../../../4_Shared/lib/useMyInfo";
 import useDeleteLeaveTeamHandler from "./model/useDeleteLeaveTeamHandler";
 import useToggleState from "../../../../4_Shared/model/useToggleState";
 import ManageModal from "./ui/ManageModal";
 import usePutSignTeamHandler from "./model/usePutSignTeamHandler";
-import { useNavigate } from "react-router-dom";
 
 import exitIcon from "../../../../4_Shared/assets/svg/exit.svg";
 import joinIcon from "../../../../4_Shared/assets/svg/join.svg";
@@ -15,10 +13,8 @@ import { getTextColorFromBackground } from "../../../../4_Shared/lib/colorChecke
 
 const BtnGroupManageModalPanel = (props: BtnGroupManageModalPanelProps) => {
   const { teamInfo, handlers } = props;
-  const navigate = useNavigate();
 
   const [isModalOpen, handleToggleManageModal] = useToggleState();
-  const [isLogin] = useIsLogin();
 
   // 팀 권한과
 
@@ -36,10 +32,14 @@ const BtnGroupManageModalPanel = (props: BtnGroupManageModalPanelProps) => {
   } = useJoinAction();
 
   // api
-  const [handleDeleteLeaveTeam] = useDeleteLeaveTeamHandler(
-    setMembershipToAvailable
-  );
-  const [handlePutSignTeam] = usePutSignTeamHandler(setMembershipToUnavailable);
+  const [handleDeleteLeaveTeam] = useDeleteLeaveTeamHandler({
+    setMembershipToAvailable,
+    setMembershipToUnavailable,
+  });
+  const [handlePutSignTeam] = usePutSignTeamHandler({
+    setMembershipToUnavailable,
+    setMembershipToPending,
+  });
 
   // 팀매치 생성 모달 전역으로 관리
   const { toggleMakeMatchModal } = useMakeTeamMatchModalStore(); // 팀매치 생성 모달 전역으로 관리
@@ -57,12 +57,7 @@ const BtnGroupManageModalPanel = (props: BtnGroupManageModalPanelProps) => {
             // 팀원일때
             <button
               className="w-full bg-gradient-to-r from-red-700 to-red-600 hover:from-red-800 hover:to-red-700 text-white text-sm font-medium py-2.5 px-6 rounded-lg shadow-lg transition transform hover:translate-y-px duration-200 flex items-center justify-center"
-              onClick={() => {
-                if (confirm(`정말로 팀을 탈퇴 하시겠습니까?`)) {
-                  handleDeleteLeaveTeam();
-                  setMembershipToUnavailable();
-                }
-              }}>
+              onClick={handleDeleteLeaveTeam}>
               <img src={exitIcon} alt="팀 탈퇴" className="h-4 w-4 mr-2" />팀
               탈퇴
             </button>
@@ -70,17 +65,7 @@ const BtnGroupManageModalPanel = (props: BtnGroupManageModalPanelProps) => {
             // 팀원이 아닐때
             <button
               className="w-full bg-gradient-to-r from-blue-700 to-blue-600 hover:from-blue-800 hover:to-blue-700 text-white text-sm font-medium py-2.5 px-6 rounded-lg shadow-lg transition transform hover:translate-y-px duration-200 flex items-center justify-center"
-              onClick={() => {
-                if (!isLogin) {
-                  alert("로그인 후 이용해주세요.");
-                  navigate("/login");
-                  return;
-                }
-                if (confirm(`정말로 팀을 가입 하시겠습니까?`)) {
-                  handlePutSignTeam();
-                  setMembershipToPending();
-                }
-              }}>
+              onClick={handlePutSignTeam}>
               <img src={joinIcon} alt="팀 가입" className="h-4 w-4 mr-2" />팀
               가입
             </button>
