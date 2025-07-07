@@ -65,7 +65,7 @@ const TeamMatchCard = (props: TeamMatchCardProps) => {
           <div className="flex items-center gap-2 mb-1">
             <span className="text-white font-medium">{team_list_name}</span>
             <span className="px-2 py-1 text-xs bg-gray-700 text-gray-300 rounded">
-              {match_type_idx === 0 ? "일반" : "특별"}
+              {match_type_idx === 0 ? "11:11" : "4:4"}
             </span>
           </div>
 

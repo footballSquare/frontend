@@ -14,6 +14,7 @@ import EmptyBanner from "../../4_Shared/components/EmptyBanner";
 import { MOBILE_TABS, MobileTabKey } from "./constant/mobileTab";
 import { TeamInfoContext } from "../../4_Shared/model/useTeamInfoContext";
 import DefaultTeamEmblem from "../../4_Shared/components/DefaultTeamEmblem";
+import TeamPostList from "./ui/TeamPostList";
 
 const Team = () => {
   const [teamIdx] = useValidParamInteger("teamIdx");
@@ -154,6 +155,8 @@ const Team = () => {
                       )}
                     </>
                   )}
+
+                  {mobileTab === "boards" && <TeamPostList />}
                 </div>
 
                 {/* 본문: 그리드 레이아웃 */}
@@ -207,23 +210,29 @@ const Team = () => {
                     <TeamMemberListBox />
                   </div>
 
-                  {/* 오른쪽 섹션: 경기 정보 */}
-                  <div className="sm:col-span-3 space-y-3">
-                    <h2 className="text-base font-semibold">현재 경기</h2>
-                    {teamInfo?.team_list_idx === myTeamIdx ? (
-                      <TeamMatchBox />
-                    ) : (
-                      <div>
+                  {/* 오른쪽 섹션: 경기 정보 및 게시판 */}
+                  <div className="sm:col-span-3 space-y-6">
+                    {/* 경기 정보 */}
+                    <div>
+                      <h2 className="text-base font-semibold mb-3">
+                        현재 경기
+                      </h2>
+                      {teamInfo?.team_list_idx === myTeamIdx ? (
+                        <TeamMatchBox />
+                      ) : (
                         <div className="rounded-lg shadow p-4 bg-gray-800">
-                          <h2 className="text-base font-semibold  mb-2">
+                          <h2 className="text-base font-semibold mb-2">
                             팀 경기 정보
                           </h2>
                           <p className="text-gray-600 text-sm whitespace-pre-line leading-relaxed">
                             현재 경기 정보는 팀원만 확인할 수 있습니다.
                           </p>
                         </div>
-                      </div>
-                    )}
+                      )}
+                    </div>
+
+                    {/* 팀 게시판 */}
+                    <TeamPostList />
                   </div>
                 </article>
               </div>
