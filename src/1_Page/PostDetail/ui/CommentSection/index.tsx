@@ -55,7 +55,6 @@ const CommentSection = (props: CommentSectionProps) => {
 
         <div className="flex justify-end">
           <button
-            type="submit"
             className={`px-4 py-2 rounded text-white transition-colors ${
               isLogin
                 ? "bg-grass hover:bg-grass/80"
@@ -73,23 +72,15 @@ const CommentSection = (props: CommentSectionProps) => {
             첫 댓글을 작성해보세요!
           </p>
         ) : (
-          comments
-            .slice(0, 40)
-            .map((comment) => (
-              <Comment
-                comment={comment}
-                handleEditComment={handleEditComment}
-                handleDeleteComment={handleDeleteComment}
-                handleRollbackComment={handleRollbackComment}
-                discardLastHistory={discardLastHistory}
-              />
-            ))
-        )}
-
-        {comments.length > 40 && (
-          <button className="px-4 py-2 bg-gray-800 hover:bg-gray-700 text-gray-300 rounded w-full border border-gray-800 transition-colors">
-            댓글 더보기
-          </button>
+          comments.map((comment) => (
+            <Comment
+              comment={comment}
+              handleEditComment={handleEditComment}
+              handleDeleteComment={handleDeleteComment}
+              handleRollbackComment={handleRollbackComment}
+              discardLastHistory={discardLastHistory}
+            />
+          ))
         )}
       </section>
     </div>
