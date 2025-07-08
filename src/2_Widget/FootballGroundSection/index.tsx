@@ -20,42 +20,42 @@ const FootballGroundSection = (props: FootballGroundSectionProps) => {
   const secondTeamIdx = championshipDetail?.second_team?.team_list_idx;
 
   return (
-    <div className="w-full max-w-3xl mx-auto">
+    <div className="w-full max-w-xl mx-auto">
       {/* 팀 헤더 정보 */}
-      <div className="flex justify-between items-center mb-3 px-3">
-        <div className="flex items-center gap-2">
-          <div className="flex items-center gap-2">
-            <div className="w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center">
+      <div className="flex justify-between items-center mb-2 px-2">
+        <div className="flex items-center gap-1.5">
+          <div className="flex items-center gap-1.5">
+            <div className="w-5 h-5 bg-blue-600 rounded-full flex items-center justify-center">
               <span className="text-white text-xs font-bold">H</span>
             </div>
             <div>
               <div className="text-xs text-gray-300">홈팀</div>
-              <div className="font-semibold text-white text-sm">
+              <div className="font-semibold text-white text-xs">
                 {firstTeamIdx ? `팀 ${firstTeamIdx}` : "첫 번째 팀"}
               </div>
             </div>
           </div>
-          <div className="px-2 py-1 bg-blue-600/20 rounded-full border border-blue-600/30">
+          <div className="px-1.5 py-0.5 bg-blue-600/20 rounded-full border border-blue-600/30">
             <span className="text-blue-300 text-xs font-medium">
               {formation[firstTeamFormation || 0] || "포메이션 없음"}
             </span>
           </div>
         </div>
 
-        <div className="flex items-center gap-2">
-          <div className="px-2 py-1 bg-red-600/20 rounded-full border border-red-600/30">
+        <div className="flex items-center gap-1.5">
+          <div className="px-1.5 py-0.5 bg-red-600/20 rounded-full border border-red-600/30">
             <span className="text-red-300 text-xs font-medium">
               {formation[secondTeamFormation || 0] || "포메이션 없음"}
             </span>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5">
             <div>
               <div className="text-xs text-gray-300 text-right">어웨이팀</div>
-              <div className="font-semibold text-white text-right text-sm">
+              <div className="font-semibold text-white text-right text-xs">
                 {secondTeamIdx ? `팀 ${secondTeamIdx}` : "두 번째 팀"}
               </div>
             </div>
-            <div className="w-6 h-6 bg-red-600 rounded-full flex items-center justify-center">
+            <div className="w-5 h-5 bg-red-600 rounded-full flex items-center justify-center">
               <span className="text-white text-xs font-bold">A</span>
             </div>
           </div>
@@ -64,10 +64,10 @@ const FootballGroundSection = (props: FootballGroundSectionProps) => {
 
       {/* 축구장 */}
       <div className="relative w-full mx-auto">
-        {/* 축구장 컨테이너 - 비율 고정 (3:4로 더 컴팩트하게) */}
+        {/* 축구장 컨테이너 - 비율 고정 (더 컴팩트하게) */}
         <div
-          className="relative w-full bg-gradient-to-b from-green-500 via-green-600 to-green-500 rounded-xl overflow-hidden"
-          style={{ aspectRatio: "3/4" }}>
+          className="relative w-full bg-gradient-to-b from-green-500 via-green-600 to-green-500 rounded-lg overflow-hidden"
+          style={{ aspectRatio: "2/3" }}>
           {/* 축구장 라인 - HTML/CSS로 구현 */}
 
           {/* 외곽선 */}
@@ -141,27 +141,27 @@ const FootballGroundSection = (props: FootballGroundSectionProps) => {
       </div>
 
       {/* 주석 */}
-      <div className="flex justify-center items-center gap-3 mt-3 text-xs text-gray-400 flex-wrap">
+      <div className="flex justify-center items-center gap-2 mt-2 text-xs text-gray-400 flex-wrap">
         <div className="flex items-center gap-1">
-          <div className="w-2 h-2 bg-yellow-400 rounded-full"></div>
+          <div className="w-1.5 h-1.5 bg-yellow-400 rounded-full"></div>
           <span>MOM</span>
         </div>
         <div className="flex items-center gap-1">
-          <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+          <div className="w-1.5 h-1.5 bg-blue-500 rounded-full"></div>
           <span>홈팀</span>
         </div>
         <div className="flex items-center gap-1">
-          <div className="w-2 h-2 bg-red-500 rounded-full"></div>
+          <div className="w-1.5 h-1.5 bg-red-500 rounded-full"></div>
           <span>어웨이팀</span>
         </div>
         <div className="flex items-center gap-1">
-          <div className="w-2 h-2 bg-black rounded-full flex items-center justify-center text-white text-xs border border-white">
+          <div className="w-1.5 h-1.5 bg-black rounded-full flex items-center justify-center text-white text-xs border border-white">
             ⚽
           </div>
           <span>골</span>
         </div>
         <div className="flex items-center gap-1">
-          <div className="w-2 h-2 bg-black rounded-full flex items-center justify-center text-white text-xs border border-white">
+          <div className="w-1.5 h-1.5 bg-black rounded-full flex items-center justify-center text-white text-xs border border-white">
             🅰
           </div>
           <span>어시스트</span>

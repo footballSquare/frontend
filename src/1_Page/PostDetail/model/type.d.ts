@@ -1,0 +1,3 @@
+type UseGoBackHandlerReturn = {
+  handleGoBack: () => void;
+};
