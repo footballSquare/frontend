@@ -1,34 +1,40 @@
 import React from "react";
 
-import useGetTeamInfo from "../../3_Entity/Team/useGetTeamInfo";
 import HistoryListBox from "./ui/HistoryListBox";
 import TeamMatchBox from "./ui/TeamMatchBox";
 import TeamMemberListBox from "./ui/TeamMemberListBox";
 import TeamAwards from "./ui/TeamAwards";
 import BtnGroupManageModalPanel from "./ui/BtnGroupManageModalPanel";
-import useValidParamInteger from "../../4_Shared/model/useValidParamInteger";
 
-import useManageTeamInfo from "./model/useManagePage";
+import useGetTeamInfoHandler from "./model/useGetTeamInfoHandler";
 import { useMyTeamIdx } from "../../4_Shared/lib/useMyInfo";
 import EmptyBanner from "../../4_Shared/components/EmptyBanner";
-import { MOBILE_TABS, MobileTabKey } from "./constant/mobileTab";
+import {
+  MOBILE_TABS,
+  MobileTabKey,
+  DESKTOP_TABS,
+  DesktopTabKey,
+} from "./constant/mobileTab";
 import { TeamInfoContext } from "../../4_Shared/model/useTeamInfoContext";
 import DefaultTeamEmblem from "../../4_Shared/components/DefaultTeamEmblem";
+import TeamBoardsList from "./ui/TeamBoardsList";
 
 const Team = () => {
-  const [teamIdx] = useValidParamInteger("teamIdx");
   const [myTeamIdx] = useMyTeamIdx();
 
-  // api
-  const [teamInfo, loading] = useGetTeamInfo(teamIdx);
-  // optimistic state
+  // api with optimistic state
+  const { displayTeamInfo, loading, handlers } = useGetTeamInfoHandler();
 
-  const { displayTeamInfo, handlers } = useManageTeamInfo(teamInfo);
+  // tab state
   const [mobileTab, setMobileTab] = React.useState<MobileTabKey>(
     MobileTabKey.Info
   );
+  const [desktopTab, setDesktopTab] = React.useState<DesktopTabKey>(
+    DesktopTabKey.Matches
+  );
 
   const {
+    team_list_idx,
     team_list_banner,
     team_list_emblem,
     team_list_color,
@@ -89,7 +95,7 @@ const Team = () => {
                   </div>
 
                   {/* 탭 콘텐츠 */}
-                  {mobileTab === "info" && (
+                  {mobileTab === MobileTabKey.Info && (
                     <div className="space-y-6">
                       {/* 팀 기본 정보 + History */}
                       <div className="flex flex-col items-center space-y-4">
@@ -136,11 +142,11 @@ const Team = () => {
                     </div>
                   )}
 
-                  {mobileTab === "members" && <TeamMemberListBox />}
+                  {mobileTab === MobileTabKey.Members && <TeamMemberListBox />}
 
-                  {mobileTab === "matches" && (
+                  {mobileTab === MobileTabKey.Matches && (
                     <>
-                      {teamInfo?.team_list_idx === myTeamIdx ? (
+                      {team_list_idx === myTeamIdx ? (
                         <TeamMatchBox />
                       ) : (
                         <div className="rounded-lg shadow p-4 bg-gray-800">
@@ -149,6 +155,23 @@ const Team = () => {
                           </h2>
                           <p className="text-gray-600 text-sm whitespace-pre-line leading-relaxed">
                             현재 경기 정보는 팀원만 확인할 수 있습니다.
+                          </p>
+                        </div>
+                      )}
+                    </>
+                  )}
+
+                  {mobileTab === MobileTabKey.Boards && (
+                    <>
+                      {team_list_idx === myTeamIdx ? (
+                        <TeamBoardsList />
+                      ) : (
+                        <div className="rounded-lg shadow p-4 bg-gray-800">
+                          <h2 className="text-base font-semibold mb-2">
+                            팀 게시판
+                          </h2>
+                          <p className="text-gray-600 text-sm whitespace-pre-line leading-relaxed">
+                            팀 게시판은 팀원만 확인할 수 있습니다.
                           </p>
                         </div>
                       )}
@@ -207,21 +230,56 @@ const Team = () => {
                     <TeamMemberListBox />
                   </div>
 
-                  {/* 오른쪽 섹션: 경기 정보 */}
-                  <div className="sm:col-span-3 space-y-3">
-                    <h2 className="text-base font-semibold">현재 경기</h2>
-                    {teamInfo?.team_list_idx === myTeamIdx ? (
-                      <TeamMatchBox />
-                    ) : (
+                  {/* 오른쪽 섹션: 경기 정보 및 게시판 */}
+                  <div className="sm:col-span-3 space-y-4">
+                    {/* 탭 네비게이션 */}
+                    <div className="flex items-center gap-1 bg-gray-800 p-1 rounded-lg">
+                      {DESKTOP_TABS.map(({ key, label }) => (
+                        <button
+                          key={key}
+                          onClick={() => setDesktopTab(key)}
+                          className={`flex-1 py-2 px-3 rounded-md text-sm font-medium transition-colors ${
+                            desktopTab === key
+                              ? "bg-gray-700 text-white"
+                              : "text-gray-400 hover:text-white"
+                          }`}>
+                          {label}
+                        </button>
+                      ))}
+                    </div>
+
+                    {/* 탭 콘텐츠 */}
+                    {desktopTab === DesktopTabKey.Matches && (
                       <div>
-                        <div className="rounded-lg shadow p-4 bg-gray-800">
-                          <h2 className="text-base font-semibold  mb-2">
-                            팀 경기 정보
-                          </h2>
-                          <p className="text-gray-600 text-sm whitespace-pre-line leading-relaxed">
-                            현재 경기 정보는 팀원만 확인할 수 있습니다.
-                          </p>
-                        </div>
+                        {team_list_idx === myTeamIdx ? (
+                          <TeamMatchBox />
+                        ) : (
+                          <div className="rounded-lg shadow p-4 bg-gray-800">
+                            <h2 className="text-base font-semibold mb-2">
+                              팀 경기 정보
+                            </h2>
+                            <p className="text-gray-600 text-sm whitespace-pre-line leading-relaxed">
+                              현재 경기 정보는 팀원만 확인할 수 있습니다.
+                            </p>
+                          </div>
+                        )}
+                      </div>
+                    )}
+
+                    {desktopTab === DesktopTabKey.Boards && (
+                      <div>
+                        {team_list_idx === myTeamIdx ? (
+                          <TeamBoardsList />
+                        ) : (
+                          <div className="rounded-lg shadow p-4 bg-gray-800">
+                            <h2 className="text-base font-semibold mb-2">
+                              팀 게시판
+                            </h2>
+                            <p className="text-gray-600 text-sm whitespace-pre-line leading-relaxed">
+                              팀 게시판은 팀원만 확인할 수 있습니다.
+                            </p>
+                          </div>
+                        )}
                       </div>
                     )}
                   </div>

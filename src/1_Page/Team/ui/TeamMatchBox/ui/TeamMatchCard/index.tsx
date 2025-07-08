@@ -1,6 +1,5 @@
 import { matchAttribute } from "../../../../../../4_Shared/constant/matchAttribute";
 import { matchParticipation } from "../../../../../../4_Shared/constant/matchParticipation";
-import { useMyTeamIdx } from "../../../../../../4_Shared/lib/useMyInfo";
 import { utcFormatter } from "../../../../../../4_Shared/lib/utcFormatter";
 import useMatchModalStore from "../../../../../../4_Shared/zustand/useMatchModal";
 
@@ -16,23 +15,16 @@ const TeamMatchCard = (props: TeamMatchCardProps) => {
     match_match_duration,
     observeRef,
     common_status_idx,
-    team_list_idx,
   } = props;
 
   const { toggleMatchModal, setMatchIdx } = useMatchModalStore();
-  const [myTeamIdx] = useMyTeamIdx();
 
   const isNotEndMatch = common_status_idx === 0;
-  const isMyTeamMatch = myTeamIdx === team_list_idx;
 
   return (
     <div
       ref={observeRef}
       onClick={() => {
-        if (!isMyTeamMatch) {
-          alert("팀 소속이 아닙니다");
-          return;
-        }
         setMatchIdx(match_match_idx);
         toggleMatchModal();
       }}
@@ -65,7 +57,7 @@ const TeamMatchCard = (props: TeamMatchCardProps) => {
           <div className="flex items-center gap-2 mb-1">
             <span className="text-white font-medium">{team_list_name}</span>
             <span className="px-2 py-1 text-xs bg-gray-700 text-gray-300 rounded">
-              {match_type_idx === 0 ? "일반" : "특별"}
+              {match_type_idx === 0 ? "11:11" : "4:4"}
             </span>
           </div>
 
