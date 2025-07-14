@@ -141,3 +141,118 @@ export const useFetchData = (): [
 
   return [serverState, request, loading];
 };
+
+export const useFetch = (): [
+  request: <T = unknown>(
+    method: string,
+    endpoint: string,
+    body: Record<string, unknown> | null | FormData,
+    authorization: boolean,
+    useTemporalToken?: boolean
+  ) => Promise<T>
+] => {
+  const [cookies, setCookie] = useCookies([
+    "access_token",
+    "access_token_temporary",
+  ]);
+  const axiosInstance = React.useMemo(
+    () =>
+      axios.create({
+        withCredentials: true, // httpOnly 쿠키 사용 시 필요
+      }),
+    []
+  );
+  // 응답 인터셉터
+  axiosInstance.interceptors.response.use(
+    (response) => response,
+    async (error: AxiosError) => {
+      const originalRequest = error.config as AxiosRequestConfig;
+      console.log("isRefreshing: ", isRefreshing);
+      if (error.response?.status === 401) {
+        if (isRefreshing) {
+          return new Promise((resolve) => {
+            failedQueue.push((newToken: string) => {
+              originalRequest.headers = {
+                ...originalRequest.headers,
+                Authorization: `${newToken}`,
+              };
+              resolve(axiosInstance(originalRequest));
+            });
+          });
+        }
+
+        isRefreshing = true;
+
+        try {
+          const refreshResponse = await axios.get(
+            `${SERVER_URL}/account/accesstoken`,
+            { withCredentials: true }
+          );
+          const newAccessToken = refreshResponse.data.data.access_token;
+          const options = { path: "/", maxAge: 86400 };
+          setCookie("access_token", newAccessToken, options); // access_token을 쿠키에 저장
+
+          processQueue(newAccessToken);
+          // ✅ originalRequest 헤더도 새 토큰으로 업데이트
+          originalRequest.headers = {
+            ...originalRequest.headers,
+            Authorization: newAccessToken,
+          };
+
+          return axiosInstance(originalRequest);
+        } catch (refreshError) {
+          if (confirm("세션이 만료되었습니다. 다시 로그인 해주세요.")) {
+            window.location.href = "/login"; // 로그인 페이지로 리다이렉트
+          } else {
+            window.location.href = "/";
+          }
+          return Promise.reject(refreshError);
+        } finally {
+          isRefreshing = false;
+        }
+      }
+
+      return Promise.reject(error);
+    }
+  );
+
+  const request = React.useCallback(
+    async <T = unknown>(
+      method: string,
+      endpoint: string,
+      body: Record<string, unknown> | null | FormData,
+      authorization: boolean = false,
+      useTemporalToken?: boolean
+    ): Promise<T> => {
+      try {
+        // API 호출
+        const response = await axiosInstance({
+          method: method,
+          url: `${SERVER_URL}${endpoint}`,
+          params: {},
+          headers:
+            authorization && cookies.access_token
+              ? {
+                  Authorization: `${
+                    useTemporalToken
+                      ? cookies.access_token_temporary
+                      : cookies.access_token
+                  }`,
+                }
+              : undefined,
+          data: body ?? undefined,
+        });
+        return response.data;
+      } catch (error: unknown) {
+        if (error instanceof AxiosError) {
+          console.log("network error");
+          throw error;
+        }
+        throw error;
+      }
+    },
+    [cookies.access_token, cookies.access_token_temporary, axiosInstance]
+  );
+
+  return [request];
+};
