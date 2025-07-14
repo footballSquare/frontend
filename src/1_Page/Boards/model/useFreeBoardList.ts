@@ -11,7 +11,7 @@ const useFreeBoardList = (): [
   loading: boolean
 ] => {
   const [page, setPage] = React.useState<number>(0);
-  const [freeBoardList, hasMoreContent, loading] = useGetBoardList({
+  const [freeBoardList, hasMoreContent, isLoading] = useGetBoardList({
     page,
     category: 0,
   });
@@ -37,7 +37,7 @@ const useFreeBoardList = (): [
     resetPage,
     hasMoreContent,
     page,
-    loading,
+    isLoading,
   ];
 };
 

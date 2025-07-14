@@ -11,7 +11,7 @@ const useCommunityBoardList = (): [
   loading: boolean
 ] => {
   const [page, setPage] = React.useState<number>(0);
-  const [communityBoardList, hasMoreContent, loading] = useGetBoardList({
+  const [communityBoardList, hasMoreContent, isLoading] = useGetBoardList({
     page,
     category: 1,
   });
@@ -37,7 +37,7 @@ const useCommunityBoardList = (): [
     resetPage,
     hasMoreContent,
     page,
-    loading,
+    isLoading,
   ];
 };
 

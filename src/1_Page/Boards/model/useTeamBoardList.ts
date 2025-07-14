@@ -11,7 +11,7 @@ const useTeamBoardList = (): [
   loading: boolean
 ] => {
   const [page, setPage] = React.useState<number>(0);
-  const [teamBoarList, hasMoreContent, loading] = useGetBoardList({
+  const [teamBoarList, hasMoreContent, isLoading] = useGetBoardList({
     page,
     category: 2,
   });
@@ -37,7 +37,7 @@ const useTeamBoardList = (): [
     resetPage,
     hasMoreContent,
     page,
-    loading,
+    isLoading,
   ];
 };
 
